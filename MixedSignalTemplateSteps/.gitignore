@@ -1,0 +1,4 @@
+/**/*.pdb
+/**/*.dll
+/**/*.xml
+!CodeAnalysisDictionary.xml

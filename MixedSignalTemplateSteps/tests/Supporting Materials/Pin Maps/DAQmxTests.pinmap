@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.1" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDAQmxTask name="DAQ_6363_C1_S08_AITask" taskType="AI" channelList="DAQ_6363_C1_S08/ai0:2" />
+		<NIDAQmxTask name="DAQ_6363_C1_S08_AOTask" taskType="AO" channelList="DAQ_6363_C1_S08/ao1,DAQ_6363_C1_S08/ao3" />
+		<NIDAQmxTask name="DAQ_6363_C2_S12_AITask" taskType="AI" channelList="DAQ_6363_C2_S12/ai0:2" />
+		<NIDAQmxTask name="DAQ_6363_C2_S12_AOTask" taskType="AO" channelList="DAQ_6363_C2_S12/ao1,DAQ_6363_C2_S12/ao3" />
+		<NIDAQmxTask name="DAQ_6363_C1_S08_DITask" taskType="DI" channelList="DAQ_6363_C1_S08/port0/line0" />
+		<NIDAQmxTask name="DAQ_6363_C1_S08_DOTask" taskType="DO" channelList="DAQ_6363_C1_S08/port1/line2" />
+		<NIDAQmxTask name="DAQ_6363_C2_S12_DITask" taskType="DI" channelList="DAQ_6363_C2_S12/port0/line0" />
+		<NIDAQmxTask name="DAQ_6363_C2_S12_DOTask" taskType="DO" channelList="DAQ_6363_C2_S12/port1/line2" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="VCC1" />
+		<DUTPin name="VCC2" />
+		<DUTPin name="VDD" />
+		<SystemPin name="VDET" />
+		<DUTPin name="DIPin" />
+		<DUTPin name="DOPin" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="AllAIPins">
+			<PinReference pin="VCC1" />
+			<PinReference pin="VCC2" />
+			<PinReference pin="VDET" />
+		</PinGroup>
+		<PinGroup name="AIDUTPins">
+			<PinReference pin="VCC1" />
+			<PinReference pin="VCC2" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="DIPin" siteNumber="0" instrument="DAQ_6363_C1_S08_DITask" channel="DAQ_6363_C1_S08/port0/line0" />
+		<Connection pin="DIPin" siteNumber="1" instrument="DAQ_6363_C2_S12_DITask" channel="DAQ_6363_C2_S12/port0/line0" />
+		<Connection pin="DOPin" siteNumber="0" instrument="DAQ_6363_C1_S08_DOTask" channel="DAQ_6363_C1_S08/port1/line2" />
+		<Connection pin="DOPin" siteNumber="1" instrument="DAQ_6363_C2_S12_DOTask" channel="DAQ_6363_C2_S12/port1/line2" />
+		<Connection pin="VCC1" siteNumber="0" instrument="DAQ_6363_C1_S08_AITask" channel="DAQ_6363_C1_S08/ai0" />
+		<Connection pin="VCC1" siteNumber="1" instrument="DAQ_6363_C2_S12_AITask" channel="DAQ_6363_C2_S12/ai0" />
+		<Connection pin="VCC2" siteNumber="0" instrument="DAQ_6363_C1_S08_AITask" channel="DAQ_6363_C1_S08/ai2" />
+		<Connection pin="VCC2" siteNumber="1" instrument="DAQ_6363_C2_S12_AITask" channel="DAQ_6363_C2_S12/ai2" />
+		<Connection pin="VDD" siteNumber="0" instrument="DAQ_6363_C1_S08_AOTask" channel="DAQ_6363_C1_S08/ao3" />
+		<Connection pin="VDD" siteNumber="1" instrument="DAQ_6363_C2_S12_AOTask" channel="DAQ_6363_C2_S12/ao3" />
+		<SystemConnection pin="VDET" instrument="DAQ_6363_C1_S08_AITask" channel="DAQ_6363_C1_S08/ai1" />
+	</Connections>
+</PinMap>
