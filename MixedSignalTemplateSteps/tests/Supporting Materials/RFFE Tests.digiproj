@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SourceFile Checksum="D7D7CBA0994A4F45BFC0DC31DD415044" xmlns="http://www.ni.com/PlatformFramework">
+	<SourceModelFeatureSet>
+		<ParsableNamespace AssemblyFileVersion="5.3.2.62005" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
+		<ParsableNamespace AssemblyFileVersion="5.3.2.62005" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="5.2.0.49153" Version="5.2.0.49153" />
+		<ApplicationVersionInfo Build="5.3.2.62005" Name="Digital Pattern Editor" Version="21.8.0" />
+	</SourceModelFeatureSet>
+	<Project xmlns="http://www.ni.com/PlatformFramework">
+		<ProjectSettings Id="1" ModelDefinitionType="ProjectSettings" Name="ZProjectSettings" />
+		<EmbeddedDefinitionReference Id="2" ModelDefinitionType="NationalInstruments.ProjectExplorer.Modeling.ProjectDataManager" Name="ProjectExplorer">
+			<ProjectExplorer />
+		</EmbeddedDefinitionReference>
+		<NameScopingEnvoy Id="3" ModelDefinitionType="DefaultTarget" Name="DefaultTarget">
+			<DefaultTarget />
+			<EmbeddedDefinitionReference Id="163" ModelDefinitionType="{http://www.ni.com/PatternBasedDigital}CaptureResultsDefinition" Name="CaptureResults">
+				<CaptureResultsDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
+			</EmbeddedDefinitionReference>
+			<EmbeddedDefinitionReference Id="165" ModelDefinitionType="{http://www.ni.com/PatternBasedDigital}BurstResultsDefinition" Name="BurstResults">
+				<BurstResultsDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
+			</EmbeddedDefinitionReference>
+			<EmbeddedDefinitionReference Id="168" ModelDefinitionType="{http://www.ni.com/PatternBasedDigital}DigitalScopeDefinition" Name="DigitalScope">
+				<DigitalScopeDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
+			</EmbeddedDefinitionReference>
+			<FileReference Id="254" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="RFFE_RegRead_Multi\.digipat" StoragePath="Digital\Compiled Patterns\RFFE_RegRead_Multi.digipat" />
+			<FileReference Id="255" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="RFFE_RegWrite_Multi\.digipat" StoragePath="Digital\Compiled Patterns\RFFE_RegWrite_Multi.digipat" />
+			<FileReference Id="256" ModelDefinitionType="CaptureWaveformDefinition" Name="SDATA_MSB_9bit\.digicapture" StoragePath="Digital\Capture Waveforms\SDATA_MSB_9bit.digicapture" />
+			<FileReference Id="257" ModelDefinitionType="SourceWaveformDefinition" Name="SDATA_Serial_32bit_MSB_Broadcast_128\.tdms" StoragePath="Digital\Source Waveforms\SDATA_Serial_32bit_MSB_Broadcast_128.tdms" />
+			<FileReference Id="258" ModelDefinitionType="SourceWaveformDefinition" Name="SDATA_Serial_32bit_MSB_Broadcast_1024\.tdms" StoragePath="Digital\Source Waveforms\SDATA_Serial_32bit_MSB_Broadcast_1024.tdms" />
+			<FileReference Id="259" ModelDefinitionType="SourceWaveformDefinition" Name="SDATA_Serial_32bit_MSB_Broadcast_8192\.tdms" StoragePath="Digital\Source Waveforms\SDATA_Serial_32bit_MSB_Broadcast_8192.tdms" />
+			<FileReference Id="260" ModelDefinitionType="SourceWaveformDefinition" Name="SDATA_Serial_32bit_MSB_Broadcast_65536\.tdms" StoragePath="Digital\Source Waveforms\SDATA_Serial_32bit_MSB_Broadcast_65536.tdms" />
+			<FileReference Id="274" ModelDefinitionType="PinMap" Name="RFFE\ Tests\.pinmap" StoragePath="Pin Maps\RFFE Tests.pinmap" p4:IsActive="True" xmlns:p4="http://www.ni.com/PatternBasedDigital" />
+			<FileReference Id="277" ModelDefinitionType="PinLevelsDefinition" Name="Levels_RFFE\.digilevels" StoragePath="Digital\Levels\Levels_RFFE.digilevels" p4:IsActive="True" xmlns:p4="http://www.ni.com/PatternBasedDigital" />
+			<FileReference Id="278" ModelDefinitionType="TimingDefinition" Name="Timing_RFFE\.digitiming" StoragePath="Digital\Timing\Timing_RFFE.digitiming" p4:IsActive="True" xmlns:p4="http://www.ni.com/PatternBasedDigital" />
+			<FileReference Id="279" ModelDefinitionType="SpecificationsDefinition" Name="Specifications_RFFE\.specs" StoragePath="Specifications\Specifications_RFFE.specs" />
+		</NameScopingEnvoy>
+		<EmbeddedDefinitionReference Id="9" ModelDefinitionType="DigitalPatternEditor.ProjectPropertiesDefinition" Name="ProjectProperties">
+			<ProjectPropertiesDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
+		</EmbeddedDefinitionReference>
+	</Project>
+	<ProjectInformation xmlns="http://www.ni.com/PlatformFramework" />
+</SourceFile>
