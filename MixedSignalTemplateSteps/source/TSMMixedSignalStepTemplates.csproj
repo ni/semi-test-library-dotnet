@@ -1,44 +1,56 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\objects\codegen\MSBS.g.pre.targets" Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')" />
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
+    <RootNamespace>NationalInstruments.MixedSignalLibrary</RootNamespace>
+    <AssemblyName>NationalInstruments.TSMMixedSignalTestLibrary</AssemblyName>
+    <LangVersion>8.0</LangVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OutputPath>.\</OutputPath>
     <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
+    <PlatformTarget>x64</PlatformTarget>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  <PlatformTarget>x64</PlatformTarget>
-  <RootNamespace>NationalInstruments.MixedSignalLibrary</RootNamespace>
-  </PropertyGroup>
+</PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
-    <Reference Include="Ivi.Driver, Version=1.4.0.0, Culture=neutral, PublicKeyToken=a128c98f1d7717c1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="NationalInstruments.Common, Version=19.1.40.49152, Culture=neutral, PublicKeyToken=dc6ad606294fc298">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(MStudioCommonBinaries_DEP_DIR)\targets\AnyCPU\MSBuild\$(BUILD_TYPE)\v4.0\NationalInstruments.Common.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.DAQmx, Version=23.0.45.49362, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=AMD64">
+    <Reference Include="NationalInstruments.DAQmx, Version=23.0.45.49362, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies (64-bit)\Current\NationalInstruments.DAQmx.dll</HintPath>
+      <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(MSDaqDotNET_DEP_DIR)\targets\win64U\x64\msvc-10.0\$(BUILD_TYPE)\NationalInstruments.DAQmx.dll</HintPath>
+      <HintPath Condition="!Exists('..\objects\codegen\MSBS.g.pre.targets')">C:\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies (64-bit)\Current\NationalInstruments.DAQmx.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40, Version=23.0.0.49675, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(MIDCPowerDotNETBinaries_DEP_DIR)\targets\AnyCPU\MSBuild\$(BUILD_TYPE)\v4.0\NationalInstruments.ModularInstruments.NIDCPower.Fx40.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40, Version=21.8.0.49269, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(NIDigitalDotNETBinaries_DEP_DIR)\targets\AnyCPU\MSBuild\$(BUILD_TYPE)\v4.0\NationalInstruments.ModularInstruments.NIDigital.Fx40.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(NIDMMDotNETAssembly_DEP_DIR)\targets\AnyCPU\MSBuild\$(BUILD_TYPE)\v4.0\NationalInstruments.ModularInstruments.NIDmm.Fx40.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40, Version=21.3.0.49350, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(NISwitchDotNETAssembly_DEP_DIR)\targets\AnyCPU\MSBuild\$(BUILD_TYPE)\v4.0\NationalInstruments.ModularInstruments.NISwitch.Fx40.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.PinMapFramework.PinMap">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(PinMapFrameworkLibraries_DEP_DIR)\targets\win64U\allproc\dotnet-4.6.2\$(BUILD_TYPE)\net462\NationalInstruments.PinMapFramework.PinMap.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.TestStand.SemiconductorModule">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(TSMCore_DEP_DIR)\targets\win64U\allproc\dotnet-4.6.2\$(BUILD_TYPE)\NationalInstruments.TestStand.SemiconductorModule.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI, Version=21.1.0.0, Culture=neutral, PublicKeyToken=060817a57c0f1a42, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="NationalInstruments.TSMMixedSignalTestLibrary">
-      <HintPath>NationalInstruments.TSMMixedSignalTestLibrary.dll</HintPath>
+      <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(TSMCore_DEP_DIR)\targets\win64U\allproc\dotnet-4.6.2\$(BUILD_TYPE)\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -52,7 +64,6 @@
     <EmbeddedResource Update="ResourceStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceStrings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
 </Project>
