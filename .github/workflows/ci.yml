@@ -17,7 +17,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v2        
-        - uses: deppsu/azure-pipeline-github-action@v1.0.4
+        - uses: enfa/azure-pipeline-github-action@v1.0.0
           with:
             azure-devops-project-url: https://ni.visualstudio.com/DevCentral
             azure-pipeline-name: 'MixedSiganlLibrary_GitHub_Trigger'
