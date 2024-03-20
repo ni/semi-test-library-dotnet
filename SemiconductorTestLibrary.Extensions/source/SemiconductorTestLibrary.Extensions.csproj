@@ -1,0 +1,86 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <OutputPath>.\</OutputPath>
+    <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <PlatformTarget>x64</PlatformTarget>
+    <RootNamespace>NationalInstruments.SemiconductorTestLibrary</RootNamespace>
+    <AssemblyName>NationalInstruments.SemiconductorTestLibrary.Extensions</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="NationalInstruments.SemiconductorTestLibrary.Extensions.1.0.0\**" />
+    <Compile Remove="net48\**" />
+    <EmbeddedResource Remove="NationalInstruments.SemiconductorTestLibrary.Extensions.1.0.0\**" />
+    <EmbeddedResource Remove="net48\**" />
+    <None Remove="NationalInstruments.SemiconductorTestLibrary.Extensions.1.0.0\**" />
+    <None Remove="net48\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
+    <Reference Include="Ivi.Driver, Version=1.4.0.0, Culture=neutral, PublicKeyToken=a128c98f1d7717c1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.Common, Version=19.1.40.49152, Culture=neutral, PublicKeyToken=dc6ad606294fc298">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.DAQmx, Version=23.0.45.49362, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies (64-bit)\Current\NationalInstruments.DAQmx.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40, Version=23.0.0.49675, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40, Version=21.8.0.49269, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40, Version=21.3.0.49350, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
+      <HintPath>NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI, Version=21.1.0.0, Culture=neutral, PublicKeyToken=060817a57c0f1a42, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="ResourceStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourceStrings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="ResourceStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+	<Content Include="NationalInstruments.SemiconductorTestLibrary.Abstractions.dll">
+	  <Pack>True</Pack>
+	  <PackagePath>lib/net48</PackagePath>
+	</Content>
+	<Content Include="NationalInstruments.SemiconductorTestLibrary.Abstractions.pdb">
+	  <Pack>True</Pack>
+	  <PackagePath>lib/net48</PackagePath>
+	</Content>
+	<Content Include="NationalInstruments.SemiconductorTestLibrary.Abstractions.xml">
+	  <Pack>True</Pack>
+	  <PackagePath>lib/net48</PackagePath>
+	</Content>
+	<Content Include="net48\NationalInstruments.SemiconductorTestLibrary.Extensions.pdb">
+	  <Pack>True</Pack>
+	  <PackagePath>lib/net48</PackagePath>
+	</Content>
+  </ItemGroup>
+</Project>
