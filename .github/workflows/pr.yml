@@ -10,7 +10,7 @@ on:
       - 'MixedSignalTemplateSteps/source/**'
 
 env:
-    GITHUB_STSMIGRATION_BRANCH_NAMES: '{"GITHUB_STSMIGRATION_BRANCH_NAMES": "${{ github.head_ref || github.ref_name }}"}'
+    GITHUB_MixedSignalTestLibrary_BRANCH_NAME: '{"GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ github.head_ref || github.ref_name }}"}'
 
 jobs:
     build:   
@@ -24,7 +24,7 @@ jobs:
             azure-devops-project-url: https://ni.visualstudio.com/DevCentral
             azure-pipeline-name: 'Pre - Mixed Signal Test Library Extensions'
             azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-            azure-pipeline-variables:  ${{ env.GITHUB_STSMIGRATION_BRANCH_NAMES }}
+            azure-pipeline-variables:  ${{ env.GITHUB_MixedSignalTestLibrary_BRANCH_NAME }}
             azure-pipeline-sourcebranch: "refs/heads/${{ github.base_ref }}"
         - name: Azure Pipelines Action with Result Check and Source Branch Input
           uses: enfa/azure-pipeline-github-action@v1.0.0
@@ -32,5 +32,5 @@ jobs:
             azure-devops-project-url: https://ni.visualstudio.com/DevCentral
             azure-pipeline-name: 'MixedSignalLibrary_PR'
             azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-            azure-pipeline-variables:  ${{ env.GITHUB_STSMIGRATION_BRANCH_NAMES }}
+            azure-pipeline-variables:  ${{ env.GITHUB_MixedSignalTestLibrary_BRANCH_NAME }}
             azure-pipeline-sourcebranch: "refs/heads/${{ github.base_ref }}"
