@@ -10,7 +10,7 @@ on:
       - 'MixedSignalTemplateSteps/source/**'
 
 env:
-    GITHUB_STSMIGRATION_BRANCH_NAMES: '{"GITHUB_STSMIGRATION_BRANCH_NAMES": "${{ github.head_ref || github.ref_name }}"}'
+    GITHUB_STSMIGRATION_BRANCH_NAMES: '{"GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ github.head_ref || github.ref_name }}"}'
 
 jobs:
     build:   
