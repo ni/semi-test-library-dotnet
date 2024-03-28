@@ -61,11 +61,11 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No {0} channels to {1}..
+        ///   Looks up a localized string similar to No {0} channels to read..
         /// </summary>
-        internal static string DAQmx_NoChannels {
+        internal static string DAQmx_NoChannelsToRead {
             get {
-                return ResourceManager.GetString("DAQmx_NoChannels", resourceCulture);
+                return ResourceManager.GetString("DAQmx_NoChannelsToRead", resourceCulture);
             }
         }
         

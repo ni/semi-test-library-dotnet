@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -13,6 +14,173 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static class Measure
     {
+        #region methods on DCPowerSessionsBundle
+
+        /// <summary>
+        /// Configures one or more measure settings based on values populated within a <see  cref="DCPowerMeasureSettings"/> object.
+        /// Accepts a scalar input of type <see  cref="DCPowerMeasureSettings"/>.
+        /// with overrides for <see cref="SiteData{DCPowerMeasureSettings}"/>, and <see cref="PinSiteData{DCPowerMeasureSettings}"/> input.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="settings">The measure settings to configure.</param>
+        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasureSettings settings)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Control.Abort();
+                sessionInfo.ConfigureMeasureSettings(settings);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureMeasureSettings"/>
+        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerMeasureSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.ConfigureMeasureSettings(settings.GetValue(sitePinInfo.SiteNumber), sitePinInfo.IndividualChannelString);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureMeasureSettings"/>
+        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerMeasureSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.ConfigureMeasureSettings(settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName), sitePinInfo.IndividualChannelString);
+            });
+        }
+
+        /// <summary>
+        /// Configures <see cref="DCPowerMeasureSettings"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="settings">The specific settings to configure.</param>
+        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerMeasureSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.ConfigureMeasureSettings(settings[sitePinInfo.PinName], sitePinInfo.IndividualChannelString);
+            });
+        }
+
+        /// <summary>
+        /// Configures the DCPower measure when.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="measureWhen">The measure when to set.</param>
+        public static void ConfigureMeasureWhen(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementWhen measureWhen)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Control.Abort();
+                sessionInfo.Session.ConfigureMeasureWhen(sessionInfo.AllChannelsString, sessionInfo.ModelString, measureWhen);
+            });
+        }
+
+        /// <summary>
+        /// Configures the power line frequency in Hz (double).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="frequency">The power line frequency in Hz to set.</param>
+        /// <remarks>
+        /// This method should only be invoked once, when driver sessions are first initialized.
+        /// </remarks>
+        public static void ConfigurePowerLineFrequency(this DCPowerSessionsBundle sessionsBundle, double frequency)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Control.Abort();
+                switch (sessionInfo.ModelString)
+                {
+                    case DCPowerModelStrings.PXI_4110:
+                    case DCPowerModelStrings.PXI_4130:
+                    case DCPowerModelStrings.PXIe_4154:
+                        sessionInfo.PowerLineFrequency = frequency;
+                        break;
+
+                    default:
+                        sessionInfo.AllChannelsOutput.Measurement.PowerLineFrequency = frequency;
+                        break;
+                }
+            });
+        }
+
+        /// <summary>
+        /// Configures the measurement sense.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sense">The measurement sense to set.</param>
+        public static void ConfigureMeasurementSense(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementSense sense)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Control.Abort();
+                sessionInfo.Session.ConfigureMeasurementSense(sessionInfo.AllChannelsString, sessionInfo.ModelString, sense);
+            });
+        }
+
+        /// <summary>
+        /// Gets aperture time in seconds.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="maximumApertureTime">Returns the maximum aperture time.</param>
+        /// <returns>The per-site per-pin aperture times.</returns>
+        public static PinSiteData<double> GetApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, out double maximumApertureTime)
+        {
+            var apertureTimes = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                switch (sessionInfo.ModelString)
+                {
+                    case DCPowerModelStrings.PXI_4110:
+                    case DCPowerModelStrings.PXI_4130:
+                        // The 4110 and 4130 use samples to average and have a fixed sample rate of 3kHz, convert this to an aperture time in seconds.
+                        return channelOutput.Measurement.SamplesToAverage / 3000.0;
+
+                    case DCPowerModelStrings.PXIe_4154:
+                        // The 4154 uses samples to average and has a fixed sample rate of 300kHz, convert this to an aperture time in seconds.
+                        return channelOutput.Measurement.SamplesToAverage / 300000.0;
+
+                    default:
+                        var apertureTime = channelOutput.Measurement.ApertureTime;
+                        var apertureTimeUnits = channelOutput.Measurement.ApertureTimeUnits;
+                        if (apertureTimeUnits == DCPowerMeasureApertureTimeUnits.PowerLineCycles)
+                        {
+                            apertureTime /= channelOutput.Measurement.PowerLineFrequency;
+                        }
+                        return apertureTime;
+                }
+            });
+            maximumApertureTime = apertureTimes.SiteNumbers.Select(siteNumber => apertureTimes.ExtractSite(siteNumber).Values.Max()).Max();
+            return apertureTimes;
+        }
+
+        /// <summary>
+        /// Gets the power line frequency.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin power line frequencies.</returns>
+        public static PinSiteData<double> GetPowerLineFrequency(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                switch (sessionInfo.ModelString)
+                {
+                    case DCPowerModelStrings.PXI_4110:
+                    case DCPowerModelStrings.PXI_4130:
+                    case DCPowerModelStrings.PXIe_4154:
+                        return sessionInfo.PowerLineFrequency;
+
+                    default:
+                        return channelOutput.Measurement.PowerLineFrequency;
+                }
+            });
+        }
+
         /// <summary>
         /// Measures and returns per-instrument per-channel results.
         /// </summary>
@@ -34,6 +202,343 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Measures the voltage on the target pin(s) and returns a pin and site aware data object.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-pin per-site voltage measurements.</returns>
+        public static PinSiteData<double> MeasureVoltage(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1);
+        }
+
+        /// <summary>
+        /// Measures the current on the target pin(s) and returns a pin and site aware data object.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-pin per-site voltage measurements.</returns>
+        public static PinSiteData<double> MeasureCurrent(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2);
+        }
+
+        /// <summary>
+        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// </summary>
+        /// <remarks>
+        /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
+        /// Otherwise, use the override for this method that returns PinSiteData.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <param name="voltageMeasurements">The returned voltage measurements.</param>
+        public static void MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishDataID, out double[][] voltageMeasurements)
+        {
+            voltageMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, publishDataID);
+        }
+
+        /// <summary>
+        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <returns>The pin-site aware voltage measurements.</returns>
+        public static PinSiteData<double> MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishDataID)
+        {
+            MeasureAndPublishVoltage(sessionsBundle, publishDataID, out var voltageMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(voltageMeasurements);
+        }
+
+        /// <summary>
+        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// </summary>
+        /// <remarks>
+        /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
+        /// Otherwise, use the override for this method that returns PinSiteData.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <param name="currentMeasurements">The returned current measurements.</param>
+        public static void MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishDataID, out double[][] currentMeasurements)
+        {
+            currentMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, publishDataID);
+        }
+
+        /// <summary>
+        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <returns>The pin-site aware current measurements.</returns>
+        public static PinSiteData<double> MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishDataID)
+        {
+            MeasureAndPublishCurrent(sessionsBundle, publishDataID, out var currentMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(currentMeasurements);
+        }
+
+        /// <summary>
+        /// Configures and starts a waveform acquisition.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sampleRate">The sample rate.</param>
+        /// <param name="bufferLength">The buffer length in seconds.</param>
+        /// <returns>The original settings for the channels that do waveform acquisition.</returns>
+        public static PinSiteData<DCPowerWaveformAcquisitionSettings> ConfigureAndStartWaveformAcquisition(this DCPowerSessionsBundle sessionsBundle, double sampleRate, double bufferLength)
+        {
+            var originalSettings = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return GetOriginalSettings(sessionInfo.Session, sitePinInfo.IndividualChannelString);
+            });
+            sessionsBundle.Do(sessionInfo =>
+            {
+                ConfigureAndInitiate(sessionInfo.Session, sessionInfo.AllChannelsString, sampleRate, bufferLength);
+            });
+            return originalSettings;
+        }
+
+        /// <summary>
+        /// Fetches waveform acquisition results as a pin and site aware data object.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="fetchWaveformLength">The waveform length in seconds to fetch.</param>
+        /// <param name="originalSettings">The original settings for the channels that do waveform acquisition. This is the return value of the ConfigureAndStartWaveformAcquisition method.</param>
+        /// <returns>The per-site per-pin waveform results.</returns>
+        public static PinSiteData<DCPowerWaveformResults> FinishWaveformAcquisition(this DCPowerSessionsBundle sessionsBundle, double fetchWaveformLength, PinSiteData<DCPowerWaveformAcquisitionSettings> originalSettings)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                var results = Fetch(sessionInfo.Session, sitePinInfo.IndividualChannelString, fetchWaveformLength);
+                ApplyOriginalSettings(sessionInfo.Session, sessionInfo.AllChannelsString, originalSettings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                return results;
+            });
+        }
+
+        /// <summary>
+        /// Configures and acquires waveforms synchronized across the pins.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="apertureTimeInSeconds">The measure aperture time in seconds.</param>
+        /// <param name="measurementTimeInSeconds">The measurement time in seconds.</param>
+        /// <returns>The per-site per-pin waveform results.</returns>
+        public static PinSiteData<DCPowerFetchResult> AcquireSynchronizedWaveforms(this DCPowerSessionsBundle sessionsBundle, double apertureTimeInSeconds = 0, double measurementTimeInSeconds = 0)
+        {
+            var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.MeasureTrigger.ToString(), out string measureTrigger);
+            var originalApertureTimes = new Dictionary<string, double>();
+            var originalSourceDelays = new Dictionary<string, PrecisionTimeSpan>();
+            var originalMeasureWhen = new Dictionary<string, DCPowerMeasurementWhen>();
+            var originalMeasureTriggerTypes = new Dictionary<string, DCPowerMeasureTriggerType>();
+            var originalMeasureTriggerTerminalNames = new Dictionary<string, DCPowerDigitalEdgeMeasureTriggerInputTerminal>();
+            var measureRecordLength = new Dictionary<string, int>();
+
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                var perChannelString = sitePinInfo.IndividualChannelString;
+                var channelOutput = sessionInfo.Session.Outputs[perChannelString];
+                channelOutput.Control.Abort();
+
+                // Cache original settings to restore after the waveform acquisition.
+                originalApertureTimes[perChannelString] = channelOutput.Measurement.ApertureTime;
+                originalSourceDelays[perChannelString] = channelOutput.Source.SourceDelay;
+                originalMeasureWhen[perChannelString] = channelOutput.Measurement.MeasureWhen;
+                originalMeasureTriggerTypes[perChannelString] = channelOutput.Triggers.MeasureTrigger.Type;
+                originalMeasureTriggerTerminalNames[perChannelString] = channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal;
+
+                channelOutput.Measurement.ApertureTime = apertureTimeInSeconds;
+                channelOutput.Source.SourceDelay = PrecisionTimeSpan.Zero;
+                channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+                if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
+                {
+                    // Master channel uses software edge trigger.
+                    channelOutput.Triggers.MeasureTrigger.ConfigureSoftwareEdgeTrigger();
+                }
+                else
+                {
+                    // Set slave channel measure trigger to be the master channel terminal name.
+                    channelOutput.Triggers.MeasureTrigger.DigitalEdge.Configure(measureTrigger, DCPowerTriggerEdge.Rising);
+                }
+
+                // Read back actual measure record delta time, configure measure record length and calculate buffer sizes.
+                channelOutput.Control.Commit();
+                measureRecordLength[perChannelString] = (int)Math.Ceiling(measurementTimeInSeconds / channelOutput.Measurement.RecordDeltaTime);
+                channelOutput.Measurement.RecordLength = measureRecordLength[perChannelString];
+                if (channelOutput.Measurement.BufferSize < channelOutput.Measurement.RecordLength)
+                {
+                    channelOutput.Measurement.BufferSize = channelOutput.Measurement.RecordLength;
+                }
+
+                channelOutput.Control.Initiate();
+            });
+
+            masterChannelOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                var perChannelString = sitePinInfo.IndividualChannelString;
+                return sessionInfo.Session.Measurement.Fetch(perChannelString, PrecisionTimeSpan.FromSeconds(measurementTimeInSeconds + 1), measureRecordLength[perChannelString]);
+            });
+
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                var perChannelString = sitePinInfo.IndividualChannelString;
+                var channelOutput = sessionInfo.Session.Outputs[perChannelString];
+                channelOutput.Control.Abort();
+
+                // Restore original settings.
+                channelOutput.Measurement.ApertureTime = originalApertureTimes[perChannelString];
+                channelOutput.Source.SourceDelay = originalSourceDelays[perChannelString];
+                channelOutput.Measurement.MeasureWhen = originalMeasureWhen[perChannelString];
+                channelOutput.Triggers.MeasureTrigger.Type = originalMeasureTriggerTypes[perChannelString];
+                channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal = originalMeasureTriggerTerminalNames[perChannelString];
+                channelOutput.Control.Initiate();
+            });
+
+            return results;
+        }
+
+        /// <summary>
+        /// Fetches results from a previously taken measurement.
+        /// </summary>
+        /// <remarks>
+        /// This method should NOT be used when the MeasureWhen property is configured to OnDemand.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="pointsToFetch">The number of points to Fetch.</param>
+        /// <param name="timeoutInSeconds">The time to wait before the operation should be aborted.</param>
+        /// <returns>A <see cref="PerSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
+        /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previously taken measurement.</returns>
+        public static PinSiteData<SingleDCPowerFetchResult[]> FetchMeasurement(this DCPowerSessionsBundle sessionsBundle, int pointsToFetch = 1, double timeoutInSeconds = 10)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
+            {
+                var measureResult = sessionInfo.Session.Measurement.Fetch(pinSiteInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(timeoutInSeconds), pointsToFetch);
+                var samples = new SingleDCPowerFetchResult[pointsToFetch];
+                for (int i = 0; i < pointsToFetch; i++)
+                {
+                    samples[i] = new SingleDCPowerFetchResult(measureResult.VoltageMeasurements[i], measureResult.VoltageMeasurements[i], measureResult.InCompliance[i]);
+                }
+                return samples;
+            });
+        }
+
+        #endregion methods on DCPowerSessionsBundle
+
+        #region methods on DCPowerOutput
+
+        /// <summary>
+        /// Configures the aperture time.
+        /// </summary>
+        /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
+        /// <param name="modelString">The DCPower instrument model.</param>
+        /// <param name="powerLineFrequency">The power line frequency used to calculate aperture time value from power line cycles to seconds. This is used just for PXI-4110, PXI-4130 and PXIe-4154 models since they don't support power line frequency property.</param>
+        /// <param name="apertureTime">The aperture time to set.</param>
+        /// <param name="apertureTimeUnits">The aperture time units to set.</param>
+        public static void ConfigureApertureTime(this DCPowerOutput output, string modelString, double powerLineFrequency, double apertureTime, DCPowerMeasureApertureTimeUnits apertureTimeUnits)
+        {
+            switch (modelString)
+            {
+                case DCPowerModelStrings.PXI_4110:
+                case DCPowerModelStrings.PXI_4130:
+                case DCPowerModelStrings.PXIe_4154:
+                    double apertureTimeInSeconds = apertureTimeUnits == DCPowerMeasureApertureTimeUnits.PowerLineCycles
+                            ? apertureTime / powerLineFrequency
+                            : apertureTime;
+                    // The 4154 has a fixed sample rate of 300kHz, while 4110 and 4130 have a fixed sample rate of 3kHz.
+                    double sampleRate = modelString == DCPowerModelStrings.PXIe_4154 ? 300000.0 : 3000.0;
+                    // These models use samples to average instead of aperture time.
+                    output.Measurement.SamplesToAverage = Convert.ToInt32(sampleRate * apertureTimeInSeconds);
+                    break;
+
+                default:
+                    output.Measurement.ApertureTime = apertureTime;
+                    output.Measurement.ApertureTimeUnits = apertureTimeUnits;
+                    break;
+            }
+        }
+
+        #endregion methods on DCPowerOutput
+
+        #region methods on NIDCPower session
+
+        /// <summary>
+        /// Configures the measurement when.
+        /// </summary>
+        /// <param name="session">The <see cref="NIDCPower"/> object.</param>
+        /// <param name="channelString">The channel string.</param>
+        /// <param name="modelString">The DCPower instrument model.</param>
+        /// <param name="measureWhen">The measurement when to set.</param>
+        public static void ConfigureMeasureWhen(this NIDCPower session, string channelString, string modelString, DCPowerMeasurementWhen measureWhen)
+        {
+            if (modelString == DCPowerModelStrings.PXI_4110
+                || modelString == DCPowerModelStrings.PXI_4130
+                || session.Outputs[channelString].Measurement.MeasureWhen == measureWhen)
+            {
+                // The 4110 and 4130 support OnDemand only.
+                return;
+            }
+            session.Outputs[channelString].Measurement.MeasureWhen = measureWhen;
+        }
+
+        /// <summary>
+        /// Configures the measurement sense.
+        /// </summary>
+        /// <param name="session">The <see cref="NIDCPower"/> object.</param>
+        /// <param name="channelString">The channel string.</param>
+        /// <param name="modelString">The DCPower instrument model.</param>
+        /// <param name="sense">The measurement sense to set.</param>
+        public static void ConfigureMeasurementSense(this NIDCPower session, string channelString, string modelString, DCPowerMeasurementSense sense)
+        {
+            switch (modelString)
+            {
+                case DCPowerModelStrings.PXI_4110: // local sense only.
+                case DCPowerModelStrings.PXIe_4112: // remote sense only.
+                case DCPowerModelStrings.PXIe_4113: // remote sense only.
+                    break;
+
+                case DCPowerModelStrings.PXI_4130:
+                    // channel 0 is local sense only.
+                    string updatedChannelString = channelString.ExcludeSpecificChannel("0");
+                    if (!string.IsNullOrEmpty(updatedChannelString))
+                    {
+                        session.Outputs[updatedChannelString].Measurement.Sense = sense;
+                    }
+                    break;
+
+                default:
+                    session.Outputs[channelString].Measurement.Sense = sense;
+                    break;
+            }
+        }
+
+        #endregion methods on NIDCPower session
+
+        #region methods on DCPowerSessionInformation
+
+        /// <summary>
+        /// Configures <see cref="DCPowerMeasureSettings"/>.
+        /// </summary>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
+        /// <param name="settings">The measure settings to configure.</param>
+        /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
+        public static void ConfigureMeasureSettings(this DCPowerSessionInformation sessionInfo, DCPowerMeasureSettings settings, string channelString = "")
+        {
+            var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
+            if (settings.ApertureTime.HasValue && settings.ApertureTimeUnits.HasValue)
+            {
+                channelOutput.ConfigureApertureTime(sessionInfo.ModelString, sessionInfo.PowerLineFrequency, settings.ApertureTime.Value, settings.ApertureTimeUnits.Value);
+            }
+            if (settings.MeasureWhen.HasValue)
+            {
+                sessionInfo.Session.ConfigureMeasureWhen(channelString, sessionInfo.ModelString, settings.MeasureWhen.Value);
+            }
+            if (settings.Sense.HasValue)
+            {
+                sessionInfo.Session.ConfigureMeasurementSense(channelString, sessionInfo.ModelString, settings.Sense.Value);
+            }
+            if (settings.RecordLength.HasValue)
+            {
+                channelOutput.Measurement.RecordLength = settings.RecordLength.Value;
+            }
+        }
+
+        /// <summary>
         /// Does measure on DCPower devices.
         /// </summary>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
@@ -49,7 +554,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var currentMeasurements = new double[channelCount];
             Parallel.For(0, channelCount, channelIndex =>
             {
-                string channelString = sessionInfo.AssociatedSitePinList[channelIndex].InstrumentChannelString;
+                string channelString = sessionInfo.AssociatedSitePinList[channelIndex].IndividualChannelString;
                 var dcOutput = session.Outputs[channelString];
 
                 switch (dcOutput.Measurement.MeasureWhen)
@@ -94,123 +599,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return new Tuple<double[], double[]>(voltageMeasurements, currentMeasurements);
         }
 
-        /// <summary>
-        /// Configures and starts a waveform acquisition.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="sampleRate">The sample rate.</param>
-        /// <param name="bufferLength">The buffer length in seconds.</param>
-        /// <returns>The original settings for the channels that do waveform acquisition.</returns>
-        public static PinSiteData<DCPowerWaveformAcquisitionSettings> ConfigureAndStartWaveformAcquisition(this DCPowerSessionsBundle sessionsBundle, double sampleRate, double bufferLength)
-        {
-            var originalSettings = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return GetOriginalSettings(sessionInfo.Session, sitePinInfo.InstrumentChannelString);
-            });
-            sessionsBundle.Do(sessionInfo =>
-            {
-                ConfigureAndInitiate(sessionInfo.Session, sessionInfo.ChannelString, sampleRate, bufferLength);
-            });
-            return originalSettings;
-        }
-
-        /// <summary>
-        /// Fetches waveform acquisition results.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="fetchWaveformLength">The waveform length in seconds to fetch.</param>
-        /// <param name="originalSettings">The original settings for the channels that do waveform acquisition. This is the return value of the ConfigureAndStartWaveformAcquisition method.</param>
-        /// <returns>The per-site per-pin waveform results.</returns>
-        public static PinSiteData<DCPowerWaveformResults> FinishWaveformAcquisition(this DCPowerSessionsBundle sessionsBundle, double fetchWaveformLength, PinSiteData<DCPowerWaveformAcquisitionSettings> originalSettings)
-        {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                var results = Fetch(sessionInfo.Session, sitePinInfo.InstrumentChannelString, fetchWaveformLength);
-                ApplyOriginalSettings(sessionInfo.Session, sessionInfo.ChannelString, originalSettings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
-                return results;
-            });
-        }
-
-        /// <summary>
-        /// Acquires the synchronized waveforms.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="apertureTimeInSeconds">The measure aperture time in seconds.</param>
-        /// <param name="measurementTimeInSeconds">The measurement time in seconds.</param>
-        /// <returns>The per-site per-pin waveform results.</returns>
-        public static PinSiteData<DCPowerFetchResult> AcquireSynchronizedWaveforms(this DCPowerSessionsBundle sessionsBundle, double apertureTimeInSeconds = 0, double measurementTimeInSeconds = 0)
-        {
-            var masterChannelOutput = sessionsBundle.GetMasterChannelOutput(TriggerType.MeasureTrigger.ToString(), out string measureTrigger);
-            var originalApertureTimes = new Dictionary<string, double>();
-            var originalSourceDelays = new Dictionary<string, PrecisionTimeSpan>();
-            var originalMeasureWhen = new Dictionary<string, DCPowerMeasurementWhen>();
-            var originalMeasureTriggerTypes = new Dictionary<string, DCPowerMeasureTriggerType>();
-            var originalMeasureTriggerTerminalNames = new Dictionary<string, DCPowerDigitalEdgeMeasureTriggerInputTerminal>();
-            var measureRecordLength = new Dictionary<string, int>();
-
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                var perChannelString = sitePinInfo.InstrumentChannelString;
-                var channelOutput = sessionInfo.Session.Outputs[perChannelString];
-                channelOutput.Control.Abort();
-
-                // Cache original settings to restore after the waveform acquisition.
-                originalApertureTimes[perChannelString] = channelOutput.Measurement.ApertureTime;
-                originalSourceDelays[perChannelString] = channelOutput.Source.SourceDelay;
-                originalMeasureWhen[perChannelString] = channelOutput.Measurement.MeasureWhen;
-                originalMeasureTriggerTypes[perChannelString] = channelOutput.Triggers.MeasureTrigger.Type;
-                originalMeasureTriggerTerminalNames[perChannelString] = channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal;
-
-                channelOutput.Measurement.ApertureTime = apertureTimeInSeconds;
-                channelOutput.Source.SourceDelay = PrecisionTimeSpan.Zero;
-                channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
-                if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
-                {
-                    // Master channel uses software edge trigger.
-                    channelOutput.Triggers.MeasureTrigger.ConfigureSoftwareEdgeTrigger();
-                }
-                else
-                {
-                    // Set slave channel measure trigger to be the master channel terminal name.
-                    channelOutput.Triggers.MeasureTrigger.DigitalEdge.Configure(measureTrigger, DCPowerTriggerEdge.Rising);
-                }
-
-                // Read back actual measure record delta time, configure measure record length and calculate buffer sizes.
-                channelOutput.Control.Commit();
-                measureRecordLength[perChannelString] = (int)Math.Ceiling(measurementTimeInSeconds / channelOutput.Measurement.RecordDeltaTime);
-                channelOutput.Measurement.RecordLength = measureRecordLength[perChannelString];
-                if (channelOutput.Measurement.BufferSize < channelOutput.Measurement.RecordLength)
-                {
-                    channelOutput.Measurement.BufferSize = channelOutput.Measurement.RecordLength;
-                }
-
-                channelOutput.Control.Initiate();
-            });
-
-            masterChannelOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
-            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                var perChannelString = sitePinInfo.InstrumentChannelString;
-                return sessionInfo.Session.Measurement.Fetch(perChannelString, PrecisionTimeSpan.FromSeconds(measurementTimeInSeconds + 1), measureRecordLength[perChannelString]);
-            });
-
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                var perChannelString = sitePinInfo.InstrumentChannelString;
-                var channelOutput = sessionInfo.Session.Outputs[perChannelString];
-                channelOutput.Control.Abort();
-
-                // Restore original settings.
-                channelOutput.Measurement.ApertureTime = originalApertureTimes[perChannelString];
-                channelOutput.Source.SourceDelay = originalSourceDelays[perChannelString];
-                channelOutput.Measurement.MeasureWhen = originalMeasureWhen[perChannelString];
-                channelOutput.Triggers.MeasureTrigger.Type = originalMeasureTriggerTypes[perChannelString];
-                channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal = originalMeasureTriggerTerminalNames[perChannelString];
-                channelOutput.Control.Initiate();
-            });
-
-            return results;
-        }
+        #endregion methods on DCPowerSessionInformation
 
         #region private methods
 
@@ -271,58 +660,5 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         #endregion private methods
-    }
-
-    /// <summary>
-    /// Defines DCPower waveform acquisition settings.
-    /// </summary>
-    public class DCPowerWaveformAcquisitionSettings
-    {
-        /// <summary>
-        /// The aperture time.
-        /// </summary>
-        public double ApertureTime { get; set; }
-
-        /// <summary>
-        /// The aperture time units.
-        /// </summary>
-        public DCPowerMeasureApertureTimeUnits ApertureTimeUnits { get; set; }
-
-        /// <summary>
-        /// The measure when.
-        /// </summary>
-        public DCPowerMeasurementWhen MeasureWhen { get; set; }
-
-        /// <summary>
-        /// The measure trigger type.
-        /// </summary>
-        public DCPowerMeasureTriggerType MeasureTriggerType { get; set; }
-    }
-
-    /// <summary>
-    /// Defines DCPower waveform results.
-    /// </summary>
-    public class DCPowerWaveformResults
-    {
-        /// <summary>
-        /// The DCPower fetch result.
-        /// </summary>
-        public DCPowerFetchResult Result { get; }
-
-        /// <summary>
-        /// The measurement record delta time.
-        /// </summary>
-        public double DeltaTime { get; }
-
-        /// <summary>
-        /// Constructs a DCPower waveform results object.
-        /// </summary>
-        /// <param name="result">The DCPower fetch result.</param>
-        /// <param name="deltaTime">The measurement record delta time.</param>
-        public DCPowerWaveformResults(DCPowerFetchResult result, double deltaTime)
-        {
-            Result = result;
-            DeltaTime = deltaTime;
-        }
     }
 }

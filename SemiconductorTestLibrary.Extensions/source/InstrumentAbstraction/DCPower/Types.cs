@@ -33,17 +33,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// The output function.
         /// </summary>
-        public DCPowerSourceOutputFunction OutputFunction { get; set; } = DCPowerSourceOutputFunction.DCVoltage;
+        public DCPowerSourceOutputFunction? OutputFunction { get; set; } = DCPowerSourceOutputFunction.DCVoltage;
 
         /// <summary>
         /// The limit symmetry.
         /// </summary>
-        public DCPowerComplianceLimitSymmetry LimitSymmetry { get; set; } = DCPowerComplianceLimitSymmetry.Symmetric;
+        public DCPowerComplianceLimitSymmetry? LimitSymmetry { get; set; } = DCPowerComplianceLimitSymmetry.Symmetric;
 
         /// <summary>
         /// The voltage or current level.
         /// </summary>
-        public double Level { get; set; }
+        public double? Level { get; set; }
 
         /// <summary>
         /// The current or voltage limit.
@@ -124,5 +124,160 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public DCPowerMeasureSettings()
         {
         }
+    }
+
+    /// <summary>
+    /// Defines DCPower waveform acquisition settings.
+    /// </summary>
+    public class DCPowerWaveformAcquisitionSettings
+    {
+        /// <summary>
+        /// The aperture time.
+        /// </summary>
+        public double ApertureTime { get; set; }
+
+        /// <summary>
+        /// The aperture time units.
+        /// </summary>
+        public DCPowerMeasureApertureTimeUnits ApertureTimeUnits { get; set; }
+
+        /// <summary>
+        /// The measure when.
+        /// </summary>
+        public DCPowerMeasurementWhen MeasureWhen { get; set; }
+
+        /// <summary>
+        /// The measure trigger type.
+        /// </summary>
+        public DCPowerMeasureTriggerType MeasureTriggerType { get; set; }
+    }
+
+    /// <summary>
+    /// Defines DCPower waveform results.
+    /// </summary>
+    public class DCPowerWaveformResults
+    {
+        /// <summary>
+        /// The DCPower fetch result.
+        /// </summary>
+        public DCPowerFetchResult Result { get; }
+
+        /// <summary>
+        /// The measurement record delta time.
+        /// </summary>
+        public double DeltaTime { get; }
+
+        /// <summary>
+        /// Constructs a DCPower waveform results object.
+        /// </summary>
+        /// <param name="result">The DCPower fetch result.</param>
+        /// <param name="deltaTime">The measurement record delta time.</param>
+        public DCPowerWaveformResults(DCPowerFetchResult result, double deltaTime)
+        {
+            Result = result;
+            DeltaTime = deltaTime;
+        }
+    }
+
+    /// <summary>
+    /// Structure the defines the result of a single fetch operation.
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "Not needed now, may implement in future")]
+    public readonly struct SingleDCPowerFetchResult
+    {
+        /// <summary>
+        /// Constructs a SingleDCPowerFetchResult object.
+        /// </summary>
+        /// <param name="voltageMeasurement">Voltage measurement value</param>
+        /// <param name="currentMeasurement">Current measurement value.</param>
+        /// <param name="inCompliance">Whether the output was in compliance mode when measurement was taken.</param>
+        public SingleDCPowerFetchResult(double voltageMeasurement, double currentMeasurement, bool inCompliance)
+        {
+            VoltageMeasurement = voltageMeasurement;
+            CurrentMeasurement = currentMeasurement;
+            InCompliance = inCompliance;
+        }
+
+        /// <summary>
+        /// Voltage measurement value.
+        /// </summary>
+        public double VoltageMeasurement { get; }
+
+        /// <summary>
+        /// Current measurement value.
+        /// </summary>
+        public double CurrentMeasurement { get; }
+
+        /// <summary>
+        /// Whether the output was in compliance mode when measurement was taken.
+        /// </summary>
+        public bool InCompliance { get; }
+    }
+
+    /// <summary>
+    /// Defines DCPower trigger type.
+    /// </summary>
+    public enum TriggerType
+    {
+        /// <summary>
+        /// The measure trigger.
+        /// </summary>
+        MeasureTrigger,
+
+        /// <summary>
+        /// The pulse trigger.
+        /// </summary>
+        PulseTrigger,
+
+        /// <summary>
+        /// The sequence advance trigger.
+        /// </summary>
+        SequenceAdvanceTrigger,
+
+        /// <summary>
+        /// The source trigger.
+        /// </summary>
+        SourceTrigger,
+
+        /// <summary>
+        /// The start trigger.
+        /// </summary>
+        StartTrigger
+    }
+
+    /// <summary>
+    /// Defines DCPower event type.
+    /// </summary>
+    public enum EventType
+    {
+        /// <summary>
+        /// The measure complete event.
+        /// </summary>
+        MeasureCompleteEvent,
+
+        /// <summary>
+        /// The pulse complete event.
+        /// </summary>
+        PulseCompleteEvent,
+
+        /// <summary>
+        /// The ready for pulse trigger event.
+        /// </summary>
+        ReadyForPulseTriggerEvent,
+
+        /// <summary>
+        /// The sequence engine done event.
+        /// </summary>
+        SequenceEngineDoneEvent,
+
+        /// <summary>
+        /// The sequence iteration complete event.
+        /// </summary>
+        SequenceIterationCompleteEvent,
+
+        /// <summary>
+        /// The source complete event.
+        /// </summary>
+        SourceCompleteEvent
     }
 }

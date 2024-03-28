@@ -16,17 +16,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region methods on DigitalSessionsBundle
 
         /// <summary>
-        /// Forces voltage. Use this method to force the same voltage level on all sessions.
+        /// Forces voltage on the target pin(s) at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="voltageLevel">The voltage level.</param>
         /// <param name="currentLimitRange">The current limit range.</param>
         /// <param name="apertureTime">The aperture Time.</param>
         /// <param name="settlingTime">The settling time.</param>
+        /// <remarks>Use this method to force the same voltage level on all sessions.</remarks>
         public static void ForceVoltage(
             this DigitalSessionsBundle sessionsBundle,
             double voltageLevel,
-            double currentLimitRange,
+            double? currentLimitRange = null,
             double? apertureTime = null,
             double? settlingTime = null)
         {
@@ -46,17 +47,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces voltage. Use this method to force different voltage levels on different sites.
+        /// Forces voltage on the target pin(s) at the specified level. Must at least provide level values, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels for all sites.</param>
         /// <param name="currentLimitRange">The current limit range.</param>
         /// <param name="apertureTime">The aperture Time.</param>
         /// <param name="settlingTime">The settling time.</param>
+        /// <remarks>Use this method to force different voltage levels on different sites.</remarks>
         public static void ForceVoltage(
             this DigitalSessionsBundle sessionsBundle,
             IDictionary<int, double> voltageLevels,
-            double currentLimitRange,
+            double? currentLimitRange = null,
             double? apertureTime = null,
             double? settlingTime = null)
         {
@@ -75,17 +77,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces voltage. Use this method to force different voltage levels for different site-pin pairs.
+        /// Forces voltage on the target pin(s) at the specified level. Must at least provide level values, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels for all site-pin pairs.</param>
         /// <param name="currentLimitRange">The current limit range.</param>
         /// <param name="apertureTime">The aperture Time.</param>
         /// <param name="settlingTime">The settling time.</param>
+        /// <remarks>Use this method to force different voltage levels for different site-pin pairs.</remarks>
         public static void ForceVoltage(
             this DigitalSessionsBundle sessionsBundle,
             IDictionary<int, Dictionary<string, double>> voltageLevels,
-            double currentLimitRange,
+            double? currentLimitRange = null,
             double? apertureTime = null,
             double? settlingTime = null)
         {
@@ -104,7 +107,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces voltage.
+        /// Forces voltage on the target pin(s) at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
@@ -118,7 +121,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces current. Use this method to force the same current level on all sites.
+        /// Forces current on the target pin(s) at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific voltage limit, current level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="currentLevel">The current level.</param>
@@ -127,6 +130,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="voltageLimitHigh">The high voltage limit.</param>
         /// <param name="apertureTime">The aperture time.</param>
         /// <param name="settlingTime">The settling time.</param>
+        /// <remarks>Use this method to force the same current level on all sites.</remarks>
         public static void ForceCurrent(
             this DigitalSessionsBundle sessionsBundle,
             double currentLevel,
@@ -154,7 +158,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces current.
+        /// Forces current on the target pin(s) at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific voltage limit, current level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
@@ -179,7 +183,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures voltage.
+        /// Measures the voltage on the target pin(s) and returns a pin and site aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The voltage measurements.</returns>
@@ -189,7 +193,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures current.
+        /// Measures the current on the target pin(s) and returns a pin and site aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The current measurements.</returns>
@@ -199,11 +203,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Powers down digital devices.
+        /// Sets the Selected Function mode to Off, such that the digital driver is put into a non-drive state, disables the active load, disconnects the PPMU, and closes the I/O switch connecting the instrument channel.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settlingTime">The settling time. Null means no need to wait for the turn off operation to settle.</param>
-        public static void PowerDown(this DigitalSessionsBundle sessionsBundle, double? settlingTime = null)
+        public static void TurnOffOutput(this DigitalSessionsBundle sessionsBundle, double? settlingTime = null)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -276,7 +280,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         private static void ConfigureVoltageSettings(DigitalPpmu ppmu, PPMUForcingSettings settings)
         {
-            ppmu.DCVoltage.CurrentLimitRange = Math.Abs(settings.CurrentLimitRange);
+            if (settings.CurrentLimitRange.HasValue)
+            {
+                ppmu.DCVoltage.CurrentLimitRange = Math.Abs(settings.CurrentLimitRange.Value);
+            }
             ppmu.DCVoltage.VoltageLevel = settings.VoltageLevel;
         }
 
@@ -311,7 +318,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <summary>
         /// The current limit range when forcing voltage.
         /// </summary>
-        public double CurrentLimitRange { get; set; } = 0.01;
+        public double? CurrentLimitRange { get; set; } = 0.01;
 
         /// <summary>
         /// The current level when forcing current.

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
@@ -16,14 +17,64 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #region methods on DCPowerSessionsBundle
 
         /// <summary>
-        /// Forces voltage and specifies symmetric current limit.
+        /// Configures one or more source settings based on values populated within a <see  cref="DCPowerSourceSettings"/> object.
+        /// Accepts a scalar input of type <see  cref="DCPowerSourceSettings"/>.
+        /// with overrides for <see cref="SiteData{DCPowerSourceSettings}"/>, and <see cref="PinSiteData{DCPowerSourceSettings}"/> input.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="settings">The source settings to configure.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Control.Abort();
+                sessionInfo.ConfigureSourceSettings(settings);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureSourceSettings"/>
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo.SiteNumber), sitePinInfo.IndividualChannelString);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureSourceSettings"/>
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerSourceSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName), sitePinInfo.IndividualChannelString);
+            });
+        }
+
+        /// <summary>
+        /// Configures <see cref="DCPowerSourceSettings"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="settings">The specific settings to configure.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.ConfigureSourceSettings(settings[sitePinInfo.PinName], sitePinInfo.IndividualChannelString);
+            });
+        }
+
+        /// <summary>
+        /// Forces voltage on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLevel">The voltage level to force.</param>
         /// <param name="currentLimit">The current limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        public static void ForceVoltageSymmetricLimit(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
         {
             var settings = new DCPowerSourceSettings()
             {
@@ -36,19 +87,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(new DCPowerSettings() { SourceSettings = settings });
+                sessionInfo.Force(settings);
             });
         }
 
         /// <summary>
-        /// Forces voltage and specifies symmetric current limit.
+        /// Forces voltage on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels to force for different pins.</param>
         /// <param name="currentLimit">The current limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        public static void ForceVoltageSymmetricLimit(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -61,19 +112,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.Force(new DCPowerSettings() { SourceSettings = settings }, sitePinInfo.InstrumentChannelString);
+                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString);
             });
         }
 
         /// <summary>
-        /// Forces voltage and specifies symmetric current limit.
+        /// Forces voltage on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels to force for different site-pin pairs.</param>
         /// <param name="currentLimit">The current limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        public static void ForceVoltageSymmetricLimit(this DCPowerSessionsBundle sessionsBundle, IDictionary<int, Dictionary<string, double>> voltageLevels, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<int, Dictionary<string, double>> voltageLevels, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -86,7 +137,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.Force(new DCPowerSettings() { SourceSettings = settings }, sitePinInfo.InstrumentChannelString);
+                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString);
             });
         }
 
@@ -95,18 +146,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
-        public static void ForceVoltageSymmetricLimit(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSettings> settings)
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                settings[sitePinInfo.PinName].SourceSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                settings[sitePinInfo.PinName].SourceSettings.LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
-                sessionInfo.Force(settings[sitePinInfo.PinName], sitePinInfo.InstrumentChannelString);
+                var perPinSettings = settings[sitePinInfo.PinName];
+                perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
+                perPinSettings.LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
+                sessionInfo.Force(perPinSettings, sitePinInfo.IndividualChannelString);
             });
         }
 
         /// <summary>
-        /// Forces voltage and specifies asymmetric current limit.
+        /// Behaves the same as the ForceVoltage() method, but as two current limit inputs for setting separate high and low current limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLevel">The voltage level to force.</param>
@@ -128,19 +180,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(new DCPowerSettings() { SourceSettings = settings });
+                sessionInfo.Force(settings);
             });
         }
 
         /// <summary>
-        /// Forces current and specifies symmetric voltage limit.
+        /// Forces current on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevel">The current level to force.</param>
         /// <param name="voltageLimit">The voltage limit to use.</param>
         /// <param name="currentLevelRange">The current level range to use.</param>
         /// <param name="voltageLimitRange">The voltage limit range to use.</param>
-        public static void ForceCurrentSymmetricLimit(this DCPowerSessionsBundle sessionsBundle, double currentLevel, double voltageLimit, double? currentLevelRange = null, double? voltageLimitRange = null)
+        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, double currentLevel, double voltageLimit, double? currentLevelRange = null, double? voltageLimitRange = null)
         {
             var settings = new DCPowerSourceSettings()
             {
@@ -153,27 +205,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(new DCPowerSettings() { SourceSettings = settings });
+                sessionInfo.Force(settings);
             });
         }
 
         /// <summary>
-        /// Forces current and specifies symmetric voltage limit.
+        /// Forces current and specifies symmetric voltage limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
-        public static void ForceCurrentSymmetricLimit(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSettings> settings)
+        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                settings[sitePinInfo.PinName].SourceSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                settings[sitePinInfo.PinName].SourceSettings.LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
-                sessionInfo.Force(settings[sitePinInfo.PinName], sitePinInfo.InstrumentChannelString);
+                var perPinSettings = settings[sitePinInfo.PinName];
+                perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
+                perPinSettings.LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
+                sessionInfo.Force(perPinSettings, sitePinInfo.IndividualChannelString);
             });
         }
 
         /// <summary>
-        /// Forces current and specifies asymmetric voltage limit.
+        /// Behaves the same as the ForceCurrent() method, but as two voltage limit inputs for setting separate high and low voltage limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevel">The current level to force.</param>
@@ -195,12 +248,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(new DCPowerSettings() { SourceSettings = settings });
+                sessionInfo.Force(settings);
             });
         }
 
         /// <summary>
-        /// Forces voltage sequence synchronized on all instrument channels.
+        /// Forces a hardware-timed sequence of voltage values. If multiple target pins, the sequenced output will be synchronized across the target pins.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageSequences">The voltage sequence to force for different site-pin pairs.</param>
@@ -218,7 +271,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             DCPowerSourceTransientResponse transientResponse = DCPowerSourceTransientResponse.Fast,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            var masterChannelOutput = sessionsBundle.GetMasterChannelOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
+            var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
 
             var originalSourceDelays = new Dictionary<string, PrecisionTimeSpan>();
             var originalMeasureWhens = new Dictionary<string, DCPowerMeasurementWhen>();
@@ -228,21 +281,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
                 var voltageSequence = voltageSequences[sitePinInfo.SiteNumber][sitePinInfo.PinName];
-                var settings = new DCPowerSettings()
+                var settings = new DCPowerSourceSettings()
                 {
-                    SourceSettings = new DCPowerSourceSettings()
-                    {
-                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = voltageSequence[0],
-                        Limit = currentLimits[sitePinInfo.PinName],
-                        LevelRange = voltageSequence.Select(v => Math.Abs(v)).Max(),
-                        LimitRange = currentLimitRanges[sitePinInfo.PinName],
-                        TransientResponse = transientResponse
-                    },
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = voltageSequence[0],
+                    Limit = currentLimits[sitePinInfo.PinName],
+                    LevelRange = voltageSequence.Select(v => Math.Abs(v)).Max(),
+                    LimitRange = currentLimitRanges[sitePinInfo.PinName],
+                    TransientResponse = transientResponse
                 };
                 // Applies limits and ranges.
-                var perChannelString = sitePinInfo.InstrumentChannelString;
+                var perChannelString = sitePinInfo.IndividualChannelString;
                 sessionInfo.Force(settings, perChannelString);
 
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
@@ -252,7 +302,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 originalMeasureWhens[perChannelString] = channelOutput.Measurement.MeasureWhen;
                 channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
                 // Applies voltage sequence.
-                channelOutput.SetSequence(voltageSequence, sequenceLoopCount);
+                channelOutput.ConfigureSequence(voltageSequence, sequenceLoopCount);
 
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
@@ -277,7 +327,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
-                var perChannelString = sitePinInfo.InstrumentChannelString;
+                var perChannelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
                 if (sessionIndex > 0 || (sessionIndex == 0 && !sitePinInfo.IsFirstChannelOfSession(sessionInfo)))
@@ -301,34 +351,324 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.ChannelOutput.Control.Abort();
-                var originalSourceMode = sessionInfo.ChannelOutput.Source.Mode;
-                sessionInfo.ChannelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
-                sessionInfo.ChannelOutput.Source.Output.Enabled = false;
-                sessionInfo.ChannelOutput.Control.Initiate();
-                sessionInfo.ChannelOutput.Control.Abort();
-                sessionInfo.ChannelOutput.Source.Mode = originalSourceMode;
+                sessionInfo.AllChannelsOutput.Control.Abort();
+                var originalSourceMode = sessionInfo.AllChannelsOutput.Source.Mode;
+                sessionInfo.AllChannelsOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
+                sessionInfo.AllChannelsOutput.Source.Output.Enabled = false;
+                sessionInfo.AllChannelsOutput.Control.Initiate();
+                sessionInfo.AllChannelsOutput.Control.Abort();
+                sessionInfo.AllChannelsOutput.Source.Mode = originalSourceMode;
             });
             PreciseWait(settlingTime);
         }
 
+        /// <summary>
+        /// Configures the current limit.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLimit">The current limit to set.</param>
+        /// <param name="currentLimitRange">The current limit range to set. Use the absolute value of current limit to set current limit range when this parameter is not specified.</param>
+        public static void ConfigureCurrentLimit(this DCPowerSessionsBundle sessionsBundle, double currentLimit, double? currentLimitRange = null)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Control.Abort();
+                sessionInfo.AllChannelsOutput.ConfigureCurrentLimit(currentLimit, currentLimitRange);
+            });
+        }
+
+        /// <summary>
+        /// Configures the current limits.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLimits">The per-pin current limits to set.</param>
+        /// <param name="currentLimitRanges">The current limit ranges to set. Use the absolute value of current limit to set current limit range when this parameter is not specified.</param>
+        public static void ConfigureCurrentLimits(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> currentLimits, IDictionary<string, double> currentLimitRanges = null)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.ConfigureCurrentLimit(currentLimits[sitePinInfo.PinName], currentLimitRanges?[sitePinInfo.PinName]);
+            });
+        }
+
+        /// <summary>
+        /// Configures a hardware-timed sequence of values.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequence">The voltage or current sequence to set.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence is run after initiation.</param>
+        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
+        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Control.Abort();
+                sessionInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+            });
+        }
+
+        /// <summary>
+        /// Gets the current limits.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin current limits.</returns>
+        public static PinSiteData<double> GetCurrentLimits(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimit;
+            });
+        }
+
+        /// <summary>
+        /// Checks if the output function is set to DCVoltage and the level(s) are set to the expected values.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="failedChannels">returns the channels that fail the check.</param>
+        /// <param name="expectedVoltages">The expected per-pin voltages.</param>
+        /// <returns>Whether all channels pass the check.</returns>
+        public static bool CheckDCVoltageModeAndLevels(this DCPowerSessionsBundle sessionsBundle, out IEnumerable<string> failedChannels, IDictionary<string, double> expectedVoltages = null)
+        {
+            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                bool pass = sessionInfo.Session.Source.Mode == DCPowerSourceMode.SinglePoint
+                    && channelOutput.Source.Output.Function == DCPowerSourceOutputFunction.DCVoltage
+                    && (expectedVoltages is null || channelOutput.Source.Voltage.VoltageLevel == expectedVoltages[sitePinInfo.PinName]);
+                return pass ? string.Empty : sessionInfo.AllChannelsString;
+            });
+            var flatternedResults = results.SelectMany(r => r);
+            failedChannels = flatternedResults.Where(r => !string.IsNullOrEmpty(r));
+            return !failedChannels.Any();
+        }
+
+        /// <summary>
+        /// Configures the output relay of the underlying device channel (s) to either be connected (closed) or disconnected (open).
+        /// Accepts a scalar input of type <see  cref="bool"/>.
+        /// with overrides for <see cref="SiteData{Boolean}" />, and <see cref="PinSiteData{Boolean}"/> input.
+        /// <para> Pass this method a true value to physically disconnect the output terminal from the front panel.</para>
+        /// <remarks>
+        /// Disconnect the output only if disconnecting is necessary for your application.
+        /// For example, a battery connected to the output terminal might discharge unless the relay is disconnected.
+        /// Excessive connecting and disconnecting of the output can cause premature wear on the relay.
+        /// <para>
+        /// This property is not supported by all devices.
+        /// Refer to the Supported Properties by Device topic in the NI DC Power Supplies and SMUs Help for information about supported devices.
+        /// </para>
+        /// </remarks>
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="connectOutput">The boolean value to either connect (true) or disconnect (false) the output terminal.</param>
+        public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, bool connectOutput)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Control.Abort();
+                sessionInfo.AllChannelsOutput.Source.Output.Connected = connectOutput;
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureOutputConnected"/>
+        public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, SiteData<bool> connectOutput)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Connected = connectOutput.GetValue(pinSiteInfo.SiteNumber);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureOutputConnected"/>
+        public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, PinSiteData<bool> connectOutput)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Connected = connectOutput.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName);
+            });
+        }
+
+        /// <summary>
+        /// Configures whether to enable (true) or disable (false) output generation on the underlying device channel(s).
+        /// </summary>
+        /// <remarks>
+        /// Note: the ConfigureOutputEnabled method does not change based on this property; they are independent of each other.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="enableOutput">The boolean value to either enable (true) or disable (false) the output .</param>
+        public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, bool enableOutput)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.AllChannelsOutput.Control.Abort();
+                sessionInfo.AllChannelsOutput.Source.Output.Enabled = enableOutput;
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureOutputConnected"/>
+        public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, SiteData<bool> enableOutput)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Enabled = enableOutput.GetValue(pinSiteInfo.SiteNumber);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureOutputConnected"/>
+        public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, PinSiteData<bool> enableOutput)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Enabled = enableOutput.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName);
+            });
+        }
+
+        /// <summary>
+        /// Gets the source delay in seconds for each of the underlying device channel(s), per-pin and per-site.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns> The source delay in seconds (<see cref="PinSiteData{T}"/>, where T is of type <see cref="double"/>).</returns>
+        public static PinSiteData<double> GetSourceDelayInSeconds(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
+            {
+                return sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.SourceDelay.TotalSeconds;
+            });
+        }
+
         #endregion methods on DCPowerSessionsBundle
+
+        #region methods on DCPowerOutput
+
+        /// <summary>
+        /// Configures the current limit.
+        /// </summary>
+        /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
+        /// <param name="currentLimit">The current limit to set.</param>
+        /// <param name="currentLimitRange">The current limit range to set. Use the absolute value of current limit to set current limit range when this parameter is not specified.</param>
+        public static void ConfigureCurrentLimit(this DCPowerOutput output, double currentLimit, double? currentLimitRange = null)
+        {
+            output.Source.Voltage.CurrentLimit = currentLimit;
+            output.Source.Voltage.CurrentLimitRange = currentLimitRange ?? Math.Abs(currentLimit);
+        }
+
+        /// <summary>
+        /// Configures a hardware-timed sequence of values.
+        /// </summary>
+        /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
+        /// <param name="sequence">The voltage or current sequence to set.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence is run after initiation.</param>
+        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
+        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
+        {
+            output.Source.Mode = DCPowerSourceMode.Sequence;
+            output.Source.SequenceLoopCount = sequenceLoopCount;
+            output.Source.SetSequence(sequence);
+            if (sequenceStepDeltaTimeInSeconds.HasValue)
+            {
+                output.Source.SequenceStepDeltaTimeEnabled = true;
+                output.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(sequenceStepDeltaTimeInSeconds.Value);
+            }
+        }
+
+        #endregion methods on DCPowerOutput
+
+        #region methods on NIDCPower session
+
+        /// <summary>
+        /// Configures the transient response.
+        /// </summary>
+        /// <param name="session">The <see cref="NIDCPower"/> object.</param>
+        /// <param name="channelString">The channel string.</param>
+        /// <param name="modelString">The DCPower instrument model <see cref="DCPowerModelStrings"/>.</param>
+        /// <param name="transientResponse">The transient response to set.</param>
+        public static void ConfigureTransientResponse(this NIDCPower session, string channelString, string modelString, DCPowerSourceTransientResponse transientResponse)
+        {
+            switch (modelString)
+            {
+                case DCPowerModelStrings.PXI_4110:
+                case DCPowerModelStrings.PXI_4130:
+                case DCPowerModelStrings.PXI_4132:
+                case DCPowerModelStrings.PXIe_4112:
+                case DCPowerModelStrings.PXIe_4113:
+                    break;
+
+                case DCPowerModelStrings.PXIe_4154:
+                    // channel 1 does not support this property.
+                    string updatedChannelString = channelString.ExcludeSpecificChannel("1");
+                    if (!string.IsNullOrEmpty(updatedChannelString))
+                    {
+                        session.Outputs[channelString].Source.TransientResponse = transientResponse;
+                    }
+                    break;
+
+                default:
+                    session.Outputs[channelString].Source.TransientResponse = transientResponse;
+                    break;
+            }
+        }
+
+        #endregion methods on NIDCPower session
+
+        #region methods on DCPowerSessionInformation
+
+        /// <summary>
+        /// Configures <see cref="DCPowerSourceSettings"/>.
+        /// </summary>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
+        /// <param name="settings">The source settings to configure.</param>
+        /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
+        {
+            var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
+            channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
+            if (settings.LimitSymmetry.HasValue)
+            {
+                channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
+            }
+            if (settings.OutputFunction.HasValue)
+            {
+                channelOutput.Source.Output.Function = settings.OutputFunction.Value;
+            }
+            if (settings.SourceDelayInSeconds.HasValue)
+            {
+                channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
+            }
+            if (settings.TransientResponse.HasValue)
+            {
+                sessionInfo.Session.ConfigureTransientResponse(channelString, sessionInfo.ModelString, settings.TransientResponse.Value);
+            }
+            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+            {
+                ConfigureVoltageSettings(channelOutput, settings);
+            }
+            else
+            {
+                ConfigureCurrentSettings(channelOutput, settings);
+            }
+        }
+
+        #endregion methods on DCPowerSessionInformation
 
         #region private and internal methods
 
-        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSettings settings, string channelString = "")
+        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
-            var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.ChannelOutput : sessionInfo.Session.Outputs[channelString];
+            var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
             channelOutput.Control.Abort();
-            sessionInfo.ConfigureDCPowerSettings(settings, channelString);
+            sessionInfo.ConfigureSourceSettings(settings, channelString);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Initiate();
         }
 
-        internal static DCPowerOutput GetMasterChannelOutput(this DCPowerSessionsBundle sessionsBundle, string triggerOrEventTypeName, out string terminalName)
+        internal static DCPowerOutput GetPrimaryOutput(this DCPowerSessionsBundle sessionsBundle, string triggerOrEventTypeName, out string terminalName)
         {
             var masterChannelSessionInfo = sessionsBundle.InstrumentSessions.First();
-            var masterChannelString = masterChannelSessionInfo.AssociatedSitePinList.First().InstrumentChannelString;
+            var masterChannelString = masterChannelSessionInfo.AssociatedSitePinList.First().IndividualChannelString;
             terminalName = masterChannelSessionInfo.BuildTerminalName(masterChannelString, triggerOrEventTypeName);
             return masterChannelSessionInfo.Session.Outputs[masterChannelString];
         }
@@ -350,7 +690,80 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         internal static bool IsFirstChannelOfSession(this SitePinInfo sitePinInfo, DCPowerSessionInformation sessionInfo)
         {
-            return sessionInfo.ChannelString.StartsWith(sitePinInfo.InstrumentChannelString, StringComparison.InvariantCulture);
+            return sessionInfo.AllChannelsString.StartsWith(sitePinInfo.IndividualChannelString, StringComparison.InvariantCulture);
+        }
+
+        private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
+        {
+            if (settings.Level.HasValue)
+            {
+                dcOutput.Source.Voltage.VoltageLevel = settings.Level.Value;
+            }
+            if (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
+            {
+                dcOutput.Source.Voltage.CurrentLimit = settings.Limit.Value;
+            }
+            else
+            {
+                if (settings.LimitHigh.HasValue)
+                {
+                    dcOutput.Source.Voltage.CurrentLimitHigh = settings.LimitHigh.Value;
+                }
+                if (settings.LimitLow.HasValue)
+                {
+                    dcOutput.Source.Voltage.CurrentLimitLow = settings.LimitLow.Value;
+                }
+            }
+            if (settings.LevelRange.HasValue || settings.Level.HasValue)
+            {
+                dcOutput.Source.Voltage.VoltageLevelRange = settings.LevelRange ?? Math.Abs(settings.Level.Value);
+            }
+            if (settings.LimitRange.HasValue
+                || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
+                || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric && (settings.LimitHigh.HasValue || settings.LimitLow.HasValue)))
+            {
+                dcOutput.Source.Voltage.CurrentLimitRange = settings.LimitRange ?? CalculateLimitRangeFromLimit(settings);
+            }
+        }
+
+        private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
+        {
+            if (settings.Level.HasValue)
+            {
+                dcOutput.Source.Current.CurrentLevel = settings.Level.Value;
+            }
+            if (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
+            {
+                dcOutput.Source.Current.VoltageLimit = settings.Limit.Value;
+            }
+            else
+            {
+                if (settings.LimitHigh.HasValue)
+                {
+                    dcOutput.Source.Current.VoltageLimitHigh = settings.LimitHigh.Value;
+                }
+                if (settings.LimitLow.HasValue)
+                {
+                    dcOutput.Source.Current.VoltageLimitLow = settings.LimitLow.Value;
+                }
+            }
+            if (settings.LevelRange.HasValue || settings.Level.HasValue)
+            {
+                dcOutput.Source.Current.CurrentLevelRange = settings.LevelRange ?? Math.Abs(settings.Level.Value);
+            }
+            if (settings.LimitRange.HasValue
+                || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
+                || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric && (settings.LimitHigh.HasValue || settings.LimitLow.HasValue)))
+            {
+                dcOutput.Source.Current.VoltageLimitRange = settings.LimitRange ?? CalculateLimitRangeFromLimit(settings);
+            }
+        }
+
+        private static double CalculateLimitRangeFromLimit(DCPowerSourceSettings settings)
+        {
+            return settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric
+                ? Math.Abs(settings.Limit.Value)
+                : Math.Max(Math.Abs(settings.LimitHigh.Value), Math.Abs(settings.LimitLow.Value));
         }
 
         #endregion private and internal methods

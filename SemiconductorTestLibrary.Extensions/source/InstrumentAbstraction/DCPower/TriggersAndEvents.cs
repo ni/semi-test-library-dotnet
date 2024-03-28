@@ -1,4 +1,5 @@
-﻿using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using System.Linq;
+using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -8,8 +9,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static class TriggersAndEvents
     {
+        #region methods on DCPowerSessionsBundle
+
         /// <summary>
-        /// Exports DCPower signal.
+        /// Exports the selected DCPowerSignalSource to the target output terminal.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="signalSource">The signal source to export.</param>
@@ -23,7 +26,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Sends software edge trigger.
+        /// Sends a software trigger as the selected TriggerType.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="triggerType">The type of the trigger.</param>
@@ -34,23 +37,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 switch (triggerType)
                 {
                     case TriggerType.MeasureTrigger:
-                        sessionInfo.ChannelOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
+                        sessionInfo.AllChannelsOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
                         break;
 
                     case TriggerType.PulseTrigger:
-                        sessionInfo.ChannelOutput.Triggers.PulseTrigger.SendSoftwareEdgeTrigger();
+                        sessionInfo.AllChannelsOutput.Triggers.PulseTrigger.SendSoftwareEdgeTrigger();
                         break;
 
                     case TriggerType.SequenceAdvanceTrigger:
-                        sessionInfo.ChannelOutput.Triggers.SequenceAdvanceTrigger.SendSoftwareEdgeTrigger();
+                        sessionInfo.AllChannelsOutput.Triggers.SequenceAdvanceTrigger.SendSoftwareEdgeTrigger();
                         break;
 
                     case TriggerType.SourceTrigger:
-                        sessionInfo.ChannelOutput.Triggers.SourceTrigger.SendSoftwareEdgeTrigger();
+                        sessionInfo.AllChannelsOutput.Triggers.SourceTrigger.SendSoftwareEdgeTrigger();
                         break;
 
                     case TriggerType.StartTrigger:
-                        sessionInfo.ChannelOutput.Triggers.StartTrigger.SendSoftwareEdgeTrigger();
+                        sessionInfo.AllChannelsOutput.Triggers.StartTrigger.SendSoftwareEdgeTrigger();
                         break;
 
                     default:
@@ -60,7 +63,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Waits for an event.
+        /// Blocking call that waits for the selected EventType to occur. Will timeout after 5 seconds by default (unless a different timeout value is passed in).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="eventType">The type of event to wait for.</param>
@@ -73,34 +76,137 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 switch (eventType)
                 {
                     case EventType.MeasureCompleteEvent:
-                        sessionInfo.ChannelOutput.Events.MeasureCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        sessionInfo.AllChannelsOutput.Events.MeasureCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
                         break;
 
                     case EventType.PulseCompleteEvent:
-                        sessionInfo.ChannelOutput.Events.PulseCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        sessionInfo.AllChannelsOutput.Events.PulseCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
                         break;
 
                     case EventType.ReadyForPulseTriggerEvent:
-                        sessionInfo.ChannelOutput.Events.ReadyForPulseTriggerEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        sessionInfo.AllChannelsOutput.Events.ReadyForPulseTriggerEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
                         break;
 
                     case EventType.SequenceEngineDoneEvent:
-                        sessionInfo.ChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
                         break;
 
                     case EventType.SequenceIterationCompleteEvent:
-                        sessionInfo.ChannelOutput.Events.SequenceIterationCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        sessionInfo.AllChannelsOutput.Events.SequenceIterationCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
                         break;
 
                     case EventType.SourceCompleteEvent:
-                        sessionInfo.ChannelOutput.Events.SourceCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        sessionInfo.AllChannelsOutput.Events.SourceCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
                         break;
                 }
             });
         }
 
         /// <summary>
-        /// Clears all triggers.
+        /// Disables all triggers by configuring them to None: PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.
+        /// <para> Note that MeasureTrigger is not supported. It does not need to be disabled.</para>
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        public static void DisableTriggers(this DCPowerSessionsBundle sessionsBundle)
+        {
+            // Need to loop over each channel because not all channels in the sessionInfo.ChannelString are guaranteed to be
+            // mapped to the same model, and therefore not all channels in the sessionInfo.ChannelString may support this operation.
+            // Hence, need the ability to check the operation against each channel when configuring triggers.
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.ConfigurePulseTriggerDisable(pinSiteInfo.IndividualChannelString);
+                sessionInfo.ConfigureSequenceAdvanceTriggerDisable(pinSiteInfo.IndividualChannelString);
+                sessionInfo.ConfigureSourceTriggerDisable(pinSiteInfo.IndividualChannelString);
+                sessionInfo.ConfigureStartTriggerDisable(pinSiteInfo.IndividualChannelString);
+            });
+        }
+
+        /// <summary>
+        /// Configures a digital edge trigger for the selected TriggerType: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="triggerType">Type of trigger, either MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
+        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
+        /// <para>
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
+        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// </para>
+        /// Note that the input terminal can also be a terminal from another instrument or channel.
+        ///  <para>
+        /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
+        /// </para>
+        /// </param>
+        /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
+        public static void ConfigureTriggerDigitalEdge(this DCPowerSessionsBundle sessionsBundle, TriggerType triggerType, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
+        {
+            // Need to loop over each channel because not all channels in the sessionInfo.ChannelString are guaranteed to be
+            // mapped to the same model, and therefore not all channels in the sessionInfo.ChannelString may support this operation.
+            // Hence, need the ability to check the operation against each channel when configuring triggers.
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                switch (triggerType)
+                {
+                    case TriggerType.MeasureTrigger:
+                        sessionInfo.ConfigureMeasureTriggerDigitalEdge(tiggerTerminal, triggerEdge, pinSiteInfo.IndividualChannelString);
+                        break;
+                    case TriggerType.PulseTrigger:
+                        sessionInfo.ConfigurePulseTriggerDigitalEdge(tiggerTerminal, triggerEdge, pinSiteInfo.IndividualChannelString);
+                        break;
+                    case TriggerType.SequenceAdvanceTrigger:
+                        sessionInfo.ConfigureSequenceAdvanceTriggerDigitalEdge(tiggerTerminal, triggerEdge, pinSiteInfo.IndividualChannelString);
+                        break;
+                    case TriggerType.SourceTrigger:
+                        sessionInfo.ConfigureSourceTriggerDigitalEdge(tiggerTerminal, triggerEdge, pinSiteInfo.IndividualChannelString);
+                        break;
+                    case TriggerType.StartTrigger:
+                        sessionInfo.ConfigureStartTriggerDigitalEdge(tiggerTerminal, triggerEdge, pinSiteInfo.IndividualChannelString);
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
+
+        /// <summary>
+        /// Configures a software edge trigger for the selected TriggerType: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="triggerType">Type of trigger, either MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
+        public static void ConfigureTriggerSoftwareEdge(this DCPowerSessionsBundle sessionsBundle, TriggerType triggerType)
+        {
+            // Need to loop over each channel because not all channels in the sessionInfo.ChannelString are guaranteed to be
+            // mapped to the same model, and therefore not all channels in the sessionInfo.ChannelString may support this operation.
+            // Hence, need the ability to check the operation against each channel when configuring triggers.
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                switch (triggerType)
+                {
+                    case TriggerType.MeasureTrigger:
+                        sessionInfo.ConfigureMeasureTriggerSoftwareEdge(pinSiteInfo.IndividualChannelString);
+                        break;
+                    case TriggerType.PulseTrigger:
+                        sessionInfo.ConfigurePulseTriggerSoftwareEdge(pinSiteInfo.IndividualChannelString);
+                        break;
+                    case TriggerType.SequenceAdvanceTrigger:
+                        sessionInfo.ConfigureSequenceAdvanceTriggerSoftwareEdge(pinSiteInfo.IndividualChannelString);
+                        break;
+                    case TriggerType.SourceTrigger:
+                        sessionInfo.ConfigureSourceTriggerSoftwareEdge(pinSiteInfo.IndividualChannelString);
+                        break;
+                    case TriggerType.StartTrigger:
+                        sessionInfo.ConfigureStartTriggerSoftwareEdge(pinSiteInfo.IndividualChannelString);
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
+
+        /// <summary>
+        /// Clears all trigger types (sets them to None).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         public static void ClearTriggers(this DCPowerSessionsBundle sessionsBundle)
@@ -109,80 +215,396 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 if (sessionInfo.ModelString != DCPowerModelStrings.PXI_4110)
                 {
-                    sessionInfo.ChannelOutput.Control.Abort();
-                    sessionInfo.ChannelOutput.Triggers.PulseTrigger.Type = DCPowerPulseTriggerType.None;
-                    sessionInfo.ChannelOutput.Triggers.SequenceAdvanceTrigger.Type = DCPowerSequenceAdvanceTriggerType.None;
-                    sessionInfo.ChannelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.None;
-                    sessionInfo.ChannelOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.None;
+                    sessionInfo.AllChannelsOutput.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Triggers.PulseTrigger.Type = DCPowerPulseTriggerType.None;
+                    sessionInfo.AllChannelsOutput.Triggers.SequenceAdvanceTrigger.Type = DCPowerSequenceAdvanceTriggerType.None;
+                    sessionInfo.AllChannelsOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.None;
+                    sessionInfo.AllChannelsOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.None;
                 }
             });
         }
-    }
 
-    /// <summary>
-    /// Defines DCPower trigger type.
-    /// </summary>
-    public enum TriggerType
-    {
-        /// <summary>
-        /// The measure trigger.
-        /// </summary>
-        MeasureTrigger,
+        #endregion  methods on DCPowerSessionsBundle
+
+        #region methods on DCPowerSessionInformation
 
         /// <summary>
-        /// The pulse trigger.
+        /// Configures a digital edge trigger for the MeasureTrigger.
         /// </summary>
-        PulseTrigger,
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
+        /// <para>
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
+        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// </para>
+        /// Note that the input terminal can also be a terminal from another instrument or channel.
+        ///  <para>
+        /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
+        /// </para>
+        /// </param>
+        /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigureMeasureTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.MeasureTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+            }
+        }
 
         /// <summary>
-        /// The sequence advance trigger.
+        /// Configures a software edge trigger for the MeasureTrigger.
         /// </summary>
-        SequenceAdvanceTrigger,
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigureMeasureTriggerSoftwareEdge(this DCPowerSessionInformation sessionInfo, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.MeasureTrigger.ConfigureSoftwareEdgeTrigger();
+            }
+        }
 
         /// <summary>
-        /// The source trigger.
+        /// Configures a digital edge trigger for the PulseTrigger.
         /// </summary>
-        SourceTrigger,
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
+        /// <para>
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
+        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// </para>
+        /// Note that the input terminal can also be a terminal from another instrument or channel.
+        ///  <para>
+        /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
+        /// </para>
+        /// </param>
+        /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigurePulseTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.PulseTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+            }
+        }
 
         /// <summary>
-        /// The start trigger.
+        /// Configures a software edge trigger for the PulseTrigger.
         /// </summary>
-        StartTrigger
-    }
-
-    /// <summary>
-    /// Defines DCPower event type.
-    /// </summary>
-    public enum EventType
-    {
-        /// <summary>
-        /// The measure complete event.
-        /// </summary>
-        MeasureCompleteEvent,
-
-        /// <summary>
-        /// The pulse complete event.
-        /// </summary>
-        PulseCompleteEvent,
-
-        /// <summary>
-        /// The ready for pulse trigger event.
-        /// </summary>
-        ReadyForPulseTriggerEvent,
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigurePulseTriggerSoftwareEdge(this DCPowerSessionInformation sessionInfo, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.PulseTrigger.ConfigureSoftwareEdgeTrigger();
+            }
+        }
 
         /// <summary>
-        /// The sequence engine done event.
+        /// Disables the PulseTrigger (sets property to None).
         /// </summary>
-        SequenceEngineDoneEvent,
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigurePulseTriggerDisable(this DCPowerSessionInformation sessionInfo, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { DCPowerModelStrings.PXIe_4147 }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.PulseTrigger.Disable();
+            }
+        }
 
         /// <summary>
-        /// The sequence iteration complete event.
+        /// Configures a digital edge trigger for the SequenceAdvanceTrigger.
         /// </summary>
-        SequenceIterationCompleteEvent,
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
+        /// <para>
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
+        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// </para>
+        /// Note that the input terminal can also be a terminal from another instrument or channel.
+        ///  <para>
+        /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
+        /// </para>
+        /// </param>
+        /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigureSequenceAdvanceTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.SequenceAdvanceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+            }
+        }
 
         /// <summary>
-        /// The source complete event.
+        /// Configures a software edge trigger for the SequenceAdvanceTrigger.
         /// </summary>
-        SourceCompleteEvent
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigureSequenceAdvanceTriggerSoftwareEdge(this DCPowerSessionInformation sessionInfo, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.SequenceAdvanceTrigger.ConfigureSoftwareEdgeTrigger();
+            }
+        }
+
+        /// <summary>
+        /// Disables the SequenceAdvanceTrigger (sets property to None).
+        /// </summary>
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigureSequenceAdvanceTriggerDisable(this DCPowerSessionInformation sessionInfo, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.SequenceAdvanceTrigger.Disable();
+            }
+        }
+
+        /// <summary>
+        /// Configures a digital edge trigger for the SourceTrigger.
+        /// </summary>
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
+        /// <para>
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
+        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// </para>
+        /// Note that the input terminal can also be a terminal from another instrument or channel.
+        ///  <para>
+        /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
+        /// </para>
+        /// </param>
+        /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigureSourceTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.SourceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+            }
+        }
+
+        /// <summary>
+        /// Configures a software edge trigger for the SourceTrigger.
+        /// </summary>
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigureSourceTriggerSoftwareEdge(this DCPowerSessionInformation sessionInfo, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.SourceTrigger.ConfigureSoftwareEdgeTrigger();
+            }
+        }
+
+        /// <summary>
+        /// Disables the SourceTrigger (sets property to None).
+        /// </summary>
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigureSourceTriggerDisable(this DCPowerSessionInformation sessionInfo, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { DCPowerModelStrings.PXI_4110, DCPowerModelStrings.PXI_4130, DCPowerModelStrings.PXIe_4154 };
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.SourceTrigger.Disable();
+            }
+        }
+
+        /// <summary>
+        /// Configures a digital edge trigger for the StartTrigger.
+        /// </summary>
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
+        /// <para>
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
+        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// </para>
+        /// Note that the input terminal can also be a terminal from another instrument or channel.
+        ///  <para>
+        /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
+        /// </para>
+        /// </param>
+        /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigureStartTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.StartTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+            }
+        }
+
+        /// <summary>
+        /// Configures a software edge trigger for the StartTrigger.
+        /// </summary>
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigureStartTriggerSoftwareEdge(this DCPowerSessionInformation sessionInfo, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.StartTrigger.ConfigureSoftwareEdgeTrigger();
+            }
+        }
+
+        /// <summary>
+        /// Disables the StartTrigger (sets property to None).
+        /// </summary>
+        /// <remarks>This method does not abort the underlying driver session.</remarks>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
+        /// <param name="channelString">
+        /// The channel string containing one or more instrument channel(s).
+        /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
+        /// </param>
+        public static void ConfigureStartTriggerDisable(this DCPowerSessionInformation sessionInfo, string channelString = "")
+        {
+            if (string.IsNullOrEmpty(channelString))
+            {
+                channelString = sessionInfo.AllChannelsString;
+            }
+            // Might want to move this out of this method an into to a readonly dictionary of some kind in the future.
+            var unsupportedModelStrings = new string[] { }; // Placeholder for now, use DCPowerModelStrings
+            if (!unsupportedModelStrings.Contains(sessionInfo.ModelString))
+            {
+                sessionInfo.Session.Outputs[channelString].Triggers.StartTrigger.Disable();
+            }
+        }
+
+        #endregion methods on DCPowerSessionInformation
     }
 }
