@@ -62,15 +62,7 @@
       <Pack>True</Pack>
       <PackagePath>lib/net48</PackagePath>
     </Content>
-    <Content Include="NationalInstruments.SemiconductorTestLibrary.Abstractions.pdb">
-      <Pack>True</Pack>
-      <PackagePath>lib/net48</PackagePath>
-    </Content>
     <Content Include="NationalInstruments.SemiconductorTestLibrary.Abstractions.xml">
-      <Pack>True</Pack>
-      <PackagePath>lib/net48</PackagePath>
-    </Content>
-    <Content Include="net48\NationalInstruments.SemiconductorTestLibrary.Extensions.pdb">
       <Pack>True</Pack>
       <PackagePath>lib/net48</PackagePath>
     </Content>
