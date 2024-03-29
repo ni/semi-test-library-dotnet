@@ -27,6 +27,19 @@
             <param name="message">The error message that explains the reason for the exception.</param>
             <param name="innerException">The exception that is the cause of the current exception.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException.#ctor(System.Int32,System.Exception)">
+            <summary>
+            Initializes an instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> with error code and inner exception.
+            </summary>
+            <param name="errorCode">The error code to be included.</param>
+            <param name="innerException">The exception to be embedded.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException.Throw(System.Exception)">
+            <summary>
+            Wraps an exception into a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> and throws.
+            </summary>
+            <param name="e">The exception to be wrapped.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution">
             <summary>
             Defines utility methods for handling parallel execution.
@@ -257,9 +270,9 @@
             The pin name.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.InstrumentChannelString">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.IndividualChannelString">
             <summary>
-            The instrument channel string in "SMU_4147_C1_S06/1" format.
+            The individual channel string in "SMU_4147_C1_S06/1" format.
             </summary>
             <remarks>This is used to work with site-pin unaware drivers.</remarks>
         </member>
@@ -287,7 +300,7 @@
             </summary>
             <param name="siteNumber">The site number. Specify -1 for a system pin.</param>
             <param name="pinName">The pin name.</param>
-            <param name="channelString">The instrument channel string.</param>
+            <param name="invididualChannelString">The individual channel string.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.Utilities">
             <summary>
@@ -314,6 +327,15 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])">
             <summary>
             Converts per-instrument per-channel results to per-site per-pin results.
+            </summary>
+            <typeparam name="T">The type of the per-instrument per-channel result.</typeparam>
+            <param name="allSessionInfo">An enumerable of session info.</param>
+            <param name="perInstrumentPerChannelResults">The per-instrument per-channel results to convert.</param>
+            <returns>The converted per-site per-pin results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerPinPerSiteResults``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])">
+            <summary>
+            Converts per-instrument per-channel results to PinSiteData results.
             </summary>
             <typeparam name="T">The type of the per-instrument per-channel result.</typeparam>
             <param name="allSessionInfo">An enumerable of session info.</param>
@@ -659,6 +681,14 @@
             </summary>
             <param name="data">The per-pin multiple sites measurement data.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Int32[],`0)">
+            <summary>
+            Initializes a SiteData object with the same data value across all active sites.
+            Each element in the siteNumbers array represents an active site number/value.
+            </summary>
+            <param name="siteNumbers">The number of active sites.</param>
+            <param name="data">The measurement data.</param>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.GetValue(System.Int32)">
             <summary>
             Gets the measurement data for a given site number.
@@ -815,6 +845,46 @@
             Returns integer portion of every element in current SiteData.
             </summary>
             <returns>A new SiteData that contains integer values.</returns>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings">
+            <summary>
+            Defines the default DAQmx task type strings.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.AnalogInput">
+            <summary>
+            The analog input task type string.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.AnalogOutput">
+            <summary>
+            The analog output task type string.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.DigitalInput">
+            <summary>
+            The digital input task type string.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.DigitalOutput">
+            <summary>
+            The digital output task type string.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.CounterInput">
+            <summary>
+            The counter input task type string.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.CounterOutput">
+            <summary>
+            The counter output task type string.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.AnalogOutputFunctionGeneration">
+            <summary>
+            The analog output function generation task type string.
+            </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation">
             <summary>
@@ -1147,20 +1217,20 @@
             The <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.ChannelString">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.AllChannelsString">
             <summary>
-            The channel string associates with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.Session"/>.
+            The all channels string associates with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.Session"/>.
             </summary>
-            <remarks>It's a comma-separated string of instrument-channel pairs, e.g. "SMU_4147_C1_S10/0".</remarks>
+            <remarks>It's a comma-separated string of instrument-channel pairs, e.g. "SMU_4147_C1_S10/0, SMU_4147_C1_S10/1".</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.ModelString">
             <summary>
             The DCPower instrument model string.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.ChannelOutput">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.AllChannelsOutput">
             <summary>
-            The <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerOutput"/> corresponds to the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.ChannelString"/>.
+            The all channels <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerOutput"/> corresponds to the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.AllChannelsString"/>.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.PowerLineFrequency">
@@ -1177,7 +1247,7 @@
             Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> instrument session.
             </summary>
             <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session.</param>
-            <param name="channelString">The channel string associates with the <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session.</param>
+            <param name="allChannelsString">The all channels string associates with the <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>

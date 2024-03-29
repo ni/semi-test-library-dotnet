@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -8,80 +9,28 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DAQmx
 {
     [Collection("NonParallelizable")]
-    public sealed class ReadSingleChannelTests : IDisposable
+    public sealed class DigitalInputTests : IDisposable
     {
         private readonly ISemiconductorModuleContext _tsmContext;
         private readonly TSMSessionManager _sessionManager;
 
-        public ReadSingleChannelTests()
+        public DigitalInputTests()
         {
             _tsmContext = CreateTSMContext("DAQmxSingleChannelTests.pinmap");
             _sessionManager = new TSMSessionManager(_tsmContext);
-            SetupAndCleanup.CreateDAQmxTasks(_tsmContext);
+            InitializeAndClose.CreateDAQmxDITasks(_tsmContext);
         }
 
         public void Dispose()
         {
-            SetupAndCleanup.ClearDAQmxTasks(_tsmContext);
-        }
-
-        [Fact]
-        public void ReadAnalogSamplesFromOneChannel_ResultsContainExpectedData()
-        {
-            var tasksBundle = _sessionManager.DAQmx("AIPin");
-            var results = tasksBundle.ReadAnalogSamples();
-
-            Assert.Equal(2, results.SiteNumbers.Length);
-            Assert.Equal(1, results.ExtractSite(0).Count);
-            Assert.Single(results.ExtractSite(0)["AIPin"]);
-            Assert.Equal(1, results.ExtractSite(1).Count);
-            Assert.Single(results.ExtractSite(1)["AIPin"]);
-        }
-
-        [Fact]
-        public void ReadFiveAnalogSamplesFromOneChannel_ResultsContainExpectedData()
-        {
-            var tasksBundle = _sessionManager.DAQmx("AIPin");
-            var results = tasksBundle.ReadAnalogSamples(samplesToRead: 5);
-
-            Assert.Equal(2, results.SiteNumbers.Length);
-            Assert.Equal(1, results.ExtractSite(0).Count);
-            Assert.Equal(5, results.ExtractSite(0)["AIPin"].Length);
-            Assert.Equal(1, results.ExtractSite(1).Count);
-            Assert.Equal(5, results.ExtractSite(1)["AIPin"].Length);
-        }
-
-        [Fact]
-        public void ReadAnalogWaveformSamplesFromOneChannel_ResultsContainExpectedData()
-        {
-            var tasksBundle = _sessionManager.DAQmx("AIPin");
-            var results = tasksBundle.ReadAnalogWaveformSamples();
-
-            Assert.Equal(2, results.SiteNumbers.Length);
-            Assert.Equal(1, results.ExtractSite(0).Count);
-            Assert.Equal(1, results.ExtractSite(0)["AIPin"].SampleCount);
-            Assert.Equal(1, results.ExtractSite(1).Count);
-            Assert.Equal(1, results.ExtractSite(1)["AIPin"].SampleCount);
-        }
-
-        [Fact]
-        public void ReadFiveAnalogWaveformSamplesFromOneChannel_ResultsContainExpectedData()
-        {
-            var tasksBundle = _sessionManager.DAQmx("AIPin");
-            var results = tasksBundle.ReadAnalogWaveformSamples(samplesToRead: 5);
-
-            Assert.Equal(2, results.SiteNumbers.Length);
-            Assert.Equal(1, results.ExtractSite(0).Count);
-            Assert.Equal(5, results.ExtractSite(0)["AIPin"].SampleCount);
-            Assert.Equal(1, results.ExtractSite(1).Count);
-            Assert.Equal(5, results.ExtractSite(1)["AIPin"].SampleCount);
+            InitializeAndClose.ClearDAQmxDITasks(_tsmContext);
         }
 
         [Fact]
         public void ReadU32SamplesFromOneChannel_ResultsContainExpectedData()
         {
             var tasksBundle = _sessionManager.DAQmx("DIPin");
-            var results = tasksBundle.ReadU32Samples();
+            var results = tasksBundle.ReadDigitalMultiSampleU32();
 
             Assert.Equal(2, results.SiteNumbers.Length);
             Assert.Equal(1, results.ExtractSite(0).Count);
@@ -94,7 +43,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void ReadFiveU32SamplesFromOneChannel_ResultsContainExpectedData()
         {
             var tasksBundle = _sessionManager.DAQmx("DIPin");
-            var results = tasksBundle.ReadU32Samples(samplesToRead: 5);
+            var results = tasksBundle.ReadDigitalMultiSampleU32(samplesToRead: 5);
 
             Assert.Equal(2, results.SiteNumbers.Length);
             Assert.Equal(1, results.ExtractSite(0).Count);
@@ -107,7 +56,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void ReadDigitalWaveformSamplesFromOneChannel_ResultsContainExpectedData()
         {
             var tasksBundle = _sessionManager.DAQmx("DIPin");
-            var results = tasksBundle.ReadDigitalWaveformSamples();
+            var results = tasksBundle.ReadDigitalWaveform();
 
             Assert.Equal(2, results.SiteNumbers.Length);
             Assert.Equal(1, results.ExtractSite(0).Count);
@@ -120,7 +69,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void ReadFiveDigitalWaveformSamplesFromOneChannel_ResultsContainExpectedData()
         {
             var tasksBundle = _sessionManager.DAQmx("DIPin");
-            var results = tasksBundle.ReadDigitalWaveformSamples(samplesToRead: 5);
+            var results = tasksBundle.ReadDigitalWaveform(samplesToRead: 5);
 
             Assert.Equal(2, results.SiteNumbers.Length);
             Assert.Equal(1, results.ExtractSite(0).Count);
@@ -133,7 +82,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void ReadBooleanSamplesFromOneChannel_ResultsContainExpectedData()
         {
             var tasksBundle = _sessionManager.DAQmx("DIPin");
-            var results = tasksBundle.ReadBooleanSamples();
+            var results = tasksBundle.ReadDigitalSingleSample();
 
             Assert.Equal(2, results.SiteNumbers.Length);
             Assert.Equal(1, results.ExtractSite(0).Count);

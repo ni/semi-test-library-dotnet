@@ -46,7 +46,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets per-site pass fail comparison results.
+        /// Gets the per-site pass fail comparison results of last burst pattern (long) as a SiteData object of type Bool.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The per-site pass/fail results.</returns>
@@ -59,7 +59,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets fail count.
+        /// Gets fail count on a per-pin per-site basis of last burst pattern (long).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The per-site per-pin fail count.</returns>

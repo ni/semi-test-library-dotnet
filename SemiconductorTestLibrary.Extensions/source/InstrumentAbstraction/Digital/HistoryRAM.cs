@@ -42,7 +42,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Fetches history RAM results.
+        /// Fetches results from the History RAM and returns as a site aware object of type DigitalHistoryRamCycleInformation.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The per-site history RAM cycle information and scan cycle numbers.</returns>
@@ -161,7 +161,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         private const string HistoryRAMResultsFileHeader = "Vector, Time Set Name, Cycle, Scan Cycle, Pass/Fail, Pin List, Per Pin Pass/Fail, Expected Pin States, Actual Pin States";
 
         /// <summary>
-        /// Logs history RAM results to CSV files.
+        /// Logs history RAM results to CSV files. This method should be used for debug only.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="cycleInformation">The per-site cycle information.</param>

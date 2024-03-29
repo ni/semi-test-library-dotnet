@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4110_C1_S04" numberOfChannels="3">
+			<ChannelGroup name="DCPowerChannelGroup_4110" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4130_C2_S04" numberOfChannels="2">
+			<ChannelGroup name="DCPowerChannelGroup_4130" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4154_C3_S04" numberOfChannels="2">
+			<ChannelGroup name="DCPowerChannelGroup_4154" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4112_C4_S04" numberOfChannels="2">
+			<ChannelGroup name="DCPowerChannelGroup_4112" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4147_C1_S11" numberOfChannels="4">
+			<ChannelGroup name="DCPowerChannelGroup_C1_4147" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4147_C2_S10" numberOfChannels="4">
+			<ChannelGroup name="DCPowerChannelGroup_C2_4147" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4147_C3_S12" numberOfChannels="4">
+			<ChannelGroup name="DCPowerChannelGroup_C3_4147" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4147_C4_S18" numberOfChannels="4">
+			<ChannelGroup name="DCPowerChannelGroup_C4_4147" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4137_C5_S02" numberOfChannels="1">
+			<ChannelGroup name="DCPowerChannelGroup_4137_C5_S03" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4137_C5_S03" numberOfChannels="1">
+			<ChannelGroup name="DCPowerChannelGroup_4137_C5_S03" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4137_C5_S04" numberOfChannels="1">
+			<ChannelGroup name="DCPowerChannelGroup_4137_C5_S04" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4137_C5_S05" numberOfChannels="1">
+			<ChannelGroup name="DCPowerChannelGroup_4137_C5_S05" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4137_C5_S06" numberOfChannels="1">
+			<ChannelGroup name="DCPowerChannelGroup_4137_C5_S06" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4137_C5_S07" numberOfChannels="1">
+			<ChannelGroup name="DCPowerChannelGroup_4137_C5_S07" />
+		</NIDCPowerInstrument>
+	</Instruments>
+	<Pins>
+		<DUTPin name="VCC" />
+		<DUTPin name="VDD" />
+		<DUTPin name="VDET" />
+		<DUTPin name="VEE" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+		<Site siteNumber="3" />
+	</Sites>
+	<Connections>
+		<!--VCC Has All Programable Power Supplies (mixed) -->
+		<Connection pin="VCC" siteNumber="0" instrument="SMU_4110_C1_S04" channel="0" />
+		<Connection pin="VCC" siteNumber="1" instrument="SMU_4110_C1_S04" channel="1" />
+		<Connection pin="VCC" siteNumber="2" instrument="SMU_4112_C4_S04" channel="0" />
+		<Connection pin="VCC" siteNumber="3" instrument="SMU_4154_C3_S04" channel="0" />
+		<!--VDD Has All SMUs (mixed) -->
+		<Connection pin="VDD" siteNumber="0" instrument="SMU_4137_C5_S02" channel="0" />
+		<Connection pin="VDD" siteNumber="1" instrument="SMU_4137_C5_S03" channel="0" />
+		<Connection pin="VDD" siteNumber="2" instrument="SMU_4147_C3_S12" channel="0" />
+		<Connection pin="VDD" siteNumber="3" instrument="SMU_4147_C3_S12" channel="1" />
+		<!--VDET Has All SMUs (mixed of supported features) -->
+		<Connection pin="VDET" siteNumber="0" instrument="SMU_4130_C2_S04" channel="0" />
+		<Connection pin="VDET" siteNumber="1" instrument="SMU_4130_C2_S04" channel="1" />
+		<Connection pin="VDET" siteNumber="2" instrument="SMU_4147_C2_S10" channel="1" />
+		<Connection pin="VDET" siteNumber="3" instrument="SMU_4147_C1_S11" channel="1" />
+		<!--VEE Has All HP SMUs -->
+		<Connection pin="VEE" siteNumber="0" instrument="SMU_4137_C5_S04" channel="0" />
+		<Connection pin="VEE" siteNumber="1" instrument="SMU_4137_C5_S05" channel="0" />
+		<Connection pin="VEE" siteNumber="2" instrument="SMU_4137_C5_S06" channel="0" />
+		<Connection pin="VEE" siteNumber="3" instrument="SMU_4137_C5_S07" channel="0" />
+	</Connections>
+</PinMap>

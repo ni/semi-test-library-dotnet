@@ -341,7 +341,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
             sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
 
-            sessionsBundle.PowerDown();
+            sessionsBundle.TurnOffOutput();
 
             sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Off, sessionInfo.PinSet.SelectedFunction));
             Close(tsmContext);

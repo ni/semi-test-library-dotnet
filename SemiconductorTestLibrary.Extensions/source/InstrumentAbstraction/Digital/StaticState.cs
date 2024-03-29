@@ -11,10 +11,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
     public static class StaticState
     {
         /// <summary>
-        /// Writes static state. Use this method to write the same state on all sessions.
+        /// Writes static state to target the pin(s) that will take effect immediately.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="state">The state to write.</param>
+        /// <remarks>Use this method to write the same state on all sessions.</remarks>
         public static void WriteStatic(this DigitalSessionsBundle sessionsBundle, PinState state)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -24,10 +25,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Writes static states. Use this method to write different state on different sites.
+        /// Writes static state to target the pin(s) that will take effect immediately.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="states">The states to write for all sites.</param>
+        /// <remarks>Use this method to write different state on different sites.</remarks>
         public static void WriteStatic(this DigitalSessionsBundle sessionsBundle, IDictionary<int, PinState> states)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -37,10 +39,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Writes static states. Use this method to write different state for different site-pin pairs.
+        /// Writes static state to target the pin(s) that will take effect immediately.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="states">The states to write for all site-pin pairs.</param>
+        /// <remarks>Use this method to write different state for different site-pin pairs.</remarks>
         public static void WriteStatic(this DigitalSessionsBundle sessionsBundle, IDictionary<int, Dictionary<string, PinState>> states)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -50,7 +53,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Reads and returns per-site per-pin static states.
+        /// Reads the current state to target the pin(s) and returns as pin and site aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The states in per-site per-pin format.</returns>
