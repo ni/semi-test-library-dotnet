@@ -21,9 +21,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                var data = Enumerable.Repeat(staticState, taskInfo.AssociatedSitePinList.Count).ToArray();
-                channel.WriteSingleSampleSingleLine(autoStart, data);
+                var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
+                writer.WriteSingleSampleSingleLine(autoStart, taskInfo.GetUpdatedStates(staticState));
             });
         }
 
@@ -37,9 +36,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                var data = BuildData(taskInfo, siteData, defaultValue: false);
-                channel.WriteSingleSampleSingleLine(autoStart, data);
+                var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
+                writer.WriteSingleSampleSingleLine(autoStart, taskInfo.GetUpdatedStates(siteData));
             });
         }
 
@@ -53,9 +51,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                var data = BuildData(taskInfo, pinSiteData, defaultValue: false);
-                channel.WriteSingleSampleSingleLine(autoStart, data);
+                var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
+                writer.WriteSingleSampleSingleLine(autoStart, taskInfo.GetUpdatedStates(pinSiteData));
             });
         }
 
@@ -69,9 +66,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
+                var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
                 var data = Enumerable.Repeat(waveform, taskInfo.AssociatedSitePinList.Count).ToArray();
-                channel.WriteWaveform(autoStart, data);
+                writer.WriteWaveform(autoStart, data);
             });
         }
 
@@ -85,10 +82,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
+                var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
                 var singleWaveform = GetSingleWaveform(pinSiteData);
                 var data = BuildData(taskInfo, pinSiteData, defaultValue: new DigitalWaveform(singleWaveform.Samples.Count, singleWaveform.Signals.Count));
-                channel.WriteWaveform(autoStart, data);
+                writer.WriteWaveform(autoStart, data);
             });
         }
 
@@ -102,10 +99,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
+                var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
                 var singleWaveform = GetSingleWaveform(pinSiteData);
                 var data = BuildData(taskInfo, pinSiteData, defaultValue: new DigitalWaveform(singleWaveform.Samples.Count, singleWaveform.Signals.Count));
-                channel.WriteWaveform(autoStart, data);
+                writer.WriteWaveform(autoStart, data);
             });
         }
     }
