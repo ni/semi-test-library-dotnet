@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using NationalInstruments.DAQmx;
+﻿using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
-using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
 {
@@ -22,7 +20,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                writer.WriteSingleSampleSingleLine(autoStart, taskInfo.GetUpdatedStates(staticState));
+                writer.WriteSingleSampleSingleLine(autoStart, SampleValuesCacher<bool>.Instance.GetUpdatedSampleValues(taskInfo, staticState));
             });
         }
 
@@ -37,7 +35,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                writer.WriteSingleSampleSingleLine(autoStart, taskInfo.GetUpdatedStates(siteData));
+                writer.WriteSingleSampleSingleLine(autoStart, SampleValuesCacher<bool>.Instance.GetUpdatedSampleValues(taskInfo, siteData));
             });
         }
 
@@ -52,7 +50,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                writer.WriteSingleSampleSingleLine(autoStart, taskInfo.GetUpdatedStates(pinSiteData));
+                writer.WriteSingleSampleSingleLine(autoStart, SampleValuesCacher<bool>.Instance.GetUpdatedSampleValues(taskInfo, pinSiteData));
             });
         }
 
@@ -67,8 +65,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                var data = Enumerable.Repeat(waveform, taskInfo.AssociatedSitePinList.Count).ToArray();
-                writer.WriteWaveform(autoStart, data);
+                writer.WriteWaveform(autoStart, SampleValuesCacher<DigitalWaveform>.Instance.GetUpdatedSampleValues(taskInfo, waveform));
             });
         }
 
@@ -76,16 +73,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// Writes a DigitalWaveform (multiple Boolean samples over time) to the specified pin(s).
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
-        /// <param name="pinSiteData">The per-site waveform to write.</param>
+        /// <param name="siteData">The per-site waveform to write.</param>
         /// <param name="autoStart">Specifies whether to automatically start the tasks.</param>
-        public static void WriteDigitalWaveform(this DAQmxTasksBundle tasksBundle, SiteData<DigitalWaveform> pinSiteData, bool autoStart = true)
+        public static void WriteDigitalWaveform(this DAQmxTasksBundle tasksBundle, SiteData<DigitalWaveform> siteData, bool autoStart = true)
         {
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                var singleWaveform = GetSingleWaveform(pinSiteData);
-                var data = BuildData(taskInfo, pinSiteData, defaultValue: new DigitalWaveform(singleWaveform.Samples.Count, singleWaveform.Signals.Count));
-                writer.WriteWaveform(autoStart, data);
+                writer.WriteWaveform(autoStart, SampleValuesCacher<DigitalWaveform>.Instance.GetUpdatedSampleValues(taskInfo, siteData));
             });
         }
 
@@ -100,9 +95,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                var singleWaveform = GetSingleWaveform(pinSiteData);
-                var data = BuildData(taskInfo, pinSiteData, defaultValue: new DigitalWaveform(singleWaveform.Samples.Count, singleWaveform.Signals.Count));
-                writer.WriteWaveform(autoStart, data);
+                writer.WriteWaveform(autoStart, SampleValuesCacher<DigitalWaveform>.Instance.GetUpdatedSampleValues(taskInfo, pinSiteData));
             });
         }
     }

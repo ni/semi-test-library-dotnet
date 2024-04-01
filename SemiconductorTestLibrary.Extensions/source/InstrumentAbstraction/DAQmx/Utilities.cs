@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Globalization;
-using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.Common;
-using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
 {
@@ -19,45 +17,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         public static bool HasSingleChannel(this ICollection channels)
         {
             return channels.Count == 1;
-        }
-
-        public static T[] BuildData<T>(DAQmxTaskInformation taskInfo, SiteData<T> data, T defaultValue)
-        {
-            return taskInfo.AssociatedSitePinList.Select(sitePinInfo =>
-            {
-                if (data.SiteNumbers.Contains(sitePinInfo.SiteNumber))
-                {
-                    return data.GetValue(sitePinInfo.SiteNumber);
-                }
-                return defaultValue;
-            }).ToArray();
-        }
-
-        public static T[] BuildData<T>(DAQmxTaskInformation taskInfo, PinSiteData<T> data, T defaultValue)
-        {
-            return taskInfo.AssociatedSitePinList.Select(sitePinInfo =>
-            {
-                if (data.PinNames.Contains(sitePinInfo.PinName))
-                {
-                    var siteData = data.ExtractPin(sitePinInfo.PinName);
-                    if (siteData.SiteNumbers.Contains(sitePinInfo.SiteNumber))
-                    {
-                        return siteData.GetValue(sitePinInfo.SiteNumber);
-                    }
-                }
-                return defaultValue;
-            }).ToArray();
-        }
-
-        public static T GetSingleWaveform<T>(SiteData<T> siteData)
-        {
-            return siteData.GetValue(siteData.SiteNumbers.First());
-        }
-
-        public static T GetSingleWaveform<T>(PinSiteData<T> pinSiteData)
-        {
-            var siteData = pinSiteData.ExtractPin(pinSiteData.PinNames.First());
-            return GetSingleWaveform(siteData);
         }
 
         private static string ToDefaultDAQmxTaskTypeString(this DAQmxChannelType channelType)
