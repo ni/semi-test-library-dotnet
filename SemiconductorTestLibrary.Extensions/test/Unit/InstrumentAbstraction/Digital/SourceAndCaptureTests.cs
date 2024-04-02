@@ -173,6 +173,36 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Close(tsmContext);
         }
 
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_CreateParallelSourceWaveformSiteUnique_Succeeds(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.CreateParallelSourceWaveform(new string[] { "C0", "C1" }, "ParallelSourceWaveform", SourceDataMapping.SiteUnique);
+
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_CreateParallelSourceWaveformBroadcast_Succeeds(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.CreateParallelSourceWaveform(new string[] { "C0", "C1" }, "ParallelSourceWaveform", SourceDataMapping.Broadcast);
+
+            Close(tsmContext);
+        }
+
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_FetchCaptureWaveform_Succeeds()
         {

@@ -152,32 +152,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Creates source waveform settings required for serial sourcing. Settings apply across all sites if multiple sites are configured in the pin map. You cannot reconfigure settings after waveforms are created.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="waveformName">The name of the source waveform.</param>
-        /// <param name="sourceDataMapping">The source data mapping: <see cref="SourceDataMapping.Broadcast" /> or <see cref="SourceDataMapping.SiteUnique" /> </param>
-        public static void CreateParallelSourceWaveform(this DigitalSessionsBundle sessionsBundle, string waveformName, SourceDataMapping sourceDataMapping)
-        {
-            sessionsBundle.CreateParallelSourceWaveform(pins: null, waveformName, sourceDataMapping);
-        }
-
-        /// <summary>
-        /// Creates source waveform settings required for serial sourcing. Settings apply across all sites if multiple sites are configured in the pin map. You cannot reconfigure settings after waveforms are created.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="pin">The pin for which to create the source waveform.</param>
-        /// <param name="waveformName">The name of the source waveform.</param>
-        /// <param name="sourceDataMapping">The source data mapping: <see cref="SourceDataMapping.Broadcast" /> or <see cref="SourceDataMapping.SiteUnique" /> </param>
-        public static void CreateParallelSourceWaveform(this DigitalSessionsBundle sessionsBundle, string pin, string waveformName, SourceDataMapping sourceDataMapping)
-        {
-            sessionsBundle.CreateParallelSourceWaveform(new string[] { pin }, waveformName, sourceDataMapping);
-        }
-
-        /// <summary>
-        /// Creates source waveform settings required for serial sourcing. Settings apply across all sites if multiple sites are configured in the pin map. You cannot reconfigure settings after waveforms are created.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pins">The pins for which to source the source waveform.</param>
         /// <param name="waveformName">The name of the source waveform.</param>
         /// <param name="sourceDataMapping">The source data mapping: <see cref="SourceDataMapping.Broadcast" /> or <see cref="SourceDataMapping.SiteUnique" /> </param>
+        /// <exception cref="IviCDriverException">The NI-Digital Pattern Driver returned an error.</exception>
+        /// <exception cref="SelectorNameException">The pinSet contains a pin or pin group name not loaded in the pin map.</exception>
+        /// <exception cref="InvalidOperationException">The pinSet contains a system pin</exception>
+        /// <exception cref="ArgumentException">The value for waveformName is an empty string or contains an invalid character.</exception>
+        /// <exception cref="OutOfRangeException">The number of waveforms in capture memory exceeds the maximum number of waveforms allowed.</exception>
         public static void CreateParallelSourceWaveform(this DigitalSessionsBundle sessionsBundle, string[] pins, string waveformName, SourceDataMapping sourceDataMapping)
         {
             sessionsBundle.Do(sessionInfo =>
