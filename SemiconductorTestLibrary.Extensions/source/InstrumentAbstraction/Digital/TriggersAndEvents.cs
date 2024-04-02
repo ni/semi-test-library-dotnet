@@ -81,58 +81,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Configures the History RAM to trigger when it reaches a specified number of cycles.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="cycleNumber">The number of cycles to execute before the History RAM Trigger.</param>
-        /// <param name="pretriggerSamples">The number of samples to acquire before the History RAM trigger.</param>
-        /// <exception cref="OutOfRangeException">The value for pretriggerSamples is invalid.</exception>
-        /// <exception cref="IviCDriverException">The underlying NI-Digital driver returned an error.</exception>
-        /// <exception cref="ObjectDisposedException">The low-level Configure(Int64, Int32) NIDigital driver method was accessed after the associated NIDigital or DigitalDriverUtility object was disposed.</exception>
-        public static void ConfigureHistoryRamTriggerOnCycleNumber(this DigitalSessionsBundle sessionsBundle, long cycleNumber, int pretriggerSamples = 0)
-        {
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Session.Trigger.HistoryRamTrigger.CycleNumber.Configure(cycleNumber, pretriggerSamples);
-            });
-        }
-
-        /// <summary>
-        /// Configures the History RAM to trigger if/when it reaches the first failure.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="pretriggerSamples">The number of samples to acquire before the History RAM trigger.</param>
-        /// <exception cref="OutOfRangeException">The value for pretriggerSamples is invalid.</exception>
-        /// <exception cref="IviCDriverException">The underlying NI-Digital driver returned an error.</exception>
-        /// <exception cref="ObjectDisposedException">The low-level Configure(Int32) NIDigital driver method was accessed after the associated NIDigital or DigitalDriverUtility object was disposed.</exception>
-        public static void ConfigureHistoryRamTriggerOnFirstFailure(this DigitalSessionsBundle sessionsBundle, int pretriggerSamples = 0)
-        {
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Session.Trigger.HistoryRamTrigger.FirstFailure.Configure(pretriggerSamples);
-            });
-        }
-
-        /// <summary>
-        /// Configures the History RAM to trigger when it reaches the specified Pattern Label.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="patternLabel">The pattern label to augment by the vector and cycle offsets where History RAM will start acquiring pattern information.</param>
-        /// <param name="vectorOffset">The number of vectors following the pattern label specified by Label where History RAM will start acquiring pattern information.</param>
-        /// <param name="cycleOffset">The number of cycles following the pattern label specified by pattern label and vector offset specified by VectorOffset where History RAM will start acquiring pattern information.</param>
-        /// <param name="pretriggerSamples">The number of samples to acquire before the History RAM trigger.</param>
-        /// <exception cref="OutOfRangeException">The value for pretriggerSamples is invalid.</exception>
-        /// <exception cref="IviCDriverException">The underlying NI-Digital driver returned an error.</exception>
-        /// <exception cref="ObjectDisposedException">The low-level Configure(String, Int64, Int64, Int32) NIDigital driver method was accessed after the associated NIDigital or DigitalDriverUtility object was disposed.</exception>
-        public static void ConfigureHistoryRamTriggerOnPattern(this DigitalSessionsBundle sessionsBundle, string patternLabel, long vectorOffset, long cycleOffset, int pretriggerSamples = 0)
-        {
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Session.Trigger.HistoryRamTrigger.PatternLabel.Configure(patternLabel, vectorOffset, cycleOffset, pretriggerSamples);
-            });
-        }
-
-        /// <summary>
         /// Disables the specified ConditionalJumpTrigger by configuring it to None.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
