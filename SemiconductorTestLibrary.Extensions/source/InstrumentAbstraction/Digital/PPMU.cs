@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
@@ -203,17 +205,184 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Sets the Selected Function mode to Off, such that the digital driver is put into a non-drive state, disables the active load, disconnects the PPMU, and closes the I/O switch connecting the instrument channel.
+        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// </summary>
+        /// <remarks>
+        /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
+        /// Otherwise, use the override for this method that returns PinSiteData.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <param name="voltageMeasurements">The returned voltage measurements.</param>
+        public static void MeasureAndPublishVoltage(this DigitalSessionsBundle sessionsBundle, string publishDataID, out double[][] voltageMeasurements)
+        {
+            voltageMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.Measure(MeasurementType.Voltage), publishDataID);
+        }
+
+        /// <summary>
+        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="settlingTime">The settling time. Null means no need to wait for the turn off operation to settle.</param>
-        public static void TurnOffOutput(this DigitalSessionsBundle sessionsBundle, double? settlingTime = null)
+        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <returns>The pin-site aware voltage measurements.</returns>
+        public static PinSiteData<double> MeasureAndPublishVoltage(this DigitalSessionsBundle sessionsBundle, string publishDataID)
+        {
+            MeasureAndPublishVoltage(sessionsBundle, publishDataID, out var voltageMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(voltageMeasurements);
+        }
+
+        /// <summary>
+        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// </summary>
+        /// <remarks>
+        /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
+        /// Otherwise, use the override for this method that returns PinSiteData.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <param name="currentMeasurements">The returned current measurements.</param>
+        public static void MeasureAndPublishCurrent(this DigitalSessionsBundle sessionsBundle, string publishDataID, out double[][] currentMeasurements)
+        {
+            currentMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.Measure(MeasurementType.Current), publishDataID);
+        }
+
+        /// <summary>
+        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <returns>The pin-site aware current measurements.</returns>
+        public static PinSiteData<double> MeasureAndPublishCurrente(this DigitalSessionsBundle sessionsBundle, string publishDataID)
+        {
+            MeasureAndPublishCurrent(sessionsBundle, publishDataID, out var currentMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(currentMeasurements);
+        }
+
+        /// <summary>
+        /// Sets the Selected Function mode to Off, such that the digital driver is put into a non-drive state, disables the active load, disconnects the PPMU, and closes the I/O switch connecting the instrument channel.
+        /// </summary>
+        /// <remarks>
+        /// Note that the output channel is still physically connected after calling this method. To physically disconnect the output channel, call DisconnectOutput() method.
+        /// <para></para>
+        /// <example>
+        /// Example:
+        /// <code>
+        /// DigitalSessionsBundle myDutPin = new TSMSessionManager().Digital("MyDutPin");
+        /// myDutPin.TurnOffOutput(settlingTimeInSeconds: 0.1);
+        /// </code>
+        /// </example>
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settlingTimeInSeconds">The settling time in seconds. Null means no need to wait for the turn off operation to settle.</param>
+        public static void TurnOffOutput(this DigitalSessionsBundle sessionsBundle, double? settlingTimeInSeconds = null)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.TurnOffOutput(sessionInfo.PinSetString);
             });
-            PreciseWait(settlingTime);
+            PreciseWait(settlingTimeInSeconds);
+        }
+
+        /// <summary>
+        /// The pin is electrically disconnected from instrument functions.
+        /// </summary>
+        /// <remarks>
+        /// Remarks:
+        /// <list type="bullet">
+        /// <item>Selecting this function causes the PPMU to stop sourcing prior to disconnecting the pin.</item>
+        /// <item>CAUTION: In the Disconnect state, some I/O protection and sensing circuitry remains exposed. Do not subject the instrument to voltage beyond its operating range.</item>
+        /// </list>
+        /// <example>
+        /// Example:
+        /// <code>
+        /// DigitalSessionsBundle myDutPin = new TSMSessionManager().Digital("MyDutPin");
+        /// myDutPin.DisconnectOutput(settlingTimeInSeconds: 0.1);
+        /// </code>
+        /// </example>
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settlingTimeInSeconds">The settling time in seconds. Passing a Null value (default) will bypass the wait operation (No-op).</param>
+        public static void DisconnectOutput(this DigitalSessionsBundle sessionsBundle, double? settlingTimeInSeconds = null)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.PinSet.SelectedFunction = SelectedFunction.Disconnect;
+            });
+            PreciseWait(settlingTimeInSeconds);
+        }
+
+        /// <summary>
+        /// Sets the Selected Function mode to PPMU, such that the PPMU controls the specified pin(s) and connects in the PPMU.
+        /// The pin driver is in a non-drive state, and the active load is disabled.
+        /// </summary>
+        /// <remarks>
+        /// Remarks:
+        /// <list type="bullet">
+        /// <item>The PPMU does not start sourcing or measuring until ForceVoltage(), ForceCurrent(), MeasureVoltage() or MeasureCurrent() are called.</item>
+        /// <item>The driver, comparator, and active load are off while this function is selected.</item>
+        /// <item>If you change the selected function to PPMU using this method, the PPMU is initially not sourcing.</item>
+        /// <item>Note: you can make PPMU voltage measurements using the niDigital PPMU Measure VI from within any selected function, note just PPMU.</item>
+        /// </list>
+        /// <example>
+        /// Example:
+        /// <code>
+        /// DigitalSessionsBundle myDutPin = new TSMSessionManager().Digital("MyDutPin");
+        /// myDutPin.SelectPPMU();
+        /// </code>
+        /// </example>
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settlingTimeInSeconds">The settling time in seconds. Passing a Null value (default) will bypass the wait operation (No-op).</param>
+        public static void SelectPPMU(this DigitalSessionsBundle sessionsBundle, double? settlingTimeInSeconds = null)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.PinSet.SelectedFunction = SelectedFunction.Ppmu;
+            });
+            PreciseWait(settlingTimeInSeconds);
+        }
+
+        /// <summary>
+        /// Sets the Selected Function mode to Digital, such that the pattern sequencer controls the specified pin(s).
+        /// </summary>
+        /// <remarks>
+        /// Remarks:
+        /// <list type="bullet">
+        /// <item>If a pattern is currently bursting, the pin immediately switches to bursting the pattern.</item>
+        /// <item>The PPMU stops sourcing and is turned off off when the Digital function is selected. Dispite this, you can still make voltage measurements.</item>
+        /// <item>Internally withing the instrument the pin electronics are now connected to the driver, comparator, and active load functions.</item>
+        /// <item>The state of the digital pin driver when you change the selected function to Digital is determined by the most recent call to the niDigital Write Static VI or the last vector of the most recently executed pattern burst, whichever happened last.</item>
+        /// </list>
+        /// <example>
+        /// Example:
+        /// <code>
+        /// DigitalSessionsBundle myDutPin = new TSMSessionManager().Digital("MyDutPin");
+        /// myDutPin.SelectDigital();
+        /// </code>
+        /// </example>
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settlingTimeInSeconds">The settling time in seconds. Passing a Null value (default) will bypass the wait operation (No-op).</param>
+        public static void SelectDigital(this DigitalSessionsBundle sessionsBundle, double? settlingTimeInSeconds = null)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.PinSet.SelectedFunction = SelectedFunction.Digital;
+            });
+            PreciseWait(settlingTimeInSeconds);
+        }
+
+        /// <summary>
+        /// Configures the aperture time for the PPMU measurement.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="apertureTimeInSeconds">The aperature time in seconds.</param>
+        private static void ConfigureApertureTime(DigitalSessionsBundle sessionsBundle, double apertureTimeInSeconds)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.PinSet.Ppmu.ConfigureApertureTime(apertureTimeInSeconds, PpmuApertureTimeUnits.Seconds);
+            });
         }
 
         #endregion methods on DigitalSessionsBundle
