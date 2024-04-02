@@ -20,7 +20,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                writer.WriteSingleSampleSingleLine(autoStart, SampleValuesCacher<bool>.Instance.GetUpdatedSampleValues(taskInfo, staticState));
+                SampleValuesCacher<bool>.Instance.TryWriteAndCacheUpdatedOnSuccess(taskInfo, staticState, data => writer.WriteSingleSampleSingleLine(autoStart, data));
             });
         }
 
@@ -35,7 +35,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                writer.WriteSingleSampleSingleLine(autoStart, SampleValuesCacher<bool>.Instance.GetUpdatedSampleValues(taskInfo, siteData));
+                SampleValuesCacher<bool>.Instance.TryWriteAndCacheUpdatedOnSuccess(taskInfo, siteData, data => writer.WriteSingleSampleSingleLine(autoStart, data));
             });
         }
 
@@ -50,7 +50,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                writer.WriteSingleSampleSingleLine(autoStart, SampleValuesCacher<bool>.Instance.GetUpdatedSampleValues(taskInfo, pinSiteData));
+                SampleValuesCacher<bool>.Instance.TryWriteAndCacheUpdatedOnSuccess(taskInfo, pinSiteData, data => writer.WriteSingleSampleSingleLine(autoStart, data));
             });
         }
 
@@ -65,7 +65,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                writer.WriteWaveform(autoStart, SampleValuesCacher<DigitalWaveform>.Instance.GetUpdatedSampleValues(taskInfo, waveform));
+                SampleValuesCacher<DigitalWaveform>.Instance.TryWriteAndCacheUpdatedOnSuccess(taskInfo, waveform, data => writer.WriteWaveform(autoStart, data));
             });
         }
 
@@ -80,7 +80,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                writer.WriteWaveform(autoStart, SampleValuesCacher<DigitalWaveform>.Instance.GetUpdatedSampleValues(taskInfo, siteData));
+                SampleValuesCacher<DigitalWaveform>.Instance.TryWriteAndCacheUpdatedOnSuccess(taskInfo, siteData, data => writer.WriteWaveform(autoStart, data));
             });
         }
 
@@ -95,7 +95,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
-                writer.WriteWaveform(autoStart, SampleValuesCacher<DigitalWaveform>.Instance.GetUpdatedSampleValues(taskInfo, pinSiteData));
+                SampleValuesCacher<DigitalWaveform>.Instance.TryWriteAndCacheUpdatedOnSuccess(taskInfo, pinSiteData, data => writer.WriteWaveform(autoStart, data));
             });
         }
     }
