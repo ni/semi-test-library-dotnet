@@ -252,7 +252,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="publishDataID">The publish data ID string.</param>
         /// <returns>The pin-site aware current measurements.</returns>
-        public static PinSiteData<double> MeasureAndPublishCurrente(this DigitalSessionsBundle sessionsBundle, string publishDataID)
+        public static PinSiteData<double> MeasureAndPublishCurrent(this DigitalSessionsBundle sessionsBundle, string publishDataID)
         {
             MeasureAndPublishCurrent(sessionsBundle, publishDataID, out var currentMeasurements);
             return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(currentMeasurements);
@@ -377,7 +377,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="apertureTimeInSeconds">The aperature time in seconds.</param>
-        private static void ConfigureApertureTime(DigitalSessionsBundle sessionsBundle, double apertureTimeInSeconds)
+        public static void ConfigureApertureTime(this DigitalSessionsBundle sessionsBundle, double apertureTimeInSeconds)
         {
             sessionsBundle.Do(sessionInfo =>
             {

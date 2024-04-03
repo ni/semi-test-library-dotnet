@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Ivi.Driver;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -332,7 +334,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void VoltageForcedOnSessions_PowerDown_ChannelsAreTurnedOff(string pinMap, string digitalProject)
+        public void VoltageForcedOnSessions_TurnOffOutput_ChannelsAreTurnedOff(string pinMap, string digitalProject)
         {
             var tsmContext = CreateTSMContext(pinMap, digitalProject);
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -344,6 +346,185 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.TurnOffOutput();
 
             sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Off, sessionInfo.PinSet.SelectedFunction));
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void VoltageForcedOnSessions_DisconnectOuput_ChannelsAreDisconnected(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
+            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
+
+            sessionsBundle.DisconnectOutput();
+
+            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Disconnect, sessionInfo.PinSet.SelectedFunction));
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void VoltageForcedOnSessions_SelectDigital_ChannelsSwitchToDigitalFunction(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
+            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
+
+            sessionsBundle.SelectDigital();
+
+            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Digital, sessionInfo.PinSet.SelectedFunction));
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialize_SelectPPMU_ChannelsSwitchToDigitalFunction(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Disconnect, sessionInfo.PinSet.SelectedFunction));
+
+            sessionsBundle.SelectPPMU();
+
+            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigureAperatureTime_ValuesCorrectlySet(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigureApertureTime(0.05);
+
+            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(0.05, sessionInfo.PinSet.Ppmu.ApertureTime, 2));
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_MeasureAndPublishVoltage_MeasurementArrayNotEmptyAndCorrectPublishedDataCount(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, out var publishDatReader, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
+            var expectedNumberOfPublishedDataPoints = (pins.Length * tsmContext.SiteNumbers.Count);
+
+            sessionsBundle.MeasureAndPublishVoltage("VoltageMeasurments", out var voltageMeasurements);
+            Assert.NotEmpty(voltageMeasurements);
+            Assert.Equal(expectedNumberOfPublishedDataPoints, publishDatReader.GetAndClearPublishedData().Length);
+
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_MeasureAndPublishCurrent_MeasurementArrayNotEmptyAndCorrectPublishedDataCount(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, out var publishDatReader, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
+            var expectedNumberOfPublishedDataPoints = (pins.Length * tsmContext.SiteNumbers.Count);
+
+            sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
+            sessionsBundle.MeasureAndPublishCurrent("CurrentMeasurments", out var currentMeasurements);
+            Assert.NotEmpty(currentMeasurements);
+            Assert.Equal(expectedNumberOfPublishedDataPoints, publishDatReader.GetAndClearPublishedData().Length);
+
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_MeasureAndPublishCurrent_ThrowsExecptionAndReturnsEmptyData(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, out var publishDatReader, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
+
+            var exception = Assert.Throws<AggregateException>(() => sessionsBundle.MeasureAndPublishCurrent("CurrentMeasurments"));
+
+            Assert.Empty(publishDatReader.GetAndClearPublishedData());
+            exception.IfNotNull(x =>
+            {
+                foreach (var innerExeption in x.InnerExceptions)
+                {
+                    Assert.IsType<InvalidOperationException>(innerExeption);
+                    Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
+                }
+            });
+
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ForceVoltageMeasureCurrent_SucceedsAndMeasurementsNotEmpty(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, out var publishDatReader, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
+
+            sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
+            var currentMeasurements = sessionsBundle.MeasureCurrent();
+            Assert.Equal(pins, currentMeasurements.PinNames);
+            Assert.Equal(tsmContext.SiteNumbers, currentMeasurements.SiteNumbers);
+
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_MeasureCurrentWithoutForcing_ThrowsExecption(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, out var publishDatReader, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
+
+            var exception = Assert.Throws<AggregateException>(() => sessionsBundle.MeasureCurrent());
+
+            Assert.Empty(publishDatReader.GetAndClearPublishedData());
+            exception.IfNotNull(x =>
+            {
+                foreach (var innerExeption in x.InnerExceptions)
+                {
+                    Assert.IsType<InvalidOperationException>(innerExeption);
+                    Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
+                }
+            });
+
             Close(tsmContext);
         }
     }
