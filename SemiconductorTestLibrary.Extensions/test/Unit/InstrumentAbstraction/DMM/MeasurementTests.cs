@@ -16,7 +16,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         public MeasurementTests()
         {
-            _tsmContext = CreateTSMContext("DMMTests.pinmap");
+            _tsmContext = CreateTSMContext("DMMTestsWith4081.pinmap");
             _sessionManager = new TSMSessionManager(_tsmContext);
             Initialize(_tsmContext);
         }
@@ -29,7 +29,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void FetchSinglePoint_Succeeds()
         {
-            var sessionsBundle = _sessionManager.DMM("DUTPin");
+            var sessionsBundle = _sessionManager.DMM("DUTPin_4081");
             sessionsBundle.Initiate();
             var results = sessionsBundle.FetchAndPublish(maximumTimeInMilliseconds: 1000);
             sessionsBundle.Abort();
@@ -40,22 +40,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void FetchPerSitePerPinResults_Succeeds()
         {
-            var sessionsBundle = _sessionManager.DMM("DUTPin");
+            var sessionsBundle = _sessionManager.DMM("DUTPin_4081");
             sessionsBundle.Initiate();
             var results = sessionsBundle.Fetch(maximumTimeInMilliseconds: 1000);
             sessionsBundle.Abort();
 
             Assert.Equal(2, results.SiteNumbers.Length);
             Assert.Single(results.ExtractSite(0));
-            Assert.Contains("DUTPin", results.ExtractSite(0));
+            Assert.Contains("DUTPin_4081", results.ExtractSite(0));
             Assert.Single(results.ExtractSite(1));
-            Assert.Contains("DUTPin", results.ExtractSite(1));
+            Assert.Contains("DUTPin_4081", results.ExtractSite(1));
         }
 
         [Fact]
         public void ReadSinglePoint_Succeeds()
         {
-            var sessionsBundle = _sessionManager.DMM("DUTPin");
+            var sessionsBundle = _sessionManager.DMM("DUTPin_4081");
             var results = sessionsBundle.ReadAndPublish(maximumTimeInMilliseconds: 1000);
 
             Assert.Equal(2, results.Length);
@@ -64,7 +64,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ReadPerSitePerPinResults_Succeeds()
         {
-            var sessionsBundle = _sessionManager.DMM("DUTPin");
+            var sessionsBundle = _sessionManager.DMM("DUTPin_4081");
             var results = sessionsBundle.Read(maximumTimeInMilliseconds: 1000);
 
             Assert.Equal(2, results.SiteNumbers.Length);
