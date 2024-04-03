@@ -15,7 +15,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <remarks>
-        /// Note: This is a lower level function for controlling over the niDCPower driver session.
+        /// Note: This is a lower level function for controlling over the NI-DCPower session.
         /// Any low level driver property updated after this method will not be applied until a the next sourcing operation,
         /// or when the Commit method is explicitly called.
         /// If power output is enabled when you call the Abort method, the channels remain in their current state and continue providing power.
@@ -37,7 +37,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <remarks>
-        /// Note: This is a lower level function for control over the niDCPower driver session.
+        /// Note: This is a lower level function for control over the NI-DCPower session.
         /// Refer to the Programming States topic in the NI-DCPower User Manual and the document of your SMU model for information about the specific NI-DCPower software states.
         /// </remarks>
         public static void Commit(this DCPowerSessionsBundle sessionsBundle)
@@ -49,12 +49,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Starts generation or acquisition and moves the underlying devices channel(s) to from the Uncommitted state or Committed state to the Running state.
+        /// Starts generation or acquisition and moves the underlying devices channel(s) from the Uncommitted state or Committed state to the Running state.
         /// To return to the Uncommitted state, call the Abort method.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <remarks>
-        /// Note: This is a lower level function for control over the niDCPower driver session.
+        /// Note: This is a lower level function for control over the NI-DCPower session.
         /// Refer to the Programming States topic in the NI-DCPower User Manual and the document of your SMU model for information about the specific NI-DCPower software states.
         /// </remarks>
         public static void Initiate(this DCPowerSessionsBundle sessionsBundle)
