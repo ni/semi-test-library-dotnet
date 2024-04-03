@@ -18,7 +18,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region methods on DigitalSessionsBundle
 
         /// <summary>
-        /// Forces voltage on the target pin(s) at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
+        /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level value, and the method will assume all other properties that have been previously set.  Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="voltageLevel">The voltage level.</param>
@@ -49,7 +49,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces voltage on the target pin(s) at the specified level. Must at least provide level values, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
+        /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level values, and the method will assume all other properties that have been previously set.  Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels for all sites.</param>
@@ -79,7 +79,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces voltage on the target pin(s) at the specified level. Must at least provide level values, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
+        /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level values, and the method will assume all other properties that have been previously set.  Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels for all site-pin pairs.</param>
@@ -109,7 +109,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces voltage on the target pin(s) at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
+        /// Forces voltage on the target pin(s).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
@@ -123,7 +123,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces current on the target pin(s) at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific voltage limit, current level range values directly.
+        /// Forces current on the target pin(s) at the specified level. You must provide a current level value, and the method will assume all other properties that have been previously set.  Optionally, you can also provide a specific voltage limit and current level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="currentLevel">The current level.</param>
@@ -160,7 +160,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces current on the target pin(s) at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific voltage limit, current level range values directly.
+        /// Forces current on the target pin(s).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
@@ -185,7 +185,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the voltage on the target pin(s) and returns a pin and site aware data object.
+        /// Measures the voltage on the target pin(s) and returns a pin- and site-aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The voltage measurements.</returns>
@@ -195,7 +195,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the current on the target pin(s) and returns a pin and site aware data object.
+        /// Measures the current on the target pin(s) and returns a pin- and site-aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The current measurements.</returns>
@@ -390,7 +390,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region methods on DigitalSessionInformation
 
         /// <summary>
-        /// Does measure on digital devices.
+        /// Measures on digital devices.
         /// </summary>
         /// <param name="sessionInfo">The <see cref="DigitalSessionInformation"/> object.</param>
         /// <param name="measurementType">The type of the measurement, could be either voltage or current.</param>
@@ -406,7 +406,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region methods on NIDigital session
 
         /// <summary>
-        /// Does force on digital devices.
+        /// Forces on digital devices.
         /// </summary>
         /// <param name="session">The <see cref="NIDigital"/> session.</param>
         /// <param name="pinSetString">The pin set string.</param>
@@ -436,7 +436,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="session">The <see cref="NIDigital"/> session.</param>
         /// <param name="pinSetString">The pin set string.</param>
-        /// <param name="settlingTime">The settling time. Null means no need to wait for the turn off operation to settle.</param>
+        /// <param name="settlingTime">The settling time. Null means immediately turning off operation to settle.</param>
         public static void TurnOffOutput(this NIDigital session, string pinSetString, double? settlingTime = null)
         {
             session.PinAndChannelMap.GetPinSet(pinSetString).SelectedFunction = SelectedFunction.Off;
