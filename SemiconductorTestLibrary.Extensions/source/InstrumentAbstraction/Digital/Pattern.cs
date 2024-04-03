@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Ivi.Driver;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -118,6 +119,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeoutInSeconds">Timeout in seconds for which to abort this wait operation.</param>
+        /// <exception cref="ArgumentException">The value for maxTime is invalid.</exception>
+        /// <exception cref="MaxTimeExceededException"> The pattern burst took longer than the specified maxTime.</exception>
         public static void WaitUntilDone(this DigitalSessionsBundle sessionsBundle, double timeoutInSeconds = 10.0)
         {
             sessionsBundle.Do(sessionInfo =>

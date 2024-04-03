@@ -1,4 +1,9 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+﻿using System;
+using System.Diagnostics;
+using Ivi.Driver;
+using NationalInstruments.Restricted;
+using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose;
@@ -77,6 +82,160 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2, results.ExtractSite(1).Count);
             Assert.Contains("C0", results.ExtractSite(1).Keys);
             Assert.Contains("C1", results.ExtractSite(1).Keys);
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_BurstLongPatternAndWaitUntilDone_Succeeds(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital("C0");
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.True(sessionInfo.Session.PatternControl.IsDone);
+            });
+            sessionsBundle.BurstPattern("LongRunningPattern", waitUntilDone: false);
+            // Not Supported in Offline Mode
+            // sessionsBundle.Do(sessionInfo =>
+            // {
+            //     Assert.False(sessionInfo.Session.PatternControl.IsDone);
+            // });
+            sessionsBundle.WaitUntilDone();
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.True(sessionInfo.Session.PatternControl.IsDone);
+            });
+
+            Close(tsmContext);
+        }
+
+        [Theory(Skip = "Not supported in offline mode. Should run with actual hardware.")]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_BurstLongPatternAndWaitUntilDone_Timesout(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital("C0");
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.True(sessionInfo.Session.PatternControl.IsDone);
+            });
+            sessionsBundle.BurstPattern("LongRunningPattern", waitUntilDone: false);
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.False(sessionInfo.Session.PatternControl.IsDone);
+            });
+            var exception = Assert.Throws<AggregateException>(() => sessionsBundle.WaitUntilDone(0.001));
+            exception.IfNotNull(x =>
+            {
+                foreach (var innerExeption in x.InnerExceptions)
+                {
+                    Assert.IsType<MaxTimeExceededException>(innerExeption);
+                }
+            });
+
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_WaitUntilDoneBadTimeoutArguement_ThrowsExeception(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital("C0");
+            var exception = Assert.Throws<AggregateException>(() => sessionsBundle.WaitUntilDone(-2));
+            exception.IfNotNull(x =>
+            {
+                foreach (var innerExeption in x.InnerExceptions)
+                {
+                    Assert.IsType<ArgumentException>(innerExeption);
+                }
+            });
+
+            Close(tsmContext);
+        }
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_WaitUntilDone_Succeeds(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital("C0");
+            sessionsBundle.WaitUntilDone();
+
+            Close(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_BurstLongPatternAndAbort_Succeeds(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital("C0");
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.True(sessionInfo.Session.PatternControl.IsDone);
+            });
+            sessionsBundle.BurstPattern("LongRunningPattern", waitUntilDone: false);
+            // Not Supported in Offline Mode
+            // sessionsBundle.Do(sessionInfo =>
+            // {
+            //     Assert.False(sessionInfo.Session.PatternControl.IsDone);
+            // });
+            sessionsBundle.AbortPattern();
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.True(sessionInfo.Session.PatternControl.IsDone);
+            });
+
+            Close(tsmContext);
+        }
+
+        [Theory(Skip = "Not supported in offline mode. Should run with actual hardware.")]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_BurstKeepAlivePatternAndAbort_Succeeds(string pinMap, string digitalProject)
+        {
+            var tsmContext = CreateTSMContext(pinMap, digitalProject);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital("C0");
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.False(sessionInfo.Session.PatternControl.IsKeepAliveActive);
+            });
+            sessionsBundle.BurstPattern("StartKeepAlive", waitUntilDone: false);
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.True(sessionInfo.Session.PatternControl.IsKeepAliveActive);
+            });
+            sessionsBundle.AbortKeepAlivePattern();
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.False(sessionInfo.Session.PatternControl.IsKeepAliveActive);
+            });
+
             Close(tsmContext);
         }
     }
