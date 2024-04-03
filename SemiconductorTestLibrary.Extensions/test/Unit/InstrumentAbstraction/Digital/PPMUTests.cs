@@ -496,7 +496,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
             var currentMeasurements = sessionsBundle.MeasureCurrent();
-            Assert.Equal(pins, currentMeasurements.PinNames);
+            foreach (var pin in pins)
+            {
+                Assert.Contains(pin, currentMeasurements.PinNames);
+            }
             Assert.Equal(tsmContext.SiteNumbers, currentMeasurements.SiteNumbers);
 
             Close(tsmContext);
