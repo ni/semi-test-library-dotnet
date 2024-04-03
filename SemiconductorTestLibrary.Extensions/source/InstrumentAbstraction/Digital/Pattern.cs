@@ -46,10 +46,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets the per-site pass fail comparison results of last burst pattern (long) as a SiteData object of type Bool.
+        /// Gets the per-site pass/fail comparison results of last burst pattern (long) as a SiteData object of type Bool.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <returns>The per-site pass/fail results.</returns>
+        /// <returns>The per-site pass/fail comparison results.</returns>
         public static SiteData<bool> GetSitePassFail(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSiteResults(sessionInfo =>

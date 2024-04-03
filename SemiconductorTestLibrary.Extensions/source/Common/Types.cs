@@ -1,7 +1,7 @@
 ﻿namespace NationalInstruments.SemiconductorTestLibrary.Common
 {
     /// <summary>
-    /// Defines what to measure, just voltage, just current, or both of them.
+    /// Defines whether to measure voltage or current.
     /// </summary>
     public enum MeasurementType
     {

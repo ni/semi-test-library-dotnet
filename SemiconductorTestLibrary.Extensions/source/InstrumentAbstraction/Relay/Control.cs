@@ -46,7 +46,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Rel
         /// Performs the relay actions on the relays.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="relayNameToActionDictionary">A dictionary that contains the mapping of the relay name to the relay action to apply on that relay.</param>
+        /// <param name="relayNameToActionDictionary">A dictionary that maps of the relay name to the relay action to apply on that relay.</param>
         public static void ControlRelay(ISemiconductorModuleContext tsmContext, IDictionary<string, RelayDriverAction> relayNameToActionDictionary)
         {
             tsmContext.ControlRelay(relayNameToActionDictionary.Keys.ToArray(), relayNameToActionDictionary.Values.ToArray());

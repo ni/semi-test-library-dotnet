@@ -11,7 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     public static class CounterInput
     {
         /// <summary>
-        /// Reads one or more samples from a Counter.
+        /// Reads one or more samples from a counter.
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="samplesToRead">The number of samples to read.</param>
