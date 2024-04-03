@@ -71,7 +71,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public double? LimitRange { get; set; }
 
         /// <summary>
-        /// The source delay.
+        /// The source delay in seconds.
         /// </summary>
         public double? SourceDelayInSeconds { get; set; }
 
@@ -180,7 +180,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     }
 
     /// <summary>
-    /// Structure the defines the result of a single fetch operation.
+    /// Structure that defines the result of a single fetch operation.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "Not needed now, may implement in future")]
     public readonly struct SingleDCPowerFetchResult
@@ -190,7 +190,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="voltageMeasurement">Voltage measurement value</param>
         /// <param name="currentMeasurement">Current measurement value.</param>
-        /// <param name="inCompliance">Whether the output was in compliance mode when measurement was taken.</param>
+        /// <param name="inCompliance">Whether the output is in compliance mode when measurement is taken.</param>
         public SingleDCPowerFetchResult(double voltageMeasurement, double currentMeasurement, bool inCompliance)
         {
             VoltageMeasurement = voltageMeasurement;

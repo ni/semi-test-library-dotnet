@@ -11,7 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     public static class DigitalInput
     {
         /// <summary>
-        /// Reads a single sample and returns pin and site aware object of type Boolean.
+        /// Reads a single sample and returns pin- and site-aware object of type Boolean.
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <returns>Per-site per-pin boolean samples.</returns>
@@ -34,8 +34,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         }
 
         /// <summary>
-        /// Reads the samples and returns pin and site aware object of type DigitalWaveform, where each element in the waveform represents one sample read.
-        /// By default, all available samples will be returned, unless otherwise specified by passing in value via the samplesToRead argument.
+        /// Reads the samples and returns pin- and site-aware object of type DigitalWaveform, where each element in the waveform represents one sample read.
+        /// By default, all available samples are returned, unless otherwise specified by passing in value via the samplesToRead argument.
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="samplesToRead">The number of samples to read.</param>

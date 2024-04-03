@@ -8,7 +8,7 @@ using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
     /// <summary>
-    /// Defines methods for source and capture waveforms.
+    /// Defines methods for sourcing and capturing waveforms.
     /// </summary>
     public static class SourceAndCapture
     {
@@ -56,8 +56,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="waveformName">The name of the source waveform.</param>
-        /// <param name="dataMapping">Specifies whether the waveform is broadcast to all sites or a unique waveform is sourced per site.</param>
-        /// <param name="sampleWidth">The width in bits of each serial sample. Make sure the value is between 1 and 32.</param>
+        /// <param name="dataMapping">Specifies whether the waveform is broadcasted to all sites or a unique waveform is sourced per site.</param>
+        /// <param name="sampleWidth">The width in bits of each serial sample. The value must be between 1 and 32.</param>
         /// <param name="bitOrder">The bit order significance.</param>
         public static void CreateSerialSourceWaveform(this DigitalSessionsBundle sessionsBundle, string waveformName, SourceDataMapping dataMapping, uint sampleWidth, BitOrder bitOrder)
         {
@@ -70,8 +70,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pin">The pin for which to create the source waveform.</param>
         /// <param name="waveformName">The name of the source waveform.</param>
-        /// <param name="dataMapping">Specifies whether the waveform is broadcast to all sites or a unique waveform is sourced per site.</param>
-        /// <param name="sampleWidth">The width in bits of each serial sample. Make sure the value is between 1 and 32.</param>
+        /// <param name="dataMapping">Specifies whether the waveform is broadcasted to all sites or a unique waveform is sourced per site.</param>
+        /// <param name="sampleWidth">The width in bits of each serial sample. The value must be between 1 and 32.</param>
         /// <param name="bitOrder">The bit order significance.</param>
         public static void CreateSerialSourceWaveform(this DigitalSessionsBundle sessionsBundle, string pin, string waveformName, SourceDataMapping dataMapping, uint sampleWidth, BitOrder bitOrder)
         {
@@ -87,7 +87,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="waveformName">The name of the capture waveform.</param>
-        /// <param name="sampleWidth">The width in bits of each serial sample. Make sure the value is between 1 and 32.</param>
+        /// <param name="sampleWidth">The width in bits of each serial sample. The value must be between 1 and 32.</param>
         /// <param name="bitOrder">The bit order significance.</param>
         /// <remarks>The number of waveforms is limited to 512.</remarks>
         public static void CreateSerialCaptureWaveform(this DigitalSessionsBundle sessionsBundle, string waveformName, uint sampleWidth, BitOrder bitOrder = BitOrder.MostSignificantBitFirst)
@@ -101,7 +101,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pin">The pin for which to create the capture waveform.</param>
         /// <param name="waveformName">The name of the capture waveform.</param>
-        /// <param name="sampleWidth">The width in bits of each serial sample. Make sure the value is between 1 and 32.</param>
+        /// <param name="sampleWidth">The width in bits of each serial sample. The value must be between 1 and 32.</param>
         /// <param name="bitOrder">The bit order significance.</param>
         /// <remarks>The number of waveforms is limited to 512.</remarks>
         public static void CreateSerialCaptureWaveform(this DigitalSessionsBundle sessionsBundle, string pin, string waveformName, uint sampleWidth, BitOrder bitOrder = BitOrder.MostSignificantBitFirst)
@@ -149,7 +149,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Fetches the capture waveform and returns a pin and site aware object of uint values.
+        /// Fetches the capture waveform and returns a pin- and site-aware object of uint values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="waveformName">The name of the capture waveform.</param>

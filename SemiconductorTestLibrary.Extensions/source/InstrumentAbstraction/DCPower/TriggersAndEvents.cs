@@ -63,7 +63,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Blocking call that waits for the selected EventType to occur. Will timeout after 5 seconds by default (unless a different timeout value is passed in).
+        /// Waits for the selected EventType to occur. Times out after 5 seconds by default.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="eventType">The type of event to wait for.</param>
@@ -129,11 +129,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="triggerType">Type of trigger, either MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
         /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
         /// <para>
-        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
-        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>,
+        /// where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
         /// </para>
-        /// Note that the input terminal can also be a terminal from another instrument or channel.
-        ///  <para>
+        /// <para>Note that the input terminal can also be a terminal from another instrument or channel.</para>
+        /// <para>
         /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
         /// </para>
         /// </param>
@@ -173,7 +173,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures a software edge trigger for the selected TriggerType: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="triggerType">Type of trigger, either MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
+        /// <param name="triggerType">Type of trigger, either MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, or StartTrigger.</param>>
         public static void ConfigureTriggerSoftwareEdge(this DCPowerSessionsBundle sessionsBundle, TriggerType triggerType)
         {
             // Need to loop over each channel because not all channels in the sessionInfo.ChannelString are guaranteed to be
@@ -206,7 +206,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Clears all trigger types (sets them to None).
+        /// Clears all trigger types.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         public static void ClearTriggers(this DCPowerSessionsBundle sessionsBundle)
@@ -235,17 +235,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
         /// <para>
-        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
-        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>,
+        /// where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
         /// </para>
-        /// Note that the input terminal can also be a terminal from another instrument or channel.
-        ///  <para>
+        /// <para>Note that the input terminal can also be a terminal from another instrument or channel.</para>
+        /// <para>
         /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
         /// </para>
         /// </param>
         /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigureMeasureTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string channelString = "")
@@ -292,17 +292,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
         /// <para>
-        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
-        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>,
+        /// where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
         /// </para>
-        /// Note that the input terminal can also be a terminal from another instrument or channel.
-        ///  <para>
+        /// <para>Note that the input terminal can also be a terminal from another instrument or channel.</para>
+        /// <para>
         /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
         /// </para>
         /// </param>
         /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigurePulseTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string channelString = "")
@@ -325,7 +325,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <remarks>This method does not abort the underlying driver session.</remarks>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigurePulseTriggerSoftwareEdge(this DCPowerSessionInformation sessionInfo, string channelString = "")
@@ -343,12 +343,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Disables the PulseTrigger (sets property to None).
+        /// Disables the PulseTrigger.
         /// </summary>
         /// <remarks>This method does not abort the underlying driver session.</remarks>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigurePulseTriggerDisable(this DCPowerSessionInformation sessionInfo, string channelString = "")
@@ -372,17 +372,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
         /// <para>
-        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
-        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>,
+        /// where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
         /// </para>
-        /// Note that the input terminal can also be a terminal from another instrument or channel.
-        ///  <para>
+        /// <para>Note that the input terminal can also be a terminal from another instrument or channel.</para>
+        /// <para>
         /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
         /// </para>
         /// </param>
         /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigureSequenceAdvanceTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string channelString = "")
@@ -405,7 +405,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <remarks>This method does not abort the underlying driver session.</remarks>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigureSequenceAdvanceTriggerSoftwareEdge(this DCPowerSessionInformation sessionInfo, string channelString = "")
@@ -423,12 +423,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Disables the SequenceAdvanceTrigger (sets property to None).
+        /// Disables the SequenceAdvanceTrigger.
         /// </summary>
         /// <remarks>This method does not abort the underlying driver session.</remarks>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigureSequenceAdvanceTriggerDisable(this DCPowerSessionInformation sessionInfo, string channelString = "")
@@ -452,17 +452,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
         /// <para>
-        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
-        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>,
+        /// where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
         /// </para>
-        /// Note that the input terminal can also be a terminal from another instrument or channel.
-        ///  <para>
+        /// <para>Note that the input terminal can also be a terminal from another instrument or channel.</para>
+        /// <para>
         /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
         /// </para>
         /// </param>
         /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigureSourceTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string channelString = "")
@@ -485,7 +485,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <remarks>This method does not abort the underlying driver session.</remarks>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigureSourceTriggerSoftwareEdge(this DCPowerSessionInformation sessionInfo, string channelString = "")
@@ -503,12 +503,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Disables the SourceTrigger (sets property to None).
+        /// Disables the SourceTrigger.
         /// </summary>
         /// <remarks>This method does not abort the underlying driver session.</remarks>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigureSourceTriggerDisable(this DCPowerSessionInformation sessionInfo, string channelString = "")
@@ -532,17 +532,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
         /// <para>
-        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>
-        /// Where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
+        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>,
+        /// where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
         /// </para>
-        /// Note that the input terminal can also be a terminal from another instrument or channel.
-        ///  <para>
+        /// <para>Note that the input terminal can also be a terminal from another instrument or channel.</para>
+        /// <para>
         /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
         /// </para>
         /// </param>
         /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigureStartTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string channelString = "")
@@ -565,7 +565,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <remarks>This method does not abort the underlying driver session.</remarks>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigureStartTriggerSoftwareEdge(this DCPowerSessionInformation sessionInfo, string channelString = "")
@@ -583,12 +583,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Disables the StartTrigger (sets property to None).
+        /// Disables the StartTrigger.
         /// </summary>
         /// <remarks>This method does not abort the underlying driver session.</remarks>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigureStartTriggerDisable(this DCPowerSessionInformation sessionInfo, string channelString = "")

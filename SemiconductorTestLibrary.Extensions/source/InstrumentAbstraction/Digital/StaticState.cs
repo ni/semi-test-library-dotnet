@@ -53,7 +53,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Reads the current state to target the pin(s) and returns as pin and site aware data object.
+        /// Reads the current state to target the pin(s) and returns as pin- and site-aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The states in per-site per-pin format.</returns>

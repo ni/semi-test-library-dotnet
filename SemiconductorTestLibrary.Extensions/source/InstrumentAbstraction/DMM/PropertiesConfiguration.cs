@@ -68,13 +68,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         }
 
         /// <summary>
-        /// Configures multi point acquisition.
+        /// Configures multipoint acquisition.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="triggerCount">The number of the triggers the device receives before returning to the idle state.</param>
         /// <param name="sampleCount">The number of measurements the device makes in each measurement sequence initiated by a trigger.</param>
         /// <param name="sampleTrigger">The name of the trigger source that initiates the acquisition.</param>
-        /// <param name="sampleIntervalInSeconds">The seconds that the device waits between measurements.</param>
+        /// <param name="sampleIntervalInSeconds">The interval in seconds that the device waits between measurements.</param>
         public static void ConfigureMultiPoint(this DMMSessionsBundle sessionsBundle, int triggerCount, int sampleCount, string sampleTrigger, double sampleIntervalInSeconds)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -101,7 +101,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="triggerSource">The name of the trigger source that initiates the acquisition.</param>
-        /// <param name="triggerDelayInSeconds">The seconds that the device waits after it has received a trigger before taking a measurement.</param>
+        /// <param name="triggerDelayInSeconds">The interval in seconds that the device waits after it has received a trigger before taking a measurement.</param>
         public static void ConfigureTrigger(this DMMSessionsBundle sessionsBundle, string triggerSource, double triggerDelayInSeconds)
         {
             sessionsBundle.Do(sessionInfo =>

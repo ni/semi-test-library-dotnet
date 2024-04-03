@@ -36,7 +36,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// Fetches the values from previously initiated measurements and publishes measurement results.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
-        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete.</param>
+        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete in milliseconds.</param>
         /// <returns>The measurement results in per-instrument format.</returns>
         public static double[] FetchAndPublish(this DMMSessionsBundle sessionsBundle, double maximumTimeInMilliseconds)
         {
@@ -50,7 +50,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// Fetches the values from previously initiated measurements.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
-        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete.</param>
+        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete in milliseconds.</param>
         /// <returns>The measurement results in per-site per-pin format.</returns>
         public static PinSiteData<double> Fetch(this DMMSessionsBundle sessionsBundle, double maximumTimeInMilliseconds)
         {
@@ -65,7 +65,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="numberToRead">The number of values to fetch.</param>
-        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete.</param>
+        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete in milliseconds.</param>
         /// <returns>The measurement results in per-instrument per-point format.</returns>
         public static double[][] FetchMultiPoint(this DMMSessionsBundle sessionsBundle, int numberToRead, double maximumTimeInMilliseconds)
         {
@@ -79,7 +79,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// Reads measurement results and publishes measurement results.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
-        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete.</param>
+        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete in milliseconds.</param>
         /// <returns>The measurement results in per-instrument format.</returns>
         public static double[] ReadAndPublish(this DMMSessionsBundle sessionsBundle, double maximumTimeInMilliseconds)
         {
@@ -93,7 +93,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// Reads measurement results.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
-        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete.</param>
+        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete in milliseconds.</param>
         /// <returns>The measurement results in per-site per-pin format.</returns>
         public static PinSiteData<double> Read(this DMMSessionsBundle sessionsBundle, double maximumTimeInMilliseconds)
         {
@@ -108,7 +108,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="numberToRead">The number of values to fetch.</param>
-        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete.</param>
+        /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete in milliseconds.</param>
         /// <returns>The measurement results in per-instrument per-value format.</returns>
         public static double[][] ReadMultiPoint(this DMMSessionsBundle sessionsBundle, int numberToRead, double maximumTimeInMilliseconds)
         {

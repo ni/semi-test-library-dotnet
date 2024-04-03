@@ -17,9 +17,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #region methods on DCPowerSessionsBundle
 
         /// <summary>
-        /// Configures one or more measure settings based on values populated within a <see  cref="DCPowerMeasureSettings"/> object.
+        /// Configures one or more measure settings based on the values populated within a <see  cref="DCPowerMeasureSettings"/> object.
         /// Accepts a scalar input of type <see  cref="DCPowerMeasureSettings"/>.
-        /// with overrides for <see cref="SiteData{DCPowerMeasureSettings}"/>, and <see cref="PinSiteData{DCPowerMeasureSettings}"/> input.
+        /// With overrides for <see cref="SiteData{DCPowerMeasureSettings}"/>, and <see cref="PinSiteData{DCPowerMeasureSettings}"/> input.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The measure settings to configure.</param>
@@ -67,10 +67,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the DCPower measure when.
+        /// Configures the DCPower MeasurementWhen property.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="measureWhen">The measure when to set.</param>
+        /// <param name="measureWhen">The MeasurementWhen property to set.</param>
         public static void ConfigureMeasureWhen(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementWhen measureWhen)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -86,7 +86,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="frequency">The power line frequency in Hz to set.</param>
         /// <remarks>
-        /// This method should only be invoked once, when driver sessions are first initialized.
+        /// This method should only be invoked once when driver sessions are first initialized.
         /// </remarks>
         public static void ConfigurePowerLineFrequency(this DCPowerSessionsBundle sessionsBundle, double frequency)
         {
@@ -202,7 +202,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Measures the voltage on the target pin(s) and returns a pin and site aware data object.
+        /// Measures the voltage on the target pin(s) and returns a pin- and site-aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <returns>The per-pin per-site voltage measurements.</returns>
@@ -212,7 +212,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Measures the current on the target pin(s) and returns a pin and site aware data object.
+        /// Measures the current on the target pin(s) and returns a pin- and site-aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <returns>The per-pin per-site voltage measurements.</returns>
@@ -296,7 +296,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Fetches waveform acquisition results as a pin and site aware data object.
+        /// Fetches waveform acquisition results as a pin- and site-aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="fetchWaveformLength">The waveform length in seconds to fetch.</param>
@@ -316,7 +316,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures and acquires waveforms synchronized across the pins.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="apertureTimeInSeconds">The measure aperture time in seconds.</param>
+        /// <param name="apertureTimeInSeconds">The measurement aperture time in seconds.</param>
         /// <param name="measurementTimeInSeconds">The measurement time in seconds.</param>
         /// <returns>The per-site per-pin waveform results.</returns>
         public static PinSiteData<DCPowerFetchResult> AcquireSynchronizedWaveforms(this DCPowerSessionsBundle sessionsBundle, double apertureTimeInSeconds = 0, double measurementTimeInSeconds = 0)
@@ -394,16 +394,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Fetches results from a previously taken measurement.
+        /// Fetches results from a previous measurement.
         /// </summary>
         /// <remarks>
-        /// This method should NOT be used when the MeasureWhen property is configured to OnDemand.
+        /// This method should not be used when the MeasureWhen property is OnDemand.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="pointsToFetch">The number of points to Fetch.</param>
-        /// <param name="timeoutInSeconds">The time to wait before the operation should be aborted.</param>
+        /// <param name="timeoutInSeconds">The time to wait before the operation is aborted.</param>
         /// <returns>A <see cref="PerSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
-        /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previously taken measurement.</returns>
+        /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
         public static PinSiteData<SingleDCPowerFetchResult[]> FetchMeasurement(this DCPowerSessionsBundle sessionsBundle, int pointsToFetch = 1, double timeoutInSeconds = 10)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
@@ -427,7 +427,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
         /// <param name="modelString">The DCPower instrument model.</param>
-        /// <param name="powerLineFrequency">The power line frequency used to calculate aperture time value from power line cycles to seconds. This is used just for PXI-4110, PXI-4130 and PXIe-4154 models since they don't support power line frequency property.</param>
+        /// <param name="powerLineFrequency">The power line frequency used to calculate aperture time value from power line cycles to seconds. This is used just for PXI-4110, PXI-4130, and PXIe-4154 models since they don't support power line frequency property.</param>
         /// <param name="apertureTime">The aperture time to set.</param>
         /// <param name="apertureTimeUnits">The aperture time units to set.</param>
         public static void ConfigureApertureTime(this DCPowerOutput output, string modelString, double powerLineFrequency, double apertureTime, DCPowerMeasureApertureTimeUnits apertureTimeUnits)
@@ -458,7 +458,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #region methods on NIDCPower session
 
         /// <summary>
-        /// Configures the measurement when.
+        /// Configures the MeasurementWhen property.
         /// </summary>
         /// <param name="session">The <see cref="NIDCPower"/> object.</param>
         /// <param name="channelString">The channel string.</param>
@@ -539,7 +539,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Does measure on DCPower devices.
+        /// Measures the voltage and current.
         /// </summary>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
         /// <returns>The measurements. Item1 is voltage measurements, Item2 is current measurements.</returns>
