@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SourceFile Checksum="6E038EF98BF9C8BD146D1381DC66AD55B0FC1686ECBA289BDC58C3EE4BB2F72737CF1E917699EBEBA4FABB74381AC8B08DA4C10FFFEE01F748F9440590308AD2" xmlns="http://www.ni.com/PlatformFramework">
+<SourceFile Checksum="B0308CF85BA354F69536DF5D0902AE1383B30BB1EC9D9DFD00DE71A79050C6EEA46921106D6BE062718816D5661D0B10BE998F9130E6D04231DE77384F25E8EA" xmlns="http://www.ni.com/PlatformFramework">
 	<SourceModelFeatureSet>
 		<ParsableNamespace AssemblyFileVersion="9.10.0.49734" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
 		<ParsableNamespace AssemblyFileVersion="9.10.0.49734" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
@@ -30,10 +30,8 @@
 			<FileReference Id="278" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="TX_50_Duty_Cycle.digipat" StoragePath="Digital\Compiled Patterns\TX_50_Duty_Cycle.digipat" />
 			<FileReference Id="281" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="Write_LTE_HB_FDD.digipat" StoragePath="Digital\Compiled Patterns\Write_LTE_HB_FDD.digipat" />
 			<FileReference Id="282" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="Write_NR_HB_FDD.digipat" StoragePath="Digital\Compiled Patterns\Write_NR_HB_FDD.digipat" />
-			<FileReference Id="285" ModelDefinitionType="PinMap" Name="TwoDevicesWorkForTwoSitesSeparately.pinmap" StoragePath="Pin Maps\TwoDevicesWorkForTwoSitesSeparately.pinmap" p4:IsActive="False" xmlns:p4="http://www.ni.com/PatternBasedDigital" />
 			<FileReference Id="d5e757d6c1894a25931fa038bbc6573b" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="LongRunningPattern.digipat" StoragePath="Digital\Compiled Patterns\LongRunningPattern.digipat" />
 			<FileReference Id="c6b6a87212a84a72aca63400e26ac941" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="KeepAlivePattern.digipat" StoragePath="Digital\Compiled Patterns\KeepAlivePattern.digipat" />
-			<FileReference Id="6185ccd7105e49509a63fe37fc5b07d5" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="WaitsForTrigger.digipat" StoragePath="Digital\Compiled Patterns\WaitsForTrigger.digipat" />
 		</NameScopingEnvoy>
 		<EmbeddedDefinitionReference Id="9" ModelDefinitionType="DigitalPatternEditor.ProjectPropertiesDefinition" Name="ProjectProperties">
 			<ProjectPropertiesDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
