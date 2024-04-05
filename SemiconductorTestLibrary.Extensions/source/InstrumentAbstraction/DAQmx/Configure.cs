@@ -15,7 +15,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="terminalConfiguration">Specifies the terminal configuration mode.</param>
-        /// <exception cref="DaqException"></exception>
+        /// <exception cref="DaqException">The underling driver session returned an error.</exception>
         public static void ConfigureTerminalConfiguration(this DAQmxTasksBundle tasksBundle, AOTerminalConfiguration terminalConfiguration)
         {
             tasksBundle.Do(taskInfo =>
@@ -32,7 +32,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="terminalConfiguration">Specifies the terminal configuration mode.</param>
-        /// <exception cref="DaqException"></exception>
+        /// <exception cref="DaqException">The underling driver session returned an error.</exception>
         public static void ConfigureTerminalConfiguration(this DAQmxTasksBundle tasksBundle, AITerminalConfiguration terminalConfiguration)
         {
             tasksBundle.Do(taskInfo =>
@@ -48,7 +48,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="timingSettings">Specifies the timing settings.</param>
-        /// <exception cref="DaqException"></exception>
+        /// <exception cref="DaqException">The underling driver session returned an error.</exception>
         public static void ConfigureTiming(this DAQmxTasksBundle tasksBundle, DAQmxTimingSampleClockSettings timingSettings)
         {
             tasksBundle.Do(taskInfo =>
@@ -88,7 +88,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <returns>Sample clock rate, one value per underlying instrument session session.</returns>
-        /// <exception cref="DaqException"></exception>
+        /// <exception cref="DaqException">The underling driver session returned an error.</exception>
         public static double[] GetSampleClockRates(this DAQmxTasksBundle tasksBundle)
         {
             return tasksBundle.DoAndReturnPerInstrumentPerChannelResults(taskInfo =>

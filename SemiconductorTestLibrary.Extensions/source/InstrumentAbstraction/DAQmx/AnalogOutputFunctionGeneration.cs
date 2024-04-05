@@ -18,7 +18,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="functionGenerationSettings">T</param>
-        /// <exception cref="DaqException"></exception>
+        /// <exception cref="DaqException">The underling driver session returned an error.</exception>
         public static void ConfigureAOFunctionGeneration(this DAQmxTasksBundle tasksBundle, AOFunctionGenerationSettings functionGenerationSettings)
         {
             tasksBundle.Verify();
