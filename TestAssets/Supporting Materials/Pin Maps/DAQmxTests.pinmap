@@ -9,6 +9,7 @@
 		<NIDAQmxTask name="DAQ_6363_C1_S08_DOTask" taskType="DO" channelList="DAQ_6363_C1_S08/port1/line2" />
 		<NIDAQmxTask name="DAQ_6363_C2_S12_DITask" taskType="DI" channelList="DAQ_6363_C2_S12/port0/line0" />
 		<NIDAQmxTask name="DAQ_6363_C2_S12_DOTask" taskType="DO" channelList="DAQ_6363_C2_S12/port1/line2" />
+		<NIDAQmxTask name="DSA_4467_C6_S15_AOFGENTask" taskType="AOFuncGen" channelList="DSA_4467_C6_S15/ao0,DSA_4467_C6_S15/ao1" />
 	</Instruments>
 	<Pins>
 		<DUTPin name="VCC1" />
@@ -17,6 +18,7 @@
 		<SystemPin name="VDET" />
 		<DUTPin name="DIPin" />
 		<DUTPin name="DOPin" />
+		<DUTPin name="PureTonePin" />
 	</Pins>
 	<PinGroups>
 		<PinGroup name="AllAIPins">
@@ -44,6 +46,8 @@
 		<Connection pin="VCC2" siteNumber="1" instrument="DAQ_6363_C2_S12_AITask" channel="DAQ_6363_C2_S12/ai2" />
 		<Connection pin="VDD" siteNumber="0" instrument="DAQ_6363_C1_S08_AOTask" channel="DAQ_6363_C1_S08/ao3" />
 		<Connection pin="VDD" siteNumber="1" instrument="DAQ_6363_C2_S12_AOTask" channel="DAQ_6363_C2_S12/ao3" />
+		<Connection pin="PureTonePin" siteNumber="0" instrument="DSA_4467_C6_S15_AOFGENTask" channel="DSA_4467_C6_S15/ao0" />
+		<Connection pin="PureTonePin" siteNumber="1" instrument="DSA_4467_C6_S15_AOFGENTask" channel="DSA_4467_C6_S15/ao1" />
 		<SystemConnection pin="VDET" instrument="DAQ_6363_C1_S08_AITask" channel="DAQ_6363_C1_S08/ai1" />
 	</Connections>
 </PinMap>
