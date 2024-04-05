@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
-                taskInfo.Task.DIChannels.VerifyChannelsExist(DAQmxChannelType.DigitalInput);
+                taskInfo.VerifyTaskType(DAQmxTaskType.DigitalInput);
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
                     var channel = new DigitalSingleChannelReader(taskInfo.Task.Stream);
@@ -44,7 +44,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
-                taskInfo.Task.DIChannels.VerifyChannelsExist(DAQmxChannelType.DigitalInput);
+                taskInfo.VerifyTaskType(DAQmxTaskType.DigitalInput);
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
                     var channel = new DigitalSingleChannelReader(taskInfo.Task.Stream);
@@ -68,7 +68,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
-                taskInfo.Task.DIChannels.VerifyChannelsExist(DAQmxChannelType.DigitalInput);
+                taskInfo.VerifyTaskType(DAQmxTaskType.DigitalInput);
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
                     var channel = new DigitalSingleChannelReader(taskInfo.Task.Stream);

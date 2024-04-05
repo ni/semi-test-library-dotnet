@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Globalization;
 using System.Linq;
+using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
@@ -8,11 +9,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
 {
     internal static class Utilities
     {
-        public static void VerifyChannelsExist(this ICollection channels, DAQmxChannelType channelType)
+        public static void VerifyTaskType(this DAQmxTaskInformation taskInformation, DAQmxTaskType expectedTaskType)
         {
-            if (channels.Count == 0)
+            if (!taskInformation.GetTaskType().Equals(expectedTaskType))
             {
-                throw new NIMixedSignalException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_NoChannelsToRead, channelType.ToDefaultDAQmxTaskTypeString()));
+                throw new NIMixedSignalException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_NoChannelsToRead, expectedTaskType.ToString()));
             }
         }
 
@@ -60,31 +61,73 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             return GetSingleWaveform(siteData);
         }
 
-        private static string ToDefaultDAQmxTaskTypeString(this DAQmxChannelType channelType)
+        internal static ChannelType ToDAQmxChannelType(this DAQmxTaskType taskType)
         {
-            switch (channelType)
+            switch (taskType)
             {
-                case DAQmxChannelType.AnalogInput:
-                    return DefaultDAQmxTaskTypeStrings.AnalogInput;
-                case DAQmxChannelType.AnalogOutput:
-                    return DefaultDAQmxTaskTypeStrings.AnalogOutput;
-                case DAQmxChannelType.DigitalInput:
-                    return DefaultDAQmxTaskTypeStrings.DigitalInput;
-                case DAQmxChannelType.DigitalOutput:
-                    return DefaultDAQmxTaskTypeStrings.DigitalOutput;
-                case DAQmxChannelType.CounterInput:
-                    return DefaultDAQmxTaskTypeStrings.CounterInput;
-                case DAQmxChannelType.CounterOutput:
-                    return DefaultDAQmxTaskTypeStrings.CounterOutput;
-                case DAQmxChannelType.AnalogOutputFunctionGeneration:
-                    return DefaultDAQmxTaskTypeStrings.AnalogOutputFunctionGeneration;
+                case DAQmxTaskType.AnalogInput:
+                    return ChannelType.AI;
+                case DAQmxTaskType.AnalogOutput:
+                    return ChannelType.DO;
+                case DAQmxTaskType.DigitalInput:
+                    return ChannelType.DI;
+                case DAQmxTaskType.DigitalOutput:
+                    return ChannelType.DO;
+                case DAQmxTaskType.CounterInput:
+                    return ChannelType.CI;
+                case DAQmxTaskType.CounterOutput:
+                    return ChannelType.CO;
+                case DAQmxTaskType.AnalogOutputFunctionGeneration:
+                    return ChannelType.AO;
                 default:
-                    return string.Empty;
+                    throw new NIMixedSignalException($"Cannot Determine ChannelType for the specified task type ({taskType}).");
             }
+        }
+
+        internal static string ToDefaultTaskTypeString(this DAQmxTaskType taskType)
+        {
+            if (taskType.Equals(DAQmxTaskType.AnalogOutputFunctionGeneration))
+            {
+                return $"AOFGEN";
+            }
+            return taskType.ToDAQmxChannelType().ToString();
+        }
+
+        internal static DAQmxTaskType GetTaskType(this DAQmxTaskInformation taskInfo)
+        {
+            if (!taskInfo.Task.AIChannels.Count.Equals(0))
+            {
+                return DAQmxTaskType.AnalogInput;
+            }
+            if (!taskInfo.Task.AOChannels.Count.Equals(0))
+            {
+                if (taskInfo.Task.AOChannels.All.OutputType.Equals(AOOutputType.FunctionGeneration))
+                {
+                    return DAQmxTaskType.AnalogOutputFunctionGeneration;
+                }
+                return DAQmxTaskType.AnalogOutput;
+            }
+            if (!taskInfo.Task.DOChannels.Count.Equals(0))
+            {
+                return DAQmxTaskType.DigitalOutput;
+            }
+            if (!taskInfo.Task.DIChannels.Count.Equals(0))
+            {
+                return DAQmxTaskType.DigitalInput;
+            }
+            if (!taskInfo.Task.CIChannels.Count.Equals(0))
+            {
+                return DAQmxTaskType.CounterInput;
+            }
+            if (!taskInfo.Task.COChannels.Count.Equals(0))
+            {
+                return DAQmxTaskType.CounterOutput;
+            }
+            throw new NIMixedSignalException("Cannot determine the type task. The task may be improperly initialized.");
         }
     }
 
-    internal enum DAQmxChannelType
+    internal enum DAQmxTaskType
     {
         AnalogInput,
         AnalogOutput,

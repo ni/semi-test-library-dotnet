@@ -20,7 +20,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
-                taskInfo.Task.CIChannels.VerifyChannelsExist(DAQmxChannelType.CounterInput);
+                taskInfo.VerifyTaskType(DAQmxTaskType.CounterInput);
                 if (taskInfo.Task.CIChannels.HasSingleChannel())
                 {
                     var channel = new CounterSingleChannelReader(taskInfo.Task.Stream);
