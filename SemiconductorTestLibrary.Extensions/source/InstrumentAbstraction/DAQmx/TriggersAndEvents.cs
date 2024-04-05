@@ -1,4 +1,5 @@
-﻿using NationalInstruments.DAQmx;
+﻿using System.Linq;
+using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Utilities;
@@ -20,7 +21,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// <param name="source">The name of a terminal where there is a digital signal to use as the source of the trigger.</param>
         /// <param name="edge">The edge of the digital signal to start acquiring or generating samples.</param>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
-        public static void ConfigureStartTriggerDigitalEdge(this DAQmxTasksBundle tasksBundle, string source, DigitalEdgeStartTriggerEdge edge)
+        public static void ConfigureStartTriggerDigitalEdge(this DAQmxTasksBundle tasksBundle, string source, DigitalEdgeStartTriggerEdge edge = DigitalEdgeStartTriggerEdge.Rising)
         {
             tasksBundle.Do(taskInfo =>
             {
@@ -71,28 +72,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         }
 
         /// <summary>
-        /// Routes a control signal to the specified terminal and gets the fully qualifed string of the exported signal.
+        /// Gets the fully qualified terminal name for the specified signal.
         /// </summary>
-        /// <remarks>
-        /// Because the output terminal can reside on the device that generates the control
-        /// signal or on a different device, you can use this method to share clocks and
-        /// triggers between multiple devices.
-        /// </remarks>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
-        /// <param name="signal"> The trigger, clock, or event to export.</param>
+        /// <param name="signal"> The trigger, clock, or event.</param>
+        /// <returns>Array of fully qualifed output terminal strings, one per instrument session.</returns>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
-        public static void ExportSignal(this DAQmxTasksBundle tasksBundle, ExportSignal signal)
+        public static string[] GetFullyQualifiedOutputTerminals(this DAQmxTasksBundle tasksBundle, ExportSignal signal)
         {
-            tasksBundle.Do(taskInfo =>
+            var fullyQualifiedOutputTerminals = new string[tasksBundle.InstrumentSessions.Count()];
+            var lockObject = new object();
+            tasksBundle.Do((taskInfo, indexer) =>
             {
                 /// Using the first insturment in the task as the primary.
                 var instrumentAlias = taskInfo.Task.Devices[0];
                 var chType = taskInfo.GetTaskType().ToDAQmxChannelType();
-                var fullyQualifiedOutputTerminal = BuildFullyQualifiedDAQmxOutputTerminal(instrumentAlias, chType, signal);
-                taskInfo.Task.Control(TaskAction.Verify);
-                taskInfo.Task.ExportSignals.ExportHardwareSignal(signal, fullyQualifiedOutputTerminal);
-                taskInfo.Task.Control(TaskAction.Commit);
+                lock (lockObject)
+                {
+                    fullyQualifiedOutputTerminals[indexer] = BuildFullyQualifiedDAQmxOutputTerminal(instrumentAlias, chType, signal);
+                }
             });
+            return fullyQualifiedOutputTerminals;
         }
     }
 }
