@@ -125,6 +125,39 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             }
             throw new NIMixedSignalException("Cannot determine the type task. The task may be improperly initialized.");
         }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "Not applicable, driver expects lowercase")]
+        internal static string BuildFullyQualifiedDAQmxOutputTerminal(string deviceAlias, ChannelType channelType, ExportSignal signal)
+        {
+            string exportedSignalString;
+            switch (signal)
+            {
+                case ExportSignal.ReferenceTrigger:
+                case ExportSignal.SampleClock:
+                case ExportSignal.StartTrigger:
+                    if (signal.Equals(ExportSignal.ReferenceTrigger) && !channelType.Equals(ChannelType.DI))
+                    {
+                        throw new NIMixedSignalException("ReferenceTrigger is not supported for DigitalInput channels.");
+                    }
+                    exportedSignalString = $"{channelType.ToString().ToLowerInvariant()}/{signal}";
+                    break;
+                case ExportSignal.Timebase20MHz:
+                    exportedSignalString = $"Timebase20MHz";
+                    break;
+                case ExportSignal.ReferenceClock10MHz:
+                    exportedSignalString = $"ReferenceClock10MHz";
+                    break;
+                case ExportSignal.WatchdogExpiredEvent:
+                    exportedSignalString = $"WatchdogExpiredEvent";
+                    break;
+                case ExportSignal.ChangeDetectionEvent:
+                    exportedSignalString = $"ChangeDetectionEvent";
+                    break;
+                default:
+                    throw new NIMixedSignalException($"ExportSignal not supported: {signal}");
+            }
+            return $"/{deviceAlias}/{exportedSignalString}";
+        }
     }
 
     internal enum DAQmxTaskType
