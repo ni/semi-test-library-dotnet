@@ -37,10 +37,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Reads the Boolean state of a pattern sequencer flag.
         /// </summary>
         /// <remarks>
-        /// This method is ths same as <see cref="ReadSequencerFlag(DigitalSessionsBundle, string)"/>,
+        /// This method is the same as <see cref="ReadSequencerFlag(DigitalSessionsBundle, string)"/>,
         /// except it also checks to confirm if the flag state is the same across all sessions in the bundle.
         /// If the states are indeed the same, it will return the single boolean state value.
-        /// Otheriwse, it will throw an exception.
+        /// Otherwise, it will throw an exception.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="flag">The name of the pattern sequencer flag to read. Possible values include "seqflag0", "seqflag1", "seqflag2", or "seqflag3".</param>
@@ -51,7 +51,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             var result = sessionsBundle.ReadSequencerFlag(flag).Distinct().ToArray();
             if (result.Length > 1)
             {
-                throw new NIMixedSignalException($"The state of the sequence flag ({flag}) is not distrinct, there is a different value between instrument sessions.");
+                throw new NIMixedSignalException($"The state of the sequence flag ({flag}) is not distinct, there is a different value between instrument sessions.");
             }
             return result[0];
         }
@@ -105,10 +105,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Reads the numeric state of a pattern sequencer flag.
         /// </summary>
         /// <remarks>
-        /// This method is ths same as <see cref="ReadSequencerRegister(DigitalSessionsBundle, string)"/>,
+        /// This method is the same as <see cref="ReadSequencerRegister(DigitalSessionsBundle, string)"/>,
         /// except it also checks to confirm if the register values are the same across all sessions in the bundle.
-        /// If the states are indeed the same, it will return the single interger value.
-        /// Otheriwse, it will throw an exception.
+        /// If the states are indeed the same, it will return the single integer value.
+        /// Otherwise, it will throw an exception.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="registerName">Specifies pattern sequencer register to read. Possible values include "reg0" through "reg15".</param>
@@ -119,7 +119,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             var result = sessionsBundle.ReadSequencerRegister(registerName).Distinct().ToArray();
             if (result.Length > 1)
             {
-                throw new NIMixedSignalException($"The state of the sequence register ({registerName}) is not distrinct, there is a different value between instrument sessions.");
+                throw new NIMixedSignalException($"The state of the sequence register ({registerName}) is not distinct, there is a different value between instrument sessions.");
             }
             return result[0];
         }

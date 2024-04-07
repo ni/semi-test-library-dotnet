@@ -349,7 +349,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Remarks:
         /// <list type="bullet">
         /// <item>If a pattern is currently bursting, the pin immediately switches to bursting the pattern.</item>
-        /// <item>The PPMU stops sourcing and is turned off off when the Digital function is selected. Dispite this, you can still make voltage measurements.</item>
+        /// <item>The PPMU stops sourcing and is turned off when the Digital function is selected. Despite this, you can still make voltage measurements.</item>
         /// <item>Internally withing the instrument the pin electronics are now connected to the driver, comparator, and active load functions.</item>
         /// <item>The state of the digital pin driver when you change the selected function to Digital is determined by the most recent call to the niDigital Write Static VI or the last vector of the most recently executed pattern burst, whichever happened last.</item>
         /// </list>
@@ -376,7 +376,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Configures the aperture time for the PPMU measurement.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="apertureTimeInSeconds">The aperature time in seconds.</param>
+        /// <param name="apertureTimeInSeconds">The aperture time in seconds.</param>
         public static void ConfigureApertureTime(this DigitalSessionsBundle sessionsBundle, double apertureTimeInSeconds)
         {
             sessionsBundle.Do(sessionInfo =>
