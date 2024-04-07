@@ -207,7 +207,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var outputTerminal = "PXI_Trig2";
 
-            // Export Conditional Jump Trigger Trigger
+            // Export Conditional Jump Trigger
             sessionsBundle.ExportSignal(SignalType.ConditionalJumpTrigger, $"conditionalJumpTrigger{0}", outputTerminal);
             sessionsBundle.Do(sessionInfo =>
             {

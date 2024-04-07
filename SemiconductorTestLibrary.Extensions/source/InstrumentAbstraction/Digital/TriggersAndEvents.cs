@@ -23,7 +23,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Valid values include: 0, 1, 2, and 3,
         /// which all equate to conditionalJumpTrigger0, conditionalJumpTrigger1, conditionalJumpTrigger2, and conditionalJumpTrigger3, respectively.
         /// </param>
-        /// <param name="digitalEdge">The edge of the digital signal that should be triggered on: Rising edge (deafult) or Falling edge.</param>
+        /// <param name="digitalEdge">The edge of the digital signal that should be triggered on: Rising edge (default) or Falling edge.</param>
         /// <exception cref="OutOfRangeException">The value for type is invalid.</exception>
         public static void ConfigureConditionalJumpTriggerDigitalEdge(this DigitalSessionsBundle sessionsBundle, string source, int conditionalJumpTriggerId, DigitalEdge digitalEdge = DigitalEdge.Rising)
         {
@@ -58,7 +58,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The source terminal for the start trigger.
         /// Possible values include but are not limited to "PXI_Trig0", "PXI_Trig1", "PXI_Trig2", "PXI_Trig3", "PXI_Trig4", "PXI_Trig5", "PXI_Trig6", or "PXI_Trig7".
         /// </param>
-        /// <param name="digitalEdge">The edge of the digital signal that should be triggered on: Rising edge (deafult) or Falling edge.</param>
+        /// <param name="digitalEdge">The edge of the digital signal that should be triggered on: Rising edge (default) or Falling edge.</param>
         /// <exception cref="OutOfRangeException">The value for type is invalid.</exception>
         public static void ConfigureStartTriggerDigitalEdge(this DigitalSessionsBundle sessionsBundle, string source, DigitalEdge digitalEdge = DigitalEdge.Rising)
         {
