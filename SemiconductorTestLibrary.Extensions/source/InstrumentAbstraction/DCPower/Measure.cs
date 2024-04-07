@@ -32,7 +32,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureMeasureSettings"/>
+        /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, DCPowerMeasureSettings)"/>
         public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerMeasureSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -42,7 +42,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureMeasureSettings"/>
+        /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, DCPowerMeasureSettings)"/>
         public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerMeasureSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -402,7 +402,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="pointsToFetch">The number of points to Fetch.</param>
         /// <param name="timeoutInSeconds">The time to wait before the operation is aborted.</param>
-        /// <returns>A <see cref="PerSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
+        /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
         /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
         public static PinSiteData<SingleDCPowerFetchResult[]> FetchMeasurement(this DCPowerSessionsBundle sessionsBundle, int pointsToFetch = 1, double timeoutInSeconds = 10)
         {
