@@ -69,7 +69,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         }
 
         /// <summary>
-        /// Configures multipoint acquisition.
+        /// Configures multi-point acquisition.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="triggerCount">The number of the triggers the device receives before returning to the idle state.</param>
@@ -128,7 +128,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// </summary>
         /// <remarks>
         /// <para>
-        /// Whhen ADC Calibration is AUTO, the DMM enables or disables ADC calibration.
+        /// When ADC Calibration is AUTO, the DMM enables or disables ADC calibration.
         /// </para>
         /// <para>
         /// When ADC Calibration is ON, the DMM measures an internal reference to calculate the correct gain for the measurement.
