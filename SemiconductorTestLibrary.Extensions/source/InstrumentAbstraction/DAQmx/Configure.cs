@@ -55,8 +55,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             {
                 taskInfo.Task.Control(TaskAction.Verify);
                 // Setting the following properties are equivalent to invoking taskInfo.Task.Timing.ConfigureSampleClock().
-                // This is adventegous as it allows the user to set the properties in a single call,
-                // BUT also allows the user to update the properties individually at any part of thier code,
+                // This is advantageous as it allows the user to set the properties in a single call,
+                // BUT also allows the user to update the properties individually at any part of their code,
                 // without having to worry about previous settings being changed or needing to be reset.
                 taskInfo.Task.Timing.SampleTimingType = timingSettings.SampleTimingType;
                 if (timingSettings.SampleQuantityMode.HasValue)
@@ -87,7 +87,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// Gets the actual sample clock rate (Hz).
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
-        /// <returns>Sample clock rate, one value per underlying instrument session session.</returns>
+        /// <returns>Sample clock rate, one value per underlying instrument session.</returns>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
         public static double[] GetSampleClockRates(this DAQmxTasksBundle tasksBundle)
         {
@@ -101,10 +101,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// <inheritdoc cref="Timing.SampleClockRate"/>/>
         /// </summary>
         /// <remarks>
-        /// This method is ths same as <see cref="GetSampleClockRates"/>,
+        /// This method is the same as <see cref="GetSampleClockRates"/>,
         /// except it also checks to confirm if the flag state is the values are the same across all sessions in the bundle.
         /// If the values are indeed the same, it will return the single double value.
-        /// Otheriwse, it will throw an exception.
+        /// Otherwise, it will throw an exception.
         /// </remarks>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <returns>Sample clock rate.</returns>

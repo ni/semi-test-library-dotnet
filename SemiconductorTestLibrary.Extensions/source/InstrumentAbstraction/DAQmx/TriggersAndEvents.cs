@@ -76,7 +76,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="signal"> The trigger, clock, or event.</param>
-        /// <returns>Array of fully qualifed output terminal strings, one per instrument session.</returns>
+        /// <returns>Array of fully qualified output terminal strings, one per instrument session.</returns>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
         public static string[] GetFullyQualifiedOutputTerminals(this DAQmxTasksBundle tasksBundle, ExportSignal signal)
         {
@@ -84,7 +84,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             var lockObject = new object();
             tasksBundle.Do((taskInfo, indexer) =>
             {
-                /// Using the first insturment in the task as the primary.
+                /// Using the first instrument in the task as the primary.
                 var instrumentAlias = taskInfo.Task.Devices[0];
                 var chType = taskInfo.GetTaskType().ToDAQmxChannelType();
                 lock (lockObject)

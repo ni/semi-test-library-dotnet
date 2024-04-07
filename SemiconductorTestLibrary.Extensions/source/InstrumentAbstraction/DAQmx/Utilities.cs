@@ -68,7 +68,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 case DAQmxTaskType.AnalogInput:
                     return ChannelType.AI;
                 case DAQmxTaskType.AnalogOutput:
-                    return ChannelType.DO;
+                    return ChannelType.AO;
                 case DAQmxTaskType.DigitalInput:
                     return ChannelType.DI;
                 case DAQmxTaskType.DigitalOutput:

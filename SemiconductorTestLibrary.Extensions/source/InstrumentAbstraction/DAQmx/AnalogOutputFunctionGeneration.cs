@@ -57,7 +57,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
 
         /// <summary>
         /// Transitions the task to the running state to begin the analog output function generation.
-        /// This method will wait for the appropriate amount of settling time required by the insturment.
+        /// This method will wait for the appropriate amount of settling time required by the instrument.
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
@@ -70,13 +70,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             // Want to ensure that all tasks are started at the same time.
             // This is important for the outputs to start as synchronized as possible.
             tasksBundle.Start();
-            // We also want to ensure we wait only once for the max settling time reuqired.
+            // We also want to ensure we wait only once for the max settling time required.
             PreciseWait(settlingTimes.Max().Max());
         }
 
         /// <summary>
         /// This method calculates the time required after starting a AO FuncGen task for the PXIe-4467 and PXIe-4468 for the output signal to settle.
-        /// If the task contains a DAQ insturment that does not support AO FuncGen, such as the PXIe-6368, then this function will return an error.
+        /// If the task contains a DAQ instrument that does not support AO FuncGen, such as the PXIe-6368, then this function will return an error.
         /// </summary>
         /// <param name="taskInfo">The <see cref="DAQmxTaskInformation"/> object.</param>
         /// <param name="individualChannelString">The individual channel string</param>
