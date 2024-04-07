@@ -32,7 +32,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureSourceSettings"/>
+        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, SiteData{DCPowerSourceSettings})"/>
         public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -42,7 +42,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureSourceSettings"/>
+        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, PinSiteData{DCPowerSourceSettings})"/>
         public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerSourceSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -470,7 +470,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureOutputConnected"/>
+        /// <inheritdoc cref="ConfigureOutputConnected(DCPowerSessionsBundle, SiteData{bool})"/>
         public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, SiteData<bool> connectOutput)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
@@ -480,7 +480,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureOutputConnected"/>
+        /// <inheritdoc cref="ConfigureOutputConnected(DCPowerSessionsBundle, PinSiteData{bool})"/>
         public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, PinSiteData<bool> connectOutput)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
@@ -507,7 +507,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureOutputEnabled"/>
+        /// <inheritdoc cref="ConfigureOutputEnabled(DCPowerSessionsBundle, SiteData{bool})"/>
         public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, SiteData<bool> enableOutput)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
@@ -517,7 +517,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureOutputEnabled"/>
+        /// <inheritdoc cref="ConfigureOutputEnabled(DCPowerSessionsBundle, PinSiteData{bool})"/>
         public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, PinSiteData<bool> enableOutput)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
