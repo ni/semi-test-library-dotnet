@@ -32,7 +32,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, SiteData{DCPowerMeasureSettings})"/>
+        /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, DCPowerMeasureSettings)"/>
         public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerMeasureSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -42,7 +42,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, PinSiteData{DCPowerMeasureSettings})"/>
+        /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, DCPowerMeasureSettings)"/>
         public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerMeasureSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
