@@ -16,20 +16,20 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> class with a specified error message.
+            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> class with an error message.
             </summary>
             <param name="message">The error message that explains the reason for the exception.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException.#ctor(System.String,System.Exception)">
             <summary>
-            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> class with an error message and a reference to the inner exception resulting in this exception.
             </summary>
             <param name="message">The error message that explains the reason for the exception.</param>
-            <param name="innerException">The exception that is the cause of the current exception.</param>
+            <param name="innerException">The exception resulting in the current exception.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException.#ctor(System.Int32,System.Exception)">
             <summary>
-            Initializes an instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> with error code and inner exception.
+            Initializes an instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> with an error code and an inner exception.
             </summary>
             <param name="errorCode">The error code to be included.</param>
             <param name="innerException">The exception to be embedded.</param>
@@ -67,7 +67,7 @@
             </summary>
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <param name="sessionsBundle">The sessions bundle object.</param>
-            <param name="action">The operation to happen on each session info. The second parameter is the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> associates with a single channel.</param>
+            <param name="action">The operation to happen on each session info. The second parameter is the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> associated with a single channel.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,System.Int32,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})">
             <summary>
@@ -94,7 +94,7 @@
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <typeparam name="TResult">The type of the operation result.</typeparam>
             <param name="sessionsBundle">The sessions bundle object.</param>
-            <param name="function">The operation to happen on each session info. The second parameter is the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> associates with a single channel.</param>
+            <param name="function">The operation to happen on each session info. The second parameter is the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> associated with a single channel.</param>
             <returns>An array of the operation results for all sessions.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``3(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{``1,``2}})">
@@ -126,7 +126,7 @@
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <typeparam name="TResult">The type of the operation result.</typeparam>
             <param name="sessionsBundle">The sessions bundle object.</param>
-            <param name="function">The operation to happen on each session info. The second parameter is the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> associates with a single channel.</param>
+            <param name="function">The operation to happen on each session info. The second parameter is the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> associated with a single channel.</param>
             <returns>The per-site per-pin results of the operation.</returns>
             <remarks>The output parameter of the <paramref name="function"/> is the <b>per-instrument per channel</b> result.</remarks>
         </member>
@@ -310,19 +310,17 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait(System.Nullable{System.Double})">
             <summary>
             This method blocks the thread and waits for the specified amount of time. This method uses the Stopwatch class
-            to support shorter settling times; the Thread.Sleep() method has a resolution of over 10ms and is not suitable
-            for short wait periods.
+            to support shorter settling times.
             </summary>
             <param name="timeInSeconds">The time to precisely wait for.</param>
             <remarks>This method passes through if the time specified is null.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel(System.Action[])">
             <summary>
-            This method calls the Parallel.Invoke method to execute multiple methods in parallel. If any of the methods generates an exception, this method will throw
+            This method calls the Parallel.Invoke method to execute multiple methods in parallel. If any of the methods generates an exception, this method throws
             the first exception encountered. This allows the exception to be displayed properly by the TestStand Semiconductor Module runtime error dialog.
             </summary>
             <param name="actions">The methods to invoke in parallel.</param>
-            <remarks>This implementation is copied from TSMStepTemplates.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])">
             <summary>
@@ -344,7 +342,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray``1(``0[0:,0:])">
             <summary>
-            Converts two dimensional array to jagged array.
+            Converts a two dimensional array to a jagged array.
             </summary>
             <typeparam name="T">The element type of the array.</typeparam>
             <param name="twoDimensionalArray">The two dimensional array to be converted.</param>
@@ -366,32 +364,32 @@
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.EqualTo">
             <summary>
-            Is the value equal?
+            The comparison result is equal.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.NotEqualTo">
             <summary>
-            Is the value not equal?
+            The comparison result is not equal.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThan">
             <summary>
-            Is the value less than?
+            The comparison result is less than.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThanOrEqualTo">
             <summary>
-            Is the value less than or equal to?
+            The comparison result is less than or equal to.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThan">
             <summary>
-            Is the value greater than?
+            The comparison result is greater than.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThanOrEqualTo">
             <summary>
-            Is the value greater than or equal to?
+            The comparison result is greater than or equal to.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1">
@@ -537,42 +535,42 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(`0)">
             <summary>
-            Returns the larger of the element in current PinSiteData and the given value.
+            Returns the larger one of the element in current PinSiteData and the given value.
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new PinSiteData that contains the larger values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Returns the larger of the element in current PinSiteData and the given SiteData.
+            Returns the larger one of the element in current PinSiteData and the given SiteData.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData that contains the larger values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
-            Returns the larger of the element in current PinSiteData and the given PinSiteData.
+            Returns the larger one of the element in current PinSiteData and the given PinSiteData.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData that contains the larger values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(`0)">
             <summary>
-            Returns the smaller of the element in current PinSiteData and the given value.
+            Returns the smaller one of the element in current PinSiteData and the given value.
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new PinSiteData that contains the smaller values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Returns the smaller of the element in current PinSiteData and the given SiteData.
+            Returns the smaller one of the element in current PinSiteData and the given SiteData.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData that contains the smaller values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
-            Returns the smaller of the element in current PinSiteData and the given PinSiteData.
+            Returns the smaller one of the element in current PinSiteData and the given PinSiteData.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData that contains the smaller values.</returns>
@@ -898,7 +896,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelList">
             <summary>
-            The channels associate with the task.
+            The channels associated with the task.
             </summary>
             <remarks>It's a comma-separated string of instrument-channel pair, e.g. "DAQmx_6363_C1_S08/ai0:2, DAQmx_6363_C1_S08/ai4".</remarks>
         </member>
@@ -910,7 +908,7 @@
             Constructs a task information object that associates with a NI-DAQmx task.
             </summary>
             <param name="task">The NI-DAQmx task.</param>
-            <param name="channelList">The channels associate with the task.</param>
+            <param name="channelList">The channels associated with the task.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>
@@ -936,7 +934,7 @@
             <summary>
             Constructs a tasks bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/>s.
             </summary>
-            <param name="pinQueryContext">The pin query context associates with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/>s.</param>
+            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/>s.</param>
             <param name="allTaskInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/>s.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose">
@@ -1031,80 +1029,121 @@
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1">
+            <summary>
+            Defines a class that caches sample values.
+            </summary>
+            <typeparam name="T">The type of the sample.</typeparam>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.Instance">
+            <summary>
+            The singleton instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1"/>.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.GenerateDefaultSampleValues(System.String[])">
+            <summary>
+            Generates a dictionary that caches sample values.
+            </summary>
+            <param name="channelLists">The channel lists each associates with a task.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.TryWriteAndRecoverCacheOnFailure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation,`0,System.Action{`0[]})">
+            <summary>
+            Tries to do the specified write operation and makes sure the sample values cache is updated on a successful write.
+            </summary>
+            <param name="taskInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/> object.</param>
+            <param name="data">The state to update to.</param>
+            <param name="writeAction">The driver write operation.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.TryWriteAndRecoverCacheOnFailure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},System.Action{`0[]})">
+            <summary>
+            Tries to do the specified write operation and makes sure the sample values cache is updated on a successful write.
+            </summary>
+            <param name="taskInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/> object.</param>
+            <param name="data">The state to update to.</param>
+            <param name="writeAction">The driver write operation.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.TryWriteAndRecoverCacheOnFailure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Action{`0[]})">
+            <summary>
+            Tries to do the specified write operation and makes sure the sample values cache is updated on a successful write.
+            </summary>
+            <param name="taskInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/> object.</param>
+            <param name="data">The state to update to.</param>
+            <param name="writeAction">The driver write operation.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings">
             <summary>
-            Defines DCPower model strings as accord to driver definition below.
+            Defines DCPower model strings according to the driver definition below.
             https://dev.azure.com/ni/DevCentral/_git/ni-central?path=/src/nidcpower/base/nidcpowerSharedSource/source/nidcpowerSharedSource/productid/ProductID.h
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4110">
             <summary>
-            Indicates a NI PXI-4110 device.
+            Indicates an NI PXI-4110 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4130">
             <summary>
-            Indicates a NI PXI-4130 device.
+            Indicates an NI PXI-4130 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4131A">
             <summary>
-            Indicates a NI PXI-4131A device.
+            Indicates an NI PXI-4131A device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4132">
             <summary>
-            Indicates a NI PXI-4132 device.
+            Indicates an NI PXI-4132 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4051">
             <summary>
-            Indicates a NI PXIe-4051 device.
+            Indicates an NI PXIe-4051 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4112">
             <summary>
-            Indicates a NI PXIe-4112 device.
+            Indicates an NI PXIe-4112 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4113">
             <summary>
-            Indicates a NI PXIe-4113 device.
+            Indicates an NI PXIe-4113 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4118">
             <summary>
-            Indicates a NI PXIe-4118 device.
+            Indicates an NI PXIe-4118 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4135">
             <summary>
-            Indicates a NI PXIe-4135 device.
+            Indicates an NI PXIe-4135 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4135_40W">
             <summary>
-            Indicates a NI PXIe-4135 high power device.
+            Indicates an NI PXIe-4135 high power device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4136">
             <summary>
-            Indicates a NI PXIe-4136 device.
+            Indicates an NI PXIe-4136 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4137">
             <summary>
-            Indicates a NI PXIe-4137 device.
+            Indicates an NI PXIe-4137 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4137_40W">
             <summary>
-            Indicates a NI PXIe-4137 high power device.
+            Indicates an NI PXIe-4137 high power device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4138">
             <summary>
-            Indicates a NI PXIe-4138 device.
+            Indicates an NI PXIe-4138 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4139">
@@ -1114,97 +1153,97 @@
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4139_40W">
             <summary>
-            Indicates a NI PXIe-4139 high power device.
+            Indicates an NI PXIe-4139 high power device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4140">
             <summary>
-            Indicates a NI PXIe-4140 device.
+            Indicates an NI PXIe-4140 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4141">
             <summary>
-            Indicates a NI PXIe-4141 device.
+            Indicates an NI PXIe-4141 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4141_HSR">
             <summary>
-            Indicates a NI PXIe-4141 high sense resistance device.
+            Indicates an NI PXIe-4141 high sense resistance device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4142">
             <summary>
-            Indicates a NI PXIe-4142 device.
+            Indicates an NI PXIe-4142 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4143">
             <summary>
-            Indicates a NI PXIe-4143 device.
+            Indicates an NI PXIe-4143 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4144">
             <summary>
-            Indicates a NI PXIe-4144 device.
+            Indicates an NI PXIe-4144 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4145">
             <summary>
-            Indicates a NI PXIe-4145 device.
+            Indicates an NI PXIe-4145 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4147">
             <summary>
-            Indicates a NI PXIe-4147 device.
+            Indicates an NI PXIe-4147 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4150">
             <summary>
-            Indicates a NI PXIe-4150 device.
+            Indicates an NI PXIe-4150 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4151">
             <summary>
-            Indicates a NI PXIe-4151 device.
+            Indicates an NI PXIe-4151 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4154">
             <summary>
-            Indicates a NI PXIe-4154 device.
+            Indicates an NI PXIe-4154 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4161">
             <summary>
-            Indicates a NI PXIe-4161 device.
+            Indicates an NI PXIe-4161 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4162">
             <summary>
-            Indicates a NI PXIe-4162 device.
+            Indicates an NI PXIe-4162 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4162_10pA">
             <summary>
-            Indicates a NI PXIe-4162 10pA device.
+            Indicates an NI PXIe-4162 10pA device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4163">
             <summary>
-            Indicates a NI PXIe-4163 device.
+            Indicates an NI PXIe-4163 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4163_10pA">
             <summary>
-            Indicates a NI PXIe-4163 10pA device.
+            Indicates an NI PXIe-4163 10pA device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4190">
             <summary>
-            Indicates a NI PXIe-4190 device.
+            Indicates an NI PXIe-4190 device.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4190_500kHz">
             <summary>
-            Indicates a NI PXIe-4190 500kHz device.
+            Indicates an NI PXIe-4190 500kHz device.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation">
@@ -1219,7 +1258,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.AllChannelsString">
             <summary>
-            The all channels string associates with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.Session"/>.
+            The all channels string associated with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.Session"/>.
             </summary>
             <remarks>It's a comma-separated string of instrument-channel pairs, e.g. "SMU_4147_C1_S10/0, SMU_4147_C1_S10/1".</remarks>
         </member>
@@ -1235,7 +1274,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.PowerLineFrequency">
             <summary>
-            The power line frequency value cache for PXI-4110, PXI-4130 and PXIe-4154 since they don't support power line frequency property.
+            The power line frequency value cache for PXI-4110, PXI-4130, and PXIe-4154 since they don't support power line frequency property.
             The cached value is used to convert aperture time value between power line cycles and seconds, for these model types.
             </summary>
         </member>
@@ -1247,7 +1286,7 @@
             Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> instrument session.
             </summary>
             <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session.</param>
-            <param name="allChannelsString">The all channels string associates with the <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session.</param>
+            <param name="allChannelsString">The all channels string associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>
@@ -1273,7 +1312,7 @@
             <summary>
             Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/>s.
             </summary>
-            <param name="pinQueryContext">The pin query context associates with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/>s.</param>
+            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/>s.</param>
             <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/>s.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose">
@@ -1306,13 +1345,13 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString">
             <summary>
-            The pin set string associates with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session"/>.
+            The pin set string associated with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session"/>.
             </summary>
             <remarks>It's a comma-separated string of site-pin pairs, e.g. "site0/A, site0/B".</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString">
             <summary>
-            The site list string associates with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session"/>.
+            The site list string associated with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session"/>.
             </summary>
             <remarks>It's a comma-separated string of sites, e.g. "site0, site1".</remarks>
         </member>
@@ -1323,12 +1362,12 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList">
             <summary>
-            The pin set info corresponds to <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString"/> in a more accessible format.
+            The pin set info corresponding to <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString"/> in a more accessible format.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList">
             <summary>
-            The site numbers corresponds to <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString"/> in a more accessible format.
+            The site numbers corresponding to <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString"/> in a more accessible format.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.String)">
@@ -1336,8 +1375,8 @@
             Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> instrument session.
             </summary>
             <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="pinSetString">The pin set string associates with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="siteList">The site list associates with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="pinSetString">The pin set string associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="siteList">The site list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings">
             <summary>
@@ -1368,8 +1407,8 @@
             <summary>
             Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.
             </summary>
-            <param name="pinQueryContext">The pin query context associates with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.</param>
-            <param name="pins">The pins associate with this sessions bundle.</param>
+            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.</param>
+            <param name="pins">The pins associated with this sessions bundle.</param>
             <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.Do``1(System.Collections.Generic.IDictionary{System.Int32,``0},System.Action{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,``0[]})">
@@ -1468,7 +1507,7 @@
             <summary>
             Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/>s.
             </summary>
-            <param name="pinQueryContext">The pin query context associates with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/>s.</param>
+            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/>s.</param>
             <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/>s.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose">
@@ -1493,11 +1532,13 @@
             Defines entry points for mixed signal steps.
             </summary>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.MapInitializedInstrumentSessions(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.MapInitializedInstrumentSessions(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.String)">
             <summary>
             Does mapping for initialized instrument sessions.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="analogOutputVoltageTaskType">Specifies the analog output task type.</param>
+            <param name="digitalOutputTaskType">Specifies the digital output task type.</param>
             <remarks>Must be called when instruments initialization complete.</remarks>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation">
@@ -1507,7 +1548,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList">
             <summary>
-            Gets a list of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> objects associate with the driver session.
+            Gets a list of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> objects associated with the driver session.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1">
@@ -1551,7 +1592,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager">
             <summary>
-            Defines a session manager that manages device sessions through TestStand TSM module.
+            Defines a session manager that manages device sessions through TSM.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
@@ -1562,56 +1603,56 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String)">
             <summary>
-            Gets <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> associates with the specified pin.
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> associated with the specified pin.
             </summary>
             <param name="pin">The given pin.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/>.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String[])">
             <summary>
-            Gets <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> associates with the specified pins.
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> associated with the specified pins.
             </summary>
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/>.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String)">
             <summary>
-            Gets <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> associates with the specified pin.
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> associated with the specified pin.
             </summary>
             <param name="pin">The given pin.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/>.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String[])">
             <summary>
-            Gets <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> associates with the specified pins.
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> associated with the specified pins.
             </summary>
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/>.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String)">
             <summary>
-            Gets <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associates with the specified pin.
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pin.
             </summary>
             <param name="pin">The given pin.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[])">
             <summary>
-            Gets <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associates with the specified pins.
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pins.
             </summary>
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String)">
             <summary>
-            Gets <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/> associates with the specified pin.
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/> associated with the specified pin.
             </summary>
             <param name="pin">The given pin.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/>.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String[])">
             <summary>
-            Gets <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/> associates with the specified pins.
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/> associated with the specified pins.
             </summary>
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/>.</returns>
@@ -1634,7 +1675,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_PinNotFound">
             <summary>
-              Looks up a localized string similar to The pinName {0} does not exist..
+              Looks up a localized string similar to The pin name {0} does not exist..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteNumberNotFound">
@@ -1654,12 +1695,12 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_NotUsingChannelGroups">
             <summary>
-              Looks up a localized string similar to Please convert DCPower instruments to use channel groups in the pinmap..
+              Looks up a localized string similar to Convert DCPower instruments to use channel groups in the pinmap..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_MixedUsageOfDUTPinsAndSystemPins">
             <summary>
-              Looks up a localized string similar to The specified pins contain both DUT pin(s) and system pin(s). Please call GetDigitalSessionsBundle with the same type of pins..
+              Looks up a localized string similar to The specified pins contain both DUT pin(s) and system pin(s). Call Digital method with the same type of pins..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_SheetDoesNotExist">
@@ -1669,12 +1710,12 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_DataTypeNotSupported">
             <summary>
-              Looks up a localized string similar to Math operations not supported on {0} type data..
+              Looks up a localized string similar to Math operations not supported on the {0} type data..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_OperationNotSupported">
             <summary>
-              Looks up a localized string similar to The {0} operation on {1} data type is not supported..
+              Looks up a localized string similar to The {0} operation on the {1} data type is not supported..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Publish_MissingData">
