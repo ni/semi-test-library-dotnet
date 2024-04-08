@@ -12,8 +12,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// Configures the sample clock for all tasks in the bundle.
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
-        /// <param name="sampleClockRate">>Specifies sample clock rate.</param>
-        /// <param name="sampleQuantityMode">Specifies sample quantity mode.</param>
+        /// <param name="sampleClockRate">Specifies the sample clock rate.</param>
+        /// <param name="sampleQuantityMode">Specifies the sample quantity mode.</param>
         /// <param name="samplesPerChannel">Specifies samples per-channel.</param>
         public static void ConfigureSampleClock(this DAQmxTasksBundle tasksBundle, double sampleClockRate = 1000.0, SampleQuantityMode sampleQuantityMode = SampleQuantityMode.FiniteSamples, int samplesPerChannel = 1000)
         {
@@ -29,8 +29,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// Configures the sample clock for the task.
         /// </summary>
         /// <param name="task">The DAQmx <see cref="Task"/> object.</param>
-        /// <param name="sampleClockRate">>Specifies sample clock rate.</param>
-        /// <param name="sampleQuantityMode">Specifies sample quantity mode.</param>
+        /// <param name="sampleClockRate">Specifies the sample clock rate.</param>
+        /// <param name="sampleQuantityMode">Specifies the sample quantity mode.</param>
         /// <param name="samplesPerChannel">Specifies samples per-channel.</param>
         public static void ConfigureSampleClock(this Task task, double sampleClockRate = 1000.0, SampleQuantityMode sampleQuantityMode = SampleQuantityMode.FiniteSamples, int samplesPerChannel = 1000)
         {

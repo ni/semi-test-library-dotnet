@@ -44,12 +44,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             Vterm,
 
             /// <summary>
-            /// The current that the DUT sinks from the active load while outputting a voltage below Vcom.
+            /// The current that the DUT sinks from the active load while outputting a voltage below <see cref="Vcom"/>.
             /// </summary>
             Iol,
 
             /// <summary>
-            /// The current that the DUT sources to the active load while outputting a voltage above Vcom.
+            /// The current that the DUT sources to the active load while outputting a voltage above <see cref="Vcom"/>.
             /// </summary>
             Ioh,
 
@@ -134,7 +134,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Configures the strobe edge time. Use this method to configure different strobe edge time for different sites.
+        /// Configures the strobe edge time. Use this method to configure different strobe edge times for different sites.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
@@ -148,7 +148,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Configures the strobe edge time. Use this method to configure different strobe edge time for different site-pin pairs.
+        /// Configures the strobe edge time. Use this method to configure different strobe edge times for different site-pin pairs.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
@@ -362,7 +362,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="filePath">The path of the file to load the offsets.</param>
-        /// <param name="throwOnMissingChannels">Whether to throw if offsets for any channel is missing.</param>
+        /// <param name="throwOnMissingChannels">Whether to throw a message if the offset for any channel is missing.</param>
         /// <returns>The loaded offsets.</returns>
         public static PrecisionTimeSpan[][] LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, bool throwOnMissingChannels = true)
         {

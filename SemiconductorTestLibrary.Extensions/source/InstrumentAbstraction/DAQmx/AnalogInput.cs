@@ -11,8 +11,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     public static class AnalogInput
     {
         /// <summary>
-        /// Reads multiple samples and returns pin and site aware object of an array of doubles, where each element in the array represents one sample read.
-        /// By default, the value of samplesToRead is set to -1 and will result in reading in all available samples at the time the method is invoked.
+        /// Reads multiple samples and returns pin- and site-aware objects of an array of doubles, where each element in the array represents one sample read.
+        /// By default, the value of samplesToRead is -1. In this case, all available samples are read when this method is invoked.
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="samplesToRead">The number of samples to read.</param>
@@ -24,20 +24,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 taskInfo.Task.AIChannels.VerifyChannelsExist(DAQmxChannelType.AnalogInput);
                 if (taskInfo.Task.AIChannels.HasSingleChannel())
                 {
-                    var channel = new AnalogSingleChannelReader(taskInfo.Task.Stream);
-                    return new double[][] { channel.ReadMultiSample(samplesToRead) };
+                    var reader = new AnalogSingleChannelReader(taskInfo.Task.Stream);
+                    return new double[][] { reader.ReadMultiSample(samplesToRead) };
                 }
                 else
                 {
-                    var channel = new AnalogMultiChannelReader(taskInfo.Task.Stream);
-                    return channel.ReadMultiSample(samplesToRead).ToJaggedArray();
+                    var reader = new AnalogMultiChannelReader(taskInfo.Task.Stream);
+                    return reader.ReadMultiSample(samplesToRead).ToJaggedArray();
                 }
             });
         }
 
         /// <summary>
-        /// Reads the samples and returns pin and site aware object of double AnalogWaveform, where each double value in the waveform represents one sample read.
-        /// By default, all available samples will be returned, unless otherwise specified by passing in value via the samplesToRead argument.
+        /// Reads the samples and returns pin- and site-aware objects of double AnalogWaveform, where each double value in the waveform represents one sample read.
+        /// By default, all available samples are returned, unless otherwise specified by passing in value via the samplesToRead argument.
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="samplesToRead">The number of samples to read.</param>
@@ -49,13 +49,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 taskInfo.Task.AIChannels.VerifyChannelsExist(DAQmxChannelType.AnalogInput);
                 if (taskInfo.Task.AIChannels.HasSingleChannel())
                 {
-                    var channel = new AnalogSingleChannelReader(taskInfo.Task.Stream);
-                    return new AnalogWaveform<double>[] { channel.ReadWaveform(samplesToRead) };
+                    var reader = new AnalogSingleChannelReader(taskInfo.Task.Stream);
+                    return new AnalogWaveform<double>[] { reader.ReadWaveform(samplesToRead) };
                 }
                 else
                 {
-                    var channel = new AnalogMultiChannelReader(taskInfo.Task.Stream);
-                    return channel.ReadWaveform(samplesToRead);
+                    var reader = new AnalogMultiChannelReader(taskInfo.Task.Stream);
+                    return reader.ReadWaveform(samplesToRead);
                 }
             });
         }

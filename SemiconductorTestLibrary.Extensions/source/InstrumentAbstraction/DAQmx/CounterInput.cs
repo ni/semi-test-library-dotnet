@@ -11,7 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     public static class CounterInput
     {
         /// <summary>
-        /// Reads one or more samples from a Counter.
+        /// Reads one or more samples from a counter.
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="samplesToRead">The number of samples to read.</param>
@@ -23,13 +23,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 taskInfo.Task.CIChannels.VerifyChannelsExist(DAQmxChannelType.CounterInput);
                 if (taskInfo.Task.CIChannels.HasSingleChannel())
                 {
-                    var channel = new CounterSingleChannelReader(taskInfo.Task.Stream);
-                    return new double[][] { channel.ReadMultiSampleDouble(samplesToRead) };
+                    var reader = new CounterSingleChannelReader(taskInfo.Task.Stream);
+                    return new double[][] { reader.ReadMultiSampleDouble(samplesToRead) };
                 }
                 else
                 {
-                    var channel = new CounterMultiChannelReader(taskInfo.Task.Stream);
-                    return channel.ReadMultiSampleDouble(samplesToRead).ToJaggedArray();
+                    var reader = new CounterMultiChannelReader(taskInfo.Task.Stream);
+                    return reader.ReadMultiSampleDouble(samplesToRead).ToJaggedArray();
                 }
             });
         }

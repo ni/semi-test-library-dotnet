@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Configures one or more source settings based on values populated within a <see  cref="DCPowerSourceSettings"/> object.
         /// Accepts a scalar input of type <see  cref="DCPowerSourceSettings"/>.
-        /// with overrides for <see cref="SiteData{DCPowerSourceSettings}"/>, and <see cref="PinSiteData{DCPowerSourceSettings}"/> input.
+        /// With overrides for <see cref="SiteData{DCPowerSourceSettings}"/>, and <see cref="PinSiteData{DCPowerSourceSettings}"/> input.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
@@ -32,7 +32,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureSourceSettings"/>
+        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings)"/>
         public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -42,7 +42,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureSourceSettings"/>
+        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings)"/>
         public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerSourceSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -447,15 +447,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Configures the output relay of the underlying device channel (s) to either be connected (closed) or disconnected (open).
         /// Accepts a scalar input of type <see  cref="bool"/>.
-        /// with overrides for <see cref="SiteData{Boolean}" />, and <see cref="PinSiteData{Boolean}"/> input.
-        /// <para> Pass this method a true value to physically disconnect the output terminal from the front panel.</para>
+        /// With overrides for <see cref="SiteData{Boolean}" />, and <see cref="PinSiteData{Boolean}"/> input.
+        /// <para>Pass this method a true value to physically disconnect the output terminal from the front panel.</para>
         /// <remarks>
         /// Disconnect the output only if disconnecting is necessary for your application.
         /// For example, a battery connected to the output terminal might discharge unless the relay is disconnected.
         /// Excessive connecting and disconnecting of the output can cause premature wear on the relay.
         /// <para>
         /// This property is not supported by all devices.
-        /// Refer to the Supported Properties by Device topic in the NI DC Power Supplies and SMUs Help for information about supported devices.
+        /// Refer to the Supported Properties by Device topic in the NI-DCPower LabVIEW VI Reference and the document of your SMU model for information about supported devices.
         /// </para>
         /// </remarks>
         /// </summary>
@@ -470,7 +470,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureOutputConnected"/>
+        /// <inheritdoc cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool)"/>
         public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, SiteData<bool> connectOutput)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
@@ -480,7 +480,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureOutputConnected"/>
+        /// <inheritdoc cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool)"/>
         public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, PinSiteData<bool> connectOutput)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
@@ -494,7 +494,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures whether to enable (true) or disable (false) output generation on the underlying device channel(s).
         /// </summary>
         /// <remarks>
-        /// Note: the ConfigureOutputEnabled method does not change based on this property; they are independent of each other.
+        /// Note: This property does not change the ConfigureOutputEnabled method. They are independent of each other.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="enableOutput">The boolean value to either enable (true) or disable (false) the output .</param>
@@ -507,7 +507,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureOutputConnected"/>
+        /// <inheritdoc cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool)"/>
         public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, SiteData<bool> enableOutput)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
@@ -517,7 +517,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureOutputConnected"/>
+        /// <inheritdoc cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool)"/>
         public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, PinSiteData<bool> enableOutput)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
@@ -561,7 +561,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
         /// <param name="sequence">The voltage or current sequence to set.</param>
-        /// <param name="sequenceLoopCount">The number of loops a sequence is run after initiation.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
         public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
         {

@@ -11,7 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     public static class DigitalInput
     {
         /// <summary>
-        /// Reads a single sample and returns pin and site aware object of type Boolean.
+        /// Reads a single sample and returns pin- and site-aware object of type Boolean.
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <returns>Per-site per-pin boolean samples.</returns>
@@ -22,20 +22,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 taskInfo.Task.DIChannels.VerifyChannelsExist(DAQmxChannelType.DigitalInput);
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
-                    var channel = new DigitalSingleChannelReader(taskInfo.Task.Stream);
-                    return new bool[] { channel.ReadSingleSampleSingleLine() };
+                    var reader = new DigitalSingleChannelReader(taskInfo.Task.Stream);
+                    return new bool[] { reader.ReadSingleSampleSingleLine() };
                 }
                 else
                 {
-                    var channel = new DigitalMultiChannelReader(taskInfo.Task.Stream);
-                    return channel.ReadSingleSampleSingleLine();
+                    var reader = new DigitalMultiChannelReader(taskInfo.Task.Stream);
+                    return reader.ReadSingleSampleSingleLine();
                 }
             });
         }
 
         /// <summary>
-        /// Reads the samples and returns pin and site aware object of type DigitalWaveform, where each element in the waveform represents one sample read.
-        /// By default, all available samples will be returned, unless otherwise specified by passing in value via the samplesToRead argument.
+        /// Reads the samples and returns pin- and site-aware object of type DigitalWaveform, where each element in the waveform represents one sample read.
+        /// By default, all available samples are returned, unless otherwise specified by passing in value via the samplesToRead argument.
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="samplesToRead">The number of samples to read.</param>
@@ -47,13 +47,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 taskInfo.Task.DIChannels.VerifyChannelsExist(DAQmxChannelType.DigitalInput);
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
-                    var channel = new DigitalSingleChannelReader(taskInfo.Task.Stream);
-                    return new DigitalWaveform[] { channel.ReadWaveform(samplesToRead) };
+                    var reader = new DigitalSingleChannelReader(taskInfo.Task.Stream);
+                    return new DigitalWaveform[] { reader.ReadWaveform(samplesToRead) };
                 }
                 else
                 {
-                    var channel = new DigitalMultiChannelReader(taskInfo.Task.Stream);
-                    return channel.ReadWaveform(samplesToRead);
+                    var reader = new DigitalMultiChannelReader(taskInfo.Task.Stream);
+                    return reader.ReadWaveform(samplesToRead);
                 }
             });
         }
@@ -71,13 +71,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 taskInfo.Task.DIChannels.VerifyChannelsExist(DAQmxChannelType.DigitalInput);
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
-                    var channel = new DigitalSingleChannelReader(taskInfo.Task.Stream);
-                    return new uint[][] { channel.ReadMultiSamplePortUInt32(samplesToRead) };
+                    var reader = new DigitalSingleChannelReader(taskInfo.Task.Stream);
+                    return new uint[][] { reader.ReadMultiSamplePortUInt32(samplesToRead) };
                 }
                 else
                 {
-                    var channel = new DigitalMultiChannelReader(taskInfo.Task.Stream);
-                    return channel.ReadMultiSamplePortUInt32(samplesToRead).ToJaggedArray();
+                    var reader = new DigitalMultiChannelReader(taskInfo.Task.Stream);
+                    return reader.ReadMultiSamplePortUInt32(samplesToRead).ToJaggedArray();
                 }
             });
         }

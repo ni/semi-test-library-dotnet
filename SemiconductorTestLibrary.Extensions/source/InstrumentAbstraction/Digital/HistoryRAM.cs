@@ -18,7 +18,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region methods on DigitalSessionsBundle
 
         /// <summary>
-        /// Configures history RAM.
+        /// Configures History RAM.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settings">The configuration to apply.</param>
@@ -31,10 +31,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets history RAM configuration.
+        /// Gets History RAM configuration.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <returns>Current history RAM configuration.</returns>
+        /// <returns>Current History RAM configuration.</returns>
         public static HistoryRAMSettings GetHistoryRAMConfiguration(this DigitalSessionsBundle sessionsBundle)
         {
             // Assumes all sessions have the same configuration.
@@ -42,10 +42,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Fetches results from the History RAM and returns as a site aware object of type DigitalHistoryRamCycleInformation.
+        /// Fetches results from the History RAM and returns as a site-aware object of type DigitalHistoryRamCycleInformation.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <returns>The per-site history RAM cycle information and scan cycle numbers.</returns>
+        /// <returns>The per-site History RAM cycle information and scan cycle numbers.</returns>
         public static SiteData<HistoryRAMResults> FetchHistoryRAMResults(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSiteResults(sessionInfo =>
@@ -59,7 +59,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region methods on NIDigital session
 
         /// <summary>
-        /// Configures history RAM.
+        /// Configures History RAM.
         /// </summary>
         /// <param name="session">The <see cref="NIDigital"/> session.</param>
         /// <param name="settings">The configuration to apply.</param>
@@ -86,10 +86,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets history RAM configuration.
+        /// Gets History RAM configuration.
         /// </summary>
         /// <param name="session">The <see cref="NIDigital"/> session.</param>
-        /// <returns>Current history RAM configuration.</returns>
+        /// <returns>Current History RAM configuration.</returns>
         public static HistoryRAMSettings GetConfiguration(this NIDigital session)
         {
             var settings = new HistoryRAMSettings
@@ -117,11 +117,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Fetches history RAM results.
+        /// Fetches History RAM results.
         /// </summary>
         /// <param name="session">The <see cref="NIDigital"/> session.</param>
-        /// <param name="perSitePinSetStrings">The per-site pin set strings associate with the session.</param>
-        /// <returns>The single session per-site history RAM cycle information and scan cycle numbers.</returns>
+        /// <param name="perSitePinSetStrings">The per-site pin set strings associated with the session.</param>
+        /// <returns>The single session per-site History RAM cycle information and scan cycle numbers.</returns>
         public static IDictionary<int, HistoryRAMResults> FetchHistoryRAMResults(this NIDigital session, IDictionary<string, string> perSitePinSetStrings)
         {
             var results = new Dictionary<int, HistoryRAMResults>();
@@ -161,7 +161,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         private const string HistoryRAMResultsFileHeader = "Vector, Time Set Name, Cycle, Scan Cycle, Pass/Fail, Pin List, Per Pin Pass/Fail, Expected Pin States, Actual Pin States";
 
         /// <summary>
-        /// Logs history RAM results to CSV files. This method should be used for debug only.
+        /// Logs History RAM results to CSV files. This method should be used for debug only.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="cycleInformation">The per-site cycle information.</param>
@@ -227,7 +227,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
     }
 
     /// <summary>
-    /// Defines settings of history RAM.
+    /// Defines settings of History RAM.
     /// </summary>
     public class HistoryRAMSettings
     {
@@ -247,18 +247,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public int MaximumSamplesToAcquirePerSite { get; set; } = 8191;
 
         /// <summary>
-        /// The in-memory history RAM buffer size in samples.
+        /// The in-memory History RAM buffer size in samples.
         /// </summary>
         public long BufferSizePerSite { get; set; } = 32000;
 
         /// <summary>
-        /// The history RAM trigger settings.
+        /// The History RAM trigger settings.
         /// </summary>
         public HistoryRAMTriggerSettings TriggerSettings { get; set; } = new HistoryRAMTriggerSettings();
     }
 
     /// <summary>
-    /// Defines history RAM trigger settings.
+    /// Defines History RAM trigger settings.
     /// </summary>
     public class HistoryRAMTriggerSettings
     {
@@ -268,7 +268,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public HistoryRamTriggerType TriggerType { get; set; } = HistoryRamTriggerType.FirstFailure;
 
         /// <summary>
-        /// The number of samples to acquire before the history RAM trigger.
+        /// The number of samples to acquire before the History RAM trigger.
         /// </summary>
         public int PretriggerSamples { get; set; }
 
@@ -294,7 +294,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
     }
 
     /// <summary>
-    /// Defines history RAM results type.
+    /// Defines History RAM results type.
     /// </summary>
     public class HistoryRAMResults
     {
@@ -309,7 +309,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public List<long> ScanCycleNumbers { get; }
 
         /// <summary>
-        /// Constructs a history RAM results object.
+        /// Constructs a History RAM results object.
         /// </summary>
         /// <param name="cycleInformation">The cycle information.</param>
         /// <param name="scanCycleNumbers">The scan cycle numbers.</param>
