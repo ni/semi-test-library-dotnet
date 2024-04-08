@@ -250,7 +250,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <pas the Selected Functioram name="publishDataID">The publish data ID string.</param>
+        /// <param name="publishDataID">The publish data ID string.</param>
         /// <returns>The pin-site aware current measurements.</returns>
         public static PinSiteData<double> MeasureAndPublishCurrent(this DigitalSessionsBundle sessionsBundle, string publishDataID)
         {
