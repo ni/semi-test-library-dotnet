@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using NationalInstruments.DAQmx;
+﻿using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
-using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
 {
@@ -21,9 +19,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
-                var data = Enumerable.Repeat(staticState, taskInfo.AssociatedSitePinList.Count).ToArray();
-                channel.WriteSingleSample(autoStart, data);
+                var writer = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
+                SampleValuesCacher<double>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, staticState, data => writer.WriteSingleSample(autoStart, data));
             });
         }
 
@@ -37,9 +34,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
-                var data = BuildData(taskInfo, siteData, defaultValue: 0);
-                channel.WriteSingleSample(autoStart, data);
+                var writer = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
+                SampleValuesCacher<double>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, siteData, data => writer.WriteSingleSample(autoStart, data));
             });
         }
 
@@ -53,9 +49,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
-                var data = BuildData(taskInfo, pinSiteData, defaultValue: 0);
-                channel.WriteSingleSample(autoStart, data);
+                var writer = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
+                SampleValuesCacher<double>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, pinSiteData, data => writer.WriteSingleSample(autoStart, data));
             });
         }
 
@@ -69,9 +64,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
-                var data = Enumerable.Repeat(waveform, taskInfo.AssociatedSitePinList.Count).ToArray();
-                channel.WriteWaveform(autoStart, data);
+                var writer = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
+                SampleValuesCacher<AnalogWaveform<double>>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, waveform, data => writer.WriteWaveform(autoStart, data));
             });
         }
 
@@ -85,9 +79,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
-                var data = BuildData(taskInfo, siteData, defaultValue: new AnalogWaveform<double>(GetSingleWaveform(siteData).SampleCount));
-                channel.WriteWaveform(autoStart, data);
+                var writer = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
+                SampleValuesCacher<AnalogWaveform<double>>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, siteData, data => writer.WriteWaveform(autoStart, data));
             });
         }
 
@@ -101,9 +94,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
-                var channel = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
-                var data = BuildData(taskInfo, pinSiteData, defaultValue: new AnalogWaveform<double>(GetSingleWaveform(pinSiteData).SampleCount));
-                channel.WriteWaveform(autoStart, data);
+                var writer = new AnalogMultiChannelWriter(taskInfo.Task.Stream);
+                SampleValuesCacher<AnalogWaveform<double>>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, pinSiteData, data => writer.WriteWaveform(autoStart, data));
             });
         }
     }
