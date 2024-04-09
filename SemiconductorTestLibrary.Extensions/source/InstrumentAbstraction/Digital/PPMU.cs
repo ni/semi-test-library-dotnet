@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
+using static System.Collections.Specialized.BitVector32;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -220,7 +219,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Publish Data ID passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="publishDataID">The publish data ID string.</param>
@@ -232,7 +231,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data ID passed in.
         /// </summary>
         /// <remarks>
         /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
@@ -247,7 +246,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data ID passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="publishDataID">The publish data ID string.</param>
@@ -278,7 +277,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.TurnOffOutput(sessionInfo.PinSetString);
+                sessionInfo.PinSet.SelectedFunction = SelectedFunction.Off;
             });
             PreciseWait(settlingTimeInSeconds);
         }
@@ -429,18 +428,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             }
             ppmu.Source();
             PreciseWait(settings.SettlingTime);
-        }
-
-        /// <summary>
-        /// Turns off digital device output.
-        /// </summary>
-        /// <param name="session">The <see cref="NIDigital"/> session.</param>
-        /// <param name="pinSetString">The pin set string.</param>
-        /// <param name="settlingTime">The settling time. Null means immediately turning off operation to settle.</param>
-        public static void TurnOffOutput(this NIDigital session, string pinSetString, double? settlingTime = null)
-        {
-            session.PinAndChannelMap.GetPinSet(pinSetString).SelectedFunction = SelectedFunction.Off;
-            PreciseWait(settlingTime);
         }
 
         #endregion methods on NIDigital session

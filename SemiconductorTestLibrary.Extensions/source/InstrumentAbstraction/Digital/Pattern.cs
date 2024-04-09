@@ -80,10 +80,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="selectDigitalFunction">Whether to set selected function to digital.</param>
         /// <param name="waitUntilDone">Whether to wait for pattern burst to complete.</param>
         /// <param name="timeoutInSeconds">The maximum time interval allowed for the pattern burst to complete.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "Not Necessary")]
         public static void BurstPatternSynchronized(this DigitalSessionsBundle sessionsBundle, string startLabel, bool selectDigitalFunction = true, bool waitUntilDone = true, double timeoutInSeconds = 5.0)
         {
-            string siteListString = string.Join(",", sessionsBundle.AggregateSitePinList.Select(sitePinList => sitePinList.SiteNumber.ToString()).ToArray());
+            string siteListString = string.Join(",", sessionsBundle.AggregateSitePinList.Select(sitePinInfo => sitePinInfo.SiteNumber));
             NIDigital[] niDigitalSessions = sessionsBundle.InstrumentSessions.Select(x => x.Session).ToArray();
             DigitalPatternControl.BurstPatternSynchronized(niDigitalSessions, siteListString, startLabel, selectDigitalFunction, waitUntilDone, TimeSpan.FromSeconds(timeoutInSeconds));
         }
