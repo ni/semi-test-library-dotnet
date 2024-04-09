@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Win32;
 using NationalInstruments.ModularInstruments.NIDigital;
-using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
-using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -24,13 +20,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <returns>An array of the states for the specified pattern sequencer flag, one state value per session.</returns>
         public static bool[] ReadSequencerFlag(this DigitalSessionsBundle sessionsBundle, string flag)
         {
-            var results = new List<bool>();
-            sessionsBundle.Do(sessionInfo =>
+            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
-               var flagValue = sessionInfo.Session.PatternControl.ReadSequencerFlag(flag);
-                results.Add(flagValue);
+                return sessionInfo.Session.PatternControl.ReadSequencerFlag(flag);
             });
-            return results.ToArray();
         }
 
         /// <summary>
@@ -48,12 +41,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NIMixedSignalException">The state of the sequence flag is not the same between instrument sessions.</exception>
         public static bool ReadSequencerFlagDistinct(this DigitalSessionsBundle sessionsBundle, string flag)
         {
-            var result = sessionsBundle.ReadSequencerFlag(flag).Distinct().ToArray();
-            if (result.Length > 1)
-            {
-                throw new NIMixedSignalException($"The state of the sequence flag ({flag}) is not distinct, there is a different value between instrument sessions.");
-            }
-            return result[0];
+            return GetDistinctValue(sessionsBundle.ReadSequencerFlag(flag), $"flag ({flag})");
         }
 
         /// <summary>
@@ -76,10 +64,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="flag">The name of the pattern sequencer flag to read. Possible values include "seqflag0", "seqflag1", "seqflag2", or "seqflag3".</param>
         /// <param name="value">The value to assign to the specified pattern sequencer flag.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "Not Necessary")]
         public static void WriteSequencerFlagSynchronized(this DigitalSessionsBundle sessionsBundle, string flag, bool value)
         {
-            string siteListString = string.Join(",", sessionsBundle.AggregateSitePinList.Select(sitePinList => sitePinList.SiteNumber.ToString()).ToArray());
+            string siteListString = string.Join(",", sessionsBundle.AggregateSitePinList.Select(sitePinInfo => sitePinInfo.SiteNumber));
             NIDigital[] niDigitalSessions = sessionsBundle.InstrumentSessions.Select(x => x.Session).ToArray();
             DigitalPatternControl.WriteSequencerFlagSynchronized(niDigitalSessions, flag, value);
         }
@@ -92,13 +79,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <returns>An array of the values for the specified pattern sequencer register, one integer value per session.</returns>
         public static int[] ReadSequencerRegister(this DigitalSessionsBundle sessionsBundle, string registerName)
         {
-            var results = new List<int>();
-            sessionsBundle.Do(sessionInfo =>
+            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
-                var regValue = sessionInfo.Session.PatternControl.ReadSequencerRegister(registerName);
-                results.Add(regValue);
+                return sessionInfo.Session.PatternControl.ReadSequencerRegister(registerName);
             });
-            return results.ToArray();
         }
 
         /// <summary>
@@ -116,12 +100,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NIMixedSignalException">The state of the sequence register is not the same between instrument sessions.</exception>
         public static int ReadSequencerRegisterDistinct(this DigitalSessionsBundle sessionsBundle, string registerName)
         {
-            var result = sessionsBundle.ReadSequencerRegister(registerName).Distinct().ToArray();
-            if (result.Length > 1)
-            {
-                throw new NIMixedSignalException($"The state of the sequence register ({registerName}) is not distinct, there is a different value between instrument sessions.");
-            }
-            return result[0];
+            return GetDistinctValue(sessionsBundle.ReadSequencerRegister(registerName), $"register ({registerName})");
         }
 
         /// <summary>
@@ -136,6 +115,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 sessionInfo.Session.PatternControl.WriteSequencerRegister(register, value);
             });
+        }
+
+        private static T GetDistinctValue<T>(IEnumerable<T> values, string registerOrFlagName)
+        {
+            try
+            {
+                return values.Distinct().Single();
+            }
+            catch (InvalidOperationException)
+            {
+                throw new NIMixedSignalException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_SequencerRegisterOrFlagNotDistinct, registerOrFlagName));
+            }
         }
     }
 }

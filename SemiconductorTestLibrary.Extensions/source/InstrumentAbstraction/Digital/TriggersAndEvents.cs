@@ -89,7 +89,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// which all equate to conditionalJumpTrigger0, conditionalJumpTrigger1, conditionalJumpTrigger2, and conditionalJumpTrigger3, respectively.</param>
         public static void DisableConditionalJumpTrigger(this DigitalSessionsBundle sessionsBundle, int conditionalJumpTriggerId)
         {
-            sessionsBundle.Do((sessionInfo) =>
+            sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.ConditionalJumpTriggers[conditionalJumpTriggerId].Disable();
             });
@@ -101,7 +101,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         public static void DisableConditionalJumpTriggers(this DigitalSessionsBundle sessionsBundle)
         {
-            sessionsBundle.Do((sessionInfo) =>
+            sessionsBundle.Do(sessionInfo =>
             {
                 foreach (var trigger in sessionInfo.Session.Trigger.ConditionalJumpTriggers)
                 {
@@ -116,7 +116,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         public static void DisableStartTrigger(this DigitalSessionsBundle sessionsBundle)
         {
-            sessionsBundle.Do((sessionInfo) =>
+            sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.StartTrigger.Disable();
             });
