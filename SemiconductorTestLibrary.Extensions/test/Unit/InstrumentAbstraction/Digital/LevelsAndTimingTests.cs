@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
+using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
@@ -11,16 +13,28 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Digital
 {
     [Collection("NonParallelizable")]
-    public class LevelsAndTimingTests
+    public sealed class LevelsAndTimingTests : IDisposable
     {
+        private ISemiconductorModuleContext _tsmContext;
+
+        public TSMSessionManager InitializeSessionsAndCreateSessionManager(string pinMapFileName, string digitalPatternProjectFileName)
+        {
+            _tsmContext = CreateTSMContext(pinMapFileName, digitalPatternProjectFileName);
+            Initialize(_tsmContext);
+            return new TSMSessionManager(_tsmContext);
+        }
+
+        public void Dispose()
+        {
+            Close(_tsmContext);
+        }
+
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTheSameLevel_ValueCorrectlySet(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vih, levelValue: 3.5);
@@ -29,15 +43,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(3.5, sessionInfo.PinSet.DigitalLevels.Vih, 1);
             });
-            Close(tsmContext);
         }
 
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_ConfigurePerSiteLevels_ValueCorrectlySet()
         {
-            var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var levels = new Dictionary<int, double>()
@@ -49,15 +60,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Equal(0.1, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.DigitalLevels.Vil, 1);
             Assert.Equal(0.2, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.DigitalLevels.Vil, 1);
-            Close(tsmContext);
         }
 
         [Fact]
         public void OneDeviceWorksForOnePinOnTwoSites_ConfigurePerSiteLevels_ValueCorrectlySet()
         {
-            var tsmContext = CreateTSMContext("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var levels = new Dictionary<int, double>()
@@ -70,7 +78,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(0.1, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0, site0/C1").DigitalLevels.Vil, 1);
             Assert.Equal(0.2, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").DigitalLevels.Vil, 1);
             Assert.Equal(0.2, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.DigitalLevels.Vil, 1);
-            Close(tsmContext);
         }
 
         [Theory]
@@ -78,9 +85,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureVoltageLevels_ValueCorrectlySet(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ConfigureVoltageLevels(vil: 1, vih: 3.6, vol: 1.5, voh: 3, vterm: 2);
@@ -93,7 +98,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(3, sessionInfo.PinSet.DigitalLevels.Voh, 1);
                 Assert.Equal(2, sessionInfo.PinSet.DigitalLevels.Vterm, 1);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -101,9 +105,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTerminationMode_ValueCorrectlySet(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ConfigureTerminationMode(TerminationMode.Vterm);
@@ -112,7 +114,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(TerminationMode.Vterm, sessionInfo.PinSet.DigitalLevels.TerminationMode);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -120,9 +121,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTheSameTimeSetCompareEdgesStrobe_ValueCorrectlySet(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdge: 5e-6);
@@ -131,15 +130,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(5e-6, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
             });
-            Close(tsmContext);
         }
 
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_ConfigurePerSiteTimeSetCompareEdgesStrobe_ValueCorrectlySet()
         {
-            var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var compareEdges = new Dictionary<int, double>()
@@ -153,15 +149,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(5e-6, sessionInfo0.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo0.PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
             var sessionInfo1 = sessionsBundle.InstrumentSessions.ElementAt(1);
             Assert.Equal(8e-6, sessionInfo1.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo1.PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
-            Close(tsmContext);
         }
 
         [Fact]
         public void OneDeviceWorksForOnePinOnTwoSites_ConfigurePerSiteTimeSetCompareEdgesStrobe_ValueCorrectlySet()
         {
-            var tsmContext = CreateTSMContext("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var compareEdges = new Dictionary<int, double>()
@@ -178,15 +171,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(8e-6, sessionInfo0Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo0Site1PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
             var sessionInfo1 = sessionsBundle.InstrumentSessions.ElementAt(1);
             Assert.Equal(8e-6, sessionInfo1.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo1.PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
-            Close(tsmContext);
         }
 
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_ConfigurePerSitePerPinTimeSetCompareEdgesStrobe_ValueCorrectlySet()
         {
-            var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var compareEdges = new Dictionary<int, Dictionary<string, double>>()
@@ -206,15 +196,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var site1C1PinSet = sessionInfo1Session.PinAndChannelMap.GetPinSet("site1/C1");
             Assert.Equal(7e-6, sessionInfo1Session.Timing.GetTimeSet("TS_SW").GetEdge(site1C0PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
             Assert.Equal(8e-6, sessionInfo1Session.Timing.GetTimeSet("TS_SW").GetEdge(site1C1PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
-            Close(tsmContext);
         }
 
         [Fact]
         public void OneDeviceWorksForOnePinOnTwoSites_ConfigurePerSitePerPinTimeSetCompareEdgesStrobe_ValueCorrectlySet()
         {
-            var tsmContext = CreateTSMContext("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var compareEdges = new Dictionary<int, Dictionary<string, double>>()
@@ -234,7 +221,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionInfo1Session = sessionsBundle.InstrumentSessions.ElementAt(1).Session;
             var site1C1PinSet = sessionInfo1Session.PinAndChannelMap.GetPinSet("site1/C1");
             Assert.Equal(8e-6, sessionInfo1Session.Timing.GetTimeSet("TS_SW").GetEdge(site1C1PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
-            Close(tsmContext);
         }
 
         [Theory]
@@ -242,9 +228,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTimeSetPeriod_ValueCorrectlySet(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ConfigureTimeSetPeriod("TS_SW", 5e-6);
@@ -253,7 +237,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(5e-6, sessionInfo.Session.Timing.GetTimeSet("TS_SW").Period.TotalSeconds);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -261,9 +244,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTimeSetDriverEdges_ValueCorrectlySet(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ConfigureTimeSetDriveEdges("TS_SW", DriveFormat.ReturnToHigh, driveOn: 5e-6, driveData: 5e-6, driveReturn: 1e-5, driveOff: 1e-5);
@@ -276,7 +257,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(1e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveReturn).TotalSeconds);
                 Assert.Equal(1e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveOff).TotalSeconds);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -284,9 +264,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTimeSetDriverEdgesWithTwoDriveData_ValueCorrectlySet(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ConfigureTimeSetDriveEdges("TS_SW", DriveFormat.ReturnToLow, driveOn: 5e-6, driveData: 5e-6, driveReturn: 1e-5, driveOff: 2e-5, driveData2: 1.5e-5, driveReturn2: 2e-5);
@@ -301,15 +279,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(1.5e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveData2).TotalSeconds);
                 Assert.Equal(2e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveReturn2).TotalSeconds);
             });
-            Close(tsmContext);
         }
 
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_MeasureTDROffsets_Succeeds()
         {
-            var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var results = sessionsBundle.MeasureTDROffsets();
@@ -317,15 +292,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2, results.Length);
             Assert.Equal(2, results[0].Length);
             Assert.Equal(2, results[1].Length);
-            Close(tsmContext);
         }
 
         [Fact]
         public void OneDeviceWorksForOnePinOnTwoSites_MeasureTDROffsets_Succeeds()
         {
-            var tsmContext = CreateTSMContext("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var results = sessionsBundle.MeasureTDROffsets();
@@ -333,15 +305,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2, results.Length);
             Assert.Equal(3, results[0].Length);
             Assert.Single(results[1]);
-            Close(tsmContext);
         }
 
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_ApplyPerSitePerPinTDROffsets_Succeeds()
         {
-            var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var offsets = new Dictionary<int, Dictionary<string, double>>()
@@ -355,15 +324,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
             Assert.Equal(3e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
             Assert.Equal(4e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
-            Close(tsmContext);
         }
 
         [Fact]
         public void OneDeviceWorksForOnePinOnTwoSites_ApplyPerSitePerPinTDROffsets_Succeeds()
         {
-            var tsmContext = CreateTSMContext("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var offsets = new Dictionary<int, Dictionary<string, double>>()
@@ -377,7 +343,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
             Assert.Equal(3e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
             Assert.Equal(4e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
-            Close(tsmContext);
         }
     }
 }
