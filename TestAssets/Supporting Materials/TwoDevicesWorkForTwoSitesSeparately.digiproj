@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SourceFile Checksum="D6D377D81C0CFD8D518B3B60D0A6546C" xmlns="http://www.ni.com/PlatformFramework">
+<SourceFile Checksum="B0308CF85BA354F69536DF5D0902AE1383B30BB1EC9D9DFD00DE71A79050C6EEA46921106D6BE062718816D5661D0B10BE998F9130E6D04231DE77384F25E8EA" xmlns="http://www.ni.com/PlatformFramework">
 	<SourceModelFeatureSet>
-		<ParsableNamespace AssemblyFileVersion="5.3.2.62005" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
-		<ParsableNamespace AssemblyFileVersion="5.3.2.62005" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="5.2.0.49153" Version="5.2.0.49153" />
-		<ApplicationVersionInfo Build="5.3.2.62005" Name="Digital Pattern Editor" Version="21.8.0" />
+		<ParsableNamespace AssemblyFileVersion="9.10.0.49734" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
+		<ParsableNamespace AssemblyFileVersion="9.10.0.49734" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
+		<ApplicationVersionInfo Build="9.10.0.49734" Name="Digital Pattern Editor" Version="23.8.0" />
 	</SourceModelFeatureSet>
 	<Project xmlns="http://www.ni.com/PlatformFramework">
-		<ProjectSettings Id="1" ModelDefinitionType="ProjectSettings" Name="ZProjectSettings" />
+		<EnvoyManagerRootEnvoy Id="1" ModelDefinitionType="EnvoyManagerRootEnvoy" Name="RootEnvoy" />
 		<EmbeddedDefinitionReference Id="2" ModelDefinitionType="NationalInstruments.ProjectExplorer.Modeling.ProjectDataManager" Name="ProjectExplorer">
 			<ProjectExplorer />
 		</EmbeddedDefinitionReference>
@@ -21,16 +21,17 @@
 			<EmbeddedDefinitionReference Id="168" ModelDefinitionType="{http://www.ni.com/PatternBasedDigital}DigitalScopeDefinition" Name="DigitalScope">
 				<DigitalScopeDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
 			</EmbeddedDefinitionReference>
-			<FileReference Id="245" ModelDefinitionType="SpecificationsDefinition" Name="Specifications_MixedSignal\.specs" StoragePath="Specifications\Specifications_MixedSignal.specs" />
-			<FileReference Id="263" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="TX_RF\.digipat" StoragePath="Digital\Compiled Patterns\TX_RF.digipat" />
-			<FileReference Id="268" ModelDefinitionType="TimingDefinition" Name="Timing_MixedSignal\.digitiming" StoragePath="Digital\Timing\Timing_MixedSignal.digitiming" p4:IsActive="True" xmlns:p4="http://www.ni.com/PatternBasedDigital" />
-			<FileReference Id="271" ModelDefinitionType="PinLevelsDefinition" Name="Levels_MixedSignal\.digilevels" StoragePath="Digital\Levels\Levels_MixedSignal.digilevels" p4:IsActive="True" xmlns:p4="http://www.ni.com/PatternBasedDigital" />
-			<FileReference Id="274" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="CaptureWaveform\.digipat" StoragePath="Digital\Compiled Patterns\CaptureWaveform.digipat" />
-			<FileReference Id="275" ModelDefinitionType="CaptureWaveformDefinition" Name="New_Waveform\.digicapture" StoragePath="Digital\Capture Waveforms\New_Waveform.digicapture" />
-			<FileReference Id="278" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="TX_50_Duty_Cycle\.digipat" StoragePath="Digital\Compiled Patterns\TX_50_Duty_Cycle.digipat" />
-			<FileReference Id="281" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="Write_LTE_HB_FDD\.digipat" StoragePath="Digital\Compiled Patterns\Write_LTE_HB_FDD.digipat" />
-			<FileReference Id="282" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="Write_NR_HB_FDD\.digipat" StoragePath="Digital\Compiled Patterns\Write_NR_HB_FDD.digipat" />
-			<FileReference Id="285" ModelDefinitionType="PinMap" Name="TwoDevicesWorkForTwoSitesSeparately\.pinmap" StoragePath="Pin Maps\TwoDevicesWorkForTwoSitesSeparately.pinmap" />
+			<FileReference Id="245" ModelDefinitionType="SpecificationsDefinition" Name="Specifications_MixedSignal.specs" StoragePath="Specifications\Specifications_MixedSignal.specs" />
+			<FileReference Id="263" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="TX_RF.digipat" StoragePath="Digital\Compiled Patterns\TX_RF.digipat" />
+			<FileReference Id="268" ModelDefinitionType="TimingDefinition" Name="Timing_MixedSignal.digitiming" StoragePath="Digital\Timing\Timing_MixedSignal.digitiming" p4:IsActive="True" xmlns:p4="http://www.ni.com/PatternBasedDigital" />
+			<FileReference Id="271" ModelDefinitionType="PinLevelsDefinition" Name="Levels_MixedSignal.digilevels" StoragePath="Digital\Levels\Levels_MixedSignal.digilevels" p4:IsActive="True" xmlns:p4="http://www.ni.com/PatternBasedDigital" />
+			<FileReference Id="274" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="CaptureWaveform.digipat" StoragePath="Digital\Compiled Patterns\CaptureWaveform.digipat" />
+			<FileReference Id="275" ModelDefinitionType="CaptureWaveformDefinition" Name="New_Waveform.digicapture" StoragePath="Digital\Capture Waveforms\New_Waveform.digicapture" />
+			<FileReference Id="278" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="TX_50_Duty_Cycle.digipat" StoragePath="Digital\Compiled Patterns\TX_50_Duty_Cycle.digipat" />
+			<FileReference Id="281" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="Write_LTE_HB_FDD.digipat" StoragePath="Digital\Compiled Patterns\Write_LTE_HB_FDD.digipat" />
+			<FileReference Id="282" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="Write_NR_HB_FDD.digipat" StoragePath="Digital\Compiled Patterns\Write_NR_HB_FDD.digipat" />
+			<FileReference Id="d5e757d6c1894a25931fa038bbc6573b" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="LongRunningPattern.digipat" StoragePath="Digital\Compiled Patterns\LongRunningPattern.digipat" />
+			<FileReference Id="c6b6a87212a84a72aca63400e26ac941" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="KeepAlivePattern.digipat" StoragePath="Digital\Compiled Patterns\KeepAlivePattern.digipat" />
 		</NameScopingEnvoy>
 		<EmbeddedDefinitionReference Id="9" ModelDefinitionType="DigitalPatternEditor.ProjectPropertiesDefinition" Name="ProjectProperties">
 			<ProjectPropertiesDefinition xmlns="http://www.ni.com/PatternBasedDigital" />

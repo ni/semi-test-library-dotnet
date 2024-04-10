@@ -120,6 +120,9 @@
   <data name="DAQmx_NoChannelsToRead" xml:space="preserve">
     <value>No {0} channels to read.</value>
   </data>
+  <data name="Digital_SequencerRegisterOrFlagNotDistinct" xml:space="preserve">
+    <value>The state of the sequencer {0} is not distinct, there is a different value between instrument sessions.</value>
+  </data>
   <data name="Digital_TDROffsetsMissing" xml:space="preserve">
     <value>TDR offsets for following channels are missing from {0}: {1}.</value>
   </data>
