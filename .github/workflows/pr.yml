@@ -26,6 +26,7 @@ jobs:
             azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
             azure-pipeline-variables:  ${{ env.GITHUB_MixedSignalTestLibrary_BRANCH_NAME }}
             azure-pipeline-sourcebranch: "refs/heads/${{ github.base_ref }}"
+        - uses: actions/checkout@v2
         - name: Azure Pipelines Action with Result Check and Source Branch Input
           uses: enfa/azure-pipeline-github-action@v1.0.0
           with:
