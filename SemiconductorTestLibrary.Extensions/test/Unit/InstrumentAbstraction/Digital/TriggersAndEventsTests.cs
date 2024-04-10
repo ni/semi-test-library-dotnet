@@ -3,6 +3,7 @@ using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
+using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
@@ -10,8 +11,22 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Digital
 {
     [Collection("NonParallelizable")]
-    public class TriggerAndEventTests
+    public sealed class TriggerAndEventTests : IDisposable
     {
+        private ISemiconductorModuleContext _tsmContext;
+
+        public TSMSessionManager InitializeSessionsAndCreateSessionManager(string pinMapFileName, string digitalPatternProjectFileName)
+        {
+            _tsmContext = CreateTSMContext(pinMapFileName, digitalPatternProjectFileName);
+            Initialize(_tsmContext);
+            return new TSMSessionManager(_tsmContext);
+        }
+
+        public void Dispose()
+        {
+            Close(_tsmContext);
+        }
+
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", DigitalEdge.Rising)]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", DigitalEdge.Falling)]
@@ -19,9 +34,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", DigitalEdge.Falling)]
         public void SessionsInitialized_ConfigureConditionalJumpTrigger_ValuesCanBeReadBack(string pinMap, string digitalProject, DigitalEdge digitalEdge)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
             sessionsBundle.ConfigureConditionalJumpTriggerDigitalEdge("PXI_Trig0", 0, digitalEdge);
@@ -36,7 +49,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 AssertConditionalJumpTriggerDigitalEdge(sessionInfo, 2, "PXI_Trig2", digitalEdge);
                 AssertConditionalJumpTriggerDigitalEdge(sessionInfo, 3, "PXI_Trig3", digitalEdge);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -44,9 +56,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureConditionalJumpTriggerSoftwareEdge_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
             // Test Software Edge
@@ -62,7 +72,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(TriggerType.Software, sessionInfo.Session.Trigger.ConditionalJumpTriggers[2].TriggerType);
                 Assert.Equal(TriggerType.Software, sessionInfo.Session.Trigger.ConditionalJumpTriggers[3].TriggerType);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -70,9 +79,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_DisableConditionalJumpTriggers_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
             // Test None
@@ -85,7 +92,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(TriggerType.None, sessionInfo.Session.Trigger.ConditionalJumpTriggers[2].TriggerType);
                 Assert.Equal(TriggerType.None, sessionInfo.Session.Trigger.ConditionalJumpTriggers[3].TriggerType);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -95,9 +101,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", DigitalEdge.Falling)]
         public void SessionsInitialized_ConfigureStartTriggerDigitalEdge_ValuesCanBeReadBack(string pinMap, string digitalProject, DigitalEdge digitalEdge)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
             sessionsBundle.ConfigureStartTriggerDigitalEdge("PXI_Trig2", digitalEdge);
@@ -106,7 +110,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertStartTriggerDigitalEdge(sessionInfo, "PXI_Trig2", digitalEdge);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -114,9 +117,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureStartTriggerSoftwareEdge_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
             // Test Software Edge
@@ -126,7 +127,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(TriggerType.Software, sessionInfo.Session.Trigger.StartTrigger.TriggerType);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -134,9 +134,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_DisableStartTrigger_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
             // Test None
@@ -146,7 +144,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(TriggerType.None, sessionInfo.Session.Trigger.StartTrigger.TriggerType);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -154,9 +151,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ExportPatternOpcodeEvent_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var outputTerminal = "PXI_Trig0";
@@ -166,7 +161,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(outputTerminal, sessionInfo.Session.Event.PatternOpcodeEvents[1].OutputTerminal);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -174,9 +168,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ExportConditionalJumpTrigger_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var outputTerminal = "PXI_Trig1";
@@ -187,7 +179,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(outputTerminal, sessionInfo.Session.Trigger.ConditionalJumpTriggers[2].OutputTerminal);
                 Assert.Equal(string.Empty, sessionInfo.Session.Trigger.ConditionalJumpTriggers[0].OutputTerminal);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -195,9 +186,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ExportStartTrigger_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var outputTerminal = "PXI_Trig2";
@@ -208,7 +197,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(outputTerminal, sessionInfo.Session.Trigger.StartTrigger.OutputTerminal);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -216,9 +204,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ExportTwoSignalsToTheSameOutputTerminal_Succeeds(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var outputTerminal = "PXI_Trig2";
@@ -230,7 +216,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(outputTerminal, sessionInfo.Session.Trigger.ConditionalJumpTriggers[0].OutputTerminal);
                 Assert.Equal(outputTerminal, sessionInfo.Session.Trigger.StartTrigger.OutputTerminal);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -238,9 +223,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void StartTriggerExported_DisableStartTrigger_OutputTerminalUntouched(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var outputTerminal = "PXI_Trig2";
             sessionsBundle.ExportSignal(SignalType.StartTrigger, string.Empty, outputTerminal);
@@ -252,7 +235,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(outputTerminal, sessionInfo.Session.Trigger.StartTrigger.OutputTerminal);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -260,9 +242,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureAndDisableStartTriggerSoftwareEdge_Succeeds(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             // Test default property value
             sessionsBundle.Do(sessionInfo =>
@@ -277,7 +257,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(TriggerType.None, sessionInfo.Session.Trigger.StartTrigger.TriggerType);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -285,9 +264,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureAndDisableConditionalJumpTriggerSoftwareEdge_Succeeds(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             // Test default property value
             sessionsBundle.Do(sessionInfo =>
@@ -302,7 +279,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(TriggerType.None, sessionInfo.Session.Trigger.ConditionalJumpTriggers[0].TriggerType);
             });
-            Close(tsmContext);
         }
 
         [Theory]
@@ -310,14 +286,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureStartTriggerSoftwareEdgeAndSendSoftwareEdge_Succeeds(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ConfigureStartTriggerSoftwareEdge();
             sessionsBundle.SendSoftwareEdgeStartTrigger();
-            Close(tsmContext);
         }
 
         [Theory]
@@ -325,14 +298,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureConditionalJumpTriggerSoftwareEdgeAndSendSoftwareEdge_Succeeds(string pinMap, string digitalProject)
         {
-            var tsmContext = CreateTSMContext(pinMap, digitalProject);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            Initialize(tsmContext);
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ConfigureConditionalJumpTriggerSoftwareEdge(2);
             sessionsBundle.SendSoftwareEdgeConditionalJumpTrigger(2);
-            Close(tsmContext);
         }
 
         #region Private Methods

@@ -1,8 +1,4 @@
-﻿using System;
-using NationalInstruments.ModularInstruments.NIDigital;
-using NationalInstruments.Restricted;
-using NationalInstruments.SemiconductorTestLibrary.Common;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose;
