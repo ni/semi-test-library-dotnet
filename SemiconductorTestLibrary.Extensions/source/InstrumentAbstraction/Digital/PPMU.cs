@@ -203,7 +203,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// Measures the voltage on the target pin(s) and immediately publishes the results using the publish data ID passed in.
         /// </summary>
         /// <remarks>
         /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
@@ -218,7 +218,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Publish Data ID passed in.
+        /// Measures the voltage on the target pin(s) and immediately publishes the results using the publish data ID passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="publishDataID">The publish data ID string.</param>
@@ -230,7 +230,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data ID passed in.
+        /// Measures the current on the target pin(s) and immediately publishes the results using the publish data ID passed in.
         /// </summary>
         /// <remarks>
         /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
@@ -245,7 +245,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data ID passed in.
+        /// Measures the current on the target pin(s) and immediately publishes the results using the publish data ID passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="publishDataID">The publish data ID string.</param>
