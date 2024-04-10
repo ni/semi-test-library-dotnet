@@ -388,7 +388,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialize_SelectPPMU_ChannelsSwitchToDigitalFunction(string pinMap, string digitalProject)
+        public void SessionsInitialized_SelectPPMU_ChannelsSwitchToDigitalFunction(string pinMap, string digitalProject)
         {
             var tsmContext = CreateTSMContext(pinMap, digitalProject);
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -431,9 +431,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedNumberOfPublishedDataPoints = (pins.Length * tsmContext.SiteNumbers.Count);
 
             sessionsBundle.MeasureAndPublishVoltage("VoltageMeasurments", out var voltageMeasurements);
+
             Assert.NotEmpty(voltageMeasurements);
             Assert.Equal(expectedNumberOfPublishedDataPoints, publishDatReader.GetAndClearPublishedData().Length);
-
             Close(tsmContext);
         }
 
@@ -451,9 +451,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
             sessionsBundle.MeasureAndPublishCurrent("CurrentMeasurments", out var currentMeasurements);
+
             Assert.NotEmpty(currentMeasurements);
             Assert.Equal(expectedNumberOfPublishedDataPoints, publishDatReader.GetAndClearPublishedData().Length);
-
             Close(tsmContext);
         }
 
@@ -468,18 +468,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pins = new string[] { "C0", "C1" };
             var sessionsBundle = sessionManager.Digital(pins);
 
-            var exception = Assert.Throws<AggregateException>(() => sessionsBundle.MeasureAndPublishCurrent("CurrentMeasurments"));
+            void MeasureAndPublishCurrent() => sessionsBundle.MeasureAndPublishCurrent("CurrentMeasurments");
 
+            var exception = Assert.Throws<AggregateException>(MeasureAndPublishCurrent);
             Assert.Empty(publishDatReader.GetAndClearPublishedData());
-            exception.IfNotNull(x =>
+            exception.IfNotNull(e =>
             {
-                foreach (var innerExeption in x.InnerExceptions)
+                foreach (var innerExeption in e.InnerExceptions)
                 {
                     Assert.IsType<InvalidOperationException>(innerExeption);
                     Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
                 }
             });
-
             Close(tsmContext);
         }
 
@@ -496,12 +496,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
             var currentMeasurements = sessionsBundle.MeasureCurrent();
+
             foreach (var pin in pins)
             {
                 Assert.Contains(pin, currentMeasurements.PinNames);
             }
             Assert.Equal(tsmContext.SiteNumbers, currentMeasurements.SiteNumbers);
-
             Close(tsmContext);
         }
 
@@ -516,8 +516,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pins = new string[] { "C0", "C1" };
             var sessionsBundle = sessionManager.Digital(pins);
 
-            var exception = Assert.Throws<AggregateException>(() => sessionsBundle.MeasureCurrent());
+            void MeasureCurrent() => sessionsBundle.MeasureCurrent();
 
+            var exception = Assert.Throws<AggregateException>(MeasureCurrent);
             Assert.Empty(publishDatReader.GetAndClearPublishedData());
             exception.IfNotNull(x =>
             {
@@ -527,7 +528,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
                 }
             });
-
             Close(tsmContext);
         }
     }

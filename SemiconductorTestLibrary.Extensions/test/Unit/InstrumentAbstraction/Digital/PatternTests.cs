@@ -106,11 +106,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             //     Assert.False(sessionInfo.Session.PatternControl.IsDone);
             // });
             sessionsBundle.WaitUntilDone();
+
             sessionsBundle.Do(sessionInfo =>
             {
                 Assert.True(sessionInfo.Session.PatternControl.IsDone);
             });
-
             Close(tsmContext);
         }
 
@@ -122,19 +122,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var tsmContext = CreateTSMContext(pinMap, digitalProject);
             var sessionManager = new TSMSessionManager(tsmContext);
             Initialize(tsmContext);
-
             var sessionsBundle = sessionManager.Digital("C0");
-
             sessionsBundle.Do(sessionInfo =>
             {
                 Assert.True(sessionInfo.Session.PatternControl.IsDone);
             });
+
             sessionsBundle.BurstPattern("LongRunningPattern", waitUntilDone: false);
             sessionsBundle.Do(sessionInfo =>
             {
                 Assert.False(sessionInfo.Session.PatternControl.IsDone);
             });
             var exception = Assert.Throws<AggregateException>(() => sessionsBundle.WaitUntilDone(0.001));
+
             exception.IfNotNull(x =>
             {
                 foreach (var innerExeption in x.InnerExceptions)
@@ -142,21 +142,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     Assert.IsType<MaxTimeExceededException>(innerExeption);
                 }
             });
-
             Close(tsmContext);
         }
 
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_WaitUntilDoneBadTimeoutArguement_ThrowsExeception(string pinMap, string digitalProject)
+        public void SessionsInitialized_WaitUntilDoneWithInvalidTimeout_ThrowsExeception(string pinMap, string digitalProject)
         {
             var tsmContext = CreateTSMContext(pinMap, digitalProject);
             var sessionManager = new TSMSessionManager(tsmContext);
             Initialize(tsmContext);
 
             var sessionsBundle = sessionManager.Digital("C0");
-            var exception = Assert.Throws<AggregateException>(() => sessionsBundle.WaitUntilDone(-2));
+            void WaitUntilDone() => sessionsBundle.WaitUntilDone(-2);
+
+            var exception = Assert.Throws<AggregateException>(WaitUntilDone);
             exception.IfNotNull(x =>
             {
                 foreach (var innerExeption in x.InnerExceptions)
@@ -164,13 +165,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     Assert.IsType<ArgumentException>(innerExeption);
                 }
             });
-
             Close(tsmContext);
         }
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_WaitUntilDone_Succeeds(string pinMap, string digitalProject)
+        public void SessionsInitialized_WaitUntilDoneSucceeds(string pinMap, string digitalProject)
         {
             var tsmContext = CreateTSMContext(pinMap, digitalProject);
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -178,7 +178,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var sessionsBundle = sessionManager.Digital("C0");
             sessionsBundle.WaitUntilDone();
-
             Close(tsmContext);
         }
 
@@ -203,11 +202,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             //     Assert.False(sessionInfo.Session.PatternControl.IsDone);
             // });
             sessionsBundle.AbortPattern();
+
             sessionsBundle.Do(sessionInfo =>
             {
                 Assert.True(sessionInfo.Session.PatternControl.IsDone);
             });
-
             Close(tsmContext);
         }
 
@@ -231,11 +230,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.True(sessionInfo.Session.PatternControl.IsKeepAliveActive);
             });
             sessionsBundle.AbortKeepAlivePattern();
+
             sessionsBundle.Do(sessionInfo =>
             {
                 Assert.False(sessionInfo.Session.PatternControl.IsKeepAliveActive);
             });
-
             Close(tsmContext);
         }
     }

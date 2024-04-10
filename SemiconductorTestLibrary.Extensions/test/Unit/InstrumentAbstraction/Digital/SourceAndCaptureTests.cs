@@ -176,7 +176,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_CreateParallelSourceWaveformSiteUnique_Succeeds(string pinMap, string digitalProject)
+        public void SessionsInitialized_CreateParallelSourceWaveformSiteUniqueSucceeds(string pinMap, string digitalProject)
         {
             var tsmContext = CreateTSMContext(pinMap, digitalProject);
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -184,14 +184,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.CreateParallelSourceWaveform(new string[] { "C0", "C1" }, "ParallelSourceWaveform", SourceDataMapping.SiteUnique);
-
             Close(tsmContext);
         }
 
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_CreateParallelSourceWaveformBroadcast_Succeeds(string pinMap, string digitalProject)
+        public void SessionsInitialized_CreateParallelSourceWaveformBroadcastSucceeds(string pinMap, string digitalProject)
         {
             var tsmContext = CreateTSMContext(pinMap, digitalProject);
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -199,7 +198,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.CreateParallelSourceWaveform(new string[] { "C0", "C1" }, "ParallelSourceWaveform", SourceDataMapping.Broadcast);
-
             Close(tsmContext);
         }
 

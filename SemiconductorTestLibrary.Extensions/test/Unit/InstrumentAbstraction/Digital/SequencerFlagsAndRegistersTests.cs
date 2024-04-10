@@ -34,7 +34,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedValues[1], sessionsBundle.ReadSequencerFlagDistinct($"seqflag{1}"));
             Assert.Equal(expectedValues[2], sessionsBundle.ReadSequencerFlagDistinct($"seqflag{2}"));
             Assert.Equal(expectedValues[3], sessionsBundle.ReadSequencerFlagDistinct($"seqflag{3}"));
-
             Close(tsmContext);
         }
 
@@ -59,7 +58,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedValues[1], sessionsBundle.ReadSequencerRegisterDistinct($"reg{1}"));
             Assert.Equal(expectedValues[2], sessionsBundle.ReadSequencerRegisterDistinct($"reg{2}"));
             Assert.Equal(expectedValues[3], sessionsBundle.ReadSequencerRegisterDistinct($"reg{3}"));
-
             Close(tsmContext);
         }
     }
