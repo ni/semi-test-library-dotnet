@@ -139,22 +139,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="dmmAdcCalibrationMode">The ADC calibration mode to be used.</param>
-        /// <exception cref="NIMixedSignalException">A device in an underlying session does not support configuring ADC calibration</exception>
         public static void ConfigureADCCalibration(this DMMSessionsBundle sessionsBundle, DmmAdcCalibration dmmAdcCalibrationMode)
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                try
-                {
-                    sessionInfo.Session.Advanced.AdcCalibration = dmmAdcCalibrationMode;
-                }
-                catch
-                {
-                    throw new NIMixedSignalException(
-                        $"A device in this session does not support configuring ADC calibration." +
-                        $"Device: {sessionInfo.Session.DriverIdentity.InstrumentModel}" +
-                        $"AssociatedSitePinList: {string.Join(", ", sessionInfo.AssociatedSitePinList.Select(x => x.SitePinString))}");
-                }
+                sessionInfo.Session.Advanced.AdcCalibration = dmmAdcCalibrationMode;
             });
         }
 
@@ -178,17 +167,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                try
-                {
-                    sessionInfo.Session.Advanced.AutoZero = autoZeroMode;
-                }
-                catch
-                {
-                    throw new NIMixedSignalException(
-                        $"A device in this session does not support configuring Auto Zero to {autoZeroMode}." +
-                        $"Device: {sessionInfo.Session.DriverIdentity.InstrumentModel}" +
-                        $"AssociatedSitePinList: {string.Join(", ", sessionInfo.AssociatedSitePinList.Select(x => x.SitePinString))}");
-                }
+                sessionInfo.Session.Advanced.AutoZero = autoZeroMode;
             });
         }
     }
