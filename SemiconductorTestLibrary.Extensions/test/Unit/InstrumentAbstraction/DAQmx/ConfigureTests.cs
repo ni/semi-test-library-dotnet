@@ -30,6 +30,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
             var tasksBundle = sessionManager.DAQmx("VCC1");
+
             DAQmxTimingSampleClockSettings timingSettings = new DAQmxTimingSampleClockSettings
             {
                 SampleClockRate = 5555,
@@ -37,6 +38,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 SamplesPerChannel = 1000
             };
             tasksBundle.ConfigureTiming(timingSettings);
+
             var sampleClockRateActual = tasksBundle.GetSampleClockRate();
             Assert.Equal(5555, sampleClockRateActual, 0);
         }

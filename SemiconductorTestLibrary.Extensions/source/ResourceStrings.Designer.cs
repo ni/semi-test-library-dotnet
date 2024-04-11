@@ -79,11 +79,29 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The state of the sequencer {0} is not distinct, there is a different value between instrument sessions..
+        ///   Looks up a localized string similar to The value for the sample clock rate is not the same for all underlying instrument sessions..
         /// </summary>
-        internal static string Digital_SequencerRegisterOrFlagNotDistinct {
+        internal static string DAQmx_SampleClockRateNotDistinct {
             get {
-                return ResourceManager.GetString("Digital_SequencerRegisterOrFlagNotDistinct", resourceCulture);
+                return ResourceManager.GetString("DAQmx_SampleClockRateNotDistinct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The state of the sequencer flag ({0}) is not distinct, there is a different value between instrument sessions..
+        /// </summary>
+        internal static string Digital_SequencerFlagNotDistinct {
+            get {
+                return ResourceManager.GetString("Digital_SequencerFlagNotDistinct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The state of the sequencer register ({0}) is not distinct, there is a different value between instrument sessions..
+        /// </summary>
+        internal static string Digital_SequencerRegisterNotDistinct {
+            get {
+                return ResourceManager.GetString("Digital_SequencerRegisterNotDistinct", resourceCulture);
             }
         }
         

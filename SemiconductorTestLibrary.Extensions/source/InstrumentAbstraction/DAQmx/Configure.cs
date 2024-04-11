@@ -1,6 +1,7 @@
-﻿using System.Linq;
+﻿using System.Globalization;
 using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using static NationalInstruments.SemiconductorTestLibrary.Common.HelperMethods;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
 {
@@ -16,7 +17,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="terminalConfiguration">Specifies the terminal configuration mode.</param>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
-        public static void ConfigureTerminalConfiguration(this DAQmxTasksBundle tasksBundle, AOTerminalConfiguration terminalConfiguration)
+        public static void ConfigureAOTerminalConfiguration(this DAQmxTasksBundle tasksBundle, AOTerminalConfiguration terminalConfiguration)
         {
             tasksBundle.Do(taskInfo =>
             {
@@ -33,7 +34,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="terminalConfiguration">Specifies the terminal configuration mode.</param>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
-        public static void ConfigureTerminalConfiguration(this DAQmxTasksBundle tasksBundle, AITerminalConfiguration terminalConfiguration)
+        public static void ConfigureAITerminalConfiguration(this DAQmxTasksBundle tasksBundle, AITerminalConfiguration terminalConfiguration)
         {
             tasksBundle.Do(taskInfo =>
             {
@@ -111,16 +112,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// <exception cref="NIMixedSignalException">The value for the sample clock rate is not the same for all underlying instrument sessions.</exception>
         public static double GetSampleClockRate(this DAQmxTasksBundle tasksBundle)
         {
-            var perInstrumentResults = tasksBundle.DoAndReturnPerInstrumentPerChannelResults(taskInfo =>
-            {
-                return taskInfo.Task.Timing.SampleClockRate;
-            });
-            var result = perInstrumentResults.Distinct().ToArray();
-            if (result.Length > 1)
-            {
-                throw new NIMixedSignalException($"The value for the sample clock rate is not the same for all underlying instrument sessions.");
-            }
-            return result[0];
+            return GetDistinctValue(tasksBundle.GetSampleClockRates(), string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_SampleClockRateNotDistinct));
         }
     }
 }
