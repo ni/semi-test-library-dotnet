@@ -22,13 +22,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 taskInfo.VerifyTaskType(DAQmxTaskType.DigitalInput);
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
-                    var channel = new DigitalSingleChannelReader(taskInfo.Task.Stream);
-                    return new bool[] { channel.ReadSingleSampleSingleLine() };
+                    var reader = new DigitalSingleChannelReader(taskInfo.Task.Stream);
+                    return new bool[] { reader.ReadSingleSampleSingleLine() };
                 }
                 else
                 {
-                    var channel = new DigitalMultiChannelReader(taskInfo.Task.Stream);
-                    return channel.ReadSingleSampleSingleLine();
+                    var reader = new DigitalMultiChannelReader(taskInfo.Task.Stream);
+                    return reader.ReadSingleSampleSingleLine();
                 }
             });
         }
@@ -47,13 +47,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 taskInfo.VerifyTaskType(DAQmxTaskType.DigitalInput);
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
-                    var channel = new DigitalSingleChannelReader(taskInfo.Task.Stream);
-                    return new DigitalWaveform[] { channel.ReadWaveform(samplesToRead) };
+                    var reader = new DigitalSingleChannelReader(taskInfo.Task.Stream);
+                    return new DigitalWaveform[] { reader.ReadWaveform(samplesToRead) };
                 }
                 else
                 {
-                    var channel = new DigitalMultiChannelReader(taskInfo.Task.Stream);
-                    return channel.ReadWaveform(samplesToRead);
+                    var reader = new DigitalMultiChannelReader(taskInfo.Task.Stream);
+                    return reader.ReadWaveform(samplesToRead);
                 }
             });
         }
@@ -71,13 +71,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 taskInfo.VerifyTaskType(DAQmxTaskType.DigitalInput);
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
-                    var channel = new DigitalSingleChannelReader(taskInfo.Task.Stream);
-                    return new uint[][] { channel.ReadMultiSamplePortUInt32(samplesToRead) };
+                    var reader = new DigitalSingleChannelReader(taskInfo.Task.Stream);
+                    return new uint[][] { reader.ReadMultiSamplePortUInt32(samplesToRead) };
                 }
                 else
                 {
-                    var channel = new DigitalMultiChannelReader(taskInfo.Task.Stream);
-                    return channel.ReadMultiSamplePortUInt32(samplesToRead).ToJaggedArray();
+                    var reader = new DigitalMultiChannelReader(taskInfo.Task.Stream);
+                    return reader.ReadMultiSamplePortUInt32(samplesToRead).ToJaggedArray();
                 }
             });
         }

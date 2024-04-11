@@ -24,13 +24,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 taskInfo.VerifyTaskType(DAQmxTaskType.AnalogInput);
                 if (taskInfo.Task.AIChannels.HasSingleChannel())
                 {
-                    var channel = new AnalogSingleChannelReader(taskInfo.Task.Stream);
-                    return new double[][] { channel.ReadMultiSample(samplesToRead) };
+                    var reader = new AnalogSingleChannelReader(taskInfo.Task.Stream);
+                    return new double[][] { reader.ReadMultiSample(samplesToRead) };
                 }
                 else
                 {
-                    var channel = new AnalogMultiChannelReader(taskInfo.Task.Stream);
-                    return channel.ReadMultiSample(samplesToRead).ToJaggedArray();
+                    var reader = new AnalogMultiChannelReader(taskInfo.Task.Stream);
+                    return reader.ReadMultiSample(samplesToRead).ToJaggedArray();
                 }
             });
         }
@@ -49,13 +49,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 taskInfo.VerifyTaskType(DAQmxTaskType.AnalogInput);
                 if (taskInfo.Task.AIChannels.HasSingleChannel())
                 {
-                    var channel = new AnalogSingleChannelReader(taskInfo.Task.Stream);
-                    return new AnalogWaveform<double>[] { channel.ReadWaveform(samplesToRead) };
+                    var reader = new AnalogSingleChannelReader(taskInfo.Task.Stream);
+                    return new AnalogWaveform<double>[] { reader.ReadWaveform(samplesToRead) };
                 }
                 else
                 {
-                    var channel = new AnalogMultiChannelReader(taskInfo.Task.Stream);
-                    return channel.ReadWaveform(samplesToRead);
+                    var reader = new AnalogMultiChannelReader(taskInfo.Task.Stream);
+                    return reader.ReadWaveform(samplesToRead);
                 }
             });
         }
