@@ -82,17 +82,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             var fullyQualifiedOutputTerminals = new string[tasksBundle.InstrumentSessions.Count()];
             var lockObject = new object();
-            tasksBundle.Do((taskInfo, indexer) =>
+            return tasksBundle.DoAndReturnPerInstrumentPerChannelResults(taskInfo =>
             {
-                /// Using the first instrument in the task as the primary.
-                var instrumentAlias = taskInfo.Task.Devices[0];
-                var chType = taskInfo.GetTaskType().ToDAQmxChannelType();
-                lock (lockObject)
-                {
-                    fullyQualifiedOutputTerminals[indexer] = BuildFullyQualifiedDAQmxOutputTerminal(instrumentAlias, chType, signal);
-                }
+                // Using the first instrument in the task as the primary.
+                return BuildFullyQualifiedDAQmxOutputTerminal(taskInfo.Task.Devices[0], taskInfo.GetTaskType().ToDAQmxChannelType(), signal);
             });
-            return fullyQualifiedOutputTerminals;
         }
     }
 }

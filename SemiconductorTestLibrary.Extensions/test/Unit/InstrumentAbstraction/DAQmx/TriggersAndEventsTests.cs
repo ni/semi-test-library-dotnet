@@ -14,11 +14,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     {
         private ISemiconductorModuleContext _tsmContext;
 
-        public TSMSessionManager Initialize(string pinMapFileName)
+        public DAQmxTasksBundle Initialize(string pinMapFileName, string pinName)
         {
             _tsmContext = CreateTSMContext(pinMapFileName);
             InitializeAndClose.CreateDAQmxAIVoltageTasks(_tsmContext);
-            return new TSMSessionManager(_tsmContext);
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            var tasksBundle = sessionManager.DAQmx(pinName);
+            tasksBundle.ConfigureTiming(new DAQmxTimingSampleClockSettings
+            {
+                SampleClockRate = 5555,
+                SampleQuantityMode = SampleQuantityMode.FiniteSamples,
+                SamplesPerChannel = 1000
+            });
+            return tasksBundle;
         }
 
         public void Dispose()
@@ -26,29 +34,34 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             InitializeAndClose.ClearDAQmxAIVoltageTasks(_tsmContext);
         }
 
-        [Fact]
-        public void ConfigureStartTrigger_ReturnsCorrectValue()
+        [Theory]
+        [InlineData(DigitalEdgeStartTriggerEdge.Rising)]
+        [InlineData(DigitalEdgeStartTriggerEdge.Falling)]
+        public void SessionsIntialized_ConfigureStartTriggerDigitalEdge_ReturnsCorrectValue(DigitalEdgeStartTriggerEdge digitalEdge)
         {
-            var sessionManager = Initialize("DAQmxTests.pinmap");
-            var tasksBundle = sessionManager.DAQmx("VCC1");
+            var tasksBundle = Initialize("DAQmxTests.pinmap", "VCC1");
             string triggerLine = "PXI_Trig0";
-            tasksBundle.ConfigureTiming(new DAQmxTimingSampleClockSettings
-            {
-                SampleClockRate = 5555,
-                SampleQuantityMode = SampleQuantityMode.FiniteSamples,
-                SamplesPerChannel = 1000
-            });
 
-            tasksBundle.ConfigureStartTriggerDigitalEdge(triggerLine);
+            tasksBundle.ConfigureStartTriggerDigitalEdge(triggerLine, digitalEdge);
+
             tasksBundle.Do(taskInfo =>
             {
                 var fullyQualifedTriggerSource = $"/{taskInfo.Task.Devices[0]}/{triggerLine}";
                 Assert.Equal(StartTriggerType.DigitalEdge, taskInfo.Task.Triggers.StartTrigger.Type);
                 Assert.Equal(fullyQualifedTriggerSource, taskInfo.Task.Triggers.StartTrigger.DigitalEdge.Source);
-                Assert.Equal(DigitalEdgeStartTriggerEdge.Rising, taskInfo.Task.Triggers.StartTrigger.DigitalEdge.Edge);
+                Assert.Equal(digitalEdge, taskInfo.Task.Triggers.StartTrigger.DigitalEdge.Edge);
             });
+        }
 
+        [Fact]
+        public void SessionsIntialized_DisableStartTrigger_ReturnsCorrectValue()
+        {
+            var tasksBundle = Initialize("DAQmxTests.pinmap", "VCC1");
+            string triggerLine = "PXI_Trig0";
+
+            tasksBundle.ConfigureStartTriggerDigitalEdge(triggerLine);
             tasksBundle.DisableStartTrigger();
+
             tasksBundle.Do(taskInfo =>
             {
                 var fullyQualifedTriggerSource = $"/{taskInfo.Task.Devices[0]}/{triggerLine}";
@@ -56,30 +69,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(fullyQualifedTriggerSource, taskInfo.Task.Triggers.StartTrigger.DigitalEdge.Source);
                 Assert.Equal(DigitalEdgeStartTriggerEdge.Rising, taskInfo.Task.Triggers.StartTrigger.DigitalEdge.Edge);
             });
-
-            tasksBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdgeStartTriggerEdge.Falling);
-            tasksBundle.Do(taskInfo =>
-            {
-                var fullyQualifedTriggerSource = $"/{taskInfo.Task.Devices[0]}/{triggerLine}";
-                Assert.Equal(StartTriggerType.DigitalEdge, taskInfo.Task.Triggers.StartTrigger.Type);
-                Assert.Equal(fullyQualifedTriggerSource, taskInfo.Task.Triggers.StartTrigger.DigitalEdge.Source);
-                Assert.Equal(DigitalEdgeStartTriggerEdge.Falling, taskInfo.Task.Triggers.StartTrigger.DigitalEdge.Edge);
-            });
         }
 
         [Fact]
-        public void ExportStartTrigger_ReturnsCorrectValue()
+        public void SessionsIntialized_ExportStartTrigger_ReturnsCorrectValue()
         {
-            var sessionManager = Initialize("DAQmxTests.pinmap");
-            var tasksBundle = sessionManager.DAQmx("VCC1");
+            var tasksBundle = Initialize("DAQmxTests.pinmap", "VCC1");
             string destinationTriggerLine = "PXI_Trig0";
-            tasksBundle.ConfigureTiming(new DAQmxTimingSampleClockSettings
-            {
-                SampleClockRate = 5555,
-                SampleQuantityMode = SampleQuantityMode.FiniteSamples,
-                SamplesPerChannel = 1000
-            });
-
             // Test Default
             tasksBundle.Do(taskInfo =>
             {
@@ -87,6 +83,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             tasksBundle.ExportSignal(ExportSignal.StartTrigger, destinationTriggerLine);
+
             tasksBundle.Do(taskInfo =>
             {
                 var fullyQualifedTriggerSource = $"/{taskInfo.Task.Devices[0]}/{destinationTriggerLine}";
@@ -98,18 +95,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "Not applicable, driver expects lowercase")]
         public void GetFullyQualifiedOutputTerminalsStartTrigger_ReturnsCorrectValue()
         {
-            var sessionManager = Initialize("DAQmxTests.pinmap");
-            var tasksBundle = sessionManager.DAQmx("VCC1");
+            var tasksBundle = Initialize("DAQmxTests.pinmap", "VCC1");
             var signal = ExportSignal.StartTrigger;
             var channelType = ChannelType.AI.ToString().ToLowerInvariant();
-            tasksBundle.ConfigureTiming(new DAQmxTimingSampleClockSettings
-            {
-                SampleClockRate = 5555,
-                SampleQuantityMode = SampleQuantityMode.FiniteSamples,
-                SamplesPerChannel = 1000
-            });
 
             var fullyQualifiedOutputTerminals = tasksBundle.GetFullyQualifiedOutputTerminals(signal);
+
             tasksBundle.Do((taskInfo, index) =>
             {
                 var fullyQualifedTriggerSourceExpected = $"/{taskInfo.Task.Devices[0]}/{channelType}/{signal}";

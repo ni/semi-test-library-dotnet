@@ -61,7 +61,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The requested function is not supported by this device: {productType}..
+        ///   Looks up a localized string similar to The requested function is not supported by this device: {0}..
         /// </summary>
         internal static string DAQmx_FuncGenNotSupported {
             get {

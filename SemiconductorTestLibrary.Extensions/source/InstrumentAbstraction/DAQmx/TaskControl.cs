@@ -4,7 +4,7 @@ using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecuti
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
 {
     /// <summary>
-    /// Defines operations for perfomring low-level task control.
+    /// Defines operations for performing low-level task control.
     /// </summary>
     public static class TaskControl
     {
