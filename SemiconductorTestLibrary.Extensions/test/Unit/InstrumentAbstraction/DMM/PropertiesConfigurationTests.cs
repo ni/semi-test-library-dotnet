@@ -144,11 +144,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SendSoftwareTriggerSucceeds()
+        public void ConfigureAndInitiateTriggeredMeasurement_SendSoftwareTrigger_Succeeds()
         {
             var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
             sessionsBundle.ConfigureMeasurementDigits();
-            sessionsBundle.ReadMultiPoint(1, 1000);
+            sessionsBundle.ConfigureTrigger(DmmTriggerSource.SoftwareTrigger, 0.01);
+            sessionsBundle.Initiate();
+
             sessionsBundle.SendSoftwareTrigger();
         }
 

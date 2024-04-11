@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using NationalInstruments.ModularInstruments.NIDmm;
+﻿using NationalInstruments.ModularInstruments.NIDmm;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
