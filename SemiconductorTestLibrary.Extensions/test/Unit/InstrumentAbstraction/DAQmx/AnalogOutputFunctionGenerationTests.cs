@@ -24,15 +24,37 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         public void Dispose()
         {
+            InitializeAndClose.ClearDAQmxAOFunctionGenerationTasks(_tsmContext);
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
         [Fact]
-        public void SupportedDevice_GenerateSineWave_Succeeds()
+        public void SupportedDevice_GenerateSineWaveSucceeds()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
             var tasksBundle = sessionManager.DAQmx("PureTonePin");
 
+            GenerateSineWave(tasksBundle);
+        }
+
+        [Fact]
+        public void UnsupportedDevice_GenerateSineWaveThrowsException()
+        {
+            var sessionManager = Initialize("DAQmxTests.pinmap");
+            var tasksBundle = sessionManager.DAQmx("VDD");
+
+            var exception = Assert.Throws<AggregateException>(() => GenerateSineWave(tasksBundle));
+            exception.IfNotNull(x =>
+            {
+                foreach (var innerExeption in x.InnerExceptions)
+                {
+                    Assert.Contains("Specified property is not supported by the device or is not applicable to the task.", innerExeption.Message);
+                }
+            });
+        }
+
+        private static void GenerateSineWave(DAQmxTasksBundle tasksBundle)
+        {
             tasksBundle.ConfigureAOFunctionGeneration(new AOFunctionGenerationSettings
             {
                 FunctionType = AOFunctionGenerationType.Sine,
@@ -41,34 +63,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Offset = 0,
             });
             tasksBundle.StartAOFunctionGeneration();
-        }
-
-        [Fact]
-        public void UnsupportedDevice_GenerateSineWave_ThrowsException()
-        {
-            var sessionManager = Initialize("DAQmxTests.pinmap");
-            var tasksBundle = sessionManager.DAQmx("VDD");
-
-            void Operation()
-            {
-                tasksBundle.ConfigureAOFunctionGeneration(new AOFunctionGenerationSettings
-                {
-                    FunctionType = AOFunctionGenerationType.Sine,
-                    Frequency = 1000,
-                    Amplitude = 1,
-                    Offset = 0,
-                });
-                tasksBundle.StartAOFunctionGeneration();
-            }
-
-            var exception = Assert.Throws<AggregateException>(Operation);
-            exception.IfNotNull(x =>
-            {
-                foreach (var innerExeption in x.InnerExceptions)
-                {
-                    Assert.Contains("Specified property is not supported by the device or is not applicable to the task.", innerExeption.Message);
-                }
-            });
         }
     }
 }

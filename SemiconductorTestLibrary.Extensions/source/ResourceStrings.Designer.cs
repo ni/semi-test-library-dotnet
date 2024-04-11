@@ -61,6 +61,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The requested function is not supported by this device: {productType}..
+        /// </summary>
+        internal static string DAQmx_FuncGenNotSupported {
+            get {
+                return ResourceManager.GetString("DAQmx_FuncGenNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No {0} channels to read..
         /// </summary>
         internal static string DAQmx_NoChannelsToRead {

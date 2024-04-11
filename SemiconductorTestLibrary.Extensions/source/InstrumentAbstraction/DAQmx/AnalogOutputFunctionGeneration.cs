@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.Common;
-using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
-using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
 {
@@ -26,30 +24,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Verify();
             tasksBundle.Do((taskInfo, sitePinInfo) =>
             {
-                var targetChannel = sitePinInfo.IndividualChannelString;
+                var targetChannel = taskInfo.Task.AOChannels[sitePinInfo.IndividualChannelString];
                 if (functionGenerationSettings.FunctionType.HasValue)
                 {
-                    taskInfo.Task.AOChannels[targetChannel].FunctionGenerationType = functionGenerationSettings.FunctionType.Value;
+                    targetChannel.FunctionGenerationType = functionGenerationSettings.FunctionType.Value;
                 }
                 if (functionGenerationSettings.Frequency.HasValue)
                 {
-                    taskInfo.Task.AOChannels[targetChannel].FunctionGenerationFrequency = functionGenerationSettings.Frequency.Value;
+                    targetChannel.FunctionGenerationFrequency = functionGenerationSettings.Frequency.Value;
                 }
                 if (functionGenerationSettings.Amplitude.HasValue)
                 {
-                    taskInfo.Task.AOChannels[targetChannel].FunctionGenerationAmplitude = functionGenerationSettings.Amplitude.Value;
+                    targetChannel.FunctionGenerationAmplitude = functionGenerationSettings.Amplitude.Value;
                 }
                 if (functionGenerationSettings.Offset.HasValue)
                 {
-                    taskInfo.Task.AOChannels[targetChannel].FunctionGenerationOffset = functionGenerationSettings.Offset.Value;
+                    targetChannel.FunctionGenerationOffset = functionGenerationSettings.Offset.Value;
                 }
                 if (functionGenerationSettings.StartPhase.HasValue)
                 {
-                    taskInfo.Task.AOChannels[targetChannel].FunctionGenerationStartPhase = functionGenerationSettings.StartPhase.Value;
+                    targetChannel.FunctionGenerationStartPhase = functionGenerationSettings.StartPhase.Value;
                 }
                 if (functionGenerationSettings.DutyCycle.HasValue)
                 {
-                    taskInfo.Task.AOChannels[targetChannel].FunctionGenerationSquareDutyCycle = functionGenerationSettings.DutyCycle.Value;
+                    targetChannel.FunctionGenerationSquareDutyCycle = functionGenerationSettings.DutyCycle.Value;
                 }
             });
             tasksBundle.Commit();
@@ -101,7 +99,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                         settlingTime = (period * 90.0) + 1e-3;
                         break;
                     default:
-                        throw new NIMixedSignalException($"The requested function is not supported by this device: {productType}");
+                        throw new NIMixedSignalException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_FuncGenNotSupported, productType));
                 }
                 perDeviceSettlingTimes.Add(settlingTime);
             }
