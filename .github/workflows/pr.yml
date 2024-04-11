@@ -10,7 +10,7 @@ on:
       - 'SemiconductorTestLibrary.Extensions/**'
 
 env:
-    GITHUB_MixedSignalTestLibrary_BRANCH_NAME: '{"GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ github.head_ref || github.ref_name }}"}'
+    GITHUB_MixedSignalTestLibrary_BRANCH_NAME: '{"GITHUB_Test_BRANCH_NAME": "${{ github.head_ref || github.ref_name }}"}'
 
 jobs:
     build:   
