@@ -130,7 +130,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="signalID">The instance of the selected signal to export. Possible values include "patternOpcodeEvent0", "patternOpcodeEvent1", "patternOpcodeEvent2", or "patternOpcodeEvent3". </param>
         /// <param name="outputTerminal">The terminal to which to export the signal. Possible values include but are not limited to "PXI_Trig0", "PXI_Trig1", "PXI_Trig2", "PXI_Trig3", "PXI_Trig4", "PXI_Trig5", "PXI_Trig6", or "PXI_Trig7". </param>
         /// <exception cref="ArgumentException">The value for one or all of the parameters, signalType, signalID, or outputTerminal, is invalid.</exception>
-        /// <exception cref="viCDriverException">The underlying NI-Digital Pattern Driver returned an error.</exception>
+        /// <exception cref="IviCDriverException">The underlying NI-Digital Pattern Driver returned an error.</exception>
         public static void ExportSignal(this DigitalSessionsBundle sessionsBundle, SignalType signalType, string signalID, string outputTerminal)
         {
             sessionsBundle.Do(sessionInfo =>
