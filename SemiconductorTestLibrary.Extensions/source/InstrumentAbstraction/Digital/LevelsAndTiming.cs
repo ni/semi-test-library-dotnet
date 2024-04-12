@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -81,11 +82,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="levelType">The type of level to configure.</param>
         /// <param name="perSiteLevelValues">The per-site value of level to configure.</param>
-        public static void ConfigureSingleLevel(this DigitalSessionsBundle sessionsBundle, LevelType levelType, IDictionary<int, double> perSiteLevelValues)
+        public static void ConfigureSingleLevel(this DigitalSessionsBundle sessionsBundle, LevelType levelType, SiteData<double> perSiteLevelValues)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).ConfigureSingleLevel(levelType, perSiteLevelValues[sitePinInfo.SiteNumber]);
+                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).ConfigureSingleLevel(levelType, perSiteLevelValues.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -139,11 +140,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="compareEdges">The per-site strobe edge time to configure.</param>
-        public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, IDictionary<int, double> compareEdges)
+        public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, SiteData<double> compareEdges)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sitePinInfo.SitePinString, Ivi.Driver.PrecisionTimeSpan.FromSeconds(compareEdges[sitePinInfo.SiteNumber]));
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sitePinInfo.SitePinString, Ivi.Driver.PrecisionTimeSpan.FromSeconds(compareEdges.GetValue(sitePinInfo.SiteNumber)));
             });
         }
 
@@ -153,11 +154,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="compareEdges">The strobe edge time for all site-pin pairs to configure.</param>
-        public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, IDictionary<int, Dictionary<string, double>> compareEdges)
+        public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, PinSiteData<double> compareEdges)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sitePinInfo.SitePinString, Ivi.Driver.PrecisionTimeSpan.FromSeconds(compareEdges[sitePinInfo.SiteNumber][sitePinInfo.PinName]));
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sitePinInfo.SitePinString, Ivi.Driver.PrecisionTimeSpan.FromSeconds(compareEdges.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName)));
             });
         }
 
@@ -262,11 +263,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="offsets">The per-site per-pin offsets to apply.</param>
-        public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, IDictionary<int, Dictionary<string, double>> offsets)
+        public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, PinSiteData<double> offsets)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).ApplyTdrOffsets(new Ivi.Driver.PrecisionTimeSpan[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(offsets[sitePinInfo.SiteNumber][sitePinInfo.PinName]) });
+                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).ApplyTdrOffsets(new Ivi.Driver.PrecisionTimeSpan[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(offsets.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName)) });
             });
         }
 
