@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NationalInstruments.ModularInstruments.NIDigital;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -141,11 +142,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var sessionsBundle = sessionManager.Digital("C0");
             sessionsBundle.CreateSerialSourceWaveform("SourceWaveform", SourceDataMapping.SiteUnique, sampleWidth: 8, BitOrder.MostSignificantBitFirst);
-            var waveformData = new Dictionary<int, uint[]>()
+            var waveformData = new SiteData<uint[]>(new Dictionary<int, uint[]>()
             {
                 [0] = new uint[] { 0, 1, 2, 3, 4 },
                 [1] = new uint[] { 5, 6, 7, 8, 9 }
-            };
+            });
             sessionsBundle.WriteSourceWaveformSiteUnique("SourceWaveform", waveformData, expandToMinimumSize);
         }
 

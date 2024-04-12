@@ -39,11 +39,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="expandToMinimumSize">Whether to make the size of the waveform data at least a specified value.</param>
         /// <param name="minimumSize">The minimum size of the waveform data.</param>
         /// <remarks>This method takes per-site source waveform.</remarks>
-        public static void WriteSourceWaveformSiteUnique(this DigitalSessionsBundle sessionsBundle, string waveformName, IDictionary<int, uint[]> perSiteWaveformData, bool expandToMinimumSize = false, int minimumSize = 128)
+        public static void WriteSourceWaveformSiteUnique(this DigitalSessionsBundle sessionsBundle, string waveformName, SiteData<uint[]> perSiteWaveformData, bool expandToMinimumSize = false, int minimumSize = 128)
         {
-            for (int i = 0; i < perSiteWaveformData.Count; i++)
+            for (int i = 0; i < perSiteWaveformData.SiteNumbers.Length; i++)
             {
-                var waveformData = perSiteWaveformData[i];
+                var waveformData = perSiteWaveformData.GetValue(i);
                 ResizeWaveformDataArrayOnDemand(ref waveformData, expandToMinimumSize, minimumSize);
             }
             sessionsBundle.Do(perSiteWaveformData, (sessionInfo, perInstrumentWaveformData) =>
