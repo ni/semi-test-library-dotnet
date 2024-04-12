@@ -70,6 +70,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The state of the sequencer {0} is not distinct, there is a different value between instrument sessions..
+        /// </summary>
+        internal static string Digital_SequencerRegisterOrFlagNotDistinct {
+            get {
+                return ResourceManager.GetString("Digital_SequencerRegisterOrFlagNotDistinct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TDR offsets for following channels are missing from {0}: {1}..
         /// </summary>
         internal static string Digital_TDROffsetsMissing {

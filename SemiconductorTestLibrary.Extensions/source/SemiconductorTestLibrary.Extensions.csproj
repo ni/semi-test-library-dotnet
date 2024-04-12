@@ -6,7 +6,6 @@
     <OutputPath>.\</OutputPath>
     <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <PlatformTarget>x64</PlatformTarget>
     <RootNamespace>NationalInstruments.SemiconductorTestLibrary</RootNamespace>
@@ -37,7 +36,7 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
-      <HintPath>NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+      <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI, Version=21.1.0.0, Culture=neutral, PublicKeyToken=060817a57c0f1a42, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -56,15 +55,5 @@
       <LastGenOutput>ResourceStrings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="NationalInstruments.SemiconductorTestLibrary.Abstractions.dll">
-      <Pack>True</Pack>
-      <PackagePath>lib/net48</PackagePath>
-    </Content>
-    <Content Include="NationalInstruments.SemiconductorTestLibrary.Abstractions.xml">
-      <Pack>True</Pack>
-      <PackagePath>lib/net48</PackagePath>
-    </Content>
   </ItemGroup>
 </Project>
