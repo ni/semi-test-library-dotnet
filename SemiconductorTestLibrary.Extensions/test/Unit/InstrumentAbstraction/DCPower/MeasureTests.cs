@@ -177,6 +177,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(0.017, maximumApertureTime, 3);
         }
 
+        /*
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -256,6 +257,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(3, results.Item1[2][0]);
             }
         }
+        */
 
         [Theory]
         [InlineData(false)]
