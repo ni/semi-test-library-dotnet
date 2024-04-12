@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
@@ -58,11 +59,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Rel
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="relays">The name of the relays to control.</param>
         /// <param name="perSiteRelayActions">The per-site relay actions to perform.</param>
-        public static void ControlRelay(ISemiconductorModuleContext tsmContext, string[] relays, IDictionary<int, RelayDriverAction> perSiteRelayActions)
+        public static void ControlRelay(ISemiconductorModuleContext tsmContext, string[] relays, SiteData<RelayDriverAction> perSiteRelayActions)
         {
             foreach (var tsmSiteContext in tsmContext.GetSiteSemiconductorModuleContexts())
             {
-                tsmSiteContext.ControlRelay(relays, perSiteRelayActions[tsmSiteContext.SiteNumbers.First()]);
+                tsmSiteContext.ControlRelay(relays, perSiteRelayActions.GetValue(tsmSiteContext.SiteNumbers.First()));
             }
         }
 
