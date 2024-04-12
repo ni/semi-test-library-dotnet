@@ -25,3 +25,4 @@ jobs:
             azure-pipeline-name: 'MixedSignalLibrary_PR_GitHub'
             azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
             azure-pipeline-variables:  ${{ env.GITHUB_MixedSignalTestLibrary_BRANCH_NAME }}
+            azure-pipeline-sourcebranch: "refs/heads/${{ github.base_ref }}"
