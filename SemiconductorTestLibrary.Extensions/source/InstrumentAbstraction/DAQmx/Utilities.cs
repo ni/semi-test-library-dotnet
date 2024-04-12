@@ -6,11 +6,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
 {
     internal static class Utilities
     {
-        public static void VerifyChannelsExist(this ICollection channels, DAQmxChannelType channelType)
+        public static void VerifyTaskType(this DAQmxTaskInformation taskInformation, DAQmxTaskType expectedTaskType)
         {
-            if (channels.Count == 0)
+            if (!taskInformation.TaskType.Equals(expectedTaskType))
             {
-                throw new NIMixedSignalException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_NoChannelsToRead, channelType.ToDefaultDAQmxTaskTypeString()));
+                throw new NIMixedSignalException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_NoChannelsToRead, expectedTaskType));
             }
         }
 
@@ -18,39 +18,5 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             return channels.Count == 1;
         }
-
-        private static string ToDefaultDAQmxTaskTypeString(this DAQmxChannelType channelType)
-        {
-            switch (channelType)
-            {
-                case DAQmxChannelType.AnalogInput:
-                    return DefaultDAQmxTaskTypeStrings.AnalogInput;
-                case DAQmxChannelType.AnalogOutput:
-                    return DefaultDAQmxTaskTypeStrings.AnalogOutput;
-                case DAQmxChannelType.DigitalInput:
-                    return DefaultDAQmxTaskTypeStrings.DigitalInput;
-                case DAQmxChannelType.DigitalOutput:
-                    return DefaultDAQmxTaskTypeStrings.DigitalOutput;
-                case DAQmxChannelType.CounterInput:
-                    return DefaultDAQmxTaskTypeStrings.CounterInput;
-                case DAQmxChannelType.CounterOutput:
-                    return DefaultDAQmxTaskTypeStrings.CounterOutput;
-                case DAQmxChannelType.AnalogOutputFunctionGeneration:
-                    return DefaultDAQmxTaskTypeStrings.AnalogOutputFunctionGeneration;
-                default:
-                    return string.Empty;
-            }
-        }
-    }
-
-    internal enum DAQmxChannelType
-    {
-        AnalogInput,
-        AnalogOutput,
-        DigitalInput,
-        DigitalOutput,
-        CounterInput,
-        CounterOutput,
-        AnalogOutputFunctionGeneration
     }
 }
