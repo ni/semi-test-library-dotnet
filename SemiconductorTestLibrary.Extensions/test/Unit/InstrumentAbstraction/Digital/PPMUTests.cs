@@ -4,6 +4,7 @@ using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -55,7 +56,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var voltageLevels = new Dictionary<int, double>() { [0] = 3.5, [1] = 5 };
+            var voltageLevels = new SiteData<double>(new Dictionary<int, double>() { [0] = 3.5, [1] = 5 });
             sessionsBundle.ForceVoltage(voltageLevels, currentLimitRange: 0.01);
 
             Assert.Equal(3.5, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.Ppmu.DCVoltage.VoltageLevel, 1);
@@ -68,7 +69,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var voltageLevels = new Dictionary<int, double>() { [0] = 3.5, [1] = 5 };
+            var voltageLevels = new SiteData<double>(new Dictionary<int, double>() { [0] = 3.5, [1] = 5 });
             sessionsBundle.ForceVoltage(voltageLevels, currentLimitRange: 0.01);
 
             Assert.Equal(3.5, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0, site0/C1").Ppmu.DCVoltage.VoltageLevel, 1);
@@ -82,11 +83,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var voltageLevels = new Dictionary<int, Dictionary<string, double>>()
+            var voltageLevels = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                [0] = new Dictionary<string, double>() { ["C0"] = 3, ["C1"] = 3.5 },
-                [1] = new Dictionary<string, double>() { ["C0"] = 4, ["C1"] = 4.5 }
-            };
+                ["C0"] = new Dictionary<int, double>() { [0] = 3, [1] = 4 },
+                ["C1"] = new Dictionary<int, double>() { [0] = 3.5, [1] = 4.5 }
+            });
             sessionsBundle.ForceVoltage(voltageLevels, currentLimitRange: 0.01);
 
             Assert.Equal(3, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCVoltage.VoltageLevel, 1);
@@ -101,11 +102,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var voltageLevels = new Dictionary<int, Dictionary<string, double>>()
+            var voltageLevels = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                [0] = new Dictionary<string, double>() { ["C0"] = 3, ["C1"] = 3.5 },
-                [1] = new Dictionary<string, double>() { ["C0"] = 4, ["C1"] = 4.5 }
-            };
+                ["C0"] = new Dictionary<int, double>() { [0] = 3, [1] = 4 },
+                ["C1"] = new Dictionary<int, double>() { [0] = 3.5, [1] = 4.5 }
+            });
             sessionsBundle.ForceVoltage(voltageLevels, currentLimitRange: 0.01);
 
             Assert.Equal(3, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCVoltage.VoltageLevel, 1);
