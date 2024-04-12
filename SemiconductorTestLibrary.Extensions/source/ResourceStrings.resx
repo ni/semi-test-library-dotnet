@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DAQmx_FuncGenNotSupported" xml:space="preserve">
+    <value>The requested function is not supported by this device: {0}.</value>
+  </data>
   <data name="DAQmx_NoChannelsToRead" xml:space="preserve">
     <value>No {0} channels to read.</value>
   </data>
-  <data name="Digital_SequencerRegisterOrFlagNotDistinct" xml:space="preserve">
-    <value>The state of the sequencer {0} is not distinct, there is a different value between instrument sessions.</value>
+  <data name="DAQmx_SampleClockRateNotDistinct" xml:space="preserve">
+    <value>The value for the sample clock rate is not the same for all underlying instrument sessions.</value>
+  </data>
+  <data name="Digital_SequencerFlagNotDistinct" xml:space="preserve">
+    <value>The state of the sequencer flag ({0}) is not distinct, there is a different value between instrument sessions.</value>
+  </data>
+  <data name="Digital_SequencerRegisterNotDistinct" xml:space="preserve">
+    <value>The state of the sequencer register ({0}) is not distinct, there is a different value between instrument sessions.</value>
   </data>
   <data name="Digital_TDROffsetsMissing" xml:space="preserve">
     <value>TDR offsets for following channels are missing from {0}: {1}.</value>
