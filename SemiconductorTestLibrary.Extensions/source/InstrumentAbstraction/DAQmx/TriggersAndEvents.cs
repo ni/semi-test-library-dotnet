@@ -80,12 +80,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
         public static string[] GetFullyQualifiedOutputTerminals(this DAQmxTasksBundle tasksBundle, ExportSignal signal)
         {
-            var fullyQualifiedOutputTerminals = new string[tasksBundle.InstrumentSessions.Count()];
-            var lockObject = new object();
             return tasksBundle.DoAndReturnPerInstrumentPerChannelResults(taskInfo =>
             {
-                // Using the first instrument in the task as the primary.
-                return BuildFullyQualifiedDAQmxOutputTerminal(taskInfo.Task.Devices[0], taskInfo.GetTaskType().ToDAQmxChannelType(), signal);
+                return taskInfo.BuildFullyQualifiedOutputTerminal(signal);
             });
         }
     }
