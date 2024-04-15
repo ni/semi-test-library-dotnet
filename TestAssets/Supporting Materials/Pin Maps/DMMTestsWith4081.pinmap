@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.1" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDmmInstrument name="DMM_4065_PCI" />
+		<NIDmmInstrument name="DMM_4065_USB" />
+		<NIDmmInstrument name="DMM_4070_PCI" />
+		<NIDmmInstrument name="DMM_4081_C6_S13" />
+		<NIDmmInstrument name="DMM_4081_C6_S14" />
+		<NIDmmInstrument name="DMM_4081_C6_S16" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="DUTPin_4065" />
+		<DUTPin name="DUTPin_4081" />
+		<SystemPin name="SystemPin_4070" />
+		<SystemPin name="SystemPin_4081" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="DUTPin_4065" siteNumber="0" instrument="DMM_4065_PCI" channel="0" />
+		<Connection pin="DUTPin_4065" siteNumber="1" instrument="DMM_4065_USB" channel="0" />
+		<Connection pin="DUTPin_4081" siteNumber="0" instrument="DMM_4081_C6_S13" channel="0" />
+		<Connection pin="DUTPin_4081" siteNumber="1" instrument="DMM_4081_C6_S14" channel="0" />
+		<SystemConnection pin="SystemPin_4070" instrument="DMM_4070_PCI" channel="0" />
+		<SystemConnection pin="SystemPin_4081" instrument="DMM_4081_C6_S16" channel="0" />
+	</Connections>
+</PinMap>

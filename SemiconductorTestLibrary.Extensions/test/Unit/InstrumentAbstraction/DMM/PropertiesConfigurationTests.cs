@@ -1,4 +1,5 @@
 ﻿using System;
+using Ivi.Driver;
 using NationalInstruments.ModularInstruments.NIDmm;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM;
@@ -17,7 +18,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         public PropertiesConfigurationTests()
         {
-            _tsmContext = CreateTSMContext("DMMTests.pinmap");
+            _tsmContext = CreateTSMContext("DMMTestsWith4081.pinmap");
             _sessionManager = new TSMSessionManager(_tsmContext);
             Initialize(_tsmContext);
         }
@@ -30,7 +31,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureACBandwidth_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin", "SystemPin" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
             sessionsBundle.ConfigureACBandwidth(minimumFrequency: 100, maximumFrequency: 10000);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -44,7 +45,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureApertureTimeInSeconds_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin", "SystemPin" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
             sessionsBundle.ConfigureApertureTime(DmmApertureTimeUnits.Seconds, 0.1);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -57,7 +58,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureApertureTimeInPowerLineCycles_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin", "SystemPin" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
             sessionsBundle.ConfigureApertureTime(DmmApertureTimeUnits.PowerLineCycles, 2);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -70,7 +71,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureMeasurementAbsolute_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin", "SystemPin" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
             sessionsBundle.ConfigureMeasurementAbsolute(DmmMeasurementFunction.DCCurrent, 0.2, 0.001);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -85,7 +86,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureMeasurementDigits_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin", "SystemPin" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
             sessionsBundle.ConfigureMeasurementDigits(DmmMeasurementFunction.ACVolts, 0.2, 3.5);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -100,7 +101,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureMultiPoint_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin", "SystemPin" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
             sessionsBundle.ConfigureMultiPoint(triggerCount: 2, sampleCount: 3, sampleTrigger: "Immediate", sampleIntervalInSeconds: 0.1);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -116,7 +117,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigurePowerlineFrequency_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin", "SystemPin" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
             sessionsBundle.ConfigurePowerlineFrequency(50);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -128,21 +129,110 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureTrigger_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin", "SystemPin" });
-            sessionsBundle.ConfigureTrigger("External", triggerDelayInSeconds: 0.01);
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            sessionsBundle.ConfigureTrigger(DmmTriggerSource.SoftwareTrigger, triggerDelayInSeconds: 0.01);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
             {
-                Assert.Equal("External", sessionInfo.Session.Trigger.Source);
+                Assert.Equal(DmmTriggerSource.SoftwareTrigger, sessionInfo.Session.Trigger.Source);
                 Assert.Equal(0.01, sessionInfo.Session.Trigger.Delay.TotalSeconds);
             }
         }
 
         [Fact]
-        public void SendSoftwareTriggerSucceeds()
+        public void ConfigureAndInitiateTriggeredMeasurement_SendSoftwareTriggerSucceeds()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin", "SystemPin" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            sessionsBundle.ConfigureMeasurementDigits();
+            sessionsBundle.ConfigureTrigger(DmmTriggerSource.SoftwareTrigger, 0.01);
+            sessionsBundle.Initiate();
+
             sessionsBundle.SendSoftwareTrigger();
+        }
+
+        [Fact]
+        public void SupportedDmmModules_ConfigureADCCalibrationToOn_OnValuesConfigure()
+        {
+            var sessionsBundle = _sessionManager.DMM(new string[] { "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+
+            sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.On);
+
+            foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
+            {
+                Assert.Equal(DmmAdcCalibration.On, sessionInfo.Session.Advanced.AdcCalibration);
+            }
+        }
+
+        [Fact]
+        public void SupportedDmmModulesWithADCCalibrationOn_ConfigureADCCalibrationToOff_OffValuesConfigured()
+        {
+            var sessionsBundle = _sessionManager.DMM(new string[] { "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.On);
+
+            sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.Off);
+
+            foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
+            {
+                Assert.Equal(DmmAdcCalibration.Off, sessionInfo.Session.Advanced.AdcCalibration);
+            }
+        }
+
+        [Fact]
+        public void UnsupportedDmmModules_ConfigureADCCalibrationToOn_ThrowsExecption()
+        {
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+
+            void Operation() => sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.On);
+
+            var exception = Assert.Throws<AggregateException>(Operation);
+            foreach (var innnerException in exception.InnerExceptions)
+            {
+                Assert.IsType<IviCDriverException>(innnerException);
+                Assert.Contains("Attribute ID not recognized.", innnerException.Message);
+            }
+        }
+
+        [Fact]
+        public void SupportedDmmModules_ConfigureAutoZero_ValuesConfigured()
+        {
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            // Check default value
+            foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
+            {
+                if (sessionInfo.Session.DriverIdentity.InstrumentModel.Contains("4081"))
+                {
+                    Assert.Equal(DmmAuto.On, sessionInfo.Session.Advanced.AutoZero);
+                }
+                else
+                {
+                    Assert.Equal(DmmAuto.Auto, sessionInfo.Session.Advanced.AutoZero);
+                }
+            }
+
+            sessionsBundle.ConfigureAutoZero(DmmAuto.On);
+
+            foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
+            {
+                Assert.Equal(DmmAuto.On, sessionInfo.Session.Advanced.AutoZero);
+            }
+        }
+
+        [Theory]
+        [InlineData(DmmAuto.Once)]
+        [InlineData(DmmAuto.Off)]
+        public void UnsupportedDmmModules_ConfigureAutoZeroToOnce_ThrowsExecption(DmmAuto dmmAuto)
+        {
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+
+            void Operation() => sessionsBundle.ConfigureAutoZero(dmmAuto);
+
+            // Once and Off not supported on 4065.
+            var exception = Assert.Throws<AggregateException>(Operation);
+            foreach (var innnerException in exception.InnerExceptions)
+            {
+                Assert.IsType<OutOfRangeException>(innnerException);
+                Assert.Contains("Invalid value for parameter or property.", innnerException.Message);
+            }
         }
     }
 }
