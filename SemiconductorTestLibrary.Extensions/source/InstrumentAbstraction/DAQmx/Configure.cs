@@ -1,42 +1,118 @@
-﻿using NationalInstruments.DAQmx;
+﻿using System.Globalization;
+using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using static NationalInstruments.SemiconductorTestLibrary.Common.HelperMethods;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
 {
     /// <summary>
-    /// Configures NI-DAQmx tasks properties.
+    /// Defines operations for configuring timing and other task properties.
     /// </summary>
     public static class Configure
     {
         /// <summary>
-        /// Configures the sample clock for all tasks in the bundle.
+        /// Configures the terminal configuration for the analog output channels within the task,
+        /// refer to <see cref="AOTerminalConfiguration"/> for more information.
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
-        /// <param name="sampleClockRate">Specifies the sample clock rate.</param>
-        /// <param name="sampleQuantityMode">Specifies the sample quantity mode.</param>
-        /// <param name="samplesPerChannel">Specifies samples per-channel.</param>
-        public static void ConfigureSampleClock(this DAQmxTasksBundle tasksBundle, double sampleClockRate = 1000.0, SampleQuantityMode sampleQuantityMode = SampleQuantityMode.FiniteSamples, int samplesPerChannel = 1000)
+        /// <param name="terminalConfiguration">Specifies the terminal configuration mode.</param>
+        /// <exception cref="DaqException">The underling driver session returned an error.</exception>
+        public static void ConfigureAOTerminalConfiguration(this DAQmxTasksBundle tasksBundle, AOTerminalConfiguration terminalConfiguration)
         {
             tasksBundle.Do(taskInfo =>
             {
                 taskInfo.Task.Control(TaskAction.Verify);
-                taskInfo.Task.Timing.ConfigureSampleClock(taskInfo.Task.Timing.SampleClockSource, sampleClockRate, taskInfo.Task.Timing.SampleClockActiveEdge, sampleQuantityMode, samplesPerChannel);
+                taskInfo.Task.AOChannels.All.TerminalConfiguration = terminalConfiguration;
                 taskInfo.Task.Control(TaskAction.Commit);
             });
         }
 
         /// <summary>
-        /// Configures the sample clock for the task.
+        /// Configures the terminal configuration for the analog input channels within the task.
+        /// refer to <see cref="AITerminalConfiguration"/> for more information.
         /// </summary>
-        /// <param name="task">The DAQmx <see cref="Task"/> object.</param>
-        /// <param name="sampleClockRate">Specifies the sample clock rate.</param>
-        /// <param name="sampleQuantityMode">Specifies the sample quantity mode.</param>
-        /// <param name="samplesPerChannel">Specifies samples per-channel.</param>
-        public static void ConfigureSampleClock(this Task task, double sampleClockRate = 1000.0, SampleQuantityMode sampleQuantityMode = SampleQuantityMode.FiniteSamples, int samplesPerChannel = 1000)
+        /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
+        /// <param name="terminalConfiguration">Specifies the terminal configuration mode.</param>
+        /// <exception cref="DaqException">The underling driver session returned an error.</exception>
+        public static void ConfigureAITerminalConfiguration(this DAQmxTasksBundle tasksBundle, AITerminalConfiguration terminalConfiguration)
         {
-            task.Control(TaskAction.Verify);
-            task.Timing.ConfigureSampleClock(task.Timing.SampleClockSource, sampleClockRate, task.Timing.SampleClockActiveEdge, sampleQuantityMode, samplesPerChannel);
-            task.Control(TaskAction.Commit);
+            tasksBundle.Do(taskInfo =>
+            {
+                taskInfo.Task.Control(TaskAction.Verify);
+                taskInfo.Task.AIChannels.All.TerminalConfiguration = terminalConfiguration;
+                taskInfo.Task.Control(TaskAction.Commit);
+            });
+        }
+
+        /// <summary>
+        /// Configures the timing for the task. The capture mode (FiniteSamples/ContinuousSamples), rate of the Sample Clock, and the number of samples to acquire or generate.
+        /// </summary>
+        /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
+        /// <param name="timingSettings">Specifies the timing settings.</param>
+        /// <exception cref="DaqException">The underling driver session returned an error.</exception>
+        public static void ConfigureTiming(this DAQmxTasksBundle tasksBundle, DAQmxTimingSampleClockSettings timingSettings)
+        {
+            tasksBundle.Do(taskInfo =>
+            {
+                taskInfo.Task.Control(TaskAction.Verify);
+                // Setting the following properties are equivalent to invoking taskInfo.Task.Timing.ConfigureSampleClock().
+                // This is advantageous as it allows the user to set the properties in a single call,
+                // BUT also allows the user to update the properties individually at any part of their code,
+                // without having to worry about previous settings being changed or needing to be reset.
+                taskInfo.Task.Timing.SampleTimingType = timingSettings.SampleTimingType;
+                if (timingSettings.SampleQuantityMode.HasValue)
+                {
+                    taskInfo.Task.Timing.SampleQuantityMode = timingSettings.SampleQuantityMode.Value;
+                }
+                if (timingSettings.SampleClockActiveEdge.HasValue)
+                {
+                    taskInfo.Task.Timing.SampleClockActiveEdge = timingSettings.SampleClockActiveEdge.Value;
+                }
+                if (timingSettings.SampleClockRate.HasValue)
+                {
+                    taskInfo.Task.Timing.SampleClockRate = timingSettings.SampleClockRate.Value;
+                }
+                if (!string.IsNullOrEmpty(timingSettings.SampleClockSource))
+                {
+                    taskInfo.Task.Timing.SampleClockSource = timingSettings.SampleClockSource;
+                }
+                if (timingSettings.SamplesPerChannel.HasValue)
+                {
+                    taskInfo.Task.Timing.SamplesPerChannel = timingSettings.SamplesPerChannel.Value;
+                }
+                taskInfo.Task.Control(TaskAction.Commit);
+            });
+        }
+
+        /// <summary>
+        /// Gets the actual sample clock rate (Hz).
+        /// </summary>
+        /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
+        /// <returns>Sample clock rate, one value per underlying instrument session.</returns>
+        /// <exception cref="DaqException">The underling driver session returned an error.</exception>
+        public static double[] GetSampleClockRates(this DAQmxTasksBundle tasksBundle)
+        {
+            return tasksBundle.DoAndReturnPerInstrumentPerChannelResults(taskInfo =>
+            {
+                return taskInfo.Task.Timing.SampleClockRate;
+            });
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="Timing.SampleClockRate"/>/>
+        /// </summary>
+        /// <remarks>
+        /// This method is the same as <see cref="GetSampleClockRates"/>,
+        /// except it also checks to confirm if the flag state is the values are the same across all sessions in the bundle.
+        /// If the values are indeed the same, it will return the single double value.
+        /// Otherwise, it will throw an exception.
+        /// </remarks>
+        /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
+        /// <returns>Sample clock rate.</returns>
+        /// <exception cref="NIMixedSignalException">The value for the sample clock rate is not the same for all underlying instrument sessions.</exception>
+        public static double GetSampleClockRateDistinct(this DAQmxTasksBundle tasksBundle)
+        {
+            return GetDistinctValue(tasksBundle.GetSampleClockRates(), string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_SampleClockRateNotDistinct));
         }
     }
 }

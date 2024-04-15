@@ -79,6 +79,7 @@
 	<PXIChassis Number="6" Model="NI PXIe-1095">
 	  	<PXI Name="DMM_4081_C6_S13" Model="NI PXIe-4081" Slot="13" />
 	  	<PXI Name="DMM_4081_C6_S14" Model="NI PXIe-4081" Slot="14" />
+		<PXI Name="DSA_4467_C6_S15" Model="NI PXIe-4467" Slot="15" />
 	  	<PXI Name="DMM_4081_C6_S16" Model="NI PXIe-4081" Slot="16" />
 	</PXIChassis>
 	<Devices>

@@ -900,6 +900,16 @@
             </summary>
             <remarks>It's a comma-separated string of instrument-channel pair, e.g. "DAQmx_6363_C1_S08/ai0:2, DAQmx_6363_C1_S08/ai4".</remarks>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.TaskType">
+            <summary>
+            The NI-DAQmx task type.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelType">
+            <summary>
+            The NI-DAQmx channel type.
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.AssociatedSitePinList">
             <inheritdoc/>
         </member>
@@ -910,11 +920,59 @@
             <param name="task">The NI-DAQmx task.</param>
             <param name="channelList">The channels associated with the task.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal(NationalInstruments.DAQmx.ExportSignal)">
+            <summary>
+            Builds a fully qualified output terminal string for the specified signal.
+            </summary>
+            <param name="signal">The given signal.</param>
+            <returns>The fully qualified output terminal string.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"></exception>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>
             Generates a dictionary that takes a channel string and returns the associated site-pin pair information.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType">
+            <summary>
+            Defines the type of the DAQmx task.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType.AnalogInput">
+            <summary>
+            Specifies the task is an analog input task.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType.AnalogOutput">
+            <summary>
+            Specifies the task is an analog output task.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType.DigitalInput">
+            <summary>
+            Specifies the task is a digital input task.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType.DigitalOutput">
+            <summary>
+            Specifies the task is a digital output task.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType.CounterInput">
+            <summary>
+            Specifies the task is a counter input task.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType.CounterOutput">
+            <summary>
+            Specifies the task is a counter output task.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType.AnalogOutputFunctionGeneration">
+            <summary>
+            Specifies the task is an analog output function generation task.
+            </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle">
             <summary>
@@ -1673,6 +1731,21 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DAQmx_ExportSignalNotSupported">
+            <summary>
+              Looks up a localized string similar to ExportSignal not supported: {0}..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DAQmx_InvalidTaskType">
+            <summary>
+              Looks up a localized string similar to The task type is invalid. The task may be improperly initialized..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DAQmx_ReferenceTriggerNotSupported">
+            <summary>
+              Looks up a localized string similar to ReferenceTrigger is not supported for DigitalInput channels..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_PinNotFound">
             <summary>
               Looks up a localized string similar to The pin name {0} does not exist..
@@ -1716,6 +1789,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_OperationNotSupported">
             <summary>
               Looks up a localized string similar to The {0} operation on the {1} data type is not supported..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Publish_InvalidDataType">
+            <summary>
+              Looks up a localized string similar to Cannot publish measurement data. The {0} data type is invalid..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Publish_MissingData">

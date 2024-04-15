@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using static NationalInstruments.SemiconductorTestLibrary.Common.HelperMethods;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -41,7 +40,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NIMixedSignalException">The state of the sequence flag is not the same between instrument sessions.</exception>
         public static bool ReadSequencerFlagDistinct(this DigitalSessionsBundle sessionsBundle, string flag)
         {
-            return GetDistinctValue(sessionsBundle.ReadSequencerFlag(flag), $"flag ({flag})");
+            return GetDistinctValue(sessionsBundle.ReadSequencerFlag(flag), string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_SequencerFlagNotDistinct, flag));
         }
 
         /// <summary>
@@ -100,7 +99,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NIMixedSignalException">The state of the sequence register is not the same between instrument sessions.</exception>
         public static int ReadSequencerRegisterDistinct(this DigitalSessionsBundle sessionsBundle, string registerName)
         {
-            return GetDistinctValue(sessionsBundle.ReadSequencerRegister(registerName), $"register ({registerName})");
+            return GetDistinctValue(sessionsBundle.ReadSequencerRegister(registerName), string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_SequencerRegisterNotDistinct, registerName));
         }
 
         /// <summary>
@@ -115,18 +114,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 sessionInfo.Session.PatternControl.WriteSequencerRegister(register, value);
             });
-        }
-
-        private static T GetDistinctValue<T>(IEnumerable<T> values, string registerOrFlagName)
-        {
-            try
-            {
-                return values.Distinct().Single();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new NIMixedSignalException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_SequencerRegisterOrFlagNotDistinct, registerOrFlagName));
-            }
         }
     }
 }
