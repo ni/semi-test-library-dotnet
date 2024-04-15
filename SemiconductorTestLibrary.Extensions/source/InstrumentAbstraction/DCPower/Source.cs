@@ -57,7 +57,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The specific settings to configure.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings)
+        internal static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -99,7 +99,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimit">The current limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
+        internal static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -124,7 +124,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimit">The current limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<int, Dictionary<string, double>> voltageLevels, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -132,7 +132,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = voltageLevels[sitePinInfo.SiteNumber][sitePinInfo.PinName],
+                    Level = voltageLevels.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName),
                     Limit = currentLimit,
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
@@ -262,7 +262,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
         /// <param name="transientResponse">The transient response to use.</param>
         /// <param name="sequenceTimeoutInSeconds">The maximum time used to force the sequence.</param>
-        public static void ForceVoltageSequenceSynchronized(
+        internal static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             IDictionary<int, Dictionary<string, double[]>> voltageSequences,
             IDictionary<string, double> currentLimits,
@@ -383,7 +383,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimits">The per-pin current limits to set.</param>
         /// <param name="currentLimitRanges">The current limit ranges to set. Use the absolute value of current limit to set current limit range when this parameter is not specified.</param>
-        public static void ConfigureCurrentLimits(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> currentLimits, IDictionary<string, double> currentLimitRanges = null)
+        internal static void ConfigureCurrentLimits(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> currentLimits, IDictionary<string, double> currentLimitRanges = null)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {

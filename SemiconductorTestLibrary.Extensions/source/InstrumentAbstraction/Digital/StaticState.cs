@@ -30,11 +30,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="states">The states to write for all sites.</param>
         /// <remarks>Use this method to write different state on different sites.</remarks>
-        public static void WriteStatic(this DigitalSessionsBundle sessionsBundle, IDictionary<int, PinState> states)
+        public static void WriteStatic(this DigitalSessionsBundle sessionsBundle, SiteData<PinState> states)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).WriteStatic(states[sitePinInfo.SiteNumber]);
+                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).WriteStatic(states.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -44,11 +44,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="states">The states to write for all site-pin pairs.</param>
         /// <remarks>Use this method to write different state for different site-pin pairs.</remarks>
-        public static void WriteStatic(this DigitalSessionsBundle sessionsBundle, IDictionary<int, Dictionary<string, PinState>> states)
+        public static void WriteStatic(this DigitalSessionsBundle sessionsBundle, PinSiteData<PinState> states)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).WriteStatic(states[sitePinInfo.SiteNumber][sitePinInfo.PinName]);
+                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).WriteStatic(states.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
             });
         }
 

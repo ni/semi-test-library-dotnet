@@ -1469,7 +1469,7 @@
             <param name="pins">The pins associated with this sessions bundle.</param>
             <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.Do``1(System.Collections.Generic.IDictionary{System.Int32,``0},System.Action{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,``0[]})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.Do``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.Action{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,``0[]})">
             <summary>
             Does an operation on each <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> in parallel with the given per-site data.
             </summary>
@@ -1485,7 +1485,7 @@
             <param name="function">The operation to do. This operation takes <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> as input and returns per-site array result.</param>
             <returns>The results for all sites.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.DoAndReturnPerSiteResults``1(System.Func{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,System.Collections.Generic.IDictionary{System.Int32,``0}})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.DoAndReturnPerSiteResults``1(System.Func{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0}})">
             <summary>
             Does an operation on each <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> in parallel and returns per-site results.
             </summary>

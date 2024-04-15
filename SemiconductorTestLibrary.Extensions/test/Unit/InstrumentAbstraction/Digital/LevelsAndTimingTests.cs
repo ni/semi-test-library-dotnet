@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -51,11 +52,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var levels = new Dictionary<int, double>()
+            var levels = new SiteData<double>(new Dictionary<int, double>()
             {
                 [0] = 0.1,
                 [1] = 0.2
-            };
+            });
             sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vil, levels);
 
             Assert.Equal(0.1, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.DigitalLevels.Vil, 1);
@@ -68,11 +69,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var levels = new Dictionary<int, double>()
+            var levels = new SiteData<double>(new Dictionary<int, double>()
             {
                 [0] = 0.1,
                 [1] = 0.2
-            };
+            });
             sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vil, levels);
 
             Assert.Equal(0.1, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0, site0/C1").DigitalLevels.Vil, 1);
@@ -138,11 +139,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var compareEdges = new Dictionary<int, double>()
+            var compareEdges = new SiteData<double>(new Dictionary<int, double>()
             {
                 [0] = 5e-6,
                 [1] = 8e-6
-            };
+            });
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges);
 
             var sessionInfo0 = sessionsBundle.InstrumentSessions.ElementAt(0);
@@ -157,11 +158,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var compareEdges = new Dictionary<int, double>()
+            var compareEdges = new SiteData<double>(new Dictionary<int, double>()
             {
                 [0] = 5e-6,
                 [1] = 8e-6
-            };
+            });
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges);
 
             var sessionInfo0Session = sessionsBundle.InstrumentSessions.ElementAt(0).Session;
@@ -179,11 +180,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var compareEdges = new Dictionary<int, Dictionary<string, double>>()
+            var compareEdges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                [0] = new Dictionary<string, double>() { ["C0"] = 5e-6, ["C1"] = 6e-6 },
-                [1] = new Dictionary<string, double>() { ["C0"] = 7e-6, ["C1"] = 8e-6 }
-            };
+                { "C0", new Dictionary<int, double>() { [0] = 5e-6, [1] = 7e-6 } },
+                { "C1", new Dictionary<int, double>() { [0] = 6e-6, [1] = 8e-6 } }
+            });
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges);
 
             var sessionInfo0Session = sessionsBundle.InstrumentSessions.ElementAt(0).Session;
@@ -204,11 +205,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var compareEdges = new Dictionary<int, Dictionary<string, double>>()
+            var compareEdges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                [0] = new Dictionary<string, double>() { ["C0"] = 5e-6, ["C1"] = 6e-6 },
-                [1] = new Dictionary<string, double>() { ["C0"] = 7e-6, ["C1"] = 8e-6 }
-            };
+                ["C0"] = new Dictionary<int, double>() { [0] = 5e-6, [1] = 7e-6 },
+                ["C1"] = new Dictionary<int, double>() { [0] = 6e-6, [1] = 8e-6 }
+            });
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges);
 
             var sessionInfo0Session = sessionsBundle.InstrumentSessions.ElementAt(0).Session;
@@ -313,11 +314,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var offsets = new Dictionary<int, Dictionary<string, double>>()
+            var offsets = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                [0] = new Dictionary<string, double>() { ["C0"] = 1e-8, ["C1"] = 2e-8 },
-                [1] = new Dictionary<string, double>() { ["C0"] = 3e-8, ["C1"] = 4e-8 }
-            };
+                ["C0"] = new Dictionary<int, double>() { [0] = 1e-8, [1] = 3e-8 },
+                ["C1"] = new Dictionary<int, double>() { [0] = 2e-8, [1] = 4e-8 }
+            });
             sessionsBundle.ApplyTDROffsets(offsets);
 
             Assert.Equal(1e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").TdrOffset.TotalSeconds);
@@ -332,11 +333,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var offsets = new Dictionary<int, Dictionary<string, double>>()
+            var offsets = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                [0] = new Dictionary<string, double>() { ["C0"] = 1e-8, ["C1"] = 2e-8 },
-                [1] = new Dictionary<string, double>() { ["C0"] = 3e-8, ["C1"] = 4e-8 }
-            };
+                ["C0"] = new Dictionary<int, double>() { [0] = 1e-8, [1] = 3e-8 },
+                ["C1"] = new Dictionary<int, double>() { [0] = 2e-8, [1] = 4e-8 }
+            });
             sessionsBundle.ApplyTDROffsets(offsets);
 
             Assert.Equal(1e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").TdrOffset.TotalSeconds);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control;
@@ -51,11 +52,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             ControlRelay(
                 _tsmContext,
                 new string[] { "SiteRelay1", "SiteRelay2", "SystemRelay" },
-                new Dictionary<int, RelayDriverAction>()
+                new SiteData<RelayDriverAction>(new Dictionary<int, RelayDriverAction>()
                 {
                     [0] = RelayDriverAction.OpenRelay,
                     [1] = RelayDriverAction.CloseRelay
-                });
+                }));
         }
 
         [Fact]

@@ -122,7 +122,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="session">The <see cref="NIDigital"/> session.</param>
         /// <param name="perSitePinSetStrings">The per-site pin set strings associated with the session.</param>
         /// <returns>The single session per-site History RAM cycle information and scan cycle numbers.</returns>
-        public static IDictionary<int, HistoryRAMResults> FetchHistoryRAMResults(this NIDigital session, IDictionary<string, string> perSitePinSetStrings)
+        public static SiteData<HistoryRAMResults> FetchHistoryRAMResults(this NIDigital session, IDictionary<string, string> perSitePinSetStrings)
         {
             var results = new Dictionary<int, HistoryRAMResults>();
             var lockObject = new object();
@@ -151,7 +151,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     results.Add(site, historyRamResults);
                 }
             });
-            return results;
+            return new SiteData<HistoryRAMResults>(results);
         }
 
         #endregion methods on NIDigital session
@@ -168,21 +168,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="scanCycleNumbers">The per-site scan cycle numbers.</param>
         /// <param name="patternName">The name of the pattern.</param>
         /// <param name="outputDirectory">The directory to save the CSV files.</param>
-        public static void LogResultsToFiles(this DigitalSessionsBundle sessionsBundle, IDictionary<int, List<DigitalHistoryRamCycleInformation>> cycleInformation, IDictionary<int, List<long>> scanCycleNumbers, string patternName, string outputDirectory)
+        public static void LogResultsToFiles(this DigitalSessionsBundle sessionsBundle, SiteData<List<DigitalHistoryRamCycleInformation>> cycleInformation, SiteData<List<long>> scanCycleNumbers, string patternName, string outputDirectory)
         {
-            foreach (var siteNumber in scanCycleNumbers.Keys)
+            foreach (var siteNumber in scanCycleNumbers.SiteNumbers)
             {
                 string fileName = $"HistoryRAMResults_{patternName}_site{siteNumber}_{GetCurrentTime()}.csv";
                 Directory.CreateDirectory(outputDirectory);
                 using (var file = new StreamWriter(Path.Combine(outputDirectory, fileName)))
                 {
-                    if (scanCycleNumbers[siteNumber].Count == 0)
+                    if (scanCycleNumbers.GetValue(siteNumber).Count == 0)
                     {
                         file.WriteLine(HistoryRAMResultsFileHeader);
-                        for (int i = 0; i < scanCycleNumbers[siteNumber].Count; i++)
+                        for (int i = 0; i < scanCycleNumbers.GetValue(siteNumber).Count; i++)
                         {
-                            var cycleInfo = cycleInformation[siteNumber][i].Serialize();
-                            var info = $"{cycleInfo.Item1}, {scanCycleNumbers[siteNumber][i]}, {cycleInfo.Item2}, {sessionsBundle.Pins.Serialize()}, {cycleInfo.Item3}";
+                            var cycleInfo = cycleInformation.GetValue(siteNumber)[i].Serialize();
+                            var info = $"{cycleInfo.Item1}, {scanCycleNumbers.GetValue(siteNumber)[i]}, {cycleInfo.Item2}, {sessionsBundle.Pins.Serialize()}, {cycleInfo.Item3}";
                             file.WriteLine(info);
                         }
                     }

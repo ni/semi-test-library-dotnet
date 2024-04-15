@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -61,11 +62,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var states = new Dictionary<int, PinState>()
+            var states = new SiteData<PinState>(new Dictionary<int, PinState>()
             {
                 [0] = PinState._0,
                 [1] = PinState._1
-            };
+            });
             sessionsBundle.WriteStatic(states);
 
             var results = sessionsBundle.ReadStatic();
@@ -87,11 +88,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var states = new Dictionary<int, Dictionary<string, PinState>>()
+            var states = new PinSiteData<PinState>(new Dictionary<string, IDictionary<int, PinState>>()
             {
-                [0] = new Dictionary<string, PinState>() { ["C0"] = PinState._0, ["C1"] = PinState._1 },
-                [1] = new Dictionary<string, PinState>() { ["C0"] = PinState._1, ["C1"] = PinState._0 }
-            };
+                { "C0", new Dictionary<int, PinState>() { [0] = PinState._0, [1] = PinState._1 } },
+                { "C1", new Dictionary<int, PinState>() { [0] = PinState._1, [1] = PinState._0 } }
+            });
             sessionsBundle.WriteStatic(states);
 
             var results = sessionsBundle.ReadStatic();

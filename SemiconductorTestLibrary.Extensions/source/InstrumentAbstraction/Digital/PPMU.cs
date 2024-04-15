@@ -57,7 +57,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>Use this method to force different voltage levels on different sites.</remarks>
         public static void ForceVoltage(
             this DigitalSessionsBundle sessionsBundle,
-            IDictionary<int, double> voltageLevels,
+            SiteData<double> voltageLevels,
             double? currentLimitRange = null,
             double? apertureTime = null,
             double? settlingTime = null)
@@ -67,7 +67,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 var settings = new PPMUForcingSettings
                 {
                     OutputFunction = PpmuOutputFunction.DCVoltage,
-                    VoltageLevel = voltageLevels[sitePinInfo.SiteNumber],
+                    VoltageLevel = voltageLevels.GetValue(sitePinInfo.SiteNumber),
                     CurrentLimitRange = currentLimitRange,
                     ApertureTime = apertureTime,
                     SettlingTime = settlingTime
@@ -87,7 +87,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>Use this method to force different voltage levels for different site-pin pairs.</remarks>
         public static void ForceVoltage(
             this DigitalSessionsBundle sessionsBundle,
-            IDictionary<int, Dictionary<string, double>> voltageLevels,
+            PinSiteData<double> voltageLevels,
             double? currentLimitRange = null,
             double? apertureTime = null,
             double? settlingTime = null)
@@ -97,7 +97,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 var settings = new PPMUForcingSettings
                 {
                     OutputFunction = PpmuOutputFunction.DCVoltage,
-                    VoltageLevel = voltageLevels[sitePinInfo.SiteNumber][sitePinInfo.PinName],
+                    VoltageLevel = voltageLevels.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName),
                     CurrentLimitRange = currentLimitRange,
                     ApertureTime = apertureTime,
                     SettlingTime = settlingTime
