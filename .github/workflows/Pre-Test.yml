@@ -8,6 +8,8 @@ on:
       - 'releases/**'
     paths:
       - 'SemiconductorTestLibrary.Extensions/**'
+      - 'SemiconductorTestLibrary.Abstractions/**'
+      - 'TestAssets/**'
 
 env:
     GITHUB_MixedSignalTestLibrary_BRANCH_NAME: '{"GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ github.head_ref || github.ref_name }}"}'
