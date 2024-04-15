@@ -68,7 +68,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         }
 
         /// <summary>
-        /// Configures multipoint acquisition.
+        /// Configures multi-point acquisition.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="triggerCount">The number of the triggers the device receives before returning to the idle state.</param>
@@ -102,7 +102,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="triggerSource">The name of the trigger source that initiates the acquisition.</param>
         /// <param name="triggerDelayInSeconds">The interval in seconds that the device waits after it has received a trigger before taking a measurement.</param>
-        public static void ConfigureTrigger(this DMMSessionsBundle sessionsBundle, string triggerSource, double triggerDelayInSeconds)
+        public static void ConfigureTrigger(this DMMSessionsBundle sessionsBundle, DmmTriggerSource triggerSource, double triggerDelayInSeconds)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -119,6 +119,54 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Measurement.SendSoftwareTrigger();
+            });
+        }
+
+        /// <summary>
+        /// Allows the DMM to compensate for gain drift since the last external or self-calibration.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// When ADC Calibration is AUTO, the DMM enables or disables ADC calibration.
+        /// </para>
+        /// <para>
+        /// When ADC Calibration is ON, the DMM measures an internal reference to calculate the correct gain for the measurement.
+        /// </para>
+        /// <para>
+        /// When ADC Calibration is OFF, the DMM does not compensate for changes to the gain.
+        /// </para>
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
+        /// <param name="dmmAdcCalibrationMode">The ADC calibration mode to be used.</param>
+        public static void ConfigureADCCalibration(this DMMSessionsBundle sessionsBundle, DmmAdcCalibration dmmAdcCalibrationMode)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Advanced.AdcCalibration = dmmAdcCalibrationMode;
+            });
+        }
+
+        /// <summary>
+        /// Configures the DMM for auto zero.
+        /// </summary>
+        /// <remarks>
+        /// <para>When Auto Zero is AUTO, the DMM chooses the AutoZero setting based on the configured function and resolution.</para>
+        /// <para>When Auto Zero is OFF, the DMM does not compensate for zero reading offset. Not Supported on 4065 DMM models.</para>
+        /// <para>When Auto Zero is ONCE, the DMM takes a zero reading once and then turns off Auto Zero. Not Supported on 4065 DMM models.</para>
+        /// <para>
+        /// When Auto Zero is ON, the DMM internally disconnects the input and takes a zero reading.
+        /// It then subtracts the zero reading from the measurement.
+        /// This prevents offset voltages present on the input circuitry of the DMM from affecting measurement accuracy.
+        /// </para>
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
+        /// <param name="autoZeroMode">The auto zero mode to be used: Auto, Off, On, or Once.</param>
+        /// <exception cref="NIMixedSignalException">A device in an underlying session does not support configuring Auto Zero</exception>
+        public static void ConfigureAutoZero(this DMMSessionsBundle sessionsBundle, DmmAuto autoZeroMode)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Advanced.AutoZero = autoZeroMode;
             });
         }
     }
