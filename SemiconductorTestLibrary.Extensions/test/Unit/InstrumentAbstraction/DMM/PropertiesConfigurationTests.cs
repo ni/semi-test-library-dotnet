@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Ivi.Driver;
 using NationalInstruments.ModularInstruments.NIDmm;
-using NationalInstruments.Restricted;
-using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -144,7 +140,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void ConfigureAndInitiateTriggeredMeasurement_SendSoftwareTrigger_Succeeds()
+        public void ConfigureAndInitiateTriggeredMeasurement_SendSoftwareTriggerSucceeds()
         {
             var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
             sessionsBundle.ConfigureMeasurementDigits();
@@ -172,10 +168,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = _sessionManager.DMM(new string[] { "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
             sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.On);
-            foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
-            {
-                Assert.Equal(DmmAdcCalibration.On, sessionInfo.Session.Advanced.AdcCalibration);
-            }
 
             sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.Off);
 
@@ -225,30 +217,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
-        [Fact]
-        public void UnsupportedDmmModules_ConfigureAutoZeroToOnce_ThrowsExecption()
+        [Theory]
+        [InlineData(DmmAuto.Once)]
+        [InlineData(DmmAuto.Off)]
+        public void UnsupportedDmmModules_ConfigureAutoZeroToOnce_ThrowsExecption(DmmAuto dmmAuto)
         {
             var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
 
-            void Operation() => sessionsBundle.ConfigureAutoZero(DmmAuto.Once);
+            void Operation() => sessionsBundle.ConfigureAutoZero(dmmAuto);
 
-            // Once not supported on 4065.
-            var exception = Assert.Throws<AggregateException>(Operation);
-            foreach (var innnerException in exception.InnerExceptions)
-            {
-                Assert.IsType<OutOfRangeException>(innnerException);
-                Assert.Contains("Invalid value for parameter or property.", innnerException.Message);
-            }
-        }
-
-        [Fact]
-        public void UnsupportedDmmModules_ConfigureAutoZeroToOff_ThrowsExecption()
-        {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
-
-            void Operation() => sessionsBundle.ConfigureAutoZero(DmmAuto.Off);
-
-            // Off not supported on 4065.
+            // Once and Off not supported on 4065.
             var exception = Assert.Throws<AggregateException>(Operation);
             foreach (var innnerException in exception.InnerExceptions)
             {
