@@ -11,7 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     public class AOFunctionGenerationSettings
     {
         /// <summary>
-        /// Specifies the kind of the waveform to generate (sine, square, triangle, sawtooth).
+        /// Specifies the kind of the waveform to generate (sine, square, triangle, or sawtooth).
         /// </summary>
         /// <remarks>
         /// This value is used to get/set the value of the NationalInstruments.DAQmx.AOChannel.FunctionGenerationType.
