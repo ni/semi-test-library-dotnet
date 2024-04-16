@@ -310,7 +310,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Sets the Selected Function mode to PPMU, such that the PPMU controls the specified pin(s) and connects in the PPMU.
+        /// Sets the Selected Function mode to PPMU, such that the PPMU controls the specified pin(s) and connects the PPMU.
         /// The pin driver is in a non-drive state, and the active load is disabled.
         /// </summary>
         /// <remarks>
