@@ -97,7 +97,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The state of the sequencer register ({0}) is the same for all underlying instrument sessions..
+        ///   Looks up a localized string similar to The state of the sequencer register ({0}) is not the same for all underlying instrument sessions..
         /// </summary>
         internal static string Digital_SequencerRegisterNotDistinct {
             get {
