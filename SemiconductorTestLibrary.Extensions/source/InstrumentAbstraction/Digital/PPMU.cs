@@ -349,7 +349,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <item>If a pattern is being bursted, the pin immediately switches to bursting the pattern.</item>
         /// <item>The PPMU stops sourcing and turns off when the Digital function is selected. Despite this, you can still make voltage measurements.</item>
         /// <item>Internally within the instrument the pin electrics are now connected to the driver, comparator, and active load functions.</item>
-        /// <item>The state of the digital pin driver when you change the selected function to Digital is determined by the most recent call to WriteStatic or the last vector of the most recently executed pattern burst, whichever is latter.</item>
+        /// <item>The state of the digital pin driver when you change the selected function to Digital is determined by the most recent call to WriteStatic or the last vector of the most recently bursted pattern, whichever is latter.</item>
         /// </list>
         /// <example>
         /// Example:
