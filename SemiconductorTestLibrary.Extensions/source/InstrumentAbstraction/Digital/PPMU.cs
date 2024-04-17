@@ -319,7 +319,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <item>The PPMU does not start sourcing or measuring until ForceVoltage(), ForceCurrent(), MeasureVoltage(), or MeasureCurrent() is called.</item>
         /// <item>The driver, comparator, and active load are off while this function is selected.</item>
         /// <item>If you change the Selected Function mode to PPMU using this method, the PPMU is initially not sourcing.</item>
-        /// <item>Note: you can make PPMU voltage measurements using the niDigital PPMU Measure VI from within any selected function.</item>
+        /// <item>Note: you can make PPMU voltage measurements calling MeasureVoltage or MeasureCurrent from within any selected function.</item>
         /// </list>
         /// <example>
         /// Example:
@@ -349,7 +349,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <item>If a pattern is being bursted, the pin immediately switches to bursting the pattern.</item>
         /// <item>The PPMU stops sourcing and turns off when the Digital function is selected. Despite this, you can still make voltage measurements.</item>
         /// <item>Internally within the instrument the pin electrics are now connected to the driver, comparator, and active load functions.</item>
-        /// <item>The state of the digital pin driver when you change the selected function to Digital is determined by the most recent call to the niDigital Write Static VI or the last vector of the most recently executed pattern burst, whichever is latter.</item>
+        /// <item>The state of the digital pin driver when you change the selected function to Digital is determined by the most recent call to WriteStatic or the last vector of the most recently executed pattern burst, whichever is latter.</item>
         /// </list>
         /// <example>
         /// Example:
