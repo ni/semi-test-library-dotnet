@@ -9,7 +9,12 @@
 		<DUTPin name="DUTPin2" />
 		<SystemPin name="SystemPin" />
 	</Pins>
-	<PinGroups></PinGroups>
+	<PinGroups>
+		<PinGroup name="PinGroup">
+			<PinReference pin="DUTPin1" />
+			<PinReference pin="SystemPin" />
+		</PinGroup>
+	</PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
 		<Site siteNumber="1" />
