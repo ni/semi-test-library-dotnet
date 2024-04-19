@@ -206,7 +206,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Measures the voltage on the target pin(s) and immediately publishes the results using the publish data ID passed in.
         /// </summary>
         /// <remarks>
-        /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
+        /// Use this method to save test time if the measurement results do not needed for any other operations.
         /// Otherwise, use the override for this method that returns PinSiteData.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -233,7 +233,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Measures the current on the target pin(s) and immediately publishes the results using the publish data ID passed in.
         /// </summary>
         /// <remarks>
-        /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
+        /// Use this method to save test time if the measurement results do not needed for any other operations.
         /// Otherwise, use the override for this method that returns PinSiteData.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -299,7 +299,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </example>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="settlingTimeInSeconds">The settling time in seconds. Passing a Null value (default) will bypass the wait operation (No-op).</param>
+        /// <param name="settlingTimeInSeconds">The settling time in seconds. Passing a Null value (default) bypasses the wait operation (No-op).</param>
         public static void DisconnectOutput(this DigitalSessionsBundle sessionsBundle, double? settlingTimeInSeconds = null)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -310,16 +310,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Sets the Selected Function mode to PPMU, such that the PPMU controls the specified pin(s) and connects in the PPMU.
+        /// Sets the Selected Function mode to PPMU, such that the PPMU controls the specified pin(s) and connects the PPMU.
         /// The pin driver is in a non-drive state, and the active load is disabled.
         /// </summary>
         /// <remarks>
         /// Remarks:
         /// <list type="bullet">
-        /// <item>The PPMU does not start sourcing or measuring until ForceVoltage(), ForceCurrent(), MeasureVoltage() or MeasureCurrent() are called.</item>
+        /// <item>The PPMU does not start sourcing or measuring until ForceVoltage(), ForceCurrent(), MeasureVoltage(), or MeasureCurrent() is called.</item>
         /// <item>The driver, comparator, and active load are off while this function is selected.</item>
-        /// <item>If you change the selected function to PPMU using this method, the PPMU is initially not sourcing.</item>
-        /// <item>Note: you can make PPMU voltage measurements using the niDigital PPMU Measure VI from within any selected function, note just PPMU.</item>
+        /// <item>If you change the Selected Function mode to PPMU using this method, the PPMU is initially not sourcing.</item>
+        /// <item>Note: you can make PPMU voltage measurements calling MeasureVoltage or MeasureCurrent from within any selected function.</item>
         /// </list>
         /// <example>
         /// Example:
@@ -330,7 +330,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </example>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="settlingTimeInSeconds">The settling time in seconds. Passing a Null value (default) will bypass the wait operation (No-op).</param>
+        /// <param name="settlingTimeInSeconds">The settling time in seconds. Passing a Null value (default) bypasses the wait operation (No-op).</param>
         public static void SelectPPMU(this DigitalSessionsBundle sessionsBundle, double? settlingTimeInSeconds = null)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -346,10 +346,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// Remarks:
         /// <list type="bullet">
-        /// <item>If a pattern is currently bursting, the pin immediately switches to bursting the pattern.</item>
-        /// <item>The PPMU stops sourcing and is turned off when the Digital function is selected. Despite this, you can still make voltage measurements.</item>
-        /// <item>Internally withing the instrument the pin electronics are now connected to the driver, comparator, and active load functions.</item>
-        /// <item>The state of the digital pin driver when you change the selected function to Digital is determined by the most recent call to the niDigital Write Static VI or the last vector of the most recently executed pattern burst, whichever happened last.</item>
+        /// <item>If a pattern is being bursted, the pin immediately switches to bursting the pattern.</item>
+        /// <item>The PPMU stops sourcing and turns off when the Digital function is selected. Despite this, you can still make voltage measurements.</item>
+        /// <item>Internally within the instrument the pin electrics are now connected to the driver, comparator, and active load functions.</item>
+        /// <item>The state of the digital pin driver when you change the selected function to Digital is determined by the most recent call to WriteStatic or the last vector of the most recently bursted pattern, whichever is latter.</item>
         /// </list>
         /// <example>
         /// Example:
@@ -360,7 +360,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </example>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="settlingTimeInSeconds">The settling time in seconds. Passing a Null value (default) will bypass the wait operation (No-op).</param>
+        /// <param name="settlingTimeInSeconds">The settling time in seconds. Passing a Null value (default) bypasses the wait operation (No-op).</param>
         public static void SelectDigital(this DigitalSessionsBundle sessionsBundle, double? settlingTimeInSeconds = null)
         {
             sessionsBundle.Do(sessionInfo =>

@@ -74,7 +74,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
 
         /// <summary>
         /// This method calculates the time required after starting a AO FuncGen task for the PXIe-4467 and PXIe-4468 for the output signal to settle.
-        /// If the task contains a DAQ instrument that does not support AO FuncGen, such as the PXIe-6368, then this function will return an error.
+        /// If the task contains a DAQ instrument that does not support AO FuncGen, such as the PXIe-6368, this method throws an exception.
         /// </summary>
         /// <param name="taskInfo">The <see cref="DAQmxTaskInformation"/> object.</param>
         /// <param name="individualChannelString">The individual channel string</param>

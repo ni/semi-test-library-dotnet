@@ -49,7 +49,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// </summary>
         /// <remarks>
         /// This is a low-level driver control method that is not recommended for general use.
-        /// It will marks the hardware resources that are needed for the task as in use.
+        /// It marks the hardware resources that are needed for the task as in use.
         /// No other tasks can reserve these same resources.
         /// </remarks>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
@@ -67,7 +67,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// </summary>
         /// <remarks>
         /// This is a low-level driver control method that is not recommended for general use.
-        /// It will transition the task to the running state, which begins device input or output.
+        /// It transitions the task to the running state, which begins device input or output.
         /// </remarks>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
@@ -84,7 +84,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// </summary>
         /// <remarks>
         /// This is a low-level driver control method that is not recommended for general use.
-        /// It will transition the task from the running state to the committed state,
+        /// It transitions the task from the running state to the committed state,
         /// which ends device input or output.
         /// </remarks>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
@@ -131,7 +131,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
 
         /// <summary>
         /// Waits for the measurement or generation to complete, regardless of the amount of time needed,
-        /// and returns if it has completed execution.
+        /// and returns whether the execution is complete.
         /// </summary>
         /// <remarks>
         /// NationalInstruments.DAQmx.Task.WaitUntilDone waits for the task to finish acquiring

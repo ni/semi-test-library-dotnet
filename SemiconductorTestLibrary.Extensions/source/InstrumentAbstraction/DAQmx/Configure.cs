@@ -55,10 +55,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             tasksBundle.Do(taskInfo =>
             {
                 taskInfo.Task.Control(TaskAction.Verify);
-                // Setting the following properties are equivalent to invoking taskInfo.Task.Timing.ConfigureSampleClock().
+                // Setting the following properties is equivalent to invoking taskInfo.Task.Timing.ConfigureSampleClock().
                 // This is advantageous as it allows the user to set the properties in a single call,
-                // BUT also allows the user to update the properties individually at any part of their code,
-                // without having to worry about previous settings being changed or needing to be reset.
+                // but also allows the user to update the properties individually at any part of their code,
+                // without having to worry about previous settings being changed or needing a reset.
                 taskInfo.Task.Timing.SampleTimingType = timingSettings.SampleTimingType;
                 if (timingSettings.SampleQuantityMode.HasValue)
                 {
@@ -103,9 +103,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// </summary>
         /// <remarks>
         /// This method is the same as <see cref="GetSampleClockRates"/>,
-        /// except it also checks to confirm if the flag state is the values are the same across all sessions in the bundle.
-        /// If the values are indeed the same, it will return the single double value.
-        /// Otherwise, it will throw an exception.
+        /// except it also checks if the flag state is the values are the same across all sessions in the bundle.
+        /// If the values are the same, it returns the single double value.
+        /// Otherwise, it throws an exception.
         /// </remarks>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <returns>Sample clock rate.</returns>
