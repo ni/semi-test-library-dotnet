@@ -18,7 +18,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// Configures the task to acquire or generate samples based on either the rising or falling edge of the digital signal source.
         /// </remarks>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
-        /// <param name="source">The name of the terminal to use as the trigger source for a digital signal.</param>
+        /// <param name="source">The name of the terminal to receive the digital signal to be used as the trigger source.</param>
         /// <param name="edge">The edge of the digital signal to start acquiring or generating samples.</param>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
         public static void ConfigureStartTriggerDigitalEdge(this DAQmxTasksBundle tasksBundle, string source, DigitalEdgeStartTriggerEdge edge = DigitalEdgeStartTriggerEdge.Rising)
