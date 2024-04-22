@@ -1,5 +1,6 @@
 ﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
@@ -9,7 +10,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.InstrumentAbstracti
     {
         public static TSMSessionManager TestSetup(string pinMapFileName, out ISemiconductorModuleContext tsmContext)
         {
-            tsmContext = CreateTSMContext(pinMapFileName);
+            return TestSetup(pinMapFileName, out tsmContext, out _);
+        }
+
+        public static TSMSessionManager TestSetup(string pinMapFileName, out ISemiconductorModuleContext tsmContext, out IPublishedDataReader publishedDataReader)
+        {
+            tsmContext = CreateTSMContext(pinMapFileName, out publishedDataReader);
             Initialize(tsmContext);
             return new TSMSessionManager(tsmContext);
         }
