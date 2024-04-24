@@ -79,7 +79,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The value for the sample clock rate is not the same for all underlying instrument sessions..
+        ///   Looks up a localized string similar to The sample clock rate is not the same for all underlying instrument sessions..
         /// </summary>
         internal static string DAQmx_SampleClockRateNotDistinct {
             get {
@@ -88,7 +88,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The state of the sequencer flag ({0}) is not distinct, there is a different value between instrument sessions..
+        ///   Looks up a localized string similar to The state of the sequencer flag ({0}) is not the same for all underlying instrument sessions..
         /// </summary>
         internal static string Digital_SequencerFlagNotDistinct {
             get {
@@ -97,7 +97,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The state of the sequencer register ({0}) is not distinct, there is a different value between instrument sessions..
+        ///   Looks up a localized string similar to The state of the sequencer register ({0}) is not the same for all underlying instrument sessions..
         /// </summary>
         internal static string Digital_SequencerRegisterNotDistinct {
             get {

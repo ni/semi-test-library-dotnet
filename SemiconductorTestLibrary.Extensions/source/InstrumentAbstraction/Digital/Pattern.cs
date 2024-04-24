@@ -114,12 +114,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Waits until the pattern burst is done. This method is a blocking call, but will timeout after the specified time.
+        /// Waits until the pattern burst is complete. This method is a blocking call, but will timeout after the specified time.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeoutInSeconds">Timeout in seconds for which to abort this wait operation.</param>
         /// <exception cref="ArgumentException">The value for timeoutInSeconds is invalid.</exception>
-        /// <exception cref="MaxTimeExceededException"> The pattern burst took longer than the specified timeoutInSeconds.</exception>
+        /// <exception cref="MaxTimeExceededException">The pattern burst takes longer than the specified timeoutInSeconds.</exception>
         public static void WaitUntilDone(this DigitalSessionsBundle sessionsBundle, double timeoutInSeconds = 10.0)
         {
             sessionsBundle.Do(sessionInfo =>

@@ -16,10 +16,10 @@
     <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
       <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI, Version=21.1.0.0, Culture=neutral, PublicKeyToken=060817a57c0f1a42, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces, Version=21.1.0.0, Culture=neutral, PublicKeyToken=060817a57c0f1a42, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="StandaloneSemiconductorModuleContext">

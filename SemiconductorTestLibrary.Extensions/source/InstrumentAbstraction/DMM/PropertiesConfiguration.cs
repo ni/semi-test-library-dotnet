@@ -154,14 +154,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// <para>When Auto Zero is OFF, the DMM does not compensate for zero reading offset. Not Supported on 4065 DMM models.</para>
         /// <para>When Auto Zero is ONCE, the DMM takes a zero reading once and then turns off Auto Zero. Not Supported on 4065 DMM models.</para>
         /// <para>
-        /// When Auto Zero is ON, the DMM internally disconnects the input and takes a zero reading.
-        /// It then subtracts the zero reading from the measurement.
+        /// When Auto Zero is ON, the DMM internally disconnects the input, takes a zero reading, and then subtracts the zero reading from the measurement.
         /// This prevents offset voltages present on the input circuitry of the DMM from affecting measurement accuracy.
         /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
-        /// <param name="autoZeroMode">The auto zero mode to be used: Auto, Off, On, or Once.</param>
-        /// <exception cref="NIMixedSignalException">A device in an underlying session does not support configuring Auto Zero</exception>
+        /// <param name="autoZeroMode">The auto zero mode to be used: AUTO, OFF, ON, or ONCE.</param>
+        /// <exception cref="NIMixedSignalException">A device in an underlying session does not support configuring Auto Zero.</exception>
         public static void ConfigureAutoZero(this DMMSessionsBundle sessionsBundle, DmmAuto autoZeroMode)
         {
             sessionsBundle.Do(sessionInfo =>
