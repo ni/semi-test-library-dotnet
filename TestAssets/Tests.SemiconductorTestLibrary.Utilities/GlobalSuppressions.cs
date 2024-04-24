@@ -7,3 +7,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Style", "IDE0008:Use explicit type", Justification = "Use var to simplify code")]
 [assembly: SuppressMessage("Style", "NI1704:Identifiers should be spelled correctly", Justification = "Not sure why custom dictionary is not working, so suppress for now")]
+[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "Not sure why custom dictionary is not working, so suppress for now")]

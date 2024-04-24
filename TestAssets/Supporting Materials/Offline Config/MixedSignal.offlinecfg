@@ -16,6 +16,7 @@
 		</PXI>
 		<PXI Name="VST_3622_C1_S14" Model="NI PXIe-3622" Slot="14" NeedsIvi="false" />
 		<PXI Name="Relay_2567_C1_S07" Model="NI PXI-2567" Slot="7" NeedsIvi="false" />
+		<PXI Name="SCP_5105_C1_S09" Model="NI PXIe-5105" Slot="9" NeedsIvi="false" />
 	</PXIChassis>
 	<PXIChassis Number="2" Model="NI PXIe-1095">
 		<PXI Name="HSD_6571_C2_S02" Model="NI PXIe-6571" Slot="2" NeedsIvi="false" />
@@ -32,6 +33,7 @@
 		</PXI>
 		<PXI Name="VST_3622_C2_S15" Model="NI PXIe-3622" Slot="15" NeedsIvi="false" />
 		<PXI Name="Relay_2567_C2_S07" Model="NI PXI-2567" Slot="7" NeedsIvi="false" />
+		<PXI Name="SCP_5162_C2_S09" Model="NI PXIe-5162 (4CH)" Slot="9" NeedsIvi="false" />
 	</PXIChassis>
 	<PXIChassis Number="3" Model="NI PXIe-1095">
 		<PXI Name="HSD_6571_C3_S02" Model="NI PXIe-6571" Slot="2" NeedsIvi="false" />
@@ -44,6 +46,9 @@
 			</PortControlModule>
 		</PXI>
 		<PXI Name="VST_3622_C3_S15" Model="NI PXIe-3622" Slot="15" NeedsIvi="false" />
+		<PXI Name="SCP_5622_C3_S05" Model="NI PXIe-5622" Slot="5" NeedsIvi="false" />
+		<PXI Name="SCP_5622_C3_S06" Model="NI PXIe-5622" Slot="6" NeedsIvi="false" />
+		<PXI Name="SCP_5186_C3_S07" Model="NI PXIe-5186" Slot="7" NeedsIvi="false" />
 	</PXIChassis>
 	<PXIChassis Number="4" Model="NI PXIe-1095">
 		<PXI Name="HSD_6571_C4_S02" Model="NI PXIe-6571" Slot="2" NeedsIvi="false" />
