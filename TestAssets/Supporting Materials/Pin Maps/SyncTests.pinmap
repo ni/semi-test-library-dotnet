@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.1" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<Instrument name="SYNC_6674T_C1_S10" instrumentTypeId="niSync">
+			<Channel id="0" />
+			<Channel id="1" />
+			<ChannelGroup id="Group">
+				<Channel id="2" />
+			</ChannelGroup>
+		</Instrument>
+	</Instruments>
+	<Pins>
+		<DUTPin name="DUTPin1" />
+		<SystemPin name="SystemPin" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="DUTPin1" siteNumber="0" instrument="SYNC_6674T_C1_S10" channel="0" />
+		<Connection pin="DUTPin1" siteNumber="1" instrument="SYNC_6674T_C1_S10" channel="1" />
+		<SystemConnection pin="SystemPin" instrument="SYNC_6674T_C1_S10" channel="2" />
+	</Connections>
+</PinMap>
