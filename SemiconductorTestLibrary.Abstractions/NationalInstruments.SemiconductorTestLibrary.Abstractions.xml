@@ -1726,6 +1726,222 @@
             <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation"/>s.</param>
             <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation"/>s.</param>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock">
+            <summary>
+            Specifies the synchronization clock options.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock.Asynchronous">
+            <summary>
+            The trigger is not synchronized to any clock.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock.FullSpeedClock">
+            <summary>
+            Uses the full speed frequency of the synchronization clock to synchronize the trigger.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock.DividedClock1">
+            <summary>
+            Divides the synchronization clock by the value specified in the Clock Divisor 1 parameter and uses the frequency of the divided clock to synchronize the trigger.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock.DividedClock2">
+            <summary>
+            Divides the synchronization clock by the value specified in the Clock Divisor 2 parameter and uses the frequency of the divided clock to synchronize the trigger.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge">
+            <summary>
+            Specifies the update edge options.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.RisingEdge">
+            <summary>
+            Propagates the trigger when the digital signal of the synchronization clock transitions from low to high.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.FallingEdge">
+            <summary>
+            Propagates the trigger when the digital signal of the synchronization clock transitions from high to low.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.DataTypes">
+            <summary>
+            Defines data types for NI-Sync.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.DataTypes.GlobalSoftwareTrigger">
+            <summary>
+            The global software trigger string.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.DataTypes.Translate(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock)">
+            <summary>
+            Translates the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock"/> to a driver recognized string.
+            </summary>
+            <param name="synchronizationClock">The specified synchronization clock.</param>
+            <returns>The mapping string.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.DataTypes.Translate(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge)">
+            <summary>
+            Translates the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge"/> to an integer.
+            </summary>
+            <param name="updateEdge">The specified update edge.</param>
+            <returns>The mapping integer.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.DataTypes.Translate(System.Boolean)">
+            <summary>
+            Translates whether to invert signal to an integer.
+            </summary>
+            <param name="invertSignal">Whether to invert signal.</param>
+            <returns>The mapping integer.</returns>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose">
+            <summary>
+            Defines <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> sessions initialize and close APIs.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose.NISyncInstrumentTypeId">
+            <summary>
+            Defines an instrument type ID to identify <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> instruments when get/set sessions from/to the <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose.Initialize(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
+            <summary>
+            Initializes <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> sessions in the test system.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose.Close(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
+            <summary>
+            Closes all <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> sessions.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync">
+            <summary>
+            Wraps the NI-Sync C driver.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.ResourceName">
+            <summary>
+            Indicates the name of the NI-Sync device.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.#ctor(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Creates a new NI-Sync instrument driver session.
+            </summary>
+            <param name="resourceName">The name of the NI-Sync device.</param>
+            <param name="idQuery">Specifies whether or not to query the instrument ID to determine if the instrument is compatible with the NI-Sync driver. The default is TRUE.</param>
+            <param name="resetDevice">Specifies whether to reset the NI-Sync module to its default state—including the selected time reference, any connected terminals, and all scheduled future time events—during the initialization procedure. The default is FALSE.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.Reset">
+            <summary>
+            Resets the specified device. You can also reset a device before the program starts by using the reset device parameter of niSync Initialize.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.Close">
+            <summary>
+            Ends an NI-Sync instrument driver session and frees the device for other operations.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.ConnectClkTerminals(System.String,System.String)">
+            <summary>
+            Connects a source clock terminal to a destination clock terminal.
+            A clock terminal connection is characterized by its source terminal and destination terminal.
+            </summary>
+            <param name="sourceTerminal">Specifies the source terminal of the clock you would like to connect.</param>
+            <param name="destinationTerminal">Specifies where to route the clock signal specified in the source terminal.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.DisconnectClkTerminals(System.String,System.String)">
+            <summary>
+            Closes a route between a source clock terminal and a destination clock terminal.
+            </summary>
+            <param name="sourceTerminal">Specifies the source clock terminal you want to disconnect from the destination terminal.</param>
+            <param name="destinationTerminal">Specifies the destination clock terminal you would like to disconnect from the source terminal.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.ConnectSoftwareTrigger(System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock,System.Boolean,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge,System.Double)">
+            <summary>
+            Connects the global software trigger to a destination trigger terminal. Once you connect the global software trigger, you can fire the trigger using <see cref="!:SendSoftwareTrigger(string)"/>.
+            </summary>
+            <param name="destinationTerminal">Specifies the terminal where the Global Software Trigger will fire.</param>
+            <param name="synchronizationClock">Specifies whether to use the full-speed or a divided synchronization clock to control when the global software trigger fires. The global software trigger will be synchronized with the rising or falling edge of the clock you select in this terminal.</param>
+            <param name="invertSignal">Specifies whether or not to invert the digital signal of the Global Software Trigger when it reaches the destination terminal:</param>
+            <param name="updateEdge">Specifies on which update edge of the synchronization clock to propagate the global software trigger.</param>
+            <param name="delay">Specifies the amount of time, in seconds, to delay the global software trigger pulse. The delay must be a multiple of the synchronization clock period. The global software trigger can be delayed up to 15 clock cycles for each route.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.SendSoftwareTrigger">
+            <summary>
+            Sends a trigger pulse using the global software trigger. You must first route the global software trigger to at least one destination terminal using <see cref="!:ConnectSoftwareTrigger(string, string, string, int, int, double)"/> for this operation to have any effect.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.DisconnectSoftwareTrigger(System.String)">
+            <summary>
+            Closes a route between the global software trigger and a destination trigger terminal.
+            </summary>
+            <param name="destinationTerminal">Specifies the destination trigger terminal to disconnect the global software trigger terminal from. The global software trigger must be connected to the destination terminal for this operation to succeed.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.ConnectTriggerTerminals(System.String,System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock,System.Boolean,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge)">
+            <summary>
+            Routes triggers through the PXI backplane, between devices, or between multiple chassis.
+            Once a terminal route is connected, you can invert the trigger signal at the destination terminal, synchronize the trigger to the rising or falling edge of a synchronization clock, fire the trigger asynchronously, or route the trigger to other trigger terminals.
+            You can also route clocks along some trigger lines by setting a full speed or divided synchronization clock as the source terminal.
+            </summary>
+            <param name="sourceTerminal">Specifies the source of the trigger you want to connect to the destination terminal.</param>
+            <param name="destinationTerminal">Specifies the destination trigger terminal that the source terminal will connect to.</param>
+            <param name="synchronizationClock">Specifies whether to use the full-speed or a divided synchronization clock to control when the trigger fires. The trigger will be synchronized with the rising or falling edge of the clock you select in this terminal.</param>
+            <param name="invertSignal">Specifies whether or not to invert the source terminal signal at the destination terminal.</param>
+            <param name="updateEdge">Specifies on which update edge of the synchronization clock to propagate the trigger.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.DisconnectTriggerTerminals(System.String,System.String)">
+            <summary>
+            Closes a route between a source trigger terminal and a destination trigger terminal.
+            </summary>
+            <param name="sourceTerminal">Specifies the source terminal you would like to disconnect from the destination terminal. The source and destination terminals must be connected for this operation to succeed.</param>
+            <param name="destinationTerminal">Specifies the destination trigger terminal to disconnect from the source terminal. The source and destination terminals must be connected for this operation to succeed.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation">
+            <summary>
+            Defines an object that holds <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> session and related information.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation.Session">
+            <summary>
+            The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> session.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation.AssociatedSitePinList">
+            <inheritdoc/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation.#ctor(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync)">
+            <summary>
+            Constructs a session information object that associates with a <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> instrument session.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> session.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle">
+            <summary>
+            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/>s.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.PinQueryContext">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.InstrumentSessions">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.AggregateSitePinList">
+            <inheritdoc/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.MultiplePinMultipleSessionQueryContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation})">
+            <summary>
+            Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/>s.
+            </summary>
+            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/>s.</param>
+            <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/>s.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager">
             <summary>
             Defines a session manager that manages device sessions through TSM.
@@ -1806,6 +2022,26 @@
             </summary>
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/>.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle"/> associated with all pins.
+            </summary>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle"/>.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(System.String)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle"/> associated with the specified pin.
+            </summary>
+            <param name="pin">The given pin.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle"/>.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(System.String[])">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle"/> associated with the specified pins.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle"/>.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.ResourceStrings">
             <summary>
@@ -1891,6 +2127,16 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Publish_MissingData">
             <summary>
               Looks up a localized string similar to Measurement data for site {0} is missing..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Sync_DriverNotInstalled">
+            <summary>
+              Looks up a localized string similar to The NISync driver is not installed..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Sync_FailToConvertErrorCode">
+            <summary>
+              Looks up a localized string similar to Fail to convert error code {0} to its corresponding error message..
             </summary>
         </member>
     </members>
