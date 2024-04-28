@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PinMap schemaVersion="1.1" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
-		<Instrument name="SYNC_6674T_C1_S10" instrumentTypeId="niSync">
+		<Instrument name="SYNC_6674T_C1_S10" instrumentTypeId="Sync">
 			<Channel id="0" />
 			<Channel id="1" />
 			<ChannelGroup id="Group">
