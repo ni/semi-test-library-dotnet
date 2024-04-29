@@ -1585,6 +1585,81 @@
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation">
+            <summary>
+            Defines an object that holds <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session and related information.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.Session">
+            <summary>
+            The <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.ChannelList">
+            <summary>
+            The channels associated with the session.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.ModelString">
+            <summary>
+            The NI FGEN instrument model string.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.AssociatedSitePinList">
+            <inheritdoc/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIFgen.NIFgen,System.String)">
+            <summary>
+            Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> instrument session.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
+            <param name="channelList">The channels list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
+            <summary>
+            Generates a dictionary that takes a channel string and returns the associated site-pin pair information.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle">
+            <summary>
+            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/>s.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.PinQueryContext">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.InstrumentSessions">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.AggregateSitePinList">
+            <inheritdoc/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.NIFGenMultiplePinMultipleSessionQueryContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation})">
+            <summary>
+            Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/>s.
+            </summary>
+            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/>s.</param>
+            <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/>s.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.InitializeAndClose">
+            <summary>
+            Defines <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> sessions initialize and close APIs.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.InitializeAndClose.Initialize(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
+            <summary>
+            Initializes <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> sessions in the test system.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.InitializeAndClose.Close(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
+            <summary>
+            Closes all <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> sessions.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="reset">Whether to reset the device sessions before closing.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization">
             <summary>
             Defines entry points for mixed signal steps.
@@ -2042,6 +2117,20 @@
             </summary>
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle"/>.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(System.String)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/> associated with the specified pin.
+            </summary>
+            <param name="pin">The given pin.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/>.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(System.String[])">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/> associated with the specified pins.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/>.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.ResourceStrings">
             <summary>

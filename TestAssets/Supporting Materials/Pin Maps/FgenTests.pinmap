@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.1" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIFGenInstrument name="FGEN_5433_C1_S13" numberOfChannels="20" />
+		<NIFGenInstrument name="FGEN_5433_C2_S05" numberOfChannels="2" />
+		<NIFGenInstrument name="FGEN_5433_C3_S03" numberOfChannels="2" />
+		<NIFGenInstrument name="FGEN_5433_C4_S13" numberOfChannels="2" />
+		<NIFGenInstrument name="FGEN_5433_C4_S09" numberOfChannels="2" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="A" />
+		<DUTPin name="B" />
+		<DUTPin name="C" />
+		<DUTPin name="D" />
+		<SystemPin name="SystemPin" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="PinGroup">
+			<PinReference pin="A" />
+			<PinReference pin="C" />
+			<PinReference pin="SystemPin" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="A" siteNumber="0" instrument="FGEN_5433_C1_S13" channel="0" />
+		<Connection pin="A" siteNumber="1" instrument="FGEN_5433_C2_S05" channel="0" />
+		<Connection pin="B" siteNumber="1" instrument="FGEN_5433_C2_S05" channel="1" />
+		<Connection pin="B" siteNumber="0" instrument="FGEN_5433_C1_S13" channel="1" />
+		<Connection pin="C" siteNumber="0" instrument="FGEN_5433_C3_S03" channel="0" />
+		<Connection pin="C" siteNumber="1" instrument="FGEN_5433_C3_S03" channel="1" />
+		<Connection pin="D" siteNumber="0" instrument="FGEN_5433_C4_S13" channel="0" />
+		<Connection pin="D" siteNumber="1" instrument="FGEN_5433_C4_S13" channel="1" />
+		<SystemConnection pin="SystemPin" instrument="FGEN_5433_C4_S09" channel="0" />
+	</Connections>
+</PinMap>
