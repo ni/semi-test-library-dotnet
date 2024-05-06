@@ -25,11 +25,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="settings">The measure settings to configure.</param>
         public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasureSettings settings)
         {
-            sessionsBundle.Do(sessionInfo =>
+            if (sessionsBundle.InstrumentSessions.All(s => s.AllInstrumentsAreTheSameModel))
             {
-                sessionInfo.Session.Control.Abort();
-                sessionInfo.ConfigureMeasureSettings(settings);
-            });
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Session.Control.Abort();
+                    sessionInfo.ConfigureMeasureSettings(settings);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                    sessionInfo.ConfigureMeasureSettings(settings, sitePinInfo.IndividualChannelString);
+                });
+            }
         }
 
         /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, DCPowerMeasureSettings)"/>
@@ -73,11 +84,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measureWhen">The MeasurementWhen property to set.</param>
         public static void ConfigureMeasureWhen(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementWhen measureWhen)
         {
-            sessionsBundle.Do(sessionInfo =>
+            if (sessionsBundle.InstrumentSessions.All(s => s.AllInstrumentsAreTheSameModel))
             {
-                sessionInfo.Session.Control.Abort();
-                sessionInfo.Session.ConfigureMeasureWhen(sessionInfo.AllChannelsString, sessionInfo.ModelString, measureWhen);
-            });
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Session.Control.Abort();
+                    sessionInfo.Session.ConfigureMeasureWhen(sessionInfo.AllChannelsString, sessionInfo.ModelString, measureWhen);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                    sessionInfo.Session.ConfigureMeasureWhen(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, measureWhen);
+                });
+            }
         }
 
         /// <summary>
@@ -90,22 +112,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         public static void ConfigurePowerLineFrequency(this DCPowerSessionsBundle sessionsBundle, double frequency)
         {
-            sessionsBundle.Do(sessionInfo =>
+            if (sessionsBundle.InstrumentSessions.All(s => s.AllInstrumentsAreTheSameModel))
             {
-                sessionInfo.Session.Control.Abort();
-                switch (sessionInfo.ModelString)
+                sessionsBundle.Do(sessionInfo =>
                 {
-                    case DCPowerModelStrings.PXI_4110:
-                    case DCPowerModelStrings.PXI_4130:
-                    case DCPowerModelStrings.PXIe_4154:
-                        sessionInfo.PowerLineFrequency = frequency;
-                        break;
-
-                    default:
-                        sessionInfo.AllChannelsOutput.Measurement.PowerLineFrequency = frequency;
-                        break;
-                }
-            });
+                    sessionInfo.Session.Control.Abort();
+                    sessionInfo.ConfigurePowerLineFrequency(sessionInfo.AllChannelsString, sessionInfo.ModelString, frequency);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                    sessionInfo.ConfigurePowerLineFrequency(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, frequency);
+                });
+            }
         }
 
         /// <summary>
@@ -115,11 +137,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sense">The measurement sense to set.</param>
         public static void ConfigureMeasurementSense(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementSense sense)
         {
-            sessionsBundle.Do(sessionInfo =>
+            if (sessionsBundle.InstrumentSessions.All(s => s.AllInstrumentsAreTheSameModel))
             {
-                sessionInfo.Session.Control.Abort();
-                sessionInfo.Session.ConfigureMeasurementSense(sessionInfo.AllChannelsString, sessionInfo.ModelString, sense);
-            });
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Session.Control.Abort();
+                    sessionInfo.Session.ConfigureMeasurementSense(sessionInfo.AllChannelsString, sessionInfo.ModelString, sense);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                    sessionInfo.Session.ConfigureMeasurementSense(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sense);
+                });
+            }
         }
 
         /// <summary>
@@ -133,7 +166,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var apertureTimes = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                switch (sessionInfo.ModelString)
+                switch (sitePinInfo.ModelString)
                 {
                     case DCPowerModelStrings.PXI_4110:
                     case DCPowerModelStrings.PXI_4130:
@@ -168,7 +201,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                switch (sessionInfo.ModelString)
+                switch (sitePinInfo.ModelString)
                 {
                     case DCPowerModelStrings.PXI_4110:
                     case DCPowerModelStrings.PXI_4130:
@@ -420,17 +453,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #endregion methods on DCPowerSessionsBundle
 
-        #region methods on DCPowerOutput
+        #region methods on NIDCPower session
 
         /// <summary>
         /// Configures the aperture time.
         /// </summary>
-        /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
+        /// <param name="session">The <see cref="NIDCPower"/> object.</param>
+        /// <param name="channelString">The channel string.</param>
         /// <param name="modelString">The DCPower instrument model.</param>
         /// <param name="powerLineFrequency">The power line frequency used to calculate aperture time value from power line cycles to seconds. This is used just for PXI-4110, PXI-4130, and PXIe-4154 models since they don't support power line frequency property.</param>
         /// <param name="apertureTime">The aperture time to set.</param>
         /// <param name="apertureTimeUnits">The aperture time units to set.</param>
-        public static void ConfigureApertureTime(this DCPowerOutput output, string modelString, double powerLineFrequency, double apertureTime, DCPowerMeasureApertureTimeUnits apertureTimeUnits)
+        public static void ConfigureApertureTime(this NIDCPower session, string channelString, string modelString, double powerLineFrequency, double apertureTime, DCPowerMeasureApertureTimeUnits apertureTimeUnits)
         {
             switch (modelString)
             {
@@ -443,19 +477,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     // The 4154 has a fixed sample rate of 300kHz, while 4110 and 4130 have a fixed sample rate of 3kHz.
                     double sampleRate = modelString == DCPowerModelStrings.PXIe_4154 ? 300000.0 : 3000.0;
                     // These models use samples to average instead of aperture time.
-                    output.Measurement.SamplesToAverage = Convert.ToInt32(sampleRate * apertureTimeInSeconds);
+                    session.Outputs[channelString].Measurement.SamplesToAverage = Convert.ToInt32(sampleRate * apertureTimeInSeconds);
                     break;
 
                 default:
-                    output.Measurement.ApertureTime = apertureTime;
-                    output.Measurement.ApertureTimeUnits = apertureTimeUnits;
+                    session.Outputs[channelString].Measurement.ApertureTime = apertureTime;
+                    session.Outputs[channelString].Measurement.ApertureTimeUnits = apertureTimeUnits;
                     break;
             }
         }
-
-        #endregion methods on DCPowerOutput
-
-        #region methods on NIDCPower session
 
         /// <summary>
         /// Configures the MeasurementWhen property.
@@ -519,22 +549,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
         public static void ConfigureMeasureSettings(this DCPowerSessionInformation sessionInfo, DCPowerMeasureSettings settings, string channelString = "")
         {
-            var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
-            if (settings.ApertureTime.HasValue && settings.ApertureTimeUnits.HasValue)
+            string channelStringToUse = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsString : channelString;
+            if (sessionInfo.AllInstrumentsAreTheSameModel)
             {
-                channelOutput.ConfigureApertureTime(sessionInfo.ModelString, sessionInfo.PowerLineFrequency, settings.ApertureTime.Value, settings.ApertureTimeUnits.Value);
+                ConfigureMeasureSettings(sessionInfo.Session, channelStringToUse, sessionInfo.ModelString, sessionInfo.PowerLineFrequency, settings);
             }
-            if (settings.MeasureWhen.HasValue)
+            else
             {
-                sessionInfo.Session.ConfigureMeasureWhen(channelString, sessionInfo.ModelString, settings.MeasureWhen.Value);
-            }
-            if (settings.Sense.HasValue)
-            {
-                sessionInfo.Session.ConfigureMeasurementSense(channelString, sessionInfo.ModelString, settings.Sense.Value);
-            }
-            if (settings.RecordLength.HasValue)
-            {
-                channelOutput.Measurement.RecordLength = settings.RecordLength.Value;
+                var channelsToOperate = sessionInfo.AssociatedSitePinList.Where(sitePin => channelStringToUse.Contains(sitePin.IndividualChannelString));
+                foreach (var sitePinInfo in channelsToOperate)
+                {
+                    ConfigureMeasureSettings(sessionInfo.Session, sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings);
+                }
             }
         }
 
@@ -546,7 +572,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static Tuple<double[], double[]> MeasureVoltageAndCurrent(this DCPowerSessionInformation sessionInfo)
         {
             var session = sessionInfo.Session;
-            var modelString = sessionInfo.ModelString;
             var lockObject = new object();
 
             int channelCount = sessionInfo.AssociatedSitePinList.Count;
@@ -554,13 +579,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var currentMeasurements = new double[channelCount];
             Parallel.For(0, channelCount, channelIndex =>
             {
-                string channelString = sessionInfo.AssociatedSitePinList[channelIndex].IndividualChannelString;
-                var dcOutput = session.Outputs[channelString];
+                var sitePinInfo = sessionInfo.AssociatedSitePinList[channelIndex];
+                var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
 
                 switch (dcOutput.Measurement.MeasureWhen)
                 {
                     case DCPowerMeasurementWhen.OnDemand:
-                        var measureResult = session.Measurement.Measure(channelString);
+                        var measureResult = session.Measurement.Measure(sitePinInfo.IndividualChannelString);
                         lock (lockObject)
                         {
                             // The measurement arrays are shared among threads, lock them when updating since arrays are not thread safe.
@@ -570,21 +595,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         break;
 
                     case DCPowerMeasurementWhen.OnMeasureTrigger:
-                        if (modelString == DCPowerModelStrings.PXI_4110)
+                        if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
                         {
                             break;
                         }
                         // Make sure to clear previous results before fetching again.
-                        session.Measurement.Fetch(channelString, new PrecisionTimeSpan(20), dcOutput.Measurement.FetchBacklog);
+                        session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), dcOutput.Measurement.FetchBacklog);
                         dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
                         goto case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
 
                     case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
-                        if (modelString == DCPowerModelStrings.PXI_4110)
+                        if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
                         {
                             break;
                         }
-                        var fetchResult = session.Measurement.Fetch(channelString, new PrecisionTimeSpan(20), 1);
+                        var fetchResult = session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), 1);
                         lock (lockObject)
                         {
                             voltageMeasurements[channelIndex] = fetchResult.VoltageMeasurements[0];
@@ -602,6 +627,42 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #endregion methods on DCPowerSessionInformation
 
         #region private methods
+
+        private static void ConfigureMeasureSettings(this NIDCPower session, string channelString, string modelString, double powerLineFrequency, DCPowerMeasureSettings settings)
+        {
+            if (settings.ApertureTime.HasValue && settings.ApertureTimeUnits.HasValue)
+            {
+                session.ConfigureApertureTime(channelString, modelString, powerLineFrequency, settings.ApertureTime.Value, settings.ApertureTimeUnits.Value);
+            }
+            if (settings.MeasureWhen.HasValue)
+            {
+                session.ConfigureMeasureWhen(channelString, modelString, settings.MeasureWhen.Value);
+            }
+            if (settings.Sense.HasValue)
+            {
+                session.ConfigureMeasurementSense(channelString, modelString, settings.Sense.Value);
+            }
+            if (settings.RecordLength.HasValue)
+            {
+                session.Outputs[channelString].Measurement.RecordLength = settings.RecordLength.Value;
+            }
+        }
+
+        private static void ConfigurePowerLineFrequency(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, double frequency)
+        {
+            switch (modelString)
+            {
+                case DCPowerModelStrings.PXI_4110:
+                case DCPowerModelStrings.PXI_4130:
+                case DCPowerModelStrings.PXIe_4154:
+                    sessionInfo.PowerLineFrequency = frequency;
+                    break;
+
+                default:
+                    sessionInfo.Session.Outputs[channelString].Measurement.PowerLineFrequency = frequency;
+                    break;
+            }
+        }
 
         private static DCPowerWaveformAcquisitionSettings GetOriginalSettings(NIDCPower session, string channelString)
         {
