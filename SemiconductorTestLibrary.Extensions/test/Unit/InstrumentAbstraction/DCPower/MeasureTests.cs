@@ -380,9 +380,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        // Skipping for now, failing due to ModelString accessed from DCPowerSessionInformation ctor.
-        // Need to rethink how that is implemented, so that it supports a single shared grouped session.
-        // [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
         public void DifferentSMUDevices_ConfigureMeasureSettings_CorrectValuesAreSetWithPerPinValues(string pinMapFileName)
