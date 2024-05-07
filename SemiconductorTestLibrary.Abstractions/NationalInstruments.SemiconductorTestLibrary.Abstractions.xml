@@ -276,6 +276,11 @@
             </summary>
             <remarks>This is used to work with site-pin unaware drivers.</remarks>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.ModelString">
+            <summary>
+            The model string of the owning instrument of the channel associated with this site-pin pair.
+            </summary>
+        </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.SiteNumberNone">
             <summary>
             Defines the value of site number for a system pin.
@@ -294,13 +299,14 @@
             <param name="siteNumber">The site number. Specify -1 for a system pin.</param>
             <param name="pinName">The pin name.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.#ctor(System.Int32,System.String,System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.#ctor(System.Int32,System.String,System.String,System.String)">
             <summary>
             Constructs a site-pin pair.
             </summary>
             <param name="siteNumber">The site number. Specify -1 for a system pin.</param>
             <param name="pinName">The pin name.</param>
             <param name="invididualChannelString">The individual channel string.</param>
+            <param name="modelString">The model string of the owning instrument.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.Utilities">
             <summary>
@@ -1322,7 +1328,13 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.ModelString">
             <summary>
-            The DCPower instrument model string.
+            The DCPower model string if all instruments are the same model.
+            Otherwise, it's empty string, please check <see cref="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.ModelString"/> for each element of the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.AssociatedSitePinList"/> instead.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.AllInstrumentsAreTheSameModel">
+            <summary>
+            Indicates whether all instruments are the same model.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.AllChannelsOutput">
