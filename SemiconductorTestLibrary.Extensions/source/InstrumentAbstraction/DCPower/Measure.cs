@@ -25,22 +25,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="settings">The measure settings to configure.</param>
         public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasureSettings settings)
         {
-            if (sessionsBundle.InstrumentSessions.All(s => s.AllInstrumentsAreTheSameModel))
+            sessionsBundle.Do(sessionInfo =>
             {
-                sessionsBundle.Do(sessionInfo =>
+                sessionInfo.AbortAndConfigure((channelString, modelString) =>
                 {
-                    sessionInfo.Session.Control.Abort();
-                    sessionInfo.ConfigureMeasureSettings(settings);
+                    sessionInfo.Session.ConfigureMeasureSettings(channelString, modelString, sessionInfo.PowerLineFrequency, settings);
                 });
-            }
-            else
-            {
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                    sessionInfo.ConfigureMeasureSettings(settings, sitePinInfo.IndividualChannelString);
-                });
-            }
+            });
         }
 
         /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, DCPowerMeasureSettings)"/>
@@ -49,7 +40,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.ConfigureMeasureSettings(settings.GetValue(sitePinInfo.SiteNumber), sitePinInfo.IndividualChannelString);
+                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -59,7 +50,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.ConfigureMeasureSettings(settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName), sitePinInfo.IndividualChannelString);
+                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
             });
         }
 
@@ -73,7 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.ConfigureMeasureSettings(settings[sitePinInfo.PinName], sitePinInfo.IndividualChannelString);
+                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings[sitePinInfo.PinName]);
             });
         }
 
@@ -84,22 +75,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measureWhen">The MeasurementWhen property to set.</param>
         public static void ConfigureMeasureWhen(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementWhen measureWhen)
         {
-            if (sessionsBundle.InstrumentSessions.All(s => s.AllInstrumentsAreTheSameModel))
+            sessionsBundle.Do(sessionInfo =>
             {
-                sessionsBundle.Do(sessionInfo =>
+                sessionInfo.AbortAndConfigure((channelString, modelString) =>
                 {
-                    sessionInfo.Session.Control.Abort();
-                    sessionInfo.Session.ConfigureMeasureWhen(sessionInfo.AllChannelsString, sessionInfo.ModelString, measureWhen);
+                    sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen);
                 });
-            }
-            else
-            {
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                    sessionInfo.Session.ConfigureMeasureWhen(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, measureWhen);
-                });
-            }
+            });
         }
 
         /// <summary>
@@ -112,22 +94,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         public static void ConfigurePowerLineFrequency(this DCPowerSessionsBundle sessionsBundle, double frequency)
         {
-            if (sessionsBundle.InstrumentSessions.All(s => s.AllInstrumentsAreTheSameModel))
+            sessionsBundle.Do(sessionInfo =>
             {
-                sessionsBundle.Do(sessionInfo =>
+                sessionInfo.AbortAndConfigure((channelString, modelString) =>
                 {
-                    sessionInfo.Session.Control.Abort();
-                    sessionInfo.ConfigurePowerLineFrequency(sessionInfo.AllChannelsString, sessionInfo.ModelString, frequency);
+                    sessionInfo.ConfigurePowerLineFrequency(channelString, modelString, frequency);
                 });
-            }
-            else
-            {
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                    sessionInfo.ConfigurePowerLineFrequency(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, frequency);
-                });
-            }
+            });
         }
 
         /// <summary>
@@ -137,22 +110,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sense">The measurement sense to set.</param>
         public static void ConfigureMeasurementSense(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementSense sense)
         {
-            if (sessionsBundle.InstrumentSessions.All(s => s.AllInstrumentsAreTheSameModel))
+            sessionsBundle.Do(sessionInfo =>
             {
-                sessionsBundle.Do(sessionInfo =>
+                sessionInfo.AbortAndConfigure((channelString, modelString) =>
                 {
-                    sessionInfo.Session.Control.Abort();
-                    sessionInfo.Session.ConfigureMeasurementSense(sessionInfo.AllChannelsString, sessionInfo.ModelString, sense);
+                    sessionInfo.Session.ConfigureMeasurementSense(channelString, modelString, sense);
                 });
-            }
-            else
-            {
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                    sessionInfo.Session.ConfigureMeasurementSense(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sense);
-                });
-            }
+            });
         }
 
         /// <summary>
@@ -542,29 +506,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #region methods on DCPowerSessionInformation
 
         /// <summary>
-        /// Configures <see cref="DCPowerMeasureSettings"/>.
-        /// </summary>
-        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
-        /// <param name="settings">The measure settings to configure.</param>
-        /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
-        public static void ConfigureMeasureSettings(this DCPowerSessionInformation sessionInfo, DCPowerMeasureSettings settings, string channelString = "")
-        {
-            string channelStringToUse = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsString : channelString;
-            if (sessionInfo.AllInstrumentsAreTheSameModel)
-            {
-                ConfigureMeasureSettings(sessionInfo.Session, channelStringToUse, sessionInfo.ModelString, sessionInfo.PowerLineFrequency, settings);
-            }
-            else
-            {
-                var channelsToOperate = sessionInfo.AssociatedSitePinList.Where(sitePin => channelStringToUse.Contains(sitePin.IndividualChannelString));
-                foreach (var sitePinInfo in channelsToOperate)
-                {
-                    ConfigureMeasureSettings(sessionInfo.Session, sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings);
-                }
-            }
-        }
-
-        /// <summary>
         /// Measures the voltage and current.
         /// </summary>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
@@ -627,6 +568,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #endregion methods on DCPowerSessionInformation
 
         #region private methods
+
+        private static void AbortAndConfigure(this DCPowerSessionInformation sessionInfo, Action<string, string> configure)
+        {
+            if (sessionInfo.AllInstrumentsAreTheSameModel)
+            {
+                sessionInfo.Session.Control.Abort();
+                configure(sessionInfo.AllChannelsString, sessionInfo.ModelString);
+            }
+            else
+            {
+                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList)
+                {
+                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                    configure(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString);
+                }
+            }
+        }
 
         private static void ConfigureMeasureSettings(this NIDCPower session, string channelString, string modelString, double powerLineFrequency, DCPowerMeasureSettings settings)
         {
