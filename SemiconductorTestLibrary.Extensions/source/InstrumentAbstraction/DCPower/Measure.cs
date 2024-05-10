@@ -428,14 +428,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="powerLineFrequency">The power line frequency used to calculate aperture time value from power line cycles to seconds. This is used just for PXI-4110, PXI-4130, and PXIe-4154 models since they don't support power line frequency property.</param>
         /// <param name="apertureTime">The aperture time to set.</param>
         /// <param name="apertureTimeUnits">The aperture time units to set.</param>
-        public static void ConfigureApertureTime(this NIDCPower session, string channelString, string modelString, double powerLineFrequency, double apertureTime, DCPowerMeasureApertureTimeUnits apertureTimeUnits)
+        public static void ConfigureApertureTime(this NIDCPower session, string channelString, string modelString, double powerLineFrequency, double apertureTime, DCPowerMeasureApertureTimeUnits? apertureTimeUnits)
         {
             switch (modelString)
             {
                 case DCPowerModelStrings.PXI_4110:
                 case DCPowerModelStrings.PXI_4130:
                 case DCPowerModelStrings.PXIe_4154:
-                    double apertureTimeInSeconds = apertureTimeUnits == DCPowerMeasureApertureTimeUnits.PowerLineCycles
+                    // Use seconds as the default aperture time units if it's not specified.
+                    var units = apertureTimeUnits ?? DCPowerMeasureApertureTimeUnits.Seconds;
+                    double apertureTimeInSeconds = units == DCPowerMeasureApertureTimeUnits.PowerLineCycles
                             ? apertureTime / powerLineFrequency
                             : apertureTime;
                     // The 4154 has a fixed sample rate of 300kHz, while 4110 and 4130 have a fixed sample rate of 3kHz.
@@ -446,9 +448,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
                 default:
                     session.Outputs[channelString].Measurement.ApertureTime = apertureTime;
-                    session.Outputs[channelString].Measurement.ApertureTimeUnits = apertureTimeUnits;
                     break;
             }
+        }
+
+        /// <summary>
+        /// Configures the aperture time units.
+        /// </summary>
+        /// <param name="session">The <see cref="NIDCPower"/> object.</param>
+        /// <param name="channelString">The channel string.</param>
+        /// <param name="modelString">The DCPower instrument model.</param>
+        /// <param name="apertureTimeUnits">The aperture time units to set.</param>
+        public static void ConfigureApertureTimeUnits(this NIDCPower session, string channelString, string modelString, DCPowerMeasureApertureTimeUnits apertureTimeUnits)
+        {
+            if (modelString == DCPowerModelStrings.PXI_4110
+                || modelString == DCPowerModelStrings.PXI_4130
+                || modelString == DCPowerModelStrings.PXIe_4154)
+            {
+                return;
+            }
+
+            session.Outputs[channelString].Measurement.ApertureTimeUnits = apertureTimeUnits;
         }
 
         /// <summary>
@@ -588,9 +608,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureMeasureSettings(this NIDCPower session, string channelString, string modelString, double powerLineFrequency, DCPowerMeasureSettings settings)
         {
-            if (settings.ApertureTime.HasValue && settings.ApertureTimeUnits.HasValue)
+            if (settings.ApertureTime.HasValue)
             {
-                session.ConfigureApertureTime(channelString, modelString, powerLineFrequency, settings.ApertureTime.Value, settings.ApertureTimeUnits.Value);
+                session.ConfigureApertureTime(channelString, modelString, powerLineFrequency, settings.ApertureTime.Value, settings.ApertureTimeUnits);
+            }
+            if (settings.ApertureTimeUnits.HasValue)
+            {
+                session.ConfigureApertureTimeUnits(channelString, modelString, settings.ApertureTimeUnits.Value);
             }
             if (settings.MeasureWhen.HasValue)
             {
