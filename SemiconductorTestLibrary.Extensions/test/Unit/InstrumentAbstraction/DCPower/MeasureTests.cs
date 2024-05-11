@@ -661,7 +661,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void ApertureTimeUnitsSetToPowerLineCycles_ConfigureJustApertureTime_UnitDoesNotPersistAndIsDefaultToSecondsFor4110()
+        public void ApertureTimeUnitsSetToPowerLineCycles_ConfigureJustApertureTime_UnitDoesNotPersistForUnsupportedDevices()
         {
             var sessionManager = Initialize("DifferentSMUDevices.pinmap");
             var sessionsBundle = sessionManager.DCPower("VCC");
