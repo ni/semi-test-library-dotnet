@@ -593,6 +593,94 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Fact]
+        public void DifferentSMUDevices_ConfigureJustApertureTime_CorrectValuesAreSet()
+        {
+            var sessionManager = Initialize("DifferentSMUDevices.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC");
+            // 4112
+            Assert.Equal(0.0167, sessionsBundle.InstrumentSessions.ElementAt(3).AllChannelsOutput.Measurement.ApertureTime, 4);
+
+            var settings = new DCPowerMeasureSettings()
+            {
+                ApertureTime = 0.1,
+            };
+            sessionsBundle.ConfigureMeasureSettings(settings);
+
+            // 4110
+            Assert.Equal(300, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Measurement.SamplesToAverage);
+            // 4130
+            Assert.Equal(300, sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput.Measurement.SamplesToAverage);
+            // 4154
+            Assert.Equal(30000, sessionsBundle.InstrumentSessions.ElementAt(2).AllChannelsOutput.Measurement.SamplesToAverage);
+            // 4112
+            Assert.Equal(0.1, sessionsBundle.InstrumentSessions.ElementAt(3).AllChannelsOutput.Measurement.ApertureTime);
+        }
+
+        [Fact]
+        public void DifferentSMUDevices_ConfigureJustApertureTimeUnits_Succeeds()
+        {
+            var sessionManager = Initialize("DifferentSMUDevices.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC");
+            // 4112
+            Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, sessionsBundle.InstrumentSessions.ElementAt(3).AllChannelsOutput.Measurement.ApertureTimeUnits);
+
+            var settings = new DCPowerMeasureSettings()
+            {
+                ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.PowerLineCycles,
+            };
+            sessionsBundle.ConfigureMeasureSettings(settings);
+
+            // 4112
+            Assert.Equal(DCPowerMeasureApertureTimeUnits.PowerLineCycles, sessionsBundle.InstrumentSessions.ElementAt(3).AllChannelsOutput.Measurement.ApertureTimeUnits);
+        }
+
+        [Fact]
+        public void DifferentSMUDevices_ConfigureApertureTimeAndApertureTimeUnits_CorrectValuesAreSet()
+        {
+            var sessionManager = Initialize("DifferentSMUDevices.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC");
+            sessionsBundle.Do(sessionInfo => sessionInfo.PowerLineFrequency = 1000);
+
+            var settings = new DCPowerMeasureSettings()
+            {
+                ApertureTime = 5,
+                ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.PowerLineCycles,
+            };
+            sessionsBundle.ConfigureMeasureSettings(settings);
+
+            // 4110
+            Assert.Equal(15, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Measurement.SamplesToAverage);
+            // 4130
+            Assert.Equal(15, sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput.Measurement.SamplesToAverage);
+            // 4154
+            Assert.Equal(1500, sessionsBundle.InstrumentSessions.ElementAt(2).AllChannelsOutput.Measurement.SamplesToAverage);
+            // 4112
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(3).AllChannelsOutput.Measurement.ApertureTime);
+            Assert.Equal(DCPowerMeasureApertureTimeUnits.PowerLineCycles, sessionsBundle.InstrumentSessions.ElementAt(3).AllChannelsOutput.Measurement.ApertureTimeUnits);
+        }
+
+        [Fact]
+        public void ApertureTimeUnitsSetToPowerLineCycles_ConfigureJustApertureTime_UnitDoesNotPersistForUnsupportedDevices()
+        {
+            var sessionManager = Initialize("DifferentSMUDevices.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC");
+            var settings1 = new DCPowerMeasureSettings()
+            {
+                ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.PowerLineCycles,
+            };
+            sessionsBundle.ConfigureMeasureSettings(settings1);
+
+            var settings2 = new DCPowerMeasureSettings()
+            {
+                ApertureTime = 0.1,
+            };
+            sessionsBundle.ConfigureMeasureSettings(settings2);
+
+            // 4110
+            Assert.Equal(300, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Measurement.SamplesToAverage);
+        }
+
         private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.AggregateSitePinList
