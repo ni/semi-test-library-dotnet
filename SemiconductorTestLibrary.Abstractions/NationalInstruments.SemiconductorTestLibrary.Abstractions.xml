@@ -248,6 +248,30 @@
             <param name="publishDataId">The unique data id to use when publishing.</param>
             <param name="pin">The pin to publish results for.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[][],System.String)">
+            <summary>
+            Publishes measurement results.
+            </summary>
+            <typeparam name="TSessionInformation">The session information object.</typeparam>
+            <typeparam name="TData">The type of the measurement data.</typeparam>
+            <param name="sessionsBundle">The sessions bundle object.</param>
+            <param name="results">The multisite measurement results from multiple pins connected to multiple instrument
+            sessions. The data is in the form of an array of arrays. Each element in the data array is an array that
+            contains the measurements for the channels of a single instrument session.</param>
+            <param name="publishDataId">The unique data id to use when publishing.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[],System.String)">
+            <summary>
+            Publishes measurement results.
+            </summary>
+            <typeparam name="TSessionInformation">The session information object.</typeparam>
+            <typeparam name="TData">The type of the measurement data.</typeparam>
+            <param name="sessionsBundle">The sessions bundle object.</param>
+            <param name="results">The multisite measurement results from multiple pins connected to multiple instrument
+            sessions. Each element in the array represents a measurement made for a single channel from each instrument
+            session.</param>
+            <param name="publishDataId">The unique data id to use when publishing.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo">
             <summary>
             Defines a pair of site-pin.
@@ -985,7 +1009,7 @@
             Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/>.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.PinQueryContext">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.TSMContext">
             <inheritdoc/>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.InstrumentSessions">
@@ -994,11 +1018,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.AggregateSitePinList">
             <inheritdoc/>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.NIDAQmxMultiplePinMultipleTaskQueryContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation})">
             <summary>
             Constructs a tasks bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/>s.
             </summary>
-            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/>s.</param>
+            <param name="tsmContext">The associated <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
             <param name="allTaskInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/>s.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose">
@@ -1369,7 +1393,7 @@
             Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/>s.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.PinQueryContext">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.TSMContext">
             <inheritdoc/>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.InstrumentSessions">
@@ -1378,11 +1402,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.AggregateSitePinList">
             <inheritdoc/>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.NIDCPowerMultiplePinMultipleSessionQueryContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation})">
             <summary>
             Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/>s.
             </summary>
-            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/>s.</param>
+            <param name="tsmContext">The associated <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
             <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/>s.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose">
@@ -1459,7 +1483,7 @@
             Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.PinQueryContext">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.TSMContext">
             <inheritdoc/>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.Pins">
@@ -1473,11 +1497,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.AggregateSitePinList">
             <inheritdoc/>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.NIDigitalPatternPinQueryContext,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation})">
             <summary>
             Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.
             </summary>
-            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.</param>
+            <param name="tsmContext">The associated <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
             <param name="pins">The pins associated with this sessions bundle.</param>
             <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.</param>
         </member>
@@ -1512,6 +1536,15 @@
             <typeparam name="T">The type of the per-instrument per-site result.</typeparam>
             <param name="perInstrumentPerSiteResults">The per-instrument per-site results to convert.</param>
             <returns>The converted per-site results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.PublishPatternResults(System.Boolean[][],System.String)">
+            <summary>
+            Publishes measurement results.
+            </summary>
+            <param name="results">The pattern result data from multiple pins connected to multiple NI-Digital Pattern instruments.
+            Each element in the burst results array is an array that contains pattern results for the sites of a single instrument
+            session.</param>
+            <param name="publishDataId">The unique data id to use when publishing.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose">
             <summary>
@@ -1564,7 +1597,7 @@
             Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/>s.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle.PinQueryContext">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle.TSMContext">
             <inheritdoc/>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle.InstrumentSessions">
@@ -1573,11 +1606,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle.AggregateSitePinList">
             <inheritdoc/>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.NIDmmMultiplePinMultipleSessionQueryContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation})">
             <summary>
             Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/>s.
             </summary>
-            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/>s.</param>
+            <param name="tsmContext">The associated <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
             <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/>s.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose">
@@ -1638,7 +1671,7 @@
             Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/>s.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.PinQueryContext">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.TSMContext">
             <inheritdoc/>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.InstrumentSessions">
@@ -1647,11 +1680,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.AggregateSitePinList">
             <inheritdoc/>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.NIFGenMultiplePinMultipleSessionQueryContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation})">
             <summary>
             Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/>s.
             </summary>
-            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/>s.</param>
+            <param name="tsmContext">The associated <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
             <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/>s.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.InitializeAndClose">
@@ -1702,9 +1735,9 @@
             </summary>
             <typeparam name="TSessionInformation">The type of the information for a specific device.</typeparam>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1.PinQueryContext">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1.TSMContext">
             <summary>
-            The pin query context that associates with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1.InstrumentSessions"/>.
+            The associated <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1.InstrumentSessions">
@@ -1797,7 +1830,7 @@
             Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation"/>s.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle.PinQueryContext">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle.TSMContext">
             <inheritdoc/>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle.InstrumentSessions">
@@ -1806,11 +1839,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle.AggregateSitePinList">
             <inheritdoc/>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.NIScopeMultiplePinMultipleSessionQueryContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation})">
             <summary>
             Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation"/>s.
             </summary>
-            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation"/>s.</param>
+            <param name="tsmContext">The associated <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
             <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation"/>s.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock">
@@ -2013,7 +2046,7 @@
             Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/>s.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.PinQueryContext">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.TSMContext">
             <inheritdoc/>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.InstrumentSessions">
@@ -2022,11 +2055,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.AggregateSitePinList">
             <inheritdoc/>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.MultiplePinMultipleSessionQueryContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation})">
             <summary>
             Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/>s.
             </summary>
-            <param name="pinQueryContext">The pin query context associated with the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/>s.</param>
+            <param name="tsmContext">The associated <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
             <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/>s.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager">
@@ -2228,6 +2261,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Publish_MissingData">
             <summary>
               Looks up a localized string similar to Measurement data for site {0} is missing..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Publish_NoAssociatedChannel">
+            <summary>
+              Looks up a localized string similar to No channel associates with the {0}..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Sync_DriverNotInstalled">
