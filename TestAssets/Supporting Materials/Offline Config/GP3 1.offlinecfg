@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This OfflineMode file will only work with STS 19.5 software or later, otherwise you will get an error due to lack of 4147 support. --> 
+<SystemConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaVersion="1.0" xmlns="http://www.ni.com/TestStand/SemiconductorModule/SystemConfiguration.xsd">
+  <PXIChassis Number="1" Model="NI PXIe-1095">
+	  <PXI Name="HSD_6571_C1_S02" Model="NI PXIe-6571" Slot="2" />
+	  <PXI Name="HSD_6571_C1_S03" Model="NI PXIe-6571" Slot="3" />
+	  <PXI Name="HSD_6571_C1_S04" Model="NI PXIe-6571" Slot="4" />
+	  <PXI Name="HSD_6571_C1_S05" Model="NI PXIe-6571" Slot="5" />
+	  <PXI Name="HSD_6571_C1_S06" Model="NI PXIe-6571" Slot="6" />
+	  <PXI Name="PPS_4110_C1_S07" Model="NI PXI-4110"  Slot="7" />
+	  <PXI Name="RELAY_2567_C1_S08" Model="NI PXI-2567"  Slot="8" />
+	  <PXI Name="DAQ_6368_C1_S09" Model="NI PXIe-6368" Slot="9" />
+	  <PXI Name="SYNC_6674T_C1_S10" Model="NI PXIe-6674T" Slot="10" />
+	  <PXI Name="DMM_4081_C1_S11" Model="NI PXIe-4081" Slot="11" />
+	  <PXI Name="DMM_4081_C1_S12" Model="NI PXIe-4081" Slot="12" />
+	  <PXI Name="DMM_4081_C1_S13" Model="NI PXIe-4081" Slot="13" />
+	  <PXI Name="DMM_4081_C1_S14" Model="NI PXIe-4081" Slot="14" />
+	  <!--PXI Name="SCOPE_5172_C1_S17" Model="NI PXIe-5172R" Slot="17" />  Not Currently Simulatable in OfflineMode -->
+  </PXIChassis>
+  <PXIChassis Number="2" Model="NI PXIe-1095">
+	  <PXI Name="SMU_4137_C2_S02" Model="NI PXIe-4137" Slot="2" />
+	  <PXI Name="SMU_4137_C2_S03" Model="NI PXIe-4137" Slot="3" />
+	  <PXI Name="SMU_4137_C2_S04" Model="NI PXIe-4137" Slot="4" />
+	  <PXI Name="SMU_4137_C2_S05" Model="NI PXIe-4137" Slot="5" />
+	  <PXI Name="SMU_4137_C2_S06" Model="NI PXIe-4137" Slot="6" />
+	  <PXI Name="SMU_4137_C2_S07" Model="NI PXIe-4137" Slot="7" />
+	  <PXI Name="SMU_4137_C2_S08" Model="NI PXIe-4137" Slot="8" />
+	  <PXI Name="SMU_4137_C2_S09" Model="NI PXIe-4137" Slot="9" />
+	  <PXI Name="SMU_4162_C2_S10" Model="NI PXIe-4162" Slot="10" />
+	  <PXI Name="SMU_4162_C2_S11" Model="NI PXIe-4162" Slot="11" />
+	  <PXI Name="SMU_4162_C2_S12" Model="NI PXIe-4162"  Slot="12" />
+	  <PXI Name="SMU_4163_C2_S13" Model="NI PXIe-4163" Slot="13" />
+	  <PXI Name="SMU_4163_C2_S14" Model="NI PXIe-4163" Slot="14" />
+	  <PXI Name="SMU_4163_C2_S15" Model="NI PXIe-4163"  Slot="15" />
+	  <PXI Name="SMU_4147_C2_S16" Model="NI PXIe-4147" Slot="16" />
+	  <PXI Name="SMU_4139_C2_S17" Model="NI PXIe-4139" Slot="17" />
+  </PXIChassis>
+</SystemConfiguration>
