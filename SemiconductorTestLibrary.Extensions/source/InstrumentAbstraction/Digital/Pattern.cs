@@ -68,7 +68,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 return sessionInfo.Session.PatternControl.BurstPattern(sessionInfo.SiteListString, startLabel, selectDigitalFunction, TimeSpan.FromSeconds(timeoutInSeconds));
             });
-            (sessionsBundle.PinQueryContext as NIDigitalPatternPinQueryContext).PublishPatternResults(results, publishedDataId);
+            sessionsBundle.PublishPatternResults(results, publishedDataId);
             return results;
         }
 
