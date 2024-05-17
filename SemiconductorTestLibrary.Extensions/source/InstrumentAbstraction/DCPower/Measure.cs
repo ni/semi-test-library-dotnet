@@ -219,56 +219,56 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// Measures the voltage on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <remarks>
         /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
         /// Otherwise, use the override for this method that returns PinSiteData.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
         /// <param name="voltageMeasurements">The returned voltage measurements.</param>
-        public static void MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishDataID, out double[][] voltageMeasurements)
+        public static void MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishedDataId, out double[][] voltageMeasurements)
         {
-            voltageMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, publishDataID);
+            voltageMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, publishedDataId);
         }
 
         /// <summary>
-        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// Measures the voltage on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
         /// <returns>The pin-site aware voltage measurements.</returns>
-        public static PinSiteData<double> MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishDataID)
+        public static PinSiteData<double> MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishedDataId)
         {
-            MeasureAndPublishVoltage(sessionsBundle, publishDataID, out var voltageMeasurements);
+            MeasureAndPublishVoltage(sessionsBundle, publishedDataId, out var voltageMeasurements);
             return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(voltageMeasurements);
         }
 
         /// <summary>
-        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// Measures the current on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <remarks>
         /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
         /// Otherwise, use the override for this method that returns PinSiteData.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
         /// <param name="currentMeasurements">The returned current measurements.</param>
-        public static void MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishDataID, out double[][] currentMeasurements)
+        public static void MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishedDataId, out double[][] currentMeasurements)
         {
-            currentMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, publishDataID);
+            currentMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, publishedDataId);
         }
 
         /// <summary>
-        /// Measures the current on the target pin(s) and immediately publishes the results using the Publish Data Id passed in.
+        /// Measures the current on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="publishDataID">The publish data ID string.</param>
+        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
         /// <returns>The pin-site aware current measurements.</returns>
-        public static PinSiteData<double> MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishDataID)
+        public static PinSiteData<double> MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishedDataId)
         {
-            MeasureAndPublishCurrent(sessionsBundle, publishDataID, out var currentMeasurements);
+            MeasureAndPublishCurrent(sessionsBundle, publishedDataId, out var currentMeasurements);
             return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(currentMeasurements);
         }
 
