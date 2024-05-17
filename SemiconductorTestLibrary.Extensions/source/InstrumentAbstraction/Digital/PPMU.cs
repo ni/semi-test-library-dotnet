@@ -203,14 +203,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Published Data Id passed in.
+        /// Measures the voltage on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <remarks>
         /// Use this method to save test time if the measurement results do not needed for any other operations.
         /// Otherwise, use the override for this method that returns PinSiteData.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="publishedDataId">The Published Data Id string.</param>
+        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
         /// <param name="voltageMeasurements">The returned voltage measurements.</param>
         public static void MeasureAndPublishVoltage(this DigitalSessionsBundle sessionsBundle, string publishedDataId, out double[][] voltageMeasurements)
         {
@@ -218,10 +218,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the voltage on the target pin(s) and immediately publishes the results using the Published Data Id passed in.
+        /// Measures the voltage on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="publishedDataId">The Published Data Id string.</param>
+        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
         /// <returns>The pin-site aware voltage measurements.</returns>
         public static PinSiteData<double> MeasureAndPublishVoltage(this DigitalSessionsBundle sessionsBundle, string publishedDataId)
         {
@@ -230,14 +230,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the current on the target pin(s) and immediately publishes the results using the Published Data Id passed in.
+        /// Measures the current on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <remarks>
         /// Use this method to save test time if the measurement results do not needed for any other operations.
         /// Otherwise, use the override for this method that returns PinSiteData.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="publishedDataId">The Published Data Id string.</param>
+        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
         /// <param name="currentMeasurements">The returned current measurements.</param>
         public static void MeasureAndPublishCurrent(this DigitalSessionsBundle sessionsBundle, string publishedDataId, out double[][] currentMeasurements)
         {
@@ -245,10 +245,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures the current on the target pin(s) and immediately publishes the results using the Published Data Id passed in.
+        /// Measures the current on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="publishedDataId">The Published Data Id string.</param>
+        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
         /// <returns>The pin-site aware current measurements.</returns>
         public static PinSiteData<double> MeasureAndPublishCurrent(this DigitalSessionsBundle sessionsBundle, string publishedDataId)
         {
