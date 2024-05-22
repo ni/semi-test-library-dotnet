@@ -31,7 +31,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             double? apertureTime = null,
             double? settlingTime = null)
         {
-            var settings = new PPMUForcingSettings
+            var settings = new PPMUSettings
             {
                 OutputFunction = PpmuOutputFunction.DCVoltage,
                 VoltageLevel = voltageLevel,
@@ -64,7 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var settings = new PPMUForcingSettings
+                var settings = new PPMUSettings
                 {
                     OutputFunction = PpmuOutputFunction.DCVoltage,
                     VoltageLevel = voltageLevels.GetValue(sitePinInfo.SiteNumber),
@@ -94,7 +94,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var settings = new PPMUForcingSettings
+                var settings = new PPMUSettings
                 {
                     OutputFunction = PpmuOutputFunction.DCVoltage,
                     VoltageLevel = voltageLevels.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName),
@@ -111,7 +111,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
-        public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, IDictionary<string, PPMUForcingSettings> settings)
+        public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, IDictionary<string, PPMUSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -140,7 +140,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             double? apertureTime = null,
             double? settlingTime = null)
         {
-            var settings = new PPMUForcingSettings
+            var settings = new PPMUSettings
             {
                 OutputFunction = PpmuOutputFunction.DCCurrent,
                 CurrentLevel = currentLevel,
@@ -162,7 +162,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
-        public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, IDictionary<string, PPMUForcingSettings> settings)
+        public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, IDictionary<string, PPMUSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -409,7 +409,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="session">The <see cref="NIDigital"/> session.</param>
         /// <param name="pinSetString">The pin set string.</param>
         /// <param name="settings">The forcing settings.</param>
-        public static void Force(this NIDigital session, string pinSetString, PPMUForcingSettings settings)
+        public static void Force(this NIDigital session, string pinSetString, PPMUSettings settings)
         {
             var ppmu = session.PinAndChannelMap.GetPinSet(pinSetString).Ppmu;
             ppmu.OutputFunction = settings.OutputFunction;
@@ -433,7 +433,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         #region private methods
 
-        private static void ConfigureVoltageSettings(DigitalPpmu ppmu, PPMUForcingSettings settings)
+        private static void ConfigureVoltageSettings(DigitalPpmu ppmu, PPMUSettings settings)
         {
             if (settings.CurrentLimitRange.HasValue)
             {
@@ -442,7 +442,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             ppmu.DCVoltage.VoltageLevel = settings.VoltageLevel;
         }
 
-        private static void ConfigureCurrentSettings(DigitalPpmu ppmu, PPMUForcingSettings settings)
+        private static void ConfigureCurrentSettings(DigitalPpmu ppmu, PPMUSettings settings)
         {
             ppmu.DCCurrent.CurrentLevelRange = settings.CurrentLevelRange ?? Math.Min(0.032, Math.Max(2e-6, Math.Abs(settings.CurrentLevel)));
             ppmu.DCCurrent.CurrentLevel = settings.CurrentLevel;
@@ -456,9 +456,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
     }
 
     /// <summary>
-    /// Defines settings for PPMU forcing.
+    /// Defines settings for PPMU.
     /// </summary>
-    public class PPMUForcingSettings
+    public class PPMUSettings
     {
         /// <summary>
         /// The output function.
@@ -508,7 +508,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public PPMUForcingSettings()
+        public PPMUSettings()
         {
         }
     }
