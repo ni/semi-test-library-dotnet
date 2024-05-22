@@ -11,6 +11,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Digital
 {
     [Collection("NonParallelizable")]
+    [Trait("GP3", "Digital")]
     public sealed class HistoryRAMTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;

@@ -12,6 +12,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DAQmx
 {
     [Collection("NonParallelizable")]
+    [Trait("GP3", "DAQmx")]
     public sealed class AnalogOutputTests : IDisposable
     {
         private readonly ISemiconductorModuleContext _tsmContext;

@@ -7,6 +7,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Digital
 {
     [Collection("NonParallelizable")]
+    [Trait("GP3", "Digital")]
     public class FrequencyCounterTests
     {
         [Theory]
