@@ -121,10 +121,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var settings = new Dictionary<string, PPMUForcingSettings>()
+            var settings = new Dictionary<string, PPMUSettings>()
             {
-                ["C0"] = new PPMUForcingSettings() { VoltageLevel = 3.5, ApertureTime = 0.05 },
-                ["C1"] = new PPMUForcingSettings() { VoltageLevel = 5 },
+                ["C0"] = new PPMUSettings() { VoltageLevel = 3.5, ApertureTime = 0.05 },
+                ["C1"] = new PPMUSettings() { VoltageLevel = 5 },
             };
             sessionsBundle.ForceVoltage(settings);
 
@@ -144,10 +144,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var settings = new Dictionary<string, PPMUForcingSettings>()
+            var settings = new Dictionary<string, PPMUSettings>()
             {
-                ["C0"] = new PPMUForcingSettings() { VoltageLevel = 3.5 },
-                ["C1"] = new PPMUForcingSettings() { VoltageLevel = 5, ApertureTime = 0.05 },
+                ["C0"] = new PPMUSettings() { VoltageLevel = 3.5 },
+                ["C1"] = new PPMUSettings() { VoltageLevel = 5, ApertureTime = 0.05 },
             };
             sessionsBundle.ForceVoltage(settings);
 
@@ -178,10 +178,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var settings = new Dictionary<string, PPMUForcingSettings>()
+            var settings = new Dictionary<string, PPMUSettings>()
             {
-                ["C0"] = new PPMUForcingSettings() { CurrentLevel = 0.01, ApertureTime = 0.05 },
-                ["C1"] = new PPMUForcingSettings() { CurrentLevel = 0.02 },
+                ["C0"] = new PPMUSettings() { CurrentLevel = 0.01, ApertureTime = 0.05 },
+                ["C1"] = new PPMUSettings() { CurrentLevel = 0.02 },
             };
             sessionsBundle.ForceCurrent(settings);
 
@@ -201,10 +201,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var settings = new Dictionary<string, PPMUForcingSettings>()
+            var settings = new Dictionary<string, PPMUSettings>()
             {
-                ["C0"] = new PPMUForcingSettings() { CurrentLevel = 0.01 },
-                ["C1"] = new PPMUForcingSettings() { CurrentLevel = 0.02, ApertureTime = 0.05 },
+                ["C0"] = new PPMUSettings() { CurrentLevel = 0.01 },
+                ["C1"] = new PPMUSettings() { CurrentLevel = 0.02, ApertureTime = 0.05 },
             };
             sessionsBundle.ForceCurrent(settings);
 
