@@ -4,6 +4,7 @@ using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
@@ -12,6 +13,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DAQmx
 {
     [Collection("NonParallelizable")]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
     public sealed class AnalogOutputTests : IDisposable
     {
         private readonly ISemiconductorModuleContext _tsmContext;
