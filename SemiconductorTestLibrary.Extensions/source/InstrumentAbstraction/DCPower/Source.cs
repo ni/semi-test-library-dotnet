@@ -74,7 +74,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimit">The current limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null)
         {
             var settings = new DCPowerSourceSettings()
             {
@@ -99,7 +99,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimit">The current limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        internal static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
+        internal static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -124,7 +124,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimit">The current limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double currentLimit, double? voltageLevelRange = null, double? currentLimitRange = null)
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -192,7 +192,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="voltageLimit">The voltage limit to use.</param>
         /// <param name="currentLevelRange">The current level range to use.</param>
         /// <param name="voltageLimitRange">The voltage limit range to use.</param>
-        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, double currentLevel, double voltageLimit, double? currentLevelRange = null, double? voltageLimitRange = null)
+        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, double currentLevel, double? voltageLimit = null, double? currentLevelRange = null, double? voltageLimitRange = null)
         {
             var settings = new DCPowerSourceSettings()
             {
@@ -524,6 +524,41 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Enabled = enableOutput.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName);
+            });
+        }
+
+        /// <summary>
+        /// Configures the source delay.
+        /// With overrides for <see cref="SiteData{Double}" />, and <see cref="PinSiteData{Double}"/> input.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sourceDelayInSeconds">The double value of the source delay in seconds.</param>
+        public static void ConfigureSourceDelayInSeconds(this DCPowerSessionsBundle sessionsBundle, double sourceDelayInSeconds)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.AllChannelsOutput.Control.Abort();
+                sessionInfo.AllChannelsOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureSourceDelayInSeconds(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureSourceDelayInSeconds(this DCPowerSessionsBundle sessionsBundle, SiteData<double> sourceDelayInSeconds)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.GetValue(pinSiteInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureSourceDelayInSeconds(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureSourceDelayInSeconds(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> sourceDelayInSeconds)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName));
             });
         }
 
