@@ -533,7 +533,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sourceDelayInSeconds">The double value of the source delay in seconds.</param>
-        public static void ConfigureSourceDelayInSeconds(this DCPowerSessionsBundle sessionsBundle, double sourceDelayInSeconds)
+        public static void ConfigureSourceDelay(this DCPowerSessionsBundle sessionsBundle, double sourceDelayInSeconds)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -542,8 +542,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureSourceDelayInSeconds(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureSourceDelayInSeconds(this DCPowerSessionsBundle sessionsBundle, SiteData<double> sourceDelayInSeconds)
+        /// <inheritdoc cref="ConfigureSourceDelay(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureSourceDelay(this DCPowerSessionsBundle sessionsBundle, SiteData<double> sourceDelayInSeconds)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
@@ -552,8 +552,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <inheritdoc cref="ConfigureSourceDelayInSeconds(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureSourceDelayInSeconds(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> sourceDelayInSeconds)
+        /// <inheritdoc cref="ConfigureSourceDelay(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureSourceDelay(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> sourceDelayInSeconds)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
