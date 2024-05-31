@@ -137,7 +137,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 foreach (var innerExeption in x.InnerExceptions)
                 {
-                    Assert.IsType<MaxTimeExceededException>(innerExeption);
+                    Assert.IsType<IviCDriverException>(innerExeption);
                 }
             });
         }
