@@ -18,7 +18,6 @@ jobs:
     build:   
         name: Call Azure Pre Build Pipeline
         runs-on: ubuntu-latest
-        if: "contains(github.event.pull_request.changed_files, 'SemiconductorTestLibrary.Extensions/') || contains(github.event.pull_request.changed_files, 'SemiconductorTestLibrary.Abstractions/')"
         steps:
         - uses: actions/checkout@v2
         - name: Trigger Azure Pipeline for Pre Build
