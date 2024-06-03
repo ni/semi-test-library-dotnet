@@ -137,7 +137,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 foreach (var innerExeption in x.InnerExceptions)
                 {
-                    Assert.IsType<MaxTimeExceededException>(innerExeption);
+                    Assert.IsType<IviCDriverException>(innerExeption);
+                    Assert.Contains("Specified operation did not complete, because the specified timeout expired.", innerExeption.Message);
                 }
             });
         }

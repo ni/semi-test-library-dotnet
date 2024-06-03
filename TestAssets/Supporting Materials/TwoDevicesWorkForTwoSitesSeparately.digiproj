@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SourceFile Checksum="B0308CF85BA354F69536DF5D0902AE1383B30BB1EC9D9DFD00DE71A79050C6EEA46921106D6BE062718816D5661D0B10BE998F9130E6D04231DE77384F25E8EA" xmlns="http://www.ni.com/PlatformFramework">
+<SourceFile Checksum="F0DF4F7603DF279FF3DEC4B68D51964AA4D04A9FE05F263A225DC2CC4C3A8B07FCDD3D467790F9611B4B26778BD00AD0D8A7BA05CCC2A10A41950D9F5E8931D1" xmlns="http://www.ni.com/PlatformFramework">
 	<SourceModelFeatureSet>
 		<ParsableNamespace AssemblyFileVersion="9.10.0.49734" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
 		<ParsableNamespace AssemblyFileVersion="9.10.0.49734" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
@@ -32,6 +32,7 @@
 			<FileReference Id="282" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="Write_NR_HB_FDD.digipat" StoragePath="Digital\Compiled Patterns\Write_NR_HB_FDD.digipat" />
 			<FileReference Id="d5e757d6c1894a25931fa038bbc6573b" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="LongRunningPattern.digipat" StoragePath="Digital\Compiled Patterns\LongRunningPattern.digipat" />
 			<FileReference Id="c6b6a87212a84a72aca63400e26ac941" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="KeepAlivePattern.digipat" StoragePath="Digital\Compiled Patterns\KeepAlivePattern.digipat" />
+			<FileReference Id="db842b5e8af04c55b6944dce5fe5ecdd" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="StartKeepAlive.digipat" StoragePath="Digital\Compiled Patterns\StartKeepAlive.digipat" />
 		</NameScopingEnvoy>
 		<EmbeddedDefinitionReference Id="9" ModelDefinitionType="DigitalPatternEditor.ProjectPropertiesDefinition" Name="ProjectProperties">
 			<ProjectPropertiesDefinition xmlns="http://www.ni.com/PatternBasedDigital" />

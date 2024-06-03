@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SourceFile Checksum="6D766546251256A93E0761E7BB694DD6A41521F5E5037F4FA760D9D1D933AD740FDFE9A8E652FCC2E95ED5C4BF6021DCABE3FF7B054F532EDEE6D4AF671DDB26" xmlns="http://www.ni.com/PlatformFramework">
+<SourceFile Checksum="98E815F7DECF31F8755156177DEC46A35B7890E09647EFE2FFBA4FA5F87646B3B64E21A096265C3BDCCA333BC84AF66EFA1D088774401661F68D44B100B701F4" xmlns="http://www.ni.com/PlatformFramework">
 	<SourceModelFeatureSet>
 		<ParsableNamespace AssemblyFileVersion="9.10.0.49734" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
 		<ParsableNamespace AssemblyFileVersion="9.10.0.49734" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
@@ -33,6 +33,7 @@
 			<FileReference Id="288" ModelDefinitionType="PinMap" Name="OneDeviceWorksForOnePinOnTwoSites.pinmap" StoragePath="Pin Maps\OneDeviceWorksForOnePinOnTwoSites.pinmap" />
 			<FileReference Id="f30c0218fbeb4a469beed50157aba7a7" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="LongRunningPattern.digipat" StoragePath="Digital\Compiled Patterns\LongRunningPattern.digipat" />
 			<FileReference Id="8783c42dcc5a46ca8a309eb75cd60b8c" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="KeepAlivePattern.digipat" StoragePath="Digital\Compiled Patterns\KeepAlivePattern.digipat" />
+			<FileReference Id="f1869d495ef34dbcba2ace6c571c327e" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="StartKeepAlive.digipat" StoragePath="Digital\Compiled Patterns\StartKeepAlive.digipat" />
 		</NameScopingEnvoy>
 		<EmbeddedDefinitionReference Id="9" ModelDefinitionType="DigitalPatternEditor.ProjectPropertiesDefinition" Name="ProjectProperties">
 			<ProjectPropertiesDefinition xmlns="http://www.ni.com/PatternBasedDigital" />

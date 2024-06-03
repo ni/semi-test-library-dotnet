@@ -318,15 +318,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var offsets = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                ["C0"] = new Dictionary<int, double>() { [0] = 1e-8, [1] = 3e-8 },
-                ["C1"] = new Dictionary<int, double>() { [0] = 2e-8, [1] = 4e-8 }
+                ["C0"] = new Dictionary<int, double>() { [0] = 1e-8, [1] = 1.2e-8 },
+                ["C1"] = new Dictionary<int, double>() { [0] = 1.5e-8, [1] = 1.7e-8 }
             });
             sessionsBundle.ApplyTDROffsets(offsets);
 
             Assert.Equal(1e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").TdrOffset.TotalSeconds);
-            Assert.Equal(2e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
-            Assert.Equal(3e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
-            Assert.Equal(4e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
+            Assert.Equal(1.5e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
+            Assert.Equal(1.2e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
+            Assert.Equal(1.7e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
         }
 
         [Fact]
@@ -337,15 +337,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var offsets = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                ["C0"] = new Dictionary<int, double>() { [0] = 1e-8, [1] = 3e-8 },
-                ["C1"] = new Dictionary<int, double>() { [0] = 2e-8, [1] = 4e-8 }
+                ["C0"] = new Dictionary<int, double>() { [0] = 1e-8, [1] = 1.2e-8 },
+                ["C1"] = new Dictionary<int, double>() { [0] = 1.5e-8, [1] = 1.7e-8 }
             });
             sessionsBundle.ApplyTDROffsets(offsets);
 
             Assert.Equal(1e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").TdrOffset.TotalSeconds);
-            Assert.Equal(2e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
-            Assert.Equal(3e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
-            Assert.Equal(4e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
+            Assert.Equal(1.5e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
+            Assert.Equal(1.2e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
+            Assert.Equal(1.7e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
         }
     }
 }
