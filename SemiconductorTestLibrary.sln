@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.SemiconductorTestLibr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.SemiconductorTestLibrary.Utilities", "TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj", "{4A5E4AD8-DF13-4B94-87E8-F0FA19EAB2FA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemiconductorTestLibrary.TestStandSteps", "SemiconductorTestLibrary.TestStandSteps\source\SemiconductorTestLibrary.TestStandSteps.csproj", "{663384BE-3A81-4B11-AF33-817BF91345B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4A5E4AD8-DF13-4B94-87E8-F0FA19EAB2FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A5E4AD8-DF13-4B94-87E8-F0FA19EAB2FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A5E4AD8-DF13-4B94-87E8-F0FA19EAB2FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{663384BE-3A81-4B11-AF33-817BF91345B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{663384BE-3A81-4B11-AF33-817BF91345B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{663384BE-3A81-4B11-AF33-817BF91345B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{663384BE-3A81-4B11-AF33-817BF91345B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
