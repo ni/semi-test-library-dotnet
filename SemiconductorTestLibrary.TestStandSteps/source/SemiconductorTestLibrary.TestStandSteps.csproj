@@ -11,11 +11,6 @@
     <RootNamespace>NationalInstruments.SemiconductorTestLibrary</RootNamespace>
     <AssemblyName>NationalInstruments.SemiconductorTestLibrary.TestStandSteps</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\ni.pub.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
     <ProjectReference Include="..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
