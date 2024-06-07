@@ -6,8 +6,9 @@ on:
       - main
       - 'releases/**'
     paths:
-      - 'SemiconductorTestLibrary.Extensions/source/**'
       - 'SemiconductorTestLibrary.Abstractions/**'
+      - 'SemiconductorTestLibrary.Extensions/**'
+      - 'SemiconductorTestLibrary.TestStandSteps/**'
       
 env:
     BUILD_SYNC_VARIABLES: '{"GITHUB_INTERNAL_SHA": "${{ github.head_ref }}.${{ github.sha }}"}'
