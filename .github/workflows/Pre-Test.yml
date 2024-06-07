@@ -7,8 +7,9 @@ on:
       - main
       - 'releases/**'
     paths:
-      - 'SemiconductorTestLibrary.Extensions/**'
       - 'SemiconductorTestLibrary.Abstractions/**'
+      - 'SemiconductorTestLibrary.Extensions/**'
+      - 'SemiconductorTestLibrary.TestStandSteps/**'
       - 'TestAssets/**'
 
 env:

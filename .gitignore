@@ -3,6 +3,8 @@
 /**/bin
 /**/obj
 /**/Supporting Materials/.cache
+/SemiconductorTestLibrary.Extensions/source/net48
+/SemiconductorTestLibrary.TestStandSteps/source/net48
 
 # Nuget packages & config
 /**/packages
