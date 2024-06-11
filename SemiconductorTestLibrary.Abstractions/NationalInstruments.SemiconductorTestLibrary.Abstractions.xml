@@ -387,6 +387,12 @@
             <param name="index">The zero-based index of the element to retrieve.</param>
             <returns>The first element if the index is outside the bounds of the source sequence. Otherwise, the element at the specified position in the source sequence.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency(System.Double@)">
+            <summary>
+            Tries to determine the power line frequency of the PXI chassis using the SystemConfiguration API.
+            </summary>
+            <param name="powerLineFrequency">The power line frequency variable to be updated. It keeps the original value when the try fails.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType">
             <summary>
             Defines types of comparison results.
@@ -1518,13 +1524,12 @@
             Defines <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> sessions initialize and close APIs.
             </summary>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.Initialize(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,System.Double)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.Initialize(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
             <summary>
             Initializes <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> sessions in the test system.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="resetDevice">Whether to reset device during initialization.</param>
-            <param name="powerLineFrequency">The power line frequency to set for the sessions. Default to -1 to automatically determine power line frequency.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.Close(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
             <summary>
@@ -1809,13 +1814,12 @@
             Defines <see cref="!:NIDMM"/> sessions initialize and close APIs.
             </summary>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose.Initialize(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,System.Double)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose.Initialize(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
             <summary>
             Initializes <see cref="T:NationalInstruments.ModularInstruments.NIDmm.NIDmm"/> sessions in the test system.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="resetDevice">Whether to reset device during initialization.</param>
-            <param name="powerLineFrequency">The power line frequency to set for the sessions. Default to -1 to automatically determine power line frequency.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose.Close(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
             <summary>
