@@ -40,11 +40,19 @@ namespace NationalInstruments.SemiconductorTestLibrary
         {
             try
             {
-                InitializeAndClose.Initialize(tsmContext, resetDevice, powerLineFrequency);
+                InitializeAndClose.Initialize(tsmContext, resetDevice);
 
                 tsmContext.GetPins(InstrumentTypeIdConstants.NIDCPower, out var dutPins, out var systemPins);
                 var sessionManager = new TSMSessionManager(tsmContext);
                 var dcPower = sessionManager.DCPower(dutPins.Concat(systemPins).ToArray());
+                if (powerLineFrequency < 0)
+                {
+                    Utilities.TryDeterminePowerLineFrequency(ref powerLineFrequency);
+                }
+                if (powerLineFrequency >= 0)
+                {
+                    dcPower.ConfigurePowerLineFrequency(powerLineFrequency);
+                }
                 if (sourceDelay >= 0)
                 {
                     dcPower.ConfigureSourceDelay(sourceDelay);

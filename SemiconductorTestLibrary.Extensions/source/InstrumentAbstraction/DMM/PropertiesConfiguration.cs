@@ -38,6 +38,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         }
 
         /// <summary>
+        /// Configures settle time.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
+        /// <param name="settleTime">The settle time to be used.</param>
+        public static void ConfigureSettleTime(this DMMSessionsBundle sessionsBundle, double settleTime = 0.01)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Advanced.SettleTime = settleTime;
+            });
+        }
+
+        /// <summary>
         /// Configures measurements using absolute resolution.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
