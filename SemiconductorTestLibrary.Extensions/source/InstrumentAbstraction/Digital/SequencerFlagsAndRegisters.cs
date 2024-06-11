@@ -37,7 +37,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="flag">The name of the pattern sequencer flag to read. Possible values include "seqflag0", "seqflag1", "seqflag2", or "seqflag3".</param>
         /// <returns>An array of the states for the specified pattern sequencer flag, one state value per session.</returns>
-        /// <exception cref="NIMixedSignalException">The state of the sequence flag is not the same between instrument sessions.</exception>
+        /// <exception cref="NISemiconductorTestException">The state of the sequence flag is not the same between instrument sessions.</exception>
         public static bool ReadSequencerFlagDistinct(this DigitalSessionsBundle sessionsBundle, string flag)
         {
             return GetDistinctValue(sessionsBundle.ReadSequencerFlag(flag), string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_SequencerFlagNotDistinct, flag));
@@ -96,7 +96,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="registerName">Specifies pattern sequencer register to read. Possible values include "reg0" through "reg15".</param>
         /// <returns>An single int value for the specified pattern sequencer register.</returns>
-        /// <exception cref="NIMixedSignalException">The state of the sequence register is not the same between instrument sessions.</exception>
+        /// <exception cref="NISemiconductorTestException">The state of the sequence register is not the same between instrument sessions.</exception>
         public static int ReadSequencerRegisterDistinct(this DigitalSessionsBundle sessionsBundle, string registerName)
         {
             return GetDistinctValue(sessionsBundle.ReadSequencerRegister(registerName), string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_SequencerRegisterNotDistinct, registerName));

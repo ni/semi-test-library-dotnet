@@ -109,7 +109,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// </remarks>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <returns>Sample clock rate.</returns>
-        /// <exception cref="NIMixedSignalException">The value for the sample clock rate is not the same for all underlying instrument sessions.</exception>
+        /// <exception cref="NISemiconductorTestException">The value for the sample clock rate is not the same for all underlying instrument sessions.</exception>
         public static double GetSampleClockRateDistinct(this DAQmxTasksBundle tasksBundle)
         {
             return GetDistinctValue(tasksBundle.GetSampleClockRates(), string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_SampleClockRateNotDistinct));

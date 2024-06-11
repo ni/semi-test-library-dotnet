@@ -96,7 +96,7 @@ namespace NationalInstruments.SemiconductorTestLibrary
             }
             catch (Exception e)
             {
-                NIMixedSignalException.Throw(e);
+                NISemiconductorTestException.Throw(e);
             }
         }
 
@@ -105,7 +105,7 @@ namespace NationalInstruments.SemiconductorTestLibrary
             var valuesArraysDistinctSizes = perPinOrPinGroupValues.Select(item => item.Length).Distinct();
             if (valuesArraysDistinctSizes.Count() != 1 || valuesArraysDistinctSizes.Single() != pinsOrPinGroups.Length)
             {
-                throw new NIMixedSignalException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Parameter_ArraySizeMismatch, arrayNames));
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Parameter_ArraySizeMismatch, arrayNames));
             }
         }
 
