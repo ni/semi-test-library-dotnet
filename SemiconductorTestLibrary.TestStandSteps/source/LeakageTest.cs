@@ -7,9 +7,9 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
-namespace NationalInstruments.SemiconductorTestLibrary
+namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
-    public static partial class Steps
+    public static partial class CommonSteps
     {
         /// <summary>
         /// Performs a single leakage measurement. The test configures the instruments connected to the pins specified, sources voltage on each pin,

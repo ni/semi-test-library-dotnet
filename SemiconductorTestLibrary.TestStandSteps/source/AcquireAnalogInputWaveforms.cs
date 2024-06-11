@@ -5,12 +5,12 @@ using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.SemiconductorTestLibrary
+namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     /// <summary>
     /// Defines entry points for semiconductor common steps.
     /// </summary>
-    public static partial class Steps
+    public static partial class CommonSteps
     {
         /// <summary>
         /// Acquires an analog waveform for each of the specified pins and pin groups. This step performs a simple acquisition of an analog signal,

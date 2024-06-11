@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NationalInstruments.SemiconductorTestLibrary {
+namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NationalInstruments.SemiconductorTestLibrary.ResourceStrings", typeof(ResourceStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NationalInstruments.SemiconductorTestLibrary.TestStandSteps.ResourceStrings", typeof(ResourceStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

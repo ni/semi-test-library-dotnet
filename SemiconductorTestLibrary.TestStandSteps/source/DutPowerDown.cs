@@ -6,9 +6,9 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
-namespace NationalInstruments.SemiconductorTestLibrary
+namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
-    public static partial class Steps
+    public static partial class CommonSteps
     {
         /// <summary>
         /// Forces DC voltage to Zero on the specified DUT supply pins. If the <paramref name="powerDownSuppliesSerially"/> Boolean is set to True,

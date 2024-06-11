@@ -7,9 +7,9 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
-namespace NationalInstruments.SemiconductorTestLibrary
+namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
-    public static partial class Steps
+    public static partial class CommonSteps
     {
         /// <summary>
         /// Forces the specified DC current on all pins and/or pin groups specified. Both DCPower and Digital PPMU pins are supported.
