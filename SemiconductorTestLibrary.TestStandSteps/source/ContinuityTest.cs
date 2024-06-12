@@ -143,7 +143,7 @@ namespace NationalInstruments.SemiconductorTestLibrary
             }
             catch (Exception e)
             {
-                NIMixedSignalException.Throw(e);
+                NISemiconductorTestException.Throw(e);
             }
 
             DutPowerDown(tsmContext, supplyPinsOrPinGroups.Concat(continuityPinsOrPinGroups).ToArray(), settlingTime);

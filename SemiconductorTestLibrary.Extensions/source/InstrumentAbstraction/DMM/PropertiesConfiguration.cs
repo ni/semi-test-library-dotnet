@@ -173,7 +173,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="autoZeroMode">The auto zero mode to be used: AUTO, OFF, ON, or ONCE.</param>
-        /// <exception cref="NIMixedSignalException">A device in an underlying session does not support configuring Auto Zero.</exception>
+        /// <exception cref="NISemiconductorTestException">A device in an underlying session does not support configuring Auto Zero.</exception>
         public static void ConfigureAutoZero(this DMMSessionsBundle sessionsBundle, DmmAuto autoZeroMode)
         {
             sessionsBundle.Do(sessionInfo =>

@@ -30,7 +30,7 @@ namespace NationalInstruments.SemiconductorTestLibrary
             }
             catch (Exception e)
             {
-                NIMixedSignalException.Throw(e);
+                NISemiconductorTestException.Throw(e);
             }
         }
     }
