@@ -27,7 +27,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             }
             catch (Exception e)
             {
-                NIMixedSignalException.Throw(e);
+                NISemiconductorTestException.Throw(e);
             }
         }
     }

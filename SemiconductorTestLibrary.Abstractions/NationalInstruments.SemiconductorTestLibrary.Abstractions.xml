@@ -4,39 +4,39 @@
         <name>NationalInstruments.SemiconductorTestLibrary.Abstractions</name>
     </assembly>
     <members>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException">
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
             <summary>
-            Defines a specific exception for NI mixed signal library.
+            Defines a specific exception for NI Semiconductor Test Library.
             </summary>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException.#ctor">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor">
             <summary>
-            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> class.
+            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> class.
             </summary>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException.#ctor(System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> class with an error message.
+            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> class with an error message.
             </summary>
             <param name="message">The error message that explains the reason for the exception.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException.#ctor(System.String,System.Exception)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.String,System.Exception)">
             <summary>
-            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> class with an error message and a reference to the inner exception resulting in this exception.
+            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> class with an error message and a reference to the inner exception resulting in this exception.
             </summary>
             <param name="message">The error message that explains the reason for the exception.</param>
             <param name="innerException">The exception resulting in the current exception.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException.#ctor(System.Int32,System.Exception)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.Int32,System.Exception)">
             <summary>
-            Initializes an instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> with an error code and an inner exception.
+            Initializes an instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> with an error code and an inner exception.
             </summary>
             <param name="errorCode">The error code to be included.</param>
             <param name="innerException">The exception to be embedded.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException.Throw(System.Exception)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.Throw(System.Exception)">
             <summary>
-            Wraps an exception into a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"/> and throws.
+            Wraps an exception into a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> and throws.
             </summary>
             <param name="e">The exception to be wrapped.</param>
         </member>
@@ -969,7 +969,6 @@
             </summary>
             <param name="signal">The given signal.</param>
             <returns>The fully qualified output terminal string.</returns>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NIMixedSignalException"></exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>

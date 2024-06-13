@@ -65,13 +65,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             InstrumentAbstraction.Sync.InitializeAndClose.Reset(tsmContext);
                             break;
                         default:
-                            throw new NIMixedSignalException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Cleanup_InvalidInstrumentType, instrumentType));
+                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Cleanup_InvalidInstrumentType, instrumentType));
                     }
                 }
             }
             catch (Exception e)
             {
-                NIMixedSignalException.Throw(e);
+                NISemiconductorTestException.Throw(e);
             }
         }
     }

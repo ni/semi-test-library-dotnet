@@ -79,7 +79,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// <param name="taskInfo">The <see cref="DAQmxTaskInformation"/> object.</param>
         /// <param name="individualChannelString">The individual channel string</param>
         /// <returns>The max settling time across all devices, given the current channel's frequency.</returns>
-        /// <exception cref="NIMixedSignalException"></exception>
+        /// <exception cref="NISemiconductorTestException"></exception>
         internal static double GetAOFunctionGenerationSettlingTime(this DAQmxTaskInformation taskInfo, string individualChannelString)
         {
             var period = 1 / taskInfo.Task.AOChannels[individualChannelString].FunctionGenerationFrequency;
@@ -99,7 +99,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                         settlingTime = (period * 90.0) + 1e-3;
                         break;
                     default:
-                        throw new NIMixedSignalException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_FuncGenNotSupported, productType));
+                        throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_FuncGenNotSupported, productType));
                 }
                 perDeviceSettlingTimes.Add(settlingTime);
             }

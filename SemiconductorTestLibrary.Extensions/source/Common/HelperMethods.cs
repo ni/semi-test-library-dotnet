@@ -14,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
             }
             catch (InvalidOperationException)
             {
-                throw new NIMixedSignalException(errorMessage);
+                throw new NISemiconductorTestException(errorMessage);
             }
         }
     }
