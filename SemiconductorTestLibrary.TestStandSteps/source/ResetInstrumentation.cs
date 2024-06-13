@@ -3,9 +3,9 @@ using System.Globalization;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.SemiconductorTestLibrary
+namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
-    public static partial class Steps
+    public static partial class SetupAndCleanupSteps
     {
         /// <summary>
         /// Resets the instrument sessions for the specified <paramref name="instrumentTypes"/> associated with the pin map

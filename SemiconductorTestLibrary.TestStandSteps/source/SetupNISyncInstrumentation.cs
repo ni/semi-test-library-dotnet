@@ -3,9 +3,9 @@ using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.SemiconductorTestLibrary
+namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
-    public static partial class Steps
+    public static partial class SetupAndCleanupSteps
     {
         /// <summary>
         /// Initializes the NI Sync instrument sessions associated with the pin map.
