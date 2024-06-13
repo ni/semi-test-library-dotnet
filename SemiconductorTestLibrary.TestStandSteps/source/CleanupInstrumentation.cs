@@ -3,9 +3,12 @@ using System.Globalization;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.SemiconductorTestLibrary
+namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
-    public static partial class Steps
+    /// <summary>
+    /// Defines entry points for semiconductor setup and cleanup steps.
+    /// </summary>
+    public static partial class SetupAndCleanupSteps
     {
         /// <summary>
         /// Closes any open instrument sessions associated with the pin map.
