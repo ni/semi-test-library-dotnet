@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
@@ -18,7 +19,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// one or more instrument types can specifically be targeted to be closed, which can be useful for debugging purposes
         /// and/or if there is a need to ensure sessions close sequentially.
         /// Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDAQmx, niDMM, niFGen, niScope, Sync.
-        /// Note the string value matches what's defined by the TSM <see cref="InstrumentTypeIdConstants"/>, plus ones we define like Sync.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to reset device during initialization.</param>
@@ -26,50 +26,50 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         public static void CleanupInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,
-            string[] instrumentTypes = null)
+            NIInstrumentType[] instrumentTypes = null)
         {
             try
             {
-                if (instrumentTypes is null)
+                if (instrumentTypes is null || instrumentTypes.IsEmpty())
                 {
-                    instrumentTypes = new string[]
+                    instrumentTypes = new NIInstrumentType[]
                     {
-                        InstrumentTypeIdConstants.NIDCPower,
-                        InstrumentTypeIdConstants.NIDigitalPattern,
-                        InstrumentTypeIdConstants.NIRelayDriver,
-                        InstrumentTypeIdConstants.NIDAQmx,
-                        InstrumentTypeIdConstants.NIDmm,
-                        InstrumentTypeIdConstants.NIFgen,
-                        InstrumentTypeIdConstants.NIScope,
-                        InstrumentAbstraction.Sync.InitializeAndClose.NISyncInstrumentTypeId
+                        NIInstrumentType.NIDCPower,
+                        NIInstrumentType.NIDigitalPattern,
+                        NIInstrumentType.NIRelayDriver,
+                        NIInstrumentType.NIDAQmx,
+                        NIInstrumentType.NIDmm,
+                        NIInstrumentType.NIFgen,
+                        NIInstrumentType.NIScope,
+                        NIInstrumentType.NISync
                     };
                 }
                 foreach (var instrumentType in instrumentTypes)
                 {
                     switch (instrumentType)
                     {
-                        case InstrumentTypeIdConstants.NIDCPower:
+                        case NIInstrumentType.NIDCPower:
                             InstrumentAbstraction.DCPower.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIDigitalPattern:
+                        case NIInstrumentType.NIDigitalPattern:
                             InstrumentAbstraction.Digital.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIRelayDriver:
+                        case NIInstrumentType.NIRelayDriver:
                             InstrumentAbstraction.Relay.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIDAQmx:
+                        case NIInstrumentType.NIDAQmx:
                             InstrumentAbstraction.DAQmx.InitializeAndClose.ClearAllDAQmxTasks(tsmContext);
                             break;
-                        case InstrumentTypeIdConstants.NIDmm:
+                        case NIInstrumentType.NIDmm:
                             InstrumentAbstraction.DMM.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIFgen:
+                        case NIInstrumentType.NIFgen:
                             InstrumentAbstraction.Fgen.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIScope:
+                        case NIInstrumentType.NIScope:
                             InstrumentAbstraction.Scope.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentAbstraction.Sync.InitializeAndClose.NISyncInstrumentTypeId:
+                        case NIInstrumentType.NISync:
                             InstrumentAbstraction.Sync.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
                         default:
@@ -81,6 +81,52 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             {
                 NISemiconductorTestException.Throw(e);
             }
+        }
+
+        /// <summary>
+        /// Defines NI instrument types the NI Semiconductor Test Library supports.
+        /// </summary>
+        public enum NIInstrumentType
+        {
+            /// <summary>
+            /// An NI-DCPower instrument.
+            /// </summary>
+            NIDCPower,
+
+            /// <summary>
+            /// An NI-Digital Pattern instrument.
+            /// </summary>
+            NIDigitalPattern,
+
+            /// <summary>
+            /// A relay driver module (NI-SWITCH instrument).
+            /// </summary>
+            NIRelayDriver,
+
+            /// <summary>
+            /// An NI-DAQmx task.
+            /// </summary>
+            NIDAQmx,
+
+            /// <summary>
+            /// An NI-DMM instrument.
+            /// </summary>
+            NIDmm,
+
+            /// <summary>
+            /// An NI-FGEN instrument.
+            /// </summary>
+            NIFgen,
+
+            /// <summary>
+            /// An NI-SCOPE instrument.
+            /// </summary>
+            NIScope,
+
+            /// <summary>
+            /// An NI-Sync instrument.
+            /// </summary>
+            NISync
         }
     }
 }

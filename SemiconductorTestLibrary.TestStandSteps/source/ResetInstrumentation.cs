@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
@@ -11,7 +12,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// Resets the instrument sessions for the specified <paramref name="instrumentTypes"/> associated with the pin map
         /// by invoking the Reset() method of the supported instrument driver.
         /// Note that the following types are supported: niDCPower, niDigitalPattern, niDMM, niRelayDriver, niScope, niFGen, Sync.
-        /// Note the string value matches what's defined by the TSM <see cref="InstrumentTypeIdConstants"/>, plus ones we define like "Sync".
         /// For instrumentation that also provide the ResetDevice() method (hard reset), this can optionally be invoked
         /// instead of the Reset() method (soft-reset) if the <paramref name="resetDevice"/> input is set True (default = False).
         /// Refer to the individual instrument driver documentation for more details.
@@ -22,46 +22,46 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         public static void ResetInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,
-            string[] instrumentTypes = null)
+            NIInstrumentType[] instrumentTypes = null)
         {
             try
             {
-                if (instrumentTypes is null)
+                if (instrumentTypes is null || instrumentTypes.IsEmpty())
                 {
-                    instrumentTypes = new string[]
+                    instrumentTypes = new NIInstrumentType[]
                     {
-                        InstrumentTypeIdConstants.NIDCPower,
-                        InstrumentTypeIdConstants.NIDigitalPattern,
-                        InstrumentTypeIdConstants.NIRelayDriver,
-                        InstrumentTypeIdConstants.NIDmm,
-                        InstrumentTypeIdConstants.NIFgen,
-                        InstrumentTypeIdConstants.NIScope,
-                        InstrumentAbstraction.Sync.InitializeAndClose.NISyncInstrumentTypeId
+                        NIInstrumentType.NIDCPower,
+                        NIInstrumentType.NIDigitalPattern,
+                        NIInstrumentType.NIRelayDriver,
+                        NIInstrumentType.NIDmm,
+                        NIInstrumentType.NIFgen,
+                        NIInstrumentType.NIScope,
+                        NIInstrumentType.NISync
                     };
                 }
                 foreach (var instrumentType in instrumentTypes)
                 {
                     switch (instrumentType)
                     {
-                        case InstrumentTypeIdConstants.NIDCPower:
+                        case NIInstrumentType.NIDCPower:
                             InstrumentAbstraction.DCPower.InitializeAndClose.Reset(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIDigitalPattern:
+                        case NIInstrumentType.NIDigitalPattern:
                             InstrumentAbstraction.Digital.InitializeAndClose.Reset(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIRelayDriver:
+                        case NIInstrumentType.NIRelayDriver:
                             InstrumentAbstraction.Relay.InitializeAndClose.Reset(tsmContext);
                             break;
-                        case InstrumentTypeIdConstants.NIDmm:
+                        case NIInstrumentType.NIDmm:
                             InstrumentAbstraction.DMM.InitializeAndClose.Reset(tsmContext);
                             break;
-                        case InstrumentTypeIdConstants.NIFgen:
+                        case NIInstrumentType.NIFgen:
                             InstrumentAbstraction.Fgen.InitializeAndClose.Reset(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIScope:
+                        case NIInstrumentType.NIScope:
                             InstrumentAbstraction.Scope.InitializeAndClose.Reset(tsmContext, resetDevice);
                             break;
-                        case InstrumentAbstraction.Sync.InitializeAndClose.NISyncInstrumentTypeId:
+                        case NIInstrumentType.NISync:
                             InstrumentAbstraction.Sync.InitializeAndClose.Reset(tsmContext);
                             break;
                         default:
