@@ -1106,13 +1106,11 @@
             <param name="digitalOutputTaskType">Specifies the task type.</param>
             <param name="channelLineGrouping">Specifies channel line grouping method.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxAOFunctionGenerationTasks(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Double,System.Double,NationalInstruments.DAQmx.AOFunctionGenerationType,System.Double,System.Double,System.Double,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxAOFunctionGenerationTasks(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.DAQmx.AOFunctionGenerationType,System.Double,System.Double,System.Double,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)">
             <summary>
             Creates NI-DAQmx analog output function generation voltage tasks.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-            <param name="minimumVoltage">Specifies minimum voltage value.</param>
-            <param name="maximumVoltage">Specifies maximum voltage value.</param>
             <param name="analogOutputFunctionGenerationVoltageTaskType">Specifies the task type.</param>
             <param name="waveformType">Specifies waveform type.</param>
             <param name="frequency">Specifies frequency.</param>
@@ -1178,17 +1176,17 @@
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Rse">
             <summary>
-            Measures the potential difference between the AI and the AI GND.
+            Measures the potential difference between the AI/AO and the AI/AO GND.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Differential">
             <summary>
-            Measures the potential difference between the AI+ and AI-.
+            Measures the potential difference between the AI/AO+ and AI/AO-.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Pseudodifferential">
             <summary>
-            Measures the potential difference between the AI+ and AI- while AI- is tied to AI GND through a relatively small impedance.
+            Measures the potential difference between the AI/AO+ and AI/AO- while AI/AO- is tied to AI/AO GND through a relatively small impedance.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1">

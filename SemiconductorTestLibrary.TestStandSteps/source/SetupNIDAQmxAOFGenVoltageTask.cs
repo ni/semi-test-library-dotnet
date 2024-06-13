@@ -16,8 +16,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="taskType">The NI DAQmx task type.</param>
-        /// <param name="maxiumValue">The maximum voltage value.</param>
-        /// <param name="minimumValue">The minimum voltage value.</param>
         /// <param name="waveformType">The kind of waveform to generate.</param>
         /// <param name="frequency">The frequency value.</param>
         /// <param name="amplitude">The amplitude value.</param>
@@ -26,8 +24,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         public static void SetupNIDAQmxAOFGenVoltageTask(
             ISemiconductorModuleContext tsmContext,
             string taskType = DefaultDAQmxTaskTypeStrings.AnalogOutputFunctionGeneration,
-            double maxiumValue = 10,
-            double minimumValue = -10,
             AOFunctionGenerationType waveformType = AOFunctionGenerationType.Sine,
             double frequency = 1000.0,
             double amplitude = 5.0,
@@ -36,7 +32,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         {
             try
             {
-                InitializeAndClose.CreateDAQmxAOFunctionGenerationTasks(tsmContext, taskType, minimumValue, maxiumValue, waveformType, frequency, amplitude, offset, outputTerminalConfiguration);
+                InitializeAndClose.CreateDAQmxAOFunctionGenerationTasks(tsmContext, taskType, waveformType, frequency, amplitude, offset, outputTerminalConfiguration);
             }
             catch (Exception e)
             {
