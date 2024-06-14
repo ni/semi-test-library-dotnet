@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4145_C1_S06" numberOfChannels="4">
+			<ChannelGroup name="SMU_4145_C1_S06_CH0" channels="0" />
+			<ChannelGroup name="SMU_4145_C1_S06_CH1" channels="1" />
+			<ChannelGroup name="SMU_4145_C1_S06_CH2" channels="2" />
+			<ChannelGroup name="SMU_4145_C1_S06_CH3" channels="3" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4145_C2_S04" numberOfChannels="4">
+			<ChannelGroup name="SMU_4145_C2_S04_CH0" channels="0" />
+			<ChannelGroup name="SMU_4145_C2_S04_CH1" channels="1" />
+			<ChannelGroup name="SMU_4145_C2_S04_CH2" channels="2" />
+			<ChannelGroup name="SMU_4145_C2_S04_CH3" channels="3" />
+		</NIDCPowerInstrument>
+		<NIDigitalPatternInstrument name="HSD_6571_C1_S07" numberOfChannels="32" />
+		<NIDigitalPatternInstrument name="HSD_6571_C2_S03" numberOfChannels="32" />
+		<NIDCPowerInstrument name="SMU_4139_C1_S08" numberOfChannels="1">
+			<ChannelGroup name="SMU_4139_C1_S08_CH0" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4139_C2_S09" numberOfChannels="1">
+			<ChannelGroup name="SMU_4139_C2_S09_CH0" />
+		</NIDCPowerInstrument>
+		<NIModelBasedInstrument name="VST_5841_C1_S04" instrumentModel="mmWave VST – IF (21 GHz)" category="RF" subcategory="mmWave">
+			<Resource owner="VST">
+				<UserData propertyName="Resource Name" propertyValue="VST_5841_C1_S04" />
+				<UserData propertyName="Custom FPGA File" propertyValue="" />
+			</Resource>
+		</NIModelBasedInstrument>
+		<NIModelBasedInstrument name="IF_3622_C1_S14" instrumentModel="mmWave VST – IF (21 GHz)" category="RF" subcategory="mmWave">
+			<Resource owner="VST">
+				<UserData propertyName="Resource Name" propertyValue="IF_3622_C1_S14" />
+				<UserData propertyName="Custom FPGA File" propertyValue="" />
+			</Resource>
+		</NIModelBasedInstrument>
+	</Instruments>
+	<Pins>
+		<DUTPin name="VDD" />
+		<DUTPin name="VCC1" />
+		<DUTPin name="PA_EN" />
+		<DUTPin name="C0" />
+		<DUTPin name="C1" />
+		<DUTPin name="VCC2" />
+		<DUTPin name="VDET" />
+		<DUTPin name="SCLK" />
+		<DUTPin name="SDATA" />
+		<DUTPin name="RFIN" />
+		<DUTPin name="RFOUT" />
+		<DUTPin name="RFIN_3622" />
+		<DUTPin name="RFOUT_3622" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="DigitalPins">
+			<PinReference pin="PA_EN" />
+			<PinReference pin="C0" />
+			<PinReference pin="C1" />
+		</PinGroup>
+		<PinGroup name="PowerPins">
+			<PinReference pin="VDD" />
+			<PinReference pin="VCC1" />
+			<PinReference pin="VCC2" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+	</Sites>
+	<Connections>
+		<Connection pin="VDD" siteNumber="0" instrument="SMU_4145_C1_S06" channel="2" />
+		<Connection pin="C1" siteNumber="0" instrument="HSD_6571_C1_S07" channel="1" />
+		<Connection pin="VCC1" siteNumber="0" instrument="SMU_4145_C1_S06" channel="1" />
+		<Connection pin="C0" siteNumber="0" instrument="HSD_6571_C1_S07" channel="0" />
+		<Connection pin="PA_EN" siteNumber="0" instrument="HSD_6571_C1_S07" channel="2" />
+		<Connection pin="RFIN" siteNumber="0" instrument="VST_5841_C1_S04" channel="if0" />
+		<Connection pin="RFIN_3622" siteNumber="0" instrument="IF_3622_C1_S14" channel="if0" />
+		<Connection pin="RFOUT" siteNumber="0" instrument="VST_5841_C1_S04" channel="if1" />
+		<Connection pin="RFOUT_3622" siteNumber="0" instrument="IF_3622_C1_S14" channel="if1" />
+		<Connection pin="SCLK" siteNumber="0" instrument="HSD_6571_C1_S07" channel="3" />
+		<Connection pin="SDATA" siteNumber="0" instrument="HSD_6571_C1_S07" channel="4" />
+		<Connection pin="VCC2" siteNumber="0" instrument="SMU_4145_C1_S06" channel="0" />
+		<Connection pin="VDET" siteNumber="0" instrument="SMU_4139_C1_S08" channel="0" />
+	</Connections>
+</PinMap>
