@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SystemConfiguration schemaVersion="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ni.com/TestStand/SemiconductorModule/SystemConfiguration.xsd">
+	<PartNumber Value="865754-01" />
+	<PXIChassis Number="1" Model="NI PXIe-1095">
+		<PXI Name="HSD_6571_C1_S02" Model="NI PXIe-6571" Slot="2" />
+		<PXI Name="HSD_6571_C1_S03" Model="NI PXIe-6571" Slot="3" />
+		<PXI Name="VST_5841_C1_S06" Model="NI PXIe-5841" Slot="6">
+			<PortControlModule Name="PCM1" Model="NI STS-5532">
+				<PortModule Name="PM1" Model="NI STS-5531" DigitalSlot="1" AnalogChannel="1" />
+				<PortModule Name="PM2" Model="NI STS-5531" DigitalSlot="2" AnalogChannel="2" />
+				<PortModule Name="PM3" Model="NI STS-5531" DigitalSlot="3" AnalogChannel="3" />
+			</PortControlModule>
+		</PXI>
+		<!-- <PXI Name="HMU_SC2250_C1_S08" Model="SCT SC2250" Slot="8" /> -->
+		<PXI Name="SYNC_6674T_C1_S10" Model="NI PXIe-6674T" Slot="10" />
+		<PXI Name="RELAY_2567_C1_S12" Model="NI PXI-2567" Slot="12" />
+		<PXI Name="SMU_4139_C1_S14" Model="NI PXIe-4139" Slot="14" />
+		<PXI Name="SMU_4162_C1_S16" Model="NI PXIe-4162" Slot="16" />
+	</PXIChassis>
+	<PXIChassis Number="2" Model="NI PXIe-1095">
+		<PXI Name="SMU_4163_C2_S02" Model="NI PXIe-4163" Slot="2" />
+		<PXI Name="VST_5841_C2_S06" Model="NI PXIe-5841" Slot="6">
+			<PortControlModule Name="PCM2" Model="NI STS-5532">
+				<PortModule Name="PM7" Model="NI STS-5531" DigitalSlot="7" AnalogChannel="1" />
+				<PortModule Name="PM8" Model="NI STS-5531" DigitalSlot="8" AnalogChannel="2" />
+				<PortModule Name="PM9" Model="NI STS-5531" DigitalSlot="9" AnalogChannel="3" />
+			</PortControlModule>
+		</PXI>
+		<!-- <PXI Name="HMU_SC2250_C2_S08" Model="SCT SC2250" Slot="8" /> -->
+		<PXI Name="SYNC_6674T_C2_S10" Model="NI PXIe-6674T" Slot="10" />
+		<PXI Name="DMM_4081_C2_S11" Model="NI PXIe-4081" Slot="11" />
+		<PXI Name="PPS_4110_C2_S12" Model="NI PXI-4110" Slot="12" />
+		<PXI Name="SMU_4139_C2_S18" Model="NI PXIe-4139" Slot="18" />
+	</PXIChassis>
+	<Devices>
+		<USB Name="DIO_6509_C1_USB" Model="NI USB-6509" />
+	</Devices>
+</SystemConfiguration>
