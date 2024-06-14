@@ -19,12 +19,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="pinsOrPinGroups">The pins or pin groups to force DC voltage on.</param>
         /// <param name="voltageLevel">The DC voltage level to force, in volts.</param>
         /// <param name="currentLimit">The current limit in amperes.</param>
+        /// <param name="apertureTime">The measurement aperture time in seconds.</param>
         /// <param name="settlingTime">The amount of time to wait before continuing, in seconds.</param>
         public static void ForceVoltageMeasureCurrent(
             ISemiconductorModuleContext tsmContext,
             string[] pinsOrPinGroups,
             double voltageLevel,
             double currentLimit,
+            double apertureTime,
             double settlingTime = 0)
         {
             try
@@ -39,6 +41,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             var dcPower = sessionManager.DCPower(dcPowerPinsOrPinGroups);
                             var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
                             dcPower.ConfigureSourceDelay(settlingTime);
+                            dcPower.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = apertureTime });
                             dcPower.ForceVoltage(voltageLevel, currentLimit);
                             dcPower.MeasureAndPublishCurrent("Current", out _);
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
@@ -50,6 +53,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         if (digitalPinsOrPinGroups.Any())
                         {
                             var digital = sessionManager.Digital(digitalPinsOrPinGroups);
+                            digital.ConfigureApertureTime(apertureTime);
                             digital.ForceVoltage(voltageLevel, currentLimit);
                             PreciseWait(settlingTime);
                             digital.MeasureAndPublishCurrent("Current", out _);

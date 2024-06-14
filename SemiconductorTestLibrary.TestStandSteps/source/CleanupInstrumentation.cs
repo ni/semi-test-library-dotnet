@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
@@ -15,24 +14,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// Closes any open instrument sessions associated with the pin map.
         /// If the <paramref name="resetDevice"/> input is set True, then the instrument will be reset before closing the session (default = False).
         /// The sessions will always be closed in parallel.
-        /// Optionally, if the <paramref name="instrumentTypes"/> array input is populated, and not left empty (default),
-        /// one or more instrument types can specifically be targeted to be closed, which can be useful for debugging purposes
-        /// and/or if there is a need to ensure sessions close sequentially.
         /// Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDAQmx, niDMM, niFGen, niScope, Sync.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to reset device during initialization.</param>
-        /// <param name="instrumentTypes">The types of instruments to close.</param>
+        /// <param name="instrumentType">The types of instrument(s) to close.</param>
         public static void CleanupInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,
-            NIInstrumentType[] instrumentTypes = null)
+            NIInstrumentType instrumentType = NIInstrumentType.All)
         {
             try
             {
-                if (instrumentTypes is null || instrumentTypes.IsEmpty())
-                {
-                    instrumentTypes = new NIInstrumentType[]
+                var instrumentTypes = instrumentType != NIInstrumentType.All
+                    ? new NIInstrumentType[] { instrumentType }
+                    : new NIInstrumentType[]
                     {
                         NIInstrumentType.NIDCPower,
                         NIInstrumentType.NIDigitalPattern,
@@ -43,10 +39,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         NIInstrumentType.NIScope,
                         NIInstrumentType.NISync
                     };
-                }
-                foreach (var instrumentType in instrumentTypes)
+
+                foreach (var type in instrumentTypes)
                 {
-                    switch (instrumentType)
+                    switch (type)
                     {
                         case NIInstrumentType.NIDCPower:
                             InstrumentAbstraction.DCPower.InitializeAndClose.Close(tsmContext, resetDevice);
@@ -73,7 +69,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             InstrumentAbstraction.Sync.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
                         default:
-                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Cleanup_InvalidInstrumentType, instrumentType));
+                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Cleanup_InvalidInstrumentType, type));
                     }
                 }
             }
@@ -88,6 +84,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// </summary>
         public enum NIInstrumentType
         {
+            /// <summary>
+            /// All NI instruments.
+            /// </summary>
+            All,
+
             /// <summary>
             /// An NI-DCPower instrument.
             /// </summary>

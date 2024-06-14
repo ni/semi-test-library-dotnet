@@ -19,12 +19,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="pinsOrPinGroups">The pins or pin groups to force DC voltage on.</param>
         /// <param name="currentLevel">The DC current level to force, in amperes.</param>
         /// <param name="voltageLimit">The voltage limit in volts.</param>
+        /// <param name="apertureTime">The measurement aperture time in seconds.</param>
         /// <param name="settlingTime">The amount of time to wait before continuing, in seconds.</param>
         public static void ForceCurrentMeasureVoltage(
             ISemiconductorModuleContext tsmContext,
             string[] pinsOrPinGroups,
             double currentLevel,
             double voltageLimit,
+            double apertureTime,
             double settlingTime = 0)
         {
             try
@@ -39,6 +41,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             var dcPower = sessionManager.DCPower(dcPowerPinsOrPinGroups);
                             var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
                             dcPower.ConfigureSourceDelay(settlingTime);
+                            dcPower.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = apertureTime });
                             dcPower.ForceCurrent(currentLevel, voltageLimit);
                             dcPower.MeasureAndPublishVoltage("Voltage", out _);
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
@@ -50,6 +53,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         if (digitalPinsOrPinGroups.Any())
                         {
                             var digital = sessionManager.Digital(digitalPinsOrPinGroups);
+                            digital.ConfigureApertureTime(apertureTime);
                             digital.ForceCurrent(currentLevel, voltageLimitLow: voltageLimit, voltageLimitHigh: voltageLimit);
                             PreciseWait(settlingTime);
                             digital.MeasureAndPublishVoltage("Voltage", out _);
