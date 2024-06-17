@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
@@ -14,7 +15,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// Closes any open instrument sessions associated with the pin map.
         /// If the <paramref name="resetDevice"/> input is set True, then the instrument will be reset before closing the session (default = False).
         /// The sessions will always be closed in parallel.
-        /// Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDAQmx, niDMM, niFGen, niScope, Sync.
+        /// By default, the <paramref name="instrumentType"/> input is set to All, which closes sessions for all instrument times in parallel.
+        /// This can be configured to target a specific instrument type, which can be useful for debugging purposes
+        /// and/or if there is a need to ensure sessions close sequentially (requiring multiple instances of this step).
+        /// Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDAQmx, niDMM, niScope, niFGen, and niSync.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to reset device during initialization.</param>
@@ -40,7 +44,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         NIInstrumentType.NISync
                     };
 
-                foreach (var type in instrumentTypes)
+                Parallel.ForEach(instrumentTypes, type =>
                 {
                     switch (type)
                     {
@@ -71,7 +75,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         default:
                             throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Cleanup_InvalidInstrumentType, type));
                     }
-                }
+                });
             }
             catch (Exception e)
             {

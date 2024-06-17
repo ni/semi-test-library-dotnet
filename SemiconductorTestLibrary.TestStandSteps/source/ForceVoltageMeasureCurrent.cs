@@ -14,6 +14,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <summary>
         /// Forces the specified DC voltage on all pins and/or pin groups specified, waits the specified amount of settling time,
         /// and then measures the current on those pins and publishes the results to TestStand. Both DCPower and Digital PPMU pins are supported.
+        /// Both the <paramref name="settlingTime"/> and <paramref name="apertureTime"/> inputs are expected to be provided in Seconds.
+        /// By default the <paramref name="apertureTime"/> input is set to -1, which will cause this input to be ignored
+        /// and the device will use any pre-configured aperture time set by a proceeding set, such as the Setup NI-DCPower Instrumentation step.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinsOrPinGroups">The pins or pin groups to force DC voltage on.</param>
@@ -26,8 +29,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             string[] pinsOrPinGroups,
             double voltageLevel,
             double currentLimit,
-            double apertureTime,
-            double settlingTime = 0)
+            double settlingTime = 0,
+            double apertureTime = -1)
         {
             try
             {
@@ -41,7 +44,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             var dcPower = sessionManager.DCPower(dcPowerPinsOrPinGroups);
                             var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
                             dcPower.ConfigureSourceDelay(settlingTime);
-                            dcPower.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = apertureTime });
+                            if (apertureTime != -1)
+                            {
+                                dcPower.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = apertureTime });
+                            }
                             dcPower.ForceVoltage(voltageLevel, currentLimit);
                             dcPower.MeasureAndPublishCurrent("Current", out _);
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
@@ -53,7 +59,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         if (digitalPinsOrPinGroups.Any())
                         {
                             var digital = sessionManager.Digital(digitalPinsOrPinGroups);
-                            digital.ConfigureApertureTime(apertureTime);
+                            if (apertureTime != -1)
+                            {
+                                digital.ConfigureApertureTime(apertureTime);
+                            }
                             digital.ForceVoltage(voltageLevel, currentLimit);
                             PreciseWait(settlingTime);
                             digital.MeasureAndPublishCurrent("Current", out _);
