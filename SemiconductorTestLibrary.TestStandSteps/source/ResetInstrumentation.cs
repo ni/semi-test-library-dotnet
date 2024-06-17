@@ -36,8 +36,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         NIInstrumentType.NIDCPower,
                         NIInstrumentType.NIDigitalPattern,
                         NIInstrumentType.NIRelayDriver,
-                        NIInstrumentType.NIDmm,
-                        NIInstrumentType.NIFgen,
+                        NIInstrumentType.NIDMM,
+                        NIInstrumentType.NIFGen,
                         NIInstrumentType.NIScope,
                         NIInstrumentType.NISync
                     };
@@ -55,10 +55,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         case NIInstrumentType.NIRelayDriver:
                             InstrumentAbstraction.Relay.InitializeAndClose.Reset(tsmContext);
                             break;
-                        case NIInstrumentType.NIDmm:
+                        case NIInstrumentType.NIDMM:
                             InstrumentAbstraction.DMM.InitializeAndClose.Reset(tsmContext);
                             break;
-                        case NIInstrumentType.NIFgen:
+                        case NIInstrumentType.NIFGen:
                             InstrumentAbstraction.Fgen.InitializeAndClose.Reset(tsmContext, resetDevice);
                             break;
                         case NIInstrumentType.NIScope:
