@@ -21,7 +21,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to perform a hard reset on the device.</param>
-        /// <param name="instrumentType">The types of instrument(s) to reset.</param>
+        /// <param name="instrumentType">The type of instrument to reset.</param>
         public static void ResetInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,

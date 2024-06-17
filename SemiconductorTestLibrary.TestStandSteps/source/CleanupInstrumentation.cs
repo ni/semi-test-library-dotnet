@@ -22,7 +22,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to reset device during initialization.</param>
-        /// <param name="instrumentType">The types of instrument(s) to close.</param>
+        /// <param name="instrumentType">The type of instrument to close.</param>
         public static void CleanupInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,
