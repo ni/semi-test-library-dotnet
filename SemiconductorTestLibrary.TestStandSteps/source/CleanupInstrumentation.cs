@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
@@ -14,73 +15,123 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// Closes any open instrument sessions associated with the pin map.
         /// If the <paramref name="resetDevice"/> input is set True, then the instrument will be reset before closing the session (default = False).
         /// The sessions will always be closed in parallel.
-        /// Optionally, if the <paramref name="instrumentTypes"/> array input is populated, and not left empty (default),
-        /// one or more instrument types can specifically be targeted to be closed, which can be useful for debugging purposes
-        /// and/or if there is a need to ensure sessions close sequentially.
-        /// Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDAQmx, niDMM, niFGen, niScope, Sync.
-        /// Note the string value matches what's defined by the TSM <see cref="InstrumentTypeIdConstants"/>, plus ones we define like Sync.
+        /// By default, the <paramref name="instrumentType"/> input is set to All, which closes sessions for all instrument types in parallel.
+        /// This can be configured to target a specific instrument type, which can be useful for debugging purposes
+        /// and/or if there is a need to ensure sessions are closed sequentially (requiring multiple instances of this step).
+        /// Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDAQmx, niDMM, niScope, niFGen, and niSync.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to reset device during initialization.</param>
-        /// <param name="instrumentTypes">The types of instruments to close.</param>
+        /// <param name="instrumentType">The type of instrument to close.</param>
         public static void CleanupInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,
-            string[] instrumentTypes = null)
+            NIInstrumentType instrumentType = NIInstrumentType.All)
         {
             try
             {
-                if (instrumentTypes is null)
-                {
-                    instrumentTypes = new string[]
+                var instrumentTypes = instrumentType != NIInstrumentType.All
+                    ? new NIInstrumentType[] { instrumentType }
+                    : new NIInstrumentType[]
                     {
-                        InstrumentTypeIdConstants.NIDCPower,
-                        InstrumentTypeIdConstants.NIDigitalPattern,
-                        InstrumentTypeIdConstants.NIRelayDriver,
-                        InstrumentTypeIdConstants.NIDAQmx,
-                        InstrumentTypeIdConstants.NIDmm,
-                        InstrumentTypeIdConstants.NIFgen,
-                        InstrumentTypeIdConstants.NIScope,
-                        InstrumentAbstraction.Sync.InitializeAndClose.NISyncInstrumentTypeId
+                        NIInstrumentType.NIDCPower,
+                        NIInstrumentType.NIDigitalPattern,
+                        NIInstrumentType.NIRelayDriver,
+                        NIInstrumentType.NIDAQmx,
+                        NIInstrumentType.NIDMM,
+                        NIInstrumentType.NIFGen,
+                        NIInstrumentType.NIScope,
+                        NIInstrumentType.NISync
                     };
-                }
-                foreach (var instrumentType in instrumentTypes)
+
+                Parallel.ForEach(instrumentTypes, type =>
                 {
-                    switch (instrumentType)
+                    switch (type)
                     {
-                        case InstrumentTypeIdConstants.NIDCPower:
+                        case NIInstrumentType.NIDCPower:
                             InstrumentAbstraction.DCPower.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIDigitalPattern:
+                        case NIInstrumentType.NIDigitalPattern:
                             InstrumentAbstraction.Digital.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIRelayDriver:
+                        case NIInstrumentType.NIRelayDriver:
                             InstrumentAbstraction.Relay.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIDAQmx:
+                        case NIInstrumentType.NIDAQmx:
                             InstrumentAbstraction.DAQmx.InitializeAndClose.ClearAllDAQmxTasks(tsmContext);
                             break;
-                        case InstrumentTypeIdConstants.NIDmm:
+                        case NIInstrumentType.NIDMM:
                             InstrumentAbstraction.DMM.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIFgen:
+                        case NIInstrumentType.NIFGen:
                             InstrumentAbstraction.Fgen.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentTypeIdConstants.NIScope:
+                        case NIInstrumentType.NIScope:
                             InstrumentAbstraction.Scope.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case InstrumentAbstraction.Sync.InitializeAndClose.NISyncInstrumentTypeId:
+                        case NIInstrumentType.NISync:
                             InstrumentAbstraction.Sync.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
                         default:
-                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Cleanup_InvalidInstrumentType, instrumentType));
+                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Cleanup_InvalidInstrumentType, type));
                     }
-                }
+                });
             }
             catch (Exception e)
             {
                 NISemiconductorTestException.Throw(e);
             }
+        }
+
+        /// <summary>
+        /// Defines NI instrument types the NI Semiconductor Test Library supports.
+        /// </summary>
+        public enum NIInstrumentType
+        {
+            /// <summary>
+            /// All NI instruments.
+            /// </summary>
+            All,
+
+            /// <summary>
+            /// An NI-DCPower instrument.
+            /// </summary>
+            NIDCPower,
+
+            /// <summary>
+            /// An NI-Digital Pattern instrument.
+            /// </summary>
+            NIDigitalPattern,
+
+            /// <summary>
+            /// A relay driver module (NI-SWITCH instrument).
+            /// </summary>
+            NIRelayDriver,
+
+            /// <summary>
+            /// An NI-DAQmx task.
+            /// </summary>
+            NIDAQmx,
+
+            /// <summary>
+            /// An NI-DMM instrument.
+            /// </summary>
+            NIDMM,
+
+            /// <summary>
+            /// An NI-FGEN instrument.
+            /// </summary>
+            NIFGen,
+
+            /// <summary>
+            /// An NI-SCOPE instrument.
+            /// </summary>
+            NIScope,
+
+            /// <summary>
+            /// An NI-Sync instrument.
+            /// </summary>
+            NISync
         }
     }
 }
