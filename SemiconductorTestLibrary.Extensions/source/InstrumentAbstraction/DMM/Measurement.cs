@@ -37,13 +37,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete in milliseconds.</param>
+        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
         /// <returns>The measurement results in per-instrument format.</returns>
-        public static double[] FetchAndPublish(this DMMSessionsBundle sessionsBundle, double maximumTimeInMilliseconds)
+        public static double[] FetchAndPublish(this DMMSessionsBundle sessionsBundle, double maximumTimeInMilliseconds, string publishedDataId = "")
         {
-            return sessionsBundle.DoAndPublishResults(sessionInfo =>
-            {
-                return sessionInfo.Session.Measurement.Fetch(PrecisionTimeSpan.FromMilliseconds(maximumTimeInMilliseconds));
-            });
+            return sessionsBundle.DoAndPublishResults(
+                sessionInfo =>
+                {
+                    return sessionInfo.Session.Measurement.Fetch(PrecisionTimeSpan.FromMilliseconds(maximumTimeInMilliseconds));
+                },
+                publishedDataId);
         }
 
         /// <summary>
@@ -80,13 +83,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete in milliseconds.</param>
+        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
         /// <returns>The measurement results in per-instrument format.</returns>
-        public static double[] ReadAndPublish(this DMMSessionsBundle sessionsBundle, double maximumTimeInMilliseconds)
+        public static double[] ReadAndPublish(this DMMSessionsBundle sessionsBundle, double maximumTimeInMilliseconds, string publishedDataId = "")
         {
-            return sessionsBundle.DoAndPublishResults(sessionInfo =>
-            {
-                return sessionInfo.Session.Measurement.Read(PrecisionTimeSpan.FromMilliseconds(maximumTimeInMilliseconds));
-            });
+            return sessionsBundle.DoAndPublishResults(
+                sessionInfo =>
+                {
+                    return sessionInfo.Session.Measurement.Read(PrecisionTimeSpan.FromMilliseconds(maximumTimeInMilliseconds));
+                },
+                publishedDataId);
         }
 
         /// <summary>
