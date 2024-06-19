@@ -65,6 +65,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         }
                     });
 
+                var originalSourceDelays = dcPower?.GetSourceDelayInSeconds();
+                var dcPowerMeasureSettings = new DCPowerMeasureSettings() { ApertureTime = apertureTime };
                 // Source specified voltage either sequentially or in parallel according to <paramref name="serialOperationEnabled"/>.
                 if (serialOperationEnabled)
                 {
@@ -74,16 +76,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         if (dcPowerPins.Any())
                         {
                             var dcPowerPerPinOrPinGroup = sessionManager.DCPower(dcPowerPins);
-                            var originalSourceDelays = dcPowerPerPinOrPinGroup.GetSourceDelayInSeconds();
                             dcPowerPerPinOrPinGroup.ConfigureSourceDelay(settlingTime);
+                            dcPowerPerPinOrPinGroup.ConfigureMeasureSettings(dcPowerMeasureSettings);
                             dcPowerPerPinOrPinGroup.ForceVoltage(voltageLevel, currentLimit);
-                            dcPowerPerPinOrPinGroup.ConfigureSourceDelay(originalSourceDelays);
                         }
 
                         var digitalPins = tsmContext.FilterPinsByInstrumentType(new string[] { pinOrPinGroup }, InstrumentTypeIdConstants.NIDigitalPattern);
                         if (digitalPins.Any())
                         {
                             var digitalPerPinOrPinGroup = sessionManager.Digital(digitalPins);
+                            digitalPerPinOrPinGroup.ConfigureApertureTime(apertureTime);
                             digitalPerPinOrPinGroup.ForceVoltage(voltageLevel, currentLimit);
                             PreciseWait(settlingTime);
                         }
@@ -96,16 +98,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         {
                             if (dcPower != null)
                             {
-                                var originalSourceDelays = dcPower?.GetSourceDelayInSeconds();
                                 dcPower.ConfigureSourceDelay(settlingTime);
+                                dcPower.ConfigureMeasureSettings(dcPowerMeasureSettings);
                                 dcPower.ForceVoltage(voltageLevel, currentLimit);
-                                dcPower.ConfigureSourceDelay(originalSourceDelays);
                             }
                         },
                         () =>
                         {
                             if (digital != null)
                             {
+                                digital.ConfigureApertureTime(apertureTime);
                                 digital.ForceVoltage(voltageLevel, currentLimit);
                                 PreciseWait(settlingTime);
                             }
@@ -116,15 +118,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 InvokeInParallel(
                     () =>
                     {
-                        var dcPowerMeasureSettings = new DCPowerMeasureSettings() { ApertureTime = apertureTime };
-                        dcPower?.ConfigureMeasureSettings(dcPowerMeasureSettings);
                         dcPower?.MeasureAndPublishCurrent("Leakage", out _);
                     },
                     () =>
                     {
-                        digital?.ConfigureApertureTime(apertureTime);
                         digital?.MeasureAndPublishCurrent("Leakage", out _);
                     });
+
+                dcPower?.ConfigureSourceDelay(originalSourceDelays);
             }
             catch (Exception e)
             {

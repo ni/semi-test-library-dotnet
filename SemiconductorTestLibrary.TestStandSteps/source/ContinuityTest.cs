@@ -4,6 +4,7 @@ using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -71,16 +72,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             dcPower.ForceVoltage(BuildDCPowerSourceSettings(supplyPins, supplyPinIndexes, currentLimitsPerSupplyPinOrPinGroup));
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
                         }
-                    },
-                    () =>
-                    {
+
                         tsmContext.FilterPinsOrPinGroups(continuityPinsOrPinGroups, InstrumentTypeIdConstants.NIDCPower, out var continuityPins, out var continuityPinIndexes, out var continuityPinsFlattened);
                         if (continuityPinsFlattened.Any())
                         {
                             var dcPower = sessionManager.DCPower(continuityPinsFlattened);
                             var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
                             dcPower.ConfigureSourceDelay(settlingTime);
-                            dcPower.ForceVoltage(BuildDCPowerSourceSettings(continuityPins, continuityPinIndexes, currentLevelPerContinuityPinOrPinGroup));
+                            dcPower.ForceVoltage(0);
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
                         }
                     },
@@ -93,14 +92,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             digital.ForceVoltage(BuildPPMUSettings(supplyPins, supplyPinIndexes, currentLimitsPerSupplyPinOrPinGroup));
                             PreciseWait(settlingTime);
                         }
-                    },
-                    () =>
-                    {
+
                         tsmContext.FilterPinsOrPinGroups(continuityPinsOrPinGroups, InstrumentTypeIdConstants.NIDigitalPattern, out var continuityPins, out var continuityPinIndexes, out var continuityPinsFlattened);
                         if (continuityPinsFlattened.Any())
                         {
                             var digital = sessionManager.Digital(continuityPinsFlattened);
-                            digital.ForceVoltage(BuildPPMUSettings(continuityPins, continuityPinIndexes, currentLevelPerContinuityPinOrPinGroup));
+                            digital.ForceVoltage(0);
                             PreciseWait(settlingTime);
                         }
                     });
@@ -113,6 +110,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                     var dcPowerContinuityPin = sessionManager.DCPower(dcPowerContinuityPins[i]);
                     int translatedIndex = dcPowerContinuityPinIndexes[i];
                     var originalSourceDelays = dcPowerContinuityPin.GetSourceDelayInSeconds();
+                    var originalVoltageLimitRange = dcPowerContinuityPin.GetVoltageLimitRange();
                     dcPowerContinuityPin.ConfigureSourceDelay(settlingTime);
                     dcPowerContinuityPin.ConfigureMeasureSettings(dcPowerMeasureSettings);
                     dcPowerContinuityPin.ForceCurrentAsymmetricLimit(
@@ -120,6 +118,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         voltageLimitHighPerContinuityPinOrPinGroup[translatedIndex],
                         voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex]);
                     dcPowerContinuityPin.MeasureAndPublishVoltage("Continuity", out _);
+                    dcPowerContinuityPin.ConfigureVoltageLimitRange(originalVoltageLimitRange);
                     dcPowerContinuityPin.ForceVoltage(0);
                     dcPowerContinuityPin.ConfigureSourceDelay(originalSourceDelays);
                 }
@@ -163,6 +162,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 }
             }
             pinsFlattened = pins.SelectMany(x => x).ToArray();
+        }
+
+        private static PinSiteData<double> GetVoltageLimitRange(this DCPowerSessionsBundle dcPower)
+        {
+            return dcPower.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) => sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Current.VoltageLimitRange);
+        }
+
+        private static void ConfigureVoltageLimitRange(this DCPowerSessionsBundle dcPower, PinSiteData<double> voltageLimitRange)
+        {
+            dcPower.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Current.VoltageLimitRange = voltageLimitRange.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName);
+            });
         }
 
         private static IDictionary<string, DCPowerSourceSettings> BuildDCPowerSourceSettings(IList<string[]> pins, IList<int> pinIndexes, double[] currentLimits)
