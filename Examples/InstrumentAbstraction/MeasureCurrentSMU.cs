@@ -32,7 +32,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             var measurements = smuPins.MeasureAndPublishCurrent(publishDataID);
         }
 
-        internal static void MeasureCurrentDoMathThePublishSmu(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        internal static void MeasureCurrentDoMathThenPublishSmu(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var smuPins = sessionManager.DCPower(smuPinNames);

@@ -22,22 +22,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             var dmmPins = sessionManager.DMM(dmmPinNames);
 
             dmmPins.ConfigureMeasurementDigits(DmmMeasurementFunction.DCVolts, range: 0.02, resolutionDigits: 7.5);
-            PinSiteData<double> measurments = dmmPins.Read(10);
+            PinSiteData<double> measurements = dmmPins.Read(10);
         }
 
-        internal static void SinglePointSinglePinMeasureDCVoltageWrtieResultsToDebugDMM(ISemiconductorModuleContext tsmContext, string dmmPinName)
+        internal static void SinglePointSinglePinMeasureDCVoltageWriteResultsToDebugDMM(ISemiconductorModuleContext tsmContext, string dmmPinName)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var dmmPin = sessionManager.DMM(dmmPinName);
 
             dmmPin.ConfigureMeasurementDigits(DmmMeasurementFunction.DCVolts, range: 0.02, resolutionDigits: 5.5);
-            PinSiteData<double> measurments = dmmPin.Read(10);
+            PinSiteData<double> measurements = dmmPin.Read(10);
 
             // Print to debug console.
             Debug.WriteLine($"DMM Measurement Results for {dmmPinName}:");
             foreach (int site in tsmContext.SiteNumbers)
             {
-                Debug.WriteLine($"Site{site}: {measurments.GetValue(site, dmmPinName)}");
+                Debug.WriteLine($"Site{site}: {measurements.GetValue(site, dmmPinName)}");
             }
         }
 
@@ -49,8 +49,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             dmmPins.ConfigureMeasurementDigits(DmmMeasurementFunction.DCVolts, range: 0.02, resolutionDigits: 5.5);
             dmmPins.ConfigureAutoZero(DmmAuto.Off);
             dmmPins.ConfigureADCCalibration(DmmAdcCalibration.Off);
-            PinSiteData<double> measurments = dmmPins.Read(2);
-            tsmContext.PublishResults(measurments, "dmmMeasurment");
+            PinSiteData<double> measurements = dmmPins.Read(2);
+            tsmContext.PublishResults(measurements, "dmmMeasurment");
         }
     }
 }

@@ -19,11 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
         private static readonly string[] _pinNames = new string[] { "PinA", "PinB", "PinC" };
         private static double[] GenerateRandomPerSiteData()
         {
-            return Enumerable
-                .Range(0, _siteCount)
-                .Select(x => x * _randomNumber
-                .NextDouble())
-                .ToArray();
+            return Enumerable.Range(0, _siteCount).Select(x => x * _randomNumber.NextDouble()).ToArray();
         }
         private static PinSiteData<double> Measure()
         {
@@ -59,7 +55,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             PinSiteData<double> measurementBTruncated = measurementB.Truncate();
         }
 
-        internal static void SiteDataMethods()
+        internal static void PinSiteDataMethods()
         {
             PinSiteData<double> measurementsForPinsABandC = Measure();
 

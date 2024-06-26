@@ -26,18 +26,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             tsmContext.PublishResults(failCount, "FailCount");
         }
 
-        internal static void BurstPatternWithDyanmicSourceCapture(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName, uint[] srcwaveformData)
+        internal static void BurstPatternWithDynamicSourceCapture(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName, uint[] sourceWaveformData)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var patternPins = sessionManager.Digital(patternPinNames);
 
-            patternPins.WriteSourceWaveformBroadcast(sourceWaveformName, srcwaveformData);
+            patternPins.WriteSourceWaveformBroadcast(sourceWaveformName, sourceWaveformData);
 
             patternPins.BurstPattern(patternName);
             SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, -1);
         }
 
-        internal static void BurstPatternWithDyanmicSourceCaptureSiteUnique(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName)
+        internal static void BurstPatternWithDynamicSourceCaptureSiteUnique(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var patternPins = sessionManager.Digital(patternPinNames);
@@ -57,7 +57,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, -1);
         }
 
-        internal static void BurstPatternWithDyanmicSourceCaptureSiteUniqueSeperateContexts(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName)
+        internal static void BurstPatternWithDynamicSourceCaptureSiteUniqueSeperateContexts(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var patternPins = sessionManager.Digital(patternPinNames);
@@ -70,12 +70,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
                 new uint[] { 255, 77, 31 }, // Site 3 Samples
             });
 
-            var siteContexts = tsmContext.GetSiteSemiconductorModuleContexts();
-
-            for (int i = 0; i < siteContexts.Length; i++)
+            foreach (var siteContext in tsmContext.GetSiteSemiconductorModuleContexts())
             {
-                var currentSite = siteContexts[i].SiteNumbers.First();
-                var singleSiteSessionManager = new TSMSessionManager(siteContexts[i]);
+                var currentSite = siteContext.SiteNumbers.First();
+                var singleSiteSessionManager = new TSMSessionManager(siteContext);
                 var singleSitePatternPins = singleSiteSessionManager.Digital(patternPinNames);
 
                 singleSitePatternPins.WriteSourceWaveformSiteUnique(sourceWaveformName, siteUniqueSrcWfmData);

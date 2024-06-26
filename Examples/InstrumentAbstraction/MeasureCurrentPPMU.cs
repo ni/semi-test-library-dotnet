@@ -32,7 +32,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             var measurements = ppmuPins.MeasureAndPublishCurrent(publishDataID);
         }
 
-        internal static void MeasureCurrentDoMathThePublishPpmu(ISemiconductorModuleContext tsmContext, string[] ppmuPinNames)
+        internal static void MeasureCurrentDoMathThenPublishPpmu(ISemiconductorModuleContext tsmContext, string[] ppmuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var ppmuPins = sessionManager.Digital(ppmuPinNames);
