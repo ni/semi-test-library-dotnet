@@ -31,9 +31,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             var sessionManager = new TSMSessionManager(tsmContext);
             var ppmuPins = sessionManager.Digital(pinNames);
 
-            var pinASettings = new PPMUForcingSettings { VoltageLevel = 1.0, CurrentLimitRange = 0.09 };
-            var pinBSettings = new PPMUForcingSettings { VoltageLevel = 3.3, CurrentLimitRange = 0.01 };
-            var smuSettings = new Dictionary<string, PPMUForcingSettings>()
+            var pinASettings = new PPMUSettings { VoltageLevel = 1.0, CurrentLimitRange = 0.09 };
+            var pinBSettings = new PPMUSettings { VoltageLevel = 3.3, CurrentLimitRange = 0.01 };
+            var smuSettings = new Dictionary<string, PPMUSettings>()
             {
                 [pinNames[0]] = pinASettings,
                 [pinNames[1]] = pinBSettings,
@@ -64,19 +64,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             var sessionManager = new TSMSessionManager(tsmContext);
             var ppmuPins = sessionManager.Digital(pinNames);
 
-            var pinASettings = new PPMUForcingSettings
+            var pinASettings = new PPMUSettings
             {
                 VoltageLevel = 0.01,
                 CurrentLimitRange = 1,
                 OutputFunction = PpmuOutputFunction.DCCurrent
             };
-            var pinBSettings = new PPMUForcingSettings
+            var pinBSettings = new PPMUSettings
             {
                 VoltageLevel = 3.3,
                 CurrentLimitRange = 0.01,
                 OutputFunction = PpmuOutputFunction.DCVoltage,
             };
-            var ppmuSettings = new Dictionary<string, PPMUForcingSettings>()
+            var ppmuSettings = new Dictionary<string, PPMUSettings>()
             {
                 [pinNames[0]] = pinASettings,
                 [pinNames[1]] = pinBSettings,
