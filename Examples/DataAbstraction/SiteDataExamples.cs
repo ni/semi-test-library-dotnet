@@ -18,11 +18,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
         private static SiteData<double> PerSiteMeasure()
         {
             return new SiteData<double>(
-                Enumerable
-                .Range(0, _siteCount)
-                .Select(x => x * _randomNumber
-                .NextDouble())
-                .ToArray());
+                Enumerable.Range(0, _siteCount).Select(x => x * _randomNumber.NextDouble()).ToArray());
         }
 
         internal static void SiteDataMath()
