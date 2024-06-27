@@ -49,8 +49,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
         internal static void OutputAnalogToOutputPureToneAoFgen(ISemiconductorModuleContext tsmContext, string[] aoPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
+
             // Assumes all aoPinNames passed in are mapped to DAQmx channels of task type: "AO" in Pin Map.
             var aoPins = sessionManager.DAQmx(aoPinNames);
+
             // Assumes the aoPinNames passed in also have a complementary pin defined in the pin map with the same name,
             // but using a suffix of "_AOFgen". These complementary pins are mapped to the same DAQmx channels,
             // but of task type: "AOFGEN".
@@ -60,8 +62,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
 
             // Configure and start AO Generation.
             aoPins.WriteAnalogSingleSample(voltageLevel, autoStart: true);
+
             // Wait 2 seconds, then stop generation.
             Utilities.PreciseWait(2);
+
             // Switch from AO to AOFGen on same instrument channels.
             // The AO tasks must first be stopped, then the hardware must be unreserved.
             aoPins.Stop();
@@ -75,10 +79,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
                 Amplitude = voltageLevel,
                 Offset = 0,
             });
+
             // Start AOFGen Generation.
             aoFGenPins.StartAOFunctionGeneration();
+
             // Wait 2 seconds, then stop generation.
             Utilities.PreciseWait(2);
+
             // To switch back to AO to AOFGen on same instrument channels.
             // the AO tasks must again be stopped, and the hardware must be unreserved.
             aoFGenPins.Stop();

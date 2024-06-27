@@ -13,13 +13,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
     internal static class SiteDataExamples
     {
         // Generate Random Values
-        private static readonly Random _randomNumber = new Random();
-        private static readonly int _siteCount = 4;
-        private static SiteData<double> PerSiteMeasure()
-        {
-            return new SiteData<double>(
-                Enumerable.Range(0, _siteCount).Select(x => x * _randomNumber.NextDouble()).ToArray());
-        }
+        private static readonly Random RandomNumber = new Random();
+        private static readonly int SiteCount = 4;
 
         internal static void SiteDataMath()
         {
@@ -51,6 +46,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
 
             int[] sitesMeasured = measurementA.SiteNumbers;
             double site0Value = measurementA.GetValue(siteNumber: 0);
+        }
+
+        private static SiteData<double> PerSiteMeasure()
+        {
+            return new SiteData<double>(
+                Enumerable.Range(0, SiteCount).Select(x => x * RandomNumber.NextDouble()).ToArray());
         }
     }
 }

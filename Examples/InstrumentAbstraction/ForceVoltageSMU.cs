@@ -56,6 +56,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
 
             var perSiteVoltageLevelsArray = tsmContext.GetSiteData<double>("PerSiteVoltagesToSource");
             var voltageLevelsSiteData = new SiteData<double>(perSiteVoltageLevelsArray);
+
             // This is a temporary implementation until ForceVoltage gets an override accepting
             // an input of type SiteData<double> similar to that of the PPMU.
             var voltageLevelsSiteDataArray = Enumerable.Repeat(voltageLevelsSiteData, pinNames.Length).ToArray();

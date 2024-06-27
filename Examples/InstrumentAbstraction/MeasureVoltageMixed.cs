@@ -16,8 +16,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
     /// </summary>
     internal static class MeasureVoltageMixed
     {
-        #region Mixed Examples
-
         internal static void SimpleMeasureAndPublishCurrentSmuOrPpmu(ISemiconductorModuleContext tsmContext, string[] pinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -39,7 +37,5 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
                     tsmContext.PublishResults(measurements, publishDataID);
                 });
         }
-
-        #endregion Mixed Examples
     }
 }

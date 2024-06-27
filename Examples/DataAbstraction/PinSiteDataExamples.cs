@@ -14,22 +14,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
     internal static class PinSiteDataExamples
     {
         // Generate Random Values
-        private static readonly Random _randomNumber = new Random();
-        private static readonly int _siteCount = 4;
-        private static readonly string[] _pinNames = new string[] { "PinA", "PinB", "PinC" };
-        private static double[] GenerateRandomPerSiteData()
-        {
-            return Enumerable.Range(0, _siteCount).Select(x => x * _randomNumber.NextDouble()).ToArray();
-        }
-        private static PinSiteData<double> Measure()
-        {
-            var siteDataArray = new SiteData<double>[_pinNames.Length];
-            for (int i = 0; i < _pinNames.Length; i++)
-            {
-                siteDataArray[i] = new SiteData<double>(GenerateRandomPerSiteData());
-            }
-            return new PinSiteData<double>(_pinNames, siteDataArray);
-        }
+        private static readonly Random RandomNumber = new Random();
+        private static readonly int SiteCount = 4;
+        private static readonly string[] PinNames = new string[] { "PinA", "PinB", "PinC" };
 
         internal static void PinSiteDataMath()
         {
@@ -66,6 +53,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             SiteData<double> justPinAMeasurments = measurementsForPinsABandC.ExtractPin(pinName: "PinA");
             string[] pinNamesToExtract = new string[] { "PinA", "PinB" };
             PinSiteData<double> subsetOfPinAandPinBMeasurments = measurementsForPinsABandC.ExtractPins(pinNamesToExtract);
+        }
+
+        private static double[] GenerateRandomPerSiteData()
+        {
+            return Enumerable.Range(0, SiteCount).Select(x => x * RandomNumber.NextDouble()).ToArray();
+        }
+
+        private static PinSiteData<double> Measure()
+        {
+            var siteDataArray = new SiteData<double>[PinNames.Length];
+            for (int i = 0; i < PinNames.Length; i++)
+            {
+                siteDataArray[i] = new SiteData<double>(GenerateRandomPerSiteData());
+            }
+
+            return new PinSiteData<double>(PinNames, siteDataArray);
         }
     }
 }

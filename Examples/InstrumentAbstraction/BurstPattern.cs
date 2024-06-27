@@ -61,6 +61,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var patternPins = sessionManager.Digital(patternPinNames);
+
             // Site unique data hard-coded for 4 sites for example purposes.
             var siteUniqueSrcWfmData = new SiteData<uint[]>(new uint[][]
             {
