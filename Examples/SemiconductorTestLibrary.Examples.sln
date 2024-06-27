@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemiconductorTestLibrary.Examples", "SemiconductorTestLibrary.Examples.csproj", "{598BDC39-108B-44D2-8386-F6AFDCD9341E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemiconductorTestLibrary.Extensions", "..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj", "{8868A872-ED0D-4516-B81B-9737B3F091BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{598BDC39-108B-44D2-8386-F6AFDCD9341E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{598BDC39-108B-44D2-8386-F6AFDCD9341E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{598BDC39-108B-44D2-8386-F6AFDCD9341E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8868A872-ED0D-4516-B81B-9737B3F091BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8868A872-ED0D-4516-B81B-9737B3F091BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8868A872-ED0D-4516-B81B-9737B3F091BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8868A872-ED0D-4516-B81B-9737B3F091BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

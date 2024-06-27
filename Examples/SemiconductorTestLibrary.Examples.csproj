@@ -21,8 +21,7 @@
     <IsPublishable>False</IsPublishable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary" Version="0.9.0" />
-    <PackageReference Include="NI.CSharp.Analyzers" Version="2.0.26" />
+    <ProjectReference Include="..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Ivi.Driver">
@@ -50,5 +49,8 @@
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+	<Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
+	  <HintPath>..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+	</Reference>
   </ItemGroup>
 </Project>
