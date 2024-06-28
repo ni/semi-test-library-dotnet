@@ -10,7 +10,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
     /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
     /// Specifically, how to measure current for pins mapped to Digital Pattern, using the instrument's PPMU function mode.
     /// This class, and it's methods are intended for example purposes only,
-    /// and are therefore intentionally marked as internal to prevent them from be directly invoked.
+    /// and are therefore intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
     /// </summary>
     internal static class MeasureCurrentPPMU
     {

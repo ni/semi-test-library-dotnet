@@ -11,7 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
     /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
     /// Specifically, how to perform analog output task operations for pins mapped to DAQmx instruments.
     /// This class, and it's methods are intended for example purposes only,
-    /// and are therefore intentionally marked as internal to prevent them from be directly invoked.
+    /// and are therefore intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
     /// </summary>
     internal static class AnalogOutputDAQmx
     {

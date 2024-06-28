@@ -8,7 +8,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
     /// This class contains examples of how to use the Data Abstraction extensions from the Semiconductor Test Library.
     /// Specifically, how to use the PinStieData objects.
     /// This class, and it's methods are intended for example purposes only,
-    /// and are therefore intentionally marked as internal to prevent them from be directly invoked.
+    /// and are therefore intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
     /// </summary>
     internal static class SiteDataExamples
     {
