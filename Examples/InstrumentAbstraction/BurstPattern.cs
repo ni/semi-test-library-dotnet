@@ -54,7 +54,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             patternPins.WriteSourceWaveformSiteUnique(sourceWaveformName, siteUniqueSrcWfmData);
             patternPins.BurstPattern(patternName);
 
-            SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, -1);
+            SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, samplesToRead: -1);
         }
 
         internal static void BurstPatternWithDynamicSourceCaptureSiteUniqueSeperateContexts(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName)
