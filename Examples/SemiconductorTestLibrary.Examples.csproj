@@ -21,6 +21,9 @@
     <IsPublishable>False</IsPublishable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
   </ItemGroup>
   <ItemGroup>
