@@ -11,6 +11,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
 {
     /// <summary>
     /// This class contains examples of how to use the Semiconductor Test Library to write test methods.
+    /// It is intended for example purposes only and are not meant to be ran standalone.
+    /// It assume a hypothetical test program with any dependent instrument sessions have already initiated and configured prior.
     /// </summary>
     public static class WorkFlowExamples
     {

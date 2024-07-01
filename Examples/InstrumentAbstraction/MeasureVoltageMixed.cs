@@ -11,8 +11,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
     /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
     /// Specifically, how to measure current on pins that could be mapped to a DCPower instrument, Digital Pattern Instrument, or both.
     /// Note that DCPower Instruments include both Source Measurement Units (SMUs) and Programmable Power Supplies (PPS) devices.
-    /// This class, and it's methods are intended for example purposes only,
-    /// and are therefore intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
+    /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
+    /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
+    /// with any dependent instrument sessions have already initiated and configured prior.
+    /// Additionally, they are intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
     /// </summary>
     internal static class MeasureVoltageMixed
     {

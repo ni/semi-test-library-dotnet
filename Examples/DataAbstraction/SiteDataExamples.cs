@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
 {
     /// <summary>
     /// This class contains examples of how to use the Data Abstraction extensions from the Semiconductor Test Library.
     /// Specifically, how to use the PinStieData objects.
-    /// This class, and it's methods are intended for example purposes only,
-    /// and are therefore intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
+    /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
+    /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
+    /// that has already been initiated and configured prior.
+    /// Additionally, they are intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
     /// </summary>
     internal static class SiteDataExamples
     {
@@ -48,7 +51,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             double site0Value = measurementA.GetValue(siteNumber: 0);
         }
 
-        private static SiteData<double> PerSiteMeasure()
+        /// <summary>
+        /// This method is just for example purposes to simulate a measurement result being collected.
+        /// </summary>
+        /// <returns>Simulated random measurement result</returns>
+        internal static SiteData<double> PerSiteMeasure()
         {
             return new SiteData<double>(
                 Enumerable.Range(0, SiteCount).Select(x => x * RandomNumber.NextDouble()).ToArray());

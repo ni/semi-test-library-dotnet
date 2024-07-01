@@ -8,8 +8,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
     /// <summary>
     /// This class contains examples of how to use the Data Abstraction extensions from the Semiconductor Test Library.
     /// Specifically, how to use the PinStieData objects.
-    /// This class, and it's methods are intended for example purposes only,
-    /// and are therefore intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
+    /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
+    /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
+    /// that has already been initiated and configured prior.
+    /// Additionally, they are intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
     /// </summary>
     internal static class PinSiteDataExamples
     {
@@ -55,12 +57,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             PinSiteData<double> subsetOfPinAandPinBMeasurments = measurementsForPinsABandC.ExtractPins(pinNamesToExtract);
         }
 
-        private static double[] GenerateRandomPerSiteData()
-        {
-            return Enumerable.Range(0, SiteCount).Select(x => x * RandomNumber.NextDouble()).ToArray();
-        }
-
-        private static PinSiteData<double> Measure()
+        /// <summary>
+        /// This method is just for example purposes to simulate a measurement result being collected.
+        /// </summary>
+        /// <returns>Simulated random measurement result</returns>
+        internal static PinSiteData<double> Measure()
         {
             var siteDataArray = new SiteData<double>[PinNames.Length];
             for (int i = 0; i < PinNames.Length; i++)
@@ -69,6 +70,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             }
 
             return new PinSiteData<double>(PinNames, siteDataArray);
+        }
+        private static double[] GenerateRandomPerSiteData()
+        {
+            return Enumerable.Range(0, SiteCount).Select(x => x * RandomNumber.NextDouble()).ToArray();
         }
     }
 }
