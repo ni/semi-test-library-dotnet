@@ -1,5 +1,6 @@
 ﻿using System;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -85,13 +86,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             dcPower.ConfigureSourceDelay(settlingTimeInSeconds);
             if (forceLowestCurrentLimit)
             {
+                var originalCurrentLimit = dcPower.GetCurrentLimits();
                 dcPower.ForceVoltage(voltageLevel: 0, currentLimit: 1e-7);
+                dcPower.ConfigureCurrentLimit(originalCurrentLimit);
             }
             else
             {
                 dcPower.ForceVoltage(voltageLevel: 0);
             }
             dcPower.ConfigureSourceDelay(originalSourceDelays);
+        }
+
+        private static void ConfigureCurrentLimit(this DCPowerSessionsBundle dcPower, PinSiteData<double> currentLimits)
+        {
+            dcPower.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.ConfigureCurrentLimit(currentLimits.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+            });
         }
     }
 }

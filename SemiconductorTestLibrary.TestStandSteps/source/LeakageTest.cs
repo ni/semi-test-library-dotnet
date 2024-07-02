@@ -101,6 +101,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                                 dcPower.ConfigureSourceDelay(settlingTime);
                                 dcPower.ConfigureMeasureSettings(dcPowerMeasureSettings);
                                 dcPower.ForceVoltage(voltageLevel, currentLimit);
+                                dcPower.WaitForEvent(EventType.SourceCompleteEvent);
                             }
                         },
                         () =>
