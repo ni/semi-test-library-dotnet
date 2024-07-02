@@ -24,25 +24,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             DCPowerSessionsBundle vdd = sessionmanager.DCPower(vddPinName);
             DigitalSessionsBundle sdo = sessionmanager.Digital(sdoPinName);
 
-            vdd.ForceVoltage(3.3, 0.1);
+            vdd.ForceVoltage(3.3, currentLimit: 0.1);
             sdo.WriteStatic(PinState._1);
 
-            vdd.MeasureAndPublishCurrent("VDD_Current");
-            sdo.MeasureAndPublishVoltage("SDO_Voltage");
+            vdd.MeasureAndPublishCurrent(publishedDataId: "VDD_Current");
+            sdo.MeasureAndPublishVoltage(publishedDataId: "SDO_Voltage");
 
             // Publish per-site per-pin current measurements
             PinSiteData<double> currentMeasurements = vdd.MeasureCurrent();
-            tsmContext.PublishResults(currentMeasurements, "VDD_Current");
+            tsmContext.PublishResults(currentMeasurements, publishedDataId: "VDD_Current");
 
             // Publish per site pass/fail count
             SiteData<bool> passFail = sdo.GetSitePassFail();
-            tsmContext.PublishResults(passFail, "SDO_PassFailCount");
+            tsmContext.PublishResults(passFail, publishedDataId: "SDO_PassFailCount");
 
             // Publish site number
             foreach (var site in tsmContext.SiteNumbers)
             {
                 var siteSpecificContext = tsmContext.GetSemiconductorModuleContextWithSites(new int[] { site });
-                siteSpecificContext.PublishSingleSiteResult(site, "SiteNumber");
+                siteSpecificContext.PublishSingleSiteResult(site, publishedDataId: "SiteNumber");
             }
         }
     }

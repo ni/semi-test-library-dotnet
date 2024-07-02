@@ -42,10 +42,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             var staticGain = 0.15;
 
             // Assumes that the SMU is already configured.
-            var measurements = ppmuPins.MeasureAndPublishCurrent("RawMeasurement");
+            var measurements = ppmuPins.MeasureAndPublishCurrent(publishedDataId: "RawMeasurement");
             var gainAndOffsetApplied = measurements.Add(staticGain).Multiply(staticOffset);
 
-            tsmContext.PublishResults(gainAndOffsetApplied, "MeasurementWithGainAndOffsetApplied");
+            tsmContext.PublishResults(gainAndOffsetApplied, publishedDataId: "MeasurementWithGainAndOffsetApplied");
         }
 
         internal static void MeasureCurrentTwoPinsPublishDifferencePpmu(ISemiconductorModuleContext tsmContext)

@@ -51,17 +51,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             // 4. Burst patterns, source and / or measuring the desired signals, and repeat as necessary to accomplish the test method.
             smuPins.ForceVoltage(voltageLevel, currentLimit);
             PreciseWait(settlingTime);
-            PinSiteData<double> currentBefore = smuPins.MeasureAndPublishCurrent("CurrentBefore");
+            PinSiteData<double> currentBefore = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentBefore");
             digitalPins.BurstPatternAndPublishResults(patternName, publishedDataId: patternResultsID);
             PreciseWait(settlingTime);
-            PinSiteData<double> currentAfter = smuPins.MeasureAndPublishCurrent("CurrentAfter");
+            PinSiteData<double> currentAfter = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentAfter");
 
             // 5. Publish any results collected.
             PinSiteData<double> currentDifference = currentBefore.Subtract(currentAfter).Abs();
-            tsmContext.PublishResults(currentDifference, "CurrentDifference");
+            tsmContext.PublishResults(currentDifference, publishedDataId: "CurrentDifference");
 
             // 6. Clean up relay configurations and place the instrument in a safe state, as it makes sense for any proceeding test.
-            smuPins.ForceVoltage(0, 0.001);
+            smuPins.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
             smuPins.ConfigureOutputEnabled(false);
             PreciseWait(settlingTime);
             tsmContext.ApplyRelayConfiguration(relayConfigurationCleanup, settlingTime);
@@ -104,10 +104,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             // 4. Burst patterns, source and / or measuring the desired signals, and repeat as necessary to accomplish the test method.
             smuPins.ForceVoltage(voltageLevel, currentLimit);
             PreciseWait(settlingTime);
-            PinSiteData<double> currentBefore = smuPins.MeasureAndPublishCurrent("CurrentBefore");
+            PinSiteData<double> currentBefore = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentBefore");
             digitalPins.BurstPatternAndPublishResults(patternName, publishedDataId: patternResultsID);
             PreciseWait(settlingTime);
-            PinSiteData<double> currentAfter = smuPins.MeasureAndPublishCurrent("CurrentAfter");
+            PinSiteData<double> currentAfter = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentAfter");
 
             // It is more efficient to invoke the following steps in parallel, as they are independent of each other.
             // This can be done using the InvokeInParallel() method
@@ -117,12 +117,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
                 {
                     // 5. Publish any results collected.
                     PinSiteData<double> currentDifference = currentBefore.Subtract(currentAfter).Abs();
-                    tsmContext.PublishResults(currentDifference, "CurrentDifference");
+                    tsmContext.PublishResults(currentDifference, publishedDataId: "CurrentDifference");
                 },
                 () =>
                 {
                     // 6. Clean up relay configurations and place the instrument in a safe state, as it makes sense for any proceeding test.
-                    smuPins.ForceVoltage(0, 0.001);
+                    smuPins.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
                     smuPins.ConfigureOutputEnabled(false);
                     PreciseWait(settlingTime);
                     tsmContext.ApplyRelayConfiguration(relayConfigurationCleanup, settlingTime);

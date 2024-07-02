@@ -24,7 +24,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             var dmmPins = sessionManager.DMM(dmmPinNames);
 
             dmmPins.ConfigureMeasurementDigits(DmmMeasurementFunction.DCVolts, range: 0.02, resolutionDigits: 7.5);
-            PinSiteData<double> measurements = dmmPins.Read(10);
+            PinSiteData<double> measurements = dmmPins.Read(maximumTimeInMilliseconds: 10);
         }
 
         internal static void SinglePointSinglePinMeasureDCVoltageWriteResultsToDebugDMM(ISemiconductorModuleContext tsmContext, string dmmPinName)
@@ -51,8 +51,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             dmmPins.ConfigureMeasurementDigits(DmmMeasurementFunction.DCVolts, range: 0.02, resolutionDigits: 5.5);
             dmmPins.ConfigureAutoZero(DmmAuto.Off);
             dmmPins.ConfigureADCCalibration(DmmAdcCalibration.Off);
-            PinSiteData<double> measurements = dmmPins.Read(2);
-            tsmContext.PublishResults(measurements, "dmmMeasurment");
+            PinSiteData<double> measurements = dmmPins.Read(maximumTimeInMilliseconds: 10);
+            tsmContext.PublishResults(measurements, publishedDataId: "dmmMeasurment");
         }
     }
 }

@@ -65,7 +65,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             var voltageLevelsSiteDataArray = Enumerable.Repeat(voltageLevelsSiteData, pinNames.Length).ToArray();
             var voltageLevelsPinSiteData = new PinSiteData<double>(pinNames, voltageLevelsSiteDataArray);
 
-            smuPins.ForceVoltage(voltageLevelsPinSiteData, 0.1);
+            smuPins.ForceVoltage(voltageLevelsPinSiteData, currentLimit: 0.1);
         }
 
         internal static void ConfigureDifferentModesDifferentValuesPerPinSmu(ISemiconductorModuleContext tsmContext)

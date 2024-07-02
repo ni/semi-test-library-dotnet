@@ -25,7 +25,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             patternPins.BurstPatternAndPublishResults(patternName);
 
             var failCount = patternPins.GetFailCount();
-            tsmContext.PublishResults(failCount, "FailCount");
+            tsmContext.PublishResults(failCount, publishedDataId: "FailCount");
         }
 
         internal static void BurstPatternWithDynamicSourceCapture(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName, uint[] sourceWaveformData)
@@ -36,7 +36,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             patternPins.WriteSourceWaveformBroadcast(sourceWaveformName, sourceWaveformData);
 
             patternPins.BurstPattern(patternName);
-            SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, -1);
+            SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, samplesToRead: -1);
         }
 
         internal static void BurstPatternWithDynamicSourceCaptureSiteUnique(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName)
@@ -83,7 +83,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
                 singleSitePatternPins.BurstPattern(patternName);
             }
 
-            SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, -1);
+            SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, samplesToRead: -1);
         }
     }
 }
