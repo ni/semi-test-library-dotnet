@@ -115,8 +115,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                     dcPowerContinuityPin.ForceCurrentAsymmetricLimit(
                         currentLevelPerContinuityPinOrPinGroup[translatedIndex],
                         voltageLimitHighPerContinuityPinOrPinGroup[translatedIndex],
-                        voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex]);
-                    dcPowerContinuityPin.WaitForEvent(EventType.SourceCompleteEvent);
+                        voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex],
+                        waitForSourceCompletion: true);
                     dcPowerContinuityPin.MeasureAndPublishVoltage("Continuity", out _);
                     dcPowerContinuityPin.ConfigureVoltageLimitRange(originalVoltageLimitRange);
                     dcPowerContinuityPin.ForceVoltage(0);
