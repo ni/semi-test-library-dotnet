@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
       <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <SpecificVersion>False</SpecificVersion>
