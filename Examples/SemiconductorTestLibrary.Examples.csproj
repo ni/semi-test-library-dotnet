@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+	<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <OutputPath>bin</OutputPath>
     <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -10,15 +10,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <RootNamespace>NationalInstruments.SemiconductorTestLibrary.Examples</RootNamespace>
     <AssemblyName>NationalInstruments.SemiconductorTestLibrary.Examples</AssemblyName>
-    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-    <NeutralLanguage>en</NeutralLanguage>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>True</Optimize>
-    <IsPublishable>False</IsPublishable>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <IsPublishable>False</IsPublishable>
+	<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
@@ -34,8 +26,9 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NationalInstruments.DAQmx">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies (64-bit)\Current\NationalInstruments.DAQmx.dll</HintPath>
+	  <SpecificVersion>False</SpecificVersion>
+	  <Private>False</Private>
+	  <HintPath>C:\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies (64-bit)\Current\NationalInstruments.DAQmx.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
       <SpecificVersion>False</SpecificVersion>
@@ -54,6 +47,7 @@
     </Reference>
 	<Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
 	  <HintPath>..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+	  <SpecificVersion>False</SpecificVersion>
 	</Reference>
   </ItemGroup>
 </Project>
