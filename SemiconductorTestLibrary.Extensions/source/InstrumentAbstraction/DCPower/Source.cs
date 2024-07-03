@@ -74,7 +74,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimit">The current limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null)
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// If this is not set to True, the source delay amount is not directly accounted for by this method and the WaitForEvent must manually be invoked in proceeding code.</param>
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
             var settings = new DCPowerSourceSettings()
             {
@@ -87,7 +89,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(settings);
+                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
             });
         }
 
@@ -99,7 +101,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimit">The current limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        internal static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null)
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// If this is not set to True, the source delay amount is not directly accounted for by this method and the WaitForEvent must manually be invoked in proceeding code.</param>
+        internal static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -112,7 +116,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString);
+                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
             });
         }
 
@@ -124,7 +128,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimit">The current limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null)
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// If this is not set to True, the source delay amount is not directly accounted for by this method and the WaitForEvent must manually be invoked in proceeding code.</param>
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -137,7 +143,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString);
+                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
             });
         }
 
@@ -146,14 +152,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
-        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings)
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// If this is not set to True, the source delay amount is not directly accounted for by this method and the WaitForEvent must manually be invoked in proceeding code.</param>
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perPinSettings = settings[sitePinInfo.PinName];
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
                 perPinSettings.LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
-                sessionInfo.Force(perPinSettings, sitePinInfo.IndividualChannelString);
+                sessionInfo.Force(perPinSettings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
             });
         }
 
@@ -166,7 +174,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimitLow">The current low limit to use.</param>
         /// <param name="voltageLevelRange">The voltage level range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
-        public static void ForceVoltageAsymmetricLimit(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, double currentLimitHigh, double currentLimitLow, double? voltageLevelRange = null, double? currentLimitRange = null)
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// If this is not set to True, the source delay amount is not directly accounted for by this method and the WaitForEvent must manually be invoked in proceeding code.</param>
+        public static void ForceVoltageAsymmetricLimit(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, double currentLimitHigh, double currentLimitLow, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
             var settings = new DCPowerSourceSettings()
             {
@@ -180,7 +190,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(settings);
+                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
             });
         }
 
@@ -192,7 +202,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="voltageLimit">The voltage limit to use.</param>
         /// <param name="currentLevelRange">The current level range to use.</param>
         /// <param name="voltageLimitRange">The voltage limit range to use.</param>
-        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, double currentLevel, double? voltageLimit = null, double? currentLevelRange = null, double? voltageLimitRange = null)
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// If this is not set to True, the source delay amount is not directly accounted for by this method and the WaitForEvent must manually be invoked in proceeding code.</param>
+        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, double currentLevel, double? voltageLimit = null, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)
         {
             var settings = new DCPowerSourceSettings()
             {
@@ -205,7 +217,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(settings);
+                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
             });
         }
 
@@ -214,14 +226,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
-        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings)
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// If this is not set to True, the source delay amount is not directly accounted for by this method and the WaitForEvent must manually be invoked in proceeding code.</param>
+        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perPinSettings = settings[sitePinInfo.PinName];
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
                 perPinSettings.LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
-                sessionInfo.Force(perPinSettings, sitePinInfo.IndividualChannelString);
+                sessionInfo.Force(perPinSettings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
             });
         }
 
@@ -234,7 +248,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="voltageLimitLow">The voltage low limit to use.</param>
         /// <param name="currentLevelRange">The current level range to use.</param>
         /// <param name="voltageLimitRange">The voltage limit range to use.</param>
-        public static void ForceCurrentAsymmetricLimit(this DCPowerSessionsBundle sessionsBundle, double currentLevel, double voltageLimitHigh, double voltageLimitLow, double? currentLevelRange = null, double? voltageLimitRange = null)
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// If this is not set to True, the source delay amount is not directly accounted for by this method and the WaitForEvent must manually be invoked in proceeding code.</param>
+        public static void ForceCurrentAsymmetricLimit(this DCPowerSessionsBundle sessionsBundle, double currentLevel, double voltageLimitHigh, double voltageLimitLow, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)
         {
             var settings = new DCPowerSourceSettings()
             {
@@ -248,7 +264,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(settings);
+                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
             });
         }
 
@@ -702,13 +718,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region private and internal methods
 
-        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
+        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "", bool waitForSourceCompletion = false)
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelString);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Initiate();
+            if (waitForSourceCompletion)
+            {
+                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(5.0));
+            }
         }
 
         internal static DCPowerOutput GetPrimaryOutput(this DCPowerSessionsBundle sessionsBundle, string triggerOrEventTypeName, out string terminalName)
