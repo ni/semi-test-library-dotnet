@@ -292,9 +292,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var results = sessionsBundle.MeasureTDROffsets();
 
-            Assert.Equal(2, results.Length);
-            Assert.Equal(2, results[0].Length);
-            Assert.Equal(2, results[1].Length);
+            Assert.Equal(2, results.PinNames.Length);
+            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(2, results.ExtractSite(0).Count);
+            Assert.Equal(2, results.ExtractSite(1).Count);
         }
 
         [Fact]
@@ -305,9 +306,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var results = sessionsBundle.MeasureTDROffsets();
 
-            Assert.Equal(2, results.Length);
-            Assert.Equal(3, results[0].Length);
-            Assert.Single(results[1]);
+            Assert.Equal(2, results.PinNames.Length);
+            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(2, results.ExtractSite(0).Count);
+            Assert.Equal(2, results.ExtractSite(1).Count);
         }
 
         [Fact]
@@ -316,10 +318,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var offsets = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
             {
-                ["C0"] = new Dictionary<int, double>() { [0] = 1e-8, [1] = 1.2e-8 },
-                ["C1"] = new Dictionary<int, double>() { [0] = 1.5e-8, [1] = 1.7e-8 }
+                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
+                },
+                ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
+                }
             });
             sessionsBundle.ApplyTDROffsets(offsets);
 
@@ -335,11 +345,89 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var offsets = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
             {
-                ["C0"] = new Dictionary<int, double>() { [0] = 1e-8, [1] = 1.2e-8 },
-                ["C1"] = new Dictionary<int, double>() { [0] = 1.5e-8, [1] = 1.7e-8 }
+                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
+                },
+                ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
+                }
             });
+            sessionsBundle.ApplyTDROffsets(offsets);
+
+            Assert.Equal(1e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").TdrOffset.TotalSeconds);
+            Assert.Equal(1.5e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
+            Assert.Equal(1.2e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
+            Assert.Equal(1.7e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_MeasureTDROffsetsPerInstrumentSession_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.MeasureTDROffsets(out var results);
+
+            Assert.Equal(2, results.Length);
+            Assert.Equal(2, results[0].Length);
+            Assert.Equal(2, results[1].Length);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_MeasureTDROffsetsPerInstrumentSession_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.MeasureTDROffsets(out var results);
+
+            Assert.Equal(2, results.Length);
+            Assert.Equal(3, results[0].Length);
+            Assert.Single(results[1]);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_ApplyPerInstrumentSessionTDROffsets_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8) },
+                new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) }
+            };
+            sessionsBundle.ApplyTDROffsets(offsets);
+
+            Assert.Equal(1e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").TdrOffset.TotalSeconds);
+            Assert.Equal(1.5e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
+            Assert.Equal(1.2e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
+            Assert.Equal(1.7e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_ApplyPerInstrumentSessionTDROffsets_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[1][]
+            {
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), // site0/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site0/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site1/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) // site1/C1
+                }
+            };
             sessionsBundle.ApplyTDROffsets(offsets);
 
             Assert.Equal(1e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").TdrOffset.TotalSeconds);
