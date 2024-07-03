@@ -6,6 +6,7 @@ on:
       - main
       - 'releases/**'
     paths:
+      - 'Examples/**'
       - 'SemiconductorTestLibrary.Abstractions/**'
       - 'SemiconductorTestLibrary.Extensions/**'
       - 'SemiconductorTestLibrary.TestStandSteps/**'
