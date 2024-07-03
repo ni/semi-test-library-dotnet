@@ -680,7 +680,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void AllChannelsMeasureOnDemand_ForceCurrentMeasureVoltage_ReturnsValues(string pinMapFileName)
+        public void AllChannelsMeasureOnDemand_ForceCurrentMeasureVoltage_AllChannelsMeasured(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -689,14 +689,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrent(currentLevel: 0.1, waitForSourceCompletion: true);
             var results = sessionsBundle.MeasureVoltage();
 
-            AssertResultsFilledOut(results);
+            AssertAllChannelsHaveResult(results);
         }
 
         [Theory]
         [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void OneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceCurrentMeasureVoltage_ReturnsValues(string pinMapFileName)
+        public void OneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceCurrentMeasureVoltage_AllChannelsMeasured(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -707,14 +707,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrent(currentLevel: 0.1, waitForSourceCompletion: true);
             var results = sessionsBundle.MeasureVoltage();
 
-            AssertResultsFilledOut(results);
+            AssertAllChannelsHaveResult(results);
         }
 
         [Theory]
         [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void AllChannelsMeasureAfterSourceComplete_ForceVoltageMeasureCurrent_ReturnsValues(string pinMapFileName)
+        public void AllChannelsMeasureAfterSourceComplete_ForceVoltageMeasureCurrent_AllChannelsMeasured(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -723,7 +723,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
             var results = sessionsBundle.MeasureCurrent();
 
-            AssertResultsFilledOut(results);
+            AssertAllChannelsHaveResult(results);
         }
 
         private int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
@@ -735,7 +735,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 .ToArray();
         }
 
-        private void AssertResultsFilledOut(PinSiteData<double> results)
+        private void AssertAllChannelsHaveResult(PinSiteData<double> results)
         {
             foreach (var siteNumber in results.SiteNumbers)
             {
