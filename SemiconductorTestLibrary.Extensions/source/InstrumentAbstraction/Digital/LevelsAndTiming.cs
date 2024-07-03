@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -245,29 +246,62 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Measures propagation delays through cables, connectors, and load boards using Time-Domain Reflectometry (TDR). You can optionally apply the offsets to the pins.
+        /// Measures propagation delays through cables, connectors, and load boards using Time-Domain Reflectometry (TDR).
+        /// You can optionally apply the offsets to the pins.
+        /// Use this method to measure per-site per-pin offsets.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="apply">Whether to apply the offsets to the pins.</param>
-        /// <returns>The measured TDR offsets.</returns>
-        public static Ivi.Driver.PrecisionTimeSpan[][] MeasureTDROffsets(this DigitalSessionsBundle sessionsBundle, bool apply = false)
+        public static PinSiteData<Ivi.Driver.PrecisionTimeSpan> MeasureTDROffsets(this DigitalSessionsBundle sessionsBundle, bool apply = false)
         {
-            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).Tdr(apply)[0];
+            });
+        }
+
+        /// <summary>
+        /// Measures propagation delays through cables, connectors, and load boards using Time-Domain Reflectometry (TDR).
+        /// You can optionally apply the offsets to the pins.
+        /// Use this method to measure per-instrument session per-pin offsets.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="offsets">The measured TDR offsets. Where the first dimension represents instrument sessions, and the second dimension represents pins.</param>
+        /// <param name="apply">Whether to apply the offsets to the pins.</param>
+        public static void MeasureTDROffsets(this DigitalSessionsBundle sessionsBundle, out Ivi.Driver.PrecisionTimeSpan[][] offsets, bool apply = false)
+        {
+            offsets = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
                 return sessionInfo.PinSet.Tdr(apply);
             });
         }
 
         /// <summary>
-        /// Applies the correction for propagation delay offsets to a digital pattern instrument. Use this method to apply per-site per-pin offsets.
+        /// Applies the correction for propagation delay offsets to a digital pattern instrument.
+        /// Use this method to apply per-site per-pin offsets.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="offsets">The per-site per-pin offsets to apply.</param>
-        public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, PinSiteData<double> offsets)
+        public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, PinSiteData<Ivi.Driver.PrecisionTimeSpan> offsets)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).ApplyTdrOffsets(new Ivi.Driver.PrecisionTimeSpan[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(offsets.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName)) });
+                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).ApplyTdrOffsets(new Ivi.Driver.PrecisionTimeSpan[] { offsets.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName) });
+            });
+        }
+
+        /// <summary>
+        /// Applies the correction for propagation delay offsets to a digital pattern instrument.
+        /// Use this method to apply per-instrument session per-pin offsets.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="offsets">Offsets to apply. Where the first dimension represents instrument sessions and the second dimension represents pins.</param>
+        public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, Ivi.Driver.PrecisionTimeSpan[][] offsets)
+        {
+            sessionsBundle.MeasureTDROffsets(out _);
+            sessionsBundle.Do((sessionInfo, index) =>
+            {
+                sessionInfo.PinSet.ApplyTdrOffsets(offsets[index]);
             });
         }
 
@@ -341,18 +375,35 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Saves TDR offsets to a file.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="perInstrumentPerChannelOffsets">The offsets to save.</param>
+        /// <param name="offsets">The per-site per-pin offsets to save.</param>
         /// <param name="filePath">The path of the file to save the offsets to.</param>
-        public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, Ivi.Driver.PrecisionTimeSpan[][] perInstrumentPerChannelOffsets, string filePath)
+        public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, PinSiteData<Ivi.Driver.PrecisionTimeSpan> offsets, string filePath)
         {
             using (var file = new StreamWriter(filePath))
             {
-                for (int instrumentIndex = 0; instrumentIndex < perInstrumentPerChannelOffsets.Length; instrumentIndex++)
+                foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList)
+                {
+                    file.WriteLine($"{sitePinInfo.SitePinString}:{sitePinInfo.IndividualChannelString}:{offsets.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName).ToDecimal()}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Saves TDR offsets to a file.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="offsets">The per-instrument session per-pin offsets to save. Where the first dimension represents instrument sessions and the second dimension represents pins.</param>
+        /// <param name="filePath">The path of the file to save the offsets to.</param>
+        public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, Ivi.Driver.PrecisionTimeSpan[][] offsets, string filePath)
+        {
+            using (var file = new StreamWriter(filePath))
+            {
+                for (int instrumentIndex = 0; instrumentIndex < offsets.Length; instrumentIndex++)
                 {
                     var sitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList;
                     for (int channelIndex = 0; channelIndex < sitePinList.Count; channelIndex++)
                     {
-                        file.WriteLine($"{sitePinList[channelIndex].SitePinString}: {perInstrumentPerChannelOffsets[instrumentIndex][channelIndex].ToDecimal()}");
+                        file.WriteLine($"{sitePinList[channelIndex].SitePinString}:{sitePinList[channelIndex].IndividualChannelString}:{offsets[instrumentIndex][channelIndex].ToDecimal()}");
                     }
                 }
             }
@@ -363,30 +414,101 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="filePath">The path of the file to load the offsets.</param>
-        /// <param name="throwOnMissingChannels">Whether to throw a message if the offset for any channel is missing.</param>
-        /// <returns>The loaded offsets.</returns>
-        public static PrecisionTimeSpan[][] LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, bool throwOnMissingChannels = true)
+        /// <param name="throwOnMissingChannels">Whether to throw an exception if the offset for any channel is missing.</param>
+        /// <returns>TDR offset values retrieved from the file.</returns>
+        /// <exception cref="ArgumentException">
+        /// This exception will be thrown if throwOnMissingChannels is true and an offset value was not found in the file for one or more of channels in the sessions bundle.
+        /// </exception>
+        public static PinSiteData<Ivi.Driver.PrecisionTimeSpan> LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, bool throwOnMissingChannels = true)
         {
-            var offsets = new Dictionary<string, PrecisionTimeSpan>();
+            var offsetsFromFile = new Dictionary<SitePinInfo, Ivi.Driver.PrecisionTimeSpan>();
+
+            using (var file = new StreamReader(filePath))
+            {
+                string[] contents = file.ReadLine().Split(':');
+                string sitePinString = contents[0];
+                string instrumentString = contents[1];
+                var tdrValue = Ivi.Driver.PrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[2].Trim(), CultureInfo.InvariantCulture));
+
+                // The following code is necessary since there is currently no SitePinInfo constructor that accepts the sitePinString & individualChannelString.
+                string pinName;
+                int siteNumber;
+                if (sitePinString.Contains("/"))
+                {
+                    string[] array = sitePinString.Split('/');
+                    siteNumber = int.Parse(array[0].Remove(0, 4), CultureInfo.InvariantCulture);
+                    pinName = array[1];
+                }
+                else
+                {
+                    siteNumber = -1;
+                    pinName = sitePinString;
+                }
+                SitePinInfo sitePinInfo = new SitePinInfo(siteNumber, pinName, contents[1]);
+
+                offsetsFromFile.Add(sitePinInfo, tdrValue);
+            }
+
+            var offsetsDict = new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>();
+            var missingChannels = new List<string>();
+            // Check if channels match what is in the current bundle.
+            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList)
+            {
+                var targetSitePinInfo = new SitePinInfo(sitePinInfo.SiteNumber, sitePinInfo.PinName, sitePinInfo.IndividualChannelString);
+                if (!offsetsFromFile.ContainsKey(targetSitePinInfo))
+                {
+                    missingChannels.Add($"{targetSitePinInfo.SitePinString}:{targetSitePinInfo.IndividualChannelString}");
+                    break;
+                }
+                if (offsetsDict.TryGetValue(sitePinInfo.PinName, out var perSitePinValues))
+                {
+                    perSitePinValues.Add(sitePinInfo.SiteNumber, offsetsFromFile[targetSitePinInfo]);
+                    break;
+                }
+                offsetsDict.Add(sitePinInfo.PinName, new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>());
+                offsetsDict[sitePinInfo.PinName].Add(sitePinInfo.SiteNumber, offsetsFromFile[targetSitePinInfo]);
+            }
+
+            if (throwOnMissingChannels && missingChannels.Count == 0)
+            {
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TDROffsetsMissing, filePath, string.Join(",", missingChannels)));
+            }
+
+            return new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(offsetsDict);
+        }
+
+        /// <summary>
+        /// Loads TDR offsets from a file.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="filePath">The path of the file to load the offsets.</param>
+        /// <param name="offsets">TDR offset values retrieved from the file. Where the first dimension represents instrument sessions and the second dimension represents pins.</param>
+        /// <param name="throwOnMissingChannels">Whether to throw a message if the offset for any channel is missing.</param>
+        /// <exception cref="ArgumentException">
+        /// This exception will be thrown if throwOnMissingChannels is true and an offset value was not found in the file for one or more of channels in the sessions bundle.
+        /// </exception>
+        public static void LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, out Ivi.Driver.PrecisionTimeSpan[][] offsets, bool throwOnMissingChannels = true)
+        {
+            var offsetsFromFile = new Dictionary<string, Ivi.Driver.PrecisionTimeSpan>();
             using (var file = new StreamReader(filePath))
             {
                 var contents = file.ReadLine().Split(':');
-                offsets.Add(contents[0], PrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[1].Trim(), CultureInfo.InvariantCulture)));
+                offsetsFromFile.Add(contents[0], Ivi.Driver.PrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[2].Trim(), CultureInfo.InvariantCulture)));
             }
 
             int instrumentCount = sessionsBundle.InstrumentSessions.Count();
-            var loadedOffsets = new PrecisionTimeSpan[instrumentCount][];
+            offsets = new Ivi.Driver.PrecisionTimeSpan[instrumentCount][];
             var missingChannels = new List<string>();
             for (int instrumentIndex = 0; instrumentIndex < instrumentCount; instrumentIndex++)
             {
                 var sitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList;
-                loadedOffsets[instrumentIndex] = new PrecisionTimeSpan[sitePinList.Count];
+                offsets[instrumentIndex] = new Ivi.Driver.PrecisionTimeSpan[sitePinList.Count];
                 for (int channelIndex = 0; channelIndex < sitePinList.Count; channelIndex++)
                 {
                     string sitePinString = sitePinList[channelIndex].SitePinString;
-                    if (offsets.TryGetValue(sitePinString, out var _))
+                    if (offsetsFromFile.TryGetValue(sitePinString, out var _))
                     {
-                        loadedOffsets[instrumentIndex][channelIndex] = offsets[sitePinString];
+                        offsets[instrumentIndex][channelIndex] = offsetsFromFile[sitePinString];
                     }
                     else
                     {
@@ -395,9 +517,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
             }
 
-            return throwOnMissingChannels && missingChannels.Count == 0
-                ? throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TDROffsetsMissing, filePath, string.Join(",", missingChannels)))
-                : loadedOffsets;
+            if (throwOnMissingChannels && missingChannels.Count == 0)
+            {
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TDROffsetsMissing, filePath, string.Join(",", missingChannels)));
+            }
         }
 
         #endregion utility methods
