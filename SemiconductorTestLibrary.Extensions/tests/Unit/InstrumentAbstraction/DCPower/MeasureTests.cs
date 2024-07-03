@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.Restricted;
@@ -675,13 +676,111 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(300, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Measurement.SamplesToAverage);
         }
 
-        private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void AllChannelsMeasureOnDemand_ForceCurrentMeasureVoltage_ReturnsValues(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+
+            sessionsBundle.ForceCurrent(currentLevel: 0.1);
+            var results = sessionsBundle.MeasureVoltage();
+
+            AssertResultsFilledOut(results);
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void OneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceCurrentMeasureVoltage_ReturnsValues(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            string channel0String = sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList[0].IndividualChannelString;
+            sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs[channel0String].Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+
+            sessionsBundle.ForceCurrent(currentLevel: 0.1);
+            var results = sessionsBundle.MeasureVoltage();
+
+            AssertResultsFilledOut(results);
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void AllChannelsMeasureAfterSourceComplete_ForceVoltageMeasureCurrent_ReturnsValues(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+
+            sessionsBundle.ForceVoltage(voltageLevel: 3.6);
+            var results = sessionsBundle.MeasureCurrent();
+
+            AssertResultsFilledOut(results);
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        public void AllChannelsMeasureOnDemand_ForceCurrentMeasureVoltage_MultipleChannelsMeasureInParallel(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds, ApertureTime = 0.016 });
+            var sw = new Stopwatch();
+
+            sessionsBundle.ForceCurrent(currentLevel: 0.1);
+            sw.Start();
+            sessionsBundle.MeasureVoltage();
+            sw.Stop();
+
+            Assert.True(sw.ElapsedMilliseconds < 20, $"Runs longer than 40ms, the actual run time is {sw.ElapsedMilliseconds}ms.");
+        }
+
+        [Theory]
+        [InlineData("OneDeviceWorksForFourSites.pinmap")]
+        public void AllChannelsMeasureOnDemand_ForceVoltageMeasureCurrent_AllChannelsMeasureSequentially(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds, ApertureTime = 0.016 });
+            var sw = new Stopwatch();
+
+            sessionsBundle.ForceVoltage(voltageLevel: 3.6);
+            sw.Start();
+            sessionsBundle.MeasureCurrent();
+            sw.Stop();
+
+            Assert.True(sw.ElapsedMilliseconds > 60, $"Runs less than 60ms, the actual run time is {sw.ElapsedMilliseconds}ms.");
+        }
+
+        private int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.AggregateSitePinList
                 .Where(sitePinInfo => sitePinInfo.SiteNumber != -1)
                 .Select(sitePinInfo => sitePinInfo.SiteNumber)
                 .Distinct()
                 .ToArray();
+        }
+
+        private void AssertResultsFilledOut(PinSiteData<double> results)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                foreach (var pin in results.PinNames)
+                {
+                    Assert.NotEqual(0, results.GetValue(siteNumber, pin));
+                }
+            }
         }
     }
 }

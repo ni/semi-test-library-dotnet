@@ -555,15 +555,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             InvokeInParallel(
                 () =>
                 {
-                    // Measure all channels that are configured to measure on demand as a single driver call to optimize test time.
-                    var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
-                    for (int i = 0; i < onDemandChannelIndexes.Count; i++)
+                    if (onDemandChannelIndexes.Any())
                     {
-                        int index = onDemandChannelIndexes[i];
-                        lock (lockObject)
+                        // Measure all channels that are configured to measure on demand as a single driver call to optimize test time.
+                        var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
+                        for (int i = 0; i < onDemandChannelIndexes.Count; i++)
                         {
-                            voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
-                            currentMeasurements[index] = measureResult.CurrentMeasurements[i];
+                            int index = onDemandChannelIndexes[i];
+                            lock (lockObject)
+                            {
+                                voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
+                                currentMeasurements[index] = measureResult.CurrentMeasurements[i];
+                            }
                         }
                     }
                 },
