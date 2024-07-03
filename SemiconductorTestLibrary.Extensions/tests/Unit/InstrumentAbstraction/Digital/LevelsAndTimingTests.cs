@@ -533,5 +533,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Equal(offsets, offsetsFromFile);
         }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigureTdrEndpointTermination_ValueCorrectlySet(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigureTdrEndpointTermination(TdrEndpointTermination.TdrToShortToGround);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(TdrEndpointTermination.TdrToShortToGround, sessionInfo.Session.Timing.TdrEndpointTermination);
+            });
+        }
     }
 }

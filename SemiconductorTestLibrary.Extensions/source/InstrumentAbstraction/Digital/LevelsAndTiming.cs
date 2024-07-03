@@ -245,6 +245,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="DigitalTiming.TdrEndpointTermination"/>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="tdrEndpointTermination">TDR Endpoint Termination type. The default value is <see cref="TdrEndpointTermination.TdrToOpenCircuit"/>.</param>
+        public static void ConfigureTdrEndpointTermination(this DigitalSessionsBundle sessionsBundle, TdrEndpointTermination tdrEndpointTermination)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Timing.TdrEndpointTermination = tdrEndpointTermination;
+            });
+        }
+
         /// <summary>
         /// Measures propagation delays through cables, connectors, and load boards using Time-Domain Reflectometry (TDR).
         /// You can optionally apply the offsets to the pins.
