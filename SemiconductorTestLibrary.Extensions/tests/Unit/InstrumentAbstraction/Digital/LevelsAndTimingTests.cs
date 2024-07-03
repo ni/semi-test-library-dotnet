@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using NationalInstruments.ModularInstruments.NIDigital;
@@ -387,12 +388,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
                 }
             });
-            var fileName = System.IO.Path.GetTempFileName();
+            var fileName = Path.GetTempFileName();
             sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
             PreciseWait(timeInSeconds: 0.1);
             var offsetsFromFile = sessionsBundle.LoadTDROffsetsFromFile(fileName);
 
-            Assert.Equal(offsets, offsetsFromFile);
+            Assert.Equal(offsets.GetValue(0, "C0"), offsetsFromFile.GetValue(0, "C0"));
+            Assert.Equal(offsets.GetValue(0, "C1"), offsetsFromFile.GetValue(0, "C1"));
+            Assert.Equal(offsets.GetValue(1, "C0"), offsetsFromFile.GetValue(1, "C0"));
+
+            // Remove file after test finishes.
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
         }
 
         [Fact]
@@ -414,12 +423,105 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
                 }
             });
-            var fileName = System.IO.Path.GetTempFileName();
+            var fileName = Path.GetTempFileName();
             sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
             PreciseWait(timeInSeconds: 0.1);
             var offsetsFromFile = sessionsBundle.LoadTDROffsetsFromFile(fileName);
 
-            Assert.Equal(offsets, offsetsFromFile);
+            Assert.Equal(offsets.GetValue(0, "C0"), offsetsFromFile.GetValue(0, "C0"));
+            Assert.Equal(offsets.GetValue(0, "C1"), offsetsFromFile.GetValue(0, "C1"));
+            Assert.Equal(offsets.GetValue(1, "C0"), offsetsFromFile.GetValue(1, "C0"));
+
+            // Remove file after test finishes.
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_SavePerSitePerPinTDROffsetsToAndFromFile_OverwritesExistingFile()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
+            {
+                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
+                },
+                ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
+                }
+            });
+            var fileName = Path.GetTempFileName();
+
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesBefore = File.ReadLines(fileName).Count();
+            offsets = offsets.Add(Ivi.Driver.PrecisionTimeSpan.FromSeconds(.5));
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesAfter = File.ReadLines(fileName).Count();
+
+            Assert.True(File.Exists(fileName));
+            Assert.Equal(numberofLinesBefore, numberofLinesAfter);
+
+            // Remove file after test finishes.
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_SavePerSitePerPinTDROffsetsToAndFromFile_OverwritesExistingFile()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
+            {
+                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
+                },
+                ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
+                }
+            });
+            var fileName = Path.GetTempFileName();
+
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesBefore = File.ReadLines(fileName).Count();
+            var updatedOffsets = new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>();
+            foreach (var pinName in offsets.PinNames)
+            {
+                if (!updatedOffsets.ContainsKey(pinName))
+                {
+                    updatedOffsets.Add(pinName, new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>());
+                }
+                foreach (var siteNumber in offsets.SiteNumbers)
+                {
+                    updatedOffsets[pinName].Add(siteNumber, offsets.GetValue(siteNumber, pinName));
+                }
+            }
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesAfter = File.ReadLines(fileName).Count();
+
+            Assert.True(File.Exists(fileName));
+            Assert.Equal(numberofLinesBefore, numberofLinesAfter);
+
+            // Remove file after test finishes.
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
         }
 
         [Fact]
@@ -488,7 +590,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(1e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").TdrOffset.TotalSeconds);
             Assert.Equal(1.5e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
             Assert.Equal(1.2e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
-            Assert.Equal(1.7e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
+            Assert.Equal(1.7e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
         }
 
         [Fact]
@@ -502,12 +604,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8) },
                 new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) }
             };
-            var fileName = System.IO.Path.GetTempFileName();
+            var fileName = Path.GetTempFileName();
             sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
             PreciseWait(timeInSeconds: 0.1);
             sessionsBundle.LoadTDROffsetsFromFile(fileName, out var offsetsFromFile);
 
             Assert.Equal(offsets, offsetsFromFile);
+
+            // Remove file after test finishes.
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
         }
 
         [Fact]
@@ -516,22 +624,109 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var offsets = new Ivi.Driver.PrecisionTimeSpan[1][]
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
             {
                 new[]
                 {
                     Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), // site0/C0
                     Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site0/C1
                     Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site1/C0
+                },
+                new[]
+                {
                     Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) // site1/C1
                 }
             };
-            var fileName = System.IO.Path.GetTempFileName();
+            var fileName = Path.GetTempFileName();
             sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
             PreciseWait(timeInSeconds: 0.1);
             sessionsBundle.LoadTDROffsetsFromFile(fileName, out var offsetsFromFile);
 
             Assert.Equal(offsets, offsetsFromFile);
+
+            // Remove file after test finishes.
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_SaveInstrumentSessionTDROffsetsToAndFromFile_OverwritesExistingFile()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8) },
+                new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) }
+            };
+            var fileName = Path.GetTempFileName();
+
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesBefore = File.ReadLines(fileName).Count();
+            for (int instrIndex = 0; instrIndex < offsets.Length; instrIndex++)
+            {
+                for (int chIndex = 0; chIndex < offsets[instrIndex].Length; chIndex++)
+                {
+                    offsets[instrIndex][chIndex] = offsets[instrIndex][chIndex] + Ivi.Driver.PrecisionTimeSpan.FromSeconds(.5);
+                }
+            }
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesAfter = File.ReadLines(fileName).Count();
+
+            Assert.True(File.Exists(fileName));
+            Assert.Equal(numberofLinesBefore, numberofLinesAfter);
+
+            // Remove file after test finishes.
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_SaveInstrumentSessionTDROffsetsToAndFromFile_OverwritesExistingFile()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), // site0/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site0/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site1/C0
+                },
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) // site1/C1
+                }
+            };
+            var fileName = Path.GetTempFileName();
+
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesBefore = File.ReadLines(fileName).Count();
+            for (int instrIndex = 0; instrIndex < offsets.Length; instrIndex++)
+            {
+                for (int chIndex = 0; chIndex < offsets[instrIndex].Length; chIndex++)
+                {
+                    offsets[instrIndex][chIndex] = offsets[instrIndex][chIndex] + Ivi.Driver.PrecisionTimeSpan.FromSeconds(.5);
+                }
+            }
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesAfter = File.ReadLines(fileName).Count();
+
+            Assert.True(File.Exists(fileName));
+            Assert.Equal(numberofLinesBefore, numberofLinesAfter);
+
+            // Remove file after test finishes.
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
         }
 
         [Theory]

@@ -394,7 +394,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList)
                 {
-                    file.WriteLine($"{sitePinInfo.SitePinString}:{sitePinInfo.IndividualChannelString}:{offsets.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName).ToDecimal()}");
+                    file.WriteLine($"{sitePinInfo.SitePinString}:{offsets.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName).ToDecimal()}");
                 }
             }
         }
@@ -402,6 +402,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <summary>
         /// Saves TDR offsets to a file.
         /// </summary>
+        /// <remarks>
+        /// The resulting file is pinmap specific. It is recommended that the filename provided contains the same name as the pinmap, as well as timestamp.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="offsets">The per-instrument session per-pin offsets to save. Where the first dimension represents instrument sessions and the second dimension represents pins.</param>
         /// <param name="filePath">The path of the file to save the offsets to.</param>
@@ -414,7 +417,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     var sitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList;
                     for (int channelIndex = 0; channelIndex < sitePinList.Count; channelIndex++)
                     {
-                        file.WriteLine($"{sitePinList[channelIndex].SitePinString}:{sitePinList[channelIndex].IndividualChannelString}:{offsets[instrumentIndex][channelIndex].ToDecimal()}");
+                        file.WriteLine($"{sitePinList[channelIndex].SitePinString}:{offsets[instrumentIndex][channelIndex].ToDecimal()}");
                     }
                 }
             }
@@ -432,32 +435,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static PinSiteData<Ivi.Driver.PrecisionTimeSpan> LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, bool throwOnMissingChannels = true)
         {
-            var offsetsFromFile = new Dictionary<SitePinInfo, Ivi.Driver.PrecisionTimeSpan>();
+            var offsetsFromFile = new Dictionary<string, Ivi.Driver.PrecisionTimeSpan>();
 
             using (var file = new StreamReader(filePath))
             {
-                string[] contents = file.ReadLine().Split(':');
-                string sitePinString = contents[0];
-                string instrumentString = contents[1];
-                var tdrValue = Ivi.Driver.PrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[2].Trim(), CultureInfo.InvariantCulture));
-
-                // The following code is necessary since there is currently no SitePinInfo constructor that accepts the sitePinString & individualChannelString.
-                string pinName;
-                int siteNumber;
-                if (sitePinString.Contains("/"))
+                string line;
+                while ((line = file.ReadLine()) != null)
                 {
-                    string[] array = sitePinString.Split('/');
-                    siteNumber = int.Parse(array[0].Remove(0, 4), CultureInfo.InvariantCulture);
-                    pinName = array[1];
+                    var contents = line.Split(':');
+                    var tdrValue = Ivi.Driver.PrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[1].Trim(), CultureInfo.InvariantCulture));
+                    offsetsFromFile.Add(contents[0], tdrValue);
                 }
-                else
-                {
-                    siteNumber = -1;
-                    pinName = sitePinString;
-                }
-                SitePinInfo sitePinInfo = new SitePinInfo(siteNumber, pinName, contents[1]);
-
-                offsetsFromFile.Add(sitePinInfo, tdrValue);
             }
 
             var offsetsDict = new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>();
@@ -465,22 +453,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             // Check if channels match what is in the current bundle.
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList)
             {
-                var targetSitePinInfo = new SitePinInfo(sitePinInfo.SiteNumber, sitePinInfo.PinName, sitePinInfo.IndividualChannelString);
-                if (!offsetsFromFile.ContainsKey(targetSitePinInfo))
+                if (!offsetsFromFile.ContainsKey(sitePinInfo.SitePinString))
                 {
-                    missingChannels.Add($"{targetSitePinInfo.SitePinString}:{targetSitePinInfo.IndividualChannelString}");
+                    missingChannels.Add($"{sitePinInfo.SitePinString}");
                     break;
                 }
                 if (offsetsDict.TryGetValue(sitePinInfo.PinName, out var perSitePinValues))
                 {
-                    perSitePinValues.Add(sitePinInfo.SiteNumber, offsetsFromFile[targetSitePinInfo]);
+                    perSitePinValues.Add(sitePinInfo.SiteNumber, offsetsFromFile[sitePinInfo.SitePinString]);
                     break;
                 }
                 offsetsDict.Add(sitePinInfo.PinName, new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>());
-                offsetsDict[sitePinInfo.PinName].Add(sitePinInfo.SiteNumber, offsetsFromFile[targetSitePinInfo]);
+                offsetsDict[sitePinInfo.PinName].Add(sitePinInfo.SiteNumber, offsetsFromFile[sitePinInfo.SitePinString]);
             }
 
-            if (throwOnMissingChannels && missingChannels.Count == 0)
+            if (throwOnMissingChannels && missingChannels.Count != 0)
             {
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TDROffsetsMissing, filePath, string.Join(",", missingChannels)));
             }
@@ -503,8 +490,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             var offsetsFromFile = new Dictionary<string, Ivi.Driver.PrecisionTimeSpan>();
             using (var file = new StreamReader(filePath))
             {
-                var contents = file.ReadLine().Split(':');
-                offsetsFromFile.Add(contents[0], Ivi.Driver.PrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[2].Trim(), CultureInfo.InvariantCulture)));
+                string line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    var contents = line.Split(':');
+                    offsetsFromFile.Add(contents[0], Ivi.Driver.PrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[1].Trim(), CultureInfo.InvariantCulture)));
+                }
             }
 
             int instrumentCount = sessionsBundle.InstrumentSessions.Count();
@@ -528,7 +519,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
             }
 
-            if (throwOnMissingChannels && missingChannels.Count == 0)
+            if (throwOnMissingChannels && missingChannels.Count != 0)
             {
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TDROffsetsMissing, filePath, string.Join(",", missingChannels)));
             }
