@@ -6,6 +6,7 @@ using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -538,50 +539,71 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int channelCount = sessionInfo.AssociatedSitePinList.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
-            Parallel.For(0, channelCount, channelIndex =>
+
+            IList<int> onDemandChannelIndexes = new List<int>();
+            IList<string> onDemandChannelStrings = new List<string>();
+            for (int i = 0; i < channelCount; i++)
             {
-                var sitePinInfo = sessionInfo.AssociatedSitePinList[channelIndex];
-                var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
-
-                switch (dcOutput.Measurement.MeasureWhen)
+                string individualChannelString = sessionInfo.AssociatedSitePinList[i].IndividualChannelString;
+                if (session.Outputs[individualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
                 {
-                    case DCPowerMeasurementWhen.OnDemand:
-                        var measureResult = session.Measurement.Measure(sitePinInfo.IndividualChannelString);
-                        lock (lockObject)
-                        {
-                            // The measurement arrays are shared among threads, lock them when updating since arrays are not thread safe.
-                            voltageMeasurements[channelIndex] = measureResult.VoltageMeasurements[0];
-                            currentMeasurements[channelIndex] = measureResult.CurrentMeasurements[0];
-                        }
-                        break;
-
-                    case DCPowerMeasurementWhen.OnMeasureTrigger:
-                        if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
-                        {
-                            break;
-                        }
-                        // Make sure to clear previous results before fetching again.
-                        session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), dcOutput.Measurement.FetchBacklog);
-                        dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
-                        goto case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
-
-                    case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
-                        if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
-                        {
-                            break;
-                        }
-                        var fetchResult = session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), 1);
-                        lock (lockObject)
-                        {
-                            voltageMeasurements[channelIndex] = fetchResult.VoltageMeasurements[0];
-                            currentMeasurements[channelIndex] = fetchResult.CurrentMeasurements[0];
-                        }
-                        break;
-
-                    default:
-                        break;
+                    onDemandChannelIndexes.Add(i);
+                    onDemandChannelStrings.Add(individualChannelString);
                 }
-            });
+            }
+
+            InvokeInParallel(
+                () =>
+                {
+                    // Measure all channels that are configured to measure on demand as a single driver call to optimize test time.
+                    var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
+                    for (int i = 0; i < onDemandChannelIndexes.Count; i++)
+                    {
+                        int index = onDemandChannelIndexes[i];
+                        lock (lockObject)
+                        {
+                            voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
+                            currentMeasurements[index] = measureResult.CurrentMeasurements[i];
+                        }
+                    }
+                },
+                () =>
+                {
+                    Parallel.For(0, channelCount, channelIndex =>
+                    {
+                        var sitePinInfo = sessionInfo.AssociatedSitePinList[channelIndex];
+                        var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
+
+                        switch (dcOutput.Measurement.MeasureWhen)
+                        {
+                            case DCPowerMeasurementWhen.OnMeasureTrigger:
+                                if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
+                                {
+                                    break;
+                                }
+                                // Make sure to clear previous results before fetching again.
+                                session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), dcOutput.Measurement.FetchBacklog);
+                                dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
+                                goto case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+
+                            case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
+                                if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
+                                {
+                                    break;
+                                }
+                                var fetchResult = session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), 1);
+                                lock (lockObject)
+                                {
+                                    voltageMeasurements[channelIndex] = fetchResult.VoltageMeasurements[0];
+                                    currentMeasurements[channelIndex] = fetchResult.CurrentMeasurements[0];
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+                    });
+                });
             return new Tuple<double[], double[]>(voltageMeasurements, currentMeasurements);
         }
 
