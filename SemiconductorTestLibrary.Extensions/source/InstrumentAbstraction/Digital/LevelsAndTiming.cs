@@ -309,7 +309,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="offsets">Offsets to apply. Where the first dimension represents instrument sessions and the second dimension represents pins.</param>
         public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, Ivi.Driver.PrecisionTimeSpan[][] offsets)
         {
-            sessionsBundle.MeasureTDROffsets(out _);
             sessionsBundle.Do((DigitalSessionInformation sessionInfo, int instrumentIndex) =>
             {
                 for (int pinSetIndex = 0; pinSetIndex < sessionInfo.AssociatedSitePinList.Count; pinSetIndex++)
