@@ -462,7 +462,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
             var numberofLinesBefore = File.ReadLines(fileName).Count();
-            offsets = offsets.Add(Ivi.Driver.PrecisionTimeSpan.FromSeconds(.5));
+            // Update the offsets value so that during debug, it is clear the file changes vs. not just getting appended to unsuccessfully.
+            var updatedOffsets = new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>();
+            foreach (var pinName in offsets.PinNames)
+            {
+                if (!updatedOffsets.ContainsKey(pinName))
+                {
+                    updatedOffsets.Add(pinName, new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>());
+                }
+                foreach (var siteNumber in offsets.SiteNumbers)
+                {
+                    updatedOffsets[pinName].Add(siteNumber, offsets.GetValue(siteNumber, pinName));
+                }
+            }
             sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
             var numberofLinesAfter = File.ReadLines(fileName).Count();
 
@@ -499,6 +511,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
             var numberofLinesBefore = File.ReadLines(fileName).Count();
+            // Update the offsets value so that during debug, it is clear the file changes vs. not just getting appended to unsuccessfully.
             var updatedOffsets = new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>();
             foreach (var pinName in offsets.PinNames)
             {
@@ -575,13 +588,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var offsets = new Ivi.Driver.PrecisionTimeSpan[1][]
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[][]
             {
                 new[]
                 {
                     Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), // site0/C0
                     Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site0/C1
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site1/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8) // site1/C0
+                },
+                new[]
+                {
                     Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) // site1/C1
                 }
             };
@@ -666,6 +682,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
             var numberofLinesBefore = File.ReadLines(fileName).Count();
+            // Update the offsets value so that during debug, it is clear the file changes vs. not just getting appended to unsuccessfully.
             for (int instrIndex = 0; instrIndex < offsets.Length; instrIndex++)
             {
                 for (int chIndex = 0; chIndex < offsets[instrIndex].Length; chIndex++)
@@ -709,6 +726,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
             var numberofLinesBefore = File.ReadLines(fileName).Count();
+            // Update the offsets value so that during debug, it is clear the file changes vs. not just getting appended to unsuccessfully.
             for (int instrIndex = 0; instrIndex < offsets.Length; instrIndex++)
             {
                 for (int chIndex = 0; chIndex < offsets[instrIndex].Length; chIndex++)
