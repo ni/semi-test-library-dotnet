@@ -310,9 +310,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, Ivi.Driver.PrecisionTimeSpan[][] offsets)
         {
             sessionsBundle.MeasureTDROffsets(out _);
-            sessionsBundle.Do((sessionInfo, index) =>
+            sessionsBundle.Do((DigitalSessionInformation sessionInfo, int instrumentIndex) =>
             {
-                sessionInfo.PinSet.ApplyTdrOffsets(offsets[index]);
+                for (int pinSetIndex = 0; pinSetIndex < sessionInfo.AssociatedSitePinList.Count; pinSetIndex++)
+                {
+                    sessionInfo.Session.PinAndChannelMap
+                    .GetPinSet(sessionInfo.AssociatedSitePinList.ElementAt(pinSetIndex).SitePinString)
+                    .ApplyTdrOffsets(new Ivi.Driver.PrecisionTimeSpan[] { offsets[instrumentIndex][pinSetIndex] });
+                }
             });
         }
 
