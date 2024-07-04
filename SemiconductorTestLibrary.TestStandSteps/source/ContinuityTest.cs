@@ -58,6 +58,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             try
             {
                 var sessionManager = new TSMSessionManager(tsmContext);
+                DCPowerSessionsBundle dcPowerContinuity = null;
+                PinSiteData<double> originalSourceDelaysContinuity = null;
 
                 // Force 0V on all supply pins.
                 InvokeInParallel(
@@ -76,11 +78,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         tsmContext.FilterPinsOrPinGroups(continuityPinsOrPinGroups, InstrumentTypeIdConstants.NIDCPower, out var continuityPins, out var continuityPinIndexes, out var continuityPinsFlattened);
                         if (continuityPinsFlattened.Any())
                         {
-                            var dcPower = sessionManager.DCPower(continuityPinsFlattened);
-                            var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
-                            dcPower.ConfigureSourceDelay(settlingTime);
-                            dcPower.ForceVoltage(0);
-                            dcPower.ConfigureSourceDelay(originalSourceDelays);
+                            dcPowerContinuity = sessionManager.DCPower(continuityPinsFlattened);
+                            originalSourceDelaysContinuity = dcPowerContinuity.GetSourceDelayInSeconds();
+                            dcPowerContinuity.ConfigureSourceDelay(settlingTime);
+                            dcPowerContinuity.ForceVoltage(0);
                         }
                     },
                     () =>
@@ -109,19 +110,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 {
                     var dcPowerContinuityPin = sessionManager.DCPower(dcPowerContinuityPins[i]);
                     int translatedIndex = dcPowerContinuityPinIndexes[i];
-                    var originalSourceDelays = dcPowerContinuityPin.GetSourceDelayInSeconds();
                     var originalVoltageLimitRange = dcPowerContinuityPin.GetVoltageLimitRange();
-                    dcPowerContinuityPin.ConfigureSourceDelay(settlingTime);
                     dcPowerContinuityPin.ConfigureMeasureSettings(dcPowerMeasureSettings);
                     dcPowerContinuityPin.ForceCurrentAsymmetricLimit(
                         currentLevelPerContinuityPinOrPinGroup[translatedIndex],
                         voltageLimitHighPerContinuityPinOrPinGroup[translatedIndex],
-                        voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex]);
+                        voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex],
+                        waitForSourceCompletion: true);
                     dcPowerContinuityPin.MeasureAndPublishVoltage("Continuity", out _);
                     dcPowerContinuityPin.ConfigureVoltageLimitRange(originalVoltageLimitRange);
                     dcPowerContinuityPin.ForceVoltage(0);
-                    dcPowerContinuityPin.ConfigureSourceDelay(originalSourceDelays);
                 }
+                dcPowerContinuity?.ConfigureSourceDelay(originalSourceDelaysContinuity);
 
                 // Source current on PPMU continuity pins and measure voltage sequentially.
                 tsmContext.FilterPinsOrPinGroups(continuityPinsOrPinGroups, InstrumentTypeIdConstants.NIDigitalPattern, out var digitalContinuityPins, out var digitalContinuityPinIndexes, out _);
@@ -145,7 +145,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 NISemiconductorTestException.Throw(e);
             }
 
-            DutPowerDown(tsmContext, supplyPinsOrPinGroups.Concat(continuityPinsOrPinGroups).ToArray(), settlingTime);
+            DutPowerDown(tsmContext, supplyPinsOrPinGroups.Concat(continuityPinsOrPinGroups).ToArray(), settlingTime, forceLowestCurrentLimit: false);
         }
 
         private static void FilterPinsOrPinGroups(this ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, string instrumentTypeId, out IList<string[]> pins, out IList<int> pinIndexes, out string[] pinsFlattened)

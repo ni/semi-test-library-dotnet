@@ -5,11 +5,13 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemiconductorTestLibrary.Extensions", "SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj", "{3A90DA2D-A649-4FA0-BF53-7222273E4410}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.SemiconductorTestLibrary.Extensions", "SemiconductorTestLibrary.Extensions\test\Tests.SemiconductorTestLibrary.Extensions.csproj", "{22397A12-B9B8-4913-897C-59BF49752659}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.SemiconductorTestLibrary.Extensions", "SemiconductorTestLibrary.Extensions\tests\Tests.SemiconductorTestLibrary.Extensions.csproj", "{22397A12-B9B8-4913-897C-59BF49752659}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.SemiconductorTestLibrary.Utilities", "TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj", "{4A5E4AD8-DF13-4B94-87E8-F0FA19EAB2FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemiconductorTestLibrary.TestStandSteps", "SemiconductorTestLibrary.TestStandSteps\source\SemiconductorTestLibrary.TestStandSteps.csproj", "{663384BE-3A81-4B11-AF33-817BF91345B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemiconductorTestLibrary.Examples", "Examples\SemiconductorTestLibrary.Examples.csproj", "{756E52C5-D2C1-44CB-BCB7-D78F96B4B5C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{663384BE-3A81-4B11-AF33-817BF91345B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{663384BE-3A81-4B11-AF33-817BF91345B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{663384BE-3A81-4B11-AF33-817BF91345B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{756E52C5-D2C1-44CB-BCB7-D78F96B4B5C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{756E52C5-D2C1-44CB-BCB7-D78F96B4B5C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{756E52C5-D2C1-44CB-BCB7-D78F96B4B5C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{756E52C5-D2C1-44CB-BCB7-D78F96B4B5C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
