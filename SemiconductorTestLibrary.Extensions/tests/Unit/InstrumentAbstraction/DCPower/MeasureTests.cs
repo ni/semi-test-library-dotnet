@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.Restricted;
@@ -435,9 +436,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        // Skipping for now, failing due to ModelString accessed from DCPowerSessionInformation ctor.
-        // Need to rethink how that is implemented, so that it supports a single shared grouped session.
-        // [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
         public void DifferentSMUDevices_GetPowerLineFrequency_GetPerSiteValues(string pinMapFileName)
@@ -464,9 +463,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        // Skipping for now, failing due to ModelString accessed from DCPowerSessionInformation ctor.
-        // Need to rethink how that is implemented, so that it supports a single shared grouped session.
-        // [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
         public void DifferentSMUDevice_FetchResults_ReturnsValues(string pinMapFileName)
@@ -486,9 +483,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        // Skipping for now, failing due to ModelString accessed from DCPowerSessionInformation ctor.
-        // Need to rethink how that is implemented, so that it supports a single shared grouped session.
-        // [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
         public void DifferentSMUDevice_FetchResults_ThrowsExceptionForUnsupportedPins(string pinMapFileName)
@@ -681,13 +676,74 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(300, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Measurement.SamplesToAverage);
         }
 
-        private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void AllChannelsMeasureOnDemand_ForceCurrentMeasureVoltage_AllChannelsMeasured(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+
+            sessionsBundle.ForceCurrent(currentLevel: 0.1, waitForSourceCompletion: true);
+            var results = sessionsBundle.MeasureVoltage();
+
+            AssertAllChannelsHaveResult(results);
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void OneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceCurrentMeasureVoltage_AllChannelsMeasured(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            string channel0String = sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList[0].IndividualChannelString;
+            sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs[channel0String].Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+
+            sessionsBundle.ForceCurrent(currentLevel: 0.1, waitForSourceCompletion: true);
+            var results = sessionsBundle.MeasureVoltage();
+
+            AssertAllChannelsHaveResult(results);
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void AllChannelsMeasureAfterSourceComplete_ForceVoltageMeasureCurrent_AllChannelsMeasured(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+
+            sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
+            var results = sessionsBundle.MeasureCurrent();
+
+            AssertAllChannelsHaveResult(results);
+        }
+
+        private int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.AggregateSitePinList
                 .Where(sitePinInfo => sitePinInfo.SiteNumber != -1)
                 .Select(sitePinInfo => sitePinInfo.SiteNumber)
                 .Distinct()
                 .ToArray();
+        }
+
+        private void AssertAllChannelsHaveResult(PinSiteData<double> results)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                foreach (var pin in results.PinNames)
+                {
+                    Assert.NotEqual(0, results.GetValue(siteNumber, pin));
+                }
+            }
         }
     }
 }
