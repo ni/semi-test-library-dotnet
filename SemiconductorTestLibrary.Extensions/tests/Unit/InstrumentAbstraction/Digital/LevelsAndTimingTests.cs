@@ -606,7 +606,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(1e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").TdrOffset.TotalSeconds);
             Assert.Equal(1.5e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
             Assert.Equal(1.2e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
-            Assert.Equal(1.7e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
+            Assert.Equal(1.7e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
         }
 
         [Fact]
