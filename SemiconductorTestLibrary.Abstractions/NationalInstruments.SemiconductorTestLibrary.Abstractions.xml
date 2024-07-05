@@ -332,6 +332,16 @@
             <param name="invididualChannelString">The individual channel string.</param>
             <param name="modelString">The model string of the owning instrument.</param>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.SystemSettings">
+            <summary>
+            Defines system settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SystemSettings.PowerLineFrequency">
+            <summary>
+            The power line frequency of the system.
+            </summary>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.Utilities">
             <summary>
             Provides general helper methods.
@@ -879,6 +889,46 @@
             Returns integer portion of every element in current SiteData.
             </summary>
             <returns>A new SiteData that contains integer values.</returns>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions">
+            <summary>
+            Defines extension methods for <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0)">
+            <summary>
+            Creates new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with the same value for all sites.
+            </summary>
+            <remarks>
+            <para>Example Usage:</para>
+            <example>
+            <code>
+            var data = tsmContext.NewSiteData(4.0);
+            </code>
+            </example>
+            </remarks>
+            <typeparam name="T">Data Type of value to be used with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</typeparam>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="value">Value to be applied to all sites.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0[])">
+            <summary>
+            Creates new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with unique values for all sites.
+            </summary>
+            <remarks>
+            Note: the number of elements in value should be equal to number of sites in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.
+            <para>Example Usage:</para>
+            <example>
+            <code>
+            var data = tsmContext.NewSiteData(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0 });
+            </code>
+            </example>
+            </remarks>
+            <typeparam name="T">Data Type of value to be used with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</typeparam>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="values">Values to be applied to each site.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings">
             <summary>
@@ -2583,6 +2633,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Publish_NoAssociatedChannel">
             <summary>
               Looks up a localized string similar to No channel associates with the {0}..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.SiteData_WrongDataSize">
+            <summary>
+              Looks up a localized string similar to Number of elements in values ({0}) must match number of sites in TSM Context ({1})..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.SitePinFilter_RequestedPinsInvalid">
