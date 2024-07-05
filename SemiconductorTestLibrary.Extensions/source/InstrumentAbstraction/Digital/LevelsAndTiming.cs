@@ -511,7 +511,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         #endregion utility methods
 
-        #region private method
+        #region private methods
 
         private static Dictionary<string, Ivi.Driver.PrecisionTimeSpan> ReadTdrOffsetsFromFile(string filePath)
         {
