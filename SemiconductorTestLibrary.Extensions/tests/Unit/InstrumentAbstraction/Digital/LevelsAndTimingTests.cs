@@ -397,11 +397,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(offsets.GetValue(0, "C1"), offsetsFromFile.GetValue(0, "C1"));
             Assert.Equal(offsets.GetValue(1, "C0"), offsetsFromFile.GetValue(1, "C0"));
 
-            // Remove file after test finishes.
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
+            RemoveTemporaryFile(fileName);
         }
 
         [Fact]
@@ -432,11 +428,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(offsets.GetValue(0, "C1"), offsetsFromFile.GetValue(0, "C1"));
             Assert.Equal(offsets.GetValue(1, "C0"), offsetsFromFile.GetValue(1, "C0"));
 
-            // Remove file after test finishes.
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
+            RemoveTemporaryFile(fileName);
         }
 
         [Fact]
@@ -481,11 +473,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.True(File.Exists(fileName));
             Assert.Equal(numberofLinesBefore, numberofLinesAfter);
 
-            // Remove file after test finishes.
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
+            RemoveTemporaryFile(fileName);
         }
 
         [Fact]
@@ -530,11 +518,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.True(File.Exists(fileName));
             Assert.Equal(numberofLinesBefore, numberofLinesAfter);
 
-            // Remove file after test finishes.
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
+            RemoveTemporaryFile(fileName);
         }
 
         [Fact]
@@ -627,11 +611,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Equal(offsets, offsetsFromFile);
 
-            // Remove file after test finishes.
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
+            RemoveTemporaryFile(fileName);
         }
 
         [Fact]
@@ -660,11 +640,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Equal(offsets, offsetsFromFile);
 
-            // Remove file after test finishes.
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
+            RemoveTemporaryFile(fileName);
         }
 
         [Fact]
@@ -696,11 +672,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.True(File.Exists(fileName));
             Assert.Equal(numberofLinesBefore, numberofLinesAfter);
 
-            // Remove file after test finishes.
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
+            RemoveTemporaryFile(fileName);
         }
 
         [Fact]
@@ -740,11 +712,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.True(File.Exists(fileName));
             Assert.Equal(numberofLinesBefore, numberofLinesAfter);
 
-            // Remove file after test finishes.
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
+            RemoveTemporaryFile(fileName);
         }
 
         [Theory]
@@ -761,6 +729,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(TdrEndpointTermination.TdrToShortToGround, sessionInfo.Session.Timing.TdrEndpointTermination);
             });
+        }
+        /// <summary>
+        /// Removes a temporary file, if it exists.
+        /// This method is intended to be called at the end of the unit test that saving information to a temporary file.
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        private static void RemoveTemporaryFile(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
         }
     }
 }
