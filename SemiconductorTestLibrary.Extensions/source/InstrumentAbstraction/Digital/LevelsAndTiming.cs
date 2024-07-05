@@ -314,8 +314,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 for (int pinSetIndex = 0; pinSetIndex < sessionInfo.AssociatedSitePinList.Count; pinSetIndex++)
                 {
                     sessionInfo.Session.PinAndChannelMap
-                    .GetPinSet(sessionInfo.AssociatedSitePinList.ElementAt(pinSetIndex).SitePinString)
-                    .ApplyTdrOffsets(new Ivi.Driver.PrecisionTimeSpan[] { offsets[instrumentIndex][pinSetIndex] });
+                        .GetPinSet(sessionInfo.AssociatedSitePinList.ElementAt(pinSetIndex).SitePinString)
+                        .ApplyTdrOffsets(new Ivi.Driver.PrecisionTimeSpan[] { offsets[instrumentIndex][pinSetIndex] });
                 }
             });
         }
