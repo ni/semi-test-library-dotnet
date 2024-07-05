@@ -41,14 +41,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>This method takes per-site source waveform.</remarks>
         public static void WriteSourceWaveformSiteUnique(this DigitalSessionsBundle sessionsBundle, string waveformName, SiteData<uint[]> perSiteWaveformData, bool expandToMinimumSize = false, int minimumSize = 128)
         {
-            var resizedWaveformData = new Dictionary<int, uint[]>();
-            for (int i = 0; i < perSiteWaveformData.SiteNumbers.Length; i++)
+            if (expandToMinimumSize)
             {
-                var waveformData = perSiteWaveformData.GetValue(perSiteWaveformData.SiteNumbers[i]);
-                ResizeWaveformDataArrayOnDemand(ref waveformData, expandToMinimumSize, minimumSize);
-                resizedWaveformData.Add(perSiteWaveformData.SiteNumbers[i], waveformData);
+                var resizedWaveformData = new Dictionary<int, uint[]>();
+                for (int i = 0; i < perSiteWaveformData.SiteNumbers.Length; i++)
+                {
+                    var waveformData = perSiteWaveformData.GetValue(perSiteWaveformData.SiteNumbers[i]);
+                    ResizeWaveformDataArrayOnDemand(ref waveformData, expandToMinimumSize, minimumSize);
+                    resizedWaveformData.Add(perSiteWaveformData.SiteNumbers[i], waveformData);
+                }
+                perSiteWaveformData = new SiteData<uint[]>(resizedWaveformData);
             }
-            sessionsBundle.Do(new SiteData<uint[]>(resizedWaveformData), (sessionInfo, perInstrumentWaveformData) =>
+            sessionsBundle.Do(perSiteWaveformData, (sessionInfo, perInstrumentWaveformData) =>
             {
                 sessionInfo.Session.SourceWaveforms.WriteSiteUnique(sessionInfo.SiteListString, waveformName, perInstrumentWaveformData);
             });
