@@ -439,18 +439,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static PinSiteData<Ivi.Driver.PrecisionTimeSpan> LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, bool throwOnMissingChannels = true)
         {
-            var offsetsFromFile = new Dictionary<string, Ivi.Driver.PrecisionTimeSpan>();
-
-            using (var file = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = file.ReadLine()) != null)
-                {
-                    var contents = line.Split(':');
-                    var tdrValue = Ivi.Driver.PrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[1].Trim(), CultureInfo.InvariantCulture));
-                    offsetsFromFile.Add(contents[0], tdrValue);
-                }
-            }
+            var offsetsFromFile = ReadTdrOffsetsFromFile(filePath);
 
             var offsetsDict = new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>();
             var missingChannels = new List<string>();
@@ -491,16 +480,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, out Ivi.Driver.PrecisionTimeSpan[][] offsets, bool throwOnMissingChannels = true)
         {
-            var offsetsFromFile = new Dictionary<string, Ivi.Driver.PrecisionTimeSpan>();
-            using (var file = new StreamReader(filePath))
-            {
-                string line;
-                while ((line = file.ReadLine()) != null)
-                {
-                    var contents = line.Split(':');
-                    offsetsFromFile.Add(contents[0], Ivi.Driver.PrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[1].Trim(), CultureInfo.InvariantCulture)));
-                }
-            }
+            var offsetsFromFile = ReadTdrOffsetsFromFile(filePath);
 
             int instrumentCount = sessionsBundle.InstrumentSessions.Count();
             offsets = new Ivi.Driver.PrecisionTimeSpan[instrumentCount][];
@@ -530,5 +510,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         #endregion utility methods
+
+        #region private method
+
+        private static Dictionary<string, Ivi.Driver.PrecisionTimeSpan> ReadTdrOffsetsFromFile(string filePath)
+        {
+            var offsetsFromFile = new Dictionary<string, Ivi.Driver.PrecisionTimeSpan>();
+
+            using (var file = new StreamReader(filePath))
+            {
+                string line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    var contents = line.Split(':');
+                    var tdrValue = Ivi.Driver.PrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[1].Trim(), CultureInfo.InvariantCulture));
+                    offsetsFromFile.Add(contents[0], tdrValue);
+                }
+            }
+
+            return offsetsFromFile;
+        }
+
+        #endregion private methods
     }
 }
