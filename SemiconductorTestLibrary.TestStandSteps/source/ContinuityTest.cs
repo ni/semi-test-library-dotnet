@@ -108,18 +108,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 var dcPowerMeasureSettings = new DCPowerMeasureSettings() { ApertureTime = apertureTime };
                 for (int i = 0; i < dcPowerContinuityPins.Count; i++)
                 {
-                    var dcPowerContinuityPin = sessionManager.DCPower(dcPowerContinuityPins[i]);
                     int translatedIndex = dcPowerContinuityPinIndexes[i];
-                    var originalVoltageLimitRange = dcPowerContinuityPin.GetVoltageLimitRange();
-                    dcPowerContinuityPin.ConfigureMeasureSettings(dcPowerMeasureSettings);
-                    dcPowerContinuityPin.ForceCurrentAsymmetricLimit(
-                        currentLevelPerContinuityPinOrPinGroup[translatedIndex],
-                        voltageLimitHighPerContinuityPinOrPinGroup[translatedIndex],
-                        voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex],
-                        waitForSourceCompletion: true);
-                    dcPowerContinuityPin.MeasureAndPublishVoltage("Continuity", out _);
-                    dcPowerContinuityPin.ConfigureVoltageLimitRange(originalVoltageLimitRange);
-                    dcPowerContinuityPin.ForceVoltage(0);
+                    foreach (var pin in dcPowerContinuityPins[i])
+                    {
+                        var dcPowerContinuityPin = sessionManager.DCPower(pin);
+                        var originalVoltageLimitRange = dcPowerContinuityPin.GetVoltageLimitRange();
+                        dcPowerContinuityPin.ConfigureMeasureSettings(dcPowerMeasureSettings);
+                        dcPowerContinuityPin.ForceCurrentAsymmetricLimit(
+                            currentLevelPerContinuityPinOrPinGroup[translatedIndex],
+                            voltageLimitHighPerContinuityPinOrPinGroup[translatedIndex],
+                            voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex],
+                            waitForSourceCompletion: true);
+                        dcPowerContinuityPin.MeasureAndPublishVoltage("Continuity", out _);
+                        dcPowerContinuityPin.ConfigureVoltageLimitRange(originalVoltageLimitRange);
+                        dcPowerContinuityPin.ForceVoltage(0);
+                    }
                 }
                 dcPowerContinuity?.ConfigureSourceDelay(originalSourceDelaysContinuity);
 
@@ -127,17 +130,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 tsmContext.FilterPinsOrPinGroups(continuityPinsOrPinGroups, InstrumentTypeIdConstants.NIDigitalPattern, out var digitalContinuityPins, out var digitalContinuityPinIndexes, out _);
                 for (int i = 0; i < digitalContinuityPins.Count; i++)
                 {
-                    var digitalContinuityPin = sessionManager.Digital(digitalContinuityPins[i]);
                     int translatedIndex = digitalContinuityPinIndexes[i];
-                    digitalContinuityPin.ConfigureApertureTime(apertureTime);
-                    digitalContinuityPin.ForceCurrent(
-                        currentLevelPerContinuityPinOrPinGroup[translatedIndex],
-                        voltageLimitHigh: voltageLimitHighPerContinuityPinOrPinGroup[translatedIndex],
-                        voltageLimitLow: voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex]);
-                    PreciseWait(settlingTime);
-                    digitalContinuityPin.MeasureAndPublishVoltage("Continuity", out _);
-                    digitalContinuityPin.ForceVoltage(0);
-                    PreciseWait(settlingTime);
+                    foreach (var pin in digitalContinuityPins[i])
+                    {
+                        var digitalContinuityPin = sessionManager.Digital(pin);
+                        digitalContinuityPin.ConfigureApertureTime(apertureTime);
+                        digitalContinuityPin.ForceCurrent(
+                            currentLevelPerContinuityPinOrPinGroup[translatedIndex],
+                            voltageLimitHigh: voltageLimitHighPerContinuityPinOrPinGroup[translatedIndex],
+                            voltageLimitLow: voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex]);
+                        PreciseWait(settlingTime);
+                        digitalContinuityPin.MeasureAndPublishVoltage("Continuity", out _);
+                        digitalContinuityPin.ForceVoltage(0);
+                        PreciseWait(settlingTime);
+                    }
                 }
             }
             catch (Exception e)
