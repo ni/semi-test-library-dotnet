@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -9,6 +11,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
@@ -292,9 +295,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var results = sessionsBundle.MeasureTDROffsets();
 
-            Assert.Equal(2, results.Length);
-            Assert.Equal(2, results[0].Length);
-            Assert.Equal(2, results[1].Length);
+            Assert.Equal(2, results.PinNames.Length);
+            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(2, results.ExtractSite(0).Count);
+            Assert.Equal(2, results.ExtractSite(1).Count);
         }
 
         [Fact]
@@ -305,9 +309,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var results = sessionsBundle.MeasureTDROffsets();
 
-            Assert.Equal(2, results.Length);
-            Assert.Equal(3, results[0].Length);
-            Assert.Single(results[1]);
+            Assert.Equal(2, results.PinNames.Length);
+            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(2, results.ExtractSite(0).Count);
+            Assert.Equal(2, results.ExtractSite(1).Count);
         }
 
         [Fact]
@@ -316,10 +321,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var offsets = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
             {
-                ["C0"] = new Dictionary<int, double>() { [0] = 1e-8, [1] = 1.2e-8 },
-                ["C1"] = new Dictionary<int, double>() { [0] = 1.5e-8, [1] = 1.7e-8 }
+                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
+                },
+                ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
+                }
             });
             sessionsBundle.ApplyTDROffsets(offsets);
 
@@ -335,10 +348,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var offsets = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
             {
-                ["C0"] = new Dictionary<int, double>() { [0] = 1e-8, [1] = 1.2e-8 },
-                ["C1"] = new Dictionary<int, double>() { [0] = 1.5e-8, [1] = 1.7e-8 }
+                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
+                },
+                ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
+                }
             });
             sessionsBundle.ApplyTDROffsets(offsets);
 
@@ -346,6 +367,380 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(1.5e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
             Assert.Equal(1.2e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
             Assert.Equal(1.7e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_SavePerSitePerPinTDROffsetsToAndFromFile_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
+            {
+                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
+                },
+                ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
+                }
+            });
+            var fileName = Path.GetTempFileName();
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            PreciseWait(timeInSeconds: 0.1);
+            var offsetsFromFile = sessionsBundle.LoadTDROffsetsFromFile(fileName);
+
+            Assert.Equal(offsets.GetValue(0, "C0"), offsetsFromFile.GetValue(0, "C0"));
+            Assert.Equal(offsets.GetValue(0, "C1"), offsetsFromFile.GetValue(0, "C1"));
+            Assert.Equal(offsets.GetValue(1, "C0"), offsetsFromFile.GetValue(1, "C0"));
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_SavePerSitePerPinTDROffsetsToAndFromFile_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
+            {
+                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
+                },
+                ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
+                }
+            });
+            var fileName = Path.GetTempFileName();
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            PreciseWait(timeInSeconds: 0.1);
+            var offsetsFromFile = sessionsBundle.LoadTDROffsetsFromFile(fileName);
+
+            Assert.Equal(offsets.GetValue(0, "C0"), offsetsFromFile.GetValue(0, "C0"));
+            Assert.Equal(offsets.GetValue(0, "C1"), offsetsFromFile.GetValue(0, "C1"));
+            Assert.Equal(offsets.GetValue(1, "C0"), offsetsFromFile.GetValue(1, "C0"));
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_SavePerSitePerPinTDROffsetsToAndFromFile_OverwritesExistingFile()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
+            {
+                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
+                },
+                ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
+                }
+            });
+            var fileName = Path.GetTempFileName();
+
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesBefore = File.ReadLines(fileName).Count();
+            // Update the offsets value so that during debug, it is clear the file changes vs. not just getting appended to unsuccessfully.
+            var updatedOffsets = new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>();
+            foreach (var pinName in offsets.PinNames)
+            {
+                if (!updatedOffsets.ContainsKey(pinName))
+                {
+                    updatedOffsets.Add(pinName, new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>());
+                }
+                foreach (var siteNumber in offsets.SiteNumbers)
+                {
+                    updatedOffsets[pinName].Add(siteNumber, offsets.GetValue(siteNumber, pinName));
+                }
+            }
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesAfter = File.ReadLines(fileName).Count();
+
+            Assert.True(File.Exists(fileName));
+            Assert.Equal(numberofLinesBefore, numberofLinesAfter);
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_SavePerSitePerPinTDROffsetsToAndFromFile_OverwritesExistingFile()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
+            {
+                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
+                },
+                ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
+                }
+            });
+            var fileName = Path.GetTempFileName();
+
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesBefore = File.ReadLines(fileName).Count();
+            // Update the offsets value so that during debug, it is clear the file changes vs. not just getting appended to unsuccessfully.
+            var updatedOffsets = new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>();
+            foreach (var pinName in offsets.PinNames)
+            {
+                if (!updatedOffsets.ContainsKey(pinName))
+                {
+                    updatedOffsets.Add(pinName, new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>());
+                }
+                foreach (var siteNumber in offsets.SiteNumbers)
+                {
+                    updatedOffsets[pinName].Add(siteNumber, offsets.GetValue(siteNumber, pinName));
+                }
+            }
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesAfter = File.ReadLines(fileName).Count();
+
+            Assert.True(File.Exists(fileName));
+            Assert.Equal(numberofLinesBefore, numberofLinesAfter);
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_MeasureTDROffsetsPerInstrumentSession_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.MeasureTDROffsets(out var results);
+
+            Assert.Equal(2, results.Length);
+            Assert.Equal(2, results[0].Length);
+            Assert.Equal(2, results[1].Length);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_MeasureTDROffsetsPerInstrumentSession_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.MeasureTDROffsets(out var results);
+
+            Assert.Equal(2, results.Length);
+            Assert.Equal(3, results[0].Length);
+            Assert.Single(results[1]);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_ApplyPerInstrumentSessionTDROffsets_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8) },
+                new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) }
+            };
+            sessionsBundle.ApplyTDROffsets(offsets);
+
+            Assert.Equal(1e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").TdrOffset.TotalSeconds);
+            Assert.Equal(1.5e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
+            Assert.Equal(1.2e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
+            Assert.Equal(1.7e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_ApplyPerInstrumentSessionTDROffsets_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[][]
+            {
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), // site0/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site0/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8) // site1/C0
+                },
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) // site1/C1
+                }
+            };
+            sessionsBundle.ApplyTDROffsets(offsets);
+
+            Assert.Equal(1e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").TdrOffset.TotalSeconds);
+            Assert.Equal(1.5e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").TdrOffset.TotalSeconds);
+            Assert.Equal(1.2e-8, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").TdrOffset.TotalSeconds);
+            Assert.Equal(1.7e-8, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").TdrOffset.TotalSeconds);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_SaveInstrumentSessionTDROffsetsToAndFromFile_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8) },
+                new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) }
+            };
+            var fileName = Path.GetTempFileName();
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            PreciseWait(timeInSeconds: 0.1);
+            sessionsBundle.LoadTDROffsetsFromFile(fileName, out var offsetsFromFile);
+
+            Assert.Equal(offsets, offsetsFromFile);
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_SaveInstrumentSessionTDROffsetsToAndFromFile_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), // site0/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site0/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site1/C0
+                },
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) // site1/C1
+                }
+            };
+            var fileName = Path.GetTempFileName();
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            PreciseWait(timeInSeconds: 0.1);
+            sessionsBundle.LoadTDROffsetsFromFile(fileName, out var offsetsFromFile);
+
+            Assert.Equal(offsets, offsetsFromFile);
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_SaveInstrumentSessionTDROffsetsToAndFromFile_OverwritesExistingFile()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8) },
+                new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) }
+            };
+            var fileName = Path.GetTempFileName();
+
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesBefore = File.ReadLines(fileName).Count();
+            // Update the offsets value so that during debug, it is clear the file changes vs. not just getting appended to unsuccessfully.
+            for (int instrIndex = 0; instrIndex < offsets.Length; instrIndex++)
+            {
+                for (int chIndex = 0; chIndex < offsets[instrIndex].Length; chIndex++)
+                {
+                    offsets[instrIndex][chIndex] = offsets[instrIndex][chIndex] + Ivi.Driver.PrecisionTimeSpan.FromSeconds(.5);
+                }
+            }
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesAfter = File.ReadLines(fileName).Count();
+
+            Assert.True(File.Exists(fileName));
+            Assert.Equal(numberofLinesBefore, numberofLinesAfter);
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_SaveInstrumentSessionTDROffsetsToAndFromFile_OverwritesExistingFile()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), // site0/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site0/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site1/C0
+                },
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8) // site1/C1
+                }
+            };
+            var fileName = Path.GetTempFileName();
+
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesBefore = File.ReadLines(fileName).Count();
+            // Update the offsets value so that during debug, it is clear the file changes vs. not just getting appended to unsuccessfully.
+            for (int instrIndex = 0; instrIndex < offsets.Length; instrIndex++)
+            {
+                for (int chIndex = 0; chIndex < offsets[instrIndex].Length; chIndex++)
+                {
+                    offsets[instrIndex][chIndex] = offsets[instrIndex][chIndex] + Ivi.Driver.PrecisionTimeSpan.FromSeconds(.5);
+                }
+            }
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            var numberofLinesAfter = File.ReadLines(fileName).Count();
+
+            Assert.True(File.Exists(fileName));
+            Assert.Equal(numberofLinesBefore, numberofLinesAfter);
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigureTdrEndpointTermination_ValueCorrectlySet(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigureTdrEndpointTermination(TdrEndpointTermination.TdrToShortToGround);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(TdrEndpointTermination.TdrToShortToGround, sessionInfo.Session.Timing.TdrEndpointTermination);
+            });
+        }
+        /// <summary>
+        /// Removes a temporary file, if it exists.
+        /// This method is intended to be called at the end of the unit test that saving information to a temporary file.
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        private static void RemoveTemporaryFile(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
         }
     }
 }
