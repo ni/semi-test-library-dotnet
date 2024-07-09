@@ -11,31 +11,43 @@ The `SetSiteData` and `GetSiteData` .NET methods provided by TSM, do not current
 The following example shows how to store a per-site measurement data for comparison in a later test step:
 
 ```C#
-public static void FirstCodeModule(ISemiconductorModuleContext semiconductorModuleContext, string pin)
+public static void FirstCodeModule(
+    ISemiconductorModuleContext semiconductorModuleContext,
+    string pinName,
+    string patternName,
+    string waveformName,
+    int samplesToRead)
 {
-   var sessionManager = new TSMSessionManager(semiconductorModuleContext)
-   var dcPowerPins = sessionManager.DCPower(pin);    
-   SiteData<double> measurement = dcPowerPins.MeasureVoltage();
+    var sessionManager = new TSMSessionManager(semiconductorModuleContext);
+    var digitalPins = sessionManager.Digital(pinName);
+    digitalPins.BurstPattern(patternName);
+    SiteData<uint[]> measurement = digitalPins.FetchCaptureWaveform(waveformName, samplesToRead);
 
-    var perSiteDataArray = new double[semiconductorModuleContext.SiteNumbers.Count];
+    var perSiteDataArray = new uint[semiconductorModuleContext.SiteNumbers.Count][];
     for (int i = 0; i < perSiteDataArray.Length; i++)
     {
         perSiteDataArray[i] = measurement.GetValue(semiconductorModuleContext.SiteNumbers.ElementAt(i));
     }
-   semiconductorModuleContext.SetSiteData("ComparisonData", perSiteDataArray);
+    semiconductorModuleContext.SetSiteData("ComparisonData", perSiteDataArray);
 }
 
-public static void SecondCodeModule(ISemiconductorModuleContext semiconductorModuleContext, string pin)
+public static void SecondCodeModule(
+    ISemiconductorModuleContext semiconductorModuleContext,
+    string pinName,
+    string patternName,
+    string waveformName,
+    int samplesToRead)
 {
-    var perSiteComparisonDataArray = semiconductorModuleContext.GetSiteData<double>("ComparisonData");
-    var comparisonData = new SiteData<double>(perSiteComparisonDataArray);
+    var perSiteComparisonDataArray = semiconductorModuleContext.GetSiteData<uint[]>("ComparisonData");
+    var comparisonData = new SiteData<uint[]>(perSiteComparisonDataArray);
 
-    var sessionManager = new TSMSessionManager(semiconductorModuleContext)
-    var dcPowerPins = sessionManager.DCPower(pin);    
-    SiteData<double> measurement = dcPowerPins.MeasureVoltage();
+    var sessionManager = new TSMSessionManager(semiconductorModuleContext);
+    var digitalPins = sessionManager.Digital(pinName);
+    digitalPins.BurstPattern(patternName);
+    SiteData<uint[]> measurement = digitalPins.FetchCaptureWaveform(waveformName, 1);
 
-    var comparisonResults = measurement.Subtract(comparisonData);
-   semiconductorModuleContext.PublishResults(comparisonResults, "ComparisonResults");
+    var comparisonResults = measurement.Compare(ComparisonType.EqualTo, comparisonData);
+    semiconductorModuleContext.PublishResults(comparisonResults, "ComparisonResults");
 }
 ```
 
@@ -44,13 +56,13 @@ public static void SecondCodeModule(ISemiconductorModuleContext semiconductorMod
 The following example shows how to store a per-pin per-site measurement data for comparison in a later test step:
 
 ``` C#
-public static void FirstCodeModule(ISemiconductorModuleContext semiconductorModuleContext, string pin)
+public static void FirstCodeModule(ISemiconductorModuleContext semiconductorModuleContext, string pinName)
 {
-    var sessionManager = new TSMSessionManager(semiconductorModuleContext)
-    var dcPowerPins = sessionManager.DCPower(pin);    
-    PinSiteData<double> measurement = dcPowerPins.MeasureVoltage();
+    var sessionManager = new TSMSessionManager(semiconductorModuleContext);
+    var dcPowerPin = sessionManager.DCPower(pinName);
+    PinSiteData<double> measurement = dcPowerPin.MeasureVoltage();
 
-    var perSiteDataArray = new IDictionary<string, double>[tsmContext.SiteNumbers.Count];
+    var perSiteDataArray = new IDictionary<string, double>[semiconductorModuleContext.SiteNumbers.Count];
     for (int i = 0; i < perSiteDataArray.Length; i++)
     {
         perSiteDataArray[i] = measurement.ExtractSite(semiconductorModuleContext.SiteNumbers.ElementAt(i));
@@ -58,9 +70,8 @@ public static void FirstCodeModule(ISemiconductorModuleContext semiconductorModu
     semiconductorModuleContext.SetSiteData("ComparisonData", perSiteDataArray);
 }
 
-public static void SecondCodeModule(ISemiconductorModuleContext semiconductorModuleContext, string pin)
+public static void SecondCodeModule(ISemiconductorModuleContext semiconductorModuleContext, string pinName)
 {
-
     var perSitePinDict = semiconductorModuleContext.GetSiteData<IDictionary<string, double>>("ComparisonData");
     var pinSiteDictionary = new Dictionary<string, IDictionary<int, double>>();
     for (int i = 0; i < semiconductorModuleContext.SiteNumbers.Count; i++)
@@ -85,9 +96,9 @@ public static void SecondCodeModule(ISemiconductorModuleContext semiconductorMod
     }
     var comparisonData = new PinSiteData<double>(pinSiteDictionary);
 
-    var sessionManager = new TSMSessionManager(semiconductorModuleContext)
-    var dcPowerPins = sessionManager.DCPower(pin);    
-    SiteData<double> measurement = dcPowerPins.MeasureVoltage();
+    var sessionManager = new TSMSessionManager(semiconductorModuleContext);
+    var dcPowerPin = sessionManager.DCPower(pinName);
+    PinSiteData<double> measurement = dcPowerPin.MeasureVoltage();
 
     var comparisonResults = measurement.Subtract(comparisonData);
     semiconductorModuleContext.PublishResults(comparisonResults, "ComparisonResults");
