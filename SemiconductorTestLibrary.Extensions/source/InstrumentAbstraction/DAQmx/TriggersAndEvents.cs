@@ -52,7 +52,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// <remarks>
         /// Because the output terminal can reside on the device that generates the control
         /// signal or on a different device, you can use this method to share clocks and
-        /// triggers between multiple devices.
+        /// triggers among multiple devices.
         /// </remarks>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <param name="signal">The trigger, clock, or event to export.</param>

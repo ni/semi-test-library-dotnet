@@ -12,18 +12,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
     /// <summary>
     /// This class contains examples of how to use the Semiconductor Test Library to write test methods.
     /// It is intended for example purposes only and are not meant to be ran standalone.
-    /// It assume a hypothetical test program with any dependent instrument sessions have already initiated and configured prior.
+    /// It assume a hypothetical test program with any dependent instrument sessions have been already initiated and configured.
     /// </summary>
     public static class WorkFlowExamples
     {
         /// <summary>
-        /// Simple example to demonstrate the work flow for writing a test method with the Semiconductor Test Library.
+        /// Simple example to demonstrate the workflow for writing a test method with the Semiconductor Test Library.
         /// </summary>
         /// <param name="tsmContext">The Semiconductor Module Context object.</param>
         public static void SimpleWorkFlowExample(ISemiconductorModuleContext tsmContext)
         {
             // 1. Create a new TSMSessionManager object and any other local variables required for the test.
-            // Note that values are hard coded for demonstration purposes and would otherwise be replaced with appropriate parameter inputs.
+            // Note that values are hard coded for demonstration purposes and will otherwise be replaced with appropriate parameter inputs.
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             string[] sumPinNames = new string[] { "VDD", "VSS" };
             string[] digitalPinNames = new string[] { "SDI", "SDO" };
@@ -40,7 +40,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
                 Sense = DCPowerMeasurementSense.Remote
             };
 
-            // 2. Use the TSMSessionManager to query session for target pins.
+            // 2. Use the TSMSessionManager to query sessions for target pins.
             DCPowerSessionsBundle smuPins = sessionManager.DCPower(sumPinNames);
             DigitalSessionsBundle digitalPins = sessionManager.Digital(digitalPinNames);
 
@@ -48,7 +48,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             smuPins.ConfigureMeasureSettings(measureSettings);
             tsmContext.ApplyRelayConfiguration(relayConfigurationSetup, settlingTime);
 
-            // 4. Burst patterns, source and / or measuring the desired signals, and repeat as necessary to accomplish the test method.
+            // 4. Burst patterns, source and/or measuring the desired signals, and repeat as necessary to accomplish the test method.
             smuPins.ForceVoltage(voltageLevel, currentLimit);
             PreciseWait(settlingTime);
             PinSiteData<double> currentBefore = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentBefore");
@@ -68,7 +68,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
         }
 
         /// <summary>
-        /// Simple example to demonstrate the work flow for writing a test method with the Semiconductor Test Library.
+        /// Simple example to demonstrate the workflow for writing a test method with the Semiconductor Test Library.
         /// It is similar to <see cref="SimpleWorkFlowExample"/> but executes steps 5 and 6 concurrently,
         /// using the InvokeInParallel method from the NationalInstruments.SemiconductorTestLibrary.Common.Utilities class.
         /// </summary>
@@ -76,7 +76,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
         public static void SimpleWorkFlowExampleWithInvokeInParallel(ISemiconductorModuleContext tsmContext)
         {
             // 1. Create a new TSMSessionManager object and any other local variables required for the test.
-            // Note that values are hard coded for demonstration purposes and would otherwise be replaced with appropriate parameter inputs.
+            // Note that values are hard coded for demonstration purposes and will otherwise be replaced with appropriate parameter inputs.
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             string[] sumPinNames = new string[] { "VDD", "VSS" };
             string[] digitalPinNames = new string[] { "SDI", "SDO" };
@@ -93,7 +93,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
                 Sense = DCPowerMeasurementSense.Remote
             };
 
-            // 2. Use the TSMSessionManager to query session for target pins.
+            // 2. Use the TSMSessionManager to query sessions for target pins.
             DCPowerSessionsBundle smuPins = sessionManager.DCPower(sumPinNames);
             DigitalSessionsBundle digitalPins = sessionManager.Digital(digitalPinNames);
 
@@ -101,7 +101,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             smuPins.ConfigureMeasureSettings(measureSettings);
             tsmContext.ApplyRelayConfiguration(relayConfigurationSetup, settlingTime);
 
-            // 4. Burst patterns, source and / or measuring the desired signals, and repeat as necessary to accomplish the test method.
+            // 4. Burst patterns, source and/or measuring the desired signals, and repeat as necessary to accomplish the test method.
             smuPins.ForceVoltage(voltageLevel, currentLimit);
             PreciseWait(settlingTime);
             PinSiteData<double> currentBefore = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentBefore");

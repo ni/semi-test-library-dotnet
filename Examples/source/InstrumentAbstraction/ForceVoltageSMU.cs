@@ -12,10 +12,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
     /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
     /// Specifically, how to force voltage on pins mapped to DCPower instruments.
     /// Note that DCPower Instruments include both Source Measurement Units (SMUs) and Programmable Power Supplies (PPS) devices.
-    /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
+    /// This class and its methods are intended for example purposes only and are not meant to be ran standalone.
     /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
-    /// with any dependent instrument sessions have already initiated and configured prior.
-    /// Additionally, they are intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
+    /// with any dependent instrument sessions have already been initiated and configured.
+    /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
     internal static class ForceVoltageSMU
     {
@@ -48,7 +48,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
 
         /// <summary>
         /// This example demonstrates how to configure different voltage levels for each site.
-        /// The example assumes there are two pins and 4 sites.
+        /// The example assumes there are two pins and four sites.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         internal static void DifferentValuesPerSiteSmu(ISemiconductorModuleContext tsmContext)
@@ -92,7 +92,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             // an input of type Dictionary<string pinName, DCPowerSourceSettings setting>,
             // similar to that of the PPMU. Or a constructors is added to PinSiteData
             // that allows user to declare a PinSiteData object via an input of
-            // Dictionary<string pinName, T>, where the T is a scale value that will be
+            // Dictionary<string pinName, T>, where the T is a scale value that is
             // assumed to be applied to all sites in the underlaying SiteData<T> object.
             var smuSettings = new PinSiteData<DCPowerSourceSettings>(
                 pinNames,

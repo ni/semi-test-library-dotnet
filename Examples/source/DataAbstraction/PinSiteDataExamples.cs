@@ -8,10 +8,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
     /// <summary>
     /// This class contains examples of how to use the Data Abstraction extensions from the Semiconductor Test Library.
     /// Specifically, how to use the PinStieData objects.
-    /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
+    /// This class and its methods are intended for example purposes only and are not meant to be ran standalone.
     /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
-    /// that has already been initiated and configured prior.
-    /// Additionally, they are intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
+    /// that has already been initiated and configured.
+    /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
     internal static class PinSiteDataExamples
     {
@@ -60,7 +60,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
         /// <summary>
         /// This method is just for example purposes to simulate a measurement result being collected.
         /// </summary>
-        /// <returns>Simulated random measurement result</returns>
+        /// <returns>Simulated random measurement result.</returns>
         internal static PinSiteData<double> Measure()
         {
             var siteDataArray = new SiteData<double>[PinNames.Length];

@@ -14,9 +14,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// By default, the <paramref name="instrumentType"/> input is set to All, which targets all supported instrument types in parallel.
         /// This can be configured to target a specific instrument type, which can be useful for debugging purposes
         /// and/or if there is a need to ensure instruments are reset individually or sequentially (requiring multiple instances of this step).
-        /// Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDMM, niScope, niFGen, niSync.
+        /// Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDMM, niScope, niFGen, and niSync.
         /// For instrumentation that also have the ResetDevice() method (hard reset), this can optionally be invoked instead of the Reset() method (soft-reset)
-        /// if the <paramref name="resetDevice"/> input is set True (default = False): niDCPower, niDigitalPattern, niScope, niFGen.
+        /// if the <paramref name="resetDevice"/> input is set True (default = False): niDCPower, niDigitalPattern, niScope, and niFGen.
         /// Refer to the individual instrument driver documentation for more details.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>

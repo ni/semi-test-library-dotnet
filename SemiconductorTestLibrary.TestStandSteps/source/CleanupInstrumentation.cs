@@ -13,7 +13,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
     {
         /// <summary>
         /// Closes any open instrument sessions associated with the pin map.
-        /// If the <paramref name="resetDevice"/> input is set True, then the instrument will be reset before closing the session (default = False).
+        /// If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset before closing the session (default = False).
         /// The sessions will always be closed in parallel.
         /// By default, the <paramref name="instrumentType"/> input is set to All, which closes sessions for all instrument types in parallel.
         /// This can be configured to target a specific instrument type, which can be useful for debugging purposes

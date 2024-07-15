@@ -10,7 +10,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
     public static class FrequencyCounter
     {
         /// <summary>
-        /// Measures frequency and returns a pin- and site-aware data object..
+        /// Measures frequency and returns a pin- and site-aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="measurementMode">The frequency measurement mode.</param>

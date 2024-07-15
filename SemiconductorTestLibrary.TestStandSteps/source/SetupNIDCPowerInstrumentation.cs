@@ -12,13 +12,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
     {
         /// <summary>
         /// Initializes the NI DCPower instrument sessions associated with the pin map.
-        /// If the <paramref name="resetDevice"/> input is set True, then the instrument will be reset as the session is initialized (default = False).
+        /// If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset as the session is initialized (default = False).
         /// If the <paramref name="sourceDelay"/> is set to -1 the method will not set the source delay property, and will assume the initialized default value from the driver,
         /// which is expected to be the inverse of the power line frequency.
         /// If the <paramref name="powerLineFrequency"/> is set to -1, the method will attempt to automatically determine the power line frequency
         /// and set the power line frequency property for the respective driver sessions.
-        /// If the power line frequency cannot be determined, the property will not be set and the driver will use the default value of this property (60Hz).
-        /// This is currently only supported by systems that use a PXIe-109x series of PXIe chassis or newer.
+        /// If the power line frequency cannot be determined, the property will not be set and the driver will use the default value of this property (60 Hz).
+        /// This is currently only supported by systems that use a PXIe-109x chassis or newer.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to reset device during initialization.</param>
