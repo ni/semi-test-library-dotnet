@@ -48,7 +48,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
 
         /// <summary>
         /// This example demonstrates how to configure different voltage levels for each site.
-        /// The example assumes there are two pins and four sites.
+        /// The example assumes there are 2 pins and 4 sites.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         internal static void DifferentValuesPerSiteSmu(ISemiconductorModuleContext tsmContext)
