@@ -75,13 +75,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
                         }
 
+                        var maxCurrentLevel = currentLevelPerContinuityPinOrPinGroup.Max();
                         tsmContext.FilterPinsOrPinGroups(continuityPinsOrPinGroups, InstrumentTypeIdConstants.NIDCPower, out var continuityPins, out var continuityPinIndexes, out var continuityPinsFlattened);
                         if (continuityPinsFlattened.Any())
                         {
                             dcPowerContinuity = sessionManager.DCPower(continuityPinsFlattened);
                             originalSourceDelaysContinuity = dcPowerContinuity.GetSourceDelayInSeconds();
                             dcPowerContinuity.ConfigureSourceDelay(settlingTime);
-                            dcPowerContinuity.ForceVoltage(0);
+                            dcPowerContinuity.ForceVoltage(0, maxCurrentLevel);
+                            // Workaround for the issue that the DCPower API checks asymmetric current limits when forcing current level during per-pin continuity test at a later time.
+                            dcPowerContinuity.ConfigureSourceSettings(new DCPowerSourceSettings()
+                            {
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric,
+                                LimitRange = maxCurrentLevel,
+                                LimitHigh = maxCurrentLevel,
+                                LimitLow = -maxCurrentLevel
+                            });
+                            dcPowerContinuity.ConfigureCurrentLimit(maxCurrentLevel);
                         }
                     },
                     () =>

@@ -2004,14 +2004,25 @@
             Defines entry points for mixed signal steps.
             </summary>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.MapInitializedInstrumentSessions(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.MapInitializedInstrumentSessions(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>
-            Does mapping for initialized instrument sessions.
+            Maps already initialized instrument sessions.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-            <param name="analogOutputVoltageTaskType">Specifies the analog output task type.</param>
-            <param name="digitalOutputTaskType">Specifies the digital output task type.</param>
-            <remarks>Must be called when instruments initialization complete.</remarks>
+            <remarks>
+            Must be called when instruments initialization complete.
+            This ensures any cached instrument session information is consistent between the
+            NationalInstruments.SemiconductorTestLibrary.TestStandSteps assembly and client assembly,
+            as they may not share the same memory space.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.GetDAQmxChannelLists(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[]@,System.String[]@)">
+            <summary>
+            Get the DAQmx channel lists for all channels of specific channel types.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="aoChannelLists">Channel Lists of all AO tasks</param>
+            <param name="doChannelLists">Channel Lists of all DO tasks</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation">
             <summary>
