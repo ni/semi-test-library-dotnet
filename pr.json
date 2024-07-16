@@ -1,0 +1,6 @@
+{
+    "title": "Test auto-created PR",
+    "body": "Please pull this in!",
+    "head": "users/rsu/TestAutoPR",
+    "base": "main"
+}
