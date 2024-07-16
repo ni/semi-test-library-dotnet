@@ -64,7 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Waits for the selected EventType to occur. 
+        /// Waits for the selected EventType to occur.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="eventType">The type of event to wait for.</param>
