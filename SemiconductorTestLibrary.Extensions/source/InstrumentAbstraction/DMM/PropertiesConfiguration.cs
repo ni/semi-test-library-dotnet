@@ -12,8 +12,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// Configures AC bandwidth for AC measurements.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
-        /// <param name="minimumFrequency">The minimum frequency value in Hz to be used.</param>
-        /// <param name="maximumFrequency">The maximum frequency value in Hz to be used.</param>
+        /// <param name="minimumFrequency">The minimum frequency value in Hz to use.</param>
+        /// <param name="maximumFrequency">The maximum frequency value in Hz to use.</param>
         public static void ConfigureACBandwidth(this DMMSessionsBundle sessionsBundle, double minimumFrequency = 20, double maximumFrequency = 25000)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -27,7 +27,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="apertureTimeUnits">The unit of the aperture time.</param>
-        /// <param name="apertureTime">The aperture time to be used.</param>
+        /// <param name="apertureTime">The aperture time to use.</param>
         public static void ConfigureApertureTime(this DMMSessionsBundle sessionsBundle, DmmApertureTimeUnits apertureTimeUnits = DmmApertureTimeUnits.Seconds, double apertureTime = 0)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -41,7 +41,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// Configures settle time.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
-        /// <param name="settleTime">The settle time to be used.</param>
+        /// <param name="settleTime">The settle time to use.</param>
         public static void ConfigureSettleTime(this DMMSessionsBundle sessionsBundle, double settleTime = 0.01)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -54,9 +54,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// Configures measurements using absolute resolution.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
-        /// <param name="measurementFunction">The measurement function to be used.</param>
-        /// <param name="range">The range to be used.</param>
-        /// <param name="resolutionAbsolute">The absolute resolution to be used.</param>
+        /// <param name="measurementFunction">The measurement function to use.</param>
+        /// <param name="range">The range to use.</param>
+        /// <param name="resolutionAbsolute">The absolute resolution to use.</param>
         public static void ConfigureMeasurementAbsolute(this DMMSessionsBundle sessionsBundle, DmmMeasurementFunction measurementFunction = DmmMeasurementFunction.DCVolts, double range = 0.02, double resolutionAbsolute = 0.001)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -69,9 +69,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// Configures measurements using number of digits resolution.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
-        /// <param name="measurementFunction">The measurement function to be used.</param>
-        /// <param name="range">The range to be used.</param>
-        /// <param name="resolutionDigits">The resolution number of digits to be used.</param>
+        /// <param name="measurementFunction">The measurement function to use.</param>
+        /// <param name="range">The range to use.</param>
+        /// <param name="resolutionDigits">The resolution number of digits to use.</param>
         public static void ConfigureMeasurementDigits(this DMMSessionsBundle sessionsBundle, DmmMeasurementFunction measurementFunction = DmmMeasurementFunction.DCVolts, double range = 0.02, double resolutionDigits = 5.5)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -100,7 +100,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// Configures power line frequency.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
-        /// <param name="powerlineFrequency">The frequency in Hz to be used.</param>
+        /// <param name="powerlineFrequency">The frequency in Hz to use.</param>
         public static void ConfigurePowerlineFrequency(this DMMSessionsBundle sessionsBundle, double powerlineFrequency = 60)
         {
             sessionsBundle.Do(sessionInfo =>

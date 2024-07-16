@@ -6,7 +6,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     /// The class is used to configure the settings for an Analog Output Function Generation DAQmx task.
     /// </summary>
     /// <remarks>
-    /// Using this class is adventegous as it allows you to set one or more properties in a single call.
+    /// Using this class is adventegous as it allows the user to set one or more properties in a single call.
     /// </remarks>
     public class AOFunctionGenerationSettings
     {
@@ -59,7 +59,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     /// The class is used to configure the timing settings for a DAQmx task.
     /// </summary>
     /// <remarks>
-    /// Using this class is advantageous as it allows you to set one or more properties in a single call.
+    /// Using this class is advantageous as it allows the user to set one or more properties in a single call.
     /// </remarks>
     public class DAQmxTimingSampleClockSettings
     {

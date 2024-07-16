@@ -9,7 +9,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
     public static partial class SetupAndCleanupSteps
     {
         /// <summary>
-        /// Initializes NI DAQmx Analog Output Function Generation Task associated with the pin map.
+        /// Initializes an NI DAQmx Analog Output Function Generation Task associated with the pin map.
         /// The value of <paramref name="taskType"/> string must match that of the DAQmx task definition within the pin map (default ="AOFuncGen").
         /// Note that the task will only be configured upon exiting this step, it will not be running.
         /// This type of task is only supported by certain NI DAQmx hardware, such as the 4468.

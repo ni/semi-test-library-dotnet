@@ -8,7 +8,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
     {
         /// <summary>
         /// Initializes NI Switch instrument sessions and NI DAQmx tasks associated with relay modules within the pin map.
-        /// If the <paramref name="resetDevice"/> input is set True, then the instrument will be reset as the session is initialized (default = False).
+        /// If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset as the session is initialized (default = False).
         /// If the <paramref name="initialRelayConfigurationToApply"/> input is provided, the step will apply the specified relay configuration.
         /// Note that the relay configuration must be defined within the pin map, otherwise the step will throw an exception.
         /// Supported devices: PXI-2567 and PXIe-6368.

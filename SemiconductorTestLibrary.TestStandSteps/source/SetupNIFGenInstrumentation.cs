@@ -9,7 +9,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
     {
         /// <summary>
         /// Initializes NI FGEN instrument sessions associated with the pin map.
-        /// If the <paramref name="resetDevice"/> input is set True, then the instrument will be reset as the session is initialized (default = False).
+        /// If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset as the session is initialized (default = False).
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to reset device during initialization.</param>

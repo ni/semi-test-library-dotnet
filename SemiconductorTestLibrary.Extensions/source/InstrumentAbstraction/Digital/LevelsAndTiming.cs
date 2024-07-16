@@ -64,7 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region methods on DigitalSessionsBundle
 
         /// <summary>
-        /// Configures a single level. Use this method to configure the same level to all sessions.
+        /// Configures a single level. Use this method to configure the same level for all sessions.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="levelType">The type of level to configure.</param>

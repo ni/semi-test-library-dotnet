@@ -8,10 +8,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
     /// <summary>
     /// This class contains examples of how to use the Data Abstraction extensions from the Semiconductor Test Library.
     /// Specifically, how to use the PinStieData objects.
-    /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
+    /// This class and its methods are intended for example purposes only and are not meant to be ran standalone.
     /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
-    /// that has already been initiated and configured prior.
-    /// Additionally, they are intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
+    /// that has already been initiated and configured.
+    /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
     internal static class SharingDataBetweenCodeModules
     {
@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
         {
             SiteData<double> measurementA = SiteDataExamples.PerSiteMeasure();
 
-            // The Semiconductor Module Context does not currently support being passed SiteData objects.
+            // The Semiconductor Module Context does not currently support accepting SiteData objects.
             // Therefore, SiteData must first be converted into a 1D array of per-site values.
             // Where, each element in the array represents a given site value.
             var dataPerSiteArray = new double[tsmContext.SiteNumbers.Count];
@@ -39,7 +39,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
         {
             PinSiteData<double> measurementsAB = PinSiteDataExamples.Measure();
 
-            // The Semiconductor Module Context does not currently support being passed PinSiteData objects.
+            // The Semiconductor Module Context does not currently support accepting PinSiteData objects.
             // Therefore, PinSiteData must first be converted into a 1D array of per-site values.
             // Where, each element in the array represents a given site value, and is a dictionary of per-
             // pin values.
@@ -53,8 +53,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
 
         internal static void GetPinSiteDataFromAnotherCodeModule(ISemiconductorModuleContext tsmContext)
         {
-            // The Semiconductor Module Context does not currently support being passed PinSiteData objects.
-            // Therefore, PinSiteData stored via the TSM context, it be converted from an array of
+            // The Semiconductor Module Context does not currently support accepting PinSiteData objects.
+            // Therefore, PinSiteData stored via the TSM context must be converted to an array of
             // dictionaries. Where, each element in the array represents a given site values as a dictionary,
             // where each item in the dictionary represents a specific pin's value for the given site.
             var perSitePinDict = tsmContext.GetSiteData<IDictionary<string, double>>("MeasurementsAB");

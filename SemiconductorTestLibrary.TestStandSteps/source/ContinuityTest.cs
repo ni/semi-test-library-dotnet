@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// Performs a basic continuity test. It serially checks either upper or lower protection diodes DUT pins,
         /// regardless of if they are mapped to digital or SMU instruments. The test will first set 0V on all the pins
         /// and then source a small amount of current on the targeted continuity pins to validate the voltage drop
-        /// across the protecting diode. After current is applied, the targeted pin(s) will be forced back to 0V
+        /// across the protection diode. After current is applied, the targeted pin(s) will be forced back to 0V
         /// before continuing on to the next pin.
         /// Note that each continuity pin will be tested one pin at a time.
         /// Pins mapped to either an NI SMU or NI PPMU(s) instrument channel are supported.

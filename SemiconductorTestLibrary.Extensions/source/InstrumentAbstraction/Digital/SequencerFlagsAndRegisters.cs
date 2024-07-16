@@ -31,7 +31,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// This method is the same as <see cref="ReadSequencerFlag(DigitalSessionsBundle, string)"/>,
         /// except it also checks to confirm if the flag state is the same across all sessions in the bundle.
-        /// If the states are indeed the same, it will return the single boolean state value.
+        /// If the states are the same, it will return the single boolean state value.
         /// Otherwise, it will throw an exception.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
