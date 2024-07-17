@@ -29,7 +29,6 @@ namespace MyProject.Extensions
         /// <summary>
         /// Calculates the per-site maximum value across each pin.
         /// </summary>
-        /// <remarks>
         /// <example>
         /// Example usage:
         /// <code>
@@ -37,7 +36,6 @@ namespace MyProject.Extensions
         /// var measurementMaxAcrossPins = measurements.MaxByPin();
         /// </code>
         /// </example>
-        /// </remarks>
         /// <typeparam name="T">The base type for the per-site per-pin data</typeparam>
         /// <param name="data">The <see cref="PinSiteData{T}"/> object</param>
         /// <returns>

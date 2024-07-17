@@ -1,6 +1,6 @@
 # Making Low-level Driver Calls (Advanced)
 
-During test program development, you may find that there is a low-level driver function or capability that is not directly exposed as a high level extension method by the Semiconductor Test Library. In such cases, it may be necessary to directly invoke low-level driver calls to implement the desired test code. The [Parallelization Methods](ParallelExecution.md) provided by the Semiconductor Test Library enables direct access to the low-level driver sessions for the user to act in-line with other high-level test methods in their code.
+During test program development, you may find that there is a low-level driver function or capability that is not directly exposed as a high level extension method by the Semiconductor Test Library. In such cases, it may be necessary to directly invoke low-level driver API calls to implement the desired test code. The [Parallelization Methods](ParallelExecution.md) provided by the Semiconductor Test Library enables direct access to the low-level driver sessions for the user to act in-line with other high-level test methods in their code.
 
 ## Making Low-level Driver Calls
 
