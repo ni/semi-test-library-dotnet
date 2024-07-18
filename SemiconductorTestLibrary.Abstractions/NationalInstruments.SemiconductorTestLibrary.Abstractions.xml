@@ -371,14 +371,14 @@
             <param name="perInstrumentPerChannelResults">The per-instrument per-channel results to convert.</param>
             <returns>The converted per-site per-pin results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerPinPerSiteResults``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])">
             <summary>
-            Converts per-instrument per-channel results to PinSiteData results.
+            Converts per-instrument per-channel results to PinSiteData.
             </summary>
             <typeparam name="T">The type of the per-instrument per-channel result.</typeparam>
             <param name="allSessionInfo">An enumerable of session info.</param>
             <param name="perInstrumentPerChannelResults">The per-instrument per-channel results to convert.</param>
-            <returns>The converted per-site per-pin results.</returns>
+            <returns>The converted PinSiteData.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray``1(``0[0:,0:])">
             <summary>

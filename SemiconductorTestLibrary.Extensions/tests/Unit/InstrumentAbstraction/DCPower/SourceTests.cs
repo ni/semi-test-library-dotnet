@@ -399,7 +399,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 foreach (var innerExeption in x.InnerExceptions)
                 {
-                    Assert.Contains("Invalid value for parameter or property.", innerExeption.Message);
+                    Assert.Contains("Invalid value for parameter or property.", innerExeption.InnerException.Message);
                 }
             });
         }
