@@ -135,11 +135,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     case DCPowerModelStrings.PXI_4110:
                     case DCPowerModelStrings.PXI_4130:
-                        // The 4110 and 4130 use samples to average and have a fixed sample rate of 3kHz, convert this to an aperture time in seconds.
+                        // The 4110 and 4130 use samples to average and have a fixed sample rate of 3 kHz, convert this to an aperture time in seconds.
                         return channelOutput.Measurement.SamplesToAverage / 3000.0;
 
                     case DCPowerModelStrings.PXIe_4154:
-                        // The 4154 uses samples to average and has a fixed sample rate of 300kHz, convert this to an aperture time in seconds.
+                        // The 4154 uses samples to average and has a fixed sample rate of 300 kHz, convert this to an aperture time in seconds.
                         return channelOutput.Measurement.SamplesToAverage / 300000.0;
 
                     default:
@@ -223,11 +223,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Measures the voltage on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <remarks>
-        /// Use this method for the fastest test time if the measurement results do not needed for any other operations.
+        /// Use this method for the fastest test time if the measurement results are not needed for any other operations.
         /// Otherwise, use the override for this method that returns PinSiteData.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
+        /// <param name="publishedDataId">The unique data id to use when publishing.</param>
         /// <param name="voltageMeasurements">The returned voltage measurements.</param>
         public static void MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishedDataId, out double[][] voltageMeasurements)
         {
@@ -238,12 +238,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Measures the voltage on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
+        /// <param name="publishedDataId">The unique data id to use when publishing.</param>
         /// <returns>The pin-site aware voltage measurements.</returns>
         public static PinSiteData<double> MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishedDataId)
         {
             MeasureAndPublishVoltage(sessionsBundle, publishedDataId, out var voltageMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(voltageMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(voltageMeasurements);
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, use the override for this method that returns PinSiteData.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
+        /// <param name="publishedDataId">The unique data id to use when publishing.</param>
         /// <param name="currentMeasurements">The returned current measurements.</param>
         public static void MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishedDataId, out double[][] currentMeasurements)
         {
@@ -265,12 +265,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Measures the current on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
+        /// <param name="publishedDataId">The unique data id to use when publishing.</param>
         /// <returns>The pin-site aware current measurements.</returns>
         public static PinSiteData<double> MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishedDataId)
         {
             MeasureAndPublishCurrent(sessionsBundle, publishedDataId, out var currentMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(currentMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(currentMeasurements);
         }
 
         /// <summary>
@@ -354,7 +354,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     channelOutput.Triggers.MeasureTrigger.DigitalEdge.Configure(measureTrigger, DCPowerTriggerEdge.Rising);
                 }
 
-                // Read back actual measure record delta time, configure measure record length and calculate buffer sizes.
+                // Read back actual measure record delta time, configure measure record length and calculate buffer size.
                 channelOutput.Control.Commit();
                 measureRecordLength[perChannelString] = (int)Math.Ceiling(measurementTimeInSeconds / channelOutput.Measurement.RecordDeltaTime);
                 channelOutput.Measurement.RecordLength = measureRecordLength[perChannelString];

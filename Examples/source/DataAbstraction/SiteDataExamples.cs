@@ -11,7 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
     /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
     /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
     /// that has already been initiated and configured prior.
-    /// Additionally, they are intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
+    /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
     internal static class SiteDataExamples
     {

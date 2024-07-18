@@ -7,6 +7,7 @@ using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
@@ -313,6 +314,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [InlineData(false)]
         [InlineData(true)]
         public void SessionsInitialized_ConfigureAndStartWaveformAcquisition_OriginalSettingsAreCorrectlyReturned(bool pinMapWithChannelGroup)
@@ -501,7 +503,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 foreach (var innerExeption in x.InnerExceptions)
                 {
-                    Assert.Contains("Function or method not supported.", innerExeption.Message);
+                    Assert.Contains("Function or method not supported.", innerExeption.InnerException.Message);
                 }
             });
         }
@@ -613,6 +615,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         public void DifferentSMUDevices_ConfigureJustApertureTimeUnits_Succeeds()
         {
             var sessionManager = Initialize("DifferentSMUDevices.pinmap");

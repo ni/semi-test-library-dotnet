@@ -64,11 +64,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Waits for the selected EventType to occur. Times out after 5 seconds by default.
+        /// Waits for the selected EventType to occur.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="eventType">The type of event to wait for.</param>
-        /// <param name="timeout">The maximum time to wait.</param>
+        /// <param name="timeout">The maximum time to wait. Default is 5 seconds.</param>
         public static void WaitForEvent(this DCPowerSessionsBundle sessionsBundle, EventType eventType, double timeout = 5.0)
         {
             var timeoutAsPrecisionTimeSpan = PrecisionTimeSpan.FromSeconds(timeout);
@@ -104,7 +104,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Disables all triggers by configuring them to None: PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.
+        /// Disables all triggers by configuring them to None: PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, and StartTrigger.
         /// <para> Note that MeasureTrigger is not supported. It does not need to be disabled.</para>
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -124,7 +124,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures a digital edge trigger for the selected TriggerType: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.
+        /// Configures a digital edge trigger for the selected TriggerType: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, and StartTrigger.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="triggerType">Type of trigger, either MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
@@ -171,7 +171,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures a software edge trigger for the selected TriggerType: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.
+        /// Configures a software edge trigger for the selected TriggerType: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, and StartTrigger.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="triggerType">Type of trigger, either MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, or StartTrigger.</param>>
@@ -267,7 +267,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
         /// <param name="modelString">The model string of the associated instrument.</param>
         /// <param name="channelString">
-        /// The channel string containing one or more instrument channel(s).
+        /// The channel string containing one or more instrument channels.
         /// For Example: "SMU_4147_C2_16/0", or "SMU_4147_C2_16/3, SMU_4137_C2_17/0".
         /// </param>
         public static void ConfigureMeasureTriggerSoftwareEdge(this DCPowerSessionInformation sessionInfo, string modelString, string channelString = "")

@@ -8,7 +8,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
     public static partial class SetupAndCleanupSteps
     {
         /// <summary>
-        /// Initializes NI DAQmx Analog Output Task associated with the pin map.
+        /// Initializes an NI DAQmx Analog Output Task associated with the pin map.
         /// The value of <paramref name="taskType"/> string must match that of the DAQmx task definition within the pin map (default ="AO").
         /// Note that the task will only be configured upon exiting this step, it will not be running.
         /// </summary>

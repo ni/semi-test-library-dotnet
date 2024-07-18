@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// Performs a basic continuity test. It serially checks either upper or lower protection diodes DUT pins,
         /// regardless of if they are mapped to digital or SMU instruments. The test will first set 0V on all the pins
         /// and then source a small amount of current on the targeted continuity pins to validate the voltage drop
-        /// across the protecting diode. After current is applied, the targeted pin(s) will be forced back to 0V
+        /// across the protection diode. After current is applied, the targeted pin(s) will be forced back to 0V
         /// before continuing on to the next pin.
         /// Note that each continuity pin will be tested one pin at a time.
         /// Pins mapped to either an NI SMU or NI PPMU(s) instrument channel are supported.
@@ -75,13 +75,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
                         }
 
+                        var maxCurrentLevel = currentLevelPerContinuityPinOrPinGroup.Max();
                         tsmContext.FilterPinsOrPinGroups(continuityPinsOrPinGroups, InstrumentTypeIdConstants.NIDCPower, out var continuityPins, out var continuityPinIndexes, out var continuityPinsFlattened);
                         if (continuityPinsFlattened.Any())
                         {
                             dcPowerContinuity = sessionManager.DCPower(continuityPinsFlattened);
                             originalSourceDelaysContinuity = dcPowerContinuity.GetSourceDelayInSeconds();
                             dcPowerContinuity.ConfigureSourceDelay(settlingTime);
-                            dcPowerContinuity.ForceVoltage(0);
+                            dcPowerContinuity.ForceVoltage(0, maxCurrentLevel);
+                            // Workaround for the issue that the DCPower API checks asymmetric current limits when forcing current level during per-pin continuity test at a later time.
+                            dcPowerContinuity.ConfigureSourceSettings(new DCPowerSourceSettings()
+                            {
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric,
+                                LimitRange = maxCurrentLevel,
+                                LimitHigh = maxCurrentLevel,
+                                LimitLow = -maxCurrentLevel
+                            });
+                            dcPowerContinuity.ConfigureCurrentLimit(maxCurrentLevel);
                         }
                     },
                     () =>
@@ -108,18 +118,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 var dcPowerMeasureSettings = new DCPowerMeasureSettings() { ApertureTime = apertureTime };
                 for (int i = 0; i < dcPowerContinuityPins.Count; i++)
                 {
-                    var dcPowerContinuityPin = sessionManager.DCPower(dcPowerContinuityPins[i]);
                     int translatedIndex = dcPowerContinuityPinIndexes[i];
-                    var originalVoltageLimitRange = dcPowerContinuityPin.GetVoltageLimitRange();
-                    dcPowerContinuityPin.ConfigureMeasureSettings(dcPowerMeasureSettings);
-                    dcPowerContinuityPin.ForceCurrentAsymmetricLimit(
-                        currentLevelPerContinuityPinOrPinGroup[translatedIndex],
-                        voltageLimitHighPerContinuityPinOrPinGroup[translatedIndex],
-                        voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex],
-                        waitForSourceCompletion: true);
-                    dcPowerContinuityPin.MeasureAndPublishVoltage("Continuity", out _);
-                    dcPowerContinuityPin.ConfigureVoltageLimitRange(originalVoltageLimitRange);
-                    dcPowerContinuityPin.ForceVoltage(0);
+                    foreach (var pin in dcPowerContinuityPins[i])
+                    {
+                        var dcPowerContinuityPin = sessionManager.DCPower(pin);
+                        var originalVoltageLimitRange = dcPowerContinuityPin.GetVoltageLimitRange();
+                        dcPowerContinuityPin.ConfigureMeasureSettings(dcPowerMeasureSettings);
+                        dcPowerContinuityPin.ForceCurrentAsymmetricLimit(
+                            currentLevelPerContinuityPinOrPinGroup[translatedIndex],
+                            voltageLimitHighPerContinuityPinOrPinGroup[translatedIndex],
+                            voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex],
+                            waitForSourceCompletion: true);
+                        dcPowerContinuityPin.MeasureAndPublishVoltage("Continuity", out _);
+                        dcPowerContinuityPin.ConfigureVoltageLimitRange(originalVoltageLimitRange);
+                        dcPowerContinuityPin.ForceVoltage(0);
+                    }
                 }
                 dcPowerContinuity?.ConfigureSourceDelay(originalSourceDelaysContinuity);
 
@@ -127,17 +140,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 tsmContext.FilterPinsOrPinGroups(continuityPinsOrPinGroups, InstrumentTypeIdConstants.NIDigitalPattern, out var digitalContinuityPins, out var digitalContinuityPinIndexes, out _);
                 for (int i = 0; i < digitalContinuityPins.Count; i++)
                 {
-                    var digitalContinuityPin = sessionManager.Digital(digitalContinuityPins[i]);
                     int translatedIndex = digitalContinuityPinIndexes[i];
-                    digitalContinuityPin.ConfigureApertureTime(apertureTime);
-                    digitalContinuityPin.ForceCurrent(
-                        currentLevelPerContinuityPinOrPinGroup[translatedIndex],
-                        voltageLimitHigh: voltageLimitHighPerContinuityPinOrPinGroup[translatedIndex],
-                        voltageLimitLow: voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex]);
-                    PreciseWait(settlingTime);
-                    digitalContinuityPin.MeasureAndPublishVoltage("Continuity", out _);
-                    digitalContinuityPin.ForceVoltage(0);
-                    PreciseWait(settlingTime);
+                    foreach (var pin in digitalContinuityPins[i])
+                    {
+                        var digitalContinuityPin = sessionManager.Digital(pin);
+                        digitalContinuityPin.ConfigureApertureTime(apertureTime);
+                        digitalContinuityPin.ForceCurrent(
+                            currentLevelPerContinuityPinOrPinGroup[translatedIndex],
+                            voltageLimitHigh: voltageLimitHighPerContinuityPinOrPinGroup[translatedIndex],
+                            voltageLimitLow: voltageLimitLowPerContinuityPinOrPinGroup[translatedIndex]);
+                        PreciseWait(settlingTime);
+                        digitalContinuityPin.MeasureAndPublishVoltage("Continuity", out _);
+                        digitalContinuityPin.ForceVoltage(0);
+                        PreciseWait(settlingTime);
+                    }
                 }
             }
             catch (Exception e)

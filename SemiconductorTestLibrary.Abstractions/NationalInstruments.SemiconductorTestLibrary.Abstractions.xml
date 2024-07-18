@@ -332,6 +332,16 @@
             <param name="invididualChannelString">The individual channel string.</param>
             <param name="modelString">The model string of the owning instrument.</param>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.SystemSettings">
+            <summary>
+            Defines system settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SystemSettings.PowerLineFrequency">
+            <summary>
+            The power line frequency of the system.
+            </summary>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.Utilities">
             <summary>
             Provides general helper methods.
@@ -361,14 +371,14 @@
             <param name="perInstrumentPerChannelResults">The per-instrument per-channel results to convert.</param>
             <returns>The converted per-site per-pin results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerPinPerSiteResults``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])">
             <summary>
-            Converts per-instrument per-channel results to PinSiteData results.
+            Converts per-instrument per-channel results to PinSiteData.
             </summary>
             <typeparam name="T">The type of the per-instrument per-channel result.</typeparam>
             <param name="allSessionInfo">An enumerable of session info.</param>
             <param name="perInstrumentPerChannelResults">The per-instrument per-channel results to convert.</param>
-            <returns>The converted per-site per-pin results.</returns>
+            <returns>The converted PinSiteData.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray``1(``0[0:,0:])">
             <summary>
@@ -879,6 +889,46 @@
             Returns integer portion of every element in current SiteData.
             </summary>
             <returns>A new SiteData that contains integer values.</returns>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions">
+            <summary>
+            Defines extension methods for <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0)">
+            <summary>
+            Creates new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with the same value for all sites.
+            </summary>
+            <remarks>
+            <para>Example Usage:</para>
+            <example>
+            <code>
+            var data = tsmContext.NewSiteData(4.0);
+            </code>
+            </example>
+            </remarks>
+            <typeparam name="T">Data Type of value to be used with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</typeparam>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="value">Value to be applied to all sites.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0[])">
+            <summary>
+            Creates new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with unique values for all sites.
+            </summary>
+            <remarks>
+            Note: the number of elements in value should be equal to number of sites in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.
+            <para>Example Usage:</para>
+            <example>
+            <code>
+            var data = tsmContext.NewSiteData(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0 });
+            </code>
+            </example>
+            </remarks>
+            <typeparam name="T">Data Type of value to be used with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</typeparam>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="values">Values to be applied to each site.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings">
             <summary>
@@ -1954,14 +2004,25 @@
             Defines entry points for mixed signal steps.
             </summary>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.MapInitializedInstrumentSessions(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.MapInitializedInstrumentSessions(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>
-            Does mapping for initialized instrument sessions.
+            Maps already initialized instrument sessions.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-            <param name="analogOutputVoltageTaskType">Specifies the analog output task type.</param>
-            <param name="digitalOutputTaskType">Specifies the digital output task type.</param>
-            <remarks>Must be called when instruments initialization complete.</remarks>
+            <remarks>
+            Must be called when instruments initialization complete.
+            This ensures any cached instrument session information is consistent between the
+            NationalInstruments.SemiconductorTestLibrary.TestStandSteps assembly and client assembly,
+            as they may not share the same memory space.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.GetDAQmxChannelLists(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[]@,System.String[]@)">
+            <summary>
+            Get the DAQmx channel lists for all channels of specific channel types.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="aoChannelLists">Channel Lists of all AO tasks</param>
+            <param name="doChannelLists">Channel Lists of all DO tasks</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation">
             <summary>
@@ -2583,6 +2644,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Publish_NoAssociatedChannel">
             <summary>
               Looks up a localized string similar to No channel associates with the {0}..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.SiteData_WrongDataSize">
+            <summary>
+              Looks up a localized string similar to Number of elements in values ({0}) must match number of sites in TSM Context ({1})..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.SitePinFilter_RequestedPinsInvalid">

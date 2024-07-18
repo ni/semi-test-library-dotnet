@@ -10,10 +10,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
     /// <summary>
     /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
     /// Specifically, how to perform analog output task operations for pins mapped to DAQmx instruments.
-    /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
+    /// This class and its methods are intended for example purposes only and are not meant to be ran standalone.
     /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
-    /// with any dependent instrument sessions have already initiated and configured prior.
-    /// Additionally, they are intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
+    /// with any dependent instrument sessions have already been initiated and configured.
+    /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
     internal static class AnalogOutputDAQmx
     {
@@ -43,7 +43,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
 
             aoPins.StartAOFunctionGeneration();
 
-            // Wait 2 seconds, then stop generation.
+            // Waits 2 seconds, then stops generation.
             Utilities.PreciseWait(2);
             aoPins.Stop();
         }
@@ -62,18 +62,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
 
             var voltageLevel = 5.0;
 
-            // Configure and start AO Generation.
+            // Configures and starts AO Generation.
             aoPins.WriteAnalogSingleSample(voltageLevel, autoStart: true);
 
-            // Wait 2 seconds, then stop generation.
+            // Waits 2 seconds, then stops generation.
             Utilities.PreciseWait(timeInSeconds: 2);
 
-            // Switch from AO to AOFGen on same instrument channels.
+            // Switches from AO to AOFGen on same instrument channels.
             // The AO tasks must first be stopped, then the hardware must be unreserved.
             aoPins.Stop();
             aoPins.Unreserve();
 
-            // Configure AOFGen Generation.
+            // Configures AOFGen Generation.
             aoFGenPins.ConfigureAOFunctionGeneration(new AOFunctionGenerationSettings
             {
                 FunctionType = AOFunctionGenerationType.Sine,
@@ -82,10 +82,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
                 Offset = 0,
             });
 
-            // Start AOFGen Generation.
+            // Starts AOFGen Generation.
             aoFGenPins.StartAOFunctionGeneration();
 
-            // Wait 2 seconds, then stop generation.
+            // Waits 2 seconds, then stops generation.
             Utilities.PreciseWait(timeInSeconds: 2);
 
             // To switch back to AO to AOFGen on same instrument channels.

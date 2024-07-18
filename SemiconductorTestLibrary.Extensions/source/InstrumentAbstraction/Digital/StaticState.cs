@@ -29,7 +29,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="states">The states to write for all sites.</param>
-        /// <remarks>Use this method to write different state on different sites.</remarks>
+        /// <remarks>Use this method to write different states on different sites.</remarks>
         public static void WriteStatic(this DigitalSessionsBundle sessionsBundle, SiteData<PinState> states)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -43,7 +43,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="states">The states to write for all site-pin pairs.</param>
-        /// <remarks>Use this method to write different state for different site-pin pairs.</remarks>
+        /// <remarks>Use this method to write different states for different site-pin pairs.</remarks>
         public static void WriteStatic(this DigitalSessionsBundle sessionsBundle, PinSiteData<PinState> states)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>

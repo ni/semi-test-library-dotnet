@@ -8,8 +8,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
     /// These methods will only execute if based on the instruments defined in the pin map.
     /// For example, if there are no NI Scope instruments defined in the target pin map,
     /// then invoking the InstrumentAbstraction.Scope.InitializeAndClose.Initialize() method will simply return without an exception.
-    /// This class, and it's methods are intended for example purposes only,
-    /// and are therefore intentionally marked as internal to prevent them from be directly invoked from code outside of this project.from code outside of this project.
+    /// This class and its methods are intended for example purposes only,
+    /// and are therefore intentionally marked as internal to prevent them from being directly invoked from code outside of this project.from code outside of this project.
     /// </summary>
     internal static class InitializeAndClose
     {

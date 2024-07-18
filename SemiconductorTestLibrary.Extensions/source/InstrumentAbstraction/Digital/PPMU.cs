@@ -16,7 +16,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region methods on DigitalSessionsBundle
 
         /// <summary>
-        /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level value, and the method will assume all other properties that have been previously set.  Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
+        /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level value, and the method will assume all other properties that have been previously set. Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="voltageLevel">The voltage level.</param>
@@ -47,7 +47,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level values, and the method will assume all other properties that have been previously set.  Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
+        /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level values, and the method will assume all other properties that have been previously set. Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels for all sites.</param>
@@ -77,7 +77,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level values, and the method will assume all other properties that have been previously set.  Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
+        /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level values, and the method will assume all other properties that have been previously set. Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels for all site-pin pairs.</param>
@@ -121,7 +121,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces current on the target pin(s) at the specified level. You must provide a current level value, and the method will assume all other properties that have been previously set.  Optionally, you can also provide a specific voltage limit and current level range values directly.
+        /// Forces current on the target pin(s) at the specified level. You must provide a current level value, and the method will assume all other properties that have been previously set. Optionally, you can also provide a specific voltage limit and current level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="currentLevel">The current level.</param>
@@ -206,11 +206,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Measures the voltage on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <remarks>
-        /// Use this method to save test time if the measurement results do not needed for any other operations.
+        /// Use this method to save test time if the measurement results are not needed for any other operations.
         /// Otherwise, use the override for this method that returns PinSiteData.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
+        /// <param name="publishedDataId">The unique data id to use when publishing.</param>
         /// <param name="voltageMeasurements">The returned voltage measurements.</param>
         public static void MeasureAndPublishVoltage(this DigitalSessionsBundle sessionsBundle, string publishedDataId, out double[][] voltageMeasurements)
         {
@@ -221,19 +221,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Measures the voltage on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
+        /// <param name="publishedDataId">The unique data id to use when publishing.</param>
         /// <returns>The pin-site aware voltage measurements.</returns>
         public static PinSiteData<double> MeasureAndPublishVoltage(this DigitalSessionsBundle sessionsBundle, string publishedDataId)
         {
             MeasureAndPublishVoltage(sessionsBundle, publishedDataId, out var voltageMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(voltageMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(voltageMeasurements);
         }
 
         /// <summary>
         /// Measures the current on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <remarks>
-        /// Use this method to save test time if the measurement results do not needed for any other operations.
+        /// Use this method to save test time if the measurement results are not needed for any other operations.
         /// Otherwise, use the override for this method that returns PinSiteData.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -248,12 +248,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Measures the current on the target pin(s) and immediately publishes the results using the <paramref name="publishedDataId"/> passed in.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="publishedDataId">The unique data id to be used when publishing.</param>
+        /// <param name="publishedDataId">The unique data id to use when publishing.</param>
         /// <returns>The pin-site aware current measurements.</returns>
         public static PinSiteData<double> MeasureAndPublishCurrent(this DigitalSessionsBundle sessionsBundle, string publishedDataId)
         {
             MeasureAndPublishCurrent(sessionsBundle, publishedDataId, out var currentMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(currentMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(currentMeasurements);
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Remarks:
         /// <list type="bullet">
         /// <item>Selecting this function causes the PPMU to stop sourcing prior to disconnecting the pin.</item>
-        /// <item>CAUTION: In the Disconnect state, some I/O protection and sensing circuitry remains exposed. Do not subject the instrument to voltage beyond its operating range.</item>
+        /// <item>CAUTION: In the Disconnect state, some I/O protection and sensing circuitry remain exposed. Do not subject the instrument to voltage beyond its operating range.</item>
         /// </list>
         /// <example>
         /// Example:

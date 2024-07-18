@@ -1,65 +1,65 @@
 ﻿using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstraction
 {
     /// <summary>
     /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
-    /// Specifically, how to measure current for pins mapped to Digital Pattern, using the instrument's PPMU function mode.
+    /// Specifically, how to measure current for pins mapped to DCPower Instruments.
+    /// Note that DCPower Instruments include both Source Measurement Units (SMUs) and Programmable Power Supplies (PPS) devices.
     /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
     /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
-    /// with any dependent instrument sessions have already initiated and configured prior.
-    /// Additionally, they are intentionally marked as internal to prevent them from be directly invoked from code outside of this project.
+    /// with any dependent instrument sessions have been already initiated and configured.
+    /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
-    internal static class MeasureCurrentPPMU
+    internal static class MeasureCurrentSMU
     {
-        internal static void SimpleMeasureCurrentPpmu(ISemiconductorModuleContext tsmContext, string[] ppmuPinNames)
+        internal static void SimpleMeasureCurrentSmu(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var ppmuPins = sessionManager.Digital(ppmuPinNames);
+            var smuPins = sessionManager.DCPower(smuPinNames);
 
             // Assumes that the SMU is already configured.
-            var measurements = ppmuPins.MeasureCurrent();
+            var measurements = smuPins.MeasureCurrent();
         }
 
-        internal static void MeasureAndPublishCurrentPpmu(ISemiconductorModuleContext tsmContext, string[] ppmuPinNames, string publishDataID)
+        internal static void MeasureAndPublishCurrentSmu(ISemiconductorModuleContext tsmContext, string[] smuPinNames, string publishDataID)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var ppmuPins = sessionManager.Digital(ppmuPinNames);
+            var smuPins = sessionManager.DCPower(smuPinNames);
 
             // Assumes that the SMU is already configured.
-            var measurements = ppmuPins.MeasureAndPublishCurrent(publishDataID);
+            var measurements = smuPins.MeasureAndPublishCurrent(publishDataID);
         }
 
-        internal static void MeasureCurrentDoMathThenPublishPpmu(ISemiconductorModuleContext tsmContext, string[] ppmuPinNames)
+        internal static void MeasureCurrentDoMathThenPublishSmu(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var ppmuPins = sessionManager.Digital(ppmuPinNames);
+            var smuPins = sessionManager.DCPower(smuPinNames);
             var staticOffset = 2.5;
             var staticGain = 0.15;
 
             // Assumes that the SMU is already configured.
-            var measurements = ppmuPins.MeasureAndPublishCurrent(publishedDataId: "RawMeasurement");
+            var measurements = smuPins.MeasureAndPublishCurrent(publishedDataId: "RawMeasurement");
             var gainAndOffsetApplied = measurements.Add(staticGain).Multiply(staticOffset);
 
             tsmContext.PublishResults(gainAndOffsetApplied, publishedDataId: "MeasurementWithGainAndOffsetApplied");
         }
 
-        internal static void MeasureCurrentTwoPinsPublishDifferencePpmu(ISemiconductorModuleContext tsmContext)
+        internal static void MeasureCurrentTwoPinsPublishDifferenceSmu(ISemiconductorModuleContext tsmContext)
         {
-            var ppmuPinNames = new string[] { "PinA", "PinB" };
+            var smuPinNames = new string[] { "PinA", "PinB" };
             var publishDataIDs = new string[] { "Measurement", "Difference" };
             var sessionManager = new TSMSessionManager(tsmContext);
-            var smuPins = sessionManager.Digital(ppmuPinNames);
+            var smuPins = sessionManager.DCPower(smuPinNames);
 
             // Assumes that the SMU is already configured.
             var measurements = smuPins.MeasureAndPublishCurrent(publishDataIDs[0]);
 
-            var pinAMeasurement = measurements.ExtractPin(ppmuPinNames[0]);
-            var pinBMeasurement = measurements.ExtractPin(ppmuPinNames[1]);
+            var pinAMeasurement = measurements.ExtractPin(smuPinNames[0]);
+            var pinBMeasurement = measurements.ExtractPin(smuPinNames[1]);
             var difference = pinAMeasurement.Subtract(pinBMeasurement);
             tsmContext.PublishResults(difference, publishDataIDs[1]);
         }
