@@ -433,5 +433,5 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# Docfx output
+# Docfx
 */_site
