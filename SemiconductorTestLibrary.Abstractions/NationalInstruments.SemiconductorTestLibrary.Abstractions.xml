@@ -275,7 +275,8 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo">
             <summary>
-            Defines a pair of site-pin.
+            Defines an object that contains the information for an individual site-pin pair.
+            Such as, the site number, pin name, instrument channel string used by the driver, instrument model, etc.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.SitePinString">
@@ -456,14 +457,14 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0}[])">
             <summary>
-            Initializes a PinSiteData with pin names and associated SiteData array.
+            Initializes PinSiteData with pin names and associated SiteData array.
             </summary>
             <param name="pinNames">The pin names array.</param>
             <param name="data">The per-pin SiteData array.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,`0}})">
             <summary>
-            Initializes a PinSiteData with multiple pins multiple sites data.
+            Initializes PinSiteData with multiple pins multiple sites data.
             </summary>
             <param name="pinSiteData">The multiple pins multiple sites data.</param>
         </member>
@@ -476,7 +477,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins(System.String[])">
             <summary>
-            Gets a <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> with given pins.
+            Gets a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> object for the specified pins.
             </summary>
             <param name="pinNames">The specified pin names.</param>
             <returns>A new PinSiteData that contains data for given pins.</returns>
@@ -716,13 +717,13 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(`0[])">
             <summary>
-            Initializes a SiteData with multiple sites data array. The array index represents site number.
+            Initializes SiteData with multiple sites data array. The array index represents site number.
             </summary>
             <param name="data">The data array.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Collections.Generic.IDictionary{System.Int32,`0})">
             <summary>
-            Initializes a SiteData with per-pin multiple sites data.
+            Initializes SiteData with per-pin multiple sites data.
             </summary>
             <param name="data">The per-pin multiple sites data.</param>
         </member>
@@ -973,7 +974,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation">
             <summary>
-            Defines an object that holds NI-DAQmx task and related information.
+            Defines an object that contains an individual NI-DAQmx task and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.Task">
@@ -1069,7 +1070,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/>.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.TSMContext">
@@ -1459,7 +1460,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.Session">
@@ -1520,7 +1521,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.TSMContext">
@@ -1595,7 +1596,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session">
@@ -1653,7 +1654,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.TSMContext">
@@ -1778,7 +1779,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.ModularInstruments.NIDmm.NIDmm"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIDmm.NIDmm"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation.Session">
@@ -1810,7 +1811,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle.TSMContext">
@@ -1884,7 +1885,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.Session">
@@ -1927,7 +1928,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.TSMContext">
@@ -2027,19 +2028,24 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation">
             <summary>
-            Defines an object interface that holds a driver session and related information.
+            Defines an interface for related information associated with an individual driver session.
             </summary>
+            <remarks>
+            Only the related information is defined by this interface.
+            The driver-specific session should be declared within the class that implements this interface.
+            </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList">
             <summary>
-            Gets a list of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> objects associated with the driver session.
+            Gets a list of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> objects containing information for the individual site-pin pairs
+            associated with the driver session.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1">
             <summary>
-            Defines an object interface that holds a bunch of device session information.
+            Defines an interface for bundling together multiple device session information.
             </summary>
-            <typeparam name="TSessionInformation">The type of the information for a specific device.</typeparam>
+            <typeparam name="TSessionInformation">The type of the information for a specific device session.</typeparam>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1.TSMContext">
             <summary>
@@ -2053,7 +2059,8 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1.AggregateSitePinList">
             <summary>
-            A list of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> that contains all site-pin pairs associated with the sessions bundle.
+            An aggregated list of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> objects containing information for all of the individual site-pin pairs
+            associated with each of the session information objects within the bundle.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.InitializeAndClose">
@@ -2110,7 +2117,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.ModularInstruments.NIScope.NIScope"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIScope.NIScope"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation.Session">
@@ -2156,7 +2163,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle.TSMContext">
@@ -2389,7 +2396,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation.Session">
@@ -2408,7 +2415,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.TSMContext">
