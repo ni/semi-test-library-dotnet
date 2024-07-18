@@ -48,7 +48,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 foreach (var innerExeption in x.InnerExceptions)
                 {
-                    Assert.Contains("Specified property is not supported by the device or is not applicable to the task.", innerExeption.Message);
+                    Assert.Contains("Specified property is not supported by the device or is not applicable to the task.", innerExeption.InnerException.Message);
                 }
             });
         }

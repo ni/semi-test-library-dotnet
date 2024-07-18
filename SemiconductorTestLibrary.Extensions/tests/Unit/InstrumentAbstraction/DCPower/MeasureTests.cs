@@ -503,7 +503,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 foreach (var innerExeption in x.InnerExceptions)
                 {
-                    Assert.Contains("Function or method not supported.", innerExeption.Message);
+                    Assert.Contains("Function or method not supported.", innerExeption.InnerException.Message);
                 }
             });
         }
