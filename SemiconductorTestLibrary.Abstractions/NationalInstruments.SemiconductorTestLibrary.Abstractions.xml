@@ -63,7 +63,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})">
             <summary>
-            Does an operation on all sessions in parallel, while happens on each instrument channel sequentially.
+            Does an operation on all sessions and channels in parallel.
             </summary>
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <param name="sessionsBundle">The sessions bundle object.</param>
@@ -71,11 +71,11 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,System.Int32,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})">
             <summary>
-            Does an operation on all sessions in parallel, while happens on each instrument sequentially.
+            Does an operation on all sessions in parallel.
             </summary>
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <param name="sessionsBundle">The sessions bundle object.</param>
-            <param name="action">The operation to happen on each session info. The second parameter is the session index, the third parameter is the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> associates with a single channel.</param>
+            <param name="action">The operation to happen on each session info. The second parameter is the session index. The third parameter is the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> associates with a single channel.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1})">
             <summary>
@@ -89,7 +89,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1})">
             <summary>
-            Does an operation on all sessions in parallel, while happens on each instrument channel sequentially, and returns per-instrument per-channel results.
+            Does an operation on all sessions and channels in parallel and returns per-instrument per-channel results.
             </summary>
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <typeparam name="TResult">The type of the operation result.</typeparam>
@@ -121,7 +121,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1})">
             <summary>
-            Does an operation on all sessions in parallel, while happens on each instrument channel sequentially, and returns per-site per-pin results.
+            Does an operation on all sessions and channels in parallel and returns per-site per-pin results.
             </summary>
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <typeparam name="TResult">The type of the operation result.</typeparam>
@@ -170,7 +170,7 @@
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info.</param>
-            <param name="publishedDataId">The unique data id to be used when publishing.</param>
+            <param name="publishedDataId">The unique data id to use when publishing.</param>
             <returns>The per-instrument operation results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Double[]},System.String)">
@@ -180,8 +180,8 @@
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info.</param>
-            <param name="publishedDataId">The unique data id to be used when publishing.</param>
-            <returns>The per-instrument per-channel operation results.</returns>
+            <param name="publishedDataId">The unique data id to use when publishing.</param>
+            <returns>The per-instrument per-channel operation results as a jagged array. Where, the first dimension represents the instrument sessions, and the second dimension represents the instrument channels within an instrument session.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Boolean},System.String)">
             <summary>
@@ -190,7 +190,7 @@
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info.</param>
-            <param name="publishedDataId">The unique data id to be used when publishing.</param>
+            <param name="publishedDataId">The unique data id to use when publishing.</param>
             <returns>The per-instrument operation results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Boolean[]},System.String)">
@@ -200,8 +200,8 @@
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info.</param>
-            <param name="publishedDataId">The unique data id to be used when publishing.</param>
-            <returns>The per-instrument per-channel operation results.</returns>
+            <param name="publishedDataId">The unique data id to use when publishing.</param>
+            <returns>The per-instrument per-channel operation results as a jagged array. Where, the first dimension represents the instrument sessions, and the second dimension represents the instrument channels within an instrument session.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{System.Double[],System.Double[]}},System.String,System.String)">
             <summary>
@@ -210,9 +210,9 @@
             <typeparam name="TSessionInformation">The type of the session info.</typeparam>
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info. This operation returns two results.</param>
-            <param name="publishedDataId1">The unique data id to be used when publishing the first operation result.</param>
-            <param name="publishedDataId2">The unique data id to be used when publishing the second operation result.</param>
-            <returns>The two per-instrument per-channel operation results.</returns>
+            <param name="publishedDataId1">The unique data id to use when publishing the first operation result.</param>
+            <param name="publishedDataId2">The unique data id to use when publishing the second operation result.</param>
+            <returns>The two per-instrument per-channel operation results as a tuple of two jagged arrays, one for each set of results. Where, the first dimension of each jagged array represents the instrument sessions, and the second dimension represents the instrument channels within an instrument session.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.Publish">
             <summary>
@@ -247,6 +247,7 @@
             <param name="result">The measurement result to publish.</param>
             <param name="publishedDataId">The unique data id to use when publishing.</param>
             <param name="pin">The pin to publish results for.</param>
+            <remarks>Use this method with a single site context only.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[][],System.String)">
             <summary>
@@ -257,7 +258,7 @@
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="results">The multisite measurement results from multiple pins connected to multiple instrument
             sessions. The data is in the form of an array of arrays. Each element in the data array is an array that
-            contains the measurements for the channels of a single instrument session.</param>
+            contains the measurement results for the channels of a single instrument session.</param>
             <param name="publishedDataId">The unique data id to use when publishing.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[],System.String)">
@@ -274,7 +275,8 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo">
             <summary>
-            Defines a pair of site-pin.
+            Defines an object that contains the information for an individual site-pin pair.
+            Such as, the site number, pin name, instrument channel string used by the driver, instrument model, etc.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.SitePinString">
@@ -358,7 +360,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel(System.Action[])">
             <summary>
             This method calls the Parallel.Invoke method to execute multiple methods in parallel. If any of the methods generates an exception, this method throws
-            the first exception encountered. This allows the exception to be displayed properly by the TestStand Semiconductor Module runtime error dialog.
+            the first exception encountered. This allows the TestStand Semiconductor Module runtime error dialog to properly display the exception.
             </summary>
             <param name="actions">The methods to invoke in parallel.</param>
         </member>
@@ -401,7 +403,7 @@
             <summary>
             Tries to determine the power line frequency of the PXI chassis using the SystemConfiguration API.
             </summary>
-            <param name="powerLineFrequency">The power line frequency variable to be updated. It keeps the original value when the try fails.</param>
+            <param name="powerLineFrequency">The power line frequency variable to be updated. It falls back to the original value when the try fails.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType">
             <summary>
@@ -455,16 +457,16 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0}[])">
             <summary>
-            Initializes a PinSiteData with pin names and associated SiteData array.
+            Initializes PinSiteData with pin names and associated SiteData array.
             </summary>
             <param name="pinNames">The pin names array.</param>
             <param name="data">The per-pin SiteData array.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,`0}})">
             <summary>
-            Initializes a PinSiteData with multiple pin multiple sites data.
+            Initializes PinSiteData with multiple pins multiple sites data.
             </summary>
-            <param name="pinSiteData">The multiple pin multiple sites data.</param>
+            <param name="pinSiteData">The multiple pins multiple sites data.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin(System.String)">
             <summary>
@@ -475,7 +477,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins(System.String[])">
             <summary>
-            Gets a <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> with given pins.
+            Gets a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> object for the specified pins.
             </summary>
             <param name="pinNames">The specified pin names.</param>
             <returns>A new PinSiteData that contains data for given pins.</returns>
@@ -489,7 +491,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(System.Int32,System.String)">
             <summary>
-            Gets the data for a given site number pin name pair.
+            Gets the data for a given site number-pin name pair.
             </summary>
             <param name="siteNumber">The specified site number.</param>
             <param name="pinName">The specified pin name.</param>
@@ -506,21 +508,21 @@
             Performs add operation between every element in current PinSiteData and the given value.
             </summary>
             <param name="value">The scalar value to be added.</param>
-            <returns>A new PinSiteData that contains the sum of the addition.</returns>
+            <returns>A new PinSiteData that contains the result of the addition.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs add operation between every element in current PinSiteData and the given SiteData.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to be added.</param>
-            <returns>A new PinSiteData that contains the sum of the addition.</returns>
+            <returns>A new PinSiteData that contains the result of the addition.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Performs add operation between every element in current PinSiteData and the given PinSiteData.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to be added.</param>
-            <returns>A new PinSiteData that contains the sum of the addition.</returns>
+            <returns>A new PinSiteData that contains the result of the addition.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)">
             <summary>
@@ -652,7 +654,7 @@
             <summary>
             Raises every element in current PinSiteData to the power of the given value.
             </summary>
-            <param name="value">The value to be used as the power.</param>
+            <param name="value">The value to use as the power.</param>
             <returns>A new PinSiteData that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
@@ -679,21 +681,21 @@
             <summary>
             Subtracts the given value from every element in current PinSiteData.
             </summary>
-            <param name="value">The value to be subtracted.</param>
+            <param name="value">The value to subtract.</param>
             <returns>A new PinSiteData that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Subtracts every element in given PinSiteData from every element in current SiteData.
             </summary>
-            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to be subtracted.</param>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to subtract.</param>
             <returns>A new PinSiteData that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Subtracts every element in given PinSiteData from every element in current PinSiteData.
             </summary>
-            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains values to be subtracted.</param>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains values to subtract.</param>
             <returns>A new PinSiteData that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Truncate">
@@ -715,13 +717,13 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(`0[])">
             <summary>
-            Initializes a SiteData with multiple sites data array. The array index represents site number.
+            Initializes SiteData with multiple sites data array. The array index represents site number.
             </summary>
             <param name="data">The data array.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Collections.Generic.IDictionary{System.Int32,`0})">
             <summary>
-            Initializes a SiteData with per-pin multiple sites data.
+            Initializes SiteData with per-pin multiple sites data.
             </summary>
             <param name="data">The per-pin multiple sites data.</param>
         </member>
@@ -765,7 +767,7 @@
             Performs compare operation between every element in current SiteData and the given value.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
-            <param name="value">The scalar value to compare to.</param>
+            <param name="value">The scalar value to compare.</param>
             <returns>A new SiteData that contains the compare results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
@@ -773,7 +775,7 @@
             Performs compare operation between every element in current SiteData and the given SiteData.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
-            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare to.</param>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare.</param>
             <returns>A new SiteData that contains the compare results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide(`0)">
@@ -854,7 +856,7 @@
             <summary>
             Raises every element in current SiteData to the power of the given value.
             </summary>
-            <param name="value">The value to be used as the power.</param>
+            <param name="value">The value to use as the power.</param>
             <returns>A new SiteData that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
@@ -874,14 +876,14 @@
             <summary>
             Subtracts the given value from every element in current SiteData.
             </summary>
-            <param name="value">The value to be subtracted.</param>
+            <param name="value">The value to subtract.</param>
             <returns>A new SiteData that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Subtracts every element in given SiteData from every element in current SiteData.
             </summary>
-            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to be subtracted.</param>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to subtract.</param>
             <returns>A new SiteData that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Truncate">
@@ -897,7 +899,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0)">
             <summary>
-            Creates new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with the same value for all sites.
+            Creates a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with the same value for all sites.
             </summary>
             <remarks>
             <para>Example Usage:</para>
@@ -907,17 +909,17 @@
             </code>
             </example>
             </remarks>
-            <typeparam name="T">Data Type of value to be used with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</typeparam>
+            <typeparam name="T">Data Type of value to use with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</typeparam>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-            <param name="value">Value to be applied to all sites.</param>
+            <param name="value">Value to apply to all sites.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0[])">
             <summary>
-            Creates new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with unique values for all sites.
+            Creates a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with unique values for all sites.
             </summary>
             <remarks>
-            Note: the number of elements in value should be equal to number of sites in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.
+            Note: the number of elements in value must equal to number of sites in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.
             <para>Example Usage:</para>
             <example>
             <code>
@@ -925,9 +927,9 @@
             </code>
             </example>
             </remarks>
-            <typeparam name="T">Data Type of value to be used with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</typeparam>
+            <typeparam name="T">Data Type of value to use with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</typeparam>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-            <param name="values">Values to be applied to each site.</param>
+            <param name="values">Values to apply to each site.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings">
@@ -972,7 +974,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation">
             <summary>
-            Defines an object that holds NI-DAQmx task and related information.
+            Defines an object that contains an individual NI-DAQmx task and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.Task">
@@ -1001,7 +1003,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor(NationalInstruments.DAQmx.Task,System.String)">
             <summary>
-            Constructs a task information object that associates with a NI-DAQmx task.
+            Constructs a task information object that associates with an NI-DAQmx task.
             </summary>
             <param name="task">The NI-DAQmx task.</param>
             <param name="channelList">The channels associated with the task.</param>
@@ -1068,7 +1070,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/>.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.TSMContext">
@@ -1216,7 +1218,7 @@
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Default">
             <summary>
-            Use device default terminal configuration.
+            Uses device default terminal configuration.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Nrse">
@@ -1258,7 +1260,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.TryWriteAndRecoverCacheOnFailure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation,`0,System.Action{`0[]})">
             <summary>
-            Tries to do the specified write operation and makes sure the sample values cache is updated on a successful write.
+            Tries to do the specified write operation and ensures that the sample values cache is updated on a successful write.
             </summary>
             <param name="taskInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/> object.</param>
             <param name="data">The state to update to.</param>
@@ -1266,7 +1268,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.TryWriteAndRecoverCacheOnFailure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},System.Action{`0[]})">
             <summary>
-            Tries to do the specified write operation and makes sure the sample values cache is updated on a successful write.
+            Tries to do the specified write operation and ensures that the sample values cache is updated on a successful write.
             </summary>
             <param name="taskInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/> object.</param>
             <param name="data">The state to update to.</param>
@@ -1274,7 +1276,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.TryWriteAndRecoverCacheOnFailure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Action{`0[]})">
             <summary>
-            Tries to do the specified write operation and makes sure the sample values cache is updated on a successful write.
+            Tries to do the specified write operation and ensures that the sample values cache is updated on a successful write.
             </summary>
             <param name="taskInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation"/> object.</param>
             <param name="data">The state to update to.</param>
@@ -1458,7 +1460,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.Session">
@@ -1491,7 +1493,7 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.PowerLineFrequency">
             <summary>
             The power line frequency value cache for PXI-4110, PXI-4130, and PXIe-4154 since they don't support power line frequency property.
-            The cached value is used to convert aperture time value between power line cycles and seconds, for these model types.
+            The cached value is used to convert aperture time value between power line cycles and seconds, for these models.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.AssociatedSitePinList">
@@ -1519,7 +1521,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.TSMContext">
@@ -1594,7 +1596,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session">
@@ -1652,7 +1654,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.TSMContext">
@@ -1693,14 +1695,14 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.FilterByPin(System.String)">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with the requested pin.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with the requested pin.
             </summary>
             <param name="requestedPin">The requested pin.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> object with the requested pin.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.FilterByPin(System.String[])">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with requested pins.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with requested pins.
             </summary>
             <param name="requestedPins">The requested pins.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> object with requested pins.</returns>
@@ -1777,7 +1779,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.ModularInstruments.NIDmm.NIDmm"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIDmm.NIDmm"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation.Session">
@@ -1809,7 +1811,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle.TSMContext">
@@ -1851,7 +1853,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle.FilterByPin(System.String[])">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/> and returns a new one with requested pins.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/> and returns a new one with requested pins.
             </summary>
             <param name="requestedPins">The requested pins.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/> object with requested pins.</returns>
@@ -1883,7 +1885,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.Session">
@@ -1898,7 +1900,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.ModelString">
             <summary>
-            The NI FGEN instrument model string.
+            The NI-FGEN instrument model string.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.AssociatedSitePinList">
@@ -1926,7 +1928,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.TSMContext">
@@ -1961,14 +1963,14 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.FilterByPin(System.String)">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/> and returns a new one with the requested pin.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/> and returns a new one with the requested pin.
             </summary>
             <param name="requestedPin">The requested pin.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/> object with the requested pin.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle.FilterByPin(System.String[])">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/> and returns a new one with requested pins.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/> and returns a new one with requested pins.
             </summary>
             <param name="requestedPins">The requested pins.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/> object with requested pins.</returns>
@@ -2001,7 +2003,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization">
             <summary>
-            Defines entry points for mixed signal steps.
+            Defines entry points for semiconductor test steps.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.MapInitializedInstrumentSessions(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
@@ -2010,9 +2012,9 @@
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <remarks>
-            Must be called when instruments initialization complete.
+            Must be called when instruments initialization completes.
             This ensures any cached instrument session information is consistent between the
-            NationalInstruments.SemiconductorTestLibrary.TestStandSteps assembly and client assembly,
+            NationalInstruments.SemiconductorTestLibrary.TestStandSteps assembly and the client assembly,
             as they may not share the same memory space.
             </remarks>
         </member>
@@ -2026,19 +2028,24 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation">
             <summary>
-            Defines an object interface that holds a driver session and related information.
+            Defines an interface for related information associated with an individual driver session.
             </summary>
+            <remarks>
+            Only the related information is defined by this interface.
+            The driver-specific session should be declared within the class that implements this interface.
+            </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList">
             <summary>
-            Gets a list of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> objects associated with the driver session.
+            Gets a list of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> objects containing information for the individual site-pin pairs
+            associated with the driver session.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1">
             <summary>
-            Defines an object interface that holds a bunch of device session information.
+            Defines an interface for bundling together multiple device session information.
             </summary>
-            <typeparam name="TSessionInformation">The type of the information for a specific device.</typeparam>
+            <typeparam name="TSessionInformation">The type of the information for a specific device session.</typeparam>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1.TSMContext">
             <summary>
@@ -2052,7 +2059,8 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1.AggregateSitePinList">
             <summary>
-            A list of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> that contains all site-pin pairs associated with the sessions bundle.
+            An aggregated list of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> objects containing information for all of the individual site-pin pairs
+            associated with each of the session information objects within the bundle.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.InitializeAndClose">
@@ -2109,7 +2117,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.ModularInstruments.NIScope.NIScope"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIScope.NIScope"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation.Session">
@@ -2127,7 +2135,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation.ModelString">
             <summary>
-            The NI Scope instrument model string.
+            The NI-Scope instrument model string.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation.AssociatedSitePinList">
@@ -2155,7 +2163,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle.TSMContext">
@@ -2190,14 +2198,14 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle.FilterByPin(System.String)">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/> and returns a new one with the requested pin.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/> and returns a new one with the requested pin.
             </summary>
             <param name="requestedPin">The requested pin.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/> object with the requested pin.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle.FilterByPin(System.String[])">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/> and returns a new one with requested pins.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/> and returns a new one with requested pins.
             </summary>
             <param name="requestedPins">The requested pins.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/> object with requested pins.</returns>
@@ -2318,7 +2326,7 @@
             Creates a new NI-Sync instrument driver session.
             </summary>
             <param name="resourceName">The name of the NI-Sync device.</param>
-            <param name="idQuery">Specifies whether or not to query the instrument ID to determine if the instrument is compatible with the NI-Sync driver. The default is TRUE.</param>
+            <param name="idQuery">Specifies whether to query the instrument ID to determine if the instrument is compatible with the NI-Sync driver. The default is TRUE.</param>
             <param name="resetDevice">Specifies whether to reset the NI-Sync module to its default state—including the selected time reference, any connected terminals, and all scheduled future time events—during the initialization procedure. The default is FALSE.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.Reset">
@@ -2343,8 +2351,8 @@
             <summary>
             Closes a route between a source clock terminal and a destination clock terminal.
             </summary>
-            <param name="sourceTerminal">Specifies the source clock terminal you want to disconnect from the destination terminal.</param>
-            <param name="destinationTerminal">Specifies the destination clock terminal you would like to disconnect from the source terminal.</param>
+            <param name="sourceTerminal">Specifies the source clock terminal to disconnect from the destination terminal.</param>
+            <param name="destinationTerminal">Specifies the destination clock terminal to disconnect from the source terminal.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.ConnectSoftwareTrigger(System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock,System.Boolean,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge,System.Double)">
             <summary>
@@ -2352,7 +2360,7 @@
             </summary>
             <param name="destinationTerminal">Specifies the terminal where the Global Software Trigger will fire.</param>
             <param name="synchronizationClock">Specifies whether to use the full-speed or a divided synchronization clock to control when the global software trigger fires. The global software trigger will be synchronized with the rising or falling edge of the clock you select in this terminal.</param>
-            <param name="invertSignal">Specifies whether or not to invert the digital signal of the Global Software Trigger when it reaches the destination terminal:</param>
+            <param name="invertSignal">Specifies whether to invert the digital signal of the Global Software Trigger when it reaches the destination terminal:</param>
             <param name="updateEdge">Specifies on which update edge of the synchronization clock to propagate the global software trigger.</param>
             <param name="delay">Specifies the amount of time, in seconds, to delay the global software trigger pulse. The delay must be a multiple of the synchronization clock period. The global software trigger can be delayed up to 15 clock cycles for each route.</param>
         </member>
@@ -2376,7 +2384,7 @@
             <param name="sourceTerminal">Specifies the source of the trigger you want to connect to the destination terminal.</param>
             <param name="destinationTerminal">Specifies the destination trigger terminal that the source terminal will connect to.</param>
             <param name="synchronizationClock">Specifies whether to use the full-speed or a divided synchronization clock to control when the trigger fires. The trigger will be synchronized with the rising or falling edge of the clock you select in this terminal.</param>
-            <param name="invertSignal">Specifies whether or not to invert the source terminal signal at the destination terminal.</param>
+            <param name="invertSignal">Specifies whether to invert the source terminal signal at the destination terminal.</param>
             <param name="updateEdge">Specifies on which update edge of the synchronization clock to propagate the trigger.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.DisconnectTriggerTerminals(System.String,System.String)">
@@ -2388,7 +2396,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation">
             <summary>
-            Defines an object that holds <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> session and related information.
+            Defines an object that contains an individual <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync"/> session and its related information.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation.Session">
@@ -2407,7 +2415,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle">
             <summary>
-            Defines an object that holds a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/>s.
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation"/> objects.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.TSMContext">
