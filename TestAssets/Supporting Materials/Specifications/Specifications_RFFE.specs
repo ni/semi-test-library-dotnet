@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Specifications xmlns:f="http://www.ni.com/schemas/Semiconductor/Formula.xsd" schemaVersion="1.0" xmlns="http://www.ni.com/schemas/Semiconductor/Specifications.xsd">
+  <Section name="dc">
+    <f:Formula symbol="VDD">
+      <f:Definition>3.8 V</f:Definition>
+      <f:Comment>Volts</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="digital_control">
+      <f:Definition>1.8 V</f:Definition>
+      <f:Comment>Volts</f:Comment>
+    </f:Formula>
+  </Section>
+  <Section name="ac">
+    <f:Formula symbol="rate">
+      <f:Definition>1 MHz</f:Definition>
+      <f:Comment>Chip Clock Rate</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="SW">
+      <f:Definition>100 MHz</f:Definition>
+      <f:Comment>SW</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="RFFERate">
+      <f:Definition>13 MHz</f:Definition>
+      <f:Comment>RFFE Rate</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="RFFEPeriod">
+      <f:Definition>1/ac.RFFERate</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="CompareStrobe">
+      <f:Definition>0.6*ac.RFFEPeriod</f:Definition>
+    </f:Formula>
+  </Section>
+</Specifications>
