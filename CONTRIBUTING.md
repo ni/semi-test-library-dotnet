@@ -6,7 +6,7 @@ Contributions to **semi-test-library-dotnet** are welcome from all!
 repository hosted on [GitHub](https://github.com/ni/semi-test-library-dotnet).
 
 **semi-test-library-dotnet** follows a pull-request model for development.
-If you wish to contribute, you will need to create a GitHub account, fork this project,
+If you wish to contribute, you will need a GitHub account, fork this project,
 push a branch with your changes to your project, and then submit a pull request.
 
 Please remember to sign off your commits (e.g., by using `git commit -s` if you
@@ -21,13 +21,13 @@ See [GitHub's official documentation](https://help.github.com/articles/using-pul
 
 ## Getting Started
 
-In order to build the code base in the **semi-test-library-dotnet** repository, you must ensure your build machine has met the following prerequisites.
+In order to build the code base in the **semi-test-library-dotnet** repository, you must ensure your build machine has met the following prerequisites:
   
 ### Prerequisites
 
-- System with Window 10 64-bit
-  - Can be PXIe Embedded Controller, Laptop, Desktop, or Virtual Machine.
-  - Should not have any other NI Software Installed unless using STS Version Selector
+- System with Windows 10 64-bit
+  - Can be a PXIe embedded controller or a computer (physical or virtual).
+  - The system must not have NI software installed, unless the NI software is installed using the STS Version Selector.
 - STS Version Selector 24.5 (or later)
 - STS Software 24.5 (or later)
 - Visual Studio 2022
@@ -36,14 +36,14 @@ In order to build the code base in the **semi-test-library-dotnet** repository, 
 
 ### Build Solution
 
-1. Open the top-level Solution File using Visual Studio 2022
+1. Open the top-level solution file in Visual Studio 2022.
 
-   > Note: the main solution file located in the root of the repo named `SemiconductorTestLibrary.sln`.
+   > Note: The main solution file (`SemiconductorTestLibrary.sln`) is located at the root of this repo.
 
-2. Restore Packages by right clicking the solution from the solution explorer in Visual Studio 2022
-3. Build Solution using Visual Studio 2022 (Build-->Build Solution)
+2. Restore packages by right clicking the solution from the solution explorer in Visual Studio 2022.
+3. Build the solution using Visual Studio 2022 by selecting the **Build** menu and then **Build Solution**.
 
-> Alternatively, you can accomplish these same steps via command line using the following command:'
+> You can also build the solution from the command line using the following command:'
 >
 > ```bash
 > msbuild.exe SemiconductorTestLibrary.sln "/t:Restore;Build"
@@ -51,18 +51,18 @@ In order to build the code base in the **semi-test-library-dotnet** repository, 
 
 ### Running Tests
 
-Both before and after making any changes, ensure that all tests pass on your development machine. With the main solution open (`SemiconductorTestLibrary.sln`), select the Test menu in Visual Studio 2022, select Run All Tests (Test --> Run All Tests).
+Ensure that all tests pass on your system before and after making any changes. To run tests, open the main solution file in Visual Studio 2022, select the **Test** menu and then **Run All Tests**.
 
 ## Contributing
 
-After you've verified that you can successfully build and run system tests, you may begin contributing to to the  [semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet) project.
+You must build the solution and run system tests before contributing to the [semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet) project.
 
-1. Fork this project in GitHub, and then clone your forked-ed repository locally.
-2. If applicable, write a failing test for the new feature / bugfix.
-3. Make your change.
+1. Fork this project on GitHub and then clone your repository locally.
+2. Make your change.
+3. Write applicable unit tests for the change.
 4. Verify all tests, including the new ones, pass.
-5. Commit changes
-6. On GitHub, create a new pull request to the main branch of the the upstream repository ([semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet)).
+5. Commit changes.
+6. On GitHub, create a new pull request to the main branch of the upstream repository ([semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet)).
 
 ## Developer Certificate of Origin (DCO)
 
