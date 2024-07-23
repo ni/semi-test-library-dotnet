@@ -1,12 +1,14 @@
-# Concurrent Code Execution (Advanced)
+# Concurrent Code Execution
 
-Code statements that are independent of each other can be written to execute in concurrently. For example, to perform operations on pins of different instrument types. You can use the `InvokeInParallel` method from the `Utilities` class to allow separate lines of code to execute concurrently.
+Code statements that are independent of each other can be written to execute in concurrently. You can use the `InvokeInParallel` method from the `Utilities` class to allow separate lines of code to execute concurrently. For example, to perform operations on pins of different instrument types at the same time.
 
-Applicable namespace: `NationalInstruments.SemiconductorTestLibrary.Common.Utilities`
+  > **Note** this method uses the [`Parallel.Invoke`](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.parallel.invoke?view=net-8.0) method to execute multiple methods in parallel, and can be [invoked in the exact same way](https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/how-to-use-parallel-invoke-to-execute-parallel-operations). However, note that it also wraps the Parallel.Invoke method in a try-catch statement such that if an expectation occurs, only the first exception that is encountered will be returned to the call. This allows the exception to  bubble-up and display properly by the TestStand runtime error dialog.
 
-  > **Note** this method calls the Parallel.Invoke method to execute multiple methods in parallel. However, it wraps the Parallel.Invoke method in a try-catch statement such that if an expectation occurs, only the first exception that is encountered will be returned to the call. This allows the exception to easily bubble-up and display properly by the TestStand runtime error dialog.
+Namespace: `NationalInstruments.SemiconductorTestLibrary.Common`
 
-The following example demonstrates how to use the `InvokeInParallel` method from the `NationalInstruments.SemiconductorTestLibrary.Common.Utilities` class :
+Assembly: `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll`
+
+The following example demonstrates how to use the `InvokeInParallel` method from the `Utilities` class:
 
 ```C#
 public static void ConcurrentCodeExample(ISemiconductorModuleContext semiconductorModuleContext, string pinNames)
