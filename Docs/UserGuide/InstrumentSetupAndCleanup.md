@@ -4,14 +4,14 @@ The Semiconductor Test Library expects instrument sessions to be created for and
 
 The Semiconductor Test Library provides instrument type specific initialization and cleanup code in the `Initialization` class.
 
-> [!TIP] Relevant Namespace
+> [!NOTE]
 > Class: `Initialization`\
 > Namespace: `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.<instrument type` \
 > Assembly: `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll`
 
-Additionally, the TestStandSteps provides the high-level, 
+Additionally, the TestStandSteps provides the high-level,
 
-> [!TIP] Relevant Namespace
+> [!NOTE]
 > Namespace: `NationalInstruments.SemiconductorTestLibrary.TestStandSteps` \
 > Assembly: `NationalInstruments.SemiconductorTestLibrary.TestStandSteps.dll`
 

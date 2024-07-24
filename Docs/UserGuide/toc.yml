@@ -30,7 +30,7 @@
 
 - name: TestStand Steps
 - name: Published Data Ids Of TestStand Steps
-- name: PublishedDataIdsOfTestStandSteps.md
+  href: PublishedDataIdsOfTestStandSteps.md
 
 - name: Reference
 - name: API Reference

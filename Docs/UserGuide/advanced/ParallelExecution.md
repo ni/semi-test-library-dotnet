@@ -7,7 +7,7 @@ The Semiconductor Test Library provides extension methods for abstracting parall
 - There are overloads to allow you to specify if an operation is to be performed across each session or across each pin and site.
 - These methods should only be used when needing to write low-level driver calls to implement instrument capabilities not yet exposed by the Semiconductor Test Library.
 
-> [!TIP] Relevant Namespace
+> [!NOTE]
 > Class: `ParallelExecution`\
 > Namespace: `NationalInstruments.SemiconductorTestLibrary.Common` \
 > Assembly: `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll`

@@ -4,8 +4,7 @@ Code statements that are independent of each other can be written to execute in 
 
 > [!NOTE]
 > This method uses the [`Parallel.Invoke`](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.parallel.invoke?view=net-8.0) method to execute multiple methods in parallel, and can be [invoked in the exact same way](https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/how-to-use-parallel-invoke-to-execute-parallel-operations). However, note that it also wraps the Parallel.Invoke method in a try-catch statement such that if an expectation occurs, only the first exception that is encountered will be returned to the call. This allows the exception to  bubble-up and display properly by the TestStand runtime error dialog.
-
-> [!TIP] Relevant Namespace
+>
 > Class: `Utilities`\
 > Namespace: `NationalInstruments.SemiconductorTestLibrary.Common` \
 > Assembly: `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll`
