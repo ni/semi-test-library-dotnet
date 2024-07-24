@@ -1,13 +1,13 @@
-# Contributing to \<reponame\> 
+# Contributing to semi-test-library-dotnet
 
-Contributions to \<reponame\> are welcome from all!
+Contributions to **semi-test-library-dotnet** are welcome from all!
 
-\<reponame\> is managed via [git](https://git-scm.com), with the canonical upstream
-repository hosted on [GitHub](https://github.com/ni/<reponame>/).
+**semi-test-library-dotnet** is managed via [git](https://git-scm.com), with the canonical upstream
+repository hosted on [GitHub](https://github.com/ni/semi-test-library-dotnet).
 
-\<reponame\> follows a pull-request model for development.  If you wish to
-contribute, you will need to create a GitHub account, fork this project, push a
-branch with your changes to your project, and then submit a pull request.
+**semi-test-library-dotnet** follows a pull-request model for development.
+If you wish to contribute, you will need a GitHub account, fork this project,
+push a branch with your changes to your project, and then submit a pull request.
 
 Please remember to sign off your commits (e.g., by using `git commit -s` if you
 are using the command line client). This amends your git commit message with a line
@@ -19,15 +19,52 @@ this repository.
 
 See [GitHub's official documentation](https://help.github.com/articles/using-pull-requests/) for more details.
 
-# Getting Started
+## Getting Started
 
-- TODO: include build steps here.
+In order to build the code base in the **semi-test-library-dotnet** repository, you must ensure your build machine has met the following prerequisites:
+  
+### Prerequisites
 
-# Testing
+- System with Windows 10 64-bit
+  - Can be a PXIe embedded controller or a computer (physical or virtual).
+  - The system must not have NI software installed, unless the NI software is installed using the STS Version Selector.
+- STS Version Selector 24.5 (or later)
+- STS Software 24.5 (or later)
+- Visual Studio 2022
+- .NET Framework 4.8
+- Git for Windows
 
-- TODO: include testing steps here.
+### Build Solution
 
-# Developer Certificate of Origin (DCO)
+1. Open the top-level solution file in Visual Studio 2022.
+
+   > Note: The main solution file (`SemiconductorTestLibrary.sln`) is located at the root of this repo.
+
+2. Restore packages by right clicking the solution from the solution explorer in Visual Studio 2022.
+3. Build the solution using Visual Studio 2022 by selecting the **Build** menu and then **Build Solution**.
+
+> You can also build the solution from the command line using the following command:'
+>
+> ```bash
+> msbuild.exe SemiconductorTestLibrary.sln "/t:Restore;Build"
+> ```
+
+### Running Tests
+
+Ensure that all tests pass on your system before and after making any changes. To run tests, open the main solution file in Visual Studio 2022, select the **Test** menu and then **Run All Tests**.
+
+## Contributing
+
+You must build the solution and run system tests before contributing to the [semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet) project.
+
+1. Fork this project on GitHub and then clone your repository locally.
+2. Make your change.
+3. Write applicable unit tests for the change.
+4. Verify all tests, including the new ones, pass.
+5. Commit changes.
+6. On GitHub, create a new pull request to the main branch of the upstream repository ([semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet)).
+
+## Developer Certificate of Origin (DCO)
 
    Developer's Certificate of Origin 1.1
 
@@ -57,5 +94,5 @@ See [GitHub's official documentation](https://help.github.com/articles/using-pul
 
 (taken from [developercertificate.org](https://developercertificate.org/))
 
-See [LICENSE](https://github.com/ni/<reponame>/blob/main/LICENSE)
-for details about how \<reponame\> is licensed.
+See [LICENSE](https://github.com/ni/semi-test-library-dotnet/blob/main/LICENSE)
+for details about how semi-test-library-dotnet is licensed.
