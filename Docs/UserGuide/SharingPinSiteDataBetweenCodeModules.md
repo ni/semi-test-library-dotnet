@@ -4,7 +4,8 @@ During test development, it may become necessary to store some results measured 
 
 The `SetSiteData` and `GetSiteData` .NET methods provided by TSM, do not currently support being passed SiteData or PinSiteData objects directly. Therefore, SiteData/PinSiteData must first be converted into a 1D array of per-site values. Where, each element in the array represents a given site values. In the case of PinSiteData, this will be each element in the array a dictionary of per-pin values that represents a given site.
 
-> **Note**: the data must be ordered to match the order of sites in the Semiconductor Module context. This order might not be sequential. Use the SiteNumbers property on the SemiconductorModuleContext .NET object to determine the order of the sites in the Semiconductor Module context and arrange the data manually.
+> [!NOTE]
+> The data must be ordered to match the order of sites in the Semiconductor Module context. This order might not be sequential. Use the `SiteNumbers` property on the `ISemiconductorModuleContext` .NET object to determine the order of the sites in the Semiconductor Module context and arrange the data manually.
 
 ## Sharing SiteData Example
 

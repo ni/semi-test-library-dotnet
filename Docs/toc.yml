@@ -1,5 +1,5 @@
-- name: Documentation
-  href: docs/
+- name: User Guide
+  href: UserGuide/
 - name: API Reference
   href: SemiconductorTestLibrary/
 - name: TestStand Steps

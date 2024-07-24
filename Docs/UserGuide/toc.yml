@@ -5,22 +5,32 @@
   href: ../index.md
 
 - name: Essentials
-- name: Writing Test Code
-  href: WritingTestCode.md
+- name: Adding Using Statements
+  href: AddingUsingStatements.md
 - name: Instrument Setup And Cleanup
   href: InstrumentSetupAndCleanup.md
+- name: Writing Test Code
+  href: WritingTestCode.md
+- name: Configuring Instrument Sessions
+  href: ConfiguringInstrumentSessions.md
 - name: Sharing Data Between Code Modules
   href: SharingPinSiteDataBetweenCodeModules.md
+- name: Publishing Results
+  href: PublishingResults.md
 
 - name: Advanced
+- name: Concurrent Code
+  href: advanced/ConcurrentCodeExecution.md
 - name: Parallel Execution
   href: advanced/ParallelExecution.md
 - name: Low-level Driver Calls
-  href: advanced/LowLevelDriverCalls.md
+  href: advanced/MakingLowLevelDriverCalls.md
 - name: Writing Extensions
   href: advanced/ExtendingTheSemiconductorTestLibrary.md
-- name: Concurrent Code
-  href: advanced/ConcurrentCodeExecution.md
+
+- name: TestStand Steps
+- name: Published Data Ids Of TestStand Steps
+- name: PublishedDataIdsOfTestStandSteps.md
 
 - name: Reference
 - name: API Reference
