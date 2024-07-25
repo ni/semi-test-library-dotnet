@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Published Data IDs of TestStandSteps | Semiconductor Test Library </title>
+      <title>Configuring Instrument Sessions | Semiconductor Test Library </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Published Data IDs of TestStandSteps | Semiconductor Test Library ">
+      <meta name="title" content="Configuring Instrument Sessions | Semiconductor Test Library ">
       
       
       <link rel="icon" href="../favicon.ico">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/PublishedDataIdsOfTestStandSteps.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/ConfiguringInstrumentSessions.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -85,78 +85,16 @@
         </div>
 
         <article data-uid="">
-<h1 id="published-data-ids-of-teststandsteps">Published Data IDs of TestStandSteps</h1>
+<h1 id="configuring-instrument-sessions">Configuring Instrument Sessions</h1>
 
-<p>The following table shows the published data ids for the TestStandSteps provided by the Semiconductor Test Library that publish test results.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Method Name</th>
-<th style="text-align: left;">PublishedDataId(s)</th>
-<th style="text-align: left;">Data Type</th>
-<th style="text-align: left;">Units</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><code>AcquireAnalogInputWaveforms</code></td>
-<td style="text-align: left;">Minimum</td>
-<td style="text-align: left;">Numeric</td>
-<td style="text-align: left;">*Depends on task type</td>
-</tr>
-<tr>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Minimum</td>
-<td style="text-align: left;">Numeric</td>
-<td style="text-align: left;">*Depends on task type</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>BurstPattern</code></td>
-<td style="text-align: left;">Pattern Pass/Fail Result</td>
-<td style="text-align: left;">Boolean</td>
-<td style="text-align: left;">N/A</td>
-</tr>
-<tr>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Pattern Fail Count</td>
-<td style="text-align: left;">Numeric</td>
-<td style="text-align: left;">N/A</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>ContinuityTest</code></td>
-<td style="text-align: left;">Continuity</td>
-<td style="text-align: left;">Numeric</td>
-<td style="text-align: left;">Volts</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>ForceCurrentMeasureVoltage</code></td>
-<td style="text-align: left;">Voltage</td>
-<td style="text-align: left;">Numeric</td>
-<td style="text-align: left;">Volts</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>ForceVoltageMeasureCurrent</code></td>
-<td style="text-align: left;">Current</td>
-<td style="text-align: left;">Numeric</td>
-<td style="text-align: left;">Amperes</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>LeakageTest</code></td>
-<td style="text-align: left;">Leakage</td>
-<td style="text-align: left;">Numeric</td>
-<td style="text-align: left;">Amperes</td>
-</tr>
-</tbody>
-</table>
-<div class="NOTE">
-<h5>Note</h5>
-<p>When dragging and dropping a step from the TestStand Insertion Pallet into a sequence, the resulting step be linked to the version of the TestStandSteps assembly that ships with the version of STS Software you are using. However, Test tab in the Step Settings pane will not automatically be populated, as this is dependent on the number of pins used by the test. You must populate the Test tab yourself using the PublishedDataIds listed above.</p>
-</div>
+<p>The Semiconductor Test Library makes an attempt to configure instruments in the most efficient way possible by consolidating the most common drive properties into one a single class. An instance of this class can be created and configured with only the properties intended to be updated, and then operate on that object to update the driver within in one go. This minimizes test time as it minimizes the use of parallel for loops that get called under-the-hood.</p>
+<h2 id="how-it-works">How it works</h2>
+<p>It always aborts the session. Does not re-initiate or commit the sessions (this is expected to happen in proceeding code).'</p>
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/PublishedDataIdsOfTestStandSteps.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/ConfiguringInstrumentSessions.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>

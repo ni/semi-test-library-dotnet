@@ -2,21 +2,21 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Parallelization Methods | Semiconductor Test Library </title>
+      <title>Writing Test Code | Semiconductor Test Library </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Parallelization Methods | Semiconductor Test Library ">
+      <meta name="title" content="Writing Test Code | Semiconductor Test Library ">
       
       
-      <link rel="icon" href="../../favicon.ico">
-      <link rel="stylesheet" href="../../public/docfx.min.css">
-      <link rel="stylesheet" href="../../public/main.css">
-      <meta name="docfx:navrel" content="../../toc.html">
-      <meta name="docfx:tocrel" content="../toc.html">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
       
-      <meta name="docfx:rel" content="../../">
+      <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/advanced/ParallelExecution.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/WritingTestCode.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -30,7 +30,7 @@
       <meta name="loc:copy" content="Copy">
       <meta name="loc:downloadPdf" content="Download PDF">
 
-      <script type="module" src="./../../public/docfx.min.js"></script>
+      <script type="module" src="./../public/docfx.min.js"></script>
 
       <script>
         const theme = localStorage.getItem('theme') || 'auto'
@@ -43,8 +43,8 @@
     <header class="bg-body border-bottom">
       <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
         <div class="container-xxl flex-nowrap">
-          <a class="navbar-brand" href="../../index.html">
-            <img id="logo" class="svg" src="../../logo.svg" alt="Semiconductor Test Library">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Semiconductor Test Library">
             Semiconductor Test Library
           </a>
           <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,30 +85,65 @@
         </div>
 
         <article data-uid="">
-<h1 id="parallelization-methods">Parallelization Methods</h1>
+<h1 id="writing-test-code">Writing Test Code</h1>
 
-<p>The Semiconductor Test Library provides extension methods for abstracting parallel for loops that are required to iterate of each of the various instrument sessions within a given pin sessions bundle.</p>
-<ul>
-<li>Note that the Parallelization methods can be used with any class that inherits from the <code>ISessionsBundle</code> interface, such as the <code>DCPowerSessionsBundle</code> class.</li>
-<li>These methods can be used to perform one or more driver operation(s) across each instrument session associated with the pin(s) queried.</li>
-<li>There are overloads to allow you to specify if an operation is to be performed across each session or across each pin and site.</li>
-<li>These methods should only be used when needing to write low-level driver calls to implement instrument capabilities not yet exposed by the Semiconductor Test Library.</li>
-</ul>
-<div class="NOTE">
-<h5>Note</h5>
-<p>Class: <code>ParallelExecution</code><br>
-Namespace: <code>NationalInstruments.SemiconductorTestLibrary.Common</code> <br>
-Assembly: <code>NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</code></p>
-</div>
-<p><strong>Related concepts:</strong></p>
-<ul>
-<li><a href="LowLevelDriverCalls.md">Making Low-level Driver Calls</a></li>
-</ul>
+<p>Complete the following steps to use Semiconductor Test Library in your test code:</p>
+<ol>
+<li>Create a new TSMSessionManager object and any other local variables that are necessary for your test.</li>
+<li>Use the TSMSessionManager object to query the session for the target pins.</li>
+<li>Configure the instrumentation connected to the target pins and configure the relay modules.</li>
+<li>Source and/or measure the signals.</li>
+<li>Burst the patterns required to configure the DUT.</li>
+<li>Calculate and/or publish the required test results.</li>
+<li>Repeat step 4 and 6 as necessary for your test.</li>
+<li>Clean up and restore the instrument state(s) after finishing the test.</li>
+</ol>
+<h2 id="example-c-code-snippet-of-workflow">Example C# Code Snippet of Workflow</h2>
+<pre><code class="lang-C#">public static void WorkFlowExample(
+    ISemiconductorModuleContext semiconductorModuleContext,
+    string[] sumPinNames,
+    string[] digitalPinNames,
+    string relayConfigBeforeTest,
+    string relayConfigAfterTest,
+    string patternName)
+{
+    var sessionManager = new TSMSessionManager(semiconductorModuleContext);
+    double voltageLevel = 3.3;
+    double currentLimit = 0.01;
+    double settlingTime = 0.001;
+    var measureSettings = new DCPowerMeasureSettings()
+    {
+        ApertureTime = 0.001,
+        Sense = DCPowerMeasurementSense.Remote
+    };
+
+    var smuPins = sessionManager.DCPower(sumPinNames);
+    var digitalPins = sessionManager.Digital(digitalPinNames);
+
+    smuPins.ConfigureMeasureSettings(measureSettings);
+    semiconductorModuleContext.ApplyRelayConfiguration(relayConfigBeforeTest, waitSeconds: settlingTime);
+
+    smuPins.ForceVoltage(voltageLevel, currentLimit);
+    PreciseWait(timeInSeconds: settlingTime);
+    var currentBefore = smuPins.MeasureAndPublishCurrent(publishedDataId: &quot;CurrentBefore&quot;);
+
+    digitalPins.BurstPatternAndPublishResults(patternName, publishedDataId: &quot;PatternResults&quot;);
+    PreciseWait(timeInSeconds: settlingTime);
+    var currentAfter = smuPins.MeasureAndPublishCurrent(publishedDataId: &quot;CurrentAfter&quot;);
+
+    var currentDifference = currentBefore.Subtract(currentAfter).Abs();
+    semiconductorModuleContext.PublishResults(currentDifference, publishedDataId: &quot;CurrentDifference&quot;);
+
+    smuPins.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
+    PreciseWait(timeInSeconds: settlingTime);
+    semiconductorModuleContext.ApplyRelayConfiguration(relayConfigAfterTest, waitSeconds: settlingTime);
+}
+</code></pre>
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/advanced/ParallelExecution.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/WritingTestCode.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>

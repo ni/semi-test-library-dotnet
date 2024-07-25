@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Publishing Results | Semiconductor Test Library </title>
+      <title>Published Data IDs of TestStandSteps | Semiconductor Test Library </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Publishing Results | Semiconductor Test Library ">
+      <meta name="title" content="Published Data IDs of TestStandSteps | Semiconductor Test Library ">
       
       
       <link rel="icon" href="../favicon.ico">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/PublishingResults.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/PublishedDataIdsOfTestStandSteps.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -85,18 +85,78 @@
         </div>
 
         <article data-uid="">
-<h1 id="publishing-results">Publishing Results</h1>
+<h1 id="published-data-ids-of-teststandsteps">Published Data IDs of TestStandSteps</h1>
 
-<p>The Semiconductor Test Library does not directly process or evaluate test results. It instead passes published test results to be separate results handler. The library currently leverages the TestStand Semiconductor Module (TSM) to act its results handler, where the test results are evaluated against limits at the TestStand level. Refer to the TSM documentation linked below for more information.</p>
-<p><strong>Related information:</strong></p>
-<ul>
-<li><a href="https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/publishing-results.html">NI TestStand Semiconductor Module: Publishing Results (TSM)</a></li>
-</ul>
+<p>The following table shows the published data ids for the TestStandSteps provided by the Semiconductor Test Library that publish test results.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Method Name</th>
+<th style="text-align: left;">PublishedDataId(s)</th>
+<th style="text-align: left;">Data Type</th>
+<th style="text-align: left;">Units</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>AcquireAnalogInputWaveforms</code></td>
+<td style="text-align: left;">Minimum</td>
+<td style="text-align: left;">Numeric</td>
+<td style="text-align: left;">*Depends on task type</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Minimum</td>
+<td style="text-align: left;">Numeric</td>
+<td style="text-align: left;">*Depends on task type</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>BurstPattern</code></td>
+<td style="text-align: left;">Pattern Pass/Fail Result</td>
+<td style="text-align: left;">Boolean</td>
+<td style="text-align: left;">N/A</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pattern Fail Count</td>
+<td style="text-align: left;">Numeric</td>
+<td style="text-align: left;">N/A</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ContinuityTest</code></td>
+<td style="text-align: left;">Continuity</td>
+<td style="text-align: left;">Numeric</td>
+<td style="text-align: left;">Volts</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ForceCurrentMeasureVoltage</code></td>
+<td style="text-align: left;">Voltage</td>
+<td style="text-align: left;">Numeric</td>
+<td style="text-align: left;">Volts</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ForceVoltageMeasureCurrent</code></td>
+<td style="text-align: left;">Current</td>
+<td style="text-align: left;">Numeric</td>
+<td style="text-align: left;">Amperes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>LeakageTest</code></td>
+<td style="text-align: left;">Leakage</td>
+<td style="text-align: left;">Numeric</td>
+<td style="text-align: left;">Amperes</td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE">
+<h5>Note</h5>
+<p>When dragging and dropping a step from the TestStand Insertion Pallet into a sequence, the resulting step be linked to the version of the TestStandSteps assembly that ships with the version of STS Software you are using. However, Test tab in the Step Settings pane will not automatically be populated, as this is dependent on the number of pins used by the test. You must populate the Test tab yourself using the PublishedDataIds listed above.</p>
+</div>
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/PublishingResults.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/PublishedDataIdsOfTestStandSteps.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>

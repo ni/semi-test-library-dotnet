@@ -2,21 +2,21 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Adding Using Directives | Semiconductor Test Library </title>
+      <title>Parallelization Methods | Semiconductor Test Library </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Adding Using Directives | Semiconductor Test Library ">
+      <meta name="title" content="Parallelization Methods | Semiconductor Test Library ">
       
       
-      <link rel="icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../public/docfx.min.css">
-      <link rel="stylesheet" href="../public/main.css">
-      <meta name="docfx:navrel" content="../toc.html">
-      <meta name="docfx:tocrel" content="toc.html">
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
       
-      <meta name="docfx:rel" content="../">
+      <meta name="docfx:rel" content="../../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/AddingUsingStatements.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/advanced/ParallelExecution.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -30,7 +30,7 @@
       <meta name="loc:copy" content="Copy">
       <meta name="loc:downloadPdf" content="Download PDF">
 
-      <script type="module" src="./../public/docfx.min.js"></script>
+      <script type="module" src="./../../public/docfx.min.js"></script>
 
       <script>
         const theme = localStorage.getItem('theme') || 'auto'
@@ -43,8 +43,8 @@
     <header class="bg-body border-bottom">
       <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
         <div class="container-xxl flex-nowrap">
-          <a class="navbar-brand" href="../index.html">
-            <img id="logo" class="svg" src="../logo.svg" alt="Semiconductor Test Library">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="Semiconductor Test Library">
             Semiconductor Test Library
           </a>
           <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,31 +85,30 @@
         </div>
 
         <article data-uid="">
-<h1 id="adding-using-directives">Adding Using Directives</h1>
+<h1 id="parallelization-methods">Parallelization Methods</h1>
 
-<p>Depending on how your Visual Studio IDE is configured, the required using directives for accessing the Semiconductor Test Library may or may not automatically populate for as you write code. Therefore, you should always ensure that you have added the appropriate namespaces as using directives to the top of your code. This is required for the code to compile and for certain IDE features to work properly, such as Visual Studio's <a href="https://learn.microsoft.com/en-us/visualstudio/ide/using-intellisense?view=vs-2022">IntelliSense</a>.</p>
-<p>Example 1: When working with the NI DCPower instruments, make sure you are using the following using directives in your code:</p>
-<pre><code class="lang-C#">using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
-</code></pre>
-<p>Example 2: When working with the <code>PinSiteData</code> or <code>SiteData</code> objects, make sure you are using the following using directives in your code:</p>
-<pre><code class="lang-C#">using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-</code></pre>
-<div class="TIP">
-<h5>Tip</h5>
-<p>Consider a static using directive when working methods in the <code>Utilities</code> class, such as <code>PreciseWait</code>. This will allow you to write <code>PreciseWait()</code> in your code, instead of <code>Utilities.PreciseWait()</code>.</p>
-<pre><code class="lang-C#">using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
-</code></pre>
-</div>
-<p><strong>Related information:</strong></p>
+<p>The Semiconductor Test Library provides extension methods for abstracting parallel for loops that are required to iterate of each of the various instrument sessions within a given pin sessions bundle.</p>
 <ul>
-<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-directive">Microsoft Learn: Using Directive</a></li>
+<li>Note that the Parallelization methods can be used with any class that inherits from the <code>ISessionsBundle</code> interface, such as the <code>DCPowerSessionsBundle</code> class.</li>
+<li>These methods can be used to perform one or more driver operation(s) across each instrument session associated with the pin(s) queried.</li>
+<li>There are overloads to allow you to specify if an operation is to be performed across each session or across each pin and site.</li>
+<li>These methods should only be used when needing to write low-level driver calls to implement instrument capabilities not yet exposed by the Semiconductor Test Library.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Class: <code>ParallelExecution</code><br>
+Namespace: <code>NationalInstruments.SemiconductorTestLibrary.Common</code> <br>
+Assembly: <code>NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</code></p>
+</div>
+<p><strong>Related concepts:</strong></p>
+<ul>
+<li><a href="LowLevelDriverCalls.md">Making Low-level Driver Calls</a></li>
 </ul>
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/AddingUsingStatements.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/advanced/ParallelExecution.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>

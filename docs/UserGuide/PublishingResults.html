@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Writing Test Code | Semiconductor Test Library </title>
+      <title>Publishing Results | Semiconductor Test Library </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Writing Test Code | Semiconductor Test Library ">
+      <meta name="title" content="Publishing Results | Semiconductor Test Library ">
       
       
       <link rel="icon" href="../favicon.ico">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/WritingTestCode.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/PublishingResults.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -85,65 +85,18 @@
         </div>
 
         <article data-uid="">
-<h1 id="writing-test-code">Writing Test Code</h1>
+<h1 id="publishing-results">Publishing Results</h1>
 
-<p>Complete the following steps to use Semiconductor Test Library in your test code:</p>
-<ol>
-<li>Create a new TSMSessionManager object and any other local variables that are necessary for your test.</li>
-<li>Use the TSMSessionManager object to query the session for the target pins.</li>
-<li>Configure the instrumentation connected to the target pins and configure the relay modules.</li>
-<li>Source and/or measure the signals.</li>
-<li>Burst the patterns required to configure the DUT.</li>
-<li>Calculate and/or publish the required test results.</li>
-<li>Repeat step 4 and 6 as necessary for your test.</li>
-<li>Clean up and restore the instrument state(s) after finishing the test.</li>
-</ol>
-<h2 id="example-c-code-snippet-of-workflow">Example C# Code Snippet of Workflow</h2>
-<pre><code class="lang-C#">public static void WorkFlowExample(
-    ISemiconductorModuleContext semiconductorModuleContext,
-    string[] sumPinNames,
-    string[] digitalPinNames,
-    string relayConfigBeforeTest,
-    string relayConfigAfterTest,
-    string patternName)
-{
-    var sessionManager = new TSMSessionManager(semiconductorModuleContext);
-    double voltageLevel = 3.3;
-    double currentLimit = 0.01;
-    double settlingTime = 0.001;
-    var measureSettings = new DCPowerMeasureSettings()
-    {
-        ApertureTime = 0.001,
-        Sense = DCPowerMeasurementSense.Remote
-    };
-
-    var smuPins = sessionManager.DCPower(sumPinNames);
-    var digitalPins = sessionManager.Digital(digitalPinNames);
-
-    smuPins.ConfigureMeasureSettings(measureSettings);
-    semiconductorModuleContext.ApplyRelayConfiguration(relayConfigBeforeTest, waitSeconds: settlingTime);
-
-    smuPins.ForceVoltage(voltageLevel, currentLimit);
-    PreciseWait(timeInSeconds: settlingTime);
-    var currentBefore = smuPins.MeasureAndPublishCurrent(publishedDataId: &quot;CurrentBefore&quot;);
-
-    digitalPins.BurstPatternAndPublishResults(patternName, publishedDataId: &quot;PatternResults&quot;);
-    PreciseWait(timeInSeconds: settlingTime);
-    var currentAfter = smuPins.MeasureAndPublishCurrent(publishedDataId: &quot;CurrentAfter&quot;);
-
-    var currentDifference = currentBefore.Subtract(currentAfter).Abs();
-    semiconductorModuleContext.PublishResults(currentDifference, publishedDataId: &quot;CurrentDifference&quot;);
-
-    smuPins.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
-    PreciseWait(timeInSeconds: settlingTime);
-    semiconductorModuleContext.ApplyRelayConfiguration(relayConfigAfterTest, waitSeconds: settlingTime);
-}
-</code></pre>
+<p>The Semiconductor Test Library does not directly process or evaluate test results. It instead passes published test results to be separate results handler. The library currently leverages the TestStand Semiconductor Module (TSM) to act its results handler, where the test results are evaluated against limits at the TestStand level. Refer to the TSM documentation linked below for more information.</p>
+<p><strong>Related information:</strong></p>
+<ul>
+<li><a href="https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/publishing-results.html">NI TestStand Semiconductor Module: Publishing Results (TSM)</a></li>
+</ul>
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/WritingTestCode.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/PublishingResults.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>

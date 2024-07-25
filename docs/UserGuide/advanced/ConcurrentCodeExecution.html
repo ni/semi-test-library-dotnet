@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Making Low-level Driver Calls | Semiconductor Test Library </title>
+      <title>Concurrent Code Execution | Semiconductor Test Library </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Making Low-level Driver Calls | Semiconductor Test Library ">
+      <meta name="title" content="Concurrent Code Execution | Semiconductor Test Library ">
       
       
       <link rel="icon" href="../../favicon.ico">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/advanced/MakingLowLevelDriverCalls.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/advanced/ConcurrentCodeExecution.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -85,43 +85,44 @@
         </div>
 
         <article data-uid="">
-<h1 id="making-low-level-driver-calls">Making Low-level Driver Calls</h1>
+<h1 id="concurrent-code-execution">Concurrent Code Execution</h1>
 
-<p>During test program development, you may be a low-level driver function or capability that is not directly exposed as a high-level extension method by the Semiconductor Test Library. In such cases, it may be necessary to use the low-level driver API to implement the desired test code. The <a href="ParallelExecution.html"><code>ParallelExecution</code></a> methods provided by the Semiconductor Test Library can be leveraged to directly access to the low-level driver sessions enabling you to implement ad-hoc driver calls inline with other high-level methods in your test code.</p>
-<h2 id="how-to-make-low-level-driver-api-calls">How-to Make Low-level Driver API Calls</h2>
-<p>To invoke a low-level driver API call, use the <code>Do</code> methods provided within the <code>ParallelExecution</code> class within the <code>NationalInstruments.SemiconductorTestLibrary.Common</code> namespace.</p>
-<p>The following example highlights how use the <code>Do</code> method with an existing <code>DigitalSessionsBundle</code> object to start clock generation by invoking the <code>ClockGenerator.GenerateClock</code> method from the niDigital driver API on the underlying PinSet of the niDigital driver session.</p>
-<blockquote>
-<p>Note that if you need to invoke a method on the driver session object, rather than simply access a property, you must also include a using declaration for the namespace of the driver API at the top of your code file. In the example below requires the following using directive: <code>using NationalInstruments.ModularInstruments.NIDigital;</code></p>
-</blockquote>
-<pre><code class="lang-C#">public static void GenerateClock(DigitalSessionsBundle sessionsBundle, double frequency)
+<p>Code statements that are independent of each other can be written to execute in concurrently. You can use the <code>InvokeInParallel</code> method from the <code>Utilities</code> class to allow separate lines of code to execute concurrently. For example, to perform operations on pins of different instrument types at the same time.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>This method uses the <a href="https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.parallel.invoke?view=net-8.0"><code>Parallel.Invoke</code></a> method to execute multiple methods in parallel, and can be <a href="https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/how-to-use-parallel-invoke-to-execute-parallel-operations">invoked in the exact same way</a>. However, note that it also wraps the Parallel.Invoke method in a try-catch statement such that if an expectation occurs, only the first exception that is encountered will be returned to the call. This allows the exception to  bubble-up and display properly by the TestStand runtime error dialog.</p>
+<p>Class: <code>Utilities</code><br>
+Namespace: <code>NationalInstruments.SemiconductorTestLibrary.Common</code> <br>
+Assembly: <code>NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</code></p>
+</div>
+<p>The following example demonstrates how to use the <code>InvokeInParallel</code> method from the <code>Utilities</code> class:</p>
+<pre><code class="lang-C#">public static void ConcurrentCodeExample(ISemiconductorModuleContext semiconductorModuleContext, string pinNames)
 {
-    sessionsBundle.Do((DigitalSessionInformation sessionInfo) =&gt;
-    {
-        sessionInfo.PinSet.ClockGenerator.GenerateClock(frequency, selectDigitalFunction: true);
-    });
-};
-</code></pre>
-<p>Similarly, you may want to return values from low-level driver properties.</p>
-<p>The following example demonstrates how to get the configured the voltage level for the target DCPower instruments by accessing the <code>VoltageLevel</code> property of the low-level niDCPower driver session by using the <code>DoAndReturnPerPinPerSiteData</code> method.</p>
-<pre><code class="lang-C#">public static PinSiteData&lt;double&gt; GetVoltageLevel(DCPowerSessionsBundle sessionsBundle)
-{
-    return sessionsBundle.DoAndReturnPerSitePerPinResults(
-        (DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo) =&gt;
+    var sessionManager = new TSMSessionManager(semiconductorModuleContext);
+    var publishDataID = &quot;Measurement&quot;;
+    var filteredPinNamesDmm = semiconductorModuleContext.FilterPinsByInstrumentType(pinNames, InstrumentTypeIdConstants.NIDmm);
+    var filteredPinNamesPpmu = semiconductorModuleContext.FilterPinsByInstrumentType(pinNames, InstrumentTypeIdConstants.NIDigitalPattern);
+    var filteredPinNamesSmu = semiconductorModuleContext.FilterPinsByInstrumentType(pinNames, InstrumentTypeIdConstants.NIDCPower);
+    var ppmuPins = sessionManager.DCPower(filteredPinNamesSmu);
+    var smuPins = sessionManager.Digital(filteredPinNamesPpmu);
+    var dmmPins = sessionManager.DMM(filteredPinNamesPpmu);
+
+    // Assumes that the instrumentation is already configured.
+    Utilities.InvokeInParallel(
+        () =&gt; ppmuPins.MeasureAndPublishCurrent(publishDataID),
+        () =&gt; smuPins.MeasureAndPublishCurrent(publishDataID),
+        () =&gt;
         {
-            return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+            var measurements = dmmPins.Read(maximumTimeInMilliseconds: 2000);
+            semiconductorModuleContext.PublishResults(measurements, publishDataID);
         });
 }
 </code></pre>
-<p><strong>Related concepts:</strong></p>
-<ul>
-<li><a href="ExtendingTheSemiconductorTestLibrary.html">Extending The Semiconductor Test Library</a></li>
-</ul>
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/advanced/MakingLowLevelDriverCalls.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/source/UserGuide/advanced/ConcurrentCodeExecution.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>

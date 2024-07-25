@@ -53,7 +53,7 @@
         ]
       }
     ],
-    "output": "_site",
+    "output": "../",
     "template": [
       "default",
       "modern"
