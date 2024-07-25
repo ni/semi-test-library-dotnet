@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Instrument Setup and Cleanup | Semiconductor Test Library </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Instrument Setup and Cleanup | Semiconductor Test Library ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/InstrumentSetupAndCleanup.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Semiconductor Test Library">
+            Semiconductor Test Library
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="instrument-setup-and-cleanup">Instrument Setup and Cleanup</h1>
+
+<p>The Semiconductor Test Library expects instrument sessions to be created for and stored via a separate session manager. The library currently leverages the TestStand Semiconductor Module to act its session manager, where the initialization and cleanup of instrument sessions is intended to be invoked from TestStand's ProcessSetup and ProcessCleanup sequences, respectively.</p>
+<p>The Semiconductor Test Library provides instrument type specific initialization and cleanup code in the <code>Initialization</code> class.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Class: <code>Initialization</code><br>
+Namespace: <code>NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.&lt;instrument type</code> <br>
+Assembly: <code>NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</code></p>
+</div>
+<p>Additionally, the TestStandSteps provides the high-level,</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Namespace: <code>NationalInstruments.SemiconductorTestLibrary.TestStandSteps</code> <br>
+Assembly: <code>NationalInstruments.SemiconductorTestLibrary.TestStandSteps.dll</code></p>
+</div>
+<h2 id="using-the-map-method">Using the Map Method</h2>
+<p>As of STS Software 24.5, the NationalInstruments.SemiconductorTestLibrary.TestStandSteps assembly provides method that are available as step types for you to drag-and-drop from the TestStand Insertion Pallet. These provided methods aid quick commonly suers...</p>
+<p>The source code for these steps are available on github for reference.</p>
+<p>It is expect that users can leverage</p>
+<p>It also uses abstractions, they may not be the same memory space. This is not a problem except for init code</p>
+<p>nuget inted</p>
+<p>Use the <code>MapInitializedInstrumentSessions</code> method from the <code>Initialization</code> class to ensure the cached instrument session information is consistent between the NationalInstruments.SemiconductorTestLibrary.TestStandSteps assembly and client assembly.</p>
+<p>When using the Steps provided by the the NationalInstruments.SemiconductorTestLibrary.TestStandSteps assembly in your test sequence, and writing although it uses the NationalInstruments.SemiconductorTestLibrary.Abstractions assembly is dedent on the the NationalInstruments.SemiconductorTestLibrary.Abstractions.  they may not share the same memory space if the client assembly is using a newer version of the NationalInstruments.SemiconductorTestLibrary.Abstractions.</p>
+<p>If the client assembly is using a newer version of the NationalInstruments.SemiconductorTestLibrary.Abstractions, then will not share the same memory space which can cause problems.</p>
+<h2 id="ni-dcpower-session-groups">NI DCPower Session Groups</h2>
+<p>The instrument abstraction for the NI DCPower drive expects that the sessions are configured in one or more groups within the loaded pin map. If the load pin map does not use session groups, the <code>InitializeAndClose.Initialize</code> method will throw and exception.</p>
+<p>Applicable namespace: <code>SemiconductorTestLibrary.InstrumentAbstraction.DCPower</code></p>
+<p><strong>Related information:</strong></p>
+<ul>
+<li>LINK</li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/Docs/UserGuide/InstrumentSetupAndCleanup.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

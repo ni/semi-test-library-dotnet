@@ -1,0 +1,862 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control
+  id: Control
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ApplyRelayConfiguration(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IDictionary{System.String,NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction[])
+  langs:
+  - csharp
+  - vb
+  name: Control
+  nameWithType: Control
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control
+  type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Relay/Control.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  summary: Defines methods for relay control.
+  example: []
+  syntax:
+    content: public static class Control
+    content.vb: Public Module Control
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  id: ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control
+  langs:
+  - csharp
+  - vb
+  name: ControlRelay(ISemiconductorModuleContext, string, RelayDriverAction)
+  nameWithType: Control.ControlRelay(ISemiconductorModuleContext, string, RelayDriverAction)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Relay/Control.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  summary: Performs the relay action on the relay.
+  example: []
+  syntax:
+    content: public static void ControlRelay(ISemiconductorModuleContext tsmContext, string relay, RelayDriverAction relayAction)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: relay
+      type: System.String
+      description: The name of the relay to control.
+    - id: relayAction
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction
+      description: The relay action to perform.
+    content.vb: Public Shared Sub ControlRelay(tsmContext As ISemiconductorModuleContext, relay As String, relayAction As RelayDriverAction)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay*
+  nameWithType.vb: Control.ControlRelay(ISemiconductorModuleContext, String, RelayDriverAction)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String, NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  name.vb: ControlRelay(ISemiconductorModuleContext, String, RelayDriverAction)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  id: ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control
+  langs:
+  - csharp
+  - vb
+  name: ControlRelay(ISemiconductorModuleContext, string[], RelayDriverAction)
+  nameWithType: Control.ControlRelay(ISemiconductorModuleContext, string[], RelayDriverAction)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Relay/Control.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  summary: Performs the same relay action on multiple relays.
+  example: []
+  syntax:
+    content: public static void ControlRelay(ISemiconductorModuleContext tsmContext, string[] relays, RelayDriverAction relayAction)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: relays
+      type: System.String[]
+      description: The name of the relays to control.
+    - id: relayAction
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction
+      description: The relay action to perform.
+    content.vb: Public Shared Sub ControlRelay(tsmContext As ISemiconductorModuleContext, relays As String(), relayAction As RelayDriverAction)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay*
+  nameWithType.vb: Control.ControlRelay(ISemiconductorModuleContext, String(), RelayDriverAction)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  name.vb: ControlRelay(ISemiconductorModuleContext, String(), RelayDriverAction)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction[])
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction[])
+  id: ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction[])
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control
+  langs:
+  - csharp
+  - vb
+  name: ControlRelay(ISemiconductorModuleContext, string[], RelayDriverAction[])
+  nameWithType: Control.ControlRelay(ISemiconductorModuleContext, string[], RelayDriverAction[])
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction[])
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Relay/Control.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  summary: Performs the relay actions on the relays.
+  example: []
+  syntax:
+    content: public static void ControlRelay(ISemiconductorModuleContext tsmContext, string[] relays, RelayDriverAction[] relayActions)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: relays
+      type: System.String[]
+      description: The name of the relays to control.
+    - id: relayActions
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction[]
+      description: The relay actions to perform.
+    content.vb: Public Shared Sub ControlRelay(tsmContext As ISemiconductorModuleContext, relays As String(), relayActions As RelayDriverAction())
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay*
+  nameWithType.vb: Control.ControlRelay(ISemiconductorModuleContext, String(), RelayDriverAction())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction())
+  name.vb: ControlRelay(ISemiconductorModuleContext, String(), RelayDriverAction())
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IDictionary{System.String,NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IDictionary{System.String,NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction})
+  id: ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IDictionary{System.String,NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction})
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control
+  langs:
+  - csharp
+  - vb
+  name: ControlRelay(ISemiconductorModuleContext, IDictionary<string, RelayDriverAction>)
+  nameWithType: Control.ControlRelay(ISemiconductorModuleContext, IDictionary<string, RelayDriverAction>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, System.Collections.Generic.IDictionary<string, NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Relay/Control.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  summary: Performs the relay actions on the relays.
+  example: []
+  syntax:
+    content: public static void ControlRelay(ISemiconductorModuleContext tsmContext, IDictionary<string, RelayDriverAction> relayNameToActionDictionary)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: relayNameToActionDictionary
+      type: System.Collections.Generic.IDictionary{System.String,NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction}
+      description: A dictionary that maps the relay name to the relay action to apply on that relay.
+    content.vb: Public Shared Sub ControlRelay(tsmContext As ISemiconductorModuleContext, relayNameToActionDictionary As IDictionary(Of String, RelayDriverAction))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay*
+  nameWithType.vb: Control.ControlRelay(ISemiconductorModuleContext, IDictionary(Of String, RelayDriverAction))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, System.Collections.Generic.IDictionary(Of String, NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction))
+  name.vb: ControlRelay(ISemiconductorModuleContext, IDictionary(Of String, RelayDriverAction))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction})
+  id: ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction})
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control
+  langs:
+  - csharp
+  - vb
+  name: ControlRelay(ISemiconductorModuleContext, string[], SiteData<RelayDriverAction>)
+  nameWithType: Control.ControlRelay(ISemiconductorModuleContext, string[], SiteData<RelayDriverAction>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Relay/Control.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  summary: Performs the relay actions on the relays.
+  example: []
+  syntax:
+    content: public static void ControlRelay(ISemiconductorModuleContext tsmContext, string[] relays, SiteData<RelayDriverAction> perSiteRelayActions)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: relays
+      type: System.String[]
+      description: The name of the relays to control.
+    - id: perSiteRelayActions
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction}
+      description: The per-site relay actions to perform.
+    content.vb: Public Shared Sub ControlRelay(tsmContext As ISemiconductorModuleContext, relays As String(), perSiteRelayActions As SiteData(Of RelayDriverAction))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay*
+  nameWithType.vb: Control.ControlRelay(ISemiconductorModuleContext, String(), SiteData(Of RelayDriverAction))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction))
+  name.vb: ControlRelay(ISemiconductorModuleContext, String(), SiteData(Of RelayDriverAction))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ApplyRelayConfiguration(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ApplyRelayConfiguration(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String)
+  id: ApplyRelayConfiguration(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control
+  langs:
+  - csharp
+  - vb
+  name: ApplyRelayConfiguration(ISemiconductorModuleContext, string)
+  nameWithType: Control.ApplyRelayConfiguration(ISemiconductorModuleContext, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ApplyRelayConfiguration(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Relay/Control.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  summary: Performs the relay actions on the relays in the relay configuration.
+  example: []
+  syntax:
+    content: public static void ApplyRelayConfiguration(ISemiconductorModuleContext tsmContext, string relayConfiguration)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: relayConfiguration
+      type: System.String
+      description: The name of the relay configuration to apply.
+    content.vb: Public Shared Sub ApplyRelayConfiguration(tsmContext As ISemiconductorModuleContext, relayConfiguration As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ApplyRelayConfiguration*
+  nameWithType.vb: Control.ApplyRelayConfiguration(ISemiconductorModuleContext, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ApplyRelayConfiguration(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String)
+  name.vb: ApplyRelayConfiguration(ISemiconductorModuleContext, String)
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+    name: Relay
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+    name: Relay
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  commentId: T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  parent: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: ISemiconductorModuleContext
+  nameWithType: ISemiconductorModuleContext
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Relay_Control_ControlRelay_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_RelayDriverAction_
+  name: ControlRelay
+  nameWithType: Control.ControlRelay
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ControlRelay
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction
+  commentId: T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction
+  parent: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: RelayDriverAction
+  nameWithType: RelayDriverAction
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  commentId: N:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  nameWithType: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction[]
+  isExternal: true
+  name: RelayDriverAction[]
+  nameWithType: RelayDriverAction[]
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction[]
+  nameWithType.vb: RelayDriverAction()
+  fullName.vb: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction()
+  name.vb: RelayDriverAction()
+  spec.csharp:
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction
+    name: RelayDriverAction
+    isExternal: true
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction
+    name: RelayDriverAction
+    isExternal: true
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IDictionary{System.String,NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction}
+  commentId: T:System.Collections.Generic.IDictionary{System.String,NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<string, RelayDriverAction>
+  nameWithType: IDictionary<string, RelayDriverAction>
+  fullName: System.Collections.Generic.IDictionary<string, NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction>
+  nameWithType.vb: IDictionary(Of String, RelayDriverAction)
+  fullName.vb: System.Collections.Generic.IDictionary(Of String, NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  name.vb: IDictionary(Of String, RelayDriverAction)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction
+    name: RelayDriverAction
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction
+    name: RelayDriverAction
+    isExternal: true
+  - name: )
+- uid: System.Collections.Generic.IDictionary`2
+  commentId: T:System.Collections.Generic.IDictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<TKey, TValue>
+  nameWithType: IDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
+  nameWithType.vb: IDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
+  name.vb: IDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  name: SiteData<RelayDriverAction>
+  nameWithType: SiteData<RelayDriverAction>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction>
+  nameWithType.vb: SiteData(Of RelayDriverAction)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction)
+  name.vb: SiteData(Of RelayDriverAction)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+  - name: <
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction
+    name: RelayDriverAction
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.RelayDriverAction
+    name: RelayDriverAction
+    isExternal: true
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ApplyRelayConfiguration*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ApplyRelayConfiguration
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ApplyRelayConfiguration.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Relay_Control_ApplyRelayConfiguration_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_
+  name: ApplyRelayConfiguration
+  nameWithType: Control.ApplyRelayConfiguration
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control.ApplyRelayConfiguration
+memberLayout: SeparatePages

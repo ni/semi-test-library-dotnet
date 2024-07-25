@@ -1,0 +1,972 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  id: CommonSteps
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String)
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double[],System.String[],System.Double[],System.Double[],System.Double[],System.Double,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Boolean,System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double[],System.Double[],System.Double,System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double,System.Boolean)
+  langs:
+  - csharp
+  - vb
+  name: CommonSteps
+  nameWithType: CommonSteps
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/BurstPattern.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: s
+  example: []
+  syntax:
+    content: public static class CommonSteps
+    content.vb: Public Module CommonSteps
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String)
+  id: BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String)
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  langs:
+  - csharp
+  - vb
+  name: BurstPattern(ISemiconductorModuleContext, string[], string)
+  nameWithType: CommonSteps.BurstPattern(ISemiconductorModuleContext, string[], string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], string)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/BurstPattern.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: Bursts a pattern and publishes the pass/fail results as well as the fail count.
+  example: []
+  syntax:
+    content: public static void BurstPattern(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, string patternName)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: pinsOrPinGroups
+      type: System.String[]
+      description: The pins or pin groups.
+    - id: patternName
+      type: System.String
+      description: The name of the pattern to burst.
+    content.vb: Public Shared Sub BurstPattern(tsmContext As ISemiconductorModuleContext, pinsOrPinGroups As String(), patternName As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern*
+  nameWithType.vb: CommonSteps.BurstPattern(ISemiconductorModuleContext, String(), String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), String)
+  name.vb: BurstPattern(ISemiconductorModuleContext, String(), String)
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double[],System.String[],System.Double[],System.Double[],System.Double[],System.Double,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double[],System.String[],System.Double[],System.Double[],System.Double[],System.Double,System.Double)
+  id: ContinuityTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double[],System.String[],System.Double[],System.Double[],System.Double[],System.Double,System.Double)
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  langs:
+  - csharp
+  - vb
+  name: ContinuityTest(ISemiconductorModuleContext, string[], double[], string[], double[], double[], double[], double, double)
+  nameWithType: CommonSteps.ContinuityTest(ISemiconductorModuleContext, string[], double[], string[], double[], double[], double[], double, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double[], string[], double[], double[], double[], double, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/ContinuityTest.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: >-
+    Performs a basic continuity test. It serially checks either upper or lower protection diodes DUT pins,
+
+    regardless of if they are mapped to digital or SMU instruments. The test will first set 0V on all the pins
+
+    and then source a small amount of current on the targeted continuity pins to validate the voltage drop
+
+    across the protection diode. After current is applied, the targeted pin(s) will be forced back to 0V
+
+    before continuing on to the next pin.
+
+    Note that each continuity pin will be tested one pin at a time.
+
+    Pins mapped to either an NI SMU or NI PPMU(s) instrument channel are supported.
+  example: []
+  syntax:
+    content: public static void ContinuityTest(ISemiconductorModuleContext tsmContext, string[] supplyPinsOrPinGroups, double[] currentLimitsPerSupplyPinOrPinGroup, string[] continuityPinsOrPinGroups, double[] currentLevelPerContinuityPinOrPinGroup, double[] voltageLimitHighPerContinuityPinOrPinGroup, double[] voltageLimitLowPerContinuityPinOrPinGroup, double apertureTime, double settlingTime)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: supplyPinsOrPinGroups
+      type: System.String[]
+      description: The supply pins or pin groups.
+    - id: currentLimitsPerSupplyPinOrPinGroup
+      type: System.Double[]
+      description: The current limits for every supply pin or pin group, in amperes.
+    - id: continuityPinsOrPinGroups
+      type: System.String[]
+      description: The continuity pins or pin groups.
+    - id: currentLevelPerContinuityPinOrPinGroup
+      type: System.Double[]
+      description: The current levels for every continuity pin or pin group, in amperes.
+    - id: voltageLimitHighPerContinuityPinOrPinGroup
+      type: System.Double[]
+      description: The voltage limit high for every continuity pin or pin group, in volts.
+    - id: voltageLimitLowPerContinuityPinOrPinGroup
+      type: System.Double[]
+      description: The voltage limit low for every continuity pin or pin group, in volts.
+    - id: apertureTime
+      type: System.Double
+      description: The measurement aperture time in seconds.
+    - id: settlingTime
+      type: System.Double
+      description: The amount of time to wait before measuring the voltage, in seconds.
+    content.vb: Public Shared Sub ContinuityTest(tsmContext As ISemiconductorModuleContext, supplyPinsOrPinGroups As String(), currentLimitsPerSupplyPinOrPinGroup As Double(), continuityPinsOrPinGroups As String(), currentLevelPerContinuityPinOrPinGroup As Double(), voltageLimitHighPerContinuityPinOrPinGroup As Double(), voltageLimitLowPerContinuityPinOrPinGroup As Double(), apertureTime As Double, settlingTime As Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest*
+  nameWithType.vb: CommonSteps.ContinuityTest(ISemiconductorModuleContext, String(), Double(), String(), Double(), Double(), Double(), Double, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), Double(), String(), Double(), Double(), Double(), Double, Double)
+  name.vb: ContinuityTest(ISemiconductorModuleContext, String(), Double(), String(), Double(), Double(), Double(), Double, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Boolean,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Boolean,System.Boolean)
+  id: DutPowerDown(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Boolean,System.Boolean)
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  langs:
+  - csharp
+  - vb
+  name: DutPowerDown(ISemiconductorModuleContext, string[], double, bool, bool)
+  nameWithType: CommonSteps.DutPowerDown(ISemiconductorModuleContext, string[], double, bool, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, bool, bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/DutPowerDown.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: >-
+    Forces DC voltage to Zero on the specified DUT supply pins. If the <code class="paramref">powerDownSuppliesSerially</code> Boolean is set to True,
+
+    the DUT supplies will be powered down sequentially in the order provided, and the <code class="paramref">settlingTime</code> input will be used after power down each pin.
+
+    If <code class="paramref">forceLowestCurrentLimit</code> is set to false, the <code class="paramref">dutSupplyPinsOrPinGroups</code> will be configured to force 0V
+
+    at the currently programmed current limit and range, which may not be desirable. Otherwise, it will default to true,
+
+    which will ensure the pins are configured to force 0V at the lowest possible current limit to mimic high-impedance.
+
+    The actual current limit selected is dependent on the mapped hardware channel.
+
+    Both DCPower and Digital PPMU pins are supported.
+  example: []
+  syntax:
+    content: public static void DutPowerDown(ISemiconductorModuleContext tsmContext, string[] dutSupplyPinsOrPinGroups, double settlingTime = 0, bool powerDownSuppliesSerially = false, bool forceLowestCurrentLimit = true)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: dutSupplyPinsOrPinGroups
+      type: System.String[]
+      description: The DUT supply pins or pin groups.
+    - id: settlingTime
+      type: System.Double
+      description: The amount of time to wait before continuing, in seconds.
+    - id: powerDownSuppliesSerially
+      type: System.Boolean
+      description: Whether to power down DUT supplies sequentially.
+    - id: forceLowestCurrentLimit
+      type: System.Boolean
+      description: Whether to force lowest current limit (100nA) for safety considerations.
+    content.vb: Public Shared Sub DutPowerDown(tsmContext As ISemiconductorModuleContext, dutSupplyPinsOrPinGroups As String(), settlingTime As Double = 0, powerDownSuppliesSerially As Boolean = False, forceLowestCurrentLimit As Boolean = True)
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown*
+  nameWithType.vb: CommonSteps.DutPowerDown(ISemiconductorModuleContext, String(), Double, Boolean, Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), Double, Boolean, Boolean)
+  name.vb: DutPowerDown(ISemiconductorModuleContext, String(), Double, Boolean, Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double[],System.Double[],System.Double,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double[],System.Double[],System.Double,System.Boolean)
+  id: DutPowerUp(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double[],System.Double[],System.Double,System.Boolean)
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  langs:
+  - csharp
+  - vb
+  name: DutPowerUp(ISemiconductorModuleContext, string[], double[], double[], double, bool)
+  nameWithType: CommonSteps.DutPowerUp(ISemiconductorModuleContext, string[], double[], double[], double, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double[], double[], double, bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/DutPowerUp.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: >-
+    Forces DC voltage on the specified DUT supply pins. Must provide voltages and current limit values for each of the DUT supply pins.
+
+    If the <code class="paramref">powerUpSuppliesSerially</code> Boolean is set to True, the DUT supplies will be powered up sequentially in the order provided,
+
+    and the <code class="paramref">settlingTime</code> input will be used after power up each pin. Both DCPower and Digital PPMU pins are supported.
+  example: []
+  syntax:
+    content: public static void DutPowerUp(ISemiconductorModuleContext tsmContext, string[] dutSupplyPinsOrPinGroups, double[] perSupplyPinOrPinGroupVoltages, double[] perSupplyPinOrPinGroupCurrentLimits, double settlingTime = 0, bool powerUpSuppliesSerially = false)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: dutSupplyPinsOrPinGroups
+      type: System.String[]
+      description: The DUT supply pins or pin groups.
+    - id: perSupplyPinOrPinGroupVoltages
+      type: System.Double[]
+      description: The DC voltage level to force on each DUT supply pin or pin group, in volts.
+    - id: perSupplyPinOrPinGroupCurrentLimits
+      type: System.Double[]
+      description: The current limit for each DUT supply pin or pin group, in amperes.
+    - id: settlingTime
+      type: System.Double
+      description: The amount of time to wait before continuing, in seconds.
+    - id: powerUpSuppliesSerially
+      type: System.Boolean
+      description: Whether to power up DUT supplies sequentially.
+    content.vb: Public Shared Sub DutPowerUp(tsmContext As ISemiconductorModuleContext, dutSupplyPinsOrPinGroups As String(), perSupplyPinOrPinGroupVoltages As Double(), perSupplyPinOrPinGroupCurrentLimits As Double(), settlingTime As Double = 0, powerUpSuppliesSerially As Boolean = False)
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp*
+  nameWithType.vb: CommonSteps.DutPowerUp(ISemiconductorModuleContext, String(), Double(), Double(), Double, Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), Double(), Double(), Double, Boolean)
+  name.vb: DutPowerUp(ISemiconductorModuleContext, String(), Double(), Double(), Double, Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double)
+  id: ForceCurrentMeasureVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double)
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  langs:
+  - csharp
+  - vb
+  name: ForceCurrentMeasureVoltage(ISemiconductorModuleContext, string[], double, double, double, double)
+  nameWithType: CommonSteps.ForceCurrentMeasureVoltage(ISemiconductorModuleContext, string[], double, double, double, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/ForceCurrentMeasureVoltage.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: >-
+    Forces the specified DC current on all pins and/or pin groups specified, waits the specified amount of settling time,
+
+    and then measures the voltage on those pins and publishes the results to TestStand. Both DCPower and Digital PPMU pins are supported.
+
+    Both the <code class="paramref">settlingTime</code> and <code class="paramref">apertureTime</code> inputs are expected to be provided in Seconds.
+
+    By default the <code class="paramref">apertureTime</code> input is set to -1, which will cause this input to be ignored
+
+    and the device will use any pre-configured aperture time set by a proceeding set, such as the Setup NI-DCPower Instrumentation step.
+  example: []
+  syntax:
+    content: public static void ForceCurrentMeasureVoltage(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, double currentLevel, double voltageLimit, double settlingTime = 0, double apertureTime = -1)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: pinsOrPinGroups
+      type: System.String[]
+      description: The pins or pin groups to force DC voltage on.
+    - id: currentLevel
+      type: System.Double
+      description: The DC current level to force, in amperes.
+    - id: voltageLimit
+      type: System.Double
+      description: The voltage limit in volts.
+    - id: settlingTime
+      type: System.Double
+      description: The amount of time to wait before continuing, in seconds.
+    - id: apertureTime
+      type: System.Double
+      description: The measurement aperture time in seconds.
+    content.vb: Public Shared Sub ForceCurrentMeasureVoltage(tsmContext As ISemiconductorModuleContext, pinsOrPinGroups As String(), currentLevel As Double, voltageLimit As Double, settlingTime As Double = 0, apertureTime As Double = -1)
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage*
+  nameWithType.vb: CommonSteps.ForceCurrentMeasureVoltage(ISemiconductorModuleContext, String(), Double, Double, Double, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), Double, Double, Double, Double)
+  name.vb: ForceCurrentMeasureVoltage(ISemiconductorModuleContext, String(), Double, Double, Double, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double)
+  id: ForceDcCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double)
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  langs:
+  - csharp
+  - vb
+  name: ForceDcCurrent(ISemiconductorModuleContext, string[], double, double, double)
+  nameWithType: CommonSteps.ForceDcCurrent(ISemiconductorModuleContext, string[], double, double, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/ForceDcCurrent.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: >-
+    Forces the specified DC current on all pins and/or pin groups specified. Both DCPower and Digital PPMU pins are supported.
+
+    If a value is provided to the settlingTimeInSeconds input, the method will wait the specified amount of settling time before continuing.
+  example: []
+  syntax:
+    content: public static void ForceDcCurrent(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, double currentLevel, double voltageLimit, double settlingTime = 0)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: pinsOrPinGroups
+      type: System.String[]
+      description: The pins or pin groups to force DC voltage on.
+    - id: currentLevel
+      type: System.Double
+      description: The DC current level to force, in amperes.
+    - id: voltageLimit
+      type: System.Double
+      description: The voltage limit in volts.
+    - id: settlingTime
+      type: System.Double
+      description: The amount of time to wait before continuing, in seconds.
+    content.vb: Public Shared Sub ForceDcCurrent(tsmContext As ISemiconductorModuleContext, pinsOrPinGroups As String(), currentLevel As Double, voltageLimit As Double, settlingTime As Double = 0)
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent*
+  nameWithType.vb: CommonSteps.ForceDcCurrent(ISemiconductorModuleContext, String(), Double, Double, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), Double, Double, Double)
+  name.vb: ForceDcCurrent(ISemiconductorModuleContext, String(), Double, Double, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double)
+  id: ForceDcVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double)
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  langs:
+  - csharp
+  - vb
+  name: ForceDcVoltage(ISemiconductorModuleContext, string[], double, double, double)
+  nameWithType: CommonSteps.ForceDcVoltage(ISemiconductorModuleContext, string[], double, double, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/ForceDcVoltage.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: >-
+    Forces the specified DC voltage on all pins and/or pin groups specified. Both DCPower and Digital PPMU pins are supported.
+
+    If a value is provided to the settlingTimeInSeconds input, the method will wait the specified amount of settling time before continuing.
+  example: []
+  syntax:
+    content: public static void ForceDcVoltage(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, double voltageLevel, double currentLimit, double settlingTime = 0)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: pinsOrPinGroups
+      type: System.String[]
+      description: The pins or pin groups to force DC voltage on.
+    - id: voltageLevel
+      type: System.Double
+      description: The DC voltage level to force, in volts.
+    - id: currentLimit
+      type: System.Double
+      description: The current limit in amperes.
+    - id: settlingTime
+      type: System.Double
+      description: The amount of time to wait before continuing, in seconds.
+    content.vb: Public Shared Sub ForceDcVoltage(tsmContext As ISemiconductorModuleContext, pinsOrPinGroups As String(), voltageLevel As Double, currentLimit As Double, settlingTime As Double = 0)
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage*
+  nameWithType.vb: CommonSteps.ForceDcVoltage(ISemiconductorModuleContext, String(), Double, Double, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), Double, Double, Double)
+  name.vb: ForceDcVoltage(ISemiconductorModuleContext, String(), Double, Double, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double)
+  id: ForceVoltageMeasureCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double)
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  langs:
+  - csharp
+  - vb
+  name: ForceVoltageMeasureCurrent(ISemiconductorModuleContext, string[], double, double, double, double)
+  nameWithType: CommonSteps.ForceVoltageMeasureCurrent(ISemiconductorModuleContext, string[], double, double, double, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/ForceVoltageMeasureCurrent.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: >-
+    Forces the specified DC voltage on all pins and/or pin groups specified, waits the specified amount of settling time,
+
+    and then measures the current on those pins and publishes the results to TestStand. Both DCPower and Digital PPMU pins are supported.
+
+    Both the <code class="paramref">settlingTime</code> and <code class="paramref">apertureTime</code> inputs are expected to be provided in Seconds.
+
+    By default the <code class="paramref">apertureTime</code> input is set to -1, which will cause this input to be ignored
+
+    and the device will use any pre-configured aperture time set by a proceeding set, such as the Setup NI-DCPower Instrumentation step.
+  example: []
+  syntax:
+    content: public static void ForceVoltageMeasureCurrent(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, double voltageLevel, double currentLimit, double settlingTime = 0, double apertureTime = -1)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: pinsOrPinGroups
+      type: System.String[]
+      description: The pins or pin groups to force DC voltage on.
+    - id: voltageLevel
+      type: System.Double
+      description: The DC voltage level to force, in volts.
+    - id: currentLimit
+      type: System.Double
+      description: The current limit in amperes.
+    - id: settlingTime
+      type: System.Double
+      description: The amount of time to wait before continuing, in seconds.
+    - id: apertureTime
+      type: System.Double
+      description: The measurement aperture time in seconds.
+    content.vb: Public Shared Sub ForceVoltageMeasureCurrent(tsmContext As ISemiconductorModuleContext, pinsOrPinGroups As String(), voltageLevel As Double, currentLimit As Double, settlingTime As Double = 0, apertureTime As Double = -1)
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent*
+  nameWithType.vb: CommonSteps.ForceVoltageMeasureCurrent(ISemiconductorModuleContext, String(), Double, Double, Double, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), Double, Double, Double, Double)
+  name.vb: ForceVoltageMeasureCurrent(ISemiconductorModuleContext, String(), Double, Double, Double, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double,System.Boolean)
+  id: LeakageTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double,System.Boolean)
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  langs:
+  - csharp
+  - vb
+  name: LeakageTest(ISemiconductorModuleContext, string[], double, double, double, double, bool)
+  nameWithType: CommonSteps.LeakageTest(ISemiconductorModuleContext, string[], double, double, double, double, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double, double, bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/LeakageTest.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: >-
+    Performs a single leakage measurement. The test configures the instruments connected to the pins specified, sources voltage on each pin,
+
+    and then measures the current on all pins simultaneously.
+
+    Provide input values to the method to specify the voltage to source and the current limit for the leakage measurement.
+
+    The leakage current measurements are published separately for each pin, regardless of if a pin group is provided.
+
+    Configure test evaluations on the Tests tab of the Step Settings pane in TestStand to evaluate the results of these measurements.
+
+    If the forced voltage cannot be applied to pins simultaneously, you can set the <code class="paramref">serialOperationEnabled</code> Boolean input to true (false by default).
+
+    When the <code class="paramref">serialOperationEnabled</code> Boolean input is set to true and a pin group is provided,
+
+    this will still perform parallel operations across all pins in the pin group.
+
+    Take advantage of this functionality for when leakage can be performed on some DUT pins in parallel, but not others,
+
+    and define those pins within separate pin groups (i.e. LeakageOddPins and LeakageEvenPins).
+
+    Pins mapped to either an NI SMU or NI PPMU(s) instrument channel are supported.
+  example: []
+  syntax:
+    content: public static void LeakageTest(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, double voltageLevel, double currentLimit, double apertureTime, double settlingTime, bool serialOperationEnabled = false)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: pinsOrPinGroups
+      type: System.String[]
+      description: The pins or pin groups.
+    - id: voltageLevel
+      type: System.Double
+      description: The DC voltage level to force, in volts.
+    - id: currentLimit
+      type: System.Double
+      description: The current limit in amperes.
+    - id: apertureTime
+      type: System.Double
+      description: The measurement aperture time in seconds.
+    - id: settlingTime
+      type: System.Double
+      description: The amount of time to wait before measuring the current, in seconds.
+    - id: serialOperationEnabled
+      type: System.Boolean
+      description: Whether to force voltage sequentially.
+    content.vb: Public Shared Sub LeakageTest(tsmContext As ISemiconductorModuleContext, pinsOrPinGroups As String(), voltageLevel As Double, currentLimit As Double, apertureTime As Double, settlingTime As Double, serialOperationEnabled As Boolean = False)
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest*
+  nameWithType.vb: CommonSteps.LeakageTest(ISemiconductorModuleContext, String(), Double, Double, Double, Double, Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), Double, Double, Double, Double, Boolean)
+  name.vb: LeakageTest(ISemiconductorModuleContext, String(), Double, Double, Double, Double, Boolean)
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+    name: TestStandSteps
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+    name: TestStandSteps
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  commentId: T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  parent: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: ISemiconductorModuleContext
+  nameWithType: ISemiconductorModuleContext
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_BurstPattern_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_String_
+  name: BurstPattern
+  nameWithType: CommonSteps.BurstPattern
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  commentId: N:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  nameWithType: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_ContinuityTest_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_Double___System_String___System_Double___System_Double___System_Double___System_Double_System_Double_
+  name: ContinuityTest
+  nameWithType: CommonSteps.ContinuityTest
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest
+- uid: System.Double[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double[]
+  nameWithType: double[]
+  fullName: double[]
+  nameWithType.vb: Double()
+  fullName.vb: Double()
+  name.vb: Double()
+  spec.csharp:
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: (
+  - name: )
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_DutPowerDown_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_Double_System_Boolean_System_Boolean_
+  name: DutPowerDown
+  nameWithType: CommonSteps.DutPowerDown
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_DutPowerUp_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_Double___System_Double___System_Double_System_Boolean_
+  name: DutPowerUp
+  nameWithType: CommonSteps.DutPowerUp
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_ForceCurrentMeasureVoltage_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_Double_System_Double_System_Double_System_Double_
+  name: ForceCurrentMeasureVoltage
+  nameWithType: CommonSteps.ForceCurrentMeasureVoltage
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_ForceDcCurrent_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_Double_System_Double_System_Double_
+  name: ForceDcCurrent
+  nameWithType: CommonSteps.ForceDcCurrent
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_ForceDcVoltage_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_Double_System_Double_System_Double_
+  name: ForceDcVoltage
+  nameWithType: CommonSteps.ForceDcVoltage
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_ForceVoltageMeasureCurrent_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_Double_System_Double_System_Double_System_Double_
+  name: ForceVoltageMeasureCurrent
+  nameWithType: CommonSteps.ForceVoltageMeasureCurrent
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_LeakageTest_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_Double_System_Double_System_Double_System_Double_System_Boolean_
+  name: LeakageTest
+  nameWithType: CommonSteps.LeakageTest
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest
+memberLayout: SeparatePages

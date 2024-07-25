@@ -1,0 +1,531 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  id: TSMContextExtensions
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0[])
+  langs:
+  - csharp
+  - vb
+  name: TSMContextExtensions
+  nameWithType: TSMContextExtensions
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  type: Class
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Defines extension methods for <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static class TSMContextExtensions
+    content.vb: Public Module TSMContextExtensions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0)
+  id: NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  langs:
+  - csharp
+  - vb
+  name: NewSiteData<T>(ISemiconductorModuleContext, T)
+  nameWithType: TSMContextExtensions.NewSiteData<T>(ISemiconductorModuleContext, T)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Creates a new <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object with the same value for all sites.
+  remarks: >-
+    <p>Example Usage:</p>
+
+    <example>
+      <pre><code class="lang-csharp">var data = tsmContext.NewSiteData(4.0);</code></pre>
+    </example>
+  example: []
+  syntax:
+    content: public static SiteData<T> NewSiteData<T>(this ISemiconductorModuleContext tsmContext, T value)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: value
+      type: '{T}'
+      description: Value to apply to all sites.
+    typeParameters:
+    - id: T
+      description: Data Type of value to use with <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: A new <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Function NewSiteData(Of T)(tsmContext As ISemiconductorModuleContext, value As T) As SiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData*
+  nameWithType.vb: TSMContextExtensions.NewSiteData(Of T)(ISemiconductorModuleContext, T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T)
+  name.vb: NewSiteData(Of T)(ISemiconductorModuleContext, T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0[])
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0[])
+  id: NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0[])
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  langs:
+  - csharp
+  - vb
+  name: NewSiteData<T>(ISemiconductorModuleContext, T[])
+  nameWithType: TSMContextExtensions.NewSiteData<T>(ISemiconductorModuleContext, T[])
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T[])
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Creates a new <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object with unique values for all sites.
+  remarks: >-
+    Note: the number of elements in value must equal to number of sites in <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref>.
+
+    <p>Example Usage:</p><example>
+                                  <pre><code class="lang-csharp">var data = tsmContext.NewSiteData(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0 });</code></pre></example>
+  example: []
+  syntax:
+    content: public static SiteData<T> NewSiteData<T>(this ISemiconductorModuleContext tsmContext, T[] values)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: values
+      type: '{T}[]'
+      description: Values to apply to each site.
+    typeParameters:
+    - id: T
+      description: Data Type of value to use with <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: A new <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Function NewSiteData(Of T)(tsmContext As ISemiconductorModuleContext, values As T()) As SiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData*
+  nameWithType.vb: TSMContextExtensions.NewSiteData(Of T)(ISemiconductorModuleContext, T())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T())
+  name.vb: NewSiteData(Of T)(ISemiconductorModuleContext, T())
+references:
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  commentId: T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  parent: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: ISemiconductorModuleContext
+  nameWithType: ISemiconductorModuleContext
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  commentId: N:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  nameWithType: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_NewSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext___0_
+  name: NewSiteData
+  nameWithType: TSMContextExtensions.NewSiteData
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: '{T}[]'
+  isExternal: true
+  name: T[]
+  nameWithType: T[]
+  fullName: T[]
+  nameWithType.vb: T()
+  fullName.vb: T()
+  name.vb: T()
+  spec.csharp:
+  - name: T
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: T
+  - name: (
+  - name: )
+memberLayout: SeparatePages

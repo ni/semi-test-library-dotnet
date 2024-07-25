@@ -1,0 +1,788 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  id: DCPowerSourceSettings
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.#ctor
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Level
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LevelRange
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Limit
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitHigh
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitLow
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitRange
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitSymmetry
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.OutputFunction
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.SourceDelayInSeconds
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.TransientResponse
+  langs:
+  - csharp
+  - vb
+  name: DCPowerSourceSettings
+  nameWithType: DCPowerSourceSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Defines DCPower source settings.
+  example: []
+  syntax:
+    content: public class DCPowerSourceSettings
+    content.vb: Public Class DCPowerSourceSettings
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.#ctor
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.#ctor
+  id: '#ctor'
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  langs:
+  - csharp
+  - vb
+  name: DCPowerSourceSettings()
+  nameWithType: DCPowerSourceSettings.DCPowerSourceSettings()
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.DCPowerSourceSettings()
+  type: Constructor
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Default constructor.
+  example: []
+  syntax:
+    content: public DCPowerSourceSettings()
+    content.vb: Public Sub New()
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.#ctor*
+  nameWithType.vb: DCPowerSourceSettings.New()
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.New()
+  name.vb: New()
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.OutputFunction
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.OutputFunction
+  id: OutputFunction
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  langs:
+  - csharp
+  - vb
+  name: OutputFunction
+  nameWithType: DCPowerSourceSettings.OutputFunction
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.OutputFunction
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The output function.
+  example: []
+  syntax:
+    content: public DCPowerSourceOutputFunction? OutputFunction { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceOutputFunction}
+    content.vb: Public Property OutputFunction As DCPowerSourceOutputFunction?
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.OutputFunction*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitSymmetry
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitSymmetry
+  id: LimitSymmetry
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  langs:
+  - csharp
+  - vb
+  name: LimitSymmetry
+  nameWithType: DCPowerSourceSettings.LimitSymmetry
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitSymmetry
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The limit symmetry.
+  example: []
+  syntax:
+    content: public DCPowerComplianceLimitSymmetry? LimitSymmetry { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{NationalInstruments.ModularInstruments.NIDCPower.DCPowerComplianceLimitSymmetry}
+    content.vb: Public Property LimitSymmetry As DCPowerComplianceLimitSymmetry?
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitSymmetry*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Level
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Level
+  id: Level
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  langs:
+  - csharp
+  - vb
+  name: Level
+  nameWithType: DCPowerSourceSettings.Level
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Level
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The voltage or current level.
+  example: []
+  syntax:
+    content: public double? Level { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Level As Double?
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Level*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Limit
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Limit
+  id: Limit
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  langs:
+  - csharp
+  - vb
+  name: Limit
+  nameWithType: DCPowerSourceSettings.Limit
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Limit
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The current or voltage limit.
+  example: []
+  syntax:
+    content: public double? Limit { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Limit As Double?
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Limit*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitHigh
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitHigh
+  id: LimitHigh
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  langs:
+  - csharp
+  - vb
+  name: LimitHigh
+  nameWithType: DCPowerSourceSettings.LimitHigh
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitHigh
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The current or voltage high limit.
+  example: []
+  syntax:
+    content: public double? LimitHigh { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property LimitHigh As Double?
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitHigh*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitLow
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitLow
+  id: LimitLow
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  langs:
+  - csharp
+  - vb
+  name: LimitLow
+  nameWithType: DCPowerSourceSettings.LimitLow
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitLow
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The current or voltage low limit.
+  example: []
+  syntax:
+    content: public double? LimitLow { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property LimitLow As Double?
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitLow*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LevelRange
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LevelRange
+  id: LevelRange
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  langs:
+  - csharp
+  - vb
+  name: LevelRange
+  nameWithType: DCPowerSourceSettings.LevelRange
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LevelRange
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The voltage or current level range.
+  example: []
+  syntax:
+    content: public double? LevelRange { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property LevelRange As Double?
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LevelRange*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitRange
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitRange
+  id: LimitRange
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  langs:
+  - csharp
+  - vb
+  name: LimitRange
+  nameWithType: DCPowerSourceSettings.LimitRange
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitRange
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The current or voltage limit range.
+  example: []
+  syntax:
+    content: public double? LimitRange { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property LimitRange As Double?
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitRange*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.SourceDelayInSeconds
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.SourceDelayInSeconds
+  id: SourceDelayInSeconds
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  langs:
+  - csharp
+  - vb
+  name: SourceDelayInSeconds
+  nameWithType: DCPowerSourceSettings.SourceDelayInSeconds
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.SourceDelayInSeconds
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The source delay in seconds.
+  example: []
+  syntax:
+    content: public double? SourceDelayInSeconds { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property SourceDelayInSeconds As Double?
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.SourceDelayInSeconds*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.TransientResponse
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.TransientResponse
+  id: TransientResponse
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  langs:
+  - csharp
+  - vb
+  name: TransientResponse
+  nameWithType: DCPowerSourceSettings.TransientResponse
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.TransientResponse
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The transient response.
+  example: []
+  syntax:
+    content: public DCPowerSourceTransientResponse? TransientResponse { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceTransientResponse}
+    content.vb: Public Property TransientResponse As DCPowerSourceTransientResponse?
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.TransientResponse*
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+    name: DCPower
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+    name: DCPower
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.#ctor*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.#ctor
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.-ctor.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerSourceSettings__ctor
+  name: DCPowerSourceSettings
+  nameWithType: DCPowerSourceSettings.DCPowerSourceSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.DCPowerSourceSettings
+  nameWithType.vb: DCPowerSourceSettings.New
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.New
+  name.vb: New
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.OutputFunction*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.OutputFunction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.OutputFunction.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerSourceSettings_OutputFunction
+  name: OutputFunction
+  nameWithType: DCPowerSourceSettings.OutputFunction
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.OutputFunction
+- uid: System.Nullable{NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceOutputFunction}
+  commentId: T:System.Nullable{NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceOutputFunction}
+  parent: System
+  definition: System.Nullable`1
+  name: DCPowerSourceOutputFunction?
+  nameWithType: DCPowerSourceOutputFunction?
+  fullName: NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceOutputFunction?
+  spec.csharp:
+  - uid: NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceOutputFunction
+    name: DCPowerSourceOutputFunction
+    isExternal: true
+  - name: '?'
+  spec.vb:
+  - uid: NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceOutputFunction
+    name: DCPowerSourceOutputFunction
+    isExternal: true
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitSymmetry*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitSymmetry
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitSymmetry.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerSourceSettings_LimitSymmetry
+  name: LimitSymmetry
+  nameWithType: DCPowerSourceSettings.LimitSymmetry
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitSymmetry
+- uid: System.Nullable{NationalInstruments.ModularInstruments.NIDCPower.DCPowerComplianceLimitSymmetry}
+  commentId: T:System.Nullable{NationalInstruments.ModularInstruments.NIDCPower.DCPowerComplianceLimitSymmetry}
+  parent: System
+  definition: System.Nullable`1
+  name: DCPowerComplianceLimitSymmetry?
+  nameWithType: DCPowerComplianceLimitSymmetry?
+  fullName: NationalInstruments.ModularInstruments.NIDCPower.DCPowerComplianceLimitSymmetry?
+  spec.csharp:
+  - uid: NationalInstruments.ModularInstruments.NIDCPower.DCPowerComplianceLimitSymmetry
+    name: DCPowerComplianceLimitSymmetry
+    isExternal: true
+  - name: '?'
+  spec.vb:
+  - uid: NationalInstruments.ModularInstruments.NIDCPower.DCPowerComplianceLimitSymmetry
+    name: DCPowerComplianceLimitSymmetry
+    isExternal: true
+  - name: '?'
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Level*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Level
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Level.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerSourceSettings_Level
+  name: Level
+  nameWithType: DCPowerSourceSettings.Level
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Level
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double?
+  nameWithType: double?
+  fullName: double?
+  nameWithType.vb: Double?
+  fullName.vb: Double?
+  name.vb: Double?
+  spec.csharp:
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '?'
+  spec.vb:
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '?'
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Limit*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Limit
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Limit.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerSourceSettings_Limit
+  name: Limit
+  nameWithType: DCPowerSourceSettings.Limit
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Limit
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitHigh*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitHigh
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitHigh.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerSourceSettings_LimitHigh
+  name: LimitHigh
+  nameWithType: DCPowerSourceSettings.LimitHigh
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitHigh
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitLow*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitLow
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitLow.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerSourceSettings_LimitLow
+  name: LimitLow
+  nameWithType: DCPowerSourceSettings.LimitLow
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitLow
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LevelRange*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LevelRange
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LevelRange.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerSourceSettings_LevelRange
+  name: LevelRange
+  nameWithType: DCPowerSourceSettings.LevelRange
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LevelRange
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitRange*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitRange
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitRange.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerSourceSettings_LimitRange
+  name: LimitRange
+  nameWithType: DCPowerSourceSettings.LimitRange
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitRange
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.SourceDelayInSeconds*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.SourceDelayInSeconds
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.SourceDelayInSeconds.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerSourceSettings_SourceDelayInSeconds
+  name: SourceDelayInSeconds
+  nameWithType: DCPowerSourceSettings.SourceDelayInSeconds
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.SourceDelayInSeconds
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.TransientResponse*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.TransientResponse
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.TransientResponse.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerSourceSettings_TransientResponse
+  name: TransientResponse
+  nameWithType: DCPowerSourceSettings.TransientResponse
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.TransientResponse
+- uid: System.Nullable{NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceTransientResponse}
+  commentId: T:System.Nullable{NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceTransientResponse}
+  parent: System
+  definition: System.Nullable`1
+  name: DCPowerSourceTransientResponse?
+  nameWithType: DCPowerSourceTransientResponse?
+  fullName: NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceTransientResponse?
+  spec.csharp:
+  - uid: NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceTransientResponse
+    name: DCPowerSourceTransientResponse
+    isExternal: true
+  - name: '?'
+  spec.vb:
+  - uid: NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceTransientResponse
+    name: DCPowerSourceTransientResponse
+    isExternal: true
+  - name: '?'
+memberLayout: SeparatePages

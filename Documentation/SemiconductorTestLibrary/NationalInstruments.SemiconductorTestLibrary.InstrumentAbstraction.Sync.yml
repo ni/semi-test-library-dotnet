@@ -1,0 +1,116 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  id: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+  langs:
+  - csharp
+  - vb
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  type: Namespace
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock.html
+  name: SynchronizationClock
+  nameWithType: SynchronizationClock
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.html
+  name: UpdateEdge
+  nameWithType: UpdateEdge
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose.html
+  name: InitializeAndClose
+  nameWithType: InitializeAndClose
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.html
+  name: NISync
+  nameWithType: NISync
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation.html
+  name: SyncSessionInformation
+  nameWithType: SyncSessionInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.html
+  name: SyncSessionsBundle
+  nameWithType: SyncSessionsBundle
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+    name: Sync
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+    name: Sync
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.html
+memberLayout: SeparatePages

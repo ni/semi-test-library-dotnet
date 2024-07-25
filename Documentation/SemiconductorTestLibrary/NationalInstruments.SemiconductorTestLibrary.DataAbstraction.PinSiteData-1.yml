@@ -1,0 +1,2129 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  id: PinSiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,`0}})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0}[])
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Abs
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(`0)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(`0)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin(System.String)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins(System.String[])
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSite(System.Int32)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(System.Int32,System.String)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(`0)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(`0)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(`0)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Negate
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.PinNames
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(`0)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbers
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SquareRoot
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(`0)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Truncate
+  langs:
+  - csharp
+  - vb
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  type: Class
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Defines an object containing values for one or more sites that is associated with a particular pin or set of pins, where T can be passed as any data type.
+  example: []
+  syntax:
+    content: public class PinSiteData<T>
+    typeParameters:
+    - id: T
+    content.vb: Public Class PinSiteData(Of T)
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0}[])
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0}[])
+  id: '#ctor(System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0}[])'
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: PinSiteData(string[], SiteData<T>[])
+  nameWithType: PinSiteData<T>.PinSiteData(string[], SiteData<T>[])
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinSiteData(string[], NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>[])
+  type: Constructor
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Initializes PinSiteData with pin names and associated SiteData array.
+  example: []
+  syntax:
+    content: public PinSiteData(string[] pinNames, SiteData<T>[] data)
+    parameters:
+    - id: pinNames
+      type: System.String[]
+      description: The pin names array.
+    - id: data
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}[]
+      description: The per-pin SiteData array.
+    content.vb: Public Sub New(pinNames As String(), data As SiteData(Of T)())
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor*
+  nameWithType.vb: PinSiteData(Of T).New(String(), SiteData(Of T)())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).New(String(), NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)())
+  name.vb: New(String(), SiteData(Of T)())
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,`0}})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,`0}})
+  id: '#ctor(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,`0}})'
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: PinSiteData(Dictionary<string, IDictionary<int, T>>)
+  nameWithType: PinSiteData<T>.PinSiteData(Dictionary<string, IDictionary<int, T>>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinSiteData(System.Collections.Generic.Dictionary<string, System.Collections.Generic.IDictionary<int, T>>)
+  type: Constructor
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Initializes PinSiteData with multiple pins multiple sites data.
+  example: []
+  syntax:
+    content: public PinSiteData(Dictionary<string, IDictionary<int, T>> pinSiteData)
+    parameters:
+    - id: pinSiteData
+      type: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,{T}}}
+      description: The multiple pins multiple sites data.
+    content.vb: Public Sub New(pinSiteData As Dictionary(Of String, IDictionary(Of Integer, T)))
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor*
+  nameWithType.vb: PinSiteData(Of T).New(Dictionary(Of String, IDictionary(Of Integer, T)))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).New(System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.IDictionary(Of Integer, T)))
+  name.vb: New(Dictionary(Of String, IDictionary(Of Integer, T)))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin(System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin(System.String)
+  id: ExtractPin(System.String)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: ExtractPin(string)
+  nameWithType: PinSiteData<T>.ExtractPin(string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ExtractPin(string)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> for a given pin.
+  example: []
+  syntax:
+    content: public SiteData<T> ExtractPin(string pinName)
+    parameters:
+    - id: pinName
+      type: System.String
+      description: The specified pin name.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> for the specified pin.
+    content.vb: Public Function ExtractPin(pinName As String) As SiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin*
+  nameWithType.vb: PinSiteData(Of T).ExtractPin(String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).ExtractPin(String)
+  name.vb: ExtractPin(String)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins(System.String[])
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins(System.String[])
+  id: ExtractPins(System.String[])
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: ExtractPins(string[])
+  nameWithType: PinSiteData<T>.ExtractPins(string[])
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ExtractPins(string[])
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Gets a new <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> object for the specified pins.
+  example: []
+  syntax:
+    content: public PinSiteData<T> ExtractPins(string[] pinNames)
+    parameters:
+    - id: pinNames
+      type: System.String[]
+      description: The specified pin names.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains data for given pins.
+    content.vb: Public Function ExtractPins(pinNames As String()) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins*
+  nameWithType.vb: PinSiteData(Of T).ExtractPins(String())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).ExtractPins(String())
+  name.vb: ExtractPins(String())
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSite(System.Int32)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSite(System.Int32)
+  id: ExtractSite(System.Int32)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: ExtractSite(int)
+  nameWithType: PinSiteData<T>.ExtractSite(int)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ExtractSite(int)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Gets the data for a given site number.
+  example: []
+  syntax:
+    content: public IDictionary<string, T> ExtractSite(int siteNumber)
+    parameters:
+    - id: siteNumber
+      type: System.Int32
+      description: The specified site number.
+    return:
+      type: System.Collections.Generic.IDictionary{System.String,{T}}
+      description: The data for the specified site number.
+    content.vb: Public Function ExtractSite(siteNumber As Integer) As IDictionary(Of String, T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSite*
+  nameWithType.vb: PinSiteData(Of T).ExtractSite(Integer)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).ExtractSite(Integer)
+  name.vb: ExtractSite(Integer)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(System.Int32,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(System.Int32,System.String)
+  id: GetValue(System.Int32,System.String)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: GetValue(int, string)
+  nameWithType: PinSiteData<T>.GetValue(int, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.GetValue(int, string)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Gets the data for a given site number-pin name pair.
+  example: []
+  syntax:
+    content: public T GetValue(int siteNumber, string pinName)
+    parameters:
+    - id: siteNumber
+      type: System.Int32
+      description: The specified site number.
+    - id: pinName
+      type: System.String
+      description: The specified pin name.
+    return:
+      type: '{T}'
+      description: The data for the specified site number and pin name.
+    content.vb: Public Function GetValue(siteNumber As Integer, pinName As String) As T
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue*
+  nameWithType.vb: PinSiteData(Of T).GetValue(Integer, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).GetValue(Integer, String)
+  name.vb: GetValue(Integer, String)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Abs
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Abs
+  id: Abs
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Abs()
+  nameWithType: PinSiteData<T>.Abs()
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Abs()
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs Math.Abs operation on every element in current PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Abs()
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains absolute value for each element in current PinSiteData.
+    content.vb: Public Function Abs() As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Abs*
+  nameWithType.vb: PinSiteData(Of T).Abs()
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Abs()
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(`0)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(`0)
+  id: Add(`0)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Add(T)
+  nameWithType: PinSiteData<T>.Add(T)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Add(T)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs add operation between every element in current PinSiteData and the given value.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Add(T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The scalar value to be added.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the result of the addition.
+    content.vb: Public Function Add(value As T) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add*
+  nameWithType.vb: PinSiteData(Of T).Add(T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Add(T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  id: Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Add(SiteData<T>)
+  nameWithType: PinSiteData<T>.Add(SiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs add operation between every element in current PinSiteData and the given SiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Add(SiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> to be added.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the result of the addition.
+    content.vb: Public Function Add(other As SiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add*
+  nameWithType.vb: PinSiteData(Of T).Add(SiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T))
+  name.vb: Add(SiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  id: Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Add(PinSiteData<T>)
+  nameWithType: PinSiteData<T>.Add(PinSiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs add operation between every element in current PinSiteData and the given PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Add(PinSiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> to be added.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the result of the addition.
+    content.vb: Public Function Add(other As PinSiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add*
+  nameWithType.vb: PinSiteData(Of T).Add(PinSiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T))
+  name.vb: Add(PinSiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)
+  id: Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Compare(ComparisonType, T)
+  nameWithType: PinSiteData<T>.Compare(ComparisonType, T)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, T)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs compare operation between every element in current PinSiteData and the given value.
+  example: []
+  syntax:
+    content: public PinSiteData<bool> Compare(ComparisonType comparisonType, T value)
+    parameters:
+    - id: comparisonType
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+      description: The comparison type to use.
+    - id: value
+      type: '{T}'
+      description: The scalar value to compare to.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Boolean}
+      description: A new PinSiteData that contains the compare results.
+    content.vb: Public Function Compare(comparisonType As ComparisonType, value As T) As PinSiteData(Of Boolean)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare*
+  nameWithType.vb: PinSiteData(Of T).Compare(ComparisonType, T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  id: Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Compare(ComparisonType, SiteData<T>)
+  nameWithType: PinSiteData<T>.Compare(ComparisonType, SiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs compare operation between every element in current PinSiteData and the given SiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<bool> Compare(ComparisonType comparisonType, SiteData<T> other)
+    parameters:
+    - id: comparisonType
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+      description: The comparison type to use.
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> to compare to.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Boolean}
+      description: A new PinSiteData that contains the compare results.
+    content.vb: Public Function Compare(comparisonType As ComparisonType, other As SiteData(Of T)) As PinSiteData(Of Boolean)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare*
+  nameWithType.vb: PinSiteData(Of T).Compare(ComparisonType, SiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T))
+  name.vb: Compare(ComparisonType, SiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  id: Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Compare(ComparisonType, PinSiteData<T>)
+  nameWithType: PinSiteData<T>.Compare(ComparisonType, PinSiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs compare operation between every element in current PinSiteData and the given PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<bool> Compare(ComparisonType comparisonType, PinSiteData<T> other)
+    parameters:
+    - id: comparisonType
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+      description: The comparison type to use.
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> to compare to.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Boolean}
+      description: A new PinSiteData that contains the compare results.
+    content.vb: Public Function Compare(comparisonType As ComparisonType, other As PinSiteData(Of T)) As PinSiteData(Of Boolean)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare*
+  nameWithType.vb: PinSiteData(Of T).Compare(ComparisonType, PinSiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T))
+  name.vb: Compare(ComparisonType, PinSiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(`0)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(`0)
+  id: Divide(`0)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Divide(T)
+  nameWithType: PinSiteData<T>.Divide(T)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Divide(T)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs divide operation between every element in current PinSiteData and the given value.
+  example: []
+  syntax:
+    content: public PinSiteData<double> Divide(T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The divisor value.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+      description: A new PinSiteData that contains the results.
+    content.vb: Public Function Divide(value As T) As PinSiteData(Of Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide*
+  nameWithType.vb: PinSiteData(Of T).Divide(T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Divide(T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  id: Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Divide(SiteData<T>)
+  nameWithType: PinSiteData<T>.Divide(SiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs divide operation between every element in current PinSiteData and the given SiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<double> Divide(SiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> that contains the divisors.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+      description: A new PinSiteData that contains the results.
+    content.vb: Public Function Divide(other As SiteData(Of T)) As PinSiteData(Of Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide*
+  nameWithType.vb: PinSiteData(Of T).Divide(SiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T))
+  name.vb: Divide(SiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  id: Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Divide(PinSiteData<T>)
+  nameWithType: PinSiteData<T>.Divide(PinSiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs divide operation between every element in current PinSiteData and the given PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<double> Divide(PinSiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> that contains the divisors.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+      description: A new PinSiteData that contains the results.
+    content.vb: Public Function Divide(other As PinSiteData(Of T)) As PinSiteData(Of Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide*
+  nameWithType.vb: PinSiteData(Of T).Divide(PinSiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T))
+  name.vb: Divide(PinSiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert
+  id: Invert
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Invert()
+  nameWithType: PinSiteData<T>.Invert()
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Invert()
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs invert operation on every element in current PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<double> Invert()
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+      description: A new PinSiteData that contains the inverted results.
+    content.vb: Public Function Invert() As PinSiteData(Of Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert*
+  nameWithType.vb: PinSiteData(Of T).Invert()
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Invert()
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10
+  id: Log10
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Log10()
+  nameWithType: PinSiteData<T>.Log10()
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Log10()
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs Math.Log10 operation on every element in current PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<double> Log10()
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+      description: A new PinSiteData that contains the log10 results.
+    content.vb: Public Function Log10() As PinSiteData(Of Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10*
+  nameWithType.vb: PinSiteData(Of T).Log10()
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Log10()
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(`0)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(`0)
+  id: Maximum(`0)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Maximum(T)
+  nameWithType: PinSiteData<T>.Maximum(T)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Maximum(T)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Returns the larger one of the element in current PinSiteData and the given value.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Maximum(T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The value to compare.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the larger values.
+    content.vb: Public Function Maximum(value As T) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum*
+  nameWithType.vb: PinSiteData(Of T).Maximum(T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Maximum(T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  id: Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Maximum(SiteData<T>)
+  nameWithType: PinSiteData<T>.Maximum(SiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Returns the larger one of the element in current PinSiteData and the given SiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Maximum(SiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> that contains the values to compare.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the larger values.
+    content.vb: Public Function Maximum(other As SiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum*
+  nameWithType.vb: PinSiteData(Of T).Maximum(SiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T))
+  name.vb: Maximum(SiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  id: Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Maximum(PinSiteData<T>)
+  nameWithType: PinSiteData<T>.Maximum(PinSiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Returns the larger one of the element in current PinSiteData and the given PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Maximum(PinSiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> that contains the values to compare.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the larger values.
+    content.vb: Public Function Maximum(other As PinSiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum*
+  nameWithType.vb: PinSiteData(Of T).Maximum(PinSiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T))
+  name.vb: Maximum(PinSiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(`0)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(`0)
+  id: Minimum(`0)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Minimum(T)
+  nameWithType: PinSiteData<T>.Minimum(T)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Minimum(T)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Returns the smaller one of the element in current PinSiteData and the given value.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Minimum(T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The value to compare.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the smaller values.
+    content.vb: Public Function Minimum(value As T) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum*
+  nameWithType.vb: PinSiteData(Of T).Minimum(T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Minimum(T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  id: Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Minimum(SiteData<T>)
+  nameWithType: PinSiteData<T>.Minimum(SiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Returns the smaller one of the element in current PinSiteData and the given SiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Minimum(SiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> that contains the values to compare.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the smaller values.
+    content.vb: Public Function Minimum(other As SiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum*
+  nameWithType.vb: PinSiteData(Of T).Minimum(SiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T))
+  name.vb: Minimum(SiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  id: Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Minimum(PinSiteData<T>)
+  nameWithType: PinSiteData<T>.Minimum(PinSiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Returns the smaller one of the element in current PinSiteData and the given PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Minimum(PinSiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> that contains the values to compare.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the smaller values.
+    content.vb: Public Function Minimum(other As PinSiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum*
+  nameWithType.vb: PinSiteData(Of T).Minimum(PinSiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T))
+  name.vb: Minimum(PinSiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(`0)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(`0)
+  id: Multiply(`0)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Multiply(T)
+  nameWithType: PinSiteData<T>.Multiply(T)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Multiply(T)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs multiply operation on every element in current PinSiteData and the given value.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Multiply(T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The multiplier.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the multiply results.
+    content.vb: Public Function Multiply(value As T) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply*
+  nameWithType.vb: PinSiteData(Of T).Multiply(T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Multiply(T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  id: Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Multiply(SiteData<T>)
+  nameWithType: PinSiteData<T>.Multiply(SiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs multiply operation on every element in current PinSiteData and the given SiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Multiply(SiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> that contains multipliers.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the multiply results.
+    content.vb: Public Function Multiply(other As SiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply*
+  nameWithType.vb: PinSiteData(Of T).Multiply(SiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T))
+  name.vb: Multiply(SiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  id: Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Multiply(PinSiteData<T>)
+  nameWithType: PinSiteData<T>.Multiply(PinSiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Performs multiply operation on every element in current PinSiteData and the given PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Multiply(PinSiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> that contains multipliers.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the multiply results.
+    content.vb: Public Function Multiply(other As PinSiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply*
+  nameWithType.vb: PinSiteData(Of T).Multiply(PinSiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T))
+  name.vb: Multiply(PinSiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Negate
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Negate
+  id: Negate
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Negate()
+  nameWithType: PinSiteData<T>.Negate()
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Negate()
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Returns the negative value of every element in current PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Negate()
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the negative values.
+    content.vb: Public Function Negate() As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Negate*
+  nameWithType.vb: PinSiteData(Of T).Negate()
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Negate()
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(`0)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(`0)
+  id: Power(`0)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Power(T)
+  nameWithType: PinSiteData<T>.Power(T)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Power(T)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Raises every element in current PinSiteData to the power of the given value.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Power(T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The value to use as the power.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the results.
+    content.vb: Public Function Power(value As T) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power*
+  nameWithType.vb: PinSiteData(Of T).Power(T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Power(T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  id: Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Power(SiteData<T>)
+  nameWithType: PinSiteData<T>.Power(SiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Raises every element in current PinSiteData to the power of every element in given SiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Power(SiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> that contains power values.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the results.
+    content.vb: Public Function Power(other As SiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power*
+  nameWithType.vb: PinSiteData(Of T).Power(SiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T))
+  name.vb: Power(SiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  id: Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Power(PinSiteData<T>)
+  nameWithType: PinSiteData<T>.Power(PinSiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Raises every element in current PinSiteData to the power of every element in given PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Power(PinSiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> that contains power values.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the results.
+    content.vb: Public Function Power(other As PinSiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power*
+  nameWithType.vb: PinSiteData(Of T).Power(PinSiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T))
+  name.vb: Power(PinSiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SquareRoot
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SquareRoot
+  id: SquareRoot
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: SquareRoot()
+  nameWithType: PinSiteData<T>.SquareRoot()
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.SquareRoot()
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Returns the square root of every element in current PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<double> SquareRoot()
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+      description: A new PinSiteData that contains the square root values.
+    content.vb: Public Function SquareRoot() As PinSiteData(Of Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SquareRoot*
+  nameWithType.vb: PinSiteData(Of T).SquareRoot()
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).SquareRoot()
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(`0)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(`0)
+  id: Subtract(`0)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Subtract(T)
+  nameWithType: PinSiteData<T>.Subtract(T)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Subtract(T)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Subtracts the given value from every element in current PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Subtract(T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The value to subtract.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the results.
+    content.vb: Public Function Subtract(value As T) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract*
+  nameWithType.vb: PinSiteData(Of T).Subtract(T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Subtract(T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  id: Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Subtract(SiteData<T>)
+  nameWithType: PinSiteData<T>.Subtract(SiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Subtracts every element in given PinSiteData from every element in current SiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Subtract(SiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> that contains values to subtract.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the results.
+    content.vb: Public Function Subtract(other As SiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract*
+  nameWithType.vb: PinSiteData(Of T).Subtract(SiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T))
+  name.vb: Subtract(SiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  id: Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Subtract(PinSiteData<T>)
+  nameWithType: PinSiteData<T>.Subtract(PinSiteData<T>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Subtracts every element in given PinSiteData from every element in current PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Subtract(PinSiteData<T> other)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: The other <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> that contains values to subtract.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains the results.
+    content.vb: Public Function Subtract(other As PinSiteData(Of T)) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract*
+  nameWithType.vb: PinSiteData(Of T).Subtract(PinSiteData(Of T))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T))
+  name.vb: Subtract(PinSiteData(Of T))
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Truncate
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Truncate
+  id: Truncate
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Truncate()
+  nameWithType: PinSiteData<T>.Truncate()
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Truncate()
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Returns integer portion of every element in current PinSiteData.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Truncate()
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData that contains integer values.
+    content.vb: Public Function Truncate() As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Truncate*
+  nameWithType.vb: PinSiteData(Of T).Truncate()
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Truncate()
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.PinNames
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.PinNames
+  id: PinNames
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: PinNames
+  nameWithType: PinSiteData<T>.PinNames
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinNames
+  type: Property
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Returns an array of pin names associated with current PinSiteData.
+  example: []
+  syntax:
+    content: public string[] PinNames { get; }
+    parameters: []
+    return:
+      type: System.String[]
+    content.vb: Public ReadOnly Property PinNames As String()
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.PinNames*
+  nameWithType.vb: PinSiteData(Of T).PinNames
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).PinNames
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbers
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbers
+  id: SiteNumbers
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: SiteNumbers
+  nameWithType: PinSiteData<T>.SiteNumbers
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.SiteNumbers
+  type: Property
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Returns an array of sites associated with current PinSiteData.
+  example: []
+  syntax:
+    content: public int[] SiteNumbers { get; }
+    parameters: []
+    return:
+      type: System.Int32[]
+    content.vb: Public ReadOnly Property SiteNumbers As Integer()
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbers*
+  nameWithType.vb: PinSiteData(Of T).SiteNumbers
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).SiteNumbers
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.-ctor.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1__ctor_System_String___NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData__0____
+  name: PinSiteData
+  nameWithType: PinSiteData<T>.PinSiteData
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinSiteData
+  nameWithType.vb: PinSiteData(Of T).New
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).New
+  name.vb: New
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}[]
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>[]
+  nameWithType: SiteData<T>[]
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>[]
+  nameWithType.vb: SiteData(Of T)()
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)()
+  name.vb: SiteData(Of T)()
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,{T}}}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,`0}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, IDictionary<int, T>>
+  nameWithType: Dictionary<string, IDictionary<int, T>>
+  fullName: System.Collections.Generic.Dictionary<string, System.Collections.Generic.IDictionary<int, T>>
+  nameWithType.vb: Dictionary(Of String, IDictionary(Of Integer, T))
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.IDictionary(Of Integer, T))
+  name.vb: Dictionary(Of String, IDictionary(Of Integer, T))
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.ExtractPin.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_ExtractPin_System_String_
+  name: ExtractPin
+  nameWithType: PinSiteData<T>.ExtractPin
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ExtractPin
+  nameWithType.vb: PinSiteData(Of T).ExtractPin
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).ExtractPin
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.ExtractPins.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_ExtractPins_System_String___
+  name: ExtractPins
+  nameWithType: PinSiteData<T>.ExtractPins
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ExtractPins
+  nameWithType.vb: PinSiteData(Of T).ExtractPins
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).ExtractPins
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSite*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSite
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.ExtractSite.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_ExtractSite_System_Int32_
+  name: ExtractSite
+  nameWithType: PinSiteData<T>.ExtractSite
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ExtractSite
+  nameWithType.vb: PinSiteData(Of T).ExtractSite
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).ExtractSite
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Collections.Generic.IDictionary{System.String,{T}}
+  commentId: T:System.Collections.Generic.IDictionary{System.String,`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<string, T>
+  nameWithType: IDictionary<string, T>
+  fullName: System.Collections.Generic.IDictionary<string, T>
+  nameWithType.vb: IDictionary(Of String, T)
+  fullName.vb: System.Collections.Generic.IDictionary(Of String, T)
+  name.vb: IDictionary(Of String, T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.IDictionary`2
+  commentId: T:System.Collections.Generic.IDictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<TKey, TValue>
+  nameWithType: IDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
+  nameWithType.vb: IDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
+  name.vb: IDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.GetValue.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_GetValue_System_Int32_System_String_
+  name: GetValue
+  nameWithType: PinSiteData<T>.GetValue
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.GetValue
+  nameWithType.vb: PinSiteData(Of T).GetValue
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).GetValue
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Abs*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Abs
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Abs.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Abs
+  name: Abs
+  nameWithType: PinSiteData<T>.Abs
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Abs
+  nameWithType.vb: PinSiteData(Of T).Abs
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Abs
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Add.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Add__0_
+  name: Add
+  nameWithType: PinSiteData<T>.Add
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Add
+  nameWithType.vb: PinSiteData(Of T).Add
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Add
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Compare_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType__0_
+  name: Compare
+  nameWithType: PinSiteData<T>.Compare
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Compare
+  nameWithType.vb: PinSiteData(Of T).Compare
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Compare
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.html
+  name: ComparisonType
+  nameWithType: ComparisonType
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Boolean}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Boolean}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<bool>
+  nameWithType: PinSiteData<bool>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<bool>
+  nameWithType.vb: PinSiteData(Of Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Boolean)
+  name.vb: PinSiteData(Of Boolean)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Divide__0_
+  name: Divide
+  nameWithType: PinSiteData<T>.Divide
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Divide
+  nameWithType.vb: PinSiteData(Of T).Divide
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Divide
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<double>
+  nameWithType: PinSiteData<double>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>
+  nameWithType.vb: PinSiteData(Of Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Double)
+  name.vb: PinSiteData(Of Double)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Invert.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Invert
+  name: Invert
+  nameWithType: PinSiteData<T>.Invert
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Invert
+  nameWithType.vb: PinSiteData(Of T).Invert
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Invert
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Log10.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Log10
+  name: Log10
+  nameWithType: PinSiteData<T>.Log10
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Log10
+  nameWithType.vb: PinSiteData(Of T).Log10
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Log10
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Maximum.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Maximum__0_
+  name: Maximum
+  nameWithType: PinSiteData<T>.Maximum
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Maximum
+  nameWithType.vb: PinSiteData(Of T).Maximum
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Maximum
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Minimum.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Minimum__0_
+  name: Minimum
+  nameWithType: PinSiteData<T>.Minimum
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Minimum
+  nameWithType.vb: PinSiteData(Of T).Minimum
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Minimum
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Multiply.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Multiply__0_
+  name: Multiply
+  nameWithType: PinSiteData<T>.Multiply
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Multiply
+  nameWithType.vb: PinSiteData(Of T).Multiply
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Multiply
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Negate*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Negate
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Negate.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Negate
+  name: Negate
+  nameWithType: PinSiteData<T>.Negate
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Negate
+  nameWithType.vb: PinSiteData(Of T).Negate
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Negate
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Power.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Power__0_
+  name: Power
+  nameWithType: PinSiteData<T>.Power
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Power
+  nameWithType.vb: PinSiteData(Of T).Power
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Power
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SquareRoot*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SquareRoot
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.SquareRoot.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_SquareRoot
+  name: SquareRoot
+  nameWithType: PinSiteData<T>.SquareRoot
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.SquareRoot
+  nameWithType.vb: PinSiteData(Of T).SquareRoot
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).SquareRoot
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Subtract.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Subtract__0_
+  name: Subtract
+  nameWithType: PinSiteData<T>.Subtract
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Subtract
+  nameWithType.vb: PinSiteData(Of T).Subtract
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Subtract
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Truncate*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Truncate
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Truncate.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Truncate
+  name: Truncate
+  nameWithType: PinSiteData<T>.Truncate
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Truncate
+  nameWithType.vb: PinSiteData(Of T).Truncate
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Truncate
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.PinNames*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.PinNames
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.PinNames.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_PinNames
+  name: PinNames
+  nameWithType: PinSiteData<T>.PinNames
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinNames
+  nameWithType.vb: PinSiteData(Of T).PinNames
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).PinNames
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbers*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbers
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.SiteNumbers.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_SiteNumbers
+  name: SiteNumbers
+  nameWithType: PinSiteData<T>.SiteNumbers
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.SiteNumbers
+  nameWithType.vb: PinSiteData(Of T).SiteNumbers
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).SiteNumbers
+- uid: System.Int32[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int[]
+  nameWithType: int[]
+  fullName: int[]
+  nameWithType.vb: Integer()
+  fullName.vb: Integer()
+  name.vb: Integer()
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: (
+  - name: )
+memberLayout: SeparatePages

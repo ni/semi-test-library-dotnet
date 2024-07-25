@@ -1,0 +1,228 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  id: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogInput
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalOutput
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents
+  langs:
+  - csharp
+  - vb
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  type: Namespace
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.html
+  name: DefaultDAQmxTaskTypeStrings
+  nameWithType: DefaultDAQmxTaskTypeStrings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.html
+  name: DAQmxTaskInformation
+  nameWithType: DAQmxTaskInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType.html
+  name: DAQmxTaskType
+  nameWithType: DAQmxTaskType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.html
+  name: DAQmxTasksBundle
+  nameWithType: DAQmxTasksBundle
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.html
+  name: InitializeAndClose
+  nameWithType: InitializeAndClose
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.html
+  name: DAQmxTerminalConfiguration
+  nameWithType: DAQmxTerminalConfiguration
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher-1.html
+  name: SampleValuesCacher<T>
+  nameWithType: SampleValuesCacher<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher<T>
+  nameWithType.vb: SampleValuesCacher(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher(Of T)
+  name.vb: SampleValuesCacher(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1
+    name: SampleValuesCacher
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1
+    name: SampleValuesCacher
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogInput
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogInput
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogInput.html
+  name: AnalogInput
+  nameWithType: AnalogInput
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogInput
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.html
+  name: AnalogOutput
+  nameWithType: AnalogOutput
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.html
+  name: AnalogOutputFunctionGeneration
+  nameWithType: AnalogOutputFunctionGeneration
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.html
+  name: Configure
+  nameWithType: Configure
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput.html
+  name: DigitalInput
+  nameWithType: DigitalInput
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalOutput
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalOutput
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalOutput.html
+  name: DigitalOutput
+  nameWithType: DigitalOutput
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalOutput
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.html
+  name: TaskControl
+  nameWithType: TaskControl
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents.html
+  name: TriggersAndEvents
+  nameWithType: TriggersAndEvents
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.html
+  name: AOFunctionGenerationSettings
+  nameWithType: AOFunctionGenerationSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.html
+  name: DAQmxTimingSampleClockSettings
+  nameWithType: DAQmxTimingSampleClockSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+    name: DAQmx
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+    name: DAQmx
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.html
+memberLayout: SeparatePages

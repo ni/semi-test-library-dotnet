@@ -1,0 +1,1053 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.Utilities
+  id: Utilities
+  parent: NationalInstruments.SemiconductorTestLibrary.Common
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ElementAtOrFirst``1(``0[],System.Int32)
+  - NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel(System.Action[])
+  - NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])
+  - NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])
+  - NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait(System.Nullable{System.Double})
+  - NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray``1(``0[0:,0:])
+  - NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency(System.Double@)
+  langs:
+  - csharp
+  - vb
+  name: Utilities
+  nameWithType: Utilities
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities
+  type: Class
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Provides general helper methods.
+  example: []
+  syntax:
+    content: public static class Utilities
+    content.vb: Public Module Utilities
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait(System.Nullable{System.Double})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait(System.Nullable{System.Double})
+  id: PreciseWait(System.Nullable{System.Double})
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Utilities
+  langs:
+  - csharp
+  - vb
+  name: PreciseWait(double?)
+  nameWithType: Utilities.PreciseWait(double?)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait(double?)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: >-
+    This method blocks the thread and waits for the specified amount of time. This method uses the Stopwatch class
+
+    to support shorter settling times.
+  remarks: This method passes through if the time specified is null.
+  example: []
+  syntax:
+    content: public static void PreciseWait(double? timeInSeconds)
+    parameters:
+    - id: timeInSeconds
+      type: System.Nullable{System.Double}
+      description: The time to precisely wait for.
+    content.vb: Public Shared Sub PreciseWait(timeInSeconds As Double?)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait*
+  nameWithType.vb: Utilities.PreciseWait(Double?)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait(Double?)
+  name.vb: PreciseWait(Double?)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel(System.Action[])
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel(System.Action[])
+  id: InvokeInParallel(System.Action[])
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Utilities
+  langs:
+  - csharp
+  - vb
+  name: InvokeInParallel(params Action[])
+  nameWithType: Utilities.InvokeInParallel(params Action[])
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel(params System.Action[])
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: >-
+    This method calls the Parallel.Invoke method to execute multiple methods in parallel. If any of the methods generates an exception, this method throws
+
+    the first exception encountered. This allows the TestStand Semiconductor Module runtime error dialog to properly display the exception.
+  example: []
+  syntax:
+    content: public static void InvokeInParallel(params Action[] actions)
+    parameters:
+    - id: actions
+      type: System.Action[]
+      description: The methods to invoke in parallel.
+    content.vb: Public Shared Sub InvokeInParallel(ParamArray actions As Action())
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel*
+  nameWithType.vb: Utilities.InvokeInParallel(ParamArray Action())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel(ParamArray System.Action())
+  name.vb: InvokeInParallel(ParamArray Action())
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])
+  id: PerInstrumentPerChannelResultsToPerSitePerPinResults``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Utilities
+  langs:
+  - csharp
+  - vb
+  name: PerInstrumentPerChannelResultsToPerSitePerPinResults<T>(IEnumerable<ISessionInformation>, T[][])
+  nameWithType: Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults<T>(IEnumerable<ISessionInformation>, T[][])
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults<T>(System.Collections.Generic.IEnumerable<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation>, T[][])
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Converts per-instrument per-channel results to per-site per-pin results.
+  example: []
+  syntax:
+    content: public static IDictionary<int, IDictionary<string, T>> PerInstrumentPerChannelResultsToPerSitePerPinResults<T>(this IEnumerable<ISessionInformation> allSessionInfo, T[][] perInstrumentPerChannelResults)
+    parameters:
+    - id: allSessionInfo
+      type: System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation}
+      description: An enumerable of session info.
+    - id: perInstrumentPerChannelResults
+      type: '{T}[][]'
+      description: The per-instrument per-channel results to convert.
+    typeParameters:
+    - id: T
+      description: The type of the per-instrument per-channel result.
+    return:
+      type: System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IDictionary{System.String,{T}}}
+      description: The converted per-site per-pin results.
+    content.vb: Public Shared Function PerInstrumentPerChannelResultsToPerSitePerPinResults(Of T)(allSessionInfo As IEnumerable(Of ISessionInformation), perInstrumentPerChannelResults As T()()) As IDictionary(Of Integer, IDictionary(Of String, T))
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults*
+  nameWithType.vb: Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults(Of T)(IEnumerable(Of ISessionInformation), T()())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults(Of T)(System.Collections.Generic.IEnumerable(Of NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation), T()())
+  name.vb: PerInstrumentPerChannelResultsToPerSitePerPinResults(Of T)(IEnumerable(Of ISessionInformation), T()())
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])
+  id: PerInstrumentPerChannelResultsToPinSiteData``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Utilities
+  langs:
+  - csharp
+  - vb
+  name: PerInstrumentPerChannelResultsToPinSiteData<T>(IEnumerable<ISessionInformation>, T[][])
+  nameWithType: Utilities.PerInstrumentPerChannelResultsToPinSiteData<T>(IEnumerable<ISessionInformation>, T[][])
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData<T>(System.Collections.Generic.IEnumerable<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation>, T[][])
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Converts per-instrument per-channel results to PinSiteData.
+  example: []
+  syntax:
+    content: public static PinSiteData<T> PerInstrumentPerChannelResultsToPinSiteData<T>(this IEnumerable<ISessionInformation> allSessionInfo, T[][] perInstrumentPerChannelResults)
+    parameters:
+    - id: allSessionInfo
+      type: System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation}
+      description: An enumerable of session info.
+    - id: perInstrumentPerChannelResults
+      type: '{T}[][]'
+      description: The per-instrument per-channel results to convert.
+    typeParameters:
+    - id: T
+      description: The type of the per-instrument per-channel result.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{T}}
+      description: The converted PinSiteData.
+    content.vb: Public Shared Function PerInstrumentPerChannelResultsToPinSiteData(Of T)(allSessionInfo As IEnumerable(Of ISessionInformation), perInstrumentPerChannelResults As T()()) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData*
+  nameWithType.vb: Utilities.PerInstrumentPerChannelResultsToPinSiteData(Of T)(IEnumerable(Of ISessionInformation), T()())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData(Of T)(System.Collections.Generic.IEnumerable(Of NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation), T()())
+  name.vb: PerInstrumentPerChannelResultsToPinSiteData(Of T)(IEnumerable(Of ISessionInformation), T()())
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray``1(``0[0:,0:])
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray``1(``0[0:,0:])
+  id: ToJaggedArray``1(``0[0:,0:])
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Utilities
+  langs:
+  - csharp
+  - vb
+  name: ToJaggedArray<T>(T[,])
+  nameWithType: Utilities.ToJaggedArray<T>(T[,])
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray<T>(T[,])
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Converts a two dimensional array to a jagged array.
+  example: []
+  syntax:
+    content: public static T[][] ToJaggedArray<T>(this T[,] twoDimensionalArray)
+    parameters:
+    - id: twoDimensionalArray
+      type: '{T}[,]'
+      description: The two dimensional array to be converted.
+    typeParameters:
+    - id: T
+      description: The element type of the array.
+    return:
+      type: '{T}[][]'
+      description: The converted jagged array.
+    content.vb: Public Shared Function ToJaggedArray(Of T)(twoDimensionalArray As T(,)) As T()()
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray*
+  nameWithType.vb: Utilities.ToJaggedArray(Of T)(T(,))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray(Of T)(T(,))
+  name.vb: ToJaggedArray(Of T)(T(,))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ElementAtOrFirst``1(``0[],System.Int32)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ElementAtOrFirst``1(``0[],System.Int32)
+  id: ElementAtOrFirst``1(``0[],System.Int32)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Utilities
+  langs:
+  - csharp
+  - vb
+  name: ElementAtOrFirst<T>(T[], int)
+  nameWithType: Utilities.ElementAtOrFirst<T>(T[], int)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ElementAtOrFirst<T>(T[], int)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Returns the element at a specified index in a sequence or the first element if the index is out of range.
+  example: []
+  syntax:
+    content: public static T ElementAtOrFirst<T>(this T[] values, int index)
+    parameters:
+    - id: values
+      type: '{T}[]'
+      description: The array to return an element from.
+    - id: index
+      type: System.Int32
+      description: The zero-based index of the element to retrieve.
+    typeParameters:
+    - id: T
+      description: The type of the elements of source array.
+    return:
+      type: '{T}'
+      description: The first element if the index is outside the bounds of the source sequence. Otherwise, the element at the specified position in the source sequence.
+    content.vb: Public Shared Function ElementAtOrFirst(Of T)(values As T(), index As Integer) As T
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ElementAtOrFirst*
+  nameWithType.vb: Utilities.ElementAtOrFirst(Of T)(T(), Integer)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ElementAtOrFirst(Of T)(T(), Integer)
+  name.vb: ElementAtOrFirst(Of T)(T(), Integer)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency(System.Double@)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency(System.Double@)
+  id: TryDeterminePowerLineFrequency(System.Double@)
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Utilities
+  langs:
+  - csharp
+  - vb
+  name: TryDeterminePowerLineFrequency(ref double)
+  nameWithType: Utilities.TryDeterminePowerLineFrequency(ref double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency(ref double)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Tries to determine the power line frequency of the PXI chassis using the SystemConfiguration API.
+  example: []
+  syntax:
+    content: public static void TryDeterminePowerLineFrequency(ref double powerLineFrequency)
+    parameters:
+    - id: powerLineFrequency
+      type: System.Double
+      description: The power line frequency variable to be updated. It falls back to the original value when the try fails.
+    content.vb: Public Shared Sub TryDeterminePowerLineFrequency(powerLineFrequency As Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency*
+  nameWithType.vb: Utilities.TryDeterminePowerLineFrequency(Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency(Double)
+  name.vb: TryDeterminePowerLineFrequency(Double)
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.Common
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.Common
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.Common
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.Common
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common
+    name: Common
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common
+    name: Common
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait.html#NationalInstruments_SemiconductorTestLibrary_Common_Utilities_PreciseWait_System_Nullable_System_Double__
+  name: PreciseWait
+  nameWithType: Utilities.PreciseWait
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double?
+  nameWithType: double?
+  fullName: double?
+  nameWithType.vb: Double?
+  fullName.vb: Double?
+  name.vb: Double?
+  spec.csharp:
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '?'
+  spec.vb:
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel.html#NationalInstruments_SemiconductorTestLibrary_Common_Utilities_InvokeInParallel_System_Action___
+  name: InvokeInParallel
+  nameWithType: Utilities.InvokeInParallel
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel
+- uid: System.Action[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action
+  name: Action[]
+  nameWithType: Action[]
+  fullName: System.Action[]
+  nameWithType.vb: Action()
+  fullName.vb: System.Action()
+  name.vb: Action()
+  spec.csharp:
+  - uid: System.Action
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Action
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action
+  - name: (
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults.html#NationalInstruments_SemiconductorTestLibrary_Common_Utilities_PerInstrumentPerChannelResultsToPerSitePerPinResults__1_System_Collections_Generic_IEnumerable_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_ISessionInformation____0_____
+  name: PerInstrumentPerChannelResultsToPerSitePerPinResults
+  nameWithType: Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults
+- uid: System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation}
+  commentId: T:System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<ISessionInformation>
+  nameWithType: IEnumerable<ISessionInformation>
+  fullName: System.Collections.Generic.IEnumerable<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation>
+  nameWithType.vb: IEnumerable(Of ISessionInformation)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation)
+  name.vb: IEnumerable(Of ISessionInformation)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+    name: ISessionInformation
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+    name: ISessionInformation
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.html
+  - name: )
+- uid: '{T}[][]'
+  isExternal: true
+  name: T[][]
+  nameWithType: T[][]
+  fullName: T[][]
+  nameWithType.vb: T()()
+  fullName.vb: T()()
+  name.vb: T()()
+  spec.csharp:
+  - name: T
+  - name: '['
+  - name: ']'
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: T
+  - name: (
+  - name: )
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IDictionary{System.String,{T}}}
+  commentId: T:System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IDictionary{System.String,``0}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<int, IDictionary<string, T>>
+  nameWithType: IDictionary<int, IDictionary<string, T>>
+  fullName: System.Collections.Generic.IDictionary<int, System.Collections.Generic.IDictionary<string, T>>
+  nameWithType.vb: IDictionary(Of Integer, IDictionary(Of String, T))
+  fullName.vb: System.Collections.Generic.IDictionary(Of Integer, System.Collections.Generic.IDictionary(Of String, T))
+  name.vb: IDictionary(Of Integer, IDictionary(Of String, T))
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections.Generic.IDictionary`2
+  commentId: T:System.Collections.Generic.IDictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<TKey, TValue>
+  nameWithType: IDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
+  nameWithType.vb: IDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
+  name.vb: IDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData.html#NationalInstruments_SemiconductorTestLibrary_Common_Utilities_PerInstrumentPerChannelResultsToPinSiteData__1_System_Collections_Generic_IEnumerable_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_ISessionInformation____0_____
+  name: PerInstrumentPerChannelResultsToPinSiteData
+  nameWithType: Utilities.PerInstrumentPerChannelResultsToPinSiteData
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{T}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray.html#NationalInstruments_SemiconductorTestLibrary_Common_Utilities_ToJaggedArray__1___0_0
+  name: ToJaggedArray
+  nameWithType: Utilities.ToJaggedArray
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray
+- uid: '{T}[,]'
+  isExternal: true
+  name: T[,]
+  nameWithType: T[,]
+  fullName: T[,]
+  nameWithType.vb: T(,)
+  fullName.vb: T(,)
+  name.vb: T(,)
+  spec.csharp:
+  - name: T
+  - name: '['
+  - name: ','
+  - name: ']'
+  spec.vb:
+  - name: T
+  - name: (
+  - name: ','
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ElementAtOrFirst*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ElementAtOrFirst
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ElementAtOrFirst.html#NationalInstruments_SemiconductorTestLibrary_Common_Utilities_ElementAtOrFirst__1___0___System_Int32_
+  name: ElementAtOrFirst
+  nameWithType: Utilities.ElementAtOrFirst
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ElementAtOrFirst
+- uid: '{T}[]'
+  isExternal: true
+  name: T[]
+  nameWithType: T[]
+  fullName: T[]
+  nameWithType.vb: T()
+  fullName.vb: T()
+  name.vb: T()
+  spec.csharp:
+  - name: T
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: T
+  - name: (
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency.html#NationalInstruments_SemiconductorTestLibrary_Common_Utilities_TryDeterminePowerLineFrequency_System_Double__
+  name: TryDeterminePowerLineFrequency
+  nameWithType: Utilities.TryDeterminePowerLineFrequency
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+memberLayout: SeparatePages
