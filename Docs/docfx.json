@@ -3,7 +3,7 @@
     {
       "src": [
         {
-          "src": "../",
+          "src": "../SemiconductorTestLibrary.Extensions",
           "files": [
             "**/NationalInstruments.SemiconductorTestLibrary.Abstractions.dll",
             "**/NationalInstruments.SemiconductorTestLibrary.Extensions.dll"
@@ -21,7 +21,7 @@
     {
       "src": [
         {
-          "src": "../",
+          "src": "../NationalInstruments.SemiconductorTestLibrary.TestStandSteps",
           "files": [
             "**/NationalInstruments.SemiconductorTestLibrary.TestStandSteps.dll"
           ]

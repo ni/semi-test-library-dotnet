@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class SetupAndCleanupSteps | Semiconductor Test Library </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class SetupAndCleanupSteps | Semiconductor Test Library ">
+      
+      <meta name="description" content="Defines entry points for semiconductor setup and cleanup steps.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Semiconductor Test Library">
+            Semiconductor Test Library
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps">
+
+
+
+  <h1 id="NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps" data-uid="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps" class="text-break">
+Class SetupAndCleanupSteps  <a class="header-action link-secondary" title="View source" href="https://github.com/ni/semi-test-library-dotnet/blob/768e59aad5ce59f95fc88a64dbfd951ee8cf65e9/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="NationalInstruments.html">NationalInstruments</a>.<a class="xref" href="NationalInstruments.SemiconductorTestLibrary.html">SemiconductorTestLibrary</a>.<a class="xref" href="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.html">TestStandSteps</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>NationalInstruments.SemiconductorTestLibrary.TestStandSteps.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Defines entry points for semiconductor setup and cleanup steps.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class SetupAndCleanupSteps</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">SetupAndCleanupSteps</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+  <dl class="jumplist">
+    <dt><a class="xref" href="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_CleanupInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_NIInstrumentType_">CleanupInstrumentation(ISemiconductorModuleContext, bool, NIInstrumentType)</a></dt>
+    <dd><p>Closes any open instrument sessions associated with the pin map.
+If the <code class="paramref">resetDevice</code> input is set to True, then the instrument will be reset before closing the session (default = False).
+The sessions will always be closed in parallel.
+By default, the <code class="paramref">instrumentType</code> input is set to All, which closes sessions for all instrument types in parallel.
+This can be configured to target a specific instrument type, which can be useful for debugging purposes
+and/or if there is a need to ensure sessions are closed sequentially (requiring multiple instances of this step).
+Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDAQmx, niDMM, niScope, niFGen, and niSync.</p>
+</dd>
+  </dl>
+  <dl class="jumplist">
+    <dt><a class="xref" href="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_ResetInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_NIInstrumentType_">ResetInstrumentation(ISemiconductorModuleContext, bool, NIInstrumentType)</a></dt>
+    <dd><p>Resets the instrument sessions for the specified <code class="paramref">instrumentType</code> associated with the pin map
+by invoking the Reset() method of the supported instrument driver.
+By default, the <code class="paramref">instrumentType</code> input is set to All, which targets all supported instrument types in parallel.
+This can be configured to target a specific instrument type, which can be useful for debugging purposes
+and/or if there is a need to ensure instruments are reset individually or sequentially (requiring multiple instances of this step).
+Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDMM, niScope, niFGen, and niSync.
+For instrumentation that also have the ResetDevice() method (hard reset), this can optionally be invoked instead of the Reset() method (soft-reset)
+if the <code class="paramref">resetDevice</code> input is set True (default = False): niDCPower, niDigitalPattern, niScope, and niFGen.
+Refer to the individual instrument driver documentation for more details.</p>
+</dd>
+  </dl>
+  <dl class="jumplist">
+    <dt><a class="xref" href="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDCPowerInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_SetupNIDCPowerInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_System_Double_NationalInstruments_ModularInstruments_NIDCPower_DCPowerMeasureApertureTimeUnits_NationalInstruments_ModularInstruments_NIDCPower_DCPowerMeasurementWhen_NationalInstruments_ModularInstruments_NIDCPower_DCPowerMeasurementSense_System_Double_System_Double_">SetupNIDCPowerInstrumentation(ISemiconductorModuleContext, bool, double, DCPowerMeasureApertureTimeUnits, DCPowerMeasurementWhen, DCPowerMeasurementSense, double, double)</a></dt>
+    <dd><p>Initializes the NI DCPower instrument sessions associated with the pin map.
+If the <code class="paramref">resetDevice</code> input is set to True, then the instrument will be reset as the session is initialized (default = False).
+If the <code class="paramref">sourceDelay</code> is set to -1 the method will not set the source delay property, and will assume the initialized default value from the driver,
+which is expected to be the inverse of the power line frequency.
+If the <code class="paramref">powerLineFrequency</code> is set to -1, the method will attempt to automatically determine the power line frequency
+and set the power line frequency property for the respective driver sessions.
+If the power line frequency cannot be determined, the property will not be set and the driver will use the default value of this property (60 Hz).
+This is currently only supported by systems that use a PXIe-109x chassis or newer.</p>
+</dd>
+  </dl>
+  <dl class="jumplist">
+    <dt><a class="xref" href="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDMMInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_SetupNIDMMInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_NationalInstruments_ModularInstruments_NIDmm_DmmApertureTimeUnits_System_Double_System_Double_System_Double_System_Nullable_NationalInstruments_SemiconductorTestLibrary_TestStandSteps_DMMMeasurementSettings__">SetupNIDMMInstrumentation(ISemiconductorModuleContext, bool, DmmApertureTimeUnits, double, double, double, DMMMeasurementSettings?)</a></dt>
+    <dd><p>Initializes NI DMM instrument sessions associated with the pin map.
+If the <code class="paramref">resetDevice</code> input is set to True, then the instrument will be reset as the session is initialized (default = False).
+If the <code class="paramref">powerLineFrequency</code> is set to -1, the method will attempt to automatically determine the power line frequency
+and set the power line frequency property for the respective driver sessions.
+If the power line frequency cannot be determined, the property will not be set and the driver will use the default value of this property (60Hz).
+This is currently only supported by systems that use a PXIe-109x chassis or newer.
+If the <code class="paramref">initialMeasurmentSettings</code> is specified, all DMM sessions will be configured to the specified measurement function (not configured by default).</p>
+</dd>
+  </dl>
+  <dl class="jumplist">
+    <dt><a class="xref" href="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDigitalPatternInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_SetupNIDigitalPatternInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_System_String_System_String_">SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext, bool, string, string)</a></dt>
+    <dd><p>Initializes an NI Digital Pattern instrument sessions associated with the pin map.
+It loads in all digital project files associated with the digital project configured for the test program,
+this includes the: pin map, specifications, patterns, source waveforms, capture waveforms, timing sheets, and levels sheets.
+No sheets will be applied during this setup step unless specified by the <code class="paramref">levelsSheetToApply</code> and/or <code class="paramref">timingSheetToApply</code> inputs.
+Otherwise, the program will not assume to know loaded sheet to apply and will expect that the users program will apply the appropriate sheet(s) within a proceeding step.
+If the <code class="paramref">resetDevice</code> input is set to True, then the instrument will be reset as the session is initialized (default = False).</p>
+</dd>
+  </dl>
+  <dl class="jumplist">
+    <dt><a class="xref" href="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIFGenInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_SetupNIFGenInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_">SetupNIFGenInstrumentation(ISemiconductorModuleContext, bool)</a></dt>
+    <dd><p>Initializes NI FGEN instrument sessions associated with the pin map.
+If the <code class="paramref">resetDevice</code> input is set to True, then the instrument will be reset as the session is initialized (default = False).</p>
+</dd>
+  </dl>
+  <dl class="jumplist">
+    <dt><a class="xref" href="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIRelayModules.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_SetupNIRelayModules_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_System_String_">SetupNIRelayModules(ISemiconductorModuleContext, bool, string)</a></dt>
+    <dd><p>Initializes NI Switch instrument sessions and NI DAQmx tasks associated with relay modules within the pin map.
+If the <code class="paramref">resetDevice</code> input is set to True, then the instrument will be reset as the session is initialized (default = False).
+If the <code class="paramref">initialRelayConfigurationToApply</code> input is provided, the step will apply the specified relay configuration.
+Note that the relay configuration must be defined within the pin map, otherwise the step will throw an exception.
+Supported devices: PXI-2567 and PXIe-6368.</p>
+</dd>
+  </dl>
+  <dl class="jumplist">
+    <dt><a class="xref" href="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIScopeInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_SetupNIScopeInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_">SetupNIScopeInstrumentation(ISemiconductorModuleContext, bool)</a></dt>
+    <dd><p>Initializes NI Scope instrument sessions associated with the pin map.
+If the <code class="paramref">resetDevice</code> input is set to True, then the instrument
+will be reset as the session is initialized (default = False).</p>
+</dd>
+  </dl>
+  <dl class="jumplist">
+    <dt><a class="xref" href="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNISyncInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_SetupNISyncInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_">SetupNISyncInstrumentation(ISemiconductorModuleContext, bool)</a></dt>
+    <dd><p>Initializes the NI Sync instrument sessions associated with the pin map.
+If the <code class="paramref">resetDevice</code> input is set to True, then the instrument will be reset as the session is initialized (default = False).</p>
+</dd>
+  </dl>
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ni/semi-test-library-dotnet/blob/768e59aad5ce59f95fc88a64dbfd951ee8cf65e9/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

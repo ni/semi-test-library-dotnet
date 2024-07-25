@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Supported Instrument Types | Semiconductor Test Library </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Supported Instrument Types | Semiconductor Test Library ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/UserGuide/SupportedInstrumentTypes.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Semiconductor Test Library">
+            Semiconductor Test Library
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="supported-instrument-types">Supported Instrument Types</h1>
+
+<p>The Semiconductor Test Library supports the core set of modular instruments commonly used within the NI <a href="https://www.ni.com/sts">Semiconductor Test System (STS)</a>. The following table provides a list which instrument types are currently supported by the library.</p>
+<p><strong>Table 1:</strong> List of Supported Instrument Types</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Instrument Type</th>
+<th style="text-align: left;">Driver</th>
+<th style="text-align: left;">Abstractions</th>
+<th style="text-align: left;">Extensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">NI Source Measurement Unit (SMU)</td>
+<td style="text-align: left;">niDCPower</td>
+<td style="text-align: left;">Supported</td>
+<td style="text-align: left;">Core Support</td>
+</tr>
+<tr>
+<td style="text-align: left;">NI Programmable Power Supply (PPS)</td>
+<td style="text-align: left;">niDCPower</td>
+<td style="text-align: left;">Supported</td>
+<td style="text-align: left;">Core Support</td>
+</tr>
+<tr>
+<td style="text-align: left;">NI Multifunction I/O (DAQ) *</td>
+<td style="text-align: left;">niDAQmx</td>
+<td style="text-align: left;">Supported</td>
+<td style="text-align: left;">Limited Support +</td>
+</tr>
+<tr>
+<td style="text-align: left;">NI Sound and Vibration Module (DSA) * *</td>
+<td style="text-align: left;">niDAQmx</td>
+<td style="text-align: left;">Supported</td>
+<td style="text-align: left;">Limited Support ++</td>
+</tr>
+<tr>
+<td style="text-align: left;">NI Digital Pattern Instrument (DPI/HSD)</td>
+<td style="text-align: left;">niDigital</td>
+<td style="text-align: left;">Supported</td>
+<td style="text-align: left;">Core Support</td>
+</tr>
+<tr>
+<td style="text-align: left;">NI Digital Multimeter (DMM)</td>
+<td style="text-align: left;">niDmm</td>
+<td style="text-align: left;">Supported</td>
+<td style="text-align: left;">Core Support</td>
+</tr>
+<tr>
+<td style="text-align: left;">NI Relay Module (RELAY)</td>
+<td style="text-align: left;">niSwitch</td>
+<td style="text-align: left;">Supported</td>
+<td style="text-align: left;">Core Support</td>
+</tr>
+<tr>
+<td style="text-align: left;">NI Function Generator (FGEN)</td>
+<td style="text-align: left;">niFgen</td>
+<td style="text-align: left;">Supported</td>
+<td style="text-align: left;">Not Yet Supported</td>
+</tr>
+<tr>
+<td style="text-align: left;">NI Digitizer/Oscilloscope (SCOPE)</td>
+<td style="text-align: left;">niScope</td>
+<td style="text-align: left;">Supported</td>
+<td style="text-align: left;">Not Yet Supported</td>
+</tr>
+<tr>
+<td style="text-align: left;">NI Timing Synchronization Module (SYNC)</td>
+<td style="text-align: left;">niSync</td>
+<td style="text-align: left;">Supported</td>
+<td style="text-align: left;">Not Yet Supported</td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Core Support: the core functionality to use the instrument is supported, but some advanced features are not yet exposed with a high-level Extension method. Refer to the documentation regarding how to interact with the lower-level driver APIs using the provided Abstraction methods.</p>
+<p>Limited Support: Only the most common use cases are implemented.</p>
+<p>* Only PXIe-6368 devices are currently supported.</p>
+<p>* * Only PXIe-4467/8 devices are currently supported.</p>
+<p>+ Only Analog Input, Analog Output, Digital Input, and Digital Output task types are currently supported.</p>
+<p>++ Only Analog Input, Analog Output, and Analog Output: Function Generation task types are supported.</p>
+</div>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ni/semi-test-library-dotnet/blob/users/mattjet27/add-initial-documentation/docs/UserGuide/SupportedInstrumentTypes.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
