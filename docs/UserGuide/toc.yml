@@ -1,22 +1,24 @@
 - name: Getting Started
-- name: Writing Test Code
-  href: WritingTestCode.md
 - name: Overview
   href: ../index.md
-
-- name: Essentials
-- name: Adding Using Statements
-  href: AddingUsingStatements.md
-- name: Instrument Setup And Cleanup
-  href: InstrumentSetupAndCleanup.md
 - name: Writing Test Code
   href: WritingTestCode.md
+- name: Supported Instrument Types
+  href: SupportedInstrumentTypes.md
+- name: Adding Using Statements
+  href: AddingUsingStatements.md
+
+- name: Core Concepts
+- name: Instrument Abstraction
+  href: InstrumentAbstraction.md
+- name: Data Abstraction
+  href: DataAbstraction.md
 - name: Configuring Instrument Sessions
   href: ConfiguringInstrumentSessions.md
-- name: Sharing Data Between Code Modules
-  href: SharingPinSiteDataBetweenCodeModules.md
 - name: Publishing Results
   href: PublishingResults.md
+- name: Common Utility Methods
+  href: CommonUtilityMethods.md
 
 - name: Advanced
 - name: Concurrent Code
@@ -25,14 +27,16 @@
   href: advanced/ParallelExecution.md
 - name: Low-level Driver Calls
   href: advanced/MakingLowLevelDriverCalls.md
-- name: Writing Extensions
+- name: Sharing Data Between Code Modules
+  href: SharingPinSiteDataBetweenCodeModules.md
+- name: Extending the Semiconductor Test Library
   href: advanced/ExtendingTheSemiconductorTestLibrary.md
 
 - name: TestStand Steps
-- name: Published Data Ids Of TestStand Steps
-  href: PublishedDataIdsOfTestStandSteps.md
+- name: Using TestStand Steps
+  href: UsingTestStandSteps.md
 
-- name: Reference
+- name: References
 - name: API Reference
   href: ../SemiconductorTestLibrary/
 - name: TestStand Steps

@@ -1,7 +1,5 @@
 # Semiconductor Test Library
 
-Welcome to the documentation site for the Semiconductor Test Library!
-
 The Semiconductor Test Library simplifies programming on the NI [Semiconductor Test System (STS)](https://www.ni.com/sts) and enables users to develop test programs efficiently using C#/.NET.
 
 The Semiconductor Test Library includes the following high-level features:
@@ -14,6 +12,8 @@ The Semiconductor Test Library includes the following high-level features:
 - Utilities methods—Provide utility methods commonly required for writing test code.
 - TestStand step types—Perform common operations, such as setting up and closing instruments, powering up a DUT, or executing common tests.
 
+For the latest release, and examples, and source code, visit the [GitHub Releases page](https://github.com/ni/semi-test-library-dotnet/releases).
+
 ## Software Requirements
 
 You must have the following software to use the Semiconductor Test Library:
@@ -22,3 +22,7 @@ You must have the following software to use the Semiconductor Test Library:
 - .NET Framework 4.8 or later
 
 Visual Studio 2022 is highly recommended.
+
+## Installation
+
+With the above software requirements met, the latest 
