@@ -14,7 +14,7 @@ This type is returned from methods in the Semiconductor Test Library where there
 The `SiteData` object exposes basic methods for extracting a single site value or subset of values. Additionally, frequently used mathematical operations can be performed on a `SiteData` object for the most commonly used data types.
 
 >[!NOTE]
-> Refer to the API Reference for more details regarding the properties and methods exposed by the the `SiteData`.
+> Refer to the API Reference for more details regarding the properties and methods exposed by the `SiteData`.
 >
 > Examples for using the `SiteData` can be found [here on GitHub](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/DataAbstraction).
 
@@ -30,6 +30,6 @@ This type is returned from methods in the Semiconductor Test Library, such as me
 The `PinSiteData` object exposes basic methods for extracting a single site value or subset of values. Additionally, frequently used mathematical operations can be performed on a `PinSiteData` object for the most commonly used data types.
 
 >[!NOTE]
-> Refer to the API Reference for more details regarding the properties and methods exposed by the the `PinSiteData`.
+> Refer to the API Reference for more details regarding the properties and methods exposed by the `PinSiteData`.
 >
 > Examples for using the `PinSiteData` can be found [here on GitHub](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/DataAbstraction).

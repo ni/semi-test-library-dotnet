@@ -11,7 +11,7 @@ Complete the following steps to use Semiconductor Test Library in your test code
 7. Repeat step 4 and 6 as necessary for your test.
 8. Clean up and restore the instrument state(s) after finishing the test.
 
-## Example C# Code Snippet of Workflow
+## Example C# Code Snippet of Work Flow
 
 ```C#
 public static void WorkFlowExample(

@@ -18,7 +18,7 @@ NI’s platform expects the user’s application to be responsible for initializ
 
 The Semiconductor Test Library relies a separate session management layer to manage instrument sessions based on a pin map. The session manager is responsible for translating how a pin is mapped to specific the instrument channels across the active sites. It is also responsible the storage and retrieval of instrument session information. This means all instrument sessions are expected to be created for and stored via the session manager.
 
-The TestStand Semiconductor Module (TSM) provides the nessisary session management layer by providing both a mechanism for storing and passing initialized sessions between code modules, as well as translating how a pin is mapped to instrument session across active sites. The Semiconductor Test Library builds on top of TSM’s session management to make it more user friendly and provide high-level abstractions for programming STS instrumentation, and inclusive of pin and site aware data types.
+The TestStand Semiconductor Module (TSM) provides the necessary session management layer by providing both a mechanism for storing and passing initialized sessions between code modules, as well as translating how a pin is mapped to instrument session across active sites. The Semiconductor Test Library builds on top of TSM’s session management to make it more user friendly and provide high-level abstractions for programming STS instrumentation, and inclusive of pin and site aware data types.
 
 > [!NOTE]
 > The library currently only supports using the TestStand Semiconductor Module (TSM) as the session manager.
