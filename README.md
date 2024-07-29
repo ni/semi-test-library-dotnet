@@ -52,7 +52,7 @@ Fill in the issue template as completely as possible and we will respond as soon
 
 ## Contributing
 
-We welcome contributions! You can clone the project repository, build it, and install it by following these [instructions](CONTRIBUTING.md).
+We welcome contributions! Follow these [instructions](CONTRIBUTING.md) to get started and contribute to the project.
 
 ## License
 
