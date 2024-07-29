@@ -37,7 +37,7 @@ Visual Studio 2022 is highly recommended.
 
 ## Documentation
 
-A complete set of documentation for the Semiconductor Test Library can be found here: [https://ni.github.io/semi-test-lib-dotnet](https://ni.github.io/semi-test-lib-dotnet)
+A complete set of documentation for the Semiconductor Test Library can be found here: [https://ni.github.io/semi-test-library-dotnet](https://ni.github.io/semi-test-library-dotnet)
 
 ## Support
 
