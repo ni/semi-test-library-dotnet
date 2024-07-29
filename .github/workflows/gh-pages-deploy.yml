@@ -3,10 +3,12 @@ name: Deploy static content to Pages
 
 on:
   # Runs on pushes targeting the default branch
-  pull_request:
+  push:
     branches:
     - gh-pages
-  
+    paths:
+      - 'docs/**'
+
   # Allows you to run this workflow manually from the Actions tab
   # Temporary for testing purposes.
   workflow_dispatch:
