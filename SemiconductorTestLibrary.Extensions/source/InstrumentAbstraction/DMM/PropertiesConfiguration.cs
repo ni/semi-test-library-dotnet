@@ -97,6 +97,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         }
 
         /// <summary>
+        /// Configures multi-point acquisition.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
+        /// <param name="triggerCount">The number of the triggers the device receives before returning to the idle state.</param>
+        /// <param name="sampleCount">The number of measurements the device makes in each measurement sequence initiated by a trigger.</param>
+        /// <param name="sampleTrigger">The trigger source that initiates the acquisition.</param>
+        /// <param name="sampleIntervalInSeconds">The interval in seconds that the device waits between measurements.</param>
+        public static void ConfigureMultiPoint(this DMMSessionsBundle sessionsBundle, int triggerCount, int sampleCount, DmmSampleTrigger sampleTrigger, double sampleIntervalInSeconds)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Trigger.MultiPoint.Configure(triggerCount, sampleCount, sampleTrigger, PrecisionTimeSpan.FromSeconds(sampleIntervalInSeconds));
+            });
+        }
+
+        /// <summary>
         /// Configures power line frequency.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
