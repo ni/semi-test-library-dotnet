@@ -9,4 +9,4 @@ The Semiconductor Test Library does not directly process or evaluate test result
 
 **Related information:**
 
-- [NI TestStand Semiconductor Module: Publishing Results (TSM)](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/publishing-results.html)
+- [NI TSM: Publishing Results](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/publishing-results.html)

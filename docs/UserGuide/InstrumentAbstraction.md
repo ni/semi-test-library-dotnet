@@ -24,7 +24,48 @@ The TestStand Semiconductor Module (TSM) provides the necessary session manageme
 > The library currently only supports using the TestStand Semiconductor Module (TSM) as the session manager.
 
 ```mermaid
-#TODO: add architecture diagram here.
+flowchart TB
+ subgraph SemiconductorTestLibrary ["Semiconductor Test Library"]
+    Common
+    DataAbstraction
+    InstrumentAbstraction
+ end
+ subgraph InstrumentAbstraction["InstrumentAbstraction"]
+    ISessionBundle
+    ISessionInformation
+    TSMSessionManager["TSMSessionManager"]
+ end
+ subgraph Common["Common"]
+    ParallelExecution
+    Publish
+    Utilities
+ end
+ subgraph DataAbstraction["DataAbstraction"]
+    SiteData
+    PinSiteData
+ end
+ subgraph SessionManagement["Session Manager"]
+    tsm["NI TestStand Semiconductor Module (TSM)"]
+ end
+ 
+ subgraph NIDrivers["NI Instrument Drivers"]
+    direction TB
+    nidaqmx["NI-DAQmx"]
+    nidcPower["NI-DCPower"]
+    nidigital["NI-Digital"]
+    nidmm["NI-DMM"]
+    nifgen["NI-FGEN"]
+    niscope["NI-Scope"]
+    niswitch["NI-Switch"]
+    nisync["NI-Sync"]
+  end
+
+    InstrumentAbstraction <-.-> Common
+    InstrumentAbstraction -.-> DataAbstraction
+    Common -.-> DataAbstraction
+    SemiconductorTestLibrary --> SessionManagement
+    SessionManagement --> NIDrivers
+
 ```
 
 ## Initializing and Closing Sessions
@@ -52,6 +93,12 @@ The `TestStandSteps` take this a step further by adding Setup and Cleanup step t
 ### Session Groups In Pin Maps
 
 The instrument abstraction for certain drivers, such as niDCPower, expects instrument sessions to be configured in one or more groups within the loaded pin map. This is the default for newer pin maps, but if an older pin map is loaded that does not use session groups, the `InstrumentAbstraction.DCPower.InitializeAndClose.Initialize` method will throw and exception.
+
+**Related information**:
+
+- [NI TSM: Grouping Channels with the NI-DCPower Driver](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/group-channels-with-dcpower.html)
+- [NI TSM: Grouping Channels with the NI-Digital Pattern Driver](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/group-instruments-with-digital.html)
+- [NI TSM: Grouping Channels with the NI-SCOPE Driver](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/group-instruments-with-scope.html)
 
 ## Querying Sessions
 

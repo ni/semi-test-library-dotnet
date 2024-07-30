@@ -24,7 +24,7 @@
 - name: Concurrent Code
   href: advanced/ConcurrentCodeExecution.md
 - name: Parallel Execution
-  href: advanced/ParallelExecution.md
+  href: advanced/ParallelizationMethods.md
 - name: Low-level Driver Calls
   href: advanced/MakingLowLevelDriverCalls.md
 - name: Sharing Data Between Code Modules
