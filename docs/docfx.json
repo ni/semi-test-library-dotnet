@@ -11,7 +11,6 @@
         }
       ],
       "dest": "SemiconductorTestLibrary",
-      "TargetFramework": "net48",
       "memberLayout": "separatePages",
       "namespaceLayout": "flattened",
       "properties": {

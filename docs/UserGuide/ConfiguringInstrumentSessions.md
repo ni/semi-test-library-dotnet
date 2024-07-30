@@ -9,7 +9,7 @@ The Semiconductor Test Library attempts to configure instruments in the most eff
 
 **Related concepts:**
 
-- [Making Low-level Driver Calls](LowLevelDriverCalls.md)
+- [Making Low-level Driver Calls](advanced/MakingLowLevelDriverCalls.md)
 - [NI TSM: Parallel For Loops](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/parallel-for-loops.html)
 - [NI DCPower: Programming Flow](https://www.ni.com/docs/en-US/bundle/ni-dcpower/page/programming-flow.html)
 - [NI DCPower: Programming States](https://www.ni.com/docs/en-US/bundle/ni-dcpower/page/programming-states.html)

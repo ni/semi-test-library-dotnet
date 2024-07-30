@@ -14,5 +14,5 @@ The Semiconductor Test Library provides extension methods for abstracting parall
 
 **Related concepts:**
 
-- [Making Low-level Driver Calls](LowLevelDriverCalls.md)
+- [Making Low-level Driver Calls](MakingLowLevelDriverCalls.md)
 - [NI TSM: Parallel For Loops](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/parallel-for-loops.html)
