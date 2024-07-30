@@ -21,14 +21,14 @@
   href: CommonUtilityMethods.md
 
 - name: Advanced
-- name: Concurrent Code
+- name: Concurrent Code Execution
   href: advanced/ConcurrentCodeExecution.md
-- name: Parallel Execution
+- name: Parallelization Methods
   href: advanced/ParallelizationMethods.md
 - name: Low-level Driver Calls
   href: advanced/MakingLowLevelDriverCalls.md
 - name: Sharing Data Between Code Modules
-  href: SharingPinSiteDataBetweenCodeModules.md
+  href: advanced/SharingPinSiteDataBetweenCodeModules.md
 - name: Extending the Semiconductor Test Library
   href: advanced/ExtendingTheSemiconductorTestLibrary.md
 

@@ -118,7 +118,7 @@ sdo.WriteStatic(PinState._1);
 ```
 
 >[!NOTE]
-Class: **`TSMSessionManager`**
+> Class: **`TSMSessionManager`**
 >
 > Description: Defines a session manager that manages instrument device sessions through TSM. This object is used to query the appropriate ISessionsBundle object for a specific pin or set of pins based on the expected mapped instrument type.
 >
