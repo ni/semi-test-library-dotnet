@@ -22,10 +22,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             bool resetDevice = false,
             string initialRelayConfigurationToApply = "")
         {
+            // Note that the SetupNIDAQmxDOTask method has its own try catch block and should be called before ApplyRelayConfiguration,
+            // since the relay configuration being applied could have both 2567 and 6368 relays defined in it.
+            SetupNIDAQmxDOTask(tsmContext, taskType: "DAQmxRelay");
             try
             {
                 InstrumentAbstraction.Relay.InitializeAndClose.Initialize(tsmContext, resetDevice);
-                SetupNIDAQmxDOTask(tsmContext, taskType: "DAQmxRelay");
                 if (!string.IsNullOrEmpty(initialRelayConfigurationToApply))
                 {
                     tsmContext.ApplyRelayConfiguration(initialRelayConfigurationToApply);
