@@ -45,7 +45,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
 
             // Performs a reading and returns the measurements.
             // Data is returned in a per-site per-pin format.
-            PinSiteData<double> measurements = dmmPin.Read(10);
+            PinSiteData<double> measurements = dmmPin.Read(maximumTimeInMilliseconds: 10);
 
             // Print to debug console.
             Debug.WriteLine($"DMM Measurement Results for {dmmPinName}:");
@@ -80,7 +80,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
 
             // Configures different settings taht will be used to take the measurements.
             // Setting up the measurement function to capture an AC voltage.
-            dmmPins.ConfigureMeasurementDigits(DmmMeasurementFunction.ACVolts, range: voltageRange, 5.5);
+            dmmPins.ConfigureMeasurementDigits(DmmMeasurementFunction.ACVolts, range: voltageRange, resolutionDigits: 5.5);
 
             // Configures the frequency bandwidth for the AC measurements
             dmmPins.ConfigureACBandwidth(minFreq, maxFreq);
@@ -89,7 +89,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             PinSiteData<double> measurements = dmmPins.Read(maximumTimeInMilliseconds: 10);
         }
 
-        internal static void MultiPointMeasureDCVoltageDMM(ISemiconductorModuleContext tsmContext, string[] dmmPinNames, int samples)
+        internal static void MultiPointMeasureDCVoltageDMM(ISemiconductorModuleContext tsmContext, string[] dmmPinNames, int sampleCount)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
 
@@ -102,13 +102,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             // Configures the trigger count, sample counts per trigger, trigger source and trigger sample interval.
             // Note that this step is only required if more than 1 sample is desired.
             // If no external triggering is required set the sample trigger value to "Immediate".
-            dmmPins.ConfigureMultiPoint(1, samples, "Immediate", 0.001);
+            dmmPins.ConfigureMultiPoint(triggerCount: 1, sampleCount, "Immediate", sampleIntervalInSeconds: 0.001);
 
             // Reads multiple sample points for each pin of each site, data is returned in a per-instrument, per-value format.
-            var measurements = dmmPins.ReadMultiPoint(samples, 5000);
+            var measurements = dmmPins.ReadMultiPoint(sampleCount, maximumTimeInMilliseconds: 5000);
         }
 
-        internal static void TriggeredMultiPointMeasurementDMM(ISemiconductorModuleContext tsmContext, string[] dmmPinNames, int samples)
+        internal static void TriggeredMultiPointMeasurementDMM(ISemiconductorModuleContext tsmContext, string[] dmmPinNames, int sampleCount)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
 
@@ -120,7 +120,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
 
             // Configures the trigger count, sample counts per trigger, trigger source and trigger sample interval.
             // In this case a software trigger was chosen, measurements will start upon detecting this trigger.
-            dmmPins.ConfigureMultiPoint(1, samples, "Software Trigger", 0.001);
+            dmmPins.ConfigureMultiPoint(triggerCount: 1, sampleCount, "Software Trigger", sampleIntervalInSeconds: 0.001);
 
             // Puts the Dmm sessions in a initiated state to wait for the trigger.
             dmmPins.Initiate();
@@ -134,7 +134,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             // Fetches multiple sample measurement points for an already started acquisition, data is returned in a per-instrument,
             // per-value format. Note that unlike the Read method (which starts the acquisition and returns the measurements when
             // called), the Fetch method expects to retrieve data from an already started acquisition.
-            var measurements = dmmPins.FetchMultiPoint(samples, maximumTimeInMilliseconds: 5000);
+            var measurements = dmmPins.FetchMultiPoint(sampleCount, maximumTimeInMilliseconds: 5000);
         }
     }
 }
