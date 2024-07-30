@@ -12,6 +12,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// If the <paramref name="initialRelayConfigurationToApply"/> input is provided, the step will apply the specified relay configuration.
         /// Note that the relay configuration must be defined within the pin map, otherwise the step will throw an exception.
         /// Supported devices: PXI-2567 and PXIe-6368.
+        /// This method expects each NI DAQmx task associated with relays in the pin map to have the Task Type set to "DAQmxRelay".
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to reset device during initialization.</param>
@@ -21,6 +22,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             bool resetDevice = false,
             string initialRelayConfigurationToApply = "")
         {
+            // Note that the SetupNIDAQmxDOTask method has its own try catch block and should be called before ApplyRelayConfiguration,
+            // since the relay configuration being applied could have both 2567 and 6368 relays defined in it.
+            SetupNIDAQmxDOTask(tsmContext, taskType: "DAQmxRelay");
             try
             {
                 InstrumentAbstraction.Relay.InitializeAndClose.Initialize(tsmContext, resetDevice);
