@@ -41,8 +41,8 @@ A complete set of documentation for the Semiconductor Test Library can be found 
 
 ## Support
 
-- For support specific to the Semiconductor Test Library, follow the process in [Bugs / Feature Requests](#bugs--feature-requests) section below.
-- For support with hardware, drivers, or any other questions not specific to the Semiconductor Test Library, visit [NI Community Forums](https://forums.ni.com/) or contact [NI Support](https://ni.com/ask).
+- To report bug or make feature request specific to the Semiconductor Test Library, follow the process in [Bugs / Feature Requests](#bugs--feature-requests) section below.
+- For general support using the Semiconductor Test Library contact [NI Support](https://ni.com/ask).
 
 ## Bugs / Feature Requests
 
@@ -56,4 +56,4 @@ We welcome contributions! Follow these [instructions](CONTRIBUTING.md) to get st
 
 ## License
 
-**semi-test-library-dotnet** is licensed under an MIT-style license (see [LICENSE.txt](LICENSE.txt)). Other incorporated projects may be licensed under different licenses. All licenses allow for non-commercial and commercial use.
+**semi-test-library-dotnet** is licensed under an MIT-style license (see [LICENSE.txt](LICENSE.txt)). Other incorporated projects may be licensed under different licenses.
