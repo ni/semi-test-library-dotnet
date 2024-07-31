@@ -226,7 +226,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<double> MeasureAndPublishVoltage(this DigitalSessionsBundle sessionsBundle, string publishedDataId)
         {
             MeasureAndPublishVoltage(sessionsBundle, publishedDataId, out var voltageMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(voltageMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(voltageMeasurements);
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<double> MeasureAndPublishCurrent(this DigitalSessionsBundle sessionsBundle, string publishedDataId)
         {
             MeasureAndPublishCurrent(sessionsBundle, publishedDataId, out var currentMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPerPinPerSiteResults(currentMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(currentMeasurements);
         }
 
         /// <summary>
