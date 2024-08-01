@@ -1,3 +1,6 @@
+- name: Landing Page
+  href: ../index.md
+
 - name: Basics
 - name: Overview
   href: Overview.md

@@ -55,7 +55,7 @@ NI recommends the following best practices for managing NuGet package dependenci
 Adding NuGet packages to an STS project can be done via the NuGet package manager, which will add a PackageReference to the .csproj file, and expect the package to be installed on the target system. The NuGet package manager can be configured to look at various sources and configured with a NuGet.config file, such as nuget.org or the project's `Code Modules\packages` directory,
 
 > [!NOTE]
-> Ensure the .nupkg files for all dependent nuget packages added to your project have been copied into the packages directory within the project source and source code controlled.
+> Ensure the .nupkg files for all dependent NuGet packages added to your project have been copied into the packages directory within the project source and source code controlled.
 
 ## Upgrading NuGet Packages
 
@@ -64,7 +64,7 @@ Adding NuGet packages to an STS project can be done via the NuGet package manage
 
 Use the following procedure to upgrade a dependent NuGet package that is already being distributed with an STS test program's source code within the `Code Modules\packages` directory.
 
-1. Download the newer version of the .nupkg file for the target nuget package and copy it to the `Code Modules\packages` directory within the project source. It will temporarily coexist alongside the existing version of that  target nuget package.
+1. Download the newer version of the .nupkg file for the target NuGet package and copy it to the `Code Modules\packages` directory within the project source. It will temporarily coexist alongside the existing version of that  target NuGet package.
 2. Then, open the NuGet package manager to view the Installed packages for your project. Select the target package from the Installed packages list in the NuGet package manager and select Upgrade.
    > [!NOTE]
    > The NuGet package manager should automatically recognize that an update to target package and provides the option to upgrade. Once you select Upgrade, the NuGet package manager will  update the PackageReference in .csproj.
