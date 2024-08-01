@@ -1,6 +1,6 @@
-- name: Getting Started
+- name: Basics
 - name: Overview
-  href: ../index.md
+  href: Overview.md
 - name: Writing Test Code
   href: WritingTestCode.md
 - name: Supported Instrument Types
@@ -19,6 +19,10 @@
   href: PublishingResults.md
 - name: Common Utility Methods
   href: CommonUtilityMethods.md
+
+- name: Best Practices
+- name: NuGet Package Management For STS Projects
+  href: NuGetPackageManagementForSTSProjects.md
 
 - name: Advanced
 - name: Concurrent Code Execution
