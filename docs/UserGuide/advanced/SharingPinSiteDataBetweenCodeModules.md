@@ -1,15 +1,15 @@
 # Sharing SiteData and PinSiteData Between Code Modules
 
-During test development, it may become necessary to store some results measured in one code module with another code module later in the test sequence execution, within the same run. This can be achieved by storing the data within in the SemiconductorModuleContext in one code module and retrieving later in another code module using an ID string. For more information, refer the [Sharing Data between Code Modules (TSM)](https://www.ni.com/docs/bundle/teststand-semiconductor-module/page/sharing-data-between-code-modules.html) topic in the TSM help documentation.
+As you develop your test program, it may be necessary to store results measured in one code module for later use in the same test sequence by another code module. This can be achieved by storing the data within in the SemiconductorModuleContext in one code module and retrieving later in another code module using an ID string. For more information, refer the [Sharing Data between Code Modules (TSM)](https://www.ni.com/docs/bundle/teststand-semiconductor-module/page/sharing-data-between-code-modules.html) topic in the TSM help documentation.
 
-The `SetSiteData` and `GetSiteData` .NET methods provided by TSM, do not currently support being passed SiteData or PinSiteData objects directly. Therefore, SiteData/PinSiteData must first be converted into a 1D array of per-site values. Where, each element in the array represents a given site values. In the case of PinSiteData, this will be each element in the array a dictionary of per-pin values that represents a given site.
+The `SetSiteData` and `GetSiteData` .NET methods, provided by TSM, cannot be passed SiteData or PinSiteData objects directly. You must first convert SiteData and PinSiteData into a 1D array of per-site values, where each element in the array represents a given site value. In the case of PinSiteData, this will be a 1D array of per-pin dictionaries, where each dictionary element in the array represents a given site and each item in the dictionary represents a pin's value for the given site.
 
 > [!NOTE]
-> The data must be ordered to match the order of sites in the Semiconductor Module context. This order might not be sequential. Use the `SiteNumbers` property on the `ISemiconductorModuleContext` .NET object to determine the order of the sites in the Semiconductor Module context and arrange the data manually.
+> The data must be ordered to match the order of sites in the Semiconductor Module context. This order might not be sequential. Use the `SiteNumbers` property in the `ISemiconductorModuleContext` .NET object to determine the order of the sites in the Semiconductor Module context and arrange the data manually.
 
 ## Sharing SiteData Example
 
-The following example shows how to store a per-site measurement data for comparison in a later test step:
+The following example shows how to store per-site measurement data for comparison in a later test step::
 
 ```C#
 public static void FirstCodeModule(
@@ -54,7 +54,7 @@ public static void SecondCodeModule(
 
 ## Sharing PinSiteData Example
 
-The following example shows how to store a per-pin per-site measurement data for comparison in a later test step:
+The following example shows how to store per-pin per-site measurement data for comparison in a later test step:
 
 ``` C#
 public static void FirstCodeModule(ISemiconductorModuleContext semiconductorModuleContext, string pinName)

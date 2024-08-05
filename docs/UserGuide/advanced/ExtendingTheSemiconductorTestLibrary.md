@@ -1,17 +1,23 @@
-# Extending The Semiconductor Test Library
+# Extending the Semiconductor Test Library
 
 The Semiconductor Test Library provides extension methods for abstracting common, high-level instrument operations.
 
-If you are unfamiliar Extension Methods, they are static methods that can be called as if they were instance methods for the object type they extend. For tests code being written, there's no apparent difference between calling an extension method and calling the methods defined in a type.
+Extension Methods are static methods that can be called as if they were instance methods for the object type they extend. For tests code being written, there's no apparent difference between calling an extension method and calling the methods defined in a type.
 
-- Extension methods enable the developer to "add" methods to existing types without creating a new derived type, recompiling, or otherwise modifying the original type.
-- An extension method will never be called if it has the same signature as a method defined in the type. So extension method can never be used to impersonate existing methods on a type, because all name collisions are resolved in favor of the instance or static method defined by the type itself.
+- Extension methods enable you to "add" methods to existing types without creating a new derived type, recompiling, or modifying the original type.
+- An extension method cannot be called if it has the same signature as a method defined in the extended type. All name collisions are resolved in favor of the instance or static method defined by the type itself. Therefore, extension methods cannot be used to imitate existing methods of the extended type.
 - Extension methods cannot access any private data in the extended class.
 - Learn more at: [https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods).
 
 ## Writing Your Own Extension Method
 
-It is recommended that you start by creating a separate .cs file to write your project-specific extensions in, with it's own unique namespace. It must contain a static class, which should use the same name as the file name. You then write out a new static method, with the first parameter being the target class you wish to extend proceeded by the `this` keyword. Finally, can add other parameters to method signature and your desired logic within the method body. Refer to the example below, which extends `PinSiteData` to have a `MaxByPin()` method that calculates the per-site maximum value across each pin.
+NI recommends the following steps to get started writing your own extension methods:
+
+1. Create a separate .cs file to write your project-specific extensions with its own unique namespace. This file must contain a static class, which should use the same name as the file name.
+2. Write out a new static method, with the first parameter being the target class to extend, to be proceeded by the `this` keyword.
+3. You can the add other parameters to the method signature and your desired logic within the method body.
+
+Refer to the following example to see how the `PinSiteData` class can be extended to have a `MaxByPin()` method that calculates the per-site maximum value across each pin.
 
 ```C#
 // FileName: MyProjectExtensions.cs
