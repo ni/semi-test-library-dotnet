@@ -66,7 +66,7 @@ As of STS Software 24.5, the Semiconductor Test Library is included as a compone
 >
 > Using the NuGet package allows test programs the option to use the latest version of Semiconductor Test Library without needing to upgrade the STS Software. Refer to [NuGet Package Management For STS Projects](NuGetPackageManagementForSTSProjects.md) for more details.
 
-Additionally, the `TestStandSteps` assembly is installed under the TestStand directory: `C:\Program Files\National Instruments\TestStand <version>\Components\StepTypes\NI_SemiconductorTestSteps\NationalInstruments.SemiconductorTestLibrary.TestStandSteps.dll`. TestStand will reference this assembly for Step Types that can be found in TestStand Insertion Pallet.
+Additionally, the `TestStandSteps` assembly is installed under the TestStand directory: `C:\Program Files\National Instruments\TestStand <version>\Components\StepTypes\NI_SemiconductorTestSteps\NationalInstruments.SemiconductorTestLibrary.TestStandSteps.dll`. TestStand will reference this assembly for Step Types that can be found in TestStand Insertion Palette.
 
 >[!NOTE]
 > Refer to [Using TestStand Steps](UsingTestStandSteps.md) for more information.

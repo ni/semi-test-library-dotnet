@@ -8,10 +8,10 @@ Complete the following steps to use Semiconductor Test Library in your test code
 4. Source and/or measure the signals.
 5. Burst the patterns required to configure the DUT.
 6. Calculate and/or publish the required test results.
-7. Repeat step 4 and 6 as necessary for your test.
-8. Clean up and restore the instrument state(s) after finishing the test.
+7. Repeat steps 4 through 6 as necessary for your test.
+8. Clean up and restore the state of the instrumentation after finishing the test.
 
-## Example C# Code Snippet of Work Flow
+## Example C# Code Snippet of Workflow
 
 ```C#
 public static void WorkFlowExample(

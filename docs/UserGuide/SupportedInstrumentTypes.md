@@ -1,8 +1,8 @@
 # Supported Instrument Types
 
-The Semiconductor Test Library supports the core set of modular instruments commonly used within the NI [Semiconductor Test System (STS)](https://www.ni.com/sts). The following table provides a list which instrument types are currently supported by the library.
+The Semiconductor Test Library supports the core set of modular instruments commonly used within the NI [Semiconductor Test System (STS)](https://www.ni.com/sts). Refer to the following table for the instrument types currently supported by the library.
 
-**Table 1:** List of Supported Instrument Types
+**Table 1:** Supported Instrument Types
 
 | Instrument Type                           | Driver    | Abstractions | Extensions           |
 | :--------------------------------------   | :-------- | :----------- | :------------------- |
@@ -18,7 +18,7 @@ The Semiconductor Test Library supports the core set of modular instruments comm
 | NI Timing Synchronization Module (SYNC)   | niSync    | Supported    | Not Yet Supported    |
 
 > [!NOTE]
-> Core Support: the core functionality to use the instrument is supported, but some advanced features are not yet exposed with a high-level Extension method. Refer to the documentation regarding how to interact with the lower-level driver APIs using the provided Abstraction methods.
+> Core Support: Only the core functionality to use the instrument is supported, and some advanced features are not yet exposed with a high-level Extension method. Refer to the documentation to learn how to interact with the lower-level driver APIs using the provided Abstraction methods.
 >
 > Limited Support: Only the most common use cases are implemented.
 >
