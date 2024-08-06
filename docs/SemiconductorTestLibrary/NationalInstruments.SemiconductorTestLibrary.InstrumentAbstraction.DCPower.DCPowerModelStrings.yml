@@ -1,0 +1,1057 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  id: DCPowerModelStrings
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4110
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4130
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4131A
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4132
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4051
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4112
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4113
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4118
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4135
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4135_40W
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4136
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4137
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4137_40W
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4138
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4139
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4139_40W
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4140
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4141
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4141_HSR
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4142
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4143
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4144
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4145
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4147
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4150
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4151
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4154
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4161
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4162
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4162_10pA
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4163
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4163_10pA
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4190
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4190_500kHz
+  langs:
+  - csharp
+  - vb
+  name: DCPowerModelStrings
+  nameWithType: DCPowerModelStrings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  type: Struct
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: >-
+    Defines DCPower model strings according to the driver definition below.
+
+    https://dev.azure.com/ni/DevCentral/_git/ni-central?path=/src/nidcpower/base/nidcpowerSharedSource/source/nidcpowerSharedSource/productid/ProductID.h
+  example: []
+  syntax:
+    content: public struct DCPowerModelStrings
+    content.vb: Public Structure DCPowerModelStrings
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4110
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4110
+  id: PXI_4110
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXI_4110
+  nameWithType: DCPowerModelStrings.PXI_4110
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4110
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXI-4110 device.
+  example: []
+  syntax:
+    content: public const string PXI_4110 = "NI PXI-4110"
+    return:
+      type: System.String
+    content.vb: Public Const PXI_4110 As String = "NI PXI-4110"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4130
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4130
+  id: PXI_4130
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXI_4130
+  nameWithType: DCPowerModelStrings.PXI_4130
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4130
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXI-4130 device.
+  example: []
+  syntax:
+    content: public const string PXI_4130 = "NI PXI-4130"
+    return:
+      type: System.String
+    content.vb: Public Const PXI_4130 As String = "NI PXI-4130"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4131A
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4131A
+  id: PXI_4131A
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXI_4131A
+  nameWithType: DCPowerModelStrings.PXI_4131A
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4131A
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXI-4131A device.
+  example: []
+  syntax:
+    content: public const string PXI_4131A = "NI PXI-4131A"
+    return:
+      type: System.String
+    content.vb: Public Const PXI_4131A As String = "NI PXI-4131A"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4132
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4132
+  id: PXI_4132
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXI_4132
+  nameWithType: DCPowerModelStrings.PXI_4132
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4132
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXI-4132 device.
+  example: []
+  syntax:
+    content: public const string PXI_4132 = "NI PXI-4132"
+    return:
+      type: System.String
+    content.vb: Public Const PXI_4132 As String = "NI PXI-4132"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4051
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4051
+  id: PXIe_4051
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4051
+  nameWithType: DCPowerModelStrings.PXIe_4051
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4051
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4051 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4051 = "NI PXIe-4051"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4051 As String = "NI PXIe-4051"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4112
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4112
+  id: PXIe_4112
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4112
+  nameWithType: DCPowerModelStrings.PXIe_4112
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4112
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4112 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4112 = "NI PXIe-4112"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4112 As String = "NI PXIe-4112"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4113
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4113
+  id: PXIe_4113
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4113
+  nameWithType: DCPowerModelStrings.PXIe_4113
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4113
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4113 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4113 = "NI PXIe-4113"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4113 As String = "NI PXIe-4113"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4118
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4118
+  id: PXIe_4118
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4118
+  nameWithType: DCPowerModelStrings.PXIe_4118
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4118
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4118 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4118 = "NI PXIe-4118"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4118 As String = "NI PXIe-4118"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4135
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4135
+  id: PXIe_4135
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4135
+  nameWithType: DCPowerModelStrings.PXIe_4135
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4135
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4135 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4135 = "NI PXIe-4135"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4135 As String = "NI PXIe-4135"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4135_40W
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4135_40W
+  id: PXIe_4135_40W
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4135_40W
+  nameWithType: DCPowerModelStrings.PXIe_4135_40W
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4135_40W
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4135 high power device.
+  example: []
+  syntax:
+    content: public const string PXIe_4135_40W = "NI PXIe-4135 (40W)"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4135_40W As String = "NI PXIe-4135 (40W)"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4136
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4136
+  id: PXIe_4136
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4136
+  nameWithType: DCPowerModelStrings.PXIe_4136
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4136
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4136 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4136 = "NI PXIe-4136"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4136 As String = "NI PXIe-4136"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4137
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4137
+  id: PXIe_4137
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4137
+  nameWithType: DCPowerModelStrings.PXIe_4137
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4137
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4137 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4137 = "NI PXIe-4137"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4137 As String = "NI PXIe-4137"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4137_40W
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4137_40W
+  id: PXIe_4137_40W
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4137_40W
+  nameWithType: DCPowerModelStrings.PXIe_4137_40W
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4137_40W
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4137 high power device.
+  example: []
+  syntax:
+    content: public const string PXIe_4137_40W = "NI PXIe-4137 (40W)"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4137_40W As String = "NI PXIe-4137 (40W)"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4138
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4138
+  id: PXIe_4138
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4138
+  nameWithType: DCPowerModelStrings.PXIe_4138
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4138
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4138 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4138 = "NI PXIe-4138"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4138 As String = "NI PXIe-4138"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4139
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4139
+  id: PXIe_4139
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4139
+  nameWithType: DCPowerModelStrings.PXIe_4139
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4139
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates a NI PXIe-4139 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4139 = "NI PXIe-4139"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4139 As String = "NI PXIe-4139"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4139_40W
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4139_40W
+  id: PXIe_4139_40W
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4139_40W
+  nameWithType: DCPowerModelStrings.PXIe_4139_40W
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4139_40W
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4139 high power device.
+  example: []
+  syntax:
+    content: public const string PXIe_4139_40W = "NI PXIe-4139 (40W)"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4139_40W As String = "NI PXIe-4139 (40W)"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4140
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4140
+  id: PXIe_4140
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4140
+  nameWithType: DCPowerModelStrings.PXIe_4140
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4140
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4140 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4140 = "NI PXIe-4140"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4140 As String = "NI PXIe-4140"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4141
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4141
+  id: PXIe_4141
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4141
+  nameWithType: DCPowerModelStrings.PXIe_4141
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4141
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4141 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4141 = "NI PXIe-4141"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4141 As String = "NI PXIe-4141"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4141_HSR
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4141_HSR
+  id: PXIe_4141_HSR
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4141_HSR
+  nameWithType: DCPowerModelStrings.PXIe_4141_HSR
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4141_HSR
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4141 high sense resistance device.
+  example: []
+  syntax:
+    content: public const string PXIe_4141_HSR = "NI PXIe-4141 (High Sense Resistance)"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4141_HSR As String = "NI PXIe-4141 (High Sense Resistance)"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4142
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4142
+  id: PXIe_4142
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4142
+  nameWithType: DCPowerModelStrings.PXIe_4142
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4142
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4142 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4142 = "NI PXIe-4142"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4142 As String = "NI PXIe-4142"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4143
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4143
+  id: PXIe_4143
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4143
+  nameWithType: DCPowerModelStrings.PXIe_4143
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4143
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4143 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4143 = "NI PXIe-4143"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4143 As String = "NI PXIe-4143"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4144
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4144
+  id: PXIe_4144
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4144
+  nameWithType: DCPowerModelStrings.PXIe_4144
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4144
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4144 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4144 = "NI PXIe-4144"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4144 As String = "NI PXIe-4144"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4145
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4145
+  id: PXIe_4145
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4145
+  nameWithType: DCPowerModelStrings.PXIe_4145
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4145
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4145 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4145 = "NI PXIe-4145"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4145 As String = "NI PXIe-4145"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4147
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4147
+  id: PXIe_4147
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4147
+  nameWithType: DCPowerModelStrings.PXIe_4147
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4147
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4147 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4147 = "NI PXIe-4147"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4147 As String = "NI PXIe-4147"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4150
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4150
+  id: PXIe_4150
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4150
+  nameWithType: DCPowerModelStrings.PXIe_4150
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4150
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4150 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4150 = "NI PXIe-4150"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4150 As String = "NI PXIe-4150"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4151
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4151
+  id: PXIe_4151
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4151
+  nameWithType: DCPowerModelStrings.PXIe_4151
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4151
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4151 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4151 = "NI PXIe-4151"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4151 As String = "NI PXIe-4151"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4154
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4154
+  id: PXIe_4154
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4154
+  nameWithType: DCPowerModelStrings.PXIe_4154
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4154
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4154 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4154 = "NI PXIe-4154"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4154 As String = "NI PXIe-4154"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4161
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4161
+  id: PXIe_4161
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4161
+  nameWithType: DCPowerModelStrings.PXIe_4161
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4161
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4161 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4161 = "NI PXIe-4161"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4161 As String = "NI PXIe-4161"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4162
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4162
+  id: PXIe_4162
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4162
+  nameWithType: DCPowerModelStrings.PXIe_4162
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4162
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4162 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4162 = "NI PXIe-4162"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4162 As String = "NI PXIe-4162"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4162_10pA
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4162_10pA
+  id: PXIe_4162_10pA
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4162_10pA
+  nameWithType: DCPowerModelStrings.PXIe_4162_10pA
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4162_10pA
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4162 10pA device.
+  example: []
+  syntax:
+    content: public const string PXIe_4162_10pA = "NI PXIe-4162 (10pA)"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4162_10pA As String = "NI PXIe-4162 (10pA)"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4163
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4163
+  id: PXIe_4163
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4163
+  nameWithType: DCPowerModelStrings.PXIe_4163
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4163
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4163 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4163 = "NI PXIe-4163"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4163 As String = "NI PXIe-4163"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4163_10pA
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4163_10pA
+  id: PXIe_4163_10pA
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4163_10pA
+  nameWithType: DCPowerModelStrings.PXIe_4163_10pA
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4163_10pA
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4163 10pA device.
+  example: []
+  syntax:
+    content: public const string PXIe_4163_10pA = "NI PXIe-4163 (10pA)"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4163_10pA As String = "NI PXIe-4163 (10pA)"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4190
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4190
+  id: PXIe_4190
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4190
+  nameWithType: DCPowerModelStrings.PXIe_4190
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4190
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4190 device.
+  example: []
+  syntax:
+    content: public const string PXIe_4190 = "NI PXIe-4190"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4190 As String = "NI PXIe-4190"
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4190_500kHz
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4190_500kHz
+  id: PXIe_4190_500kHz
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  langs:
+  - csharp
+  - vb
+  name: PXIe_4190_500kHz
+  nameWithType: DCPowerModelStrings.PXIe_4190_500kHz
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXIe_4190_500kHz
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Indicates an NI PXIe-4190 500kHz device.
+  example: []
+  syntax:
+    content: public const string PXIe_4190_500kHz = "NI PXIe-4190 (500kHz)"
+    return:
+      type: System.String
+    content.vb: Public Const PXIe_4190_500kHz As String = "NI PXIe-4190 (500kHz)"
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+    name: DCPower
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+    name: DCPower
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+memberLayout: SeparatePages

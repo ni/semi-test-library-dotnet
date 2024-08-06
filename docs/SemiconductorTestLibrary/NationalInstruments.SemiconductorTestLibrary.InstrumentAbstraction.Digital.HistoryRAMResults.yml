@@ -1,0 +1,554 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults
+  id: HistoryRAMResults
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.#ctor(System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation},System.Collections.Generic.List{System.Int64})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.CycleInformation
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.ScanCycleNumbers
+  langs:
+  - csharp
+  - vb
+  name: HistoryRAMResults
+  nameWithType: HistoryRAMResults
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults
+  type: Class
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Defines History RAM results type.
+  example: []
+  syntax:
+    content: public class HistoryRAMResults
+    content.vb: Public Class HistoryRAMResults
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.#ctor(System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation},System.Collections.Generic.List{System.Int64})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.#ctor(System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation},System.Collections.Generic.List{System.Int64})
+  id: '#ctor(System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation},System.Collections.Generic.List{System.Int64})'
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults
+  langs:
+  - csharp
+  - vb
+  name: HistoryRAMResults(List<DigitalHistoryRamCycleInformation>, List<long>)
+  nameWithType: HistoryRAMResults.HistoryRAMResults(List<DigitalHistoryRamCycleInformation>, List<long>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.HistoryRAMResults(System.Collections.Generic.List<NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation>, System.Collections.Generic.List<long>)
+  type: Constructor
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Constructs a History RAM results object.
+  example: []
+  syntax:
+    content: public HistoryRAMResults(List<DigitalHistoryRamCycleInformation> cycleInformation, List<long> scanCycleNumbers)
+    parameters:
+    - id: cycleInformation
+      type: System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}
+      description: The cycle information.
+    - id: scanCycleNumbers
+      type: System.Collections.Generic.List{System.Int64}
+      description: The scan cycle numbers.
+    content.vb: Public Sub New(cycleInformation As List(Of DigitalHistoryRamCycleInformation), scanCycleNumbers As List(Of Long))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.#ctor*
+  nameWithType.vb: HistoryRAMResults.New(List(Of DigitalHistoryRamCycleInformation), List(Of Long))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.New(System.Collections.Generic.List(Of NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation), System.Collections.Generic.List(Of Long))
+  name.vb: New(List(Of DigitalHistoryRamCycleInformation), List(Of Long))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.CycleInformation
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.CycleInformation
+  id: CycleInformation
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults
+  langs:
+  - csharp
+  - vb
+  name: CycleInformation
+  nameWithType: HistoryRAMResults.CycleInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.CycleInformation
+  type: Property
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The per-site cycle information.
+  example: []
+  syntax:
+    content: public List<DigitalHistoryRamCycleInformation> CycleInformation { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}
+    content.vb: Public ReadOnly Property CycleInformation As List(Of DigitalHistoryRamCycleInformation)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.CycleInformation*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.ScanCycleNumbers
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.ScanCycleNumbers
+  id: ScanCycleNumbers
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults
+  langs:
+  - csharp
+  - vb
+  name: ScanCycleNumbers
+  nameWithType: HistoryRAMResults.ScanCycleNumbers
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.ScanCycleNumbers
+  type: Property
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The per-site scan cycle numbers.
+  example: []
+  syntax:
+    content: public List<long> ScanCycleNumbers { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{System.Int64}
+    content.vb: Public ReadOnly Property ScanCycleNumbers As List(Of Long)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.ScanCycleNumbers*
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+    name: Digital
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+    name: Digital
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.#ctor*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.#ctor
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.-ctor.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAMResults__ctor_System_Collections_Generic_List_NationalInstruments_ModularInstruments_NIDigital_DigitalHistoryRamCycleInformation__System_Collections_Generic_List_System_Int64__
+  name: HistoryRAMResults
+  nameWithType: HistoryRAMResults.HistoryRAMResults
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.HistoryRAMResults
+  nameWithType.vb: HistoryRAMResults.New
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.New
+  name.vb: New
+- uid: System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}
+  commentId: T:System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<DigitalHistoryRamCycleInformation>
+  nameWithType: List<DigitalHistoryRamCycleInformation>
+  fullName: System.Collections.Generic.List<NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation>
+  nameWithType.vb: List(Of DigitalHistoryRamCycleInformation)
+  fullName.vb: System.Collections.Generic.List(Of NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation)
+  name.vb: List(Of DigitalHistoryRamCycleInformation)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation
+    name: DigitalHistoryRamCycleInformation
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation
+    name: DigitalHistoryRamCycleInformation
+    isExternal: true
+  - name: )
+- uid: System.Collections.Generic.List{System.Int64}
+  commentId: T:System.Collections.Generic.List{System.Int64}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<long>
+  nameWithType: List<long>
+  fullName: System.Collections.Generic.List<long>
+  nameWithType.vb: List(Of Long)
+  fullName.vb: System.Collections.Generic.List(Of Long)
+  name.vb: List(Of Long)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.Int64
+    name: long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int64
+    name: Long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.CycleInformation*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.CycleInformation
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.CycleInformation.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAMResults_CycleInformation
+  name: CycleInformation
+  nameWithType: HistoryRAMResults.CycleInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.CycleInformation
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.ScanCycleNumbers*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.ScanCycleNumbers
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.ScanCycleNumbers.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAMResults_ScanCycleNumbers
+  name: ScanCycleNumbers
+  nameWithType: HistoryRAMResults.ScanCycleNumbers
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.ScanCycleNumbers
+memberLayout: SeparatePages

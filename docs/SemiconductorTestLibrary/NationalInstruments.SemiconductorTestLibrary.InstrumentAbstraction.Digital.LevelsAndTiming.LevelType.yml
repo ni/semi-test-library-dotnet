@@ -1,0 +1,274 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  id: LevelsAndTiming.LevelType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Ioh
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Iol
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vcom
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vih
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vil
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Voh
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vol
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vterm
+  langs:
+  - csharp
+  - vb
+  name: LevelsAndTiming.LevelType
+  nameWithType: LevelsAndTiming.LevelType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  type: Enum
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Defines voltage level types.
+  example: []
+  syntax:
+    content: public enum LevelsAndTiming.LevelType
+    content.vb: Public Enum LevelsAndTiming.LevelType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vil
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vil
+  id: Vil
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  langs:
+  - csharp
+  - vb
+  name: Vil
+  nameWithType: LevelsAndTiming.LevelType.Vil
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vil
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The input voltage that the digital pattern instrument applies to the input of the DUT when the test instrument drives a logic low (0).
+  example: []
+  syntax:
+    content: Vil = 0
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vih
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vih
+  id: Vih
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  langs:
+  - csharp
+  - vb
+  name: Vih
+  nameWithType: LevelsAndTiming.LevelType.Vih
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vih
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The input voltage that the digital pattern instrument applies to the input of the DUT when the test instrument drives a logic high (1).
+  example: []
+  syntax:
+    content: Vih = 1
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vol
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vol
+  id: Vol
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  langs:
+  - csharp
+  - vb
+  name: Vol
+  nameWithType: LevelsAndTiming.LevelType.Vol
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vol
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The output voltage from the DUT below which the comparator on the test instrument interprets a logic low (L).
+  example: []
+  syntax:
+    content: Vol = 2
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Voh
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Voh
+  id: Voh
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  langs:
+  - csharp
+  - vb
+  name: Voh
+  nameWithType: LevelsAndTiming.LevelType.Voh
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Voh
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The output voltage from the DUT above which the comparator on the test instrument interprets a logic high (H).
+  example: []
+  syntax:
+    content: Voh = 3
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vterm
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vterm
+  id: Vterm
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  langs:
+  - csharp
+  - vb
+  name: Vterm
+  nameWithType: LevelsAndTiming.LevelType.Vterm
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vterm
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The termination voltage the instrument applies during non-drive cycles.
+  example: []
+  syntax:
+    content: Vterm = 4
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Iol
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Iol
+  id: Iol
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  langs:
+  - csharp
+  - vb
+  name: Iol
+  nameWithType: LevelsAndTiming.LevelType.Iol
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Iol
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The current that the DUT sinks from the active load while outputting a voltage below <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vcom" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: Iol = 5
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Ioh
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Ioh
+  id: Ioh
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  langs:
+  - csharp
+  - vb
+  name: Ioh
+  nameWithType: LevelsAndTiming.LevelType.Ioh
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Ioh
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The current that the DUT sources to the active load while outputting a voltage above <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vcom" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: Ioh = 6
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vcom
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vcom
+  id: Vcom
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  langs:
+  - csharp
+  - vb
+  name: Vcom
+  nameWithType: LevelsAndTiming.LevelType.Vcom
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vcom
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The commutating voltage at which the active load circuit switches between sourcing current and sinking current.
+  example: []
+  syntax:
+    content: Vcom = 7
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+    name: Digital
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+    name: Digital
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.html
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.html
+  name: LevelsAndTiming.LevelType
+  nameWithType: LevelsAndTiming.LevelType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+    name: LevelsAndTiming
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+    name: LevelType
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.html
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+    name: LevelsAndTiming
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+    name: LevelType
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.html
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vcom
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vcom
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_LevelType_Vcom
+  name: Vcom
+  nameWithType: LevelsAndTiming.LevelType.Vcom
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.Vcom
+memberLayout: SeparatePages
