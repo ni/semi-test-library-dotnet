@@ -2,7 +2,7 @@
 
 The [semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet) repository contains the source code for the Semiconductor Test Library written in C# using the .NET Framework.
 
-For the latest release, visit the [GitHub Releases page](https://github.com/ni/semi-test-library-dotnet/releases).
+For the latest release, visit the [GitHub Releases](https://github.com/ni/semi-test-library-dotnet/releases) page.
 
 - [About](#about)
 - [Software Requirements](#software-requirements)
@@ -37,16 +37,16 @@ Visual Studio 2022 is highly recommended.
 
 ## Documentation
 
-A complete set of documentation for the Semiconductor Test Library can be found here: [https://ni.github.io/semi-test-lib-dotnet](https://ni.github.io/semi-test-lib-dotnet)
+A complete set of documentation for the Semiconductor Test Library can be found here: [https://ni.github.io/semi-test-library-dotnet](https://ni.github.io/semi-test-library-dotnet)
 
 ## Support
 
-- For support specific to the Semiconductor Test Library, follow the process in [Bugs / Feature Requests](#bugs--feature-requests) section below.
-- For support with hardware, drivers, or any other questions not specific to the Semiconductor Test Library, visit [NI Community Forums](https://forums.ni.com/) or contact [NI Support](https://ni.com/ask).
+- To report bug or make feature request specific to the Semiconductor Test Library, follow the process in [Bugs / Feature Requests](#bugs--feature-requests) section below.
+- For general support using the Semiconductor Test Library contact [NI Support](https://ni.com/ask).
 
 ## Bugs / Feature Requests
 
-To report a bug or submit a feature request specific to the Semiconductor Test Library, use the [GitHub Issues page](https://github.com/ni/semi-test-library-dotnet/issues).
+To report a bug or submit a feature request specific to the Semiconductor Test Library, use the [GitHub Issues](https://github.com/ni/semi-test-library-dotnet/issues) page.
 
 Fill in the issue template as completely as possible and we will respond as soon as we can.
 
@@ -56,4 +56,4 @@ We welcome contributions! Follow these [instructions](CONTRIBUTING.md) to get st
 
 ## License
 
-**semi-test-lib-dotnet** is licensed under an MIT-style license (see [LICENSE.txt](LICENSE.txt)). Other incorporated projects may be licensed under different licenses. All licenses allow for non-commercial and commercial use.
+**semi-test-library-dotnet** is licensed under an MIT-style license (see [LICENSE.txt](LICENSE.txt)). Other incorporated projects may be licensed under different licenses.
