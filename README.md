@@ -2,7 +2,7 @@
 
 The [semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet) repository contains the source code for the Semiconductor Test Library written in C# using the .NET Framework.
 
-For the latest release, visit the [GitHub Releases page](https://github.com/ni/semi-test-library-dotnet/releases).
+For the latest release, visit the [GitHub Releases](https://github.com/ni/semi-test-library-dotnet/releases) page.
 
 - [About](#about)
 - [Software Requirements](#software-requirements)
@@ -46,7 +46,7 @@ A complete set of documentation for the Semiconductor Test Library can be found 
 
 ## Bugs / Feature Requests
 
-To report a bug or submit a feature request specific to the Semiconductor Test Library, use the [GitHub Issues page](https://github.com/ni/semi-test-library-dotnet/issues).
+To report a bug or submit a feature request specific to the Semiconductor Test Library, use the [GitHub Issues](https://github.com/ni/semi-test-library-dotnet/issues) page.
 
 Fill in the issue template as completely as possible and we will respond as soon as we can.
 

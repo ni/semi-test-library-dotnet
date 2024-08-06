@@ -59,14 +59,14 @@ The `Abstractions` and `Extensions` assemblies are combined into a single NuGet 
 
 ## Installation
 
-As of STS Software 24.5, the Semiconductor Test Library is included as a component of the STS Software bundle. The NuGet package is included as part of the NI Default C#/.NET template used by the STS Project Creation Tool.
+As of STS Software 24.5, the Semiconductor Test Library is included as a component of the STS Software bundle. The NuGet package is included as part of the NI Default - C#/.NET template used by the STS Project Creation Tool.
 
 > [!NOTE]
-> The `Abstractions` & `Extensions` assemblies are installed under the following directory, as they will be referenced by other STS Software components: `C:\Program Files\National Instruments\Shared\NI_SemiconductorTestLibrary`. However, a test program should reference the NuGet package instead of the installed assembly files.
+> The `Abstractions` & `Extensions` assemblies are installed in the following directory to be referenced by other STS Software components: `C:\Program Files\National Instruments\Shared\NI_SemiconductorTestLibrary`. However, a test program should reference the NuGet package instead of the installed assembly files.
 >
-> Using the NuGet package allows test programs the option to use the latest version of Semiconductor Test Library without needing to upgrade the STS Software. Refer to [NuGet Package Management For STS Projects](NuGetPackageManagementForSTSProjects.md) for more details.
+> Using the NuGet package allows test programs to use the latest version of Semiconductor Test Library without upgrading the STS Software. Refer to [NuGet Package Management For STS Projects](NuGetPackageManagementForSTSProjects.md) for more details.
 
-Additionally, the `TestStandSteps` assembly is installed under the TestStand directory: `C:\Program Files\National Instruments\TestStand <version>\Components\StepTypes\NI_SemiconductorTestSteps\NationalInstruments.SemiconductorTestLibrary.TestStandSteps.dll`. TestStand will reference this assembly for Step Types that can be found in TestStand Insertion Palette.
+Additionally, the `TestStandSteps` assembly is installed in the following TestStand directory: `C:\Program Files\National Instruments\TestStand <version>\Components\StepTypes\NI_SemiconductorTestSteps\NationalInstruments.SemiconductorTestLibrary.TestStandSteps.dll`. TestStand will reference this assembly for Step Types that can be found in TestStand Insertion Palette.
 
 >[!NOTE]
 > Refer to [Using TestStand Steps](UsingTestStandSteps.md) for more information.

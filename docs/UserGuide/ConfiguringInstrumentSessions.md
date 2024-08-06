@@ -1,15 +1,15 @@
 # Configuring Instrument Sessions
 
-The Semiconductor Test Library attempts to configure instruments in the most efficient way possible by consolidating the most commonly set driver properties into a class. An instance of this class can be created and configured with only the properties intending to be updated. The resulting object can then be passed as an input parameter the appropriate extension method(s) in the library, which will them operate on that object to update the targeted driver properties in one go. All other properties not explicitly set will be ignored. This minimizes the use of parallel for loops that get called under-the-hood and thus reduces the overall test time.
+The Semiconductor Test Library can help you efficiently configure instruments by consolidating the most commonly configured driver properties into a class. You can create and configure an instance of this class with only the properties you intend to update. The resulting object can then be passed as an input parameter to the appropriate extension method(s) in the library, which will operate on the object to update the targeted driver properties in one go. Other properties in the object not explicitly set will be ignored. This minimizes the number of parallel for loops, thus reducing overhead and the overall code execution time.
 
 > [!NOTE]
-> Extension methods that configure driver properties the driver session will always be aborted before the property is updated.
+> Extension methods that configure driver properties will always abort the driver session before updating a property.
 >
-> Extension methods that configure driver properties do not re-initiate or commit the sessions, and expect such operations to be applied happen in proceeding code. If you want to force the driver properties are applied immediately, ensure that you subsequently call the high-level `Commit` or `Initiate` Extension method for the driver.
+> Extension methods that configure driver properties do not re-initiate or preform a commit of the driver session. Such operations are expected to be applied in proceeding code. If you want to force the driver properties to be applied immediately, ensure that you subsequently call the high-level `Commit` or `Initiate` Extension method.
 
-**Related concepts:**
+**Related Concepts:**
 
-- [Making Low-level Driver Calls](advanced/MakingLowLevelDriverCalls.md)
+- [Making Low-Level Driver Calls](advanced/MakingLowLevelDriverCalls.md)
 - [NI TSM: Parallel For Loops](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/parallel-for-loops.html)
 - [NI DCPower: Programming Flow](https://www.ni.com/docs/en-US/bundle/ni-dcpower/page/programming-flow.html)
 - [NI DCPower: Programming States](https://www.ni.com/docs/en-US/bundle/ni-dcpower/page/programming-states.html)
@@ -17,11 +17,11 @@ The Semiconductor Test Library attempts to configure instruments in the most eff
 
 ## Configuring DCPower Settings
 
-The DCPower Extensions provide two main classes to configure DCPower settings: `DCPowerSourceSettings` & `DCPowerMeasureSettings`.
+The DCPower Extensions provide two main classes to configure DCPower settings: `DCPowerSourceSettings` and `DCPowerMeasureSettings`.
 
 ### Source Settings
 
-To configure common settings relating to sourcing constant voltage or current in Single Point mode with NI DCPower instruments use the `DCPowerSourceSettings` class.
+Use the `DCPowerSourceSettings` class to configure common settings related to sourcing constant voltage or current in Single Point mode with NI-DCPower instruments.
 
 Example Usage:
 
@@ -53,7 +53,7 @@ dcPowerPins.Initiate();
 
 ### Measure Settings
 
-To configure common measurement settings when operating in either constant voltage or current mode with NI DCPower instruments use the `DCPowerMeasureSettings` class.
+Use the `DCPowerMeasureSettings` class to configure common measurement settings when operating in constant voltage or current mode with NI-DCPower instruments.
 
 Example Usage:
 
@@ -81,7 +81,7 @@ var currentMeasurements = dcPowerPins.MeasureCurrent()
 
 ## Configuring Digital Settings
 
-To configure common PPMU related setting with NI Digital Pattern instruments use the `PPMUSettings` class.
+Use the `PPMUSettings` class to configure common PPMU-related settings with NI Digital Pattern instruments.
 
 Example Usage:
 

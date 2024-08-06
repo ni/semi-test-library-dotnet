@@ -32,7 +32,7 @@
   href: advanced/ConcurrentCodeExecution.md
 - name: Parallelization Methods
   href: advanced/ParallelizationMethods.md
-- name: Low-level Driver Calls
+- name: Low-Level Driver Calls
   href: advanced/MakingLowLevelDriverCalls.md
 - name: Sharing Data Between Code Modules
   href: advanced/SharingPinSiteDataBetweenCodeModules.md

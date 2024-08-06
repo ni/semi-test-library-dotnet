@@ -83,7 +83,7 @@ The Semiconductor Test Library provides instrument type specific initialization 
 >
 > Refer to the API Reference for more details regarding the `Initialization` class for each supported instrument type
 
-The `TestStandSteps.SetupAndCleanupSteps` class adds TestStand-level setup and cleanup step types that can be called directly from ProcessSetup and ProcessCleanup, which leverages the `Initialization` class for each supported instrument types.
+The `TestStandSteps.SetupAndCleanupSteps` class adds TestStand-level setup and cleanup step types that can be called directly from ProcessSetup and ProcessCleanup, which leverages the `Initialization` class for each supported instrument type.
 
 > [!NOTE]
 > Class: `SetupAndCleanupSteps` \

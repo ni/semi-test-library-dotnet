@@ -1,8 +1,8 @@
-# Making Low-level Driver Calls
+# Making Low-Level Driver Calls
 
 When developing your test program, you may require use a low-level driver function or capability not exposed as a high-level extension method by the Semiconductor Test Library. In this case, the [`ParallelExecution`](ParallelizationMethods.md) methods provided by the Semiconductor Test Library can be leveraged to directly access to the low-level driver sessions, which enables you to implement ad-hoc driver calls in-line with other high-level methods in your test code.
 
-## How to Make Low-level Driver API Calls
+## How to Make Low-Level Driver API Calls
 
 To invoke a low-level driver API call, use the `Do` methods in the `ParallelExecution` class within the `NationalInstruments.SemiconductorTestLibrary.Common` namespace.
 
