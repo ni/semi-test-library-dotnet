@@ -1,0 +1,198 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  id: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Control
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Measure
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents
+  langs:
+  - csharp
+  - vb
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  type: Namespace
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.html
+  name: DCPowerModelStrings
+  nameWithType: DCPowerModelStrings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.html
+  name: DCPowerSessionInformation
+  nameWithType: DCPowerSessionInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.html
+  name: DCPowerSessionsBundle
+  nameWithType: DCPowerSessionsBundle
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.html
+  name: InitializeAndClose
+  nameWithType: InitializeAndClose
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Control
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Control
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Control.html
+  name: Control
+  nameWithType: Control
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Control
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Measure
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Measure
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Measure.html
+  name: Measure
+  nameWithType: Measure
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Measure
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.html
+  name: Source
+  nameWithType: Source
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.html
+  name: TriggersAndEvents
+  nameWithType: TriggersAndEvents
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings.html
+  name: DCPowerSettings
+  nameWithType: DCPowerSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.html
+  name: DCPowerSourceSettings
+  nameWithType: DCPowerSourceSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.html
+  name: DCPowerMeasureSettings
+  nameWithType: DCPowerMeasureSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.html
+  name: DCPowerWaveformAcquisitionSettings
+  nameWithType: DCPowerWaveformAcquisitionSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults.html
+  name: DCPowerWaveformResults
+  nameWithType: DCPowerWaveformResults
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult.html
+  name: SingleDCPowerFetchResult
+  nameWithType: SingleDCPowerFetchResult
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.html
+  name: TriggerType
+  nameWithType: TriggerType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.html
+  name: EventType
+  nameWithType: EventType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+    name: DCPower
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+    name: DCPower
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.html
+memberLayout: SeparatePages

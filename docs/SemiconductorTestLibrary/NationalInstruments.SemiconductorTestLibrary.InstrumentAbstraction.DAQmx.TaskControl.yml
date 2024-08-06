@@ -1,0 +1,724 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  id: TaskControl
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Abort(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Commit(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Reserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Unreserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Verify(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.WaitUntilDone(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  langs:
+  - csharp
+  - vb
+  name: TaskControl
+  nameWithType: TaskControl
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  type: Class
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Defines operations for performing low-level task control.
+  example: []
+  syntax:
+    content: public static class TaskControl
+    content.vb: Public Module TaskControl
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Abort(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Abort(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  id: Abort(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  langs:
+  - csharp
+  - vb
+  name: Abort(DAQmxTasksBundle)
+  nameWithType: TaskControl.Abort(DAQmxTasksBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Abort(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Aborts execution of the task, immediately terminating any currently active operation, such as a read or a write.
+  remarks: >-
+    This is a low-level driver control method that is not recommended for general use.
+
+    Aborting a task puts the task into an unstable but recoverable state.
+
+    To recover the task, use <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)" data-throw-if-not-resolved="false"></xref>,
+
+    to restart the task or use <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)" data-throw-if-not-resolved="false"></xref> to reset the task
+
+    without starting it.
+  example: []
+  syntax:
+    content: public static void Abort(this DAQmxTasksBundle tasksBundle)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Sub Abort(tasksBundle As DAQmxTasksBundle)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Abort*
+  exceptions:
+  - type: NationalInstruments.DAQmx.DaqException
+    commentId: T:NationalInstruments.DAQmx.DaqException
+    description: The underling driver session returned an error.
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Commit(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Commit(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  id: Commit(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  langs:
+  - csharp
+  - vb
+  name: Commit(DAQmxTasksBundle)
+  nameWithType: TaskControl.Commit(DAQmxTasksBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Commit(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Programs the hardware with all parameters from the task properties previously configured.
+  remarks: This is a low-level driver control method that is not recommended for general use.
+  example: []
+  syntax:
+    content: public static void Commit(this DAQmxTasksBundle tasksBundle)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Sub Commit(tasksBundle As DAQmxTasksBundle)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Commit*
+  exceptions:
+  - type: NationalInstruments.DAQmx.DaqException
+    commentId: T:NationalInstruments.DAQmx.DaqException
+    description: The underling driver session returned an error.
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Reserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Reserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  id: Reserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  langs:
+  - csharp
+  - vb
+  name: Reserve(DAQmxTasksBundle)
+  nameWithType: TaskControl.Reserve(DAQmxTasksBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Reserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Reserves the hardware resources that are needed for the task.
+  remarks: >-
+    This is a low-level driver control method that is not recommended for general use.
+
+    It marks the hardware resources that are needed for the task as in use.
+
+    No other tasks can reserve these same resources.
+  example: []
+  syntax:
+    content: public static void Reserve(this DAQmxTasksBundle tasksBundle)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Sub Reserve(tasksBundle As DAQmxTasksBundle)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Reserve*
+  exceptions:
+  - type: NationalInstruments.DAQmx.DaqException
+    commentId: T:NationalInstruments.DAQmx.DaqException
+    description: The underling driver session returned an error.
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  id: Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  langs:
+  - csharp
+  - vb
+  name: Start(DAQmxTasksBundle)
+  nameWithType: TaskControl.Start(DAQmxTasksBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Starts the task.
+  remarks: >-
+    This is a low-level driver control method that is not recommended for general use.
+
+    It transitions the task to the running state, which begins device input or output.
+  example: []
+  syntax:
+    content: public static void Start(this DAQmxTasksBundle tasksBundle)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Sub Start(tasksBundle As DAQmxTasksBundle)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start*
+  exceptions:
+  - type: NationalInstruments.DAQmx.DaqException
+    commentId: T:NationalInstruments.DAQmx.DaqException
+    description: The underling driver session returned an error.
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  id: Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  langs:
+  - csharp
+  - vb
+  name: Stop(DAQmxTasksBundle)
+  nameWithType: TaskControl.Stop(DAQmxTasksBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Starts the task.
+  remarks: >-
+    This is a low-level driver control method that is not recommended for general use.
+
+    It transitions the task from the running state to the committed state,
+
+    which ends device input or output.
+  example: []
+  syntax:
+    content: public static void Stop(this DAQmxTasksBundle tasksBundle)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Sub [Stop](tasksBundle As DAQmxTasksBundle)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop*
+  exceptions:
+  - type: NationalInstruments.DAQmx.DaqException
+    commentId: T:NationalInstruments.DAQmx.DaqException
+    description: The underling driver session returned an error.
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Unreserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Unreserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  id: Unreserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  langs:
+  - csharp
+  - vb
+  name: Unreserve(DAQmxTasksBundle)
+  nameWithType: TaskControl.Unreserve(DAQmxTasksBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Unreserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Releases all previously reserved resources.
+  remarks: This is a low-level driver control method that is not recommended for general use.
+  example: []
+  syntax:
+    content: public static void Unreserve(this DAQmxTasksBundle tasksBundle)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Sub Unreserve(tasksBundle As DAQmxTasksBundle)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Unreserve*
+  exceptions:
+  - type: NationalInstruments.DAQmx.DaqException
+    commentId: T:NationalInstruments.DAQmx.DaqException
+    description: The underling driver session returned an error.
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Verify(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Verify(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  id: Verify(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  langs:
+  - csharp
+  - vb
+  name: Verify(DAQmxTasksBundle)
+  nameWithType: TaskControl.Verify(DAQmxTasksBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Verify(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Verifies that all task parameters are valid for the hardware.
+  remarks: This is a low-level driver control method that is not recommended for general use.
+  example: []
+  syntax:
+    content: public static void Verify(this DAQmxTasksBundle tasksBundle)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Sub Verify(tasksBundle As DAQmxTasksBundle)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Verify*
+  exceptions:
+  - type: NationalInstruments.DAQmx.DaqException
+    commentId: T:NationalInstruments.DAQmx.DaqException
+    description: The underling driver session returned an error.
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.WaitUntilDone(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.WaitUntilDone(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  id: WaitUntilDone(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+  langs:
+  - csharp
+  - vb
+  name: WaitUntilDone(DAQmxTasksBundle)
+  nameWithType: TaskControl.WaitUntilDone(DAQmxTasksBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.WaitUntilDone(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: >-
+    Waits for the measurement or generation to complete, regardless of the amount of time needed,
+
+    and returns whether the execution is complete.
+  remarks: >-
+    NationalInstruments.DAQmx.Task.WaitUntilDone waits for the task to finish acquiring
+
+    or generating the number of samples per channel specified on the NationalInstruments.DAQmx.Timing
+
+    class. NationalInstruments.DAQmx.Task.WaitUntilDone does not wait for pending
+
+    asynchronous operations to complete. Use the methods and properties on System.IAsyncResult
+
+    to verify that asynchronous reads and writes are complete.
+  example: []
+  syntax:
+    content: public static void WaitUntilDone(this DAQmxTasksBundle tasksBundle)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Sub WaitUntilDone(tasksBundle As DAQmxTasksBundle)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.WaitUntilDone*
+  exceptions:
+  - type: NationalInstruments.DAQmx.DaqException
+    commentId: T:NationalInstruments.DAQmx.DaqException
+    description: The underling driver session returned an error.
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+    name: DAQmx
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+    name: DAQmx
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Start_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  name: Start(DAQmxTasksBundle)
+  nameWithType: TaskControl.Start(DAQmxTasksBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+    name: Start
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Start_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  - name: (
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+    name: DAQmxTasksBundle
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+    name: Start
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Start_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  - name: (
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+    name: DAQmxTasksBundle
+    isExternal: true
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Stop_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  name: Stop(DAQmxTasksBundle)
+  nameWithType: TaskControl.Stop(DAQmxTasksBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+    name: Stop
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Stop_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  - name: (
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+    name: DAQmxTasksBundle
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+    name: Stop
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Stop_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  - name: (
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+    name: DAQmxTasksBundle
+    isExternal: true
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.html
+  name: DAQmxTasksBundle
+  nameWithType: DAQmxTasksBundle
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+- uid: NationalInstruments.DAQmx.DaqException
+  commentId: T:NationalInstruments.DAQmx.DaqException
+  isExternal: true
+  name: DaqException
+  nameWithType: DaqException
+  fullName: NationalInstruments.DAQmx.DaqException
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Abort*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Abort
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Abort.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Abort_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  name: Abort
+  nameWithType: TaskControl.Abort
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Abort
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Commit*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Commit
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Commit.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Commit_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  name: Commit
+  nameWithType: TaskControl.Commit
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Commit
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Reserve*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Reserve
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Reserve.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Reserve_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  name: Reserve
+  nameWithType: TaskControl.Reserve
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Reserve
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Start_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  name: Start
+  nameWithType: TaskControl.Start
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Stop_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  name: Stop
+  nameWithType: TaskControl.Stop
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Unreserve*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Unreserve
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Unreserve.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Unreserve_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  name: Unreserve
+  nameWithType: TaskControl.Unreserve
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Unreserve
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Verify*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Verify
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Verify.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_Verify_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  name: Verify
+  nameWithType: TaskControl.Verify
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Verify
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.WaitUntilDone*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.WaitUntilDone
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.WaitUntilDone.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_TaskControl_WaitUntilDone_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  name: WaitUntilDone
+  nameWithType: TaskControl.WaitUntilDone
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.WaitUntilDone
+memberLayout: SeparatePages

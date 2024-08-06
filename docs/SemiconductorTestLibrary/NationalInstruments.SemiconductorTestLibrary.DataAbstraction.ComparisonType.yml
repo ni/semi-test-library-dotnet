@@ -1,0 +1,195 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  id: ComparisonType
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.EqualTo
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThan
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThanOrEqualTo
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThan
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThanOrEqualTo
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.NotEqualTo
+  langs:
+  - csharp
+  - vb
+  name: ComparisonType
+  nameWithType: ComparisonType
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  type: Enum
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Defines types of comparison results.
+  example: []
+  syntax:
+    content: public enum ComparisonType
+    content.vb: Public Enum ComparisonType
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.EqualTo
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.EqualTo
+  id: EqualTo
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  langs:
+  - csharp
+  - vb
+  name: EqualTo
+  nameWithType: ComparisonType.EqualTo
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.EqualTo
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: The comparison result is equal.
+  example: []
+  syntax:
+    content: EqualTo = 0
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.NotEqualTo
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.NotEqualTo
+  id: NotEqualTo
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  langs:
+  - csharp
+  - vb
+  name: NotEqualTo
+  nameWithType: ComparisonType.NotEqualTo
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.NotEqualTo
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: The comparison result is not equal.
+  example: []
+  syntax:
+    content: NotEqualTo = 1
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThan
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThan
+  id: LessThan
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  langs:
+  - csharp
+  - vb
+  name: LessThan
+  nameWithType: ComparisonType.LessThan
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThan
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: The comparison result is less than.
+  example: []
+  syntax:
+    content: LessThan = 2
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThanOrEqualTo
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThanOrEqualTo
+  id: LessThanOrEqualTo
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  langs:
+  - csharp
+  - vb
+  name: LessThanOrEqualTo
+  nameWithType: ComparisonType.LessThanOrEqualTo
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThanOrEqualTo
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: The comparison result is less than or equal to.
+  example: []
+  syntax:
+    content: LessThanOrEqualTo = 3
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThan
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThan
+  id: GreaterThan
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  langs:
+  - csharp
+  - vb
+  name: GreaterThan
+  nameWithType: ComparisonType.GreaterThan
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThan
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: The comparison result is greater than.
+  example: []
+  syntax:
+    content: GreaterThan = 4
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThanOrEqualTo
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThanOrEqualTo
+  id: GreaterThanOrEqualTo
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  langs:
+  - csharp
+  - vb
+  name: GreaterThanOrEqualTo
+  nameWithType: ComparisonType.GreaterThanOrEqualTo
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThanOrEqualTo
+  type: Field
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: The comparison result is greater than or equal to.
+  example: []
+  syntax:
+    content: GreaterThanOrEqualTo = 5
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.html
+  name: ComparisonType
+  nameWithType: ComparisonType
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+memberLayout: SeparatePages

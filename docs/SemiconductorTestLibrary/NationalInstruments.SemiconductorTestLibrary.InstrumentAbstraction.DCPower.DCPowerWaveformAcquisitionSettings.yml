@@ -1,0 +1,536 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+  id: DCPowerWaveformAcquisitionSettings
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.#ctor
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTime
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTimeUnits
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureTriggerType
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureWhen
+  langs:
+  - csharp
+  - vb
+  name: DCPowerWaveformAcquisitionSettings
+  nameWithType: DCPowerWaveformAcquisitionSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+  type: Class
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Defines DCPower waveform acquisition settings.
+  example: []
+  syntax:
+    content: public class DCPowerWaveformAcquisitionSettings
+    content.vb: Public Class DCPowerWaveformAcquisitionSettings
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.#ctor
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.#ctor
+  id: '#ctor'
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+  langs:
+  - csharp
+  - vb
+  name: DCPowerWaveformAcquisitionSettings()
+  nameWithType: DCPowerWaveformAcquisitionSettings.DCPowerWaveformAcquisitionSettings()
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.DCPowerWaveformAcquisitionSettings()
+  type: Constructor
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  syntax:
+    content: public DCPowerWaveformAcquisitionSettings()
+    content.vb: Public Sub New()
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.#ctor*
+  nameWithType.vb: DCPowerWaveformAcquisitionSettings.New()
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.New()
+  name.vb: New()
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTime
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTime
+  id: ApertureTime
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+  langs:
+  - csharp
+  - vb
+  name: ApertureTime
+  nameWithType: DCPowerWaveformAcquisitionSettings.ApertureTime
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTime
+  type: Property
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The aperture time.
+  example: []
+  syntax:
+    content: public double ApertureTime { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property ApertureTime As Double
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTime*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTimeUnits
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTimeUnits
+  id: ApertureTimeUnits
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+  langs:
+  - csharp
+  - vb
+  name: ApertureTimeUnits
+  nameWithType: DCPowerWaveformAcquisitionSettings.ApertureTimeUnits
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTimeUnits
+  type: Property
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The aperture time units.
+  example: []
+  syntax:
+    content: public DCPowerMeasureApertureTimeUnits ApertureTimeUnits { get; set; }
+    parameters: []
+    return:
+      type: NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasureApertureTimeUnits
+    content.vb: Public Property ApertureTimeUnits As DCPowerMeasureApertureTimeUnits
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTimeUnits*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureWhen
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureWhen
+  id: MeasureWhen
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+  langs:
+  - csharp
+  - vb
+  name: MeasureWhen
+  nameWithType: DCPowerWaveformAcquisitionSettings.MeasureWhen
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureWhen
+  type: Property
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The measure when.
+  example: []
+  syntax:
+    content: public DCPowerMeasurementWhen MeasureWhen { get; set; }
+    parameters: []
+    return:
+      type: NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasurementWhen
+    content.vb: Public Property MeasureWhen As DCPowerMeasurementWhen
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureWhen*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureTriggerType
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureTriggerType
+  id: MeasureTriggerType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+  langs:
+  - csharp
+  - vb
+  name: MeasureTriggerType
+  nameWithType: DCPowerWaveformAcquisitionSettings.MeasureTriggerType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureTriggerType
+  type: Property
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The measure trigger type.
+  example: []
+  syntax:
+    content: public DCPowerMeasureTriggerType MeasureTriggerType { get; set; }
+    parameters: []
+    return:
+      type: NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasureTriggerType
+    content.vb: Public Property MeasureTriggerType As DCPowerMeasureTriggerType
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureTriggerType*
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+    name: DCPower
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+    name: DCPower
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.#ctor*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.#ctor
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.-ctor.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerWaveformAcquisitionSettings__ctor
+  name: DCPowerWaveformAcquisitionSettings
+  nameWithType: DCPowerWaveformAcquisitionSettings.DCPowerWaveformAcquisitionSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.DCPowerWaveformAcquisitionSettings
+  nameWithType.vb: DCPowerWaveformAcquisitionSettings.New
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.New
+  name.vb: New
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTime*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTime
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTime.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerWaveformAcquisitionSettings_ApertureTime
+  name: ApertureTime
+  nameWithType: DCPowerWaveformAcquisitionSettings.ApertureTime
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTime
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTimeUnits*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTimeUnits
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTimeUnits.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerWaveformAcquisitionSettings_ApertureTimeUnits
+  name: ApertureTimeUnits
+  nameWithType: DCPowerWaveformAcquisitionSettings.ApertureTimeUnits
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTimeUnits
+- uid: NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasureApertureTimeUnits
+  commentId: T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasureApertureTimeUnits
+  parent: NationalInstruments.ModularInstruments.NIDCPower
+  isExternal: true
+  name: DCPowerMeasureApertureTimeUnits
+  nameWithType: DCPowerMeasureApertureTimeUnits
+  fullName: NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasureApertureTimeUnits
+- uid: NationalInstruments.ModularInstruments.NIDCPower
+  commentId: N:NationalInstruments.ModularInstruments.NIDCPower
+  isExternal: true
+  name: NationalInstruments.ModularInstruments.NIDCPower
+  nameWithType: NationalInstruments.ModularInstruments.NIDCPower
+  fullName: NationalInstruments.ModularInstruments.NIDCPower
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments
+    name: ModularInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments.NIDCPower
+    name: NIDCPower
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments
+    name: ModularInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments.NIDCPower
+    name: NIDCPower
+    isExternal: true
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureWhen*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureWhen
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureWhen.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerWaveformAcquisitionSettings_MeasureWhen
+  name: MeasureWhen
+  nameWithType: DCPowerWaveformAcquisitionSettings.MeasureWhen
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureWhen
+- uid: NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasurementWhen
+  commentId: T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasurementWhen
+  parent: NationalInstruments.ModularInstruments.NIDCPower
+  isExternal: true
+  name: DCPowerMeasurementWhen
+  nameWithType: DCPowerMeasurementWhen
+  fullName: NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasurementWhen
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureTriggerType*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureTriggerType
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureTriggerType.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DCPower_DCPowerWaveformAcquisitionSettings_MeasureTriggerType
+  name: MeasureTriggerType
+  nameWithType: DCPowerWaveformAcquisitionSettings.MeasureTriggerType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureTriggerType
+- uid: NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasureTriggerType
+  commentId: T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasureTriggerType
+  parent: NationalInstruments.ModularInstruments.NIDCPower
+  isExternal: true
+  name: DCPowerMeasureTriggerType
+  nameWithType: DCPowerMeasureTriggerType
+  fullName: NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasureTriggerType
+memberLayout: SeparatePages
