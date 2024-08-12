@@ -19,6 +19,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 {
     [Collection("NonParallelizable")]
     [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
     public sealed class LevelsAndTimingTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
