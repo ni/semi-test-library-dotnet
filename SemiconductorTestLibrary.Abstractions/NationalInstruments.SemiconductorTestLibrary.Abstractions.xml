@@ -447,24 +447,24 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.PinNames">
             <summary>
-            Returns an array of pin names associated with current PinSiteData.
+            Returns an array of pin names associated with current PinSiteData object.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbers">
             <summary>
-            Returns an array of sites associated with current PinSiteData.
+            Returns an array of sites associated with current PinSiteData object.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0}[])">
             <summary>
-            Initializes PinSiteData with pin names and associated SiteData array.
+            Initializes a PinSiteData object with pin names and associated SiteData object array.
             </summary>
             <param name="pinNames">The pin names array.</param>
-            <param name="data">The per-pin SiteData array.</param>
+            <param name="data">The per-pin SiteData object array.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,`0}})">
             <summary>
-            Initializes PinSiteData with multiple pins multiple sites data.
+            Initializes a PinSiteData object with multiple pins multiple sites data.
             </summary>
             <param name="pinSiteData">The multiple pins multiple sites data.</param>
         </member>
@@ -480,7 +480,7 @@
             Gets a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> object for the specified pins.
             </summary>
             <param name="pinNames">The specified pin names.</param>
-            <returns>A new PinSiteData that contains data for given pins.</returns>
+            <returns>A new PinSiteData object that contains data for given pins.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSite(System.Int32)">
             <summary>
@@ -497,212 +497,495 @@
             <param name="pinName">The specified pin name.</param>
             <returns>The data for the specified site number and pin name.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.TryGetValue(System.Int32,System.String,`0@)">
+            <summary>
+            Tries to get the data for a given site number-pin name pair.
+            </summary>
+            <param name="siteNumber">The specified site number.</param>
+            <param name="pinName">The specified pin name.</param>
+            <param name="value">The data for the specified site number and pin name.</param>
+            <returns>Returns true if the data for a given site number-pin name pair exists in the PinSiteData object.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Abs">
             <summary>
-            Performs Math.Abs operation on every element in current PinSiteData.
+            Performs Math.Abs operation on every element in current PinSiteData object.
             </summary>
-            <returns>A new PinSiteData that contains absolute value for each element in current PinSiteData.</returns>
+            <returns>A new PinSiteData object that contains absolute value for each element in current PinSiteData.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
+            <summary>
+            Performs add operation between a PinSiteData object and a given value, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The scalar value to be added.</param>
+            <returns>A new PinSiteData object that contains the result of the addition.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(`0)">
             <summary>
-            Performs add operation between every element in current PinSiteData and the given value.
+            Performs add operation between every element in current PinSiteData object and the given value.
             </summary>
             <param name="value">The scalar value to be added.</param>
-            <returns>A new PinSiteData that contains the result of the addition.</returns>
+            <returns>A new PinSiteData object that contains the result of the addition.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs add operation between a PinSiteData object and a SiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The SiteData object to be added.</param>
+            <returns>A new PinSiteData object that contains the result of the addition.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Performs add operation between every element in current PinSiteData and the given SiteData.
+            Performs add operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to be added.</param>
-            <returns>A new PinSiteData that contains the result of the addition.</returns>
+            <returns>A new PinSiteData object that contains the result of the addition.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+            <summary>
+            Performs add operation between two PinSiteData objects, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The first PinSiteData object.</param>
+            <param name="value2">The second PinSiteData object.</param>
+            <returns>A new PinSiteData object that contains the result of the addition.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
-            Performs add operation between every element in current PinSiteData and the given PinSiteData.
+            Performs add operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to be added.</param>
-            <returns>A new PinSiteData that contains the result of the addition.</returns>
+            <returns>A new PinSiteData object that contains the result of the addition.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)">
             <summary>
-            Performs compare operation between every element in current PinSiteData and the given value.
+            Performs compare operation between every element in current PinSiteData object and the given value.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare to.</param>
-            <returns>A new PinSiteData that contains the compare results.</returns>
+            <returns>A new PinSiteData object that contains the compare results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Performs compare operation between every element in current PinSiteData and the given SiteData.
+            Performs compare operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare to.</param>
-            <returns>A new PinSiteData that contains the compare results.</returns>
+            <returns>A new PinSiteData object that contains the compare results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
-            Performs compare operation between every element in current PinSiteData and the given PinSiteData.
+            Performs compare operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to compare to.</param>
-            <returns>A new PinSiteData that contains the compare results.</returns>
+            <returns>A new PinSiteData object that contains the compare results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
+            <summary>
+            Performs divide operation between a PinSiteData object and a given value, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The divisor value.</param>
+            <returns>A new PinSiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(`0)">
             <summary>
-            Performs divide operation between every element in current PinSiteData and the given value.
+            Performs divide operation between every element in current PinSiteData object and the given value.
             </summary>
             <param name="value">The divisor value.</param>
-            <returns>A new PinSiteData that contains the results.</returns>
+            <returns>A new PinSiteData object that contains the results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs divide operation between a PinSiteData object and a SiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The SiteData object that contains the divisors.</param>
+            <returns>A new PinSiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Performs divide operation between every element in current PinSiteData and the given SiteData.
+            Performs divide operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
-            <returns>A new PinSiteData that contains the results.</returns>
+            <returns>A new PinSiteData object that contains the results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+            <summary>
+            Performs divide operation between two PinSiteData objects, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The first PinSiteData object.</param>
+            <param name="value2">The second PinSiteData object that contains the divisors.</param>
+            <returns>A new PinSiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
-            Performs divide operation between every element in current PinSiteData and the given PinSiteData.
+            Performs divide operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the divisors.</param>
-            <returns>A new PinSiteData that contains the results.</returns>
+            <returns>A new PinSiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert">
             <summary>
-            Performs invert operation on every element in current PinSiteData.
+            Performs invert operation on every element in current PinSiteData object.
             </summary>
-            <returns>A new PinSiteData that contains the inverted results.</returns>
+            <returns>A new PinSiteData object that contains the inverted results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10">
             <summary>
-            Performs Math.Log10 operation on every element in current PinSiteData.
+            Performs Math.Log10 operation on every element in current PinSiteData object.
             </summary>
-            <returns>A new PinSiteData that contains the log10 results.</returns>
+            <returns>A new PinSiteData object that contains the log10 results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(`0)">
             <summary>
-            Returns the larger one of the element in current PinSiteData and the given value.
+            Returns the larger one of the element in current PinSiteData object and the given value.
             </summary>
             <param name="value">The value to compare.</param>
-            <returns>A new PinSiteData that contains the larger values.</returns>
+            <returns>A new PinSiteData object that contains the larger values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Returns the larger one of the element in current PinSiteData and the given SiteData.
+            Returns the larger one of the element in current PinSiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
-            <returns>A new PinSiteData that contains the larger values.</returns>
+            <returns>A new PinSiteData object that contains the larger values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
-            Returns the larger one of the element in current PinSiteData and the given PinSiteData.
+            Returns the larger one of the element in current PinSiteData object and the given PinSiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the values to compare.</param>
-            <returns>A new PinSiteData that contains the larger values.</returns>
+            <returns>A new PinSiteData object that contains the larger values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(`0)">
             <summary>
-            Returns the smaller one of the element in current PinSiteData and the given value.
+            Returns the smaller one of the element in current PinSiteData object and the given value.
             </summary>
             <param name="value">The value to compare.</param>
-            <returns>A new PinSiteData that contains the smaller values.</returns>
+            <returns>A new PinSiteData object that contains the smaller values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Returns the smaller one of the element in current PinSiteData and the given SiteData.
+            Returns the smaller one of the element in current PinSiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
-            <returns>A new PinSiteData that contains the smaller values.</returns>
+            <returns>A new PinSiteData object that contains the smaller values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
-            Returns the smaller one of the element in current PinSiteData and the given PinSiteData.
+            Returns the smaller one of the element in current PinSiteData object and the given PinSiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the values to compare.</param>
-            <returns>A new PinSiteData that contains the smaller values.</returns>
+            <returns>A new PinSiteData object that contains the smaller values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
+            <summary>
+            Performs multiply operation between a PinSiteData object and a given value, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The multiplier.</param>
+            <returns>A new PinSiteData object that contains the multiply results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(`0)">
             <summary>
-            Performs multiply operation on every element in current PinSiteData and the given value.
+            Performs multiply operation on every element in current PinSiteData object and the given value.
             </summary>
             <param name="value">The multiplier.</param>
-            <returns>A new PinSiteData that contains the multiply results.</returns>
+            <returns>A new PinSiteData object that contains the multiply results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs multiply operation between a PinSiteData object and a SiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The SiteData object that contains multipliers.</param>
+            <returns>A new PinSiteData object that contains the multiply results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Performs multiply operation on every element in current PinSiteData and the given SiteData.
+            Performs multiply operation on every element in current PinSiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains multipliers.</param>
-            <returns>A new PinSiteData that contains the multiply results.</returns>
+            <returns>A new PinSiteData object that contains the multiply results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+            <summary>
+            Performs multiply operation between two PinSiteData objects, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The first PinSiteData object.</param>
+            <param name="value2">The second PinSiteData object that contains multipliers.</param>
+            <returns>A new PinSiteData object that contains the multiply results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
-            Performs multiply operation on every element in current PinSiteData and the given PinSiteData.
+            Performs multiply operation on every element in current PinSiteData object and the given PinSiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains multipliers.</param>
-            <returns>A new PinSiteData that contains the multiply results.</returns>
+            <returns>A new PinSiteData object that contains the multiply results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Negate">
             <summary>
-            Returns the negative value of every element in current PinSiteData.
+            Returns the negative value of every element in current PinSiteData object.
             </summary>
-            <returns>A new PinSiteData that contains the negative values.</returns>
+            <returns>A new PinSiteData object that contains the negative values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(`0)">
             <summary>
-            Raises every element in current PinSiteData to the power of the given value.
+            Raises every element in current PinSiteData object to the power of the given value.
             </summary>
             <param name="value">The value to use as the power.</param>
-            <returns>A new PinSiteData that contains the results.</returns>
+            <returns>A new PinSiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Raises every element in current PinSiteData to the power of every element in given SiteData.
+            Raises every element in current PinSiteData object to the power of every element in given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains power values.</param>
-            <returns>A new PinSiteData that contains the results.</returns>
+            <returns>A new PinSiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
-            Raises every element in current PinSiteData to the power of every element in given PinSiteData.
+            Raises every element in current PinSiteData object to the power of every element in given PinSiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains power values.</param>
-            <returns>A new PinSiteData that contains the results.</returns>
+            <returns>A new PinSiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SquareRoot">
             <summary>
-            Returns the square root of every element in current PinSiteData.
+            Returns the square root of every element in current PinSiteData object.
             </summary>
-            <returns>A new PinSiteData that contains the square root values.</returns>
+            <returns>A new PinSiteData object that contains the square root values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
+            <summary>
+            Subtracts the given value from a PinSiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The value to subtract.</param>
+            <returns>A new PinSiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(`0)">
             <summary>
-            Subtracts the given value from every element in current PinSiteData.
+            Subtracts the given value from every element in current PinSiteData object.
             </summary>
             <param name="value">The value to subtract.</param>
-            <returns>A new PinSiteData that contains the results.</returns>
+            <returns>A new PinSiteData object that contains the results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Subtracts a SiteData object from a PinSiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The SiteData object that contains values to subtract.</param>
+            <returns>A new PinSiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Subtracts every element in given PinSiteData from every element in current SiteData.
+            Subtracts every element in given SiteData object from every element in current PinSiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to subtract.</param>
-            <returns>A new PinSiteData that contains the results.</returns>
+            <returns>A new PinSiteData object that contains the results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+            <summary>
+            Subtracts one PinSiteData object from another PinSiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The first PinSiteData object.</param>
+            <param name="value2">The second PinSiteData object that contains values to subtract.</param>
+            <returns>A new PinSiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
-            Subtracts every element in given PinSiteData from every element in current PinSiteData.
+            Subtracts every element in given PinSiteData object from every element in current PinSiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains values to subtract.</param>
-            <returns>A new PinSiteData that contains the results.</returns>
+            <returns>A new PinSiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Truncate">
             <summary>
-            Returns integer portion of every element in current PinSiteData.
+            Returns integer portion of every element in current PinSiteData object.
             </summary>
-            <returns>A new PinSiteData that contains integer values.</returns>
+            <returns>A new PinSiteData object that contains integer values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_LeftShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Int32)">
+            <summary>
+            Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive.
+            </summary>
+            <param name="value">The PinSiteData to operate.</param>
+            <param name="count">The number of bits to shift.</param>
+            <returns>A new PinSiteData that contains shifted values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ShiftLeft(System.Int32)">
+            <summary>
+            Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive.
+            </summary>
+            <param name="count">The number of bits to shift.</param>
+            <returns>A new PinSiteData that contains shifted values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_RightShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Int32)">
+            <summary>
+            Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive.
+            </summary>
+            <param name="value">The PinSiteData to operate.</param>
+            <param name="count">The number of bits to shift.</param>
+            <returns>A new PinSiteData that contains shifted values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ShiftRight(System.Int32)">
+            <summary>
+            Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive.
+            </summary>
+            <param name="count">The number of bits to shift.</param>
+            <returns>A new PinSiteData that contains shifted values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
+            <summary>
+            Performs a bitwise AND operation with a scalar, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The scalar value.</param>
+            <returns>A new PinSiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseAnd``1(``0)">
+            <summary>
+            Performs a bitwise AND operation with a scalar, for each element across each pin and each site.
+            </summary>
+            <param name="value">The scalar value.</param>
+            <returns>A new PinSiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs a bitwise AND operation with a SiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The SiteData object.</param>
+            <returns>A new PinSiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseAnd``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+            <summary>
+            Performs a bitwise AND operation with a SiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="other">The SiteData object.</param>
+            <returns>A new PinSiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+            <summary>
+            Performs a bitwise AND operation with another PinSiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The first PinSiteData object.</param>
+            <param name="value2">The second PinSiteData object.</param>
+            <returns>A new PinSiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseAnd``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
+            <summary>
+            Performs a bitwise AND operation with another PinSiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="other">The other PinSiteData object.</param>
+            <returns>A new PinSiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
+            <summary>
+            Performs a bitwise OR operation with a scalar, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The scalar value.</param>
+            <returns>A new PinSiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseOr``1(``0)">
+            <summary>
+            Performs a bitwise OR operation with a scalar, for each element across each pin and each site.
+            </summary>
+            <param name="value">The scalar value.</param>
+            <returns>A new PinSiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs a bitwise OR operation with a SiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The SiteData object.</param>
+            <returns>A new PinSiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseOr``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+            <summary>
+            Performs a bitwise OR operation with a SiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="other">The SiteData object.</param>
+            <returns>A new PinSiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+            <summary>
+            Performs a bitwise OR operation with another PinSiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The first PinSiteData object.</param>
+            <param name="value2">The second PinSiteData object.</param>
+            <returns>A new PinSiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseOr``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
+            <summary>
+            Performs a bitwise OR operation with another PinSiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="other">The other PinSiteData object.</param>
+            <returns>A new PinSiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
+            <summary>
+            Performs a bitwise XOR operation with a scalar, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The scalar value.</param>
+            <returns>A new PinSiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(``0)">
+            <summary>
+            Performs a bitwise XOR operation with a scalar, for each element across each pin and each site.
+            </summary>
+            <param name="value">The scalar value.</param>
+            <returns>A new PinSiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs a bitwise XOR operation with a SiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The PinSiteData object.</param>
+            <param name="value2">The SiteData object.</param>
+            <returns>A new PinSiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+            <summary>
+            Performs a bitwise XOR operation with a SiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="other">The SiteData object.</param>
+            <returns>A new PinSiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+            <summary>
+            Performs a bitwise XOR operation with another PinSiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="value1">The first PinSiteData object.</param>
+            <param name="value2">The second PinSiteData object.</param>
+            <returns>A new PinSiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
+            <summary>
+            Performs a bitwise XOR operation with another PinSiteData object, for each element across each pin and each site.
+            </summary>
+            <param name="other">The other PinSiteData object.</param>
+            <returns>A new PinSiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_OnesComplement(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+            <summary>
+            Gets the bitwise complement (~) of the original PinSiteData object.
+            </summary>
+            <param name="value">The PinSiteData object.</param>
+            <returns>A new PinSiteData object that contains the complemented values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseComplement">
+            <summary>
+            Gets the bitwise complement (~) of the original PinSiteData object.
+            </summary>
+            <returns>A new PinSiteData object that contains the complemented values.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1">
             <summary>
@@ -712,18 +995,18 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SiteNumbers">
             <summary>
-            Returns an array of sites associated with current SiteData.
+            Returns an array of sites associated with current SiteData object.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(`0[])">
             <summary>
-            Initializes SiteData with multiple sites data array. The array index represents site number.
+            Initializes a SiteData object with multiple sites data array. The array index represents site number.
             </summary>
             <param name="data">The data array.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Collections.Generic.IDictionary{System.Int32,`0})">
             <summary>
-            Initializes SiteData with per-pin multiple sites data.
+            Initializes a SiteData object with per-pin multiple sites data.
             </summary>
             <param name="data">The per-pin multiple sites data.</param>
         </member>
@@ -744,153 +1027,350 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Abs">
             <summary>
-            Performs Math.Abs operation on every element in current SiteData.
+            Performs Math.Abs operation on every element in current SiteData object.
             </summary>
-            <returns>A new SiteData that contains absolute value for each element in current SiteData.</returns>
+            <returns>A new SiteData object that contains absolute value for each element in current SiteData object.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
+            <summary>
+            Performs add operation between a SiteData object and a given value, for each element across each site.
+            </summary>
+            <param name="value1">The SiteData object.</param>
+            <param name="value2">The scalar value to be added.</param>
+            <returns>A new SiteData object that contains the sum of the addition.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Add(`0)">
             <summary>
-            Performs add operation between every element in current SiteData and the given value.
+            Performs add operation between every element in current SiteData object and the given value.
             </summary>
             <param name="value">The scalar value to be added.</param>
-            <returns>A new SiteData that contains the sum of the addition.</returns>
+            <returns>A new SiteData object that contains the sum of the addition.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs add operation between two SiteData objects, for each element across each site.
+            </summary>
+            <param name="value1">The first SiteData object.</param>
+            <param name="value2">The second SiteData object.</param>
+            <returns>A new SiteData object that contains the sum of the addition.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Performs add operation between every element in current SiteData and the given SiteData.
+            Performs add operation between every element in current SiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to be added.</param>
-            <returns>A new SiteData that contains the sum of the addition.</returns>
+            <returns>A new SiteData object that contains the sum of the addition.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)">
             <summary>
-            Performs compare operation between every element in current SiteData and the given value.
+            Performs compare operation between every element in current SiteData object and the given value.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare.</param>
-            <returns>A new SiteData that contains the compare results.</returns>
+            <returns>A new SiteData object that contains the compare results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Performs compare operation between every element in current SiteData and the given SiteData.
+            Performs compare operation between every element in current SiteData object and the given SiteData object.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare.</param>
-            <returns>A new SiteData that contains the compare results.</returns>
+            <returns>A new SiteData object that contains the compare results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
+            <summary>
+            Performs divide operation between a SiteData object and a given value, for each element across each site.
+            </summary>
+            <param name="value1">The SiteData object.</param>
+            <param name="value2">The divisor value.</param>
+            <returns>A new SiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide(`0)">
             <summary>
-            Performs divide operation between every element in current SiteData and the given value.
+            Performs divide operation between every element in current SiteData object and the given value.
             </summary>
             <param name="value">The divisor value.</param>
-            <returns>A new SiteData that contains the results.</returns>
+            <returns>A new SiteData object that contains the results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs divide operation between two SiteData objects, for each element across each site.
+            </summary>
+            <param name="value1">The first SiteData object.</param>
+            <param name="value2">The second divisor SiteData object.</param>
+            <returns>A new SiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Performs divide operation between every element in current SiteData and the given SiteData.
+            Performs divide operation between every element in current SiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
-            <returns>A new SiteData that contains the results.</returns>
+            <returns>A new SiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Invert">
             <summary>
-            Performs invert operation on every element in current SiteData.
+            Performs invert operation on every element in current SiteData object.
             </summary>
-            <returns>A new SiteData that contains the inverted results.</returns>
+            <returns>A new SiteData object that contains the inverted results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Log10">
             <summary>
-            Performs Math.Log10 operation on every element in current SiteData.
+            Performs Math.Log10 operation on every element in current SiteData object.
             </summary>
-            <returns>A new SiteData that contains the log10 results.</returns>
+            <returns>A new SiteData object that contains the log10 results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum(`0)">
             <summary>
-            Returns the larger of the element in current SiteData and the given value.
+            Returns the larger of the element in current SiteData object and the given value.
             </summary>
             <param name="value">The value to compare.</param>
-            <returns>A new SiteData that contains the larger values.</returns>
+            <returns>A new SiteData object that contains the larger values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Returns the larger of the element in current SiteData and the given SiteData.
+            Returns the larger of the element in current SiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
-            <returns>A new SiteData that contains the larger values.</returns>
+            <returns>A new SiteData object that contains the larger values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum(`0)">
             <summary>
-            Returns the smaller of the element in current SiteData and the given value.
+            Returns the smaller of the element in current SiteData object and the given value.
             </summary>
             <param name="value">The value to compare.</param>
-            <returns>A new SiteData that contains the smaller values.</returns>
+            <returns>A new SiteData object that contains the smaller values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Returns the smaller of the element in current SiteData and the given SiteData.
+            Returns the smaller of the element in current SiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
-            <returns>A new SiteData that contains the smaller values.</returns>
+            <returns>A new SiteData object that contains the smaller values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
+            <summary>
+            Performs multiply operation between a SiteData object and a given value, for each element across each site.
+            </summary>
+            <param name="value1">The SiteData object.</param>
+            <param name="value2">The multiplier.</param>
+            <returns>A new SiteData object that contains the multiply results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Multiply(`0)">
             <summary>
-            Performs multiply operation on every element in current SiteData and the given value.
+            Performs multiply operation on every element in current SiteData object and the given value.
             </summary>
             <param name="value">The multiplier.</param>
-            <returns>A new SiteData that contains the multiply results.</returns>
+            <returns>A new SiteData object that contains the multiply results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs multiply operation between two SiteData objects, for each element across each site.
+            </summary>
+            <param name="value1">The first SiteData object.</param>
+            <param name="value2">The second SiteData object that contains multipliers.</param>
+            <returns>A new SiteData object that contains the multiply results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Performs multiply operation on every element in current SiteData and the given SiteData.
+            Performs multiply operation on every element in current SiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains multipliers.</param>
-            <returns>A new SiteData that contains the multiply results.</returns>
+            <returns>A new SiteData object that contains the multiply results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Negate">
             <summary>
-            Returns the negative value of every element in current SiteData.
+            Returns the negative value of every element in current SiteData object.
             </summary>
-            <returns>A new SiteData that contains the negative values.</returns>
+            <returns>A new SiteData object that contains the negative values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power(`0)">
             <summary>
             Raises every element in current SiteData to the power of the given value.
             </summary>
             <param name="value">The value to use as the power.</param>
-            <returns>A new SiteData that contains the results.</returns>
+            <returns>A new SiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Raises every element in current SiteData to the power of every element in given SiteData.
+            Raises every element in current SiteData to the power of every element in given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains power values.</param>
-            <returns>A new SiteData that contains the results.</returns>
+            <returns>A new SiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SquareRoot">
             <summary>
-            Returns the square root of every element in current SiteData.
+            Returns the square root of every element in current SiteData object.
             </summary>
-            <returns>A new SiteData that contains the square root values.</returns>
+            <returns>A new SiteData object that contains the square root values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
+            <summary>
+            Subtracts the given value from a SiteData object, for each element across each site.
+            </summary>
+            <param name="value1">The SiteData object.</param>
+            <param name="value2">The value to subtract.</param>
+            <returns>A new SiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Subtract(`0)">
             <summary>
-            Subtracts the given value from every element in current SiteData.
+            Subtracts the given value from every element in current SiteData object.
             </summary>
             <param name="value">The value to subtract.</param>
-            <returns>A new SiteData that contains the results.</returns>
+            <returns>A new SiteData object that contains the results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Subtracts one SiteData object from another SiteData object, for each element across each site.
+            </summary>
+            <param name="value1">The first SiteData object.</param>
+            <param name="value2">The second SiteData object that contains values to subtract.</param>
+            <returns>A new SiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
-            Subtracts every element in given SiteData from every element in current SiteData.
+            Subtracts every element in given SiteData from every element in current SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to subtract.</param>
-            <returns>A new SiteData that contains the results.</returns>
+            <returns>A new SiteData object that contains the results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Truncate">
             <summary>
-            Returns integer portion of every element in current SiteData.
+            Returns integer portion of every element in current SiteData object.
             </summary>
-            <returns>A new SiteData that contains integer values.</returns>
+            <returns>A new SiteData object that contains integer values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_LeftShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},System.Int32)">
+            <summary>
+            Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive.
+            </summary>
+            <param name="value">The SiteData object to operate.</param>
+            <param name="count">The number of bits to shift.</param>
+            <returns>A new SiteData object that contains shifted values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ShiftLeft(System.Int32)">
+            <summary>
+            Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive.
+            </summary>
+            <param name="count">The number of bits to shift.</param>
+            <returns>A new SiteData object that contains shifted values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_RightShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},System.Int32)">
+            <summary>
+            Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive.
+            </summary>
+            <param name="value">The SiteData object to operate.</param>
+            <param name="count">The number of bits to shift.</param>
+            <returns>A new SiteData object that contains shifted values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ShiftRight(System.Int32)">
+            <summary>
+            Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive.
+            </summary>
+            <param name="count">The number of bits to shift.</param>
+            <returns>A new SiteData object that contains shifted values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
+            <summary>
+            Performs a bitwise AND operation with a scalar, for each element across each site.
+            </summary>
+            <param name="value1">The SiteData object.</param>
+            <param name="value2">The scalar value.</param>
+            <returns>A new SiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseAnd``1(``0)">
+            <summary>
+            Performs a bitwise AND operation with a scalar, for each element across each site.
+            </summary>
+            <param name="value">The scalar value.</param>
+            <returns>A new SiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs a bitwise AND operation with another SiteData object, for each element across each site.
+            </summary>
+            <param name="value1">The first SiteData object.</param>
+            <param name="value2">The second SiteData object.</param>
+            <returns>A new SiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseAnd``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+            <summary>
+            Performs a bitwise AND operation with another SiteData object, for each element across each site.
+            </summary>
+            <param name="other">The other SiteData object.</param>
+            <returns>A new SiteData object that contains result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
+            <summary>
+            Performs a bitwise OR operation with a scalar, for each element across each site.
+            </summary>
+            <param name="value1">The SiteData object.</param>
+            <param name="value2">The scalar value.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseOr``1(``0)">
+            <summary>
+            Performs a bitwise OR operation with a scalar, for each element across each site.
+            </summary>
+            <param name="value">The scalar value.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs a bitwise OR operation with another SiteData object, for each element across each site.
+            </summary>
+            <param name="value1">The first SiteData object.</param>
+            <param name="value2">The second SiteData object.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseOr``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+            <summary>
+            Performs a bitwise OR operation with another SiteData object, for each element across each site.
+            </summary>
+            <param name="other">The other SiteData object.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
+            <summary>
+            Performs a bitwise XOR operation with a scalar, for each element across each site.
+            </summary>
+            <param name="value1">The SiteData object.</param>
+            <param name="value2">The scalar value.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseXor``1(``0)">
+            <summary>
+            Performs a bitwise XOR operation with a scalar, for each element across each site.
+            </summary>
+            <param name="value">The scalar value.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Performs a bitwise XOR operation with another SiteData object, for each element across each site.
+            </summary>
+            <param name="value1">The first SiteData object.</param>
+            <param name="value2">The second SiteData object.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+            <summary>
+            Performs a bitwise XOR operation with another SiteData object, for each element across each site.
+            </summary>
+            <param name="other">The other SiteData object.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_OnesComplement(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+            <summary>
+            Gets the bitwise complement (~) of the original SiteData object.
+            </summary>
+            <param name="value">The SiteData object.</param>
+            <returns>A new SiteData object that contains the complemented values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseComplement">
+            <summary>
+            Gets the bitwise complement (~) of the original SiteData object.
+            </summary>
+            <returns>A new SiteData object that contains the complemented values.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions">
             <summary>
@@ -2634,9 +3114,19 @@
               Looks up a localized string similar to Math operations not supported on the {0} type data..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_OperandsTypeMismatch">
+            <summary>
+              Looks up a localized string similar to For {0} operation, the inner data type of the first operand ({1}) and that of the second operand ({2}) must match..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_OperationNotSupported">
             <summary>
               Looks up a localized string similar to The {0} operation on the {1} data type is not supported..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_ShiftCountMustBePositive">
+            <summary>
+              Looks up a localized string similar to The number of bits to shift must be positive..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Publish_InvalidDataType">
