@@ -20,6 +20,8 @@ items:
   nameWithType: Measurement
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement
   type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -50,6 +52,8 @@ items:
   nameWithType: Measurement.Initiate(DMMSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.Initiate(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -75,6 +79,8 @@ items:
   nameWithType: Measurement.Abort(DMMSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.Abort(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -100,6 +106,8 @@ items:
   nameWithType: Measurement.FetchAndPublish(DMMSessionsBundle, double, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.FetchAndPublish(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, double, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -137,6 +145,8 @@ items:
   nameWithType: Measurement.Fetch(DMMSessionsBundle, double)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.Fetch(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, double)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -171,6 +181,8 @@ items:
   nameWithType: Measurement.FetchMultiPoint(DMMSessionsBundle, int, double)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.FetchMultiPoint(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, int, double)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -208,6 +220,8 @@ items:
   nameWithType: Measurement.ReadAndPublish(DMMSessionsBundle, double, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.ReadAndPublish(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, double, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -245,6 +259,8 @@ items:
   nameWithType: Measurement.Read(DMMSessionsBundle, double)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.Read(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, double)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -279,6 +295,8 @@ items:
   nameWithType: Measurement.ReadMultiPoint(DMMSessionsBundle, int, double)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.ReadMultiPoint(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, int, double)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM

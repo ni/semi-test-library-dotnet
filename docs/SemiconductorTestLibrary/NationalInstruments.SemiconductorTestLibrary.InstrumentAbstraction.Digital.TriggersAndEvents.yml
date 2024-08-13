@@ -22,6 +22,8 @@ items:
   nameWithType: TriggersAndEvents
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents
   type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -52,6 +54,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureConditionalJumpTriggerDigitalEdge(DigitalSessionsBundle, string, int, DigitalEdge)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents.ConfigureConditionalJumpTriggerDigitalEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, int, NationalInstruments.ModularInstruments.NIDigital.DigitalEdge)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -101,6 +105,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureConditionalJumpTriggerSoftwareEdge(DigitalSessionsBundle, int)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents.ConfigureConditionalJumpTriggerSoftwareEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, int)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -137,6 +143,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureStartTriggerDigitalEdge(DigitalSessionsBundle, string, DigitalEdge)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents.ConfigureStartTriggerDigitalEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.ModularInstruments.NIDigital.DigitalEdge)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -178,6 +186,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureStartTriggerSoftwareEdge(DigitalSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents.ConfigureStartTriggerSoftwareEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -203,6 +213,8 @@ items:
   nameWithType: TriggersAndEvents.DisableConditionalJumpTrigger(DigitalSessionsBundle, int)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents.DisableConditionalJumpTrigger(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, int)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -237,6 +249,8 @@ items:
   nameWithType: TriggersAndEvents.DisableConditionalJumpTriggers(DigitalSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents.DisableConditionalJumpTriggers(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -262,6 +276,8 @@ items:
   nameWithType: TriggersAndEvents.DisableStartTrigger(DigitalSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents.DisableStartTrigger(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -287,6 +303,8 @@ items:
   nameWithType: TriggersAndEvents.ExportSignal(DigitalSessionsBundle, SignalType, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents.ExportSignal(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.ModularInstruments.NIDigital.SignalType, string, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -331,6 +349,8 @@ items:
   nameWithType: TriggersAndEvents.SendSoftwareEdgeStartTrigger(DigitalSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents.SendSoftwareEdgeStartTrigger(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -356,6 +376,8 @@ items:
   nameWithType: TriggersAndEvents.SendSoftwareEdgeConditionalJumpTrigger(DigitalSessionsBundle, int)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents.SendSoftwareEdgeConditionalJumpTrigger(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, int)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital

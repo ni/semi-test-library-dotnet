@@ -22,6 +22,8 @@ items:
   nameWithType: PPMUSettings
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
   type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -51,6 +53,8 @@ items:
   nameWithType: PPMUSettings.PPMUSettings()
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.PPMUSettings()
   type: Constructor
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -74,6 +78,8 @@ items:
   nameWithType: PPMUSettings.OutputFunction
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.OutputFunction
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -97,6 +103,8 @@ items:
   nameWithType: PPMUSettings.VoltageLevel
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.VoltageLevel
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -120,6 +128,8 @@ items:
   nameWithType: PPMUSettings.CurrentLimitRange
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.CurrentLimitRange
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -143,6 +153,8 @@ items:
   nameWithType: PPMUSettings.CurrentLevel
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.CurrentLevel
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -166,6 +178,8 @@ items:
   nameWithType: PPMUSettings.CurrentLevelRange
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.CurrentLevelRange
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -189,6 +203,8 @@ items:
   nameWithType: PPMUSettings.VoltageLimitLow
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.VoltageLimitLow
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -212,6 +228,8 @@ items:
   nameWithType: PPMUSettings.VoltageLimitHigh
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.VoltageLimitHigh
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -235,6 +253,8 @@ items:
   nameWithType: PPMUSettings.ApertureTime
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.ApertureTime
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -258,6 +278,8 @@ items:
   nameWithType: PPMUSettings.SettlingTime
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.SettlingTime
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital

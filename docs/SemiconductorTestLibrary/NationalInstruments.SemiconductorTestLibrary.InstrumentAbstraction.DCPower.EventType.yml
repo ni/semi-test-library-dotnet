@@ -18,6 +18,8 @@ items:
   nameWithType: EventType
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType
   type: Enum
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -37,6 +39,8 @@ items:
   nameWithType: EventType.MeasureCompleteEvent
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.MeasureCompleteEvent
   type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -57,6 +61,8 @@ items:
   nameWithType: EventType.PulseCompleteEvent
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.PulseCompleteEvent
   type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -77,6 +83,8 @@ items:
   nameWithType: EventType.ReadyForPulseTriggerEvent
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.ReadyForPulseTriggerEvent
   type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -97,6 +105,8 @@ items:
   nameWithType: EventType.SequenceEngineDoneEvent
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.SequenceEngineDoneEvent
   type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -117,6 +127,8 @@ items:
   nameWithType: EventType.SequenceIterationCompleteEvent
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.SequenceIterationCompleteEvent
   type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -137,6 +149,8 @@ items:
   nameWithType: EventType.SourceCompleteEvent
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.SourceCompleteEvent
   type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower

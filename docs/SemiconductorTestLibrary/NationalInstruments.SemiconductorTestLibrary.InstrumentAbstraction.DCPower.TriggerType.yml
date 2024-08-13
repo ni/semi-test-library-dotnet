@@ -17,6 +17,8 @@ items:
   nameWithType: TriggerType
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
   type: Enum
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -36,6 +38,8 @@ items:
   nameWithType: TriggerType.MeasureTrigger
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.MeasureTrigger
   type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -56,6 +60,8 @@ items:
   nameWithType: TriggerType.PulseTrigger
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.PulseTrigger
   type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -76,6 +82,8 @@ items:
   nameWithType: TriggerType.SequenceAdvanceTrigger
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SequenceAdvanceTrigger
   type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -96,6 +104,8 @@ items:
   nameWithType: TriggerType.SourceTrigger
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SourceTrigger
   type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -116,6 +126,8 @@ items:
   nameWithType: TriggerType.StartTrigger
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.StartTrigger
   type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower

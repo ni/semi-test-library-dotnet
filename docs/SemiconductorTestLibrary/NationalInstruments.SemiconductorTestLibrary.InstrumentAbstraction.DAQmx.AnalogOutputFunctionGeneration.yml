@@ -14,6 +14,8 @@ items:
   nameWithType: AnalogOutputFunctionGeneration
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration
   type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutputFunctionGeneration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -44,6 +46,8 @@ items:
   nameWithType: AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(DAQmxTasksBundle, AOFunctionGenerationSettings)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutputFunctionGeneration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -76,6 +80,8 @@ items:
   nameWithType: AnalogOutputFunctionGeneration.StartAOFunctionGeneration(DAQmxTasksBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.StartAOFunctionGeneration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutputFunctionGeneration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx

@@ -5,6 +5,7 @@ items:
   id: CommonSteps
   parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   children:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Int32)
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String)
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double[],System.String[],System.Double[],System.Double[],System.Double[],System.Double,System.Double)
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Boolean,System.Boolean)
@@ -22,11 +23,11 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/BurstPattern.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/AcquireAnalogInputWaveforms.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
-  summary: s
+  summary: Defines entry points for semiconductor common steps.
   example: []
   syntax:
     content: public static class CommonSteps
@@ -41,6 +42,46 @@ items:
   - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Int32)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Int32)
+  id: AcquireAnalogInputWaveforms(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Int32)
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
+  langs:
+  - csharp
+  - vb
+  name: AcquireAnalogInputWaveforms(ISemiconductorModuleContext, string[], int)
+  nameWithType: CommonSteps.AcquireAnalogInputWaveforms(ISemiconductorModuleContext, string[], int)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], int)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/AcquireAnalogInputWaveforms.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: >-
+    Acquires an analog waveform for each of the specified pins and pin groups. This step performs a simple acquisition of an analog signal,
+
+    computes the minimums and maximums of the acquired waveforms, and then publishes the results.
+
+    Only pins mapped to an analog input channel of a NI-DAQmx instrument are supported.
+  example: []
+  syntax:
+    content: public static void AcquireAnalogInputWaveforms(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, int samplesPerChannel = 1000)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: pinsOrPinGroups
+      type: System.String[]
+      description: The pins or pin groups.
+    - id: samplesPerChannel
+      type: System.Int32
+      description: The number of samples to read on each NI-DAQmx analog input channel.
+    content.vb: Public Shared Sub AcquireAnalogInputWaveforms(tsmContext As ISemiconductorModuleContext, pinsOrPinGroups As String(), samplesPerChannel As Integer = 1000)
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms*
+  nameWithType.vb: CommonSteps.AcquireAnalogInputWaveforms(ISemiconductorModuleContext, String(), Integer)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String(), Integer)
+  name.vb: AcquireAnalogInputWaveforms(ISemiconductorModuleContext, String(), Integer)
 - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String)
   id: BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String)
@@ -53,7 +94,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/BurstPattern.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/BurstPattern.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -88,7 +129,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double[], string[], double[], double[], double[], double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/ContinuityTest.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/ContinuityTest.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -154,7 +195,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, bool, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/DutPowerDown.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/DutPowerDown.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -208,7 +249,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double[], double[], double, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/DutPowerUp.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/DutPowerUp.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -257,7 +298,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/ForceCurrentMeasureVoltage.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/ForceCurrentMeasureVoltage.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -310,7 +351,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/ForceDcCurrent.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/ForceDcCurrent.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -354,7 +395,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/ForceDcVoltage.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/ForceDcVoltage.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -398,7 +439,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/ForceVoltageMeasureCurrent.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/ForceVoltageMeasureCurrent.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -451,7 +492,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double, double, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/0892583e61c40826fb511ac3605e49ef675ddfff/SemiconductorTestLibrary.TestStandSteps/source/LeakageTest.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/LeakageTest.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -789,13 +830,13 @@ references:
   name: ISemiconductorModuleContext
   nameWithType: ISemiconductorModuleContext
   fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
-- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern*
-  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms
   isExternal: true
-  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_BurstPattern_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_String_
-  name: BurstPattern
-  nameWithType: CommonSteps.BurstPattern
-  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_AcquireAnalogInputWaveforms_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_Int32_
+  name: AcquireAnalogInputWaveforms
+  nameWithType: CommonSteps.AcquireAnalogInputWaveforms
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms
 - uid: System.String[]
   isExternal: true
   href: https://learn.microsoft.com/dotnet/api/system.string
@@ -819,17 +860,17 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.string
   - name: (
   - name: )
-- uid: System.String
-  commentId: T:System.String
+- uid: System.Int32
+  commentId: T:System.Int32
   parent: System
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.string
-  name: string
-  nameWithType: string
-  fullName: string
-  nameWithType.vb: String
-  fullName.vb: String
-  name.vb: String
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
 - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
   commentId: N:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
   isExternal: true
@@ -868,6 +909,24 @@ references:
   - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
     name: CodeModuleAPI
     isExternal: true
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_CommonSteps_BurstPattern_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String___System_String_
+  name: BurstPattern
+  nameWithType: CommonSteps.BurstPattern
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
 - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest
   isExternal: true
