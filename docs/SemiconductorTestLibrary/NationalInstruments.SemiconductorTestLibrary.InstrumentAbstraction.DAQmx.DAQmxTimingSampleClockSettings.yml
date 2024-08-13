@@ -19,6 +19,8 @@ items:
   nameWithType: DAQmxTimingSampleClockSettings
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings
   type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -49,6 +51,8 @@ items:
   nameWithType: DAQmxTimingSampleClockSettings.DAQmxTimingSampleClockSettings()
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.DAQmxTimingSampleClockSettings()
   type: Constructor
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -70,6 +74,8 @@ items:
   nameWithType: DAQmxTimingSampleClockSettings.SampleTimingType
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SampleTimingType
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -94,6 +100,8 @@ items:
   nameWithType: DAQmxTimingSampleClockSettings.SampleClockSource
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SampleClockSource
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -121,6 +129,8 @@ items:
   nameWithType: DAQmxTimingSampleClockSettings.SampleClockActiveEdge
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SampleClockActiveEdge
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -148,6 +158,8 @@ items:
   nameWithType: DAQmxTimingSampleClockSettings.SampleClockRate
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SampleClockRate
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -175,6 +187,8 @@ items:
   nameWithType: DAQmxTimingSampleClockSettings.SampleQuantityMode
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SampleQuantityMode
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -202,6 +216,8 @@ items:
   nameWithType: DAQmxTimingSampleClockSettings.SamplesPerChannel
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SamplesPerChannel
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx

@@ -20,6 +20,8 @@ items:
   nameWithType: Pattern
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.Pattern
   type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/Pattern.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -50,6 +52,8 @@ items:
   nameWithType: Pattern.AbortPattern(DigitalSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.Pattern.AbortPattern(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/Pattern.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -75,6 +79,8 @@ items:
   nameWithType: Pattern.AbortKeepAlivePattern(DigitalSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.Pattern.AbortKeepAlivePattern(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/Pattern.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -100,6 +106,8 @@ items:
   nameWithType: Pattern.BurstPattern(DigitalSessionsBundle, string, bool, bool, double)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.Pattern.BurstPattern(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, bool, bool, double)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/Pattern.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -140,6 +148,8 @@ items:
   nameWithType: Pattern.BurstPatternAndPublishResults(DigitalSessionsBundle, string, bool, double, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.Pattern.BurstPatternAndPublishResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, bool, double, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/Pattern.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -183,6 +193,8 @@ items:
   nameWithType: Pattern.BurstPatternSynchronized(DigitalSessionsBundle, string, bool, bool, double)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.Pattern.BurstPatternSynchronized(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, bool, bool, double)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/Pattern.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -223,6 +235,8 @@ items:
   nameWithType: Pattern.GetSitePassFail(DigitalSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.Pattern.GetSitePassFail(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/Pattern.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -251,6 +265,8 @@ items:
   nameWithType: Pattern.GetFailCount(DigitalSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.Pattern.GetFailCount(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/Pattern.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -279,6 +295,8 @@ items:
   nameWithType: Pattern.WaitUntilDone(DigitalSessionsBundle, double)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.Pattern.WaitUntilDone(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/Pattern.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital

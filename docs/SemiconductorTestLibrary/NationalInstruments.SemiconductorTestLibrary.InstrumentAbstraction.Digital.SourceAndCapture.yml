@@ -23,6 +23,8 @@ items:
   nameWithType: SourceAndCapture
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture
   type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -53,6 +55,8 @@ items:
   nameWithType: SourceAndCapture.WriteSourceWaveformBroadcast(DigitalSessionsBundle, string, uint[], bool, int)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture.WriteSourceWaveformBroadcast(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, uint[], bool, int)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -93,6 +97,8 @@ items:
   nameWithType: SourceAndCapture.WriteSourceWaveformSiteUnique(DigitalSessionsBundle, string, SiteData<uint[]>, bool, int)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture.WriteSourceWaveformSiteUnique(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<uint[]>, bool, int)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -134,6 +140,8 @@ items:
   nameWithType: SourceAndCapture.CreateSerialSourceWaveform(DigitalSessionsBundle, string, SourceDataMapping, uint, BitOrder)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture.CreateSerialSourceWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.ModularInstruments.NIDigital.SourceDataMapping, uint, NationalInstruments.ModularInstruments.NIDigital.BitOrder)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -174,6 +182,8 @@ items:
   nameWithType: SourceAndCapture.CreateSerialSourceWaveform(DigitalSessionsBundle, string, string, SourceDataMapping, uint, BitOrder)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture.CreateSerialSourceWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, string, NationalInstruments.ModularInstruments.NIDigital.SourceDataMapping, uint, NationalInstruments.ModularInstruments.NIDigital.BitOrder)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -217,6 +227,8 @@ items:
   nameWithType: SourceAndCapture.CreateSerialCaptureWaveform(DigitalSessionsBundle, string, uint, BitOrder)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture.CreateSerialCaptureWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, uint, NationalInstruments.ModularInstruments.NIDigital.BitOrder)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -255,6 +267,8 @@ items:
   nameWithType: SourceAndCapture.CreateSerialCaptureWaveform(DigitalSessionsBundle, string, string, uint, BitOrder)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture.CreateSerialCaptureWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, string, uint, NationalInstruments.ModularInstruments.NIDigital.BitOrder)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -296,6 +310,8 @@ items:
   nameWithType: SourceAndCapture.CreateParallelCaptureWaveform(DigitalSessionsBundle, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture.CreateParallelCaptureWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -327,6 +343,8 @@ items:
   nameWithType: SourceAndCapture.CreateParallelCaptureWaveform(DigitalSessionsBundle, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture.CreateParallelCaptureWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -361,6 +379,8 @@ items:
   nameWithType: SourceAndCapture.CreateParallelCaptureWaveform(DigitalSessionsBundle, string[], string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture.CreateParallelCaptureWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string[], string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -395,6 +415,8 @@ items:
   nameWithType: SourceAndCapture.CreateParallelSourceWaveform(DigitalSessionsBundle, string[], string, SourceDataMapping)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture.CreateParallelSourceWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string[], string, NationalInstruments.ModularInstruments.NIDigital.SourceDataMapping)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -448,6 +470,8 @@ items:
   nameWithType: SourceAndCapture.FetchCaptureWaveform(DigitalSessionsBundle, string, int, double)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture.FetchCaptureWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, int, double)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SourceAndCapture.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital

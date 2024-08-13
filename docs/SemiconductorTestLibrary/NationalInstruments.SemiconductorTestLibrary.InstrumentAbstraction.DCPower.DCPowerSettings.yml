@@ -15,6 +15,8 @@ items:
   nameWithType: DCPowerSettings
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings
   type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -44,6 +46,8 @@ items:
   nameWithType: DCPowerSettings.DCPowerSettings()
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings.DCPowerSettings()
   type: Constructor
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -67,6 +71,8 @@ items:
   nameWithType: DCPowerSettings.SourceSettings
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings.SourceSettings
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -90,6 +96,8 @@ items:
   nameWithType: DCPowerSettings.MeasureSettings
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings.MeasureSettings
   type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower

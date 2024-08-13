@@ -15,6 +15,8 @@ items:
   nameWithType: DigitalInput
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput
   type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -45,6 +47,8 @@ items:
   nameWithType: DigitalInput.ReadDigitalSingleSample(DAQmxTasksBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput.ReadDigitalSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -73,6 +77,8 @@ items:
   nameWithType: DigitalInput.ReadDigitalWaveform(DAQmxTasksBundle, int)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput.ReadDigitalWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, int)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -110,6 +116,8 @@ items:
   nameWithType: DigitalInput.ReadDigitalMultiSampleU32(DAQmxTasksBundle, int)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput.ReadDigitalMultiSampleU32(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, int)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx

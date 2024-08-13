@@ -16,6 +16,8 @@ items:
   nameWithType: TriggersAndEvents
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents
   type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -46,6 +48,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureStartTriggerDigitalEdge(DAQmxTasksBundle, string, DigitalEdgeStartTriggerEdge)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents.ConfigureStartTriggerDigitalEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, string, NationalInstruments.DAQmx.DigitalEdgeStartTriggerEdge)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -85,6 +89,8 @@ items:
   nameWithType: TriggersAndEvents.DisableStartTrigger(DAQmxTasksBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents.DisableStartTrigger(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -114,6 +120,8 @@ items:
   nameWithType: TriggersAndEvents.ExportSignal(DAQmxTasksBundle, ExportSignal, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents.ExportSignal(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.DAQmx.ExportSignal, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -161,6 +169,8 @@ items:
   nameWithType: TriggersAndEvents.GetFullyQualifiedOutputTerminals(DAQmxTasksBundle, ExportSignal)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents.GetFullyQualifiedOutputTerminals(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.DAQmx.ExportSignal)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx

@@ -33,6 +33,8 @@ items:
   nameWithType: TriggersAndEvents
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents
   type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -63,6 +65,8 @@ items:
   nameWithType: TriggersAndEvents.ExportSignal(DCPowerSessionsBundle, DCPowerSignalSource, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ExportSignal(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.ModularInstruments.NIDCPower.DCPowerSignalSource, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -97,6 +101,8 @@ items:
   nameWithType: TriggersAndEvents.SendSoftwareEdgeTrigger(DCPowerSessionsBundle, TriggerType)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.SendSoftwareEdgeTrigger(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -125,6 +131,8 @@ items:
   nameWithType: TriggersAndEvents.WaitForEvent(DCPowerSessionsBundle, EventType, double)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.WaitForEvent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType, double)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -159,6 +167,8 @@ items:
   nameWithType: TriggersAndEvents.DisableTriggers(DCPowerSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.DisableTriggers(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -187,6 +197,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureTriggerDigitalEdge(DCPowerSessionsBundle, TriggerType, string, DCPowerTriggerEdge)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureTriggerDigitalEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType, string, NationalInstruments.ModularInstruments.NIDCPower.DCPowerTriggerEdge)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -231,6 +243,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureTriggerSoftwareEdge(DCPowerSessionsBundle, TriggerType)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureTriggerSoftwareEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -259,6 +273,8 @@ items:
   nameWithType: TriggersAndEvents.ClearTriggers(DCPowerSessionsBundle)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ClearTriggers(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -284,6 +300,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureMeasureTriggerDigitalEdge(DCPowerSessionInformation, string, string, DCPowerTriggerEdge, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureMeasureTriggerDigitalEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string, NationalInstruments.ModularInstruments.NIDCPower.DCPowerTriggerEdge, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -335,6 +353,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureMeasureTriggerSoftwareEdge(DCPowerSessionInformation, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureMeasureTriggerSoftwareEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -373,6 +393,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigurePulseTriggerDigitalEdge(DCPowerSessionInformation, string, string, DCPowerTriggerEdge, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigurePulseTriggerDigitalEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string, NationalInstruments.ModularInstruments.NIDCPower.DCPowerTriggerEdge, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -424,6 +446,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigurePulseTriggerSoftwareEdge(DCPowerSessionInformation, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigurePulseTriggerSoftwareEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -462,6 +486,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigurePulseTriggerDisable(DCPowerSessionInformation, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigurePulseTriggerDisable(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -500,6 +526,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureSequenceAdvanceTriggerDigitalEdge(DCPowerSessionInformation, string, string, DCPowerTriggerEdge, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureSequenceAdvanceTriggerDigitalEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string, NationalInstruments.ModularInstruments.NIDCPower.DCPowerTriggerEdge, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -551,6 +579,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureSequenceAdvanceTriggerSoftwareEdge(DCPowerSessionInformation, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureSequenceAdvanceTriggerSoftwareEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -589,6 +619,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureSequenceAdvanceTriggerDisable(DCPowerSessionInformation, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureSequenceAdvanceTriggerDisable(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -627,6 +659,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureSourceTriggerDigitalEdge(DCPowerSessionInformation, string, string, DCPowerTriggerEdge, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureSourceTriggerDigitalEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string, NationalInstruments.ModularInstruments.NIDCPower.DCPowerTriggerEdge, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -678,6 +712,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureSourceTriggerSoftwareEdge(DCPowerSessionInformation, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureSourceTriggerSoftwareEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -716,6 +752,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureSourceTriggerDisable(DCPowerSessionInformation, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureSourceTriggerDisable(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -754,6 +792,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureStartTriggerDigitalEdge(DCPowerSessionInformation, string, string, DCPowerTriggerEdge, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureStartTriggerDigitalEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string, NationalInstruments.ModularInstruments.NIDCPower.DCPowerTriggerEdge, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -805,6 +845,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureStartTriggerSoftwareEdge(DCPowerSessionInformation, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureStartTriggerSoftwareEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -843,6 +885,8 @@ items:
   nameWithType: TriggersAndEvents.ConfigureStartTriggerDisable(DCPowerSessionInformation, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents.ConfigureStartTriggerDisable(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, string, string)
   type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/TriggersAndEvents.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
