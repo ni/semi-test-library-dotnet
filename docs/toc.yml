@@ -1,0 +1,6 @@
+- name: User Guide
+  href: UserGuide/
+- name: API Reference
+  href: SemiconductorTestLibrary/
+- name: TestStand Steps
+  href: SemiconductorTestLibrary.TestStandSteps/

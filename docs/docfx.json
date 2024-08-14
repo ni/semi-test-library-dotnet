@@ -1,0 +1,71 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../SemiconductorTestLibrary.Extensions",
+          "files": [
+            "**/NationalInstruments.SemiconductorTestLibrary.Abstractions.dll",
+            "**/NationalInstruments.SemiconductorTestLibrary.Extensions.dll"
+          ],
+          "exclude": [ "**/obj/**", "**/[Tt]ests/**" ]
+        }
+      ],
+      "dest": "SemiconductorTestLibrary",
+      "memberLayout": "separatePages",
+      "namespaceLayout": "flattened",
+      "properties": {
+        "TargetFramework": "net48"
+      }
+    },
+    {
+      "src": [
+        {
+          "src": "../SemiconductorTestLibrary.TestStandSteps",
+          "files": [
+            "**/NationalInstruments.SemiconductorTestLibrary.TestStandSteps.dll"
+          ],
+          "exclude": [ "**/obj/**", "**/[Tt]ests/**" ]
+        }
+      ],
+      "dest": "SemiconductorTestLibrary.TestStandSteps",
+      "memberLayout": "separatePages",
+      "namespaceLayout": "nested",
+      "properties": {
+        "TargetFramework": "net48"
+      }
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "output": "_site",
+    "template": [
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+      "_appName": "Semiconductor Test Library",
+      "_appTitle": "Semiconductor Test Library",
+      "_appLogoPath": "images/logo.png",
+      "_appFaviconPath": "images/favicon.ico",
+      "_enableSearch": true,
+      "pdf": true
+    }
+  }
+}
