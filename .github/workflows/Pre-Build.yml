@@ -2,7 +2,6 @@ name: Pre Build
 
 # Run this workflow every time a pull request gets opened against main
 on:
-  workflow_dispatch:
   pull_request:
     branches: 
       - main
@@ -13,6 +12,7 @@ on:
       - 'SemiconductorTestLibrary.Extensions/**'
       - 'SemiconductorTestLibrary.TestStandSteps/**'
       - 'TestAssets/**'
+      - '.github/workflows/**'
 
 env:
     GITHUB_MixedSignalTestLibrary_BRANCH_NAME: '{"GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ github.head_ref || github.ref_name }}"}'
