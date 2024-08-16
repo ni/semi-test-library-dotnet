@@ -506,6 +506,71 @@
             <param name="value">The data for the specified site number and pin name.</param>
             <returns>Returns true if the data for a given site number-pin name pair exists in the PinSiteData object.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Max">
+            <summary>
+            Gets the maximum value across pins for each site.
+            </summary>
+            <returns>The maximum value across pins for each site.</returns>
+            <remarks>
+            Note that the maximum value may be repeated across multiple pins, use the MaxByPin method if this level of detail is required.
+            Alternatively, you can use the MaxBySite method to calculate the maximum value across sites for each pin.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MaxByPin">
+            <summary>
+            Gets the maximum value across pins for each site, and returns both the maximum value
+            and which pin(s) the maximum value was found for each site.
+            </summary>
+            <returns>The maximum value and which pin(s) that value was found for each site.</returns>
+            <remarks>Note that the maximum value may be repeated across multiple pins.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MaxBySite">
+            <summary>
+            Gets the maximum value across sites for each pin, and returns both the maximum value
+            and which site(s) the maximum value was found for each pin.
+            </summary>
+            <returns>The maximum value and which site(s) that value was found for each pin.</returns>
+            <remarks>Note that the maximum value may be repeated across multiple sites.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Min">
+            <summary>
+            Gets the minimum value across pins for each site.
+            </summary>
+            <returns>The minimum value across pins for each site.</returns>
+            <remarks>
+            Note that the minimum value may be repeated across multiple pins, use the MinByPin method if this level of detail is required.
+            Alternatively, you can use the MinBySite method to calculate the minimum value across sites for each pin.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MinByPin">
+            <summary>
+            Gets the minimum value across pins for each site, and returns both the minimum value
+            and which pin(s) the minimum value was found for each site.
+            </summary>
+            <returns>The minimum value and which pin(s) that value was found for each site.</returns>
+            <remarks>Note that the minimum value may be repeated across multiple pins.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MinBySite">
+            <summary>
+            Gets the minimum value across sites for each pin, and returns both the minimum value
+            and which site(s) the minimum value was found for each pin.
+            </summary>
+            <returns>The minimum value and which site(s) that value was found for each pin.</returns>
+            <remarks>Note that the minimum value may be repeated across multiple sites.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Mean">
+            <summary>
+            Calculates the mean value across pins for each site, and returns the mean value for each site.
+            </summary>
+            <returns>The mean value for each site.</returns>
+            <remarks>Alternatively, you can use the MeanBySite method to calculate the mean value across sites for each pin.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MeanBySite">
+            <summary>
+            Calculates the mean value across sites for each pin, and returns both the site-to-site mean value for each pin.
+            </summary>
+            <returns>The mean value for each pin.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Abs">
             <summary>
             Performs Math.Abs operation on every element in current PinSiteData object.
@@ -1024,6 +1089,40 @@
             </summary>
             <param name="siteNumber">The site number.</param>
             <returns>Single site data.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Max">
+            <summary>
+            Calculates the maximum value across sites.
+            </summary>
+            <returns>The maximum value across sites.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Max(System.Int32[]@)">
+            <summary>
+            Gets the maximum value across sites and additionally passes out an array of which site(s) the maximum value was found.
+            </summary>
+            <param name="siteNumbers">The sites for which the maximum value was found.</param>
+            <returns>The maximum value across sites.</returns>
+            <remarks>Note that the maximum value may be repeated across multiple sites.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Min">
+            <summary>
+            Calculates the minimum value across sites.
+            </summary>
+            <returns>The minimum value across sites.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Min(System.Int32[]@)">
+            <summary>
+            Gets the minimum value across sites and additionally passes out an array of which site(s) the minimum value was found.
+            </summary>
+            <param name="siteNumbers">The sites for which the minimum value was found.</param>
+            <returns>The minimum value across sites.</returns>
+            <remarks>Note that the minimum value may be repeated across multiple sites.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Mean">
+            <summary>
+            Calculates the mean value across sites.
+            </summary>
+            <returns>The mean value across sites.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Abs">
             <summary>
