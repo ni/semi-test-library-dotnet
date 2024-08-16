@@ -12,7 +12,6 @@ on:
       - 'SemiconductorTestLibrary.Extensions/**'
       - 'SemiconductorTestLibrary.TestStandSteps/**'
       - 'TestAssets/**'
-      - '.github/workflows/**'
 
 env:
     GITHUB_MixedSignalTestLibrary_BRANCH_NAME: '{"GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ github.head_ref || github.ref_name }}"}'
@@ -21,7 +20,7 @@ jobs:
     build:   
         name: Call Azure Pre Build Pipeline
         runs-on: ubuntu-latest
-        environment: testing
+        environment: gh-action-testing
         steps:
         - uses: actions/checkout@v2
         - name: Trigger Azure Pipeline for Pre Build
