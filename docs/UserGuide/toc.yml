@@ -9,7 +9,7 @@
 - name: Supported Instrument Types
   href: SupportedInstrumentTypes.md
 - name: Adding Using Statements
-  href: AddingUsingStatements.md
+  href: AddingUsingDirectives.md
 
 - name: Core Concepts
 - name: Instrument Abstraction
