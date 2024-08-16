@@ -8,8 +8,8 @@
   href: WritingTestCode.md
 - name: Supported Instrument Types
   href: SupportedInstrumentTypes.md
-- name: Adding Using Statements
-  href: AddingUsingStatements.md
+- name: Adding Using Directives
+  href: AddingUsingDirectives.md
 
 - name: Core Concepts
 - name: Instrument Abstraction
