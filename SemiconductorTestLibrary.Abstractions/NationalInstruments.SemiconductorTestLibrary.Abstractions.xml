@@ -399,11 +399,13 @@
             <param name="index">The zero-based index of the element to retrieve.</param>
             <returns>The first element if the index is outside the bounds of the source sequence. Otherwise, the element at the specified position in the source sequence.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency(System.Double@)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency(System.Double@,System.Boolean)">
             <summary>
             Tries to determine the power line frequency of the PXI chassis using the SystemConfiguration API.
+            Will use power line frequency 60Hz when <paramref name="isOfflineModeEnabled"/> is true.
             </summary>
             <param name="powerLineFrequency">The power line frequency variable to be updated. It falls back to the original value when the try fails.</param>
+            <param name="isOfflineModeEnabled">A flag indicating whether offline mode is enabled.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType">
             <summary>
