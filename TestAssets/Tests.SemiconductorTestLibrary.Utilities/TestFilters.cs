@@ -2,6 +2,7 @@
 {
     public enum HardwareConfiguration
     {
-        GP3
+        GP3,
+        Lungyuan
     }
 }

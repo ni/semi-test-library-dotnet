@@ -361,6 +361,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         public void ConfigureTrigger_MeasureTrigger(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
