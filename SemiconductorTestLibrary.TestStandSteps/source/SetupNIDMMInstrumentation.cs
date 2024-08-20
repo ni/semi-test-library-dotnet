@@ -44,7 +44,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 var dmm = sessionManager.DMM(dutPins.Concat(systemPins).ToArray());
                 if (powerLineFrequency < 0)
                 {
-                    Utilities.TryDeterminePowerLineFrequency(ref powerLineFrequency);
+                    Utilities.TryDeterminePowerLineFrequency(ref powerLineFrequency, tsmContext.IsSemiconductorModuleInOfflineMode);
                 }
                 if (powerLineFrequency >= 0)
                 {
