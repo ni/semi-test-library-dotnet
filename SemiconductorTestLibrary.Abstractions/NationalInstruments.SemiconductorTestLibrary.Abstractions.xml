@@ -407,6 +407,17 @@
             <param name="powerLineFrequency">The power line frequency variable to be updated. It falls back to the original value when the try fails.</param>
             <param name="isOfflineModeEnabled">A flag indicating whether offline mode is enabled.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.FilterPinsOrPinGroups(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String,System.Collections.Generic.IList{System.String[]}@,System.Collections.Generic.IList{System.Int32}@,System.String[]@)">
+            <summary>
+            Filters pins or pin groups by instrument type.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="pinsOrPinGroups">The array of pins or pin groups to filter.</param>
+            <param name="instrumentTypeId">The type of instrument for which you want to return DUT and system pins.</param>
+            <param name="pins">The filtered pins.</param>
+            <param name="pinIndexes">The index of each of the filtered pins in the input pins or pin groups array.</param>
+            <param name="pinsFlattened">The filtered pins in flattened format.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType">
             <summary>
             Defines types of comparison results.
@@ -3054,6 +3065,14 @@
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/>.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String[],System.Boolean)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> associated with the specified pins.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <param name="filterPins">Whether to automatically filter out non-NIDigital pins.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/>. Returns null if all pins are non-NIDigital pins.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String)">
             <summary>
             Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> associated with the specified pin.
@@ -3067,6 +3086,14 @@
             </summary>
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/>.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String[],System.Boolean)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> associated with the specified pins.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <param name="filterPins">Whether to automatically filter out non-NIDCPower pins.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/>. Returns null if all pins are non-NIDCPower pins.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String)">
             <summary>
@@ -3082,6 +3109,14 @@
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pins.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <param name="filterPins">Whether to automatically filter out non-NIDAQmx pins.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>. Returns null if all pins are non-NIDAQmx pins.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String)">
             <summary>
             Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/> associated with the specified pin.
@@ -3096,6 +3131,14 @@
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/>.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String[],System.Boolean)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/> associated with the specified pins.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <param name="filterPins">Whether to automatically filter out non-NIDMM pins.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/>. Returns null if all pins are non-NIDMM pins.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(System.String)">
             <summary>
             Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/> associated with the specified pin.
@@ -3109,6 +3152,14 @@
             </summary>
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/>.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(System.String[],System.Boolean)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/> associated with the specified pins.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <param name="filterPins">Whether to automatically filter out non-NIScope pins.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/>. Returns null if all pins are non-NIScope pins.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync">
             <summary>
@@ -3130,6 +3181,14 @@
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle"/>.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(System.String[],System.Boolean)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle"/> associated with the specified pins.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <param name="filterPins">Whether to automatically filter out non-NISync pins.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle"/>. Returns null if all pins are non-NISync pins.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(System.String)">
             <summary>
             Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/> associated with the specified pin.
@@ -3143,6 +3202,14 @@
             </summary>
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/>.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(System.String[],System.Boolean)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/> associated with the specified pins.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <param name="filterPins">Whether to automatically filter out non-NIFgen pins.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/>. Returns null if all pins are non-NIFgen pins.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.ResourceStrings">
             <summary>
