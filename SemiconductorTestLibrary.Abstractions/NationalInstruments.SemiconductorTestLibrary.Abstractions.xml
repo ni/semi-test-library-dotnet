@@ -406,7 +406,6 @@
             </summary>
             <param name="powerLineFrequency">The power line frequency variable to be updated. It falls back to the original value when the try fails.</param>
             <param name="isOfflineModeEnabled">A flag indicating whether offline mode is enabled.</param>
-<<<<<<< HEAD
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.FilterPinsOrPinGroups(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String,System.Collections.Generic.IList{System.String[]}@,System.Collections.Generic.IList{System.Int32}@,System.String[]@)">
             <summary>
@@ -418,8 +417,6 @@
             <param name="pins">The filtered pins.</param>
             <param name="pinIndexes">The index of each of the filtered pins in the input pins or pin groups array.</param>
             <param name="pinsFlattened">The filtered pins in flattened format.</param>
-=======
->>>>>>> main
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType">
             <summary>
