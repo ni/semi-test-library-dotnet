@@ -27,6 +27,7 @@ jobs:
         - name: Check environment
           run: |
             echo "Current environment: ${{ job.environment }}" # check the current environment
+            echo "I hope to use this secret ${{ secrets.AZURE_DEVOPS_TOKEN }}"
         # - name: Trigger Azure Pipeline for Pre Build
         #   uses: enfa/azure-pipeline-github-action@v1.0.0
         #   with:
