@@ -238,6 +238,16 @@
             <param name="publishedDataId">The unique data id to use when publishing.</param>
             <param name="pin">The pin to publish results for.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)">
+            <summary>
+            Publishes measurement result.
+            </summary>
+            <typeparam name="T">The type of the measurement data.</typeparam>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="result">The measurement result to publish.</param>
+            <param name="publishedDataId">The unique data id to use when publishing.</param>
+            <param name="pin">The pin to publish result for.</param>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)">
             <summary>
             Publishes measurement result for a specific site-pin pair.
@@ -246,7 +256,7 @@
             <param name="tsmSingleSiteContext">The single site <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="result">The measurement result to publish.</param>
             <param name="publishedDataId">The unique data id to use when publishing.</param>
-            <param name="pin">The pin to publish results for.</param>
+            <param name="pin">The pin to publish result for.</param>
             <remarks>Use this method with a single site context only.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[][],System.String)">
