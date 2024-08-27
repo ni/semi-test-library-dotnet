@@ -2,7 +2,7 @@ name: Pre Test
 
 # Run this workflow every time a pull request gets opened against main
 on:
-  pull_request:
+  pull_request_target:
     branches: 
       - main
       - 'releases/**'
