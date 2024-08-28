@@ -110,6 +110,34 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Forces voltage on the target pin(s).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The settings to use.</param>
+        public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, PPMUSettings settings)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                settings.OutputFunction = PpmuOutputFunction.DCVoltage;
+                sessionInfo.Session.Force(sessionInfo.PinSetString, settings);
+            });
+        }
+
+        /// <summary>
+        /// Forces voltage on the target pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The per-site settings to use.</param>
+        public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, SiteData<PPMUSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                settings.GetValue(sitePinInfo.SiteNumber).OutputFunction = PpmuOutputFunction.DCVoltage;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, settings.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <summary>
+        /// Forces voltage on the target pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
         public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, IDictionary<string, PPMUSettings> settings)
         {
@@ -117,6 +145,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 settings[sitePinInfo.PinName].OutputFunction = PpmuOutputFunction.DCVoltage;
                 sessionInfo.Session.Force(sitePinInfo.SitePinString, settings[sitePinInfo.PinName]);
+            });
+        }
+
+        /// <summary>
+        /// Forces voltage on the target pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The per-site-pin-pair settings to use.</param>
+        public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, PinSiteData<PPMUSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName).OutputFunction = PpmuOutputFunction.DCVoltage;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
             });
         }
 
@@ -161,6 +203,34 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Forces current on the target pin(s).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The settings to use.</param>
+        public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, PPMUSettings settings)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                settings.OutputFunction = PpmuOutputFunction.DCCurrent;
+                sessionInfo.Session.Force(sessionInfo.PinSetString, settings);
+            });
+        }
+
+        /// <summary>
+        /// Forces current on the target pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The per-site settings to use.</param>
+        public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, SiteData<PPMUSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                settings.GetValue(sitePinInfo.SiteNumber).OutputFunction = PpmuOutputFunction.DCCurrent;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, settings.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <summary>
+        /// Forces current on the target pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
         public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, IDictionary<string, PPMUSettings> settings)
         {
@@ -168,6 +238,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 settings[sitePinInfo.PinName].OutputFunction = PpmuOutputFunction.DCCurrent;
                 sessionInfo.Session.Force(sitePinInfo.SitePinString, settings[sitePinInfo.PinName]);
+            });
+        }
+
+        /// <summary>
+        /// Forces current on the target pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The per-site-pin-pair settings to use.</param>
+        public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, PinSiteData<PPMUSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName).OutputFunction = PpmuOutputFunction.DCCurrent;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
             });
         }
 
