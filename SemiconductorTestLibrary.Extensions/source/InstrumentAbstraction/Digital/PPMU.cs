@@ -129,8 +129,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                settings.GetValue(sitePinInfo.SiteNumber).OutputFunction = PpmuOutputFunction.DCVoltage;
-                sessionInfo.Session.Force(sitePinInfo.SitePinString, settings.GetValue(sitePinInfo.SiteNumber));
+                var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
+                perSiteSettings.OutputFunction = PpmuOutputFunction.DCVoltage;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, perSiteSettings);
             });
         }
 
@@ -157,8 +158,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName).OutputFunction = PpmuOutputFunction.DCVoltage;
-                sessionInfo.Session.Force(sitePinInfo.SitePinString, settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
+                perSitePinPairSettings.OutputFunction = PpmuOutputFunction.DCVoltage;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, perSitePinPairSettings);
             });
         }
 
@@ -222,8 +224,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                settings.GetValue(sitePinInfo.SiteNumber).OutputFunction = PpmuOutputFunction.DCCurrent;
-                sessionInfo.Session.Force(sitePinInfo.SitePinString, settings.GetValue(sitePinInfo.SiteNumber));
+                var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
+                perSiteSettings.OutputFunction = PpmuOutputFunction.DCCurrent;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, perSiteSettings);
             });
         }
 
@@ -250,8 +253,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName).OutputFunction = PpmuOutputFunction.DCCurrent;
-                sessionInfo.Session.Force(sitePinInfo.SitePinString, settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
+                perSitePinPairSettings.OutputFunction = PpmuOutputFunction.DCCurrent;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, perSitePinPairSettings);
             });
         }
 
