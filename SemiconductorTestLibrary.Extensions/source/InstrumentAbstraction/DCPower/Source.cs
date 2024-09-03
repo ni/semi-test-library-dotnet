@@ -121,7 +121,34 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces voltage on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
+        /// Forces voltage on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLevels">The voltage levels to force for different sites.</param>
+        /// <param name="currentLimit">The current limit to use.</param>
+        /// <param name="voltageLevelRange">The voltage level range to use.</param>
+        /// <param name="currentLimitRange">The current limit range to use.</param>
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var settings = new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = voltageLevels.GetValue(sitePinInfo.SiteNumber),
+                    Limit = currentLimit,
+                    LevelRange = voltageLevelRange,
+                    LimitRange = currentLimitRange
+                };
+                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
+            });
+        }
+
+        /// <summary>
+        /// Forces voltage on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels to force for different site-pin pairs.</param>
@@ -267,6 +294,87 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
+            });
+        }
+
+        /// <summary>
+        /// Forces current on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLevels">The current level to force for different pins.</param>
+        /// <param name="voltageLimit">The voltage limit to use.</param>
+        /// <param name="currentLevelRange">The current level range to use.</param>
+        /// <param name="voltageLimitRange">The voltage limit range to use.</param>
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
+        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> currentLevels, double? voltageLimit = null, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var settings = new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = currentLevels[sitePinInfo.PinName],
+                    Limit = voltageLimit,
+                    LevelRange = currentLevelRange,
+                    LimitRange = voltageLimitRange
+                };
+                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion: waitForSourceCompletion);
+            });
+        }
+
+        /// <summary>
+        /// Forces current on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLevels">The current level to force for different sites.</param>
+        /// <param name="voltageLimit">The voltage limit to use.</param>
+        /// <param name="currentLevelRange">The current level range to use.</param>
+        /// <param name="voltageLimitRange">The voltage limit range to use.</param>
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
+        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLevels, double? voltageLimit = null, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var settings = new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = currentLevels.GetValue(sitePinInfo.SiteNumber),
+                    Limit = voltageLimit,
+                    LevelRange = currentLevelRange,
+                    LimitRange = voltageLimitRange
+                };
+                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion: waitForSourceCompletion);
+            });
+        }
+
+        /// <summary>
+        /// Forces current on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLevels">The current level to force for different site-pin pairs.</param>
+        /// <param name="voltageLimit">The voltage limit to use.</param>
+        /// <param name="currentLevelRange">The current level range to use.</param>
+        /// <param name="voltageLimitRange">The voltage limit range to use.</param>
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
+        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevels, double? voltageLimit = null, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var settings = new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = currentLevels.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName),
+                    Limit = voltageLimit,
+                    LevelRange = currentLevelRange,
+                    LimitRange = voltageLimitRange
+                };
+                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion: waitForSourceCompletion);
             });
         }
 
