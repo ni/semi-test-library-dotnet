@@ -1,4 +1,4 @@
-name: Receive PR
+name: Receive PR 2
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   intake:
-    name: Receive PR
+    name: Receive PR 2
     runs-on: ubuntu-latest
     steps:        
       - uses: octo-org/example-repo/.github/workflows/test-pr.yml@v1
