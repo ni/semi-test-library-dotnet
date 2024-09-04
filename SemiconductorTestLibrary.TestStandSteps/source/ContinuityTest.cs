@@ -75,7 +75,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
                         }
 
-                        var maxCurrentLevel = currentLevelPerContinuityPinOrPinGroup.Max();
+                        var maxCurrentLevel = Math.Abs(currentLevelPerContinuityPinOrPinGroup.Max());
                         tsmContext.FilterPinsOrPinGroups(continuityPinsOrPinGroups, InstrumentTypeIdConstants.NIDCPower, out var continuityPins, out var continuityPinIndexes, out var continuityPinsFlattened);
                         if (continuityPinsFlattened.Any())
                         {
