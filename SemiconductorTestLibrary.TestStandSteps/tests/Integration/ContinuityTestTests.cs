@@ -1,4 +1,5 @@
 ﻿using System;
+using NationalInstruments.ModularInstruments.NIDCPower;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
@@ -13,7 +14,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         public void Initialize_RunContinuityTestWithNegativeCurrentLevel_Succeeds()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
-            SetupNIDCPowerInstrumentation(tsmContext);
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
 
            ContinuityTest(
                tsmContext,
