@@ -1,27 +1,65 @@
 name: Pre Build PR
 
-# Run this workflow every time a pull request gets opened against main
+# Run this workflow any time the Receive PR workflow completes
 on:
   workflow_run:
     workflows: ["Receive PR"]
     types:
       - completed
-
-env:
-    GITHUB_MixedSignalTestLibrary_BRANCH_NAME: '{"GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ github.head_ref || github.ref_name }}"}'
+    branches:
+      - 'main'
+      - 'releases/**'
 
 jobs:
     build:   
         name: Call Azure Pre Build Pipeline
         runs-on: ubuntu-latest
+        if: >
+          github.event.workflow_run.event == 'pull_request' &&
+          github.event.workflow_run.conclusion == 'success'
         environment: gh-action-testing
         steps:
-        - uses: actions/checkout@v2
-        - name: Trigger Azure Pipeline for Pre Build
-          uses: enfa/azure-pipeline-github-action@v1.0.0
-          with:
-            azure-devops-project-url: https://ni.visualstudio.com/DevCentral
-            azure-pipeline-name: 'MixedSignalLibrary_PR_GitHub'
-            azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-            azure-pipeline-variables:  ${{ env.GITHUB_MixedSignalTestLibrary_BRANCH_NAME }}
-            azure-pipeline-sourcebranch: "refs/heads/${{ github.base_ref }}"
+          - name: 'Download PR Artifact'
+            uses: actions/github-script@v3.1.0
+            with:
+              script: |
+                var artifacts = await github.actions.listWorkflowRunArtifacts({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  run_id: ${{github.event.workflow_run.id}},
+                });
+                var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+                  return artifact.name == "pr"
+                })[0];
+                var download = await github.actions.downloadArtifact({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  artifact_id: matchArtifact.id,
+                  archive_format: 'zip',
+                });
+                var fs = require('fs');
+                fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
+          - name: 'Unzip PR Artifact'
+            run: unzip pr.zip
+          - name: 'Get PR Information'
+            id: pr_info
+            run: |
+              echo "event-number=${cat pr/event-number}" >> $GITHUB_OUTPUT
+              echo "base_ref=${cat pr/base_ref}" >> $GITHUB_OUTPUT
+              echo "head_ref=${cat pr/head_ref}" >> $GITHUB_OUTPUT
+              echo "ref_name=${cat pr/ref_name}" >> $GITHUB_OUTPUT
+          - name: 'DEBUG - Print Refs From event'
+            run: |
+              cat pr/event-number
+              echo "event-number: ${{ steps.pr_info.outputs.event-number }}"
+              echo "base_ref: ${{ steps.pr_info.outputs.base_ref }}"
+              echo "head_ref: ${{ steps.pr_info.outputs.head_ref }}"
+              echo "ref_name: ${{ steps.pr_info.outputs.ref_name }}"
+#          - name: Trigger Azure Pipeline for Pre Build
+#            uses: enfa/azure-pipeline-github-action@v1.0.0
+#            with:
+#              azure-devops-project-url: https://ni.visualstudio.com/DevCentral
+#              azure-pipeline-name: 'MixedSignalLibrary_PR_GitHub'
+#              azure-devops-token: $#{{ secrets.AZURE_DEVOPS_TOKEN }}
+#              azure-pipeline-variables:  '{"GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "$#{{ steps.pr_info.outputs.head_ref || steps.pr_info.outputs.ref_name }}"}'
+#              azure-pipeline-sourcebranch: "refs/heads/${#{ steps.pr_info.outputs.base_ref }}"

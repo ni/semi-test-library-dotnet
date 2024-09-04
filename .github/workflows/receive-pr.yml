@@ -1,0 +1,31 @@
+name: Receive PR
+
+on:
+  pull_request:
+    branches: 
+      - main
+      - 'releases/**'
+    paths:
+      - 'Examples/**'
+      - 'SemiconductorTestLibrary.Abstractions/**'
+      - 'SemiconductorTestLibrary.Extensions/**'
+      - 'SemiconductorTestLibrary.TestStandSteps/**'
+      - 'TestAssets/**'
+      - '.github/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:        
+      - uses: actions/checkout@v2
+      - name: Save PR Info
+        run: |
+          mkdir -p ./pr
+          echo ${{ github.event.number }} > ./pr/event-number
+          echo ${{ github.base_ref }} > ./pr/base_ref
+          echo ${{ github.head_ref }} > ./pr/head_ref
+          echo ${{ github.ref_name }} > ./pr/ref_name
+      - uses: actions/upload-artifact@v2
+        with:
+          name: pr
+          path: pr/
