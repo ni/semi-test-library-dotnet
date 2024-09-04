@@ -1,0 +1,15 @@
+name: Test PR
+
+# Run this workflow any time the Receive PR workflow completes
+on:
+  workflow_call:
+
+jobs:
+    test:   
+        name: Test PR
+        runs-on: ubuntu-latest
+        environment: gh-action-testing
+        steps:
+          - name: Check environment
+            run: |
+              echo "Current environment working: ${{ vars.TEST }}"

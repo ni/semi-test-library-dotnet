@@ -1,0 +1,14 @@
+name: Receive PR
+
+on:
+  pull_request:
+    branches: 
+      - main
+      - 'releases/**'
+
+jobs:
+  intake:
+    name: Receive PR
+    runs-on: ubuntu-latest
+    steps:        
+      - uses: octo-org/example-repo/.github/workflows/test-pr.yml@v1
