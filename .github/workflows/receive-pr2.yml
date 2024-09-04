@@ -7,8 +7,6 @@ on:
       - 'releases/**'
 
 jobs:
-  intake:
-    name: Receive PR 2
-    runs-on: ubuntu-latest
-    steps:        
-      - uses: octo-org/example-repo/.github/workflows/test-pr.yml@v1
+  call_test_pr_workflow:
+    name: "Call Test PR Workflow"
+    uses: ./.github/workflows/test-pr.yml
