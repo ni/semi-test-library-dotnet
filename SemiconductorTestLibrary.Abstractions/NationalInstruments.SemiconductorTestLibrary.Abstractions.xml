@@ -3287,6 +3287,11 @@
               Looks up a localized string similar to The specified {0} sheet &quot;{1}&quot; does not exist in the associated digital pattern project..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_ArrayLengthMismatch">
+            <summary>
+              Looks up a localized string similar to For {0} operation, the data array length of the first operand ({1}) and that of the second operand ({2}) must match..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_DataTypeNotSupported">
             <summary>
               Looks up a localized string similar to Math operations not supported on the {0} type data..
