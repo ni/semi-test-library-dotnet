@@ -17,5 +17,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
                 throw new NISemiconductorTestException(errorMessage);
             }
         }
+
+        internal static void DummyCode()
+        {
+        }
     }
 }
