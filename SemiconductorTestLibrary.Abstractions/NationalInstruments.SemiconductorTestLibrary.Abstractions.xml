@@ -483,13 +483,93 @@
             Initializes a PinSiteData object with pin names and associated SiteData object array.
             </summary>
             <param name="pinNames">The pin names array.</param>
-            <param name="data">The per-pin SiteData object array.</param>
+            <param name="perPinSiteData">The per-pin SiteData object array.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,`0}})">
             <summary>
             Initializes a PinSiteData object with multiple pins multiple sites data.
             </summary>
-            <param name="pinSiteData">The multiple pins multiple sites data.</param>
+            <param name="pinSiteData">Pin and site specific data values.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Int32[],System.Collections.Generic.Dictionary{System.String,`0})">
+            <summary>
+            Initializes a PinSiteData object with pin unique data.
+            Where the specified pin unique data value will be repeated across all sites.
+            </summary>
+            <param name="siteNumbers">Site numbers to associate with the data.</param>
+            <param name="pinData">Pin specific data values.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],System.Int32[],`0)">
+            <summary>
+            Initializes a PinSiteData object with the same data value across all pins and sites.
+            </summary>
+            <param name="pinNames">Array of unique pin names.</param>
+            <param name="siteNumbers">Site numbers to associate with the data.</param>
+            <param name="data">Data to be repeated across all pins and active sites.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],System.Int32[],`0[])">
+            <summary>
+            Initializes a PinSiteData object with pin unique data.
+            Where the specified site unique data will be repeated across all sites.
+            </summary>
+            <remarks>
+            The lengths of the pinNames and perPinData inputs must be equal,
+            otherwise an exception will be thrown.
+            </remarks>
+            <param name="pinNames">Array of unique pin names.</param>
+            <param name="siteNumbers">Site numbers to associate with the data.</param>
+            <param name="perPinData">
+            Array of pin unique data, where each element represents the data for the specific pin,
+            located at the same index within the pinNames array.
+            </param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Int32[],System.String[],`0[])">
+            <summary>
+            Initializes a PinSiteData object with site unique data.
+            Where the specified site unique data will be repeated across all pins.
+            </summary>
+            <remarks>
+            The lengths of the siteNumbers and perSiteData inputs must be equal,
+            otherwise an exception will be thrown.
+            </remarks>
+            <param name="siteNumbers">Site numbers to associate with the data.</param>
+            <param name="pinNames">Array of unique pin names.</param>
+            <param name="perSiteData">
+            Array of site unique data, where each element represents the data for the specific site,
+            located at the same index within the siteNumbers array.
+            </param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],System.Int32[],`0[][])">
+            <summary>
+            Initializes a PinSiteData object with pin and site unique data.
+            Where the specified data value is unique for each pin and each site.
+            </summary>
+            <remarks>
+            The length of pinNames must be equal to the length of the first dimension of perPinPerSiteData.
+            Similarly, the length of siteNumbers must be equal to the length of the second dimension of perPinPerSiteData.
+            Otherwise, an exception will be thrown.
+            </remarks>
+            <param name="pinNames">Array of unique pin names.</param>
+            <param name="siteNumbers">Site numbers to associate with the data.</param>
+            <param name="perPinPerSiteData">
+            2D jagged array of pin and site unique data, where the first dimension represents pins and the second dimension represents sites.
+            </param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Int32[],System.String[],`0[][])">
+            <summary>
+            Initializes a PinSiteData object with pin and site unique data.
+            Where the specified data value is unique for each pin and each site.
+            </summary>
+            <remarks>
+            The length of siteNumbers must be equal to the length of the first dimension of perSitePerPinData.
+            Similarly, the length of pinNames must be equal to the length of the second dimension of perSitePerPinData.
+            Otherwise, an exception will be thrown.
+            </remarks>
+            <param name="siteNumbers">Site numbers to associate with the data.</param>
+            <param name="pinNames">Array of unique pin names.</param>
+            <param name="perSitePerPinData">
+            2D jagged array of pin and site unique data, where the first dimension represents sites and the second dimension represents pins.
+            </param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin(System.String)">
             <summary>
@@ -1093,6 +1173,9 @@
             <summary>
             Returns an array of sites associated with current SiteData object.
             </summary>
+            <remarks>
+            The values are returned in ascending order according to site number.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(`0[])">
             <summary>
@@ -1108,11 +1191,25 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Int32[],`0)">
             <summary>
-            Initializes a SiteData object with the same data value across all active sites.
-            Each element in the siteNumbers array represents an active site number/value.
+            Initializes a SiteData object with the same data value across all sites.
+            Each element in the siteNumbers array represents a site number/value.
             </summary>
-            <param name="siteNumbers">The number of active sites.</param>
+            <param name="siteNumbers">The number of sites.</param>
             <param name="data">The data.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Int32[],`0[])">
+            <summary>
+            Initializes a SiteData object with site unique data.
+            Each element in the siteNumbers array represents an site number/value.
+            Each element in the perSiteData array represents the data for the specific site
+            located at the same index within the siteNumbers array.
+            </summary>
+            <remarks>
+            The lengths of the array inputs must be equal,
+            otherwise an exception will be thrown.
+            </remarks>
+            <param name="siteNumbers">The number of sites.</param>
+            <param name="perSiteData">The data.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.GetValue(System.Int32)">
             <summary>
@@ -3268,6 +3365,16 @@
               Looks up a localized string similar to ReferenceTrigger is not supported for DigitalInput channels..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_ArrayLengthMismatchWithPinNames">
+            <summary>
+              Looks up a localized string similar to The size of the data array parameter ({0}) must be equal to the length of the pin names parameter ({1})..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_ArrayLengthMismatchWithSiteNumbers">
+            <summary>
+              Looks up a localized string similar to The size of the data array parameter ({0}) must be equal to the length of the site numbers parameter ({1})..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_PinNotFound">
             <summary>
               Looks up a localized string similar to The pin name {0} does not exist..
@@ -3281,11 +3388,6 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteNumbersMismatch">
             <summary>
               Looks up a localized string similar to The 2 SiteData must contain data for same sites..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SizeMismatch">
-            <summary>
-              Looks up a localized string similar to The length of pinNames ({0}) and data ({1}) must be the same..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_NotUsingChannelGroups">
