@@ -594,6 +594,14 @@
             </summary>
             <returns>The mean value for each pin.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Select``1(System.Func{`0,``0})">
+            <summary>
+            Selects each element of the PinSiteData object to perform an operation on that element.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <param name="operation">The operation to be performed on each element.</param>
+            <returns>New PinSiteData object containing the result of the operation.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Abs">
             <summary>
             Performs Math.Abs operation on every element in current PinSiteData object.
@@ -1146,6 +1154,14 @@
             Calculates the mean value across sites.
             </summary>
             <returns>The mean value across sites.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Select``1(System.Func{`0,``0})">
+            <summary>
+            Selects each element of the SiteData object to perform an operation on that element.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <param name="operation">The operation to be performed on each element.</param>
+            <returns>New SiteData object containing the result of the operation.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Abs">
             <summary>
