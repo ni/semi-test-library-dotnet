@@ -608,7 +608,7 @@
             <param name="value2">The scalar value to be added.</param>
             <returns>A new PinSiteData object that contains the result of the addition.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add``1(``0)">
             <summary>
             Performs add operation between every element in current PinSiteData object and the given value.
             </summary>
@@ -623,7 +623,7 @@
             <param name="value2">The SiteData object to be added.</param>
             <returns>A new PinSiteData object that contains the result of the addition.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs add operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
@@ -638,14 +638,14 @@
             <param name="value2">The second PinSiteData object.</param>
             <returns>A new PinSiteData object that contains the result of the addition.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Performs add operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to be added.</param>
             <returns>A new PinSiteData object that contains the result of the addition.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,``0)">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given value.
             </summary>
@@ -653,7 +653,7 @@
             <param name="value">The scalar value to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
@@ -661,7 +661,7 @@
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
@@ -677,7 +677,7 @@
             <param name="value2">The divisor value.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``1(``0)">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given value.
             </summary>
@@ -692,7 +692,7 @@
             <param name="value2">The SiteData object that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
@@ -707,7 +707,7 @@
             <param name="value2">The second PinSiteData object that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
@@ -726,42 +726,42 @@
             </summary>
             <returns>A new PinSiteData object that contains the log10 results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum``1(``0)">
             <summary>
             Returns the larger one of the element in current PinSiteData object and the given value.
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new PinSiteData object that contains the larger values.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Returns the larger one of the element in current PinSiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData object that contains the larger values.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Returns the larger one of the element in current PinSiteData object and the given PinSiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData object that contains the larger values.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum``1(``0)">
             <summary>
             Returns the smaller one of the element in current PinSiteData object and the given value.
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new PinSiteData object that contains the smaller values.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Returns the smaller one of the element in current PinSiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData object that contains the smaller values.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Returns the smaller one of the element in current PinSiteData object and the given PinSiteData object.
             </summary>
@@ -776,7 +776,7 @@
             <param name="value2">The multiplier.</param>
             <returns>A new PinSiteData object that contains the multiply results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply``1(``0)">
             <summary>
             Performs multiply operation on every element in current PinSiteData object and the given value.
             </summary>
@@ -791,7 +791,7 @@
             <param name="value2">The SiteData object that contains multipliers.</param>
             <returns>A new PinSiteData object that contains the multiply results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs multiply operation on every element in current PinSiteData object and the given SiteData object.
             </summary>
@@ -806,7 +806,7 @@
             <param name="value2">The second PinSiteData object that contains multipliers.</param>
             <returns>A new PinSiteData object that contains the multiply results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Performs multiply operation on every element in current PinSiteData object and the given PinSiteData object.
             </summary>
@@ -819,21 +819,21 @@
             </summary>
             <returns>A new PinSiteData object that contains the negative values.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power``1(``0)">
             <summary>
             Raises every element in current PinSiteData object to the power of the given value.
             </summary>
             <param name="value">The value to use as the power.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Raises every element in current PinSiteData object to the power of every element in given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains power values.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Raises every element in current PinSiteData object to the power of every element in given PinSiteData object.
             </summary>
@@ -854,7 +854,7 @@
             <param name="value2">The value to subtract.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract``1(``0)">
             <summary>
             Subtracts the given value from every element in current PinSiteData object.
             </summary>
@@ -869,7 +869,7 @@
             <param name="value2">The SiteData object that contains values to subtract.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Subtracts every element in given SiteData object from every element in current PinSiteData object.
             </summary>
@@ -884,7 +884,7 @@
             <param name="value2">The second PinSiteData object that contains values to subtract.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Subtracts every element in given PinSiteData object from every element in current PinSiteData object.
             </summary>
@@ -1161,7 +1161,7 @@
             <param name="value2">The scalar value to be added.</param>
             <returns>A new SiteData object that contains the sum of the addition.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Add(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Add``1(``0)">
             <summary>
             Performs add operation between every element in current SiteData object and the given value.
             </summary>
@@ -1176,14 +1176,14 @@
             <param name="value2">The second SiteData object.</param>
             <returns>A new SiteData object that contains the sum of the addition.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Add(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Add``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs add operation between every element in current SiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to be added.</param>
             <returns>A new SiteData object that contains the sum of the addition.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,``0)">
             <summary>
             Performs compare operation between every element in current SiteData object and the given value.
             </summary>
@@ -1191,7 +1191,7 @@
             <param name="value">The scalar value to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs compare operation between every element in current SiteData object and the given SiteData object.
             </summary>
@@ -1207,7 +1207,7 @@
             <param name="value2">The divisor value.</param>
             <returns>A new SiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide``1(``0)">
             <summary>
             Performs divide operation between every element in current SiteData object and the given value.
             </summary>
@@ -1222,7 +1222,7 @@
             <param name="value2">The second divisor SiteData object.</param>
             <returns>A new SiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs divide operation between every element in current SiteData object and the given SiteData object.
             </summary>
@@ -1241,28 +1241,28 @@
             </summary>
             <returns>A new SiteData object that contains the log10 results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum``1(``0)">
             <summary>
             Returns the larger of the element in current SiteData object and the given value.
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new SiteData object that contains the larger values.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Returns the larger of the element in current SiteData object and the given SiteData object.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new SiteData object that contains the larger values.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum``1(``0)">
             <summary>
             Returns the smaller of the element in current SiteData object and the given value.
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new SiteData object that contains the smaller values.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Returns the smaller of the element in current SiteData object and the given SiteData object.
             </summary>
@@ -1277,7 +1277,7 @@
             <param name="value2">The multiplier.</param>
             <returns>A new SiteData object that contains the multiply results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Multiply(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Multiply``1(``0)">
             <summary>
             Performs multiply operation on every element in current SiteData object and the given value.
             </summary>
@@ -1292,7 +1292,7 @@
             <param name="value2">The second SiteData object that contains multipliers.</param>
             <returns>A new SiteData object that contains the multiply results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Multiply``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs multiply operation on every element in current SiteData object and the given SiteData object.
             </summary>
@@ -1305,14 +1305,14 @@
             </summary>
             <returns>A new SiteData object that contains the negative values.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power``1(``0)">
             <summary>
             Raises every element in current SiteData to the power of the given value.
             </summary>
             <param name="value">The value to use as the power.</param>
             <returns>A new SiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Raises every element in current SiteData to the power of every element in given SiteData object.
             </summary>
@@ -1333,7 +1333,7 @@
             <param name="value2">The value to subtract.</param>
             <returns>A new SiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Subtract(`0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Subtract``1(``0)">
             <summary>
             Subtracts the given value from every element in current SiteData object.
             </summary>
@@ -1348,7 +1348,7 @@
             <param name="value2">The second SiteData object that contains values to subtract.</param>
             <returns>A new SiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Subtract(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Subtract``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Subtracts every element in given SiteData from every element in current SiteData object.
             </summary>
