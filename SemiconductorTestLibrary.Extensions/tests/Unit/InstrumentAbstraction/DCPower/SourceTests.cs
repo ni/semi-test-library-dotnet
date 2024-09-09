@@ -145,7 +145,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("DifferentSMUDevices.pinmap")]
         [InlineData("DifferentSMUDevicesOfSameModelSharedChannelGroup.pinmap")]
-        public void DifferentSMUDevices_ForceVoltageWithSingleSettingsObject_CorrectVoltagesForced(string pinMapFileName)
+        public void DifferentSMUDevices_ForceVoltageWithSingleSettingsObject_CorrectVoltageForced(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -158,7 +158,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceVoltageWithPerPinSettingsObject_CorrectVoltageForced(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceVoltageWithPerPinSettingsObject_CorrectVoltagesForced(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
@@ -230,7 +230,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceVoltageWithPerPinPerSiteSettingsObject_CorrectVoltageForced(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceVoltageWithPerPinPerSiteSettingsObject_CorrectVoltagesForced(bool pinMapWithChannelGroup)
         {
             var pinNames = new string[] { "VCC", "VDET" };
             var sessionManager = Initialize(pinMapWithChannelGroup);
@@ -339,7 +339,110 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceCurrentWithSymmetricLimitWithSettingsObject_SameCurrentForced(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForcePerPinCurrentsWithSymmetricLimit_CorrectCurrentsForced(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDD", "VDET" });
+
+            sessionsBundle.ForceCurrent(currentLevels: new Dictionary<string, double>() { ["VCC"] = 0.1, ["VDD"] = 0.2, ["VDET"] = 0.3 }, voltageLimit: 5);
+
+            if (pinMapWithChannelGroup)
+            {
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs["SMU_4110_C1_S04/0"], expectedCurrentLevel: 0.1, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(1).Session.Outputs["SMU_4147_C1_S11/0"], expectedCurrentLevel: 0.2, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs["SMU_4110_C1_S04/1"], expectedCurrentLevel: 0.3, expectedVoltageLimit: 5);
+            }
+            else
+            {
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput, expectedCurrentLevel: 0.2, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(2).AllChannelsOutput, expectedCurrentLevel: 0.3, expectedVoltageLimit: 5);
+            }
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevices.pinmap", false)]
+        [InlineData("DifferentSMUDevicesOfSameModelSharedChannelGroup.pinmap", true)]
+        public void DifferentSMUDevices_ForcePerSiteCurrentsWithSymmetricLimit_CorrectCurrentsForced(string pinMapFileName, bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            var currentLevels = new SiteData<double>(new[] { 0.1, 0.2, 0.3, 0.4 });
+            sessionsBundle.ForceCurrent(currentLevels, voltageLimit: 5);
+
+            if (pinMapWithChannelGroup)
+            {
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.Single().Session.Outputs["SMU_4147_C1_S11/0"], expectedCurrentLevel: 0.1, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.Single().Session.Outputs["SMU_4147_C2_S10/0"], expectedCurrentLevel: 0.2, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.Single().Session.Outputs["SMU_4147_C3_S12/0"], expectedCurrentLevel: 0.3, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.Single().Session.Outputs["SMU_4147_C4_S18/0"], expectedCurrentLevel: 0.4, expectedVoltageLimit: 5);
+            }
+            else
+            {
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput, expectedCurrentLevel: 0.2, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(2).AllChannelsOutput, expectedCurrentLevel: 0.3, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(3).AllChannelsOutput, expectedCurrentLevel: 0.4, expectedVoltageLimit: 5);
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForcePerPinPerSiteCurrentsWithSymmetricLimit_CorrectCurrentsForced(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
+
+            var currentLevels = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.2, [2] = 0.3, [3] = 0.4 },
+                ["VDET"] = new Dictionary<int, double>() { [0] = 0.15, [1] = 0.25, [2] = 0.35, [3] = 0.45 }
+            });
+            sessionsBundle.ForceCurrent(currentLevels, voltageLimit: 5);
+
+            if (pinMapWithChannelGroup)
+            {
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs["SMU_4110_C1_S04/0"], expectedCurrentLevel: 0.1, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs["SMU_4110_C1_S04/1"], expectedCurrentLevel: 0.15, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(1).Session.Outputs["SMU_4130_C2_S04/0"], expectedCurrentLevel: 0.2, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(1).Session.Outputs["SMU_4130_C2_S04/1"], expectedCurrentLevel: 0.25, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(2).Session.Outputs["SMU_4154_C3_S04/0"], expectedCurrentLevel: 0.3, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(2).Session.Outputs["SMU_4154_C3_S04/1"], expectedCurrentLevel: 0.35, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(3).Session.Outputs["SMU_4112_C4_S04/0"], expectedCurrentLevel: 0.4, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(3).Session.Outputs["SMU_4112_C4_S04/1"], expectedCurrentLevel: 0.45, expectedVoltageLimit: 5);
+            }
+            else
+            {
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput, expectedCurrentLevel: 0.15, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(2).AllChannelsOutput, expectedCurrentLevel: 0.2, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(3).AllChannelsOutput, expectedCurrentLevel: 0.25, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(4).AllChannelsOutput, expectedCurrentLevel: 0.3, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(5).AllChannelsOutput, expectedCurrentLevel: 0.35, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(6).AllChannelsOutput, expectedCurrentLevel: 0.4, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(7).AllChannelsOutput, expectedCurrentLevel: 0.45, expectedVoltageLimit: 5);
+            }
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevices.pinmap")]
+        [InlineData("DifferentSMUDevicesOfSameModelSharedChannelGroup.pinmap")]
+        public void DifferentSMUDevices_ForceCurrentWithSingleSettingsObject_CorrectCurrentForced(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            sessionsBundle.ForceCurrent(new DCPowerSourceSettings() { Level = 0.1, Limit = 3.6 });
+
+            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimit: 3.6));
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceCurrentWithPerPinSettingsObject_CorrectCurrentsForced(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
@@ -372,6 +475,91 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(5).AllChannelsOutput, expectedCurrentLevel: 0.2, expectedVoltageLimit: 5);
                 AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(6).AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimit: 3);
                 AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(7).AllChannelsOutput, expectedCurrentLevel: 0.2, expectedVoltageLimit: 5);
+            }
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevices.pinmap", false)]
+        [InlineData("DifferentSMUDevicesOfSameModelSharedChannelGroup.pinmap", true)]
+        public void DifferentSMUDevices_ForceCurrentWithPerSiteSettingsObject_CorrectCurrentsForced(string pinMapFileName, bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            var settings = new SiteData<DCPowerSourceSettings>(new[]
+            {
+                new DCPowerSourceSettings() { Level = 0.1, Limit = 3.6 },
+                new DCPowerSourceSettings() { Level = 0.2, Limit = 5 },
+                new DCPowerSourceSettings() { Level = 0.3, Limit = 3.6 },
+                new DCPowerSourceSettings() { Level = 0.4, Limit = 5 }
+            });
+            sessionsBundle.ForceCurrent(settings);
+
+            if (pinMapWithChannelGroup)
+            {
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.Single().Session.Outputs["SMU_4147_C1_S11/0"], expectedCurrentLevel: 0.1, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.Single().Session.Outputs["SMU_4147_C2_S10/0"], expectedCurrentLevel: 0.2, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.Single().Session.Outputs["SMU_4147_C3_S12/0"], expectedCurrentLevel: 0.3, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.Single().Session.Outputs["SMU_4147_C4_S18/0"], expectedCurrentLevel: 0.4, expectedVoltageLimit: 5);
+            }
+            else
+            {
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput, expectedCurrentLevel: 0.2, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(2).AllChannelsOutput, expectedCurrentLevel: 0.3, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(3).AllChannelsOutput, expectedCurrentLevel: 0.4, expectedVoltageLimit: 5);
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceCurrentWithPerPinPerSiteSettingsObject_CorrectCurrentsForced(bool pinMapWithChannelGroup)
+        {
+            var pinNames = new string[] { "VCC", "VDET" };
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+
+            var settings = new PinSiteData<DCPowerSourceSettings>(pinNames, new int[] { 0, 1, 2, 3 }, new DCPowerSourceSettings[][]
+            {
+                new DCPowerSourceSettings[]
+                {
+                    new DCPowerSourceSettings() { Level = 0.1, Limit = 3.6 },
+                    new DCPowerSourceSettings() { Level = 0.15, Limit = 5 },
+                    new DCPowerSourceSettings() { Level = 0.2, Limit = 3.6 },
+                    new DCPowerSourceSettings() { Level = 0.25, Limit = 5 }
+                },
+                new DCPowerSourceSettings[]
+                {
+                    new DCPowerSourceSettings() { Level = 0.3, Limit = 3.6 },
+                    new DCPowerSourceSettings() { Level = 0.35, Limit = 5 },
+                    new DCPowerSourceSettings() { Level = 0.4, Limit = 3.6 },
+                    new DCPowerSourceSettings() { Level = 0.45, Limit = 5 }
+                }
+            });
+            sessionsBundle.ForceCurrent(settings);
+
+            if (pinMapWithChannelGroup)
+            {
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs["SMU_4110_C1_S04/0"], expectedCurrentLevel: 0.1, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs["SMU_4110_C1_S04/1"], expectedCurrentLevel: 0.3, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(1).Session.Outputs["SMU_4130_C2_S04/0"], expectedCurrentLevel: 0.15, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(1).Session.Outputs["SMU_4130_C2_S04/1"], expectedCurrentLevel: 0.35, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(2).Session.Outputs["SMU_4154_C3_S04/0"], expectedCurrentLevel: 0.2, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(2).Session.Outputs["SMU_4154_C3_S04/1"], expectedCurrentLevel: 0.4, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(3).Session.Outputs["SMU_4112_C4_S04/0"], expectedCurrentLevel: 0.25, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(3).Session.Outputs["SMU_4112_C4_S04/1"], expectedCurrentLevel: 0.45, expectedVoltageLimit: 5);
+            }
+            else
+            {
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput, expectedCurrentLevel: 0.3, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(2).AllChannelsOutput, expectedCurrentLevel: 0.15, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(3).AllChannelsOutput, expectedCurrentLevel: 0.35, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(4).AllChannelsOutput, expectedCurrentLevel: 0.2, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(5).AllChannelsOutput, expectedCurrentLevel: 0.4, expectedVoltageLimit: 3.6);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(6).AllChannelsOutput, expectedCurrentLevel: 0.25, expectedVoltageLimit: 5);
+                AssertCurrentSettings(sessionsBundle.InstrumentSessions.ElementAt(7).AllChannelsOutput, expectedCurrentLevel: 0.45, expectedVoltageLimit: 5);
             }
         }
 
