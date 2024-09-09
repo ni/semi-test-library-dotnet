@@ -50,6 +50,36 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level values, and the method will assume all other properties that have been previously set. Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="voltageLevels">The voltage levels for all pins.</param>
+        /// <param name="currentLimitRange">The current limit range.</param>
+        /// <param name="apertureTime">The aperture Time.</param>
+        /// <param name="settlingTime">The settling time.</param>
+        /// <remarks>Use this method to force different voltage levels on different pins.</remarks>
+        public static void ForceVoltage(
+            this DigitalSessionsBundle sessionsBundle,
+            IDictionary<string, double> voltageLevels,
+            double? currentLimitRange = null,
+            double? apertureTime = null,
+            double? settlingTime = null)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var settings = new PPMUSettings
+                {
+                    OutputFunction = PpmuOutputFunction.DCVoltage,
+                    VoltageLevel = voltageLevels[sitePinInfo.PinName],
+                    CurrentLimitRange = currentLimitRange,
+                    ApertureTime = apertureTime,
+                    SettlingTime = settlingTime
+                };
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, settings);
+            });
+        }
+
+        /// <summary>
+        /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level values, and the method will assume all other properties that have been previously set. Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels for all sites.</param>
         /// <param name="currentLimitRange">The current limit range.</param>
         /// <param name="apertureTime">The aperture Time.</param>
