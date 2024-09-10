@@ -484,7 +484,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
         /// <param name="transientResponse">The transient response to use.</param>
         /// <param name="sequenceTimeoutInSeconds">The maximum time used to force the sequence.</param>
-        public static void ForceVoltageSequenceSynchronized(
+        internal static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             IDictionary<int, Dictionary<string, double[]>> voltageSequences,
             IDictionary<string, double> currentLimits,
