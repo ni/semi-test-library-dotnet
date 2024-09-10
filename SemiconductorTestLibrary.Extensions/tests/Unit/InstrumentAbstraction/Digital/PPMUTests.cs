@@ -54,6 +54,36 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_ForcePerPinVoltage_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var voltageLevels = new Dictionary<string, double>() { ["C0"] = 3.5, ["C1"] = 5 };
+            sessionsBundle.ForceVoltage(voltageLevels, currentLimitRange: 0.01);
+
+            Assert.Equal(3.5, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(3.5, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").Ppmu.DCVoltage.VoltageLevel, 1);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_ForcePerPinVoltage_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var voltageLevels = new Dictionary<string, double>() { ["C0"] = 3.5, ["C1"] = 5 };
+            sessionsBundle.ForceVoltage(voltageLevels, currentLimitRange: 0.01);
+
+            Assert.Equal(3.5, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(3.5, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").Ppmu.DCVoltage.VoltageLevel, 1);
+        }
+
+        [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_ForcePerSiteVoltage_ValuesCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -119,7 +149,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void TwoDevicesWorkForTwoSitesSeparately_ForceVoltageWithSettingsObject_ValuesCorrectlySet()
+        public void TwoDevicesWorkForTwoSitesSeparately_ForceVoltageWithPerPinSettingsObject_ValuesCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
@@ -142,7 +172,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void OneDeviceWorksForOnePinOnTwoSites_ForceVoltageWithSettingsObject_ValuesCorrectlySet()
+        public void OneDeviceWorksForOnePinOnTwoSites_ForceVoltageWithPerPinSettingsObject_ValuesCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
 
@@ -160,6 +190,87 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.DCVoltage.VoltageLevel, 1);
             Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime, 2);
             Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.ApertureTime, 2);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_ForceVoltageWithPerSiteSettingsObject_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var settings = new SiteData<PPMUSettings>(new Dictionary<int, PPMUSettings>()
+            {
+                [0] = new PPMUSettings() { VoltageLevel = 3.5, ApertureTime = 0.05 },
+                [1] = new PPMUSettings() { VoltageLevel = 5 },
+            });
+            sessionsBundle.ForceVoltage(settings);
+
+            Assert.Equal(3.5, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime, 2);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").Ppmu.ApertureTime);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_ForceVoltageWithPerSiteSettingsObject_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var settings = new SiteData<PPMUSettings>(new Dictionary<int, PPMUSettings>()
+            {
+                [0] = new PPMUSettings() { VoltageLevel = 3.5 },
+                [1] = new PPMUSettings() { VoltageLevel = 5, ApertureTime = 0.05 },
+            });
+            sessionsBundle.ForceVoltage(settings);
+
+            Assert.Equal(3.5, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.ApertureTime, 2);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.ApertureTime, 2);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_ForceVoltageWithPerSitePerPinSettingsObject_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var settings = new PinSiteData<PPMUSettings>(new Dictionary<string, IDictionary<int, PPMUSettings>>()
+            {
+                ["C0"] = new Dictionary<int, PPMUSettings>() { [0] = new PPMUSettings() { VoltageLevel = 3, ApertureTime = 0.05 }, [1] = new PPMUSettings() { VoltageLevel = 4 } },
+                ["C1"] = new Dictionary<int, PPMUSettings>() { [0] = new PPMUSettings() { VoltageLevel = 3.5 }, [1] = new PPMUSettings() { VoltageLevel = 4.5 } }
+            });
+            sessionsBundle.ForceVoltage(settings);
+
+            Assert.Equal(3, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.ApertureTime, 2);
+            Assert.Equal(3.5, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime);
+            Assert.Equal(4, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(4.5, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").Ppmu.DCVoltage.VoltageLevel, 1);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_ForceVoltageWithPerSitePerPinSettingsObject_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var settings = new PinSiteData<PPMUSettings>(new Dictionary<string, IDictionary<int, PPMUSettings>>()
+            {
+                ["C0"] = new Dictionary<int, PPMUSettings>() { [0] = new PPMUSettings() { VoltageLevel = 3, ApertureTime = 0.05 }, [1] = new PPMUSettings() { VoltageLevel = 4 } },
+                ["C1"] = new Dictionary<int, PPMUSettings>() { [0] = new PPMUSettings() { VoltageLevel = 3.5 }, [1] = new PPMUSettings() { VoltageLevel = 4.5 } }
+            });
+            sessionsBundle.ForceVoltage(settings);
+
+            Assert.Equal(3, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.ApertureTime, 2);
+            Assert.Equal(3.5, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(4, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(4.5, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.DCVoltage.VoltageLevel, 1);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.ApertureTime);
         }
 
         [Theory]
@@ -217,6 +328,140 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.DCCurrent.CurrentLevel, 1);
             Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime, 2);
             Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.ApertureTime, 2);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_ForceCurrentWithPerPinSettingsObject_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var settings = new Dictionary<string, PPMUSettings>()
+            {
+                ["C0"] = new PPMUSettings() { CurrentLevel = 0.01, ApertureTime = 0.05 },
+                ["C1"] = new PPMUSettings() { CurrentLevel = 0.02 },
+            };
+            sessionsBundle.ForceCurrent(settings);
+
+            Assert.Equal(0.01, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.01, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.ApertureTime, 2);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.ApertureTime, 2);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").Ppmu.ApertureTime);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_ForceCurrentWithPerPinSettingsObject_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var settings = new Dictionary<string, PPMUSettings>()
+            {
+                ["C0"] = new PPMUSettings() { CurrentLevel = 0.01 },
+                ["C1"] = new PPMUSettings() { CurrentLevel = 0.02, ApertureTime = 0.05 },
+            };
+            sessionsBundle.ForceCurrent(settings);
+
+            Assert.Equal(0.01, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0, site1/C0").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0, site1/C0").Ppmu.ApertureTime);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime, 2);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.ApertureTime, 2);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_ForceCurrentWithPerSiteSettingsObject_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var settings = new SiteData<PPMUSettings>(new Dictionary<int, PPMUSettings>()
+            {
+                [0] = new PPMUSettings() { CurrentLevel = 0.01, ApertureTime = 0.05 },
+                [1] = new PPMUSettings() { CurrentLevel = 0.02 },
+            });
+            sessionsBundle.ForceCurrent(settings);
+
+            Assert.Equal(0.01, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.ApertureTime, 2);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.ApertureTime);
+            Assert.Equal(0.01, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime, 2);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").Ppmu.ApertureTime);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_ForceCurrentWithPerSiteSettingsObject_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var settings = new SiteData<PPMUSettings>(new Dictionary<int, PPMUSettings>()
+            {
+                [0] = new PPMUSettings() { CurrentLevel = 0.01 },
+                [1] = new PPMUSettings() { CurrentLevel = 0.02, ApertureTime = 0.05 },
+            });
+            sessionsBundle.ForceCurrent(settings);
+
+            Assert.Equal(0.01, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.ApertureTime, 2);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_ForceCurrentWithPerSitePerPinSettingsObject_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var settings = new PinSiteData<PPMUSettings>(new Dictionary<string, IDictionary<int, PPMUSettings>>()
+            {
+                ["C0"] = new Dictionary<int, PPMUSettings>() { [0] = new PPMUSettings() { CurrentLevel = 0.01, ApertureTime = 0.05 }, [1] = new PPMUSettings() { CurrentLevel = 0.02 } },
+                ["C1"] = new Dictionary<int, PPMUSettings>() { [0] = new PPMUSettings() { CurrentLevel = 0.03 }, [1] = new PPMUSettings() { CurrentLevel = 0.02, ApertureTime = 0.06 } }
+            });
+            sessionsBundle.ForceCurrent(settings);
+
+            Assert.Equal(0.01, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.ApertureTime, 2);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.ApertureTime);
+            Assert.Equal(0.03, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.06, sessionsBundle.InstrumentSessions.ElementAt(1).Session.PinAndChannelMap.GetPinSet("site1/C1").Ppmu.ApertureTime, 2);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSites_ForceCurrentWithPerSitePerPinSettingsObject_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var settings = new PinSiteData<PPMUSettings>(new Dictionary<string, IDictionary<int, PPMUSettings>>()
+            {
+                ["C0"] = new Dictionary<int, PPMUSettings>() { [0] = new PPMUSettings() { CurrentLevel = 0.01, ApertureTime = 0.05 }, [1] = new PPMUSettings() { CurrentLevel = 0.02 } },
+                ["C1"] = new Dictionary<int, PPMUSettings>() { [0] = new PPMUSettings() { CurrentLevel = 0.03 }, [1] = new PPMUSettings() { CurrentLevel = 0.02, ApertureTime = 0.06 } }
+            });
+            sessionsBundle.ForceCurrent(settings);
+
+            Assert.Equal(0.01, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.05, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C0").Ppmu.ApertureTime, 2);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site1/C0").Ppmu.ApertureTime);
+            Assert.Equal(0.03, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(4e-6, sessionsBundle.InstrumentSessions.ElementAt(0).Session.PinAndChannelMap.GetPinSet("site0/C1").Ppmu.ApertureTime);
+            Assert.Equal(0.02, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.DCCurrent.CurrentLevel, 1);
+            Assert.Equal(0.06, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.Ppmu.ApertureTime, 2);
         }
 
         [Fact]
