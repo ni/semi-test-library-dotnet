@@ -33,12 +33,14 @@
     <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
+	<Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
+	  <SpecificVersion>False</SpecificVersion>
+	  <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDigital 24.5.0\NationalInstruments.ModularInstruments.NIDigital.Fx40.dll</HintPath>
+	</Reference>
+	<Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
+	  <SpecificVersion>False</SpecificVersion>
+	  <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDmm 23.8.0\NationalInstruments.ModularInstruments.NIDmm.Fx40.dll</HintPath>
+	</Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
