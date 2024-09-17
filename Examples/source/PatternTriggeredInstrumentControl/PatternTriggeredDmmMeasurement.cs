@@ -39,6 +39,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             // Note that values maybe hard coded for demonstration purposes and should otherwise be replaced with appropriate parameter inputs.
             var sessionManager = new TSMSessionManager(tsmContext);
             var timeoutInSeconds = 1.0;
+            var triggerLine = DmmTriggerSource.Ttl0; // TTL0 terminal names for DMM resources
 
             // 2. Use the TSMSessionManager to query sessions for target pins.
             var digitalPins = sessionManager.Digital(digitalPinNames);
@@ -48,7 +49,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             dmmPins.ConfigureMeasurementDigits(DmmMeasurementFunction.DCVolts, range: 5.0, resolutionDigits: 7.5);
             dmmPins.ConfigureApertureTime(apertureTime: 0.001);
             dmmPins.ConfigureAutoZero(DmmAuto.On);
-            dmmPins.ConfigureTrigger(DmmTriggerSource.Ttl0, 0.0);
+            dmmPins.ConfigureTrigger(triggerLine, 0.0);
             dmmPins.Do(x =>
             {
                 x.Session.Trigger.Slope = DmmSlope.Positive;
@@ -56,7 +57,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             // 3b. Get Fully Qualified Terminal Names to direct triggers
             var sourcefullyQualifiedTerminalName = digitalPins.InstrumentSessions.ElementAt(0).Session.Event.PatternOpcodeEvents[patternOpcodeEvent].TerminalName;
             // 3c. Connect terminals from exported terminal to DMM trigger line - Assumes the DMM(s) and the Digital instrument(s) are all in the same PXIChassis
-            DaqSystem.Local.ConnectTerminals(sourcefullyQualifiedTerminalName, "PXITrig_0");
+            DaqSystem.Local.ConnectTerminals(sourcefullyQualifiedTerminalName, $"PXI_Trig{triggerLine.ToString().Last()}");
 
             // 4a. Initiate the DMM (non-blocking), the DMM will await the configured trigger before measuring.
             dmmPins.Initiate();
@@ -71,7 +72,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             tsmContext.PublishResults(measurements, publishedDataID);
 
             // 6. Cleanup - disconnect routed terminals
-            DaqSystem.Local.DisconnectTerminals(sourcefullyQualifiedTerminalName, "PXITrig_0");
+            DaqSystem.Local.DisconnectTerminals(sourcefullyQualifiedTerminalName, $"PXI_Trig{triggerLine.ToString().Last()}");
         }
 
         /// <summary>
