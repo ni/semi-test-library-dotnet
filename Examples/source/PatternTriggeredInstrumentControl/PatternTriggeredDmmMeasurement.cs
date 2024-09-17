@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using NationalInstruments.DAQmx;
-using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.ModularInstruments.NIDmm;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;

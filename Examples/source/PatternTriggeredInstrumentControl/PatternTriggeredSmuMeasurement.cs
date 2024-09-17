@@ -5,8 +5,6 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using SignalType = NationalInstruments.ModularInstruments.NIDigital.SignalType;
-using TriggerType = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples
 {
