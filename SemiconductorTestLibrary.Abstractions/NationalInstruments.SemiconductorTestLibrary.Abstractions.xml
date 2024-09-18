@@ -510,7 +510,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],System.Int32[],`0[])">
             <summary>
             Initializes a PinSiteData object with pin unique data.
-            Where the specified site unique data will be repeated across all sites.
+            Where the specified pin unique data will be repeated across all sites.
             </summary>
             <remarks>
             The lengths of the pinNames and perPinData inputs must be equal,
@@ -702,6 +702,10 @@
             </summary>
             <param name="value">The scalar value to be added.</param>
             <returns>A new PinSiteData object that contains the result of the addition.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -717,6 +721,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to be added.</param>
             <returns>A new PinSiteData object that contains the result of the addition.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
@@ -732,6 +740,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to be added.</param>
             <returns>A new PinSiteData object that contains the result of the addition.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,``0)">
             <summary>
@@ -740,6 +752,10 @@
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -748,6 +764,10 @@
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
@@ -756,6 +776,10 @@
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
@@ -771,6 +795,10 @@
             </summary>
             <param name="value">The divisor value.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -786,6 +814,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
@@ -801,6 +833,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert">
             <summary>
@@ -820,6 +856,10 @@
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new PinSiteData object that contains the larger values.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -827,6 +867,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData object that contains the larger values.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
@@ -834,6 +878,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData object that contains the larger values.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum``1(``0)">
             <summary>
@@ -841,6 +889,10 @@
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new PinSiteData object that contains the smaller values.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -848,6 +900,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData object that contains the smaller values.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
@@ -855,6 +911,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData object that contains the smaller values.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
@@ -870,6 +930,10 @@
             </summary>
             <param name="value">The multiplier.</param>
             <returns>A new PinSiteData object that contains the multiply results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -885,6 +949,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains multipliers.</param>
             <returns>A new PinSiteData object that contains the multiply results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
@@ -900,6 +968,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains multipliers.</param>
             <returns>A new PinSiteData object that contains the multiply results.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Negate">
             <summary>
@@ -913,6 +985,10 @@
             </summary>
             <param name="value">The value to use as the power.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -920,6 +996,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains power values.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
@@ -927,6 +1007,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains power values.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SquareRoot">
             <summary>
@@ -948,6 +1032,10 @@
             </summary>
             <param name="value">The value to subtract.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -963,6 +1051,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to subtract.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
@@ -978,6 +1070,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains values to subtract.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Truncate">
             <summary>
@@ -992,6 +1088,7 @@
             <param name="value">The PinSiteData to operate.</param>
             <param name="count">The number of bits to shift.</param>
             <returns>A new PinSiteData that contains shifted values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ShiftLeft(System.Int32)">
             <summary>
@@ -999,6 +1096,7 @@
             </summary>
             <param name="count">The number of bits to shift.</param>
             <returns>A new PinSiteData that contains shifted values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_RightShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Int32)">
             <summary>
@@ -1007,6 +1105,7 @@
             <param name="value">The PinSiteData to operate.</param>
             <param name="count">The number of bits to shift.</param>
             <returns>A new PinSiteData that contains shifted values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ShiftRight(System.Int32)">
             <summary>
@@ -1014,6 +1113,7 @@
             </summary>
             <param name="count">The number of bits to shift.</param>
             <returns>A new PinSiteData that contains shifted values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
@@ -1022,6 +1122,7 @@
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The scalar value.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseAnd``1(``0)">
             <summary>
@@ -1029,6 +1130,11 @@
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -1037,6 +1143,7 @@
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The SiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseAnd``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -1044,6 +1151,11 @@
             </summary>
             <param name="other">The SiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
@@ -1052,6 +1164,7 @@
             <param name="value1">The first PinSiteData object.</param>
             <param name="value2">The second PinSiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseAnd``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
@@ -1059,6 +1172,11 @@
             </summary>
             <param name="other">The other PinSiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
@@ -1067,6 +1185,7 @@
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The scalar value.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseOr``1(``0)">
             <summary>
@@ -1074,6 +1193,11 @@
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -1082,6 +1206,7 @@
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The SiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseOr``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -1089,6 +1214,11 @@
             </summary>
             <param name="other">The SiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
@@ -1097,6 +1227,7 @@
             <param name="value1">The first PinSiteData object.</param>
             <param name="value2">The second PinSiteData object.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseOr``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
@@ -1104,6 +1235,11 @@
             </summary>
             <param name="other">The other PinSiteData object.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
@@ -1112,6 +1248,7 @@
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The scalar value.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(``0)">
             <summary>
@@ -1119,6 +1256,11 @@
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -1127,6 +1269,7 @@
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The SiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -1134,6 +1277,11 @@
             </summary>
             <param name="other">The SiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
@@ -1142,6 +1290,7 @@
             <param name="value1">The first PinSiteData object.</param>
             <param name="value2">The second PinSiteData object.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
@@ -1149,6 +1298,11 @@
             </summary>
             <param name="other">The other PinSiteData object.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_OnesComplement(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
@@ -1156,12 +1310,14 @@
             </summary>
             <param name="value">The PinSiteData object.</param>
             <returns>A new PinSiteData object that contains the complemented values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseComplement">
             <summary>
             Gets the bitwise complement (~) of the original PinSiteData object.
             </summary>
             <returns>A new PinSiteData object that contains the complemented values.</returns>
+            <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1">
             <summary>
@@ -1185,22 +1341,22 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Collections.Generic.IDictionary{System.Int32,`0})">
             <summary>
-            Initializes a SiteData object with per-pin multiple sites data.
+            Initializes a SiteData object with site unique data.
             </summary>
-            <param name="data">The per-pin multiple sites data.</param>
+            <param name="data">The site specific data values.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Int32[],`0)">
             <summary>
             Initializes a SiteData object with the same data value across all sites.
-            Each element in the siteNumbers array represents a site number/value.
+            Each element in the siteNumbers array represents a unique site number/value.
             </summary>
-            <param name="siteNumbers">The number of sites.</param>
-            <param name="data">The data.</param>
+            <param name="siteNumbers">Site numbers to associate with the data./</param>
+            <param name="data">The data to be repeated across all sites.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Int32[],`0[])">
             <summary>
             Initializes a SiteData object with site unique data.
-            Each element in the siteNumbers array represents an site number/value.
+            Each element in the siteNumbers array represents a unique site number/value.
             Each element in the perSiteData array represents the data for the specific site
             located at the same index within the siteNumbers array.
             </summary>
@@ -1208,8 +1364,11 @@
             The lengths of the array inputs must be equal,
             otherwise an exception will be thrown.
             </remarks>
-            <param name="siteNumbers">The number of sites.</param>
-            <param name="perSiteData">The data.</param>
+            <param name="siteNumbers">Site numbers to associate with the data.</param>
+            <param name="perSiteData">
+            Array of site unique data, where each element represents the data for the specific site,
+            located at the same index within the siteNumbers array.
+            </param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.GetValue(System.Int32)">
             <summary>
@@ -1280,6 +1439,10 @@
             </summary>
             <param name="value">The scalar value to be added.</param>
             <returns>A new SiteData object that contains the sum of the addition.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -1295,6 +1458,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to be added.</param>
             <returns>A new SiteData object that contains the sum of the addition.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,``0)">
             <summary>
@@ -1303,6 +1470,10 @@
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -1311,6 +1482,10 @@
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
@@ -1326,6 +1501,10 @@
             </summary>
             <param name="value">The divisor value.</param>
             <returns>A new SiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -1341,6 +1520,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new SiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Invert">
             <summary>
@@ -1360,6 +1543,10 @@
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new SiteData object that contains the larger values.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -1367,6 +1554,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new SiteData object that contains the larger values.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum``1(``0)">
             <summary>
@@ -1374,6 +1565,10 @@
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new SiteData object that contains the smaller values.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -1381,6 +1576,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new SiteData object that contains the smaller values.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
@@ -1396,6 +1595,10 @@
             </summary>
             <param name="value">The multiplier.</param>
             <returns>A new SiteData object that contains the multiply results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -1411,6 +1614,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains multipliers.</param>
             <returns>A new SiteData object that contains the multiply results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Negate">
             <summary>
@@ -1424,6 +1631,10 @@
             </summary>
             <param name="value">The value to use as the power.</param>
             <returns>A new SiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -1431,6 +1642,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains power values.</param>
             <returns>A new SiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SquareRoot">
             <summary>
@@ -1452,6 +1667,10 @@
             </summary>
             <param name="value">The value to subtract.</param>
             <returns>A new SiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -1467,6 +1686,10 @@
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to subtract.</param>
             <returns>A new SiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Truncate">
             <summary>
@@ -1481,6 +1704,7 @@
             <param name="value">The SiteData object to operate.</param>
             <param name="count">The number of bits to shift.</param>
             <returns>A new SiteData object that contains shifted values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ShiftLeft(System.Int32)">
             <summary>
@@ -1488,6 +1712,7 @@
             </summary>
             <param name="count">The number of bits to shift.</param>
             <returns>A new SiteData object that contains shifted values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_RightShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},System.Int32)">
             <summary>
@@ -1496,6 +1721,7 @@
             <param name="value">The SiteData object to operate.</param>
             <param name="count">The number of bits to shift.</param>
             <returns>A new SiteData object that contains shifted values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ShiftRight(System.Int32)">
             <summary>
@@ -1503,6 +1729,7 @@
             </summary>
             <param name="count">The number of bits to shift.</param>
             <returns>A new SiteData object that contains shifted values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
@@ -1511,6 +1738,7 @@
             <param name="value1">The SiteData object.</param>
             <param name="value2">The scalar value.</param>
             <returns>A new SiteData object that contains result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseAnd``1(``0)">
             <summary>
@@ -1518,6 +1746,11 @@
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new SiteData object that contains result values.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -1526,6 +1759,7 @@
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object.</param>
             <returns>A new SiteData object that contains result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseAnd``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -1533,6 +1767,11 @@
             </summary>
             <param name="other">The other SiteData object.</param>
             <returns>A new SiteData object that contains result values.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
@@ -1541,6 +1780,7 @@
             <param name="value1">The SiteData object.</param>
             <param name="value2">The scalar value.</param>
             <returns>A new SiteData object that contains the result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseOr``1(``0)">
             <summary>
@@ -1548,6 +1788,11 @@
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new SiteData object that contains the result values.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -1556,6 +1801,7 @@
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object.</param>
             <returns>A new SiteData object that contains the result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseOr``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -1563,6 +1809,11 @@
             </summary>
             <param name="other">The other SiteData object.</param>
             <returns>A new SiteData object that contains the result values.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
@@ -1571,6 +1822,7 @@
             <param name="value1">The SiteData object.</param>
             <param name="value2">The scalar value.</param>
             <returns>A new SiteData object that contains the result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseXor``1(``0)">
             <summary>
@@ -1578,6 +1830,11 @@
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new SiteData object that contains the result values.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -1586,6 +1843,7 @@
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object.</param>
             <returns>A new SiteData object that contains the result values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
@@ -1593,6 +1851,11 @@
             </summary>
             <param name="other">The other SiteData object.</param>
             <returns>A new SiteData object that contains the result values.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_OnesComplement(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
@@ -1600,12 +1863,14 @@
             </summary>
             <param name="value">The SiteData object.</param>
             <returns>A new SiteData object that contains the complemented values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseComplement">
             <summary>
             Gets the bitwise complement (~) of the original SiteData object.
             </summary>
             <returns>A new SiteData object that contains the complemented values.</returns>
+            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions">
             <summary>
@@ -3375,6 +3640,11 @@
               Looks up a localized string similar to The size of the data array parameter ({0}) must be equal to the length of the site numbers parameter ({1})..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_PinNamesNotUnique">
+            <summary>
+              Looks up a localized string similar to The values of the pin names parameter must be unique..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_PinNotFound">
             <summary>
               Looks up a localized string similar to The pin name {0} does not exist..
@@ -3388,6 +3658,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteNumbersMismatch">
             <summary>
               Looks up a localized string similar to The 2 SiteData must contain data for same sites..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteNumbersNotUnique">
+            <summary>
+              Looks up a localized string similar to The values of the site numbers parameter must be unique..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_NotUsingChannelGroups">
