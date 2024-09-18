@@ -43,8 +43,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             SetupNIDigitalPatternInstrumentation(tsmContext);
             SetupNIDMMInstrumentation(tsmContext);
 
-            var digitalPatternPinNames = new[] { "PinA", "PinB" };
-            var dmmPinNames = new[] { "PinA", "PinB" };
+            var digitalPatternPinNames = new[] { "DigitalPins" };
+            var dmmPinNames = new[] { "DMM" };
             var patternName = "GenerateTrigger";
             var publishedDataID = "DmmMeasurementID-TESTING";
 

@@ -1,11 +1,19 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Globalization;
+using System.Linq;
+using Ivi.Visa;
 using NationalInstruments.DAQmx;
+using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.ModularInstruments.NIDmm;
+using NationalInstruments.ModularInstruments.SystemServices.DeviceServices;
+using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using NationalInstruments.Visa;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples
 {
@@ -19,7 +27,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
         /// <summary>
         /// This example demonstrates how to make a DMM Measurement from a trigger sent from a pattern.
         /// This example assumes the DMM(s) and the Digital instrument(s) are all in the same PXIChassis,
-        /// which supports cross-chassis trigger routing.
+        /// it does not demonstrate cross-chassis trigger routing.
         /// </summary>
         /// <param name="tsmContext">The Semiconductor Module Context object.</param>
         /// <param name="digitalPinNames">Name of digital pins used in the target pattern</param>
@@ -38,8 +46,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             // 1. Create a new TSMSessionManager object and any other local variables required for the test.
             // Note that values maybe hard coded for demonstration purposes and should otherwise be replaced with appropriate parameter inputs.
             var sessionManager = new TSMSessionManager(tsmContext);
-            var timeoutInSeconds = 1.0;
-            var triggerLine = DmmTriggerSource.Ttl0; // TTL0 terminal names for DMM resources
+            var timeoutInSeconds = 10.0;
+            var triggerLine = DmmTriggerSource.Ttl0; // TTL0 terminal names used for DMM resources
+            var triggerLineNumber = int.Parse(triggerLine.ToString().Last().ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture);
 
             // 2. Use the TSMSessionManager to query sessions for target pins.
             var digitalPins = sessionManager.Digital(digitalPinNames);
@@ -52,12 +61,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             dmmPins.ConfigureTrigger(triggerLine, 0.0);
             dmmPins.Do(x =>
             {
-                x.Session.Trigger.Slope = DmmSlope.Positive;
+                x.Session.Trigger.Slope = DmmSlope.Negative;
             });
             // 3b. Get Fully Qualified Terminal Names to direct triggers
-            var sourcefullyQualifiedTerminalName = digitalPins.InstrumentSessions.ElementAt(0).Session.Event.PatternOpcodeEvents[patternOpcodeEvent].TerminalName;
-            // 3c. Connect terminals from exported terminal to DMM trigger line - Assumes the DMM(s) and the Digital instrument(s) are all in the same PXIChassis
-            DaqSystem.Local.ConnectTerminals(sourcefullyQualifiedTerminalName, $"PXI_Trig{triggerLine.ToString().Last()}");
+            var sourceResource = digitalPins.InstrumentSessions.ElementAt(0).Session.DriverOperation.IOResourceDescriptor;
+            var destinationResources = dmmPins.InstrumentSessions.Select(x => x.Session.DriverOperation.IOResourceDescriptor).ToArray();
+            // 3c. Export the pattern event0 to generate the digital trigger
+            digitalPins.ExportSignal(SignalType.PatternOpcodeEvent, $"patternOpcodeEvent{patternOpcodeEvent}", $"PXI_Trig{triggerLineNumber}");
+            // 3d. Connect terminals from exported terminal to DMM trigger line - Assumes the DMM(s) and the Digital Instrument(s) are all in the same PXIChassis
+            RoutePXITriggerAcrossChassisSegments(triggerLineNumber, sourceResource, destinationResources, out var triggerSession, out var sourceSegment, out var destinationSegment);
 
             // 4a. Initiate the DMM (non-blocking), the DMM will await the configured trigger before measuring.
             dmmPins.Initiate();
@@ -72,74 +84,100 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             tsmContext.PublishResults(measurements, publishedDataID);
 
             // 6. Cleanup - disconnect routed terminals
-            DaqSystem.Local.DisconnectTerminals(sourcefullyQualifiedTerminalName, $"PXI_Trig{triggerLine.ToString().Last()}");
+            UnroutePXITriggerAcrossChassisSegments(triggerLineNumber, triggerSession, sourceSegment, destinationSegment);
         }
 
-        /// <summary>
-        /// This example demonstrates how to make a DMM Measurement from a trigger sent from a pattern.
-        /// This example leverages the PXIe-6674T Timing and Synchronization module to connect trigger routes,
-        /// which supports cross-chassis trigger routing.
-        /// </summary>
-        /// <param name="tsmContext">The Semiconductor Module Context object.</param>
-        /// <param name="digitalPinNames">Name of digital pins used in the target pattern</param>
-        /// <param name="dmmPinNames">Name of DMM Pins to be measured</param>
-        /// <param name="triggerPatternName">Name of the pattern to burst that will trigger the measurements</param>
-        /// <param name="patternOpcodeEvent">The pattern opcode event number, 0-3 (default: 0)</param>
-        /// <param name="publishedDataID">The publishedDataID to use for the published measurement results (Default: DmmMeasurements).</param>
-        public static void PatternTriggeredDmmMeasurementWithSync(
-            ISemiconductorModuleContext tsmContext,
-            string[] digitalPinNames,
-            string[] dmmPinNames,
-            string triggerPatternName,
-            int patternOpcodeEvent = 0,
-            string publishedDataID = "DmmMeasurements")
+        private static void RoutePXITriggerAcrossChassisSegments(
+            int triggerLineNumber,
+            string sourceDeviceResource,
+            string[] destinationDeviceResources,
+            out PxiBackplane pxiSession,
+            out short sourceSegment,
+            out short destinationSegment)
         {
-            // 1. Create a new TSMSessionManager object and any other local variables required for the test.
-            // Note that values maybe hard coded for demonstration purposes and should otherwise be replaced with appropriate parameter inputs.
-            var sessionManager = new TSMSessionManager(tsmContext);
-            var timeoutInSeconds = 1.0;
-            var triggerLine = DmmTriggerSource.Ttl0; // TTL0 terminal names for DMM resources
-
-            // 2. Use the TSMSessionManager to query sessions for target pins.
-            var digitalPins = sessionManager.Digital(digitalPinNames);
-            var dmmPins = sessionManager.DMM(dmmPinNames);
-            var syncDevice = sessionManager.Sync();
-
-            // 3a. Configure the DMM Sessions and configure trigger source.
-            dmmPins.ConfigureMeasurementDigits(DmmMeasurementFunction.DCVolts, range: 5.0, resolutionDigits: 7.5);
-            dmmPins.ConfigureApertureTime(apertureTime: 0.001);
-            dmmPins.ConfigureAutoZero(DmmAuto.On);
-            dmmPins.ConfigureTrigger(triggerLine, 0.0);
-            dmmPins.Do(x =>
+            sourceSegment = -1;
+            destinationSegment = -1;
+            GetDeviceInfo(
+                sourceDeviceResource,
+                destinationDeviceResources,
+                out int sourceChassisNumber,
+                out sourceSegment,
+                out int[] destinationChassisNumbers,
+                out short[] destinationSegments);
+            for (int i = 0; i < destinationDeviceResources.Length; i++)
             {
-                x.Session.Trigger.Slope = DmmSlope.Positive;
-            });
-            // 3b. Get Fully Qualified Terminal Names to direct triggers
-            var sourcefullyQualifiedTerminalName = digitalPins.InstrumentSessions.ElementAt(0).Session.Event.PatternOpcodeEvents[patternOpcodeEvent].TerminalName;
-            var destinationfullyQualifiedTerminalNames = dmmPins.InstrumentSessions.Select(x => $"/{x.Session.DriverOperation.IOResourceDescriptor}/{triggerLine.ToString()}");
-            // 3c. Connect terminals from exported terminal to DMM trigger line - Assumes the DMM(s) and the Digital Instrument(s) are all in the same PXIChassis
-            foreach (var terminal in destinationfullyQualifiedTerminalNames)
-            {
-                syncDevice.Do(x => { x.Session.ConnectTriggerTerminals(sourcefullyQualifiedTerminalName, terminal); });
+                if (destinationChassisNumbers[i] != sourceChassisNumber)
+                {
+                    throw new NotSupportedException("Devices are not in same chassis. Routing triggers across chassis is not current supported by this code");
+                }
             }
 
-            // 4a. Initiate the DMM (non-blocking), the DMM will await the configured trigger before measuring.
-            dmmPins.Initiate();
-
-            // 4b. Burst the pattern that generates the digital trigger (event0)
-            digitalPins.BurstPattern(triggerPatternName);
-
-            // 4c. Fetch
-            var measurements = dmmPins.Fetch(maximumTimeInMilliseconds: timeoutInSeconds * 1000);
-
-            // 5. Publish Results
-            tsmContext.PublishResults(measurements, publishedDataID);
-
-            // 6. Cleanup - disconnect routed terminals
-            foreach (var terminal in destinationfullyQualifiedTerminalNames)
+            using (var rmSession = new ResourceManager())
             {
-                syncDevice.Do(x => { x.Session.DisconnectTriggerTerminals(sourcefullyQualifiedTerminalName, terminal); });
+                // Chassis identifier as Visa Resource Name. Can be seen in NI MAX.
+                pxiSession = (PxiBackplane)rmSession.Open($"PXI0::{sourceChassisNumber}::BACKPLANE");
             }
+            if (sourceSegment < destinationSegments.Max())
+            {
+                destinationSegment = destinationSegments.Max();
+            }
+            if (sourceSegment >= destinationSegments.Max())
+            {
+                destinationSegment = destinationSegments.Min();
+            }
+            pxiSession.MapTrigger(sourceSegment, (TriggerLine)triggerLineNumber, destinationSegment, (TriggerLine)triggerLineNumber);
+        }
+
+        private static void UnroutePXITriggerAcrossChassisSegments(int triggerLineNumber, PxiBackplane pxiSession, short sourceBus = 1, short desinationeBus = 3)
+        {
+            pxiSession.UnmapTrigger(sourceBus, (TriggerLine)triggerLineNumber, desinationeBus, (TriggerLine)triggerLineNumber);
+            pxiSession.Dispose();
+        }
+
+        private static void GetDeviceInfo(
+            string sourceDeviceResourceString,
+            string[] destinationDeviceResourceStrings,
+            out int sourceChassisNumber,
+            out short sourceSegment,
+            out int[] destinationChassisNumbers,
+            out short[] destinationSegments)
+        {
+            sourceChassisNumber = -1;
+            sourceSegment = -1;
+            destinationChassisNumbers = new int[destinationDeviceResourceStrings.Length];
+            destinationSegments = new short[destinationDeviceResourceStrings.Length];
+            var modularInstrumentsSystem = new ModularInstrumentsSystem();
+            foreach (DeviceInfo deviceInfo in modularInstrumentsSystem.DeviceCollection)
+            {
+                if (deviceInfo.Name.Equals(sourceDeviceResourceString))
+                {
+                    sourceChassisNumber = deviceInfo.ChassisNumber;
+                    sourceSegment = GetChassisSegment(deviceInfo.SlotNumber);
+                }
+                if (destinationDeviceResourceStrings.Contains(deviceInfo.Name))
+                {
+                    var index = destinationDeviceResourceStrings.IndexOf(deviceInfo.Name);
+                    destinationChassisNumbers[index] = deviceInfo.ChassisNumber;
+                    destinationSegments[index] = GetChassisSegment(deviceInfo.SlotNumber);
+                }
+            }
+        }
+
+        private static short GetChassisSegment(int slotNumber)
+        {
+            if (slotNumber <= 6)
+            {
+                return 1;
+            }
+            if (slotNumber <= 12)
+            {
+                return 2;
+            }
+            if (slotNumber <= 18)
+            {
+                return 3;
+            }
+            return -1;
         }
     }
 }
