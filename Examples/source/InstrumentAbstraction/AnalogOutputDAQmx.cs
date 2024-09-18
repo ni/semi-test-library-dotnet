@@ -93,5 +93,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             aoFGenPins.Stop();
             aoFGenPins.Unreserve();
         }
+
+        internal static void ConfiguringCommonModeOffset(ISemiconductorModuleContext tsmContext, string[] aoPinNames, double commonModeValue)
+        {
+            // Creates an instance of the TSMSessionManager to handle the sessions.
+            var sessionManager = new TSMSessionManager(tsmContext);
+
+            // Assumes all aoPinNames passed in are mapped to DAQmx channels of task type: "AO" in Pin Map.
+            var aoPins = sessionManager.DAQmx(aoPinNames);
+
+            // Sets the terminal Configuration to Differential
+            // Common mode offset value is only applicable when the terminal configuration is set to differential.
+            aoPins.ConfigureAOTerminalConfiguration(AOTerminalConfiguration.Differential);
+
+            // Configures the Common Mode Offset value for all the tasks.
+            aoPins.Do(taskInfo =>
+            {
+                taskInfo.Task.AOChannels.All.CommonModeOffset = commonModeValue;
+            });
+        }
     }
 }
