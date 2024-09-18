@@ -501,6 +501,77 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <summary>
+        /// Configures the specified pin- and site-unique <see cref="PPMUSettings"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The PPMU settings to configure</param>
+        public static void ConfigureSettings(this DigitalSessionsBundle sessionsBundle, PPMUSettings settings)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                var ppmu = sessionInfo.PinSet.Ppmu;
+                ConfigureSettings(ppmu, settings);
+            });
+        }
+
+        /// <summary>
+        /// Configures the specified pin-unique <see cref="PPMUSettings"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The PPMU settings to configure</param>
+        public static void ConfigureSettings(this DigitalSessionsBundle sessionsBundle, IDictionary<string, PPMUSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var perSitePinPairSettings = settings[sitePinInfo.PinName];
+                var ppmu = sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).Ppmu;
+                ConfigureSettings(ppmu, perSitePinPairSettings);
+            });
+        }
+
+        /// <summary>
+        /// Configures the specified site-unique <see cref="PPMUSettings"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The site-unique <see cref="PPMUSettings"/> to configure</param>
+        public static void ConfigureSettings(this DigitalSessionsBundle sessionsBundle, SiteData<PPMUSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo.SiteNumber);
+                var ppmu = sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).Ppmu;
+                ConfigureSettings(ppmu, perSitePinPairSettings);
+            });
+        }
+
+        /// <summary>
+        /// Configures the specified pin- and site-unique <see cref="PPMUSettings"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The pin- and site-unique <see cref="PPMUSettings"/> to configure</param>
+        public static void ConfigureSettings(this DigitalSessionsBundle sessionsBundle, PinSiteData<PPMUSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
+                var ppmu = sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).Ppmu;
+                ConfigureSettings(ppmu, perSitePinPairSettings);
+            });
+        }
+
+        /// <summary>
+        /// Configures the specified pin- and site-unique <see cref="PPMUSettings"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        public static void Source(this DigitalSessionsBundle sessionsBundle)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.PinSet.Ppmu.Source();
+            });
+        }
+
         #endregion methods on DigitalSessionsBundle
 
         #region methods on DigitalSessionInformation
@@ -567,6 +638,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             if (settings.VoltageLimitLow.HasValue && settings.VoltageLimitHigh.HasValue)
             {
                 ppmu.DCCurrent.ConfigureVoltageLimits(settings.VoltageLimitLow.Value, settings.VoltageLimitHigh.Value);
+            }
+        }
+
+        private static void ConfigureSettings(DigitalPpmu ppmu, PPMUSettings settings)
+        {
+            ppmu.OutputFunction = settings.OutputFunction;
+            if (settings.OutputFunction.Equals(PpmuOutputFunction.DCVoltage))
+            {
+                ConfigureVoltageSettings(ppmu, settings);
+            }
+            else
+            {
+                ConfigureCurrentSettings(ppmu, settings);
+            }
+            if (settings.ApertureTime.HasValue)
+            {
+                ppmu.ConfigureApertureTime(settings.ApertureTime.Value, PpmuApertureTimeUnits.Seconds);
             }
         }
 
