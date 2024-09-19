@@ -745,7 +745,7 @@
             but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
             </remarks>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,``0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given value.
             </summary>
@@ -757,7 +757,20 @@
             but the value must be of the same underlying type, T, as the PinSiteData object.
             </remarks>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,``0)">
+            <summary>
+            Performs compare operation between every element in current PinSiteData object and the given value.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <param name="comparisonType">The comparison type to use.</param>
+            <param name="value">The scalar value to compare to.</param>
+            <returns>A new PinSiteData object that contains the compare results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
@@ -769,10 +782,36 @@
             but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
             </remarks>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+            <summary>
+            Performs compare operation between every element in current PinSiteData object and the given SiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <param name="comparisonType">The comparison type to use.</param>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare to.</param>
+            <returns>A new PinSiteData object that contains the compare results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
+            <param name="comparisonType">The comparison type to use.</param>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to compare to.</param>
+            <returns>A new PinSiteData object that contains the compare results.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
+            <summary>
+            Performs compare operation between every element in current PinSiteData object and the given PinSiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
@@ -789,10 +828,22 @@
             <param name="value2">The divisor value.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``1(``0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(`0)">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given value.
             </summary>
+            <param name="value">The divisor value.</param>
+            <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``2(``0)">
+            <summary>
+            Performs divide operation between every element in current PinSiteData object and the given value.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <param name="value">The divisor value.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
             <remarks>
@@ -808,10 +859,22 @@
             <param name="value2">The SiteData object that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
+            <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+            <summary>
+            Performs divide operation between every element in current PinSiteData object and the given SiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
             <remarks>
@@ -827,10 +890,22 @@
             <param name="value2">The second PinSiteData object that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the divisors.</param>
+            <returns>A new PinSiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a PinSiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the PinSiteData object being operated on.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
+            <summary>
+            Performs divide operation between every element in current PinSiteData object and the given PinSiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
             <remarks>
@@ -844,10 +919,24 @@
             </summary>
             <returns>A new PinSiteData object that contains the inverted results.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert``1">
+            <summary>
+            Performs invert operation on every element in current PinSiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <returns>A new PinSiteData object that contains the inverted results.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10">
             <summary>
             Performs Math.Log10 operation on every element in current PinSiteData object.
             </summary>
+            <returns>A new PinSiteData object that contains the log10 results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10``1">
+            <summary>
+            Performs Math.Log10 operation on every element in current PinSiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <returns>A new PinSiteData object that contains the log10 results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum``1(``0)">
@@ -1016,6 +1105,13 @@
             <summary>
             Returns the square root of every element in current PinSiteData object.
             </summary>
+            <returns>A new PinSiteData object that contains the square root values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SquareRoot``1">
+            <summary>
+            Returns the square root of every element in current PinSiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <returns>A new PinSiteData object that contains the square root values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
@@ -1463,7 +1559,7 @@
             but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
             </remarks>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,``0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)">
             <summary>
             Performs compare operation between every element in current SiteData object and the given value.
             </summary>
@@ -1475,10 +1571,36 @@
             but the value must be of the same underlying type, T, as the SiteData object.
             </remarks>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,``0)">
+            <summary>
+            Performs compare operation between every element in current SiteData object and the given value.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <param name="comparisonType">The comparison type to use.</param>
+            <param name="value">The scalar value to compare.</param>
+            <returns>A new SiteData object that contains the compare results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs compare operation between every element in current SiteData object and the given SiteData object.
             </summary>
+            <param name="comparisonType">The comparison type to use.</param>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare.</param>
+            <returns>A new SiteData object that contains the compare results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+            <summary>
+            Performs compare operation between every element in current SiteData object and the given SiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
@@ -1495,10 +1617,22 @@
             <param name="value2">The divisor value.</param>
             <returns>A new SiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide``1(``0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide(`0)">
             <summary>
             Performs divide operation between every element in current SiteData object and the given value.
             </summary>
+            <param name="value">The divisor value.</param>
+            <returns>A new SiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide``2(``0)">
+            <summary>
+            Performs divide operation between every element in current SiteData object and the given value.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <param name="value">The divisor value.</param>
             <returns>A new SiteData object that contains the results.</returns>
             <remarks>
@@ -1514,10 +1648,22 @@
             <param name="value2">The second divisor SiteData object.</param>
             <returns>A new SiteData object that contains the results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs divide operation between every element in current SiteData object and the given SiteData object.
             </summary>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
+            <returns>A new SiteData object that contains the results.</returns>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
+            <summary>
+            Performs divide operation between every element in current SiteData object and the given SiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new SiteData object that contains the results.</returns>
             <remarks>
@@ -1531,10 +1677,24 @@
             </summary>
             <returns>A new SiteData object that contains the inverted results.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Invert``1">
+            <summary>
+            Performs invert operation on every element in current SiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <returns>A new SiteData object that contains the inverted results.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Log10">
             <summary>
             Performs Math.Log10 operation on every element in current SiteData object.
             </summary>
+            <returns>A new SiteData object that contains the log10 results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Log10``1">
+            <summary>
+            Performs Math.Log10 operation on every element in current SiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <returns>A new SiteData object that contains the log10 results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum``1(``0)">
@@ -1651,6 +1811,13 @@
             <summary>
             Returns the square root of every element in current SiteData object.
             </summary>
+            <returns>A new SiteData object that contains the square root values.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SquareRoot``1">
+            <summary>
+            Returns the square root of every element in current SiteData object.
+            </summary>
+            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <returns>A new SiteData object that contains the square root values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
