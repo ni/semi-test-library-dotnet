@@ -19,52 +19,53 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
         /// <summary>
         /// Simple example to demonstrate the workflow for writing a test method with the Semiconductor Test Library.
         /// </summary>
-        /// <param name="tsmContext">The Semiconductor Module Context object.</param>
-        public static void SimpleWorkFlowExample(ISemiconductorModuleContext tsmContext)
+        /// <param name="semiconductorModuleContext">The Semiconductor Module Context object.</param>
+        public static void SimpleWorkFlowExample(
+                ISemiconductorModuleContext semiconductorModuleContext,
+                string[] sumPinNames,
+                string[] digitalPinNames,
+                string relayConfigBeforeTest,
+                string relayConfigAfterTest,
+                string patternName)
         {
-            // 1. Create a new TSMSessionManager object and any other local variables required for the test.
-            // Note that values are hard coded for demonstration purposes and will otherwise be replaced with appropriate parameter inputs.
-            TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
-            string[] sumPinNames = new string[] { "VDD", "VSS" };
-            string[] digitalPinNames = new string[] { "SDI", "SDO" };
-            string relayConfigurationSetup = "SetupExampleTest";
-            string relayConfigurationCleanup = "Cleanup";
-            string patternName = "ExamplePattern";
-            string patternResultsID = "PatternResults";
+            // 1. Create a new TSMSessionManager object and other local variables for the test.
+            var sessionManager = new TSMSessionManager(semiconductorModuleContext);
             double voltageLevel = 3.3;
             double currentLimit = 0.01;
             double settlingTime = 0.001;
-            DCPowerMeasureSettings measureSettings = new DCPowerMeasureSettings()
+            var measureSettings = new DCPowerMeasureSettings()
             {
                 ApertureTime = 0.001,
                 Sense = DCPowerMeasurementSense.Remote
             };
 
-            // 2. Use the TSMSessionManager to query sessions for target pins.
-            DCPowerSessionsBundle smuPins = sessionManager.DCPower(sumPinNames);
-            DigitalSessionsBundle digitalPins = sessionManager.Digital(digitalPinNames);
+            // 2. Use the TSMSessionManager object to query the session for the target pins.
+            var smuPins = sessionManager.DCPower(sumPinNames);
+            var digitalPins = sessionManager.Digital(digitalPinNames);
 
-            // 3. Configure the instrumentation connected to the queried pins and set any relay configuration required before testing.
+            // 3. Configure the instrumentation connected to the target pins and configure relays.
             smuPins.ConfigureMeasureSettings(measureSettings);
-            tsmContext.ApplyRelayConfiguration(relayConfigurationSetup, settlingTime);
+            semiconductorModuleContext.ApplyRelayConfiguration(relayConfigBeforeTest, waitSeconds: settlingTime);
 
-            // 4. Burst patterns, source and/or measuring the desired signals, and repeat as necessary to accomplish the test method.
+            // 4. Source and/or measure the signals.
             smuPins.ForceVoltage(voltageLevel, currentLimit);
-            PreciseWait(settlingTime);
-            PinSiteData<double> currentBefore = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentBefore");
-            digitalPins.BurstPatternAndPublishResults(patternName, publishedDataId: patternResultsID);
-            PreciseWait(settlingTime);
-            PinSiteData<double> currentAfter = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentAfter");
+            PreciseWait(timeInSeconds: settlingTime);
+            var currentBefore = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentBefore");
 
-            // 5. Publish any results collected.
-            PinSiteData<double> currentDifference = currentBefore.Subtract(currentAfter).Abs();
-            tsmContext.PublishResults(currentDifference, publishedDataId: "CurrentDifference");
+            // 5. Burst the patterns required to configure the DUT.
+            digitalPins.BurstPatternAndPublishResults(patternName, publishedDataId: "PatternResults");
+            PreciseWait(timeInSeconds: settlingTime);
+            var currentAfter = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentAfter");
 
-            // 6. Clean up relay configurations and place the instrument in a safe state, as it makes sense for any proceeding test.
-            smuPins.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
+            // 6. Calculate and/or publish the required test results.
+            var currentDifference = currentBefore.Subtract(currentAfter).Abs();
+            semiconductorModuleContext.PublishResults(currentDifference, publishedDataId: "CurrentDifference");
+
+            // 7. Clean up and restore the state of the instrumentation after finishing the test.
             smuPins.ConfigureOutputEnabled(false);
-            PreciseWait(settlingTime);
-            tsmContext.ApplyRelayConfiguration(relayConfigurationCleanup, settlingTime);
+            smuPins.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
+            PreciseWait(timeInSeconds: settlingTime);
+            semiconductorModuleContext.ApplyRelayConfiguration(relayConfigAfterTest, waitSeconds: settlingTime);
         }
 
         /// <summary>
@@ -73,41 +74,42 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
         /// using the InvokeInParallel method from the NationalInstruments.SemiconductorTestLibrary.Common.Utilities class.
         /// </summary>
         /// <param name="tsmContext">The Semiconductor Module Context object.</param>
-        public static void SimpleWorkFlowExampleWithInvokeInParallel(ISemiconductorModuleContext tsmContext)
+        public static void SimpleWorkFlowExampleWithInvokeInParallel(
+                ISemiconductorModuleContext semiconductorModuleContext,
+                string[] sumPinNames,
+                string[] digitalPinNames,
+                string relayConfigBeforeTest,
+                string relayConfigAfterTest,
+                string patternName)
         {
-            // 1. Create a new TSMSessionManager object and any other local variables required for the test.
-            // Note that values are hard coded for demonstration purposes and will otherwise be replaced with appropriate parameter inputs.
-            TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
-            string[] sumPinNames = new string[] { "VDD", "VSS" };
-            string[] digitalPinNames = new string[] { "SDI", "SDO" };
-            string relayConfigurationSetup = "SetupExampleTest";
-            string relayConfigurationCleanup = "Cleanup";
-            string patternName = "ExamplePattern";
-            string patternResultsID = "PatternResults";
+            // 1. Create a new TSMSessionManager object and other local variables for the test.
+            var sessionManager = new TSMSessionManager(semiconductorModuleContext);
             double voltageLevel = 3.3;
             double currentLimit = 0.01;
             double settlingTime = 0.001;
-            DCPowerMeasureSettings measureSettings = new DCPowerMeasureSettings()
+            var measureSettings = new DCPowerMeasureSettings()
             {
                 ApertureTime = 0.001,
                 Sense = DCPowerMeasurementSense.Remote
             };
 
-            // 2. Use the TSMSessionManager to query sessions for target pins.
-            DCPowerSessionsBundle smuPins = sessionManager.DCPower(sumPinNames);
-            DigitalSessionsBundle digitalPins = sessionManager.Digital(digitalPinNames);
+            // 2. Use the TSMSessionManager object to query the session for the target pins.
+            var smuPins = sessionManager.DCPower(sumPinNames);
+            var digitalPins = sessionManager.Digital(digitalPinNames);
 
-            // 3. Configure the instrumentation connected to the queried pins and set any relay configuration required before testing.
+            // 3. Configure the instrumentation connected to the target pins and configure relays.
             smuPins.ConfigureMeasureSettings(measureSettings);
-            tsmContext.ApplyRelayConfiguration(relayConfigurationSetup, settlingTime);
+            semiconductorModuleContext.ApplyRelayConfiguration(relayConfigBeforeTest, waitSeconds: settlingTime);
 
-            // 4. Burst patterns, source and/or measuring the desired signals, and repeat as necessary to accomplish the test method.
+            // 4. Source and/or measure the signals.
             smuPins.ForceVoltage(voltageLevel, currentLimit);
-            PreciseWait(settlingTime);
-            PinSiteData<double> currentBefore = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentBefore");
-            digitalPins.BurstPatternAndPublishResults(patternName, publishedDataId: patternResultsID);
-            PreciseWait(settlingTime);
-            PinSiteData<double> currentAfter = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentAfter");
+            PreciseWait(timeInSeconds: settlingTime);
+            var currentBefore = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentBefore");
+
+            // 5. Burst the patterns required to configure the DUT.
+            digitalPins.BurstPatternAndPublishResults(patternName, publishedDataId: "PatternResults");
+            PreciseWait(timeInSeconds: settlingTime);
+            var currentAfter = smuPins.MeasureAndPublishCurrent(publishedDataId: "CurrentAfter");
 
             // It is more efficient to invoke the following steps in parallel, as they are independent of each other.
             // This can be done using the InvokeInParallel() method
@@ -115,17 +117,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             InvokeInParallel(
                 () =>
                 {
-                    // 5. Publish any results collected.
-                    PinSiteData<double> currentDifference = currentBefore.Subtract(currentAfter).Abs();
-                    tsmContext.PublishResults(currentDifference, publishedDataId: "CurrentDifference");
+                    // 6. Calculate and/or publish the required test results.
+                    var currentDifference = currentBefore.Subtract(currentAfter).Abs();
+                    semiconductorModuleContext.PublishResults(currentDifference, publishedDataId: "CurrentDifference");
                 },
                 () =>
                 {
-                    // 6. Clean up relay configurations and place the instrument in a safe state, as it makes sense for any proceeding test.
-                    smuPins.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
+                    // 7. Clean up and restore the state of the instrumentation after finishing the test.
                     smuPins.ConfigureOutputEnabled(false);
-                    PreciseWait(settlingTime);
-                    tsmContext.ApplyRelayConfiguration(relayConfigurationCleanup, settlingTime);
+                    smuPins.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
+                    PreciseWait(timeInSeconds: settlingTime);
+                    semiconductorModuleContext.ApplyRelayConfiguration(relayConfigAfterTest, waitSeconds: settlingTime);
                 });
         }
     }
