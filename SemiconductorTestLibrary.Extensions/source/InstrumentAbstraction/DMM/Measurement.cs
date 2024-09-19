@@ -116,7 +116,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
         /// <param name="numberOfPoints">The number of points to read.</param>
         /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete in milliseconds.</param>
-        /// <returns>The measurement results in per-instrument per-value format.</returns>
+        /// <returns>The measurement results in per-site per-pin format.</returns>
         public static PinSiteData<double[]> ReadMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
