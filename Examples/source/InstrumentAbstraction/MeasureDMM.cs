@@ -130,8 +130,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             dmmPins.ConfigureMultiPoint(triggerCount: 1, sampleCount, "Immediate", sampleIntervalInSeconds: 0.001);
 
             // Fetches multiple measurement points/samples for an already started acquisition.
-            // Data is returned as 2D jagged array in a per-instrument, per-point  format,
-            double[][] perInstrumentChannelMeasurements = dmmPins.ReadMultiPoint(sampleCount, maximumTimeInMilliseconds: 5000);
+            // Data is returned as a PinSiteData<T> object, where T is an 1D array of doubles with a length equal to the specified sampleCount,
+            // and each element in the array represents a single sample.
+            PinSiteData<double[]> multiPointMeasurement = dmmPins.ReadMultiPoint(sampleCount, maximumTimeInMilliseconds: 5000);
+
+            // Gets the maximum value of all the measured samples, on a per-pin and per-site basis, then publishes the results.
+            PinSiteData<double> maxValue = multiPointMeasurement.Select(x => x.Max());
+            tsmContext.PublishResults(maxValue, "MaxMultiPointValue");
         }
 
         internal static void TriggeredMultiPointMeasurementDMM(ISemiconductorModuleContext tsmContext, string[] dmmPinNames, int sampleCount)
@@ -156,13 +161,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             dmmPins.SendSoftwareTrigger();
 
             // Fetches multiple measurement points/samples for an already started acquisition.
-            // Data is returned as 2D jagged array in a per-instrument, per-point  format,
-            // where the outer dimension represents each DMM instrument, and inner dimension represents the number of points/samples.
-            // DMM instruments are typically one channel per module, therefore if operating with only one DMM pin,
-            // there should be exactly one instrument session per site, unless the pin is shared across sites or mapped to a system pin.
+            // Data is returned as a PinSiteData<T> object, where T is an 1D array of doubles with a length equal to the specified sampleCount,
+            // and each element in the array represents a single sample.
             // Note that unlike the Read method (which starts the acquisition and returns the measurements when called),
             // the Fetch method expects to retrieve data from an already started acquisition.
-            double[][] measurements = dmmPins.FetchMultiPoint(sampleCount, maximumTimeInMilliseconds: 5000);
+            PinSiteData<double[]> multiPointMeasurement = dmmPins.FetchMultiPoint(sampleCount, maximumTimeInMilliseconds: 5000);
+
+            // Gets the maximum value of all the measured samples, on a per-pin and per-site basis, then publishes the results.
+            PinSiteData<double> maxValue = multiPointMeasurement.Select(x => x.Max());
+            tsmContext.PublishResults(maxValue, "MaxMultiPointValue");
         }
     }
 }
