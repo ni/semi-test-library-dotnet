@@ -68,7 +68,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             var destinationResources = dmmPins.InstrumentSessions.Select(x => x.Session.DriverOperation.IOResourceDescriptor).ToArray();
             // 3c. Export the pattern event0 to generate the digital trigger
             digitalPins.ExportSignal(SignalType.PatternOpcodeEvent, $"patternOpcodeEvent{patternOpcodeEvent}", $"PXI_Trig{triggerLineNumber}");
-            // 3d. Connect terminals from exported terminal to DMM trigger line - Assumes the DMM(s) and the Digital Instrument(s) are all in the same PXIChassis
+            // 3d. Connect terminals from exported terminal to DMM trigger line - Assumes the DMM(s) and the Digital Instrument(s) are all in the same PXIChassis.
+            // This manual step is required to properly route exported trigger signals to DMM instruments, since the niDMM driver does not support dynamic string-based trigger routing.
             RoutePXITriggerAcrossChassisSegments(triggerLineNumber, sourceResource, destinationResources, out var triggerSession, out var sourceSegment, out var destinationSegment);
 
             // 4a. Initiate the DMM (non-blocking), the DMM will await the configured trigger before measuring.
@@ -117,6 +118,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
                 // Chassis identifier as Visa Resource Name. Can be seen in NI MAX.
                 pxiSession = (PxiBackplane)rmSession.Open($"PXI0::{sourceChassisNumber}::BACKPLANE");
             }
+            // The following logic will determine which bus segments to map together.
+            // It assumes all devices are in the same chassis, and will choose the worse case route (i.e. segment 1 to 3).
             if (sourceSegment < destinationSegments.Max())
             {
                 destinationSegment = destinationSegments.Max();
@@ -128,9 +131,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             pxiSession.MapTrigger(sourceSegment, (TriggerLine)triggerLineNumber, destinationSegment, (TriggerLine)triggerLineNumber);
         }
 
-        private static void UnroutePXITriggerAcrossChassisSegments(int triggerLineNumber, PxiBackplane pxiSession, short sourceBus = 1, short desinationeBus = 3)
+        private static void UnroutePXITriggerAcrossChassisSegments(int triggerLineNumber, PxiBackplane pxiSession, short sourceSegment, short destinationSegment)
         {
-            pxiSession.UnmapTrigger(sourceBus, (TriggerLine)triggerLineNumber, desinationeBus, (TriggerLine)triggerLineNumber);
+            pxiSession.UnmapTrigger(sourceSegment, (TriggerLine)triggerLineNumber, destinationSegment, (TriggerLine)triggerLineNumber);
             pxiSession.Dispose();
         }
 
