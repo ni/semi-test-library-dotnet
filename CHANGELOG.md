@@ -163,6 +163,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - ### Changed
   
+  - DMM Mulipoint extension methods now return `PinSiteData<double[]>` instead of a 2D per-instrument, per-sample array `double[][]`
+    - `PinSiteData<double[]> ReadMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)`
+    - `PinSiteData<double[]> FetchMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)`
   - Math Operations methods now support most common numeric data types with improved exceptions for catching unsupported types and input array size mismatches.
   - Math Operations methods now support scalar input values when the underlying type, `T`, of the `SiteData<T>` or `PinSiteData<T>` object is an array type.
     - For `PinSiteData<T>` objects, the scalar value will be applied to all elements in the array, across each pin and site.
