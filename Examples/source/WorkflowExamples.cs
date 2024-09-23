@@ -19,14 +19,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
         /// <summary>
         /// Simple example to demonstrate the workflow for writing a test method with the Semiconductor Test Library.
         /// </summary>
-        /// <param name="semiconductorModuleContext">The Semiconductor Module Context object.</param>
+        /// <param name="semiconductorModuleContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="smuPinNames">Names of pins mapped to a Source Measure Unit.</param>
+        /// <param name="digitalPinNames">Names of pins mapped to a Digital Pattern Instrument.</param>
+        /// <param name="patternName">Name of the pattern to burst.</param>
+        /// <param name="relayConfigBeforeTest">Relay configuration defined in pin map to be applied before testing.</param>
+        /// <param name="relayConfigAfterTest">Relay configuration defined in pin map to be applied after testing.</param>
         public static void SimpleWorkFlowExample(
                 ISemiconductorModuleContext semiconductorModuleContext,
-                string[] sumPinNames,
+                string[] smuPinNames,
                 string[] digitalPinNames,
+                string patternName,
                 string relayConfigBeforeTest,
-                string relayConfigAfterTest,
-                string patternName)
+                string relayConfigAfterTest)
         {
             // 1. Create a new TSMSessionManager object and other local variables for the test.
             var sessionManager = new TSMSessionManager(semiconductorModuleContext);
@@ -40,7 +45,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             };
 
             // 2. Use the TSMSessionManager object to query the session for the target pins.
-            var smuPins = sessionManager.DCPower(sumPinNames);
+            var smuPins = sessionManager.DCPower(smuPinNames);
             var digitalPins = sessionManager.Digital(digitalPinNames);
 
             // 3. Configure the instrumentation connected to the target pins and configure relays.
@@ -62,25 +67,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             semiconductorModuleContext.PublishResults(currentDifference, publishedDataId: "CurrentDifference");
 
             // 7. Clean up and restore the state of the instrumentation after finishing the test.
-            smuPins.ConfigureOutputEnabled(false);
             smuPins.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
+            smuPins.PowerDown();
             PreciseWait(timeInSeconds: settlingTime);
             semiconductorModuleContext.ApplyRelayConfiguration(relayConfigAfterTest, waitSeconds: settlingTime);
         }
 
         /// <summary>
         /// Simple example to demonstrate the workflow for writing a test method with the Semiconductor Test Library.
-        /// It is similar to <see cref="SimpleWorkFlowExample"/> but executes steps 5 and 6 concurrently,
+        /// It is similar to <see cref="SimpleWorkFlowExample"/> but executes steps 6 and 7 concurrently,
         /// using the InvokeInParallel method from the NationalInstruments.SemiconductorTestLibrary.Common.Utilities class.
         /// </summary>
-        /// <param name="tsmContext">The Semiconductor Module Context object.</param>
+        /// <param name="semiconductorModuleContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="smuPinNames">Names of pins mapped to a Source Measure Unit.</param>
+        /// <param name="digitalPinNames">Names of pins mapped to a Digital Pattern Instrument.</param>
+        /// <param name="patternName">Name of the pattern to burst.</param>
+        /// <param name="relayConfigBeforeTest">Relay configuration defined in pin map to be applied before testing.</param>
+        /// <param name="relayConfigAfterTest">Relay configuration defined in pin map to be applied after testing.</param>
         public static void SimpleWorkFlowExampleWithInvokeInParallel(
                 ISemiconductorModuleContext semiconductorModuleContext,
-                string[] sumPinNames,
+                string[] smuPinNames,
                 string[] digitalPinNames,
+                string patternName,
                 string relayConfigBeforeTest,
-                string relayConfigAfterTest,
-                string patternName)
+                string relayConfigAfterTest)
         {
             // 1. Create a new TSMSessionManager object and other local variables for the test.
             var sessionManager = new TSMSessionManager(semiconductorModuleContext);
@@ -94,7 +104,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
             };
 
             // 2. Use the TSMSessionManager object to query the session for the target pins.
-            var smuPins = sessionManager.DCPower(sumPinNames);
+            var smuPins = sessionManager.DCPower(smuPinNames);
             var digitalPins = sessionManager.Digital(digitalPinNames);
 
             // 3. Configure the instrumentation connected to the target pins and configure relays.
@@ -124,8 +134,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
                 () =>
                 {
                     // 7. Clean up and restore the state of the instrumentation after finishing the test.
-                    smuPins.ConfigureOutputEnabled(false);
                     smuPins.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
+                    smuPins.PowerDown();
                     PreciseWait(timeInSeconds: settlingTime);
                     semiconductorModuleContext.ApplyRelayConfiguration(relayConfigAfterTest, waitSeconds: settlingTime);
                 });
