@@ -68,14 +68,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
         /// Fetches multiple points from previously initiated multipoint acquisition.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DMMSessionsBundle"/> object.</param>
-        /// <param name="samplesToFetch">The number of values to fetch.</param>
+        /// <param name="numberOfPoints">The number of points to fetch.</param>
         /// <param name="maximumTimeInMilliseconds">The maximum time for the fetch to complete in milliseconds.</param>
         /// <returns>The measurement results in per-site per-pin format.</returns>
-        public static PinSiteData<double[]> FetchMultiPoint(this DMMSessionsBundle sessionsBundle, int samplesToFetch, double maximumTimeInMilliseconds)
+        public static PinSiteData<double[]> FetchMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
-                return new double[][] { sessionInfo.Session.Measurement.FetchMultiPoint(PrecisionTimeSpan.FromMilliseconds(maximumTimeInMilliseconds), samplesToFetch) };
+                return new double[][] { sessionInfo.Session.Measurement.FetchMultiPoint(PrecisionTimeSpan.FromMilliseconds(maximumTimeInMilliseconds), numberOfPoints) };
             });
         }
 
