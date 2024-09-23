@@ -1,4 +1,5 @@
 ﻿using System;
+using NationalInstruments.ModularInstruments.NIDmm;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -70,6 +71,44 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2, results.SiteNumbers.Length);
             Assert.Single(results.ExtractSite(0));
             Assert.Single(results.ExtractSite(1));
+        }
+
+        [Fact]
+        public void ConfigureAndFetchMuliPoint_Succeeds()
+        {
+            var sessionsBundle = _sessionManager.DMM("DUTPin_4081");
+            var numberOfPoints = 4;
+            sessionsBundle.ConfigureMultiPoint(1, numberOfPoints, DmmTriggerSource.SoftwareTrigger.ToString(), 1);
+            sessionsBundle.Initiate();
+            sessionsBundle.SendSoftwareTrigger();
+            var results = sessionsBundle.FetchMultiPoint(numberOfPoints, maximumTimeInMilliseconds: 1000);
+            sessionsBundle.Abort();
+
+            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Single(results.ExtractSite(0));
+            Assert.Contains("DUTPin_4081", results.ExtractSite(0));
+            Assert.Equal(numberOfPoints, results.GetValue(0, "DUTPin_4081").Length);
+            Assert.Single(results.ExtractSite(1));
+            Assert.Contains("DUTPin_4081", results.ExtractSite(1));
+            Assert.Equal(numberOfPoints, results.GetValue(1, "DUTPin_4081").Length);
+        }
+
+        [Fact]
+        public void ConfigureAndReadMuliPoint_Succeeds()
+        {
+            var sessionsBundle = _sessionManager.DMM("DUTPin_4081");
+            var numberOfPoints = 4;
+            sessionsBundle.ConfigureMultiPoint(1, numberOfPoints, DmmTriggerSource.SoftwareTrigger.ToString(), 1);
+            var results = sessionsBundle.ReadMultiPoint(numberOfPoints, maximumTimeInMilliseconds: 1000);
+            sessionsBundle.Abort();
+
+            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Single(results.ExtractSite(0));
+            Assert.Contains("DUTPin_4081", results.ExtractSite(0));
+            Assert.Equal(numberOfPoints, results.GetValue(0, "DUTPin_4081").Length);
+            Assert.Single(results.ExtractSite(1));
+            Assert.Contains("DUTPin_4081", results.ExtractSite(1));
+            Assert.Equal(numberOfPoints, results.GetValue(1, "DUTPin_4081").Length);
         }
     }
 }
