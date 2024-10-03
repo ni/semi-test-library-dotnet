@@ -1,0 +1,12 @@
+name: Receive PR 2
+
+on:
+  pull_request:
+    branches: 
+      - main
+      - 'releases/**'
+
+jobs:
+  call_test_pr_workflow:
+    name: "Call Test PR Workflow"
+    uses: ./.github/workflows/test-pr.yml
