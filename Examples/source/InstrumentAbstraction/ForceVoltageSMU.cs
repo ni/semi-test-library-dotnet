@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;

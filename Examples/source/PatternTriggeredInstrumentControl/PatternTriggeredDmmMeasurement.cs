@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Globalization;
 using System.Linq;
 using Ivi.Visa;
-using NationalInstruments.DAQmx;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.ModularInstruments.NIDmm;
 using NationalInstruments.ModularInstruments.SystemServices.DeviceServices;
