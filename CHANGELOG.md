@@ -104,7 +104,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
         - Description: Calculates the mean value across sites.
     - New constructors added to `PinSiteData<T>` and `SiteData<T>`
       - `PinSiteData<T>`
-        - `PinSiteData(Dictionary<string, T> pinData, int[] siteNumbers)`: Initializes a PinSiteData object with pin unique data. Where the specified pin unique data value will be repeated across all sites.
+        - `PinSiteData(int[] siteNumbers, Dictionary<string, T> pinData)`: Initializes a PinSiteData object with pin unique data. Where the specified pin unique data value will be repeated across all sites.
         - `PinSiteData(string[] pinNames, int[] siteNumbers, T data)`: Initializes a PinSiteData object with the same data value across all pins and sites.
         - `PinSiteData(string[] pinNames, int[] siteNumbers, T[] perPinData)`: Initializes a PinSiteData object with pin unique data. Where the specified site unique data will be repeated across all sites.
         - `PinSiteData(int[] siteNumbers, string[] pinNames, T[] perSiteData)`: Initializes a PinSiteData object with site unique data. Where the specified site unique data will be repeated across all pins.
