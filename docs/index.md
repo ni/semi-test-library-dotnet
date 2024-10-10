@@ -25,7 +25,7 @@ To get started, use the STS Project Creation Tool included with STS Software 24.
 
 To add or upgrade to the latest NationalInstruments.SemiconductorTestLibrary NuGet package for an existing test program, download the latest NuGet package file from [GitHub Releases page](https://github.com/ni/semi-test-library-dotnet/releases), Refer to [Adding Nuget Packages](UserGuide/NuGetPackageManagementForSTSProjects.md#adding-nuget-packages) or [Upgrading NuGet Packages](UserGuide/NuGetPackageManagementForSTSProjects.md#upgrading-nuget-packages) for more details.
 
-Refer to the [User Guide](UserGuide/Overview.md) for more information.
+Refer to the [Overview](UserGuide/Overview.md) for more information.
 
 **Related Information:**
 
