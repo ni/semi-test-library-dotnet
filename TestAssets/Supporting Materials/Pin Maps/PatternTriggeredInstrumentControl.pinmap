@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.6">
+	<Instruments>
+		<NIDigitalPatternInstrument name="HSD_6571_C1_S02" numberOfChannels="32" group="Digital" />
+		<NIDCPowerInstrument name="SMU_4147_C2_S16" numberOfChannels="4">
+			<ChannelGroup name="CommonDCPowerChannelGroup" />
+		</NIDCPowerInstrument>
+		<NIDmmInstrument name="DMM_4081_C1_S11" />
+		<Instrument name="SYNC_6674T_C1_S10" instrumentTypeId="Sync">
+			<ChannelGroup id="PFI">
+				<Channel id="PFI0" />
+				<Channel id="PFI1" />
+				<Channel id="PFI2" />
+				<Channel id="PFI3" />
+				<Channel id="PFI4" />
+				<Channel id="PFI5" />
+			</ChannelGroup>
+		</Instrument>
+	</Instruments>
+	<Pins>
+		<DUTPin name="VDD" />
+		<DUTPin name="SDO" />
+		<DUTPin name="SDI" />
+		<DUTPin name="CLK" />
+		<SystemPin name="DMM" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="DigitalPins">
+			<PinReference pin="SDO" />
+			<PinReference pin="SDI" />
+			<PinReference pin="CLK" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="CLK" siteNumber="0" instrument="HSD_6571_C1_S02" channel="0" />
+		<Connection pin="CLK" siteNumber="1" instrument="HSD_6571_C1_S02" channel="1" />
+		<Connection pin="SDI" siteNumber="0" instrument="HSD_6571_C1_S02" channel="2" />
+		<Connection pin="SDI" siteNumber="1" instrument="HSD_6571_C1_S02" channel="3" />
+		<Connection pin="SDO" siteNumber="0" instrument="HSD_6571_C1_S02" channel="4" />
+		<Connection pin="SDO" siteNumber="1" instrument="HSD_6571_C1_S02" channel="5" />
+		<Connection pin="VDD" siteNumber="0" instrument="SMU_4147_C2_S16" channel="0" />
+		<Connection pin="VDD" siteNumber="1" instrument="SMU_4147_C2_S16" channel="1" />
+		<SystemConnection pin="DMM" instrument="DMM_4081_C1_S11" channel="0" />
+	</Connections>
+</PinMap>

@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<OutputType>Library</OutputType>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<PlatformTarget>x64</PlatformTarget>
+		<AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn), 1591</NoWarn>
+		<RootNamespace>NationalInstruments.Tests.SemiconductorTestLibrary</RootNamespace>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<AssemblyName>NationalInstruments.Tests.SemiconductorTestLibrary.Examples</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
+		<Reference Include="Ivi.Driver">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="NationalInstruments.Common">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="NationalInstruments.DAQmx">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>C:\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies (64-bit)\Current\NationalInstruments.DAQmx.dll</HintPath>
+		</Reference>
+		<Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="StandaloneSemiconductorModuleContext">
+			<HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="xunit" Version="2.4.1" />
+		<PackageReference Include="xunit.abstractions" Version="2.0.3" />
+		<PackageReference Include="xunit.analyzers" Version="0.10.0" />
+		<PackageReference Include="xunit.assert" Version="2.4.1" />
+		<PackageReference Include="xunit.core" Version="2.4.1" />
+		<PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
+		<PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
+		<PackageReference Include="xunit.runner.console" Version="2.4.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj" />
+		<ProjectReference Include="..\source\SemiconductorTestLibrary.Examples.csproj" />
+		<ProjectReference Include="..\..\SemiconductorTestLibrary.TestStandSteps\source\SemiconductorTestLibrary.TestStandSteps.csproj" />
+
+	</ItemGroup>
+</Project>
