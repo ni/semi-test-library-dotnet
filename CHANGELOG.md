@@ -174,7 +174,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - For `SiteData<T>` objects, the scalar value will be applied to all elements in the array, across each site.
   - `Utilities.TryDeterminePowerLineFrequency` updated to now support OfflineMode.
   - `TestStandSteps.ContinuityTest` modified to correctly accept negative current level values.
-  - CSProject files for TestStandSteps and Extensions now exclude net48 path from being included as a folder within the project, which was could cause build issues for contributors in certain situations.
+  - CSProject files for TestStandSteps and Extensions now exclude net48 path from being included as a folder within the project, which could cause build issues for contributors in certain situations.
 
 ## 24.5.0 - 2024-08-16
 
