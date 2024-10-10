@@ -33,12 +33,14 @@
     <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
+	<Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
+	  <SpecificVersion>False</SpecificVersion>
+	  <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDigital 24.5.0\NationalInstruments.ModularInstruments.NIDigital.Fx40.dll</HintPath>
+	</Reference>
+	<Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
+	  <SpecificVersion>False</SpecificVersion>
+	  <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDmm 23.8.0\NationalInstruments.ModularInstruments.NIDmm.Fx40.dll</HintPath>
+	</Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -48,6 +50,17 @@
 	<Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
 	  <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
 	  <SpecificVersion>False</SpecificVersion>
+	</Reference>
+	<Reference Include="NationalInstruments.Visa">
+	  <SpecificVersion>False</SpecificVersion>
+	  <HintPath>C:\Program Files (x86)\IVI Foundation\VISA\Microsoft.NET\Framework32\v4.0.30319\NI VISA.NET 24.5\NationalInstruments.Visa.dll</HintPath>
+	</Reference>
+	<Reference Include="Ivi.Visa">
+	  <SpecificVersion>False</SpecificVersion>
+	  <HintPath>C:\Program Files (x86)\IVI Foundation\VISA\Microsoft.NET\Framework32\v4.0.30319\NI VISA.NET 24.5\Ivi.Visa.dll</HintPath>
+	</Reference>
+	<Reference Include="NationalInstruments.ModularInstruments.ModularInstrumentsSystem">
+      <SpecificVersion>False</SpecificVersion>
 	</Reference>
   </ItemGroup>
 </Project>

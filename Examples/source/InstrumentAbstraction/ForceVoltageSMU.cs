@@ -19,88 +19,116 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
     /// </summary>
     internal static class ForceVoltageSMU
     {
-        internal static void SameValueToAllPinsSmu(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        /// <summary>
+        /// This example demonstrates how to force the same voltage level on the specified pins across all sites.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="smuPinNames">The SMU pins to force voltage on</param>
+        internal static void SameValueToAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var smuPins = sessionManager.DCPower(smuPinNames);
             var voltageLevel = 3.3;
             var currentLimit = 0.1;
+
+            var smuPins = sessionManager.DCPower(smuPinNames);
 
             smuPins.ForceVoltage(voltageLevel, currentLimit);
         }
 
-        internal static void DifferentValuesPerPinSmu(ISemiconductorModuleContext tsmContext)
+        /// <summary>
+        /// This example demonstrates how to force different voltage levels for different pins across all sites.
+        /// The example assumes there are exactly 2 pins.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        internal static void DifferentLevelsPerSmuPin(ISemiconductorModuleContext tsmContext)
         {
-            var pinNames = new string[] { "PinA", "PinB" };
             var sessionManager = new TSMSessionManager(tsmContext);
-            var smuPins = sessionManager.DCPower(pinNames);
+            var smuPinNames = new[] { "PinA", "PinB" };
+            var perPinVoltageLevels = new[] { 1.0, 3.3 };
+            var activeSites = tsmContext.SiteNumbers.ToArray();
+            // Create a PinSiteData object to map each voltage level with the appropriate pin name.
+            var perPinLevelsToForce = new PinSiteData<double>(smuPinNames, activeSites, perPinVoltageLevels);
 
-            var pinASettings = new DCPowerSourceSettings { Level = 1.0, Limit = 0.09 };
-            var pinBSettings = new DCPowerSourceSettings { Level = 3.3, Limit = 0.01 };
-            var smuSettings = new Dictionary<string, DCPowerSourceSettings>()
+            var smuPins = sessionManager.DCPower(smuPinNames);
+
+            smuPins.ForceVoltage(perPinLevelsToForce);
+        }
+
+        /// <summary>
+        /// This example demonstrates how to force different voltage levels and current limits for different pins across all sites.
+        /// The example assumes there are exactly 2 pins.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        internal static void DifferentValuesPerSmuPin(ISemiconductorModuleContext tsmContext)
+        {
+            var sessionManager = new TSMSessionManager(tsmContext);
+            // This dictionary is hard coded for demonstration purposes,
+            // but could otherwise be built by looping over array input parameters of the same length.
+            var perPinSmuSettings = new Dictionary<string, DCPowerSourceSettings>()
             {
-                [pinNames[0]] = pinASettings,
-                [pinNames[1]] = pinBSettings,
+                ["PinA"] = new DCPowerSourceSettings { Level = 1.0, Limit = 0.09 },
+                ["PinB"] = new DCPowerSourceSettings { Level = 3.3, Limit = 0.01 },
             };
 
-            smuPins.ForceVoltage(smuSettings);
+            var smuPins = sessionManager.DCPower(perPinSmuSettings.Keys.ToArray());
+
+            smuPins.ForceVoltage(perPinSmuSettings);
         }
 
         /// <summary>
         /// This example demonstrates how to configure different voltage levels for each site.
-        /// The example assumes there are 2 pins and 4 sites.
+        /// The example assumes there is a maximum of 4 sites.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        internal static void DifferentValuesPerSiteSmu(ISemiconductorModuleContext tsmContext)
+        /// <param name="smuPinNames">The SMU pins to force voltage on</param>
+        internal static void DifferentValuesPerSiteAcrossAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
-            var pinNames = new string[] { "PinA", "PinB" };
-            var perSiteVoltageLevelsArray = new double[] { 3.2, 3.3, 3.1, 3.8 };
             var sessionManager = new TSMSessionManager(tsmContext);
-            var smuPins = sessionManager.DCPower(pinNames);
+            var activeSites = tsmContext.SiteNumbers.ToArray();
+            // Unique per-site data, assuming a max site count of 4.
+            // Each index of the array represents the corresponding site number.
+            var perSiteVoltageLevelsArray = new double[] { 3.2, 3.3, 3.1, 3.8 };
+            // Note the site unique values must be filtered based on the active sites.
+            var activeSiteUniqueValues = new double[activeSites.Length];
+            for (int i = 0; i < activeSites.Length; i++)
+            {
+                activeSiteUniqueValues[i] = perSiteVoltageLevelsArray[i];
+            }
+            var perSiteVoltages = new SiteData<double>(activeSites, perSiteVoltageLevelsArray);
 
-            var voltageLevelsSiteData = new SiteData<double>(perSiteVoltageLevelsArray);
+            var smuPins = sessionManager.DCPower(smuPinNames);
 
-            // This is a temporary implementation until ForceVoltage gets an override accepting
-            // an input of type SiteData<double> similar to that of the PPMU.
-            var voltageLevelsSiteDataArray = Enumerable.Repeat(voltageLevelsSiteData, pinNames.Length).ToArray();
-            var voltageLevelsPinSiteData = new PinSiteData<double>(pinNames, voltageLevelsSiteDataArray);
-
-            smuPins.ForceVoltage(voltageLevelsPinSiteData, currentLimit: 0.1);
+            smuPins.ForceVoltage(perSiteVoltages);
         }
 
-        internal static void ConfigureDifferentModesDifferentValuesPerPinSmu(ISemiconductorModuleContext tsmContext)
+        /// <summary>
+        /// This is an advanced example that demonstrates how to configure different modes (voltage/current) and values for separate pins,
+        /// and then start forcing on those pins in their respective mode (voltage/current).
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        internal static void ConfigureDifferentModesDifferentValuesPerSmuPin(ISemiconductorModuleContext tsmContext)
         {
-            var pinNames = new string[] { "PinA", "PinB" };
             var sessionManager = new TSMSessionManager(tsmContext);
-            var smuPins = sessionManager.DCPower(pinNames);
             var activeSites = tsmContext.SiteNumbers.ToArray();
-
-            var pinASettings = new DCPowerSourceSettings
+            var pinNames = new string[] { "PinA", "PinB" };
+            var perPinSettings = new[]
             {
-                Level = 0.01,
-                Limit = 1,
-                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-            };
-            var pinBSettings = new DCPowerSourceSettings
-            {
-                Level = 3.3,
-                Limit = 0.01,
-                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-            };
-
-            // This is a temporary implementation until ForceVoltage gets an override accepting
-            // an input of type Dictionary<string pinName, DCPowerSourceSettings setting>,
-            // similar to that of the PPMU. Or a constructors is added to PinSiteData
-            // that allows user to declare a PinSiteData object via an input of
-            // Dictionary<string pinName, T>, where the T is a scale value that is
-            // assumed to be applied to all sites in the underlaying SiteData<T> object.
-            var smuSettings = new PinSiteData<DCPowerSourceSettings>(
-                pinNames,
-                new SiteData<DCPowerSourceSettings>[]
+                new DCPowerSourceSettings
                 {
-                    new SiteData<DCPowerSourceSettings>(activeSites, pinASettings),
-                    new SiteData<DCPowerSourceSettings>(activeSites, pinBSettings)
-                });
+                    Level = 0.01,
+                    Limit = 1,
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                },
+                new DCPowerSourceSettings
+                {
+                    Level = 3.3,
+                    Limit = 0.01,
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                }
+            };
+            var smuSettings = new PinSiteData<DCPowerSourceSettings>(pinNames, activeSites, perPinSettings);
+
+            var smuPins = sessionManager.DCPower(pinNames);
 
             smuPins.ConfigureSourceSettings(smuSettings);
             smuPins.Initiate();
