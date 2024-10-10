@@ -112,7 +112,7 @@ In a given test code module, you should create a new instance of `TSMSessionMana
 ```C#
 string vddPinName = "VDD", sdoPinName = "SDO";
 TSMSessionManager sessionManager = new TSMSessionManager(semiconductorModuleContext);
-DCPowerSessionsBundle vdd = sessionManager.Digital(vddPinName);
+DCPowerSessionsBundle vdd = sessionManager.DCPower(vddPinName);
 DigitalSessionsBundle sdo = sessionManager.Digital(sdoPinName);
 
 vdd.ForceVoltage(voltageLevel: 3.3, currentLimit: 0.1);
