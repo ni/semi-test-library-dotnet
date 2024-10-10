@@ -113,14 +113,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `SiteData<T>`
         - `SiteData(int[] siteNumbers, T[] perSiteData)`: Initializes a SiteData object with site unique data.
     - New `Select` Method added to support advanced element-by-element data transformations (such as changing type) and complex math operations.
-      - `SiteData<T>.Select<TResult>(Func<T, TResult> operation)`
-        - Description: Selects each element, of type `T` within the `SiteData<T>` object to perform an operation on that element and return a new `SiteData` object containing the result of that operation, `TResult`.
-        - Return Type: `SiteData<TResult>`
-        - Example: `SiteData<double> MySiteDataAsDoubleObj = MySiteDataAsIntObj.Select(x => (double)x);`
-      - `PinSiteData<T>.Select<TResult>(Func<T, TResult> operation)`
-        - Description: Selects each element, of type `T` within the `PinSiteData<T>` object to perform an operation on that element and return a new `PinSiteData` object containing the result of that operation, `TResult`.
-        - Return Type: `SiteData<TResult>`
-        - Example: `PinSiteData<double> MyPinSiteDataAsDoubleObj = MySiteDataAsIntObj.Select(x => (double)x);`
+      - `SiteData<T>`
+        - `Select<TResult>(Func<T, TResult> operation)`
+          - Description: Selects each element, of type `T` within the `SiteData<T>` object to perform an operation on that element and return a new `SiteData` object containing the result of that operation, `TResult`.
+          - Return Type: `SiteData<TResult>`
+          - Example: `SiteData<double> MySiteDataAsDoubleObj = MySiteDataAsIntObj.Select(x => (double)x);`
+      - `PinSiteData<T>`
+        - `Select<TResult>(Func<T, TResult> operation)`
+          - Description: Selects each element, of type `T` within the `PinSiteData<T>` object to perform an operation on that element and return a new `PinSiteData` object containing the result of that operation, `TResult`.
+          - Return Type: `PinSiteData<TResult>`
+          - Example: `PinSiteData<double> MyPinSiteDataAsDoubleObj = MySiteDataAsIntObj.Select(x => (double)x);`
     - Support added for overloading math operators: `+` , `-`, `*`, `/`, `>>`, `<<`, `&`, `|`, `^`, `~`
     - New `TryGetValue` method added to `PinSiteData<T>`.
       - `TryGetValue(int siteNumber, string pinName, out T value)`
