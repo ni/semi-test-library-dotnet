@@ -85,14 +85,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="ppmuPinNames">The PPMU pins to force voltage on</param>
-        internal static void DifferentValuesPerSitePmmu(ISemiconductorModuleContext tsmContext, string[] ppmuPinNames)
+        internal static void DifferentValuesPerSiteAcrossAllPpmuPins(ISemiconductorModuleContext tsmContext, string[] ppmuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            // Max Site count of 4 expected
-            var perSiteVoltageLevelsArray = new double[] { 3.2, 3.3, 3.1, 3.8 };
             var activeSites = tsmContext.SiteNumbers.ToArray();
-            // Array must be resized based on number of on active sites
-            Array.Resize(ref perSiteVoltageLevelsArray, activeSites.Length);
+            // Unique per-site data, assuming a max site count of 4.
+            // Each index of the array represents the corresponding site number.
+            var perSiteVoltageLevelsArray = new double[] { 3.2, 3.3, 3.1, 3.8 };
+            // Note the site unique values must be filtered based on the active sites.
+            var activeSiteUniqueValues = new double[activeSites.Length];
+            for (int i = 0; i < activeSites.Length; i++)
+            {
+                activeSiteUniqueValues[i] = perSiteVoltageLevelsArray[i];
+            }
             var perSiteVoltages = new SiteData<double>(activeSites, perSiteVoltageLevelsArray);
 
             var ppmuPins = sessionManager.Digital(ppmuPinNames);

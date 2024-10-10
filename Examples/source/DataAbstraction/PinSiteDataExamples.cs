@@ -151,13 +151,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             // Site numbers to associate with the data.
             var siteNumbers = new int[] { 0 };
             // Per-pin SiteData objects.
-            var pinPinSiteData = new[]
+            var perPinSiteData = new[]
             {
                 new SiteData<double>(siteNumbers, 1.5),
                 new SiteData<double>(siteNumbers, 2.5)
             };
             // Constructs a PinSiteData object with pin names and associated SiteData object array.
-            var pinSiteData = new PinSiteData<double>(pinNames, pinPinSiteData);
+            var pinSiteData = new PinSiteData<double>(pinNames, perPinSiteData);
         }
 
         internal static void ConstructWithDictionaryWithSystemPin()
