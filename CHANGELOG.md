@@ -16,10 +16,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - New Bitwise Math Operations Added `PinSiteData<T>`
       - `ShiftLeft(int count)`
         - Return Type: `PinSiteData<T>`
-        - Description: Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `PinSiteData<T>` object, `T`, is an integer type.
+        - Description: Shifts the value to the left (`<<`) by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `PinSiteData<T>` object, `T`, is an integer type.
       - `ShiftRight(int count)`
         - Return Type: `PinSiteData<T>`
-        - Description: Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `PinSiteData<T>` object, `T`, is an integer type.
+        - Description: Shifts the value to the right (`>>`) by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `PinSiteData<T>` object, `T`, is an integer type.
       - `BitwiseAnd(TOther other | SiteData<TOther> other | PinSiteData<TOther> other)`
         - Return Type: `PinSiteData<T>`
         - Description: Performs a bitwise AND (`&`) operation with either a scalar value, a SiteData object, another PinSiteData object, for each element across each site. This method is supported only when the underlying data type of the `PinSiteData<T>` object, `T`, is an integer type. Additionally, the type of the input value, `TOther`, can be either a scalar or an array, but the underlying type of the array must match that of the `PinSiteData<T>` object, `T`, and it cannot be of a greater number of dimension (i.e. `TOther` cannot be 2D when `T` is 1D).
@@ -35,10 +35,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - New Bitwise Math Operations Added `SiteData<T>`
       - `ShiftLeft(int count)`
         - Return Type: `SiteData<T>`
-        - Description: Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `SiteData<T>` object, `T`, is an integer type.
+        - Description: Shifts the value to the left (`<<`) by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `SiteData<T>` object, `T`, is an integer type.
       - `ShiftRight(int count)`
         - Return Type: `SiteData<T>`
-        - Description: Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `SiteData<T>` object, `T`, is an integer type.
+        - Description: Shifts the value to the right (`>>`) by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `SiteData<T>` object, `T`, is an integer type.
       - `BitwiseAnd(TOther other | SiteData<TOther> other)`
         - Return Type: `SiteData<T>`
         - Description: Performs a bitwise AND (`&`) operation with either a scalar value or another SiteData object, for each element across each site. This method is supported only when the underlying data type of the `SiteData<T>` object, `T`, is an integer type. Additionally, the type of the input value, `TOther`, can be either a scalar or an array, but the underlying type of the array must match that of the `SiteData<T>` object, `T`, and it cannot be of a greater number of dimension (i.e. `TOther` cannot be 2D when `T` is 1D).
