@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIDigital;
-using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using static System.Collections.Specialized.BitVector32;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstraction
 {
