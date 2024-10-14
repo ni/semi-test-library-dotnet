@@ -175,6 +175,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - `Utilities.TryDeterminePowerLineFrequency` updated to now support OfflineMode.
   - `TestStandSteps.ContinuityTest` modified to correctly accept negative current level values.
   - CSProject files for TestStandSteps and Extensions now exclude net48 path from being included as a folder within the project, which could cause build issues for contributors in certain situations.
+  - Improved documentation for the following DCPower extension methods: `ConfigureOutputEnabled`, `ConfigureOutputConnected`, `PowerDown`.
 
 ## 24.5.0 - 2024-08-16
 
