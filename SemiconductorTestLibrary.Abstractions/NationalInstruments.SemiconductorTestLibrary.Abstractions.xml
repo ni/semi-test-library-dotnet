@@ -670,7 +670,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MeanBySite">
             <summary>
-            Calculates the mean value across sites for each pin, and returns both the site-to-site mean value for each pin.
+            Calculates the mean value across sites for each pin, and returns the site-to-site mean value for each pin.
             </summary>
             <returns>The mean value for each pin.</returns>
         </member>
