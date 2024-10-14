@@ -63,7 +63,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
         }
 
         // These operations were added in the 24.5.1 release.
-        internal static void SiteDataBitwiseOperations()
+        internal static void PinSiteDataBitwiseOperations()
         {
             // Site numbers to associate with the data.
             var siteNumbers = new int[] { 0, 1 };
@@ -79,13 +79,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             // Shift Right Operations
             PinSiteData<byte> data1ShiftedRight = data1.ShiftRight(2);         // new value for all pins and sites: 0b_0000
             PinSiteData<byte> data2ShiftedRightWithOperator = data2 >> 1;      // new value for all pins and sites: 0b_0001
-            // Bitwise And Operations (using method and operator, as both scalar and SiteData values).
+            // Bitwise And Operations (using method and operator, as both scalar and PinSiteData values).
             PinSiteData<byte> data1AndWithData2 = data1.BitwiseAnd(data2);     // new value for all pins and sites: 0b_0000
             PinSiteData<byte> data2AmdWithOperator = data2 & 0b_0010;          // new value for all pins and sites: 0b_0010
-            // Bitwise Or Operations (using method and operator, as both scalar and SiteData values).
+            // Bitwise Or Operations (using method and operator, as both scalar and PinSiteData values).
             PinSiteData<byte> data1Or = data1.BitwiseOr(0b_0011);              // new value for all pins and sites: 0b_0011
             PinSiteData<byte> data1OrWithData2UsingOperator = data1 | data2;   // new value for all pins and sites: 0b_0011
-            // Bitwise XOr Operations (using method and operator, as both scalar and SiteData values).
+            // Bitwise XOr Operations (using method and operator, as both scalar and PinSiteData values).
             PinSiteData<byte> data1XorWithData2 = data1.BitwiseXor(data2);     // new value for all pins and sites: 0b_0011
             PinSiteData<byte> data1XorWithOperator = data1 ^ 0b_0011;          // new value for all pins and sites: 0b_0010
             // Bitwise Compliment Operations (using method and operator).
@@ -93,9 +93,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             PinSiteData<byte> data1ComplementWithOperator = ~data2;            // new value for all pins and sites: 0b_1111_1101
         }
 
-        internal static void SiteDataConvertIntToDouble()
+        internal static void PinSiteDataConvertIntToDouble()
         {
-            // Establish new SiteData object with integer values.
+            // Establish new PinSiteData object with integer values.
             // Site numbers to associate with the data.
             var siteNumbers = new int[] { 0, 1 };
             // Pin names to associate with the data.
@@ -108,7 +108,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             PinSiteData<double> doublePinSiteData = integerPinSiteData.Select(value => (double)value);
         }
 
-        internal static void SiteDataTransformUintArrayToHexString()
+        internal static void PinSiteDataTransformUintArrayToHexString()
         {
             // Establish new PinSiteData object of signed integer arrays for two sties.
             // Site numbers to associate with the data.

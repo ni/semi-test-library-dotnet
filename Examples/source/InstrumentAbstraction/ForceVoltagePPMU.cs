@@ -93,7 +93,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             var activeSiteUniqueValues = new double[activeSites.Length];
             for (int i = 0; i < activeSites.Length; i++)
             {
-                activeSiteUniqueValues[i] = perSiteVoltageLevelsArray[i];
+                activeSiteUniqueValues[i] = perSiteVoltageLevelsArray[activeSites[i]];
             }
             var perSiteVoltages = new SiteData<double>(activeSites, perSiteVoltageLevelsArray);
 
