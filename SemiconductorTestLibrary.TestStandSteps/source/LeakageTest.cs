@@ -18,19 +18,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// 3. After the specified settling time current is measured on each pin.
         /// 4. Each pin is configured back to forcing 0V.
         /// 5. The output on each pin is disabled.
-        /// By default, steps 2-4 are preformed in parallel, across all pins simultaneously.
-        /// When the <paramref name="serialOperationEnabled"/> Boolean input is set to true,
-        /// steps 2-4 are preformed serially, for each pin or pin group, one at a time.
-        /// Pin within Pin groups are always operated on in parallel.
         /// Pins mapped to either an NI SMU or NI PPMU(s) instrument channel are supported.
-        /// <para>
-        /// Configure test evaluations on the Tests tab of the Step Settings pane in TestStand to evaluate the results of these measurements.
+        /// By default, steps 2-4 are preformed in parallel, across all pins simultaneously.
+        /// When the serialOperationEnabled Boolean input parameter is set to true, steps 2-4 are preformed serially, for each pin or pin group, one at a time.
+        /// Pin within Pin groups are always operated on in parallel.
+        /// The following Published Data Id is used for test results on a per-pin basis: Leakage.
         /// Note that the leakage current measurements are published separately for each pin, regardless of if a pin group is provided.
-        /// </para>
-        /// <para>
-        /// Use the <paramref name="serialOperationEnabled"/> Boolean when leakage can be performed on some DUT pins in parallel but not others,
-        /// and define those pins within separate pin groups (i.e. LeakageOddPins and LeakageEvenPins).
-        /// </para>
+        /// Each test evaluation defined in the Test tab of the calling TestStand step must specify a pin.
+        /// To perform the leakage test on some DUT pins in parallel but not others, use the serialOperationEnabled Boolean input parameter and define separate pin groups (i.e. LeakageOddPins and LeakageEvenPins).
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinsOrPinGroups">The pins or pin groups.</param>
