@@ -569,7 +569,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <Remarks>
         /// This method is similar to <see cref="ConfigureOutputEnabled"/> but will automatically initiate the underlying driver session.
-        /// <para>This method does not physically disconnect the output channel.
+        /// <para>
+        /// This method does not physically disconnect the output channel.
         /// Use the <see cref="ConfigureOutputConnected"/> method to physically disconnect the connected output channel on supported instruments.
         /// </para>
         /// </Remarks>
