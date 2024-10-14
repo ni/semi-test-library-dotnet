@@ -565,8 +565,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Powers down the channel.
+        /// Powers down the channel by disabling output generation on the underlying device channel(s).
         /// </summary>
+        /// <Remarks>
+        /// This method is similar to <see cref="ConfigureOutputEnabled"/> but will automatically initiate the underlying driver session.
+        /// <para>This method does not physically disconnect the output channel.
+        /// Use the <see cref="ConfigureOutputConnected"/> method to physically disconnect the connected output channel on supported instruments.
+        /// </para>
+        /// </Remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settlingTime">The settling time. Null means no need to wait for the turn off operation to settle.</param>
         public static void PowerDown(this DCPowerSessionsBundle sessionsBundle, double? settlingTime = null)
@@ -672,12 +678,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// With overrides for <see cref="SiteData{Boolean}" />, and <see cref="PinSiteData{Boolean}"/> input.
         /// <para>Pass this method a true value to physically disconnect the output terminal from the front panel.</para>
         /// <remarks>
-        /// Disconnect the output only if disconnecting is necessary for your application.
-        /// For example, a battery connected to the output terminal might discharge unless the relay is disconnected.
         /// Excessive connecting and disconnecting of the output can cause premature wear on the relay.
+        /// Disconnect the output only if physically disconnecting is necessary for your application.
+        /// For example, a battery connected to the output terminal might discharge unless the relay is disconnected.
         /// <para>
-        /// This property is not supported by all devices.
-        /// Refer to the Supported Properties by Device topic in the NI-DCPower LabVIEW VI Reference and the document of your SMU model for information about supported devices.
+        /// This method will configure the <see cref="DCPowerOutputSourceOutput.Connected"/> property, which is not supported by all devices.
+        /// Refer to the Supported Properties by Device topic in the NI-DCPower User Manual for information about supported devices.
+        /// </para>
+        /// <para>
+        /// This method is independent from the <see cref="ConfigureOutputEnabled"/> method.
+        /// It does not affect the <see cref="DCPowerOutputSourceOutput.Enabled"/> property.
         /// </para>
         /// </remarks>
         /// </summary>
@@ -716,7 +726,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures whether to enable (true) or disable (false) output generation on the underlying device channel(s).
         /// </summary>
         /// <remarks>
-        /// Note: This property does not change the ConfigureOutputEnabled method. They are independent of each other.
+        /// Note: This method is independent from the <see cref="ConfigureOutputConnected"/> method. It does not affect the <see cref="DCPowerOutputSourceOutput.Connected"/> property.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="enableOutput">The boolean value to either enable (true) or disable (false) the output .</param>
