@@ -568,10 +568,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Powers down the channel by disabling output generation on the underlying device channel(s).
         /// </summary>
         /// <Remarks>
-        /// This method is similar to <see cref="ConfigureOutputEnabled"/> but will automatically initiate the underlying driver session.
+        /// This method is similar to <see cref="ConfigureOutputEnabled(DCPowerSessionsBundle,bool)"/> but will automatically initiate the underlying driver session.
         /// <para>
         /// This method does not physically disconnect the output channel.
-        /// Use the <see cref="ConfigureOutputConnected"/> method to physically disconnect the connected output channel on supported instruments.
+        /// Use the <see cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool)"/> method to physically disconnect the connected output channel on supported instruments.
         /// </para>
         /// </Remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -687,7 +687,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Refer to the Supported Properties by Device topic in the NI-DCPower User Manual for information about supported devices.
         /// </para>
         /// <para>
-        /// This method is independent from the <see cref="ConfigureOutputEnabled"/> method.
+        /// This method is independent from the <see cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool)"/> method.
         /// It does not affect the <see cref="DCPowerOutputSourceOutput.Enabled"/> property.
         /// </para>
         /// </remarks>
@@ -727,7 +727,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures whether to enable (true) or disable (false) output generation on the underlying device channel(s).
         /// </summary>
         /// <remarks>
-        /// Note: This method is independent from the <see cref="ConfigureOutputConnected"/> method. It does not affect the <see cref="DCPowerOutputSourceOutput.Connected"/> property.
+        /// Note: This method is independent from the <see cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool)"/> method. It does not affect the <see cref="DCPowerOutputSourceOutput.Connected"/> property.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="enableOutput">The boolean value to either enable (true) or disable (false) the output .</param>
