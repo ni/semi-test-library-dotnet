@@ -165,7 +165,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - ### Changed
 
-  - `LeakageTest` TestStand step now forces 0V on all pins at start of test and after a measuring. It also now ensures all pins are forced to the specified voltage before measuring current. Finally, it will now disable the output of all pins at the end of the test.
+  - `LeakageTest` TestStand step now forces 0V on all pins at start of test and after measuring. It also now ensures all pins are forced to the specified voltage before measuring current. Finally, it will now disable the output of all pins at the end of the test.
   - DMM Mulipoint extension methods now return `PinSiteData<double[]>` instead of a 2D per-instrument, per-sample array `double[][]`
     - `PinSiteData<double[]> ReadMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)`
     - `PinSiteData<double[]> FetchMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)`
