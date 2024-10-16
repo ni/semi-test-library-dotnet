@@ -14,6 +14,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <summary>
         /// Forces the specified DC current on all pins and/or pin groups specified. Both DCPower and Digital PPMU pins are supported.
         /// If a value is provided to the settlingTimeInSeconds input, the method will wait the specified amount of settling time before continuing.
+        /// The absolute value of voltage limit will be applied symmetrically (i.e if voltageLimit = 1, the output voltage will be limited between -1V and +1V).
+        /// An exception will be thrown if the specified limit value is outside the high-end of the voltage limit range for any of the mapped instruments.
+        /// For Digital PPMU pins, since the voltage range of the digital pattern instruments is typically not symmetrically (i.e. -2V to 6V),
+        /// the low-end of the applied voltage limit will be coerced to within range (i.e if voltageLimit = 3, the output voltage will be limited between -2V and +3V).
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinsOrPinGroups">The pins or pin groups to force DC voltage on.</param>

@@ -13,10 +13,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
     {
         /// <summary>
         /// Forces the specified DC current on all pins and/or pin groups specified, waits the specified amount of settling time,
-        /// and then measures the voltage on those pins and publishes the results to TestStand. Both DCPower and Digital PPMU pins are supported.
-        /// Both the <paramref name="settlingTime"/> and <paramref name="apertureTime"/> inputs are expected to be provided in Seconds.
-        /// By default the <paramref name="apertureTime"/> input is set to -1, which will cause this input to be ignored
+        /// and then measures the voltage on those pins and publishes the results to TestStand.
+        /// Note that the voltage measurements are published separately for each pin, regardless of if a pin group is provided, using the following Published Data Id: Voltage.
+        /// Both DCPower and Digital PPMU pins are supported.
+        /// Both the settlingTime and apertureTime inputs are expected to be provided in Seconds.
+        /// By default the apertureTime input is set to -1, which will cause this input to be ignored
         /// and the device will use any pre-configured aperture time set by a proceeding set, such as the Setup NI-DCPower Instrumentation step.
+        /// The absolute value of voltage limit will be applied symmetrically (i.e if voltageLimit = 1, the output voltage will be limited between -1V and +1V).
+        /// An exception will be thrown if the specified limit value is outside the high-end of the voltage limit range for any of the mapped instruments.
+        /// For Digital PPMU pins, since the voltage range of the digital pattern instruments is typically not symmetrically (i.e. -2V to 6V),
+        /// the low-end of the applied voltage limit will be coerced to within range (i.e if voltageLimit = 3, the output voltage will be limited between -2V and +3V).
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinsOrPinGroups">The pins or pin groups to force DC voltage on.</param>
