@@ -35,6 +35,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             try
             {
                 var sessionManager = new TSMSessionManager(tsmContext);
+                var absoluteValueOfVoltageLimit = Math.Abs(voltageLimit);
                 InvokeInParallel(
                     () =>
                     {
@@ -48,7 +49,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             {
                                 dcPower.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = apertureTime });
                             }
-                            dcPower.ForceCurrent(currentLevel, voltageLimit, waitForSourceCompletion: true);
+                            dcPower.ForceCurrent(currentLevel, absoluteValueOfVoltageLimit, waitForSourceCompletion: true);
                             dcPower.MeasureAndPublishVoltage("Voltage", out _);
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
                         }
@@ -63,7 +64,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             {
                                 digital.ConfigureApertureTime(apertureTime);
                             }
-                            var absoluteValueOfVoltageLimit = Math.Abs(voltageLimit);
                             digital.ForceCurrent(currentLevel, voltageLimitLow: Math.Max(-2, -absoluteValueOfVoltageLimit), voltageLimitHigh: absoluteValueOfVoltageLimit);
                             PreciseWait(settlingTime);
                             digital.MeasureAndPublishVoltage("Voltage", out _);

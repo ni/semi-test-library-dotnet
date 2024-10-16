@@ -1,4 +1,5 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+﻿using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
@@ -12,19 +13,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class ForceCurrentMeasureVoltageTests
     {
         [Fact]
-        public void InitializeDigital_RunForceCurrentMeasureVoltageWithPositiveInRangeVoltageLimit_VoltageLimitsCorrectlySet()
+        public void Initialize_RunForceCurrentMeasureVoltageWithPositiveInRangeVoltageLimit_VoltageLimitsCorrectlySet()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             SetupNIDigitalPatternInstrumentation(tsmContext);
 
             ForceCurrentMeasureVoltage(
                 tsmContext,
-                pinsOrPinGroups: new[] { "DigitalPins" },
+                pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
                 currentLevel: 0.005,
                 voltageLimit: 3.3,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
 
+            var dcPower = new TSMSessionManager(tsmContext).DCPower("VCC1");
+            dcPower.Do(sessionInfo =>
+            {
+                Assert.Equal(3.3, sessionInfo.AllChannelsOutput.Source.Current.VoltageLimit, 1);
+            });
             var digital = new TSMSessionManager(tsmContext).Digital("DigitalPins");
             digital.Do(sessionInfo =>
             {
@@ -35,19 +42,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void InitializeDigital_RunForceCurrentMeasureVoltageWithPositiveOutRangeVoltageLimit_VoltageLimitsCorrectlySet()
+        public void Initialize_RunForceCurrentMeasureVoltageWithPositiveOutRangeVoltageLimit_VoltageLimitsCorrectlySet()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             SetupNIDigitalPatternInstrumentation(tsmContext);
 
             ForceCurrentMeasureVoltage(
                 tsmContext,
-                pinsOrPinGroups: new[] { "DigitalPins" },
+                pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
                 currentLevel: 0.005,
                 voltageLimit: 1.3,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
 
+            var dcPower = new TSMSessionManager(tsmContext).DCPower("VCC1");
+            dcPower.Do(sessionInfo =>
+            {
+                Assert.Equal(1.3, sessionInfo.AllChannelsOutput.Source.Current.VoltageLimit, 1);
+            });
             var digital = new TSMSessionManager(tsmContext).Digital("DigitalPins");
             digital.Do(sessionInfo =>
             {
@@ -58,19 +71,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void InitializeDigital_RunForceCurrentMeasureVoltageWithNegativeInRangeVoltageLimit_VoltageLimitsCorrectlySet()
+        public void Initialize_RunForceCurrentMeasureVoltageWithNegativeInRangeVoltageLimit_VoltageLimitsCorrectlySet()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             SetupNIDigitalPatternInstrumentation(tsmContext);
 
             ForceCurrentMeasureVoltage(
                 tsmContext,
-                pinsOrPinGroups: new[] { "DigitalPins" },
+                pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
                 currentLevel: 0.005,
                 voltageLimit: -1.3,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
 
+            var dcPower = new TSMSessionManager(tsmContext).DCPower("VCC1");
+            dcPower.Do(sessionInfo =>
+            {
+                Assert.Equal(1.3, sessionInfo.AllChannelsOutput.Source.Current.VoltageLimit, 1);
+            });
             var digital = new TSMSessionManager(tsmContext).Digital("DigitalPins");
             digital.Do(sessionInfo =>
             {
@@ -81,19 +100,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void InitializeDigital_RunForceCurrentMeasureVoltageWithNegativeOutRangeVoltageLimit_VoltageLimitsCorrectlySet()
+        public void Initialize_RunForceCurrentMeasureVoltageWithNegativeOutRangeVoltageLimit_VoltageLimitsCorrectlySet()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             SetupNIDigitalPatternInstrumentation(tsmContext);
 
             ForceCurrentMeasureVoltage(
                 tsmContext,
-                pinsOrPinGroups: new[] { "DigitalPins" },
+                pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
                 currentLevel: 0.005,
                 voltageLimit: -3.3,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
 
+            var dcPower = new TSMSessionManager(tsmContext).DCPower("VCC1");
+            dcPower.Do(sessionInfo =>
+            {
+                Assert.Equal(3.3, sessionInfo.AllChannelsOutput.Source.Current.VoltageLimit, 1);
+            });
             var digital = new TSMSessionManager(tsmContext).Digital("DigitalPins");
             digital.Do(sessionInfo =>
             {
@@ -104,14 +129,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void InitializeDigital_RunForceCurrentMeasureVoltageWithOutHighRangeVoltageLimit_ThrowsException()
+        public void Initialize_RunForceCurrentMeasureVoltageWithOutHighRangeVoltageLimit_ThrowsException()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
             SetupNIDigitalPatternInstrumentation(tsmContext);
 
             void ForceCurrentMeasureVoltageMethod() => ForceCurrentMeasureVoltage(
                 tsmContext,
-                pinsOrPinGroups: new[] { "DigitalPins" },
+                pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
                 currentLevel: 0.005,
                 voltageLimit: 8,
                 apertureTime: 5e-5,

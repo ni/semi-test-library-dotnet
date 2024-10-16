@@ -30,6 +30,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             try
             {
                 var sessionManager = new TSMSessionManager(tsmContext);
+                var absoluteValueOfVoltageLimit = Math.Abs(voltageLimit);
                 InvokeInParallel(
                     () =>
                     {
@@ -39,7 +40,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             var dcPower = sessionManager.DCPower(dcPowerPins);
                             var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
                             dcPower.ConfigureSourceDelay(settlingTime);
-                            dcPower.ForceCurrent(currentLevel, voltageLimit);
+                            dcPower.ForceCurrent(currentLevel, absoluteValueOfVoltageLimit);
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
                         }
                     },
@@ -49,7 +50,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         if (digitalPins.Any())
                         {
                             var digital = sessionManager.Digital(digitalPins);
-                            var absoluteValueOfVoltageLimit = Math.Abs(voltageLimit);
                             digital.ForceCurrent(currentLevel, voltageLimitLow: Math.Max(-2, -absoluteValueOfVoltageLimit), voltageLimitHigh: absoluteValueOfVoltageLimit);
                             PreciseWait(settlingTime);
                         }
