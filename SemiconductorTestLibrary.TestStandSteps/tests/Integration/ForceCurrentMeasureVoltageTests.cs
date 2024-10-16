@@ -1,4 +1,5 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
@@ -99,6 +100,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-2, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow);
                 Assert.Equal(3.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
+            CleanupInstrumentation(tsmContext);
+        }
+
+        [Fact]
+        public void InitializeDigital_RunForceCurrentMeasureVoltageWithOutHighRangeVoltageLimit_ThrowsException()
+        {
+            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            SetupNIDigitalPatternInstrumentation(tsmContext);
+
+            void ForceCurrentMeasureVoltageMethod() => ForceCurrentMeasureVoltage(
+                tsmContext,
+                pinsOrPinGroups: new[] { "DigitalPins" },
+                currentLevel: 0.005,
+                voltageLimit: 8,
+                apertureTime: 5e-5,
+                settlingTime: 5e-5);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceCurrentMeasureVoltageMethod);
+            Assert.Contains("Maximum Value: 6", exception.Message);
             CleanupInstrumentation(tsmContext);
         }
     }
