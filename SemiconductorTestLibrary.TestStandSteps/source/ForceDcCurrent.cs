@@ -49,7 +49,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         if (digitalPins.Any())
                         {
                             var digital = sessionManager.Digital(digitalPins);
-                            digital.ForceCurrent(currentLevel, voltageLimitLow: voltageLimit, voltageLimitHigh: voltageLimit);
+                            var absoluteValueOfVoltageLimit = Math.Abs(voltageLimit);
+                            digital.ForceCurrent(currentLevel, voltageLimitLow: Math.Max(-2, -absoluteValueOfVoltageLimit), voltageLimitHigh: absoluteValueOfVoltageLimit);
                             PreciseWait(settlingTime);
                         }
                     });

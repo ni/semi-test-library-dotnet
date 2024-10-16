@@ -63,7 +63,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             {
                                 digital.ConfigureApertureTime(apertureTime);
                             }
-                            digital.ForceCurrent(currentLevel, voltageLimitLow: voltageLimit, voltageLimitHigh: voltageLimit);
+                            var absoluteValueOfVoltageLimit = Math.Abs(voltageLimit);
+                            digital.ForceCurrent(currentLevel, voltageLimitLow: Math.Max(-2, -absoluteValueOfVoltageLimit), voltageLimitHigh: absoluteValueOfVoltageLimit);
                             PreciseWait(settlingTime);
                             digital.MeasureAndPublishVoltage("Voltage", out _);
                         }
