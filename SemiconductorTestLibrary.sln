@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemiconductorTestLibrary.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemiconductorTestLibrary.Examples", "Examples\source\SemiconductorTestLibrary.Examples.csproj", "{756E52C5-D2C1-44CB-BCB7-D78F96B4B5C3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.SemiconductorTestLibrary.TestStandSteps", "SemiconductorTestLibrary.TestStandSteps\tests\Tests.SemiconductorTestLibrary.TestStandSteps.csproj", "{B5E6E050-014D-447B-A572-8D1DD7860871}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.SemiconductorTestLibrary.Examples", "Examples\tests\Tests.SemiconductorTestLibrary.Examples.csproj", "{7A218008-D8D5-4CB8-9935-E3FF291C0149}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{756E52C5-D2C1-44CB-BCB7-D78F96B4B5C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{756E52C5-D2C1-44CB-BCB7-D78F96B4B5C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{756E52C5-D2C1-44CB-BCB7-D78F96B4B5C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5E6E050-014D-447B-A572-8D1DD7860871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5E6E050-014D-447B-A572-8D1DD7860871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5E6E050-014D-447B-A572-8D1DD7860871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5E6E050-014D-447B-A572-8D1DD7860871}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A218008-D8D5-4CB8-9935-E3FF291C0149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A218008-D8D5-4CB8-9935-E3FF291C0149}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A218008-D8D5-4CB8-9935-E3FF291C0149}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A218008-D8D5-4CB8-9935-E3FF291C0149}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

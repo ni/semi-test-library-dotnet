@@ -5,6 +5,7 @@ items:
   id: Publish
   parent: NationalInstruments.SemiconductorTestLibrary.Common
   children:
+  - NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
   - NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0},System.String)
   - NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.String,System.String)
   - NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[],System.String)
@@ -112,6 +113,46 @@ items:
   nameWithType.vb: Publish.PublishResults(Of T)(ISemiconductorModuleContext, SiteData(Of T), String, String)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T), String, String)
   name.vb: PublishResults(Of T)(ISemiconductorModuleContext, SiteData(Of T), String, String)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
+  id: PublishResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Publish
+  langs:
+  - csharp
+  - vb
+  name: PublishResult<T>(ISemiconductorModuleContext, T, string, string)
+  nameWithType: Publish.PublishResult<T>(ISemiconductorModuleContext, T, string, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T, string, string)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Publishes measurement result.
+  example: []
+  syntax:
+    content: public static void PublishResult<T>(this ISemiconductorModuleContext tsmContext, T result, string publishedDataId, string pin = "")
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: result
+      type: '{T}'
+      description: The measurement result to publish.
+    - id: publishedDataId
+      type: System.String
+      description: The unique data id to use when publishing.
+    - id: pin
+      type: System.String
+      description: The pin to publish result for.
+    typeParameters:
+    - id: T
+      description: The type of the measurement data.
+    content.vb: Public Shared Sub PublishResult(Of T)(tsmContext As ISemiconductorModuleContext, result As T, publishedDataId As String, pin As String = "")
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult*
+  nameWithType.vb: Publish.PublishResult(Of T)(ISemiconductorModuleContext, T, String, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T, String, String)
+  name.vb: PublishResult(Of T)(ISemiconductorModuleContext, T, String, String)
 - uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
   id: PublishSingleSiteResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
@@ -144,7 +185,7 @@ items:
       description: The unique data id to use when publishing.
     - id: pin
       type: System.String
-      description: The pin to publish results for.
+      description: The pin to publish result for.
     typeParameters:
     - id: T
       description: The type of the measurement data.
@@ -728,13 +769,13 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult*
-  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult
   isExternal: true
-  href: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult.html#NationalInstruments_SemiconductorTestLibrary_Common_Publish_PublishSingleSiteResult__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext___0_System_String_System_String_
-  name: PublishSingleSiteResult
-  nameWithType: Publish.PublishSingleSiteResult
-  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult.html#NationalInstruments_SemiconductorTestLibrary_Common_Publish_PublishResult__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext___0_System_String_System_String_
+  name: PublishResult
+  nameWithType: Publish.PublishResult
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult
 - uid: '{T}'
   commentId: '!:T'
   definition: T
@@ -745,6 +786,13 @@ references:
   name: T
   nameWithType: T
   fullName: T
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult.html#NationalInstruments_SemiconductorTestLibrary_Common_Publish_PublishSingleSiteResult__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext___0_System_String_System_String_
+  name: PublishSingleSiteResult
+  nameWithType: Publish.PublishSingleSiteResult
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
   commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0}
   parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction

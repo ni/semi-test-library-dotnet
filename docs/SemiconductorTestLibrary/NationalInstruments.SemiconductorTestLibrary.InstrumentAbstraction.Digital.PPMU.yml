@@ -8,11 +8,18 @@ items:
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ConfigureApertureTime(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Double)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.DisconnectOutput(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Nullable{System.Double})
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.Force(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Double,System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Double,System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.Measure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndPublishCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
@@ -33,7 +40,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -65,7 +72,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double, double?, double?, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -95,6 +102,49 @@ items:
   nameWithType.vb: PPMU.ForceVoltage(DigitalSessionsBundle, Double, Double?, Double?, Double?)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, Double, Double?, Double?, Double?)
   name.vb: ForceVoltage(DigitalSessionsBundle, Double, Double?, Double?, Double?)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
+  id: ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU
+  langs:
+  - csharp
+  - vb
+  name: ForceVoltage(DigitalSessionsBundle, IDictionary<string, double>, double?, double?, double?)
+  nameWithType: PPMU.ForceVoltage(DigitalSessionsBundle, IDictionary<string, double>, double?, double?, double?)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, System.Collections.Generic.IDictionary<string, double>, double?, double?, double?)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Forces voltage on the target pin(s) at the specified level. You must provide the voltage level values, and the method will assume all other properties that have been previously set. Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
+  remarks: Use this method to force different voltage levels on different pins.
+  example: []
+  syntax:
+    content: public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double? currentLimitRange = null, double? apertureTime = null, double? settlingTime = null)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: voltageLevels
+      type: System.Collections.Generic.IDictionary{System.String,System.Double}
+      description: The voltage levels for all pins.
+    - id: currentLimitRange
+      type: System.Nullable{System.Double}
+      description: The current limit range.
+    - id: apertureTime
+      type: System.Nullable{System.Double}
+      description: The aperture Time.
+    - id: settlingTime
+      type: System.Nullable{System.Double}
+      description: The settling time.
+    content.vb: Public Shared Sub ForceVoltage(sessionsBundle As DigitalSessionsBundle, voltageLevels As IDictionary(Of String, Double), currentLimitRange As Double? = Nothing, apertureTime As Double? = Nothing, settlingTime As Double? = Nothing)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage*
+  nameWithType.vb: PPMU.ForceVoltage(DigitalSessionsBundle, IDictionary(Of String, Double), Double?, Double?, Double?)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, System.Collections.Generic.IDictionary(Of String, Double), Double?, Double?, Double?)
+  name.vb: ForceVoltage(DigitalSessionsBundle, IDictionary(Of String, Double), Double?, Double?, Double?)
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
   id: ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
@@ -108,7 +158,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>, double?, double?, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -151,7 +201,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>, double?, double?, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -181,6 +231,69 @@ items:
   nameWithType.vb: PPMU.ForceVoltage(DigitalSessionsBundle, PinSiteData(Of Double), Double?, Double?, Double?)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Double), Double?, Double?, Double?)
   name.vb: ForceVoltage(DigitalSessionsBundle, PinSiteData(Of Double), Double?, Double?, Double?)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
+  id: ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU
+  langs:
+  - csharp
+  - vb
+  name: ForceVoltage(DigitalSessionsBundle, PPMUSettings)
+  nameWithType: PPMU.ForceVoltage(DigitalSessionsBundle, PPMUSettings)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Forces voltage using specified ppmu settings.
+  example: []
+  syntax:
+    content: public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, PPMUSettings settings)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: settings
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
+      description: The settings to use.
+    content.vb: Public Shared Sub ForceVoltage(sessionsBundle As DigitalSessionsBundle, settings As PPMUSettings)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  id: ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU
+  langs:
+  - csharp
+  - vb
+  name: ForceVoltage(DigitalSessionsBundle, SiteData<PPMUSettings>)
+  nameWithType: PPMU.ForceVoltage(DigitalSessionsBundle, SiteData<PPMUSettings>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Forces voltage using specified site-unique ppmu settings.
+  example: []
+  syntax:
+    content: public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, SiteData<PPMUSettings> settings)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: settings
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings}
+      description: The per-site settings to use.
+    content.vb: Public Shared Sub ForceVoltage(sessionsBundle As DigitalSessionsBundle, settings As SiteData(Of PPMUSettings))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage*
+  nameWithType.vb: PPMU.ForceVoltage(DigitalSessionsBundle, SiteData(Of PPMUSettings))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings))
+  name.vb: ForceVoltage(DigitalSessionsBundle, SiteData(Of PPMUSettings))
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
   id: ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
@@ -194,11 +307,11 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, System.Collections.Generic.IDictionary<string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
-  summary: Forces voltage on the target pin(s).
+  summary: Forces voltage using specified pin-unique ppmu settings.
   example: []
   syntax:
     content: public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, IDictionary<string, PPMUSettings> settings)
@@ -214,6 +327,39 @@ items:
   nameWithType.vb: PPMU.ForceVoltage(DigitalSessionsBundle, IDictionary(Of String, PPMUSettings))
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, System.Collections.Generic.IDictionary(Of String, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings))
   name.vb: ForceVoltage(DigitalSessionsBundle, IDictionary(Of String, PPMUSettings))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  id: ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU
+  langs:
+  - csharp
+  - vb
+  name: ForceVoltage(DigitalSessionsBundle, PinSiteData<PPMUSettings>)
+  nameWithType: PPMU.ForceVoltage(DigitalSessionsBundle, PinSiteData<PPMUSettings>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Forces voltage using specified pin- and site-unique ppmu settings.
+  example: []
+  syntax:
+    content: public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, PinSiteData<PPMUSettings> settings)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: settings
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings}
+      description: The per-site-pin-pair settings to use.
+    content.vb: Public Shared Sub ForceVoltage(sessionsBundle As DigitalSessionsBundle, settings As PinSiteData(Of PPMUSettings))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage*
+  nameWithType.vb: PPMU.ForceVoltage(DigitalSessionsBundle, PinSiteData(Of PPMUSettings))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings))
+  name.vb: ForceVoltage(DigitalSessionsBundle, PinSiteData(Of PPMUSettings))
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Double,System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Double,System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
   id: ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Double,System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})
@@ -227,7 +373,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double, double?, double?, double?, double?, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -263,6 +409,69 @@ items:
   nameWithType.vb: PPMU.ForceCurrent(DigitalSessionsBundle, Double, Double?, Double?, Double?, Double?, Double?)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, Double, Double?, Double?, Double?, Double?, Double?)
   name.vb: ForceCurrent(DigitalSessionsBundle, Double, Double?, Double?, Double?, Double?, Double?)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
+  id: ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU
+  langs:
+  - csharp
+  - vb
+  name: ForceCurrent(DigitalSessionsBundle, PPMUSettings)
+  nameWithType: PPMU.ForceCurrent(DigitalSessionsBundle, PPMUSettings)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Forces current using specified ppmu settings.
+  example: []
+  syntax:
+    content: public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, PPMUSettings settings)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: settings
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
+      description: The settings to use.
+    content.vb: Public Shared Sub ForceCurrent(sessionsBundle As DigitalSessionsBundle, settings As PPMUSettings)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  id: ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU
+  langs:
+  - csharp
+  - vb
+  name: ForceCurrent(DigitalSessionsBundle, SiteData<PPMUSettings>)
+  nameWithType: PPMU.ForceCurrent(DigitalSessionsBundle, SiteData<PPMUSettings>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Forces current using specified site-unique ppmu settings.
+  example: []
+  syntax:
+    content: public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, SiteData<PPMUSettings> settings)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: settings
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings}
+      description: The per-site settings to use.
+    content.vb: Public Shared Sub ForceCurrent(sessionsBundle As DigitalSessionsBundle, settings As SiteData(Of PPMUSettings))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent*
+  nameWithType.vb: PPMU.ForceCurrent(DigitalSessionsBundle, SiteData(Of PPMUSettings))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings))
+  name.vb: ForceCurrent(DigitalSessionsBundle, SiteData(Of PPMUSettings))
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
   id: ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Collections.Generic.IDictionary{System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
@@ -276,11 +485,11 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, System.Collections.Generic.IDictionary<string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
-  summary: Forces current on the target pin(s).
+  summary: Forces current using specified pin-unique ppmu settings.
   example: []
   syntax:
     content: public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, IDictionary<string, PPMUSettings> settings)
@@ -296,6 +505,39 @@ items:
   nameWithType.vb: PPMU.ForceCurrent(DigitalSessionsBundle, IDictionary(Of String, PPMUSettings))
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, System.Collections.Generic.IDictionary(Of String, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings))
   name.vb: ForceCurrent(DigitalSessionsBundle, IDictionary(Of String, PPMUSettings))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  id: ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU
+  langs:
+  - csharp
+  - vb
+  name: ForceCurrent(DigitalSessionsBundle, PinSiteData<PPMUSettings>)
+  nameWithType: PPMU.ForceCurrent(DigitalSessionsBundle, PinSiteData<PPMUSettings>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Forces current using specified pin- and site-unique ppmu settings.
+  example: []
+  syntax:
+    content: public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, PinSiteData<PPMUSettings> settings)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: settings
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings}
+      description: The per-site-pin-pair settings to use.
+    content.vb: Public Shared Sub ForceCurrent(sessionsBundle As DigitalSessionsBundle, settings As PinSiteData(Of PPMUSettings))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent*
+  nameWithType.vb: PPMU.ForceCurrent(DigitalSessionsBundle, PinSiteData(Of PPMUSettings))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings))
+  name.vb: ForceCurrent(DigitalSessionsBundle, PinSiteData(Of PPMUSettings))
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndReturnPerInstrumentPerChannelResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndReturnPerInstrumentPerChannelResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType)
   id: MeasureAndReturnPerInstrumentPerChannelResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType)
@@ -309,7 +551,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndReturnPerInstrumentPerChannelResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -342,7 +584,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -372,7 +614,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -402,7 +644,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndPublishVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, out double[][])
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -442,7 +684,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndPublishVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -478,7 +720,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndPublishCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, out double[][])
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -518,7 +760,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndPublishCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -554,7 +796,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.TurnOffOutput(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -597,7 +839,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.DisconnectOutput(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -640,7 +882,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.SelectPPMU(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -686,7 +928,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.SelectDigital(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -729,7 +971,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ConfigureApertureTime(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -762,7 +1004,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.Measure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -795,7 +1037,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.Force(NationalInstruments.ModularInstruments.NIDigital.NIDigital, string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -1180,6 +1422,124 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: System.Collections.Generic.IDictionary{System.String,System.Double}
+  commentId: T:System.Collections.Generic.IDictionary{System.String,System.Double}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<string, double>
+  nameWithType: IDictionary<string, double>
+  fullName: System.Collections.Generic.IDictionary<string, double>
+  nameWithType.vb: IDictionary(Of String, Double)
+  fullName.vb: System.Collections.Generic.IDictionary(Of String, Double)
+  name.vb: IDictionary(Of String, Double)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: System.Collections.Generic.IDictionary`2
+  commentId: T:System.Collections.Generic.IDictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<TKey, TValue>
+  nameWithType: IDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
+  nameWithType.vb: IDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
+  name.vb: IDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double}
   commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double}
   parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1345,6 +1705,47 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.html
+  name: PPMUSettings
+  nameWithType: PPMUSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.html
+  name: SiteData<PPMUSettings>
+  nameWithType: SiteData<PPMUSettings>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>
+  nameWithType.vb: SiteData(Of PPMUSettings)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
+  name.vb: SiteData(Of PPMUSettings)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+  - name: <
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
+    name: PPMUSettings
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.html
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
+    name: PPMUSettings
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.html
+  - name: )
 - uid: System.Collections.Generic.IDictionary{System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings}
   commentId: T:System.Collections.Generic.IDictionary{System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings}
   parent: System.Collections.Generic
@@ -1392,77 +1793,39 @@ references:
     isExternal: true
     href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.html
   - name: )
-- uid: System.Collections.Generic.IDictionary`2
-  commentId: T:System.Collections.Generic.IDictionary`2
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
-  name: IDictionary<TKey, TValue>
-  nameWithType: IDictionary<TKey, TValue>
-  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
-  nameWithType.vb: IDictionary(Of TKey, TValue)
-  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
-  name.vb: IDictionary(Of TKey, TValue)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.html
+  name: PinSiteData<PPMUSettings>
+  nameWithType: PinSiteData<PPMUSettings>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>
+  nameWithType.vb: PinSiteData(Of PPMUSettings)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
+  name.vb: PinSiteData(Of PPMUSettings)
   spec.csharp:
-  - uid: System.Collections.Generic.IDictionary`2
-    name: IDictionary
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
   - name: <
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
+    name: PPMUSettings
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.html
   - name: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IDictionary`2
-    name: IDictionary
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
   - name: (
   - name: Of
   - name: " "
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
+    name: PPMUSettings
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.html
   - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent
   isExternal: true
@@ -1675,14 +2038,6 @@ references:
   name: Force
   nameWithType: PPMU.Force
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.Force
-- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
-  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
-  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
-  isExternal: true
-  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings.html
-  name: PPMUSettings
-  nameWithType: PPMUSettings
-  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
 - uid: NationalInstruments.ModularInstruments.NIDigital
   commentId: N:NationalInstruments.ModularInstruments.NIDigital
   isExternal: true

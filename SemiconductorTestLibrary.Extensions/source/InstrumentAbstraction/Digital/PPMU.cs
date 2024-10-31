@@ -50,6 +50,36 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level values, and the method will assume all other properties that have been previously set. Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="voltageLevels">The voltage levels for all pins.</param>
+        /// <param name="currentLimitRange">The current limit range.</param>
+        /// <param name="apertureTime">The aperture Time.</param>
+        /// <param name="settlingTime">The settling time.</param>
+        /// <remarks>Use this method to force different voltage levels on different pins.</remarks>
+        public static void ForceVoltage(
+            this DigitalSessionsBundle sessionsBundle,
+            IDictionary<string, double> voltageLevels,
+            double? currentLimitRange = null,
+            double? apertureTime = null,
+            double? settlingTime = null)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var settings = new PPMUSettings
+                {
+                    OutputFunction = PpmuOutputFunction.DCVoltage,
+                    VoltageLevel = voltageLevels[sitePinInfo.PinName],
+                    CurrentLimitRange = currentLimitRange,
+                    ApertureTime = apertureTime,
+                    SettlingTime = settlingTime
+                };
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, settings);
+            });
+        }
+
+        /// <summary>
+        /// Forces voltage on the target pin(s) at the specified level. You must provide the voltage level values, and the method will assume all other properties that have been previously set. Optionally, you can also provide a specific current limit, current limit range, and voltage level range values directly.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels for all sites.</param>
         /// <param name="currentLimitRange">The current limit range.</param>
         /// <param name="apertureTime">The aperture Time.</param>
@@ -107,7 +137,36 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces voltage on the target pin(s).
+        /// Forces voltage using specified ppmu settings.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The settings to use.</param>
+        public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, PPMUSettings settings)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                settings.OutputFunction = PpmuOutputFunction.DCVoltage;
+                sessionInfo.Session.Force(sessionInfo.PinSetString, settings);
+            });
+        }
+
+        /// <summary>
+        /// Forces voltage using specified site-unique ppmu settings.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The per-site settings to use.</param>
+        public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, SiteData<PPMUSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
+                perSiteSettings.OutputFunction = PpmuOutputFunction.DCVoltage;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, perSiteSettings);
+            });
+        }
+
+        /// <summary>
+        /// Forces voltage using specified pin-unique ppmu settings.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
@@ -117,6 +176,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 settings[sitePinInfo.PinName].OutputFunction = PpmuOutputFunction.DCVoltage;
                 sessionInfo.Session.Force(sitePinInfo.SitePinString, settings[sitePinInfo.PinName]);
+            });
+        }
+
+        /// <summary>
+        /// Forces voltage using specified pin- and site-unique ppmu settings.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The per-site-pin-pair settings to use.</param>
+        public static void ForceVoltage(this DigitalSessionsBundle sessionsBundle, PinSiteData<PPMUSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
+                perSitePinPairSettings.OutputFunction = PpmuOutputFunction.DCVoltage;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, perSitePinPairSettings);
             });
         }
 
@@ -158,7 +232,36 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Forces current on the target pin(s).
+        /// Forces current using specified ppmu settings.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The settings to use.</param>
+        public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, PPMUSettings settings)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                settings.OutputFunction = PpmuOutputFunction.DCCurrent;
+                sessionInfo.Session.Force(sessionInfo.PinSetString, settings);
+            });
+        }
+
+        /// <summary>
+        /// Forces current using specified site-unique ppmu settings.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The per-site settings to use.</param>
+        public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, SiteData<PPMUSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
+                perSiteSettings.OutputFunction = PpmuOutputFunction.DCCurrent;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, perSiteSettings);
+            });
+        }
+
+        /// <summary>
+        /// Forces current using specified pin-unique ppmu settings.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="settings">The per-pin settings to use.</param>
@@ -168,6 +271,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 settings[sitePinInfo.PinName].OutputFunction = PpmuOutputFunction.DCCurrent;
                 sessionInfo.Session.Force(sitePinInfo.SitePinString, settings[sitePinInfo.PinName]);
+            });
+        }
+
+        /// <summary>
+        /// Forces current using specified pin- and site-unique ppmu settings.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="settings">The per-site-pin-pair settings to use.</param>
+        public static void ForceCurrent(this DigitalSessionsBundle sessionsBundle, PinSiteData<PPMUSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
+                perSitePinPairSettings.OutputFunction = PpmuOutputFunction.DCCurrent;
+                sessionInfo.Session.Force(sitePinInfo.SitePinString, perSitePinPairSettings);
             });
         }
 

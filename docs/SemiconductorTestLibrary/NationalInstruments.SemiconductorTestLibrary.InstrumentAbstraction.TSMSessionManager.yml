@@ -8,19 +8,26 @@ items:
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[])
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String[])
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String[],System.Boolean)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String[])
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String[],System.Boolean)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String[])
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String[],System.Boolean)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(System.String)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(System.String[])
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(System.String[],System.Boolean)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(System.String)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(System.String[])
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(System.String[],System.Boolean)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(System.String)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(System.String[])
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(System.String[],System.Boolean)
   langs:
   - csharp
   - vb
@@ -133,6 +140,39 @@ items:
   nameWithType.vb: TSMSessionManager.Digital(String())
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(String())
   name.vb: Digital(String())
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String[],System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String[],System.Boolean)
+  id: Digital(System.String[],System.Boolean)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: Digital(string[], bool)
+  nameWithType: TSMSessionManager.Digital(string[], bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(string[], bool)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+  example: []
+  syntax:
+    content: public DigitalSessionsBundle Digital(string[] pins, bool filterPins)
+    parameters:
+    - id: pins
+      type: System.String[]
+      description: The given pins.
+    - id: filterPins
+      type: System.Boolean
+      description: Whether to automatically filter out non-NIDigital pins.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref>. Returns null if all pins are non-NIDigital pins.
+    content.vb: Public Function Digital(pins As String(), filterPins As Boolean) As DigitalSessionsBundle
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital*
+  nameWithType.vb: TSMSessionManager.Digital(String(), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(String(), Boolean)
+  name.vb: Digital(String(), Boolean)
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String)
   id: DCPower(System.String)
@@ -193,6 +233,39 @@ items:
   nameWithType.vb: TSMSessionManager.DCPower(String())
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(String())
   name.vb: DCPower(String())
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String[],System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String[],System.Boolean)
+  id: DCPower(System.String[],System.Boolean)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: DCPower(string[], bool)
+  nameWithType: TSMSessionManager.DCPower(string[], bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(string[], bool)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+  example: []
+  syntax:
+    content: public DCPowerSessionsBundle DCPower(string[] pins, bool filterPins)
+    parameters:
+    - id: pins
+      type: System.String[]
+      description: The given pins.
+    - id: filterPins
+      type: System.Boolean
+      description: Whether to automatically filter out non-NIDCPower pins.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle
+      description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle" data-throw-if-not-resolved="false"></xref>. Returns null if all pins are non-NIDCPower pins.
+    content.vb: Public Function DCPower(pins As String(), filterPins As Boolean) As DCPowerSessionsBundle
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower*
+  nameWithType.vb: TSMSessionManager.DCPower(String(), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(String(), Boolean)
+  name.vb: DCPower(String(), Boolean)
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String)
   id: DAQmx(System.String)
@@ -253,6 +326,39 @@ items:
   nameWithType.vb: TSMSessionManager.DAQmx(String())
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(String())
   name.vb: DAQmx(String())
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean)
+  id: DAQmx(System.String[],System.Boolean)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: DAQmx(string[], bool)
+  nameWithType: TSMSessionManager.DAQmx(string[], bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(string[], bool)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+  example: []
+  syntax:
+    content: public DAQmxTasksBundle DAQmx(string[] pins, bool filterPins)
+    parameters:
+    - id: pins
+      type: System.String[]
+      description: The given pins.
+    - id: filterPins
+      type: System.Boolean
+      description: Whether to automatically filter out non-NIDAQmx pins.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref>. Returns null if all pins are non-NIDAQmx pins.
+    content.vb: Public Function DAQmx(pins As String(), filterPins As Boolean) As DAQmxTasksBundle
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx*
+  nameWithType.vb: TSMSessionManager.DAQmx(String(), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(String(), Boolean)
+  name.vb: DAQmx(String(), Boolean)
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String)
   id: DMM(System.String)
@@ -313,6 +419,39 @@ items:
   nameWithType.vb: TSMSessionManager.DMM(String())
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(String())
   name.vb: DMM(String())
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String[],System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String[],System.Boolean)
+  id: DMM(System.String[],System.Boolean)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: DMM(string[], bool)
+  nameWithType: TSMSessionManager.DMM(string[], bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(string[], bool)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+  example: []
+  syntax:
+    content: public DMMSessionsBundle DMM(string[] pins, bool filterPins)
+    parameters:
+    - id: pins
+      type: System.String[]
+      description: The given pins.
+    - id: filterPins
+      type: System.Boolean
+      description: Whether to automatically filter out non-NIDMM pins.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle
+      description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle" data-throw-if-not-resolved="false"></xref>. Returns null if all pins are non-NIDMM pins.
+    content.vb: Public Function DMM(pins As String(), filterPins As Boolean) As DMMSessionsBundle
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM*
+  nameWithType.vb: TSMSessionManager.DMM(String(), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(String(), Boolean)
+  name.vb: DMM(String(), Boolean)
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(System.String)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(System.String)
   id: Scope(System.String)
@@ -373,6 +512,39 @@ items:
   nameWithType.vb: TSMSessionManager.Scope(String())
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(String())
   name.vb: Scope(String())
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(System.String[],System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(System.String[],System.Boolean)
+  id: Scope(System.String[],System.Boolean)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: Scope(string[], bool)
+  nameWithType: TSMSessionManager.Scope(string[], bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(string[], bool)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+  example: []
+  syntax:
+    content: public ScopeSessionsBundle Scope(string[] pins, bool filterPins)
+    parameters:
+    - id: pins
+      type: System.String[]
+      description: The given pins.
+    - id: filterPins
+      type: System.Boolean
+      description: Whether to automatically filter out non-NIScope pins.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle
+      description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle" data-throw-if-not-resolved="false"></xref>. Returns null if all pins are non-NIScope pins.
+    content.vb: Public Function Scope(pins As String(), filterPins As Boolean) As ScopeSessionsBundle
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope*
+  nameWithType.vb: TSMSessionManager.Scope(String(), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(String(), Boolean)
+  name.vb: Scope(String(), Boolean)
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync
   id: Sync
@@ -456,6 +628,39 @@ items:
   nameWithType.vb: TSMSessionManager.Sync(String())
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(String())
   name.vb: Sync(String())
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(System.String[],System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(System.String[],System.Boolean)
+  id: Sync(System.String[],System.Boolean)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: Sync(string[], bool)
+  nameWithType: TSMSessionManager.Sync(string[], bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(string[], bool)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+  example: []
+  syntax:
+    content: public SyncSessionsBundle Sync(string[] pins, bool filterPins)
+    parameters:
+    - id: pins
+      type: System.String[]
+      description: The given pins.
+    - id: filterPins
+      type: System.Boolean
+      description: Whether to automatically filter out non-NISync pins.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle
+      description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle" data-throw-if-not-resolved="false"></xref>. Returns null if all pins are non-NISync pins.
+    content.vb: Public Function Sync(pins As String(), filterPins As Boolean) As SyncSessionsBundle
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync*
+  nameWithType.vb: TSMSessionManager.Sync(String(), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(String(), Boolean)
+  name.vb: Sync(String(), Boolean)
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(System.String)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(System.String)
   id: Fgen(System.String)
@@ -516,6 +721,39 @@ items:
   nameWithType.vb: TSMSessionManager.Fgen(String())
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(String())
   name.vb: Fgen(String())
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(System.String[],System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(System.String[],System.Boolean)
+  id: Fgen(System.String[],System.Boolean)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: Fgen(string[], bool)
+  nameWithType: TSMSessionManager.Fgen(string[], bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(string[], bool)
+  type: Method
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+  example: []
+  syntax:
+    content: public FgenSessionsBundle Fgen(string[] pins, bool filterPins)
+    parameters:
+    - id: pins
+      type: System.String[]
+      description: The given pins.
+    - id: filterPins
+      type: System.Boolean
+      description: Whether to automatically filter out non-NIFgen pins.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle
+      description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle" data-throw-if-not-resolved="false"></xref>. Returns null if all pins are non-NIFgen pins.
+    content.vb: Public Function Fgen(pins As String(), filterPins As Boolean) As FgenSessionsBundle
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen*
+  nameWithType.vb: TSMSessionManager.Fgen(String(), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(String(), Boolean)
+  name.vb: Fgen(String(), Boolean)
 references:
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
   commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -942,6 +1180,17 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.string
   - name: (
   - name: )
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle
   commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle
   parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
