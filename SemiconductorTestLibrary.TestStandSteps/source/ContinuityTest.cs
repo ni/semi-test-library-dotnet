@@ -75,7 +75,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
                         }
 
-                        var maxCurrentLevel = currentLevelPerContinuityPinOrPinGroup.Max();
+                        var maxCurrentLevel = Math.Abs(currentLevelPerContinuityPinOrPinGroup.Max());
                         tsmContext.FilterPinsOrPinGroups(continuityPinsOrPinGroups, InstrumentTypeIdConstants.NIDCPower, out var continuityPins, out var continuityPinIndexes, out var continuityPinsFlattened);
                         if (continuityPinsFlattened.Any())
                         {
@@ -162,22 +162,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             }
 
             DutPowerDown(tsmContext, supplyPinsOrPinGroups.Concat(continuityPinsOrPinGroups).ToArray(), settlingTime, forceLowestCurrentLimit: false);
-        }
-
-        private static void FilterPinsOrPinGroups(this ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, string instrumentTypeId, out IList<string[]> pins, out IList<int> pinIndexes, out string[] pinsFlattened)
-        {
-            pins = new List<string[]>();
-            pinIndexes = new List<int>();
-            for (int index = 0; index < pinsOrPinGroups.Length; index++)
-            {
-                var filteredPins = tsmContext.FilterPinsByInstrumentType(new string[] { pinsOrPinGroups[index] }, instrumentTypeId);
-                if (filteredPins.Any())
-                {
-                    pins.Add(filteredPins);
-                    pinIndexes.Add(index);
-                }
-            }
-            pinsFlattened = pins.SelectMany(x => x).ToArray();
         }
 
         private static PinSiteData<double> GetVoltageLimitRange(this DCPowerSessionsBundle dcPower)

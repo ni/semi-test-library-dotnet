@@ -20,6 +20,7 @@ jobs:
     build:   
         name: Call Azure Pre Build Pipeline
         runs-on: ubuntu-latest
+        environment: gh-action-testing
         steps:
         - uses: actions/checkout@v2
         - name: Trigger Azure Pipeline for Pre Build

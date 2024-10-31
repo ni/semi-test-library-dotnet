@@ -1,0 +1,14 @@
+// A simple example pattern that sends a trigger using event0.
+
+file_format_version 1.1;
+timeset TS;
+
+pattern GenerateTrigger (DigitalPins)
+{
+									TS		000;
+start:
+repeat(500)							TS		101;	// Set some DUT mode
+pulse_signal(event0)				TS		101;	// Sent event0 trigger
+repeat(5000)						TS		011;	// Change DUT mode
+halt								TS		000;	// Stop
+}

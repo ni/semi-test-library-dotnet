@@ -12,6 +12,11 @@
     <AssemblyName>NationalInstruments.SemiconductorTestLibrary.TestStandSteps</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="net48\**" />
+    <EmbeddedResource Remove="net48\**" />
+    <None Remove="net48\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
     <ProjectReference Include="..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
     <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
