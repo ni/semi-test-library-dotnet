@@ -21,7 +21,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -53,7 +53,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Abort(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -94,7 +94,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Commit(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -126,7 +126,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Reserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -163,7 +163,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Start(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -198,7 +198,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Stop(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -235,7 +235,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Unreserve(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -267,7 +267,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.Verify(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -299,7 +299,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl.WaitUntilDone(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/TaskControl.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx

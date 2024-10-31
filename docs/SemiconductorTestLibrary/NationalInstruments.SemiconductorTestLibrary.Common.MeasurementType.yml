@@ -15,7 +15,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType
   type: Enum
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/Common/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/Common/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -36,7 +36,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType.Voltage
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/Common/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/Common/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -58,7 +58,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType.Current
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/Common/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/Common/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common

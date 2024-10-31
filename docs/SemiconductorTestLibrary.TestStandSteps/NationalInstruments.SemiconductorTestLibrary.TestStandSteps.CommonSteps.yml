@@ -23,7 +23,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/AcquireAnalogInputWaveforms.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/AcquireAnalogInputWaveforms.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -54,7 +54,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], int)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/AcquireAnalogInputWaveforms.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/AcquireAnalogInputWaveforms.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -94,7 +94,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/BurstPattern.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/BurstPattern.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -129,7 +129,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double[], string[], double[], double[], double[], double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/ContinuityTest.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/ContinuityTest.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -195,7 +195,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, bool, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/DutPowerDown.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/DutPowerDown.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -249,7 +249,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double[], double[], double, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/DutPowerUp.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/DutPowerUp.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -298,20 +298,32 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/ForceCurrentMeasureVoltage.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/ForceCurrentMeasureVoltage.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   summary: >-
     Forces the specified DC current on all pins and/or pin groups specified, waits the specified amount of settling time,
 
-    and then measures the voltage on those pins and publishes the results to TestStand. Both DCPower and Digital PPMU pins are supported.
+    and then measures the voltage on those pins and publishes the results to TestStand.
 
-    Both the <code class="paramref">settlingTime</code> and <code class="paramref">apertureTime</code> inputs are expected to be provided in Seconds.
+    Note that the voltage measurements are published separately for each pin, regardless of if a pin group is provided, using the following Published Data Id: Voltage.
 
-    By default the <code class="paramref">apertureTime</code> input is set to -1, which will cause this input to be ignored
+    Both DCPower and Digital PPMU pins are supported.
+
+    Both the settlingTime and apertureTime inputs are expected to be provided in Seconds.
+
+    By default the apertureTime input is set to -1, which will cause this input to be ignored
 
     and the device will use any pre-configured aperture time set by a proceeding set, such as the Setup NI-DCPower Instrumentation step.
+
+    The absolute value of voltage limit will be applied symmetrically (i.e if voltageLimit = 1, the output voltage will be limited between -1V and +1V).
+
+    An exception will be thrown if the specified limit value is outside the high-end of the voltage limit range for any of the mapped instruments.
+
+    For Digital PPMU pins, since the voltage range of the digital pattern instruments is typically not symmetrically (i.e. -2V to 6V),
+
+    the low-end of the applied voltage limit will be coerced to within range (i.e if voltageLimit = 3, the output voltage will be limited between -2V and +3V).
   example: []
   syntax:
     content: public static void ForceCurrentMeasureVoltage(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, double currentLevel, double voltageLimit, double settlingTime = 0, double apertureTime = -1)
@@ -351,7 +363,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/ForceDcCurrent.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/ForceDcCurrent.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -359,6 +371,14 @@ items:
     Forces the specified DC current on all pins and/or pin groups specified. Both DCPower and Digital PPMU pins are supported.
 
     If a value is provided to the settlingTimeInSeconds input, the method will wait the specified amount of settling time before continuing.
+
+    The absolute value of voltage limit will be applied symmetrically (i.e if voltageLimit = 1, the output voltage will be limited between -1V and +1V).
+
+    An exception will be thrown if the specified limit value is outside the high-end of the voltage limit range for any of the mapped instruments.
+
+    For Digital PPMU pins, since the voltage range of the digital pattern instruments is typically not symmetrically (i.e. -2V to 6V),
+
+    the low-end of the applied voltage limit will be coerced to within range (i.e if voltageLimit = 3, the output voltage will be limited between -2V and +3V).
   example: []
   syntax:
     content: public static void ForceDcCurrent(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, double currentLevel, double voltageLimit, double settlingTime = 0)
@@ -395,7 +415,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/ForceDcVoltage.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/ForceDcVoltage.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -439,7 +459,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/ForceVoltageMeasureCurrent.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/ForceVoltageMeasureCurrent.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -492,32 +512,38 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], double, double, double, double, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/LeakageTest.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/LeakageTest.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   summary: >-
-    Performs a single leakage measurement. The test configures the instruments connected to the pins specified, sources voltage on each pin,
+    Performs a single leakage measurement using the following test method:
 
-    and then measures the current on all pins simultaneously.
+    1. The test first configures the instruments connected to the specified pins and ensures they are forcing 0V.
 
-    Provide input values to the method to specify the voltage to source and the current limit for the leakage measurement.
+    2. The specified voltage is then forced on each pin.
 
-    The leakage current measurements are published separately for each pin, regardless of if a pin group is provided.
+    3. After the specified settling time, the current is measured on each pin.
 
-    Configure test evaluations on the Tests tab of the Step Settings pane in TestStand to evaluate the results of these measurements.
+    4. Each pin is then configured back to forcing 0V.
 
-    If the forced voltage cannot be applied to pins simultaneously, you can set the <code class="paramref">serialOperationEnabled</code> Boolean input to true (false by default).
-
-    When the <code class="paramref">serialOperationEnabled</code> Boolean input is set to true and a pin group is provided,
-
-    this will still perform parallel operations across all pins in the pin group.
-
-    Take advantage of this functionality for when leakage can be performed on some DUT pins in parallel, but not others,
-
-    and define those pins within separate pin groups (i.e. LeakageOddPins and LeakageEvenPins).
+    5. Finally, the output on each pin is disabled.
 
     Pins mapped to either an NI SMU or NI PPMU(s) instrument channel are supported.
+
+    By default, steps 2-4 are preformed in parallel, across all pins simultaneously.
+
+    When the serialOperationEnabled Boolean input parameter is set to true, steps 2-4 are preformed serially, for each pin or pin group, one at a time.
+
+    Pins within pin groups are always operated on in parallel.
+
+    The following Published Data Id is used for test results on a per-pin basis: Leakage.
+
+    Note that the leakage current measurements are published separately for each pin, regardless of if a pin group is provided.
+
+    Each test evaluation defined in the Test tab of the calling TestStand step must specify a pin.
+
+    To perform the leakage test on some DUT pins in parallel but not others, use the serialOperationEnabled Boolean input parameter and define separate pin groups (i.e. LeakageOddPins and LeakageEvenPins).
   example: []
   syntax:
     content: public static void LeakageTest(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, double voltageLevel, double currentLimit, double apertureTime, double settlingTime, bool serialOperationEnabled = false)
@@ -530,10 +556,10 @@ items:
       description: The pins or pin groups.
     - id: voltageLevel
       type: System.Double
-      description: The DC voltage level to force, in volts.
+      description: The DC voltage level to force, in Volts.
     - id: currentLimit
       type: System.Double
-      description: The current limit in amperes.
+      description: The current limit in Amperes.
     - id: apertureTime
       type: System.Double
       description: The measurement aperture time in seconds.
@@ -542,7 +568,7 @@ items:
       description: The amount of time to wait before measuring the current, in seconds.
     - id: serialOperationEnabled
       type: System.Boolean
-      description: Whether to force voltage sequentially.
+      description: Whether to enforce testing sequentially across pins or pin groups.
     content.vb: Public Shared Sub LeakageTest(tsmContext As ISemiconductorModuleContext, pinsOrPinGroups As String(), voltageLevel As Double, currentLimit As Double, apertureTime As Double, settlingTime As Double, serialOperationEnabled As Boolean = False)
   overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest*
   nameWithType.vb: CommonSteps.LeakageTest(ISemiconductorModuleContext, String(), Double, Double, Double, Double, Boolean)

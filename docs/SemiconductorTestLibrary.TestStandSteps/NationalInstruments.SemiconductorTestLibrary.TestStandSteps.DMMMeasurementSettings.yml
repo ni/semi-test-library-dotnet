@@ -17,7 +17,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
   type: Struct
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -45,7 +45,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.DMMMeasurementSettings(NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction, double, double)
   type: Constructor
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -80,7 +80,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.MeasurementFunction
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -105,7 +105,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.Range
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -130,7 +130,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.ResolutionDigits
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps

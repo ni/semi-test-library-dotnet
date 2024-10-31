@@ -22,7 +22,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
   type: Enum
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -43,7 +43,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.All
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -65,7 +65,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.NIDCPower
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -87,7 +87,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.NIDigitalPattern
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -109,7 +109,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.NIRelayDriver
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -131,7 +131,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.NIDAQmx
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -153,7 +153,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.NIDMM
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -175,7 +175,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.NIFGen
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -197,7 +197,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.NIScope
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -219,7 +219,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.NISync
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps

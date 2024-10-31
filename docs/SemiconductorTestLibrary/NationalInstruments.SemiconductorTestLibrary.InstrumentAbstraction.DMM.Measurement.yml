@@ -21,7 +21,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -53,7 +53,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.Initiate(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -80,7 +80,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.Abort(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -107,7 +107,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.FetchAndPublish(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, double, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -146,7 +146,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.Fetch(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -182,28 +182,28 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.FetchMultiPoint(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, int, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
-  summary: Fetches the specified number of values from previously initiated measurements.
+  summary: Fetches multiple points from previously initiated multipoint acquisition.
   example: []
   syntax:
-    content: public static double[][] FetchMultiPoint(this DMMSessionsBundle sessionsBundle, int numberToRead, double maximumTimeInMilliseconds)
+    content: public static PinSiteData<double[]> FetchMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)
     parameters:
     - id: sessionsBundle
       type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle
       description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
-    - id: numberToRead
+    - id: numberOfPoints
       type: System.Int32
-      description: The number of values to fetch.
+      description: The number of points to fetch.
     - id: maximumTimeInMilliseconds
       type: System.Double
       description: The maximum time for the fetch to complete in milliseconds.
     return:
-      type: System.Double[][]
-      description: The measurement results in per-instrument per-point format.
-    content.vb: Public Shared Function FetchMultiPoint(sessionsBundle As DMMSessionsBundle, numberToRead As Integer, maximumTimeInMilliseconds As Double) As Double()()
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double[]}
+      description: The measurement results in per-site per-pin format.
+    content.vb: Public Shared Function FetchMultiPoint(sessionsBundle As DMMSessionsBundle, numberOfPoints As Integer, maximumTimeInMilliseconds As Double) As PinSiteData(Of Double())
   overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.FetchMultiPoint*
   nameWithType.vb: Measurement.FetchMultiPoint(DMMSessionsBundle, Integer, Double)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.FetchMultiPoint(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, Integer, Double)
@@ -221,7 +221,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.ReadAndPublish(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, double, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -260,7 +260,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.Read(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -296,28 +296,28 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.ReadMultiPoint(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, int, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/f74e02d7603b142d1175947dfd06a40bdad8d294/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/Measurement.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
   summary: Reads specified number of measurement results.
   example: []
   syntax:
-    content: public static double[][] ReadMultiPoint(this DMMSessionsBundle sessionsBundle, int numberToRead, double maximumTimeInMilliseconds)
+    content: public static PinSiteData<double[]> ReadMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)
     parameters:
     - id: sessionsBundle
       type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle
       description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
-    - id: numberToRead
+    - id: numberOfPoints
       type: System.Int32
-      description: The number of values to fetch.
+      description: The number of points to read.
     - id: maximumTimeInMilliseconds
       type: System.Double
       description: The maximum time for the fetch to complete in milliseconds.
     return:
-      type: System.Double[][]
-      description: The measurement results in per-instrument per-value format.
-    content.vb: Public Shared Function ReadMultiPoint(sessionsBundle As DMMSessionsBundle, numberToRead As Integer, maximumTimeInMilliseconds As Double) As Double()()
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double[]}
+      description: The measurement results in per-site per-pin format.
+    content.vb: Public Shared Function ReadMultiPoint(sessionsBundle As DMMSessionsBundle, numberOfPoints As Integer, maximumTimeInMilliseconds As Double) As PinSiteData(Of Double())
   overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.ReadMultiPoint*
   nameWithType.vb: Measurement.ReadMultiPoint(DMMSessionsBundle, Integer, Double)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.ReadMultiPoint(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, Integer, Double)
@@ -807,32 +807,42 @@ references:
   nameWithType.vb: Integer
   fullName.vb: Integer
   name.vb: Integer
-- uid: System.Double[][]
-  isExternal: true
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double[]}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double[]}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
   href: https://learn.microsoft.com/dotnet/api/system.double
-  name: double[][]
-  nameWithType: double[][]
-  fullName: double[][]
-  nameWithType.vb: Double()()
-  fullName.vb: Double()()
-  name.vb: Double()()
+  name: PinSiteData<double[]>
+  nameWithType: PinSiteData<double[]>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double[]>
+  nameWithType.vb: PinSiteData(Of Double())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Double())
+  name.vb: PinSiteData(Of Double())
   spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+  - name: <
   - uid: System.Double
     name: double
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.double
   - name: '['
   - name: ']'
-  - name: '['
-  - name: ']'
+  - name: '>'
   spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
   - uid: System.Double
     name: Double
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.double
   - name: (
   - name: )
-  - name: (
   - name: )
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.ReadAndPublish*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement.ReadAndPublish
