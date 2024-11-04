@@ -1,26 +1,15 @@
 name: pr-build
 
 on:
-    pull_request:
+    workflow_run:
+        workflows: ["pr-intake"]
+        types:
+            - requested
+            - completed
         branches: 
-        - main
-        - 'releases/**'
-        paths:
-        - 'Examples/**'
-        - 'SemiconductorTestLibrary.Abstractions/**'
-        - 'SemiconductorTestLibrary.Extensions/**'
-        - 'SemiconductorTestLibrary.TestStandSteps/**'
-        - 'TestAssets/**'
-        - '.github/**'
-    # workflow_run:
-    #     workflows: ["pr-intake"]
-    #     types:
-    #         - requested
-    #         - completed
-    #     branches: 
-    #         - main
-    #         - 'releases/**'
-    #         - 'users/tanish/**'
+            - main
+            - 'releases/**'
+            - 'users/tanish/**'
 
 # As I am sure that this workflow will be triggered by PR_Intake workflow, I can safely assume that the first PR in the list is the one I am interested in.
 run-name: "PR Build #${{ github.event.workflow_run.pull_requests[0].number }}"
