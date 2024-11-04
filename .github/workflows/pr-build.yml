@@ -3,7 +3,7 @@ name:
 
 on:
     workflow_run:
-        workflows: ["PR_Intake"]
+        workflows: [126089251]
         types:
             - requested
             - completed
