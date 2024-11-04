@@ -11,6 +11,7 @@ on:
         - 'SemiconductorTestLibrary.Extensions/**'
         - 'SemiconductorTestLibrary.TestStandSteps/**'
         - 'TestAssets/**'
+    workflow_dispatch:
 
 env:
     GitHub_Repo_Name: "semi-test-library-dotnet"
@@ -29,7 +30,7 @@ jobs:
           curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
                -o runs.json
 
-          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains($PR_NUMBER)) | .id' runs.json)
+          run_id=$(jq -r '.workflow_runs[] | select(.display_name | contains($PR_NUMBER)) | .id' runs.json)
           
           echo "Fetched run_id: $run_id"
           echo "::set-output name=run_id::$run_id"
