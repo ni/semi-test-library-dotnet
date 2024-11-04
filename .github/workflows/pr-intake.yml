@@ -42,7 +42,7 @@ jobs:
           SPECIFIC_RUN_ID=${{ steps.get_runid.outputs.run_id }}
           while true; do
             # Check the status of the specific run
-            STATUS=$(curl "https://api.github.com/repos/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_RUN_ID" \
+            STATUS=$(curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_RUN_ID" \
                            | jq -r '.status')
 
             echo "Current Status: $STATUS"
@@ -57,7 +57,7 @@ jobs:
       - name: Check Conclusion of Workflow
         run: |
           SPECIFIC_RUN_ID=${{ steps.get_runid.outputs.run_id }}
-          CONCLUSION=$(curl "https://api.github.com/repos/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_RUN_ID" \
+          CONCLUSION=$(curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_RUN_ID" \
                           | jq -r '.conclusion')
 
           echo "Workflow Conclusion: $CONCLUSION"
