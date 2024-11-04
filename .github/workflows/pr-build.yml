@@ -32,4 +32,3 @@ jobs:
 # Give the run name such that it incluides PR number
 # Then in PR Intake check the status of this run and if it is successful, then merge the PR. (Using github api and github token)
 # Use fined grained token with only read-only permission to actions (if required).
-# We can filter runs either on the basics of dynamic name we are giving or commit id of the last commit of PR?
