@@ -24,14 +24,14 @@ jobs:
       - name: Get PR_Build Workflow Run ID
         id: get_runid
         run: |
-          WORKFLOW_ID=<workflow_a_id> # ID of PR_Build workflow
+          WORKFLOW_ID=93911089 # ID of PR_Build workflow (temporary giving id of Pre Build workflow)
           PR_NUMBER=${{ github.event.number }}
 
           # Fetch runs of Workflow
           curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
                -o runs.json
 
-          run_id=$(jq -r '.workflow_runs[] | select(.display_name | contains($PR_NUMBER)) | .id' runs.json)
+          run_id=$(jq -r '.workflow_runs[] | select(.display_name | contains("f76")) | .id' runs.json) #temporary given f76
           
           echo "Fetched run_id: $run_id"
           echo "::set-output name=run_id::$run_id"
