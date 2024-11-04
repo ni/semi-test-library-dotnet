@@ -12,7 +12,6 @@ on:
         - 'SemiconductorTestLibrary.TestStandSteps/**'
         - 'TestAssets/**'
         - '.github/**'
-    workflow_dispatch:
 
 env:
     GitHub_Repo_Name: "semi-test-library-dotnet"
