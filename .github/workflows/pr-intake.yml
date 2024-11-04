@@ -31,7 +31,7 @@ jobs:
           curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
                -o runs.json
 
-          run_id=$(jq -r '.workflow_runs[] | select(.display_name | contains("f76")) | .id' runs.json) #temporary given f76
+          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains("f76")) | .id' runs.json) #temporary given f76
           
           echo "Fetched run_id: $run_id"
           echo "::set-output name=run_id::$run_id"
