@@ -5,6 +5,7 @@ on:
         branches: 
         - main
         - 'releases/**'
+        - 'users/tanish/**'        
         paths:
         - 'Examples/**'
         - 'SemiconductorTestLibrary.Abstractions/**'
