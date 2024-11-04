@@ -11,6 +11,7 @@ on:
         - 'SemiconductorTestLibrary.Extensions/**'
         - 'SemiconductorTestLibrary.TestStandSteps/**'
         - 'TestAssets/**'
+        - '.github/**'
     workflow_dispatch:
 
 env:
