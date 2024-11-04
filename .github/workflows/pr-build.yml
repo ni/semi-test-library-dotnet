@@ -1,9 +1,8 @@
-name:
-    PR_Build
+name: pr-build
 
 on:
     workflow_run:
-        workflows: ["PR_Intake"]
+        workflows: ["pr-intake"]
         types:
             - requested
             - completed

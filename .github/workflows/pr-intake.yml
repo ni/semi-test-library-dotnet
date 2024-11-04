@@ -1,4 +1,4 @@
-name: PR_Intake
+name: pr-intake
 
 on:
     pull_request:
