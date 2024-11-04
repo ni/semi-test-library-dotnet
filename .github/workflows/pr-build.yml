@@ -3,7 +3,7 @@ name:
 
 on:
     workflow_run:
-        workflows: [126089251]
+        workflows: ["PR_Intake"]
         types:
             - requested
             - completed
@@ -11,6 +11,11 @@ on:
             - main
             - 'releases/**'
             - 'users/tanish/**'
+
+permissions:
+    actions: write
+    contents: write
+    pull-requests: write
 
 # As I am sure that this workflow will be triggered by PR_Intake workflow, I can safely assume that the first PR in the list is the one I am interested in.
 run-name: "PR Build #${{ github.event.workflow_run.pull_requests[0].number }}"
