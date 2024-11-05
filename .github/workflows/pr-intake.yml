@@ -15,6 +15,7 @@ on:
 
 env:
     GitHub_Repo_Name: "semi-test-library-dotnet"
+    PR_Number: ${{ github.event.number }}
 
 jobs:
   wait-for-pr-build-workflow:
@@ -24,13 +25,12 @@ jobs:
         id: get_runid
         run: |
           WORKFLOW_ID=126108688 # ID of pr-build workflow
-          PR_NUMBER=${{ github.event.number }}
 
           # Fetch runs of Workflow
           curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
                -o runs.json
 
-          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains($PR_NUMBER)) | .id' runs.json)
+          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{env.PR_Number}})) | .id' runs.json)
           
           echo "Fetched run_id: $run_id"
           echo "::set-output name=run_id::$run_id"
