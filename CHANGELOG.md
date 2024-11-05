@@ -165,18 +165,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - ### Changed
 
-  - `LeakageTest` TestStand step now forces 0V on all pins at start of test and after measuring. It also now ensures all pins are forced to the specified voltage before measuring current. Finally, it will now disable the output of all pins at the end of the test.
-  - DMM Mulipoint extension methods now return `PinSiteData<double[]>` instead of a 2D per-instrument, per-sample array `double[][]`
-    - `PinSiteData<double[]> ReadMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)`
-    - `PinSiteData<double[]> FetchMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)`
-  - Math Operations methods now support most common numeric data types with improved exceptions for catching unsupported types and input array size mismatches.
-  - Math Operations methods now support scalar input values when the underlying type, `T`, of the `SiteData<T>` or `PinSiteData<T>` object is an array type.
-    - For `PinSiteData<T>` objects, the scalar value will be applied to all elements in the array, across each pin and site.
-    - For `SiteData<T>` objects, the scalar value will be applied to all elements in the array, across each site.
-  - `Utilities.TryDeterminePowerLineFrequency` updated to now support OfflineMode.
-  - `TestStandSteps.ContinuityTest` modified to correctly accept negative current level values.
-  - CSProject files for TestStandSteps and Extensions now exclude net48 path from being included as a folder within the project, which could cause build issues for contributors in certain situations.
-  - Improved documentation for the following DCPower extension methods: `ConfigureOutputEnabled`, `ConfigureOutputConnected`, `PowerDown`.
+  - **Data Abstraction**
+    - Math Operations methods now support most common numeric data types with improved exceptions for catching unsupported types and input array size mismatches.
+    - Math Operations methods now support scalar input values when the underlying type, `T`, of the `SiteData<T>` or `PinSiteData<T>` object is an array type.
+      - For `PinSiteData<T>` objects, the scalar value will be applied to all elements in the array, across each pin and site.
+      - For `SiteData<T>` objects, the scalar value will be applied to all elements in the array, across each site.
+  - **Instrument Abstraction**
+    - DMM Multi-point extension methods now return `PinSiteData<double[]>` instead of a 2D per-instrument, per-sample array `double[][]`
+      - `PinSiteData<double[]> ReadMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)`
+      - `PinSiteData<double[]> FetchMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)`
+    - Improved documentation for the following DCPower extension methods: `ConfigureOutputEnabled`, `ConfigureOutputConnected`, `PowerDown`.
+  - **TestStandSteps**
+    - `ContinuityTest` modified to correctly accept negative current level values.
+    - `FilterPinsOrPinGroups` removed as a private method from ContinuityTest.cs, the `ContinuityTest` method now references the new public implementation for this method in the common `Utilities` class: `FilterPinsOrPinGroups`
+    - `LeakageTest` now forces 0V on all pins at start of test and after measuring. It also now ensures all pins are forced to the specified voltage level before measuring current. Finally, it will now disable the output of all pins at the end of the test. The method summary documentation has also been updated to reflect this change.
+    - `ForceDcCurrent` now correctly applies the specified voltage limit symmetrically for PPMU pins and has updated method summary documentation to reflect this change.
+    - `ForceCurrentMeasureVoltage` now correctly applies symmetric voltage limits for PPMU pins and has updated method summary documentation to reflect this change.
+  - **Utilities**
+    - `Utilities.TryDeterminePowerLineFrequency` updated to now support OfflineMode.
+  - **GitHub Repo**
+    - CSProject files for TestStandSteps and Extensions now exclude net48 path from being included as a folder within the project, which could cause build issues for contributors in certain situations.
 
 ## 24.5.0 - 2024-08-16
 

@@ -100,15 +100,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             }
         }
 
-        private static void VerifySizeOfArrayInputs(string arrayNames, string[] pinsOrPinGroups, params double[][] perPinOrPinGroupValues)
-        {
-            var valuesArraysDistinctSizes = perPinOrPinGroupValues.Select(item => item.Length).Distinct();
-            if (valuesArraysDistinctSizes.Count() != 1 || valuesArraysDistinctSizes.Single() != pinsOrPinGroups.Length)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Parameter_ArraySizeMismatch, arrayNames));
-            }
-        }
-
         private static IDictionary<string, DCPowerSourceSettings> BuildDCPowerSourceSettings(IList<string[]> pins, IList<int> pinIndexes, double[] voltageLevels, double[] currentLimits)
         {
             var settings = new Dictionary<string, DCPowerSourceSettings>();
