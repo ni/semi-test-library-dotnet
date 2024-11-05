@@ -4,8 +4,7 @@ on:
     pull_request:
         branches: 
         - main
-        - 'releases/**'
-        - 'users/tanish/**'        
+        - 'releases/**'     
         paths:
         - 'Examples/**'
         - 'SemiconductorTestLibrary.Abstractions/**'
@@ -24,14 +23,14 @@ jobs:
       - name: Get PR_Build Workflow Run ID
         id: get_runid
         run: |
-          WORKFLOW_ID=93911089 # ID of PR_Build workflow (temporary giving id of Pre Build workflow)
+          WORKFLOW_ID=126108688 # ID of pr-build workflow
           PR_NUMBER=${{ github.event.number }}
 
           # Fetch runs of Workflow
           curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
                -o runs.json
 
-          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains("f76")) | .id' runs.json) #temporary given f76
+          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains($PR_NUMBER)) | .id' runs.json)
           
           echo "Fetched run_id: $run_id"
           echo "::set-output name=run_id::$run_id"

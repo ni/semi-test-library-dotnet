@@ -5,17 +5,11 @@ on:
         workflows: ["pr-intake"]
         types:
             - requested
-            - completed
-        branches: 
-            - main
-            - 'releases/**'
-            - 'users/tanish/**'
 
-# As I am sure that this workflow will be triggered by PR_Intake workflow, I can safely assume that the first PR in the list is the one I am interested in.
 run-name: "PR Build #${{ github.event.workflow_run.pull_requests[0].number }}"
 
 env:
-    GITHUB_MixedSignalTestLibrary_BRANCH_NAME: '{"GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ github.event.workflow_run.pull_requests[0].head.ref }}"}'
+    GITHUB_MixedSignalTestLibrary_BRANCH_NAME: '{"GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ github.event.workflow_run.pull_requests[0].head.ref || github.event.workflow_run.head_branch }}"}'
 
 jobs:
     build:   
@@ -32,7 +26,3 @@ jobs:
             azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
             azure-pipeline-variables:  ${{ env.GITHUB_MixedSignalTestLibrary_BRANCH_NAME }}
             azure-pipeline-sourcebranch: "refs/heads/${{ github.base_ref }}"
-
-# Give the run name such that it incluides PR number
-# Then in PR Intake check the status of this run and if it is successful, then merge the PR. (Using github api and github token)
-# Use fined grained token with only read-only permission to actions (if required).
