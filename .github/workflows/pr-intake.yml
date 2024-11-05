@@ -15,7 +15,7 @@ on:
 
 env:
     GitHub_Repo_Name: "semi-test-library-dotnet"
-    PR_Number: ${{ github.event.number }}
+    PR_Number: "${{ github.event.number }}"
 
 jobs:
   wait-for-pr-build-workflow:
