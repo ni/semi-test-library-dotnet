@@ -183,7 +183,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - `ForceCurrentMeasureVoltage` now correctly applies symmetric voltage limits for PPMU pins and has updated method summary documentation to reflect this change.
   - **Common**
     - `Utilities.TryDeterminePowerLineFrequency` updated to now support OfflineMode.
-    - `Publish.PublishResults` extension methods now correctly publish data when there is no specific site number (i.e. -1) associated with the data, such as with SystemPins.
+    - `Publish.PublishResults` extension methods now correctly publish site-agnostic data. Site-agnostic data has no specific site number associated with it (i.e. -1), such as with measurements for SystemPins.
   - **GitHub Repo**
     - CSProject files for TestStandSteps and Extensions now exclude net48 path from being included as a folder within the project, which could cause build issues for contributors in certain situations.
 
