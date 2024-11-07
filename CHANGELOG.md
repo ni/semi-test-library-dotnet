@@ -1,0 +1,194 @@
+
+# Changelog
+
+- [24.5.1 - 2024-10-31](#2451---2024-10-31)
+- [24.5.0 - 2024-08-16](#2450---2024-08-16)
+
+All notable changes to this project are documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## 24.5.1 - 2024-10-31
+
+- ### Added
+  
+  - **Data Abstraction**
+    - New Bitwise Math Operations Added `PinSiteData<T>`
+      - `ShiftLeft(int count)`
+        - Return Type: `PinSiteData<T>`
+        - Description: Shifts the value to the left (`<<`) by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `PinSiteData<T>` object, `T`, is an integer type.
+      - `ShiftRight(int count)`
+        - Return Type: `PinSiteData<T>`
+        - Description: Shifts the value to the right (`>>`) by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `PinSiteData<T>` object, `T`, is an integer type.
+      - `BitwiseAnd(TOther other | SiteData<TOther> other | PinSiteData<TOther> other)`
+        - Return Type: `PinSiteData<T>`
+        - Description: Performs a bitwise AND (`&`) operation with either a scalar value, a SiteData object, another PinSiteData object, for each element across each site. This method is supported only when the underlying data type of the `PinSiteData<T>` object, `T`, is an integer type. Additionally, the type of the input value, `TOther`, can be either a scalar or an array, but the underlying type of the array must match that of the `PinSiteData<T>` object, `T`, and it cannot be of a greater number of dimension (i.e. `TOther` cannot be 2D when `T` is 1D).
+      - `BitwiseOr(TOther other | SiteData<TOther> other | PinSiteData<TOther> other)`
+        - Return Type: `PinSiteData<T>`
+        - Description: Performs a bitwise OR (`|`) operation with either a scalar value, a SiteData object, another PinSiteData object, for each element across each site. This method is supported only when the underlying data type of the `PinSiteData<T>` object, `T`, is an integer type. Additionally, the type of the input value, `TOther`, can be either a scalar or an array, but the underlying type of the array must match that of the `PinSiteData<T>` object, `T`, and it cannot be of a greater number of dimension (i.e. `TOther` cannot be 2D when `T` is 1D).
+      - `BitwiseXor(TOther other | SiteData<TOther> other | PinSiteData<TOther> other)`
+        - Return Type: `PinSiteData<T>`
+        - Description: Performs a bitwise XOR (`^`) operation with either a scalar value, a SiteData object, another PinSiteData object, for each element across each site. This method is supported only when the underlying data type of the `PinSiteData<T>` object, `T`, is an integer type. Additionally, the type of the input value, `TOther`, can be either a scalar or an array, but the underlying type of the array must match that of the `PinSiteData<T>` object, `T`, and it cannot be of a greater number of dimension (i.e. `TOther` cannot be 2D when `T` is 1D).
+      - `BitwiseComplement()`
+        - Return Type: `PinSiteData<T>`
+        - Description: Gets the bitwise complement (`~`) of the original `PinSiteData<T>` object. This method is supported only when the underlying data type of the `PinSiteData<T>` object, `T`, is an integer type.
+    - New Bitwise Math Operations Added `SiteData<T>`
+      - `ShiftLeft(int count)`
+        - Return Type: `SiteData<T>`
+        - Description: Shifts the value to the left (`<<`) by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `SiteData<T>` object, `T`, is an integer type.
+      - `ShiftRight(int count)`
+        - Return Type: `SiteData<T>`
+        - Description: Shifts the value to the right (`>>`) by the specified bit count, for each element, per site. The count must be positive. This method is supported only when the underlying data type of the `SiteData<T>` object, `T`, is an integer type.
+      - `BitwiseAnd(TOther other | SiteData<TOther> other)`
+        - Return Type: `SiteData<T>`
+        - Description: Performs a bitwise AND (`&`) operation with either a scalar value or another SiteData object, for each element across each site. This method is supported only when the underlying data type of the `SiteData<T>` object, `T`, is an integer type. Additionally, the type of the input value, `TOther`, can be either a scalar or an array, but the underlying type of the array must match that of the `SiteData<T>` object, `T`, and it cannot be of a greater number of dimension (i.e. `TOther` cannot be 2D when `T` is 1D).
+      - `BitwiseOr(TOther other | SiteData<TOther> other)`
+        - Return Type: `SiteData<T>`
+        - Description: Performs a bitwise OR (`|`) operation with either a scalar value or another SiteData object, for each element across each site. This method is supported only when the underlying data type of the `SiteData<T>` object, `T`, is an integer type. Additionally, the type of the input value, `TOther`, can be either a scalar or an array, but the underlying type of the array must match that of the `SiteData<T>` object, `T`, and it cannot be of a greater number of dimension (i.e. `TOther` cannot be 2D when `T` is 1D).
+      - `BitwiseXor(TOther other | SiteData<TOther> other)`
+        - Return Type: `SiteData<T>`
+        - Description: Performs a bitwise XOR (`^`) operation with either a scalar value or another SiteData object, for each element across each site. This method is supported only when the underlying data type of the `SiteData<T>` object, `T`, is an integer type. Additionally, the type of the input value, `TOther`, can be either a scalar or an array, but the underlying type of the array must match that of the `SiteData<T>` object, `T`, and it cannot be of a greater number of dimension (i.e. `TOther` cannot be 2D when `T` is 1D).
+      - `BitwiseComplement()`
+        - Return Type: `SiteData<T>`
+        - Description: Gets the bitwise complement (`~`) of the original `SiteData<T>` object. This method is supported only when the underlying data type of the `SiteData<T>` object, `T`, is an integer type.
+    - New Unary Math Operations added to `PinSiteData<T>`:
+      - `Max()`
+        - Return Type: `SiteData<double>`
+        - Description: Gets the maximum value across pins for each site. Note that the maximum value may be repeated across multiple pins, use the `MaxByPin` method if this level of detail is required. Alternatively, you can use the `MaxBySite` method to calculate the maximum value across sites for each pin.
+      - `MaxByPin()`
+        - Return Type: `Dictionary<int, (double, string[])>`
+          - Keys represent each site (`int`)
+          - Values represent a tuple of max value (`double`) across pins, and an array of which pins have that max value (which could be one or more, `string[]`).
+        - Description: Gets the maximum value across pins for each site, and returns both the maximum value and which pin(s) the maximum value was found on for each site. Note that the maximum value may be repeated across multiple pins.
+      - `MaxBySite()`
+        - Return Type: `Dictionary<string, (double, int[])>`
+          - Keys represent each pin (`string`)
+          - Values represent a tuple of max value (`double`) across sites, and an array of which sites have that max value (which could be one or more, `int[]`).
+        - Description: Gets the maximum value across sites for each pin, and returns both the maximum value and which site(s) the maximum value was found on for each pin. Note that the maximum value may be repeated across multiple sites.
+      - `Min()`
+        - Return Type: `SiteData<double>`
+        - Description: Gets the minimum value across pins for each site. Note that the minimum value may be repeated across multiple pins, use the `MinByPin` method if this level of detail is required. Alternatively, you can use the `MinBySite` method to calculate the minimum value across sites for each pin.
+      - `MinByPin()`
+        - Return Type: `Dictionary<int, (double, string[])>`
+          - Keys represent each site (`int`)
+          - Values represent a tuple of max value (`double`) across pins, and an array of which pins have that max value (which could be one or more, `string[]`).
+        - Description: Gets the minimum value across pins for each site, and returns both the minimum value and which pin(s) the minimum value was found on for each site. Note that the minimum value may be repeated across multiple pins.
+      - `MinBySite()`
+        - Return Type: `Dictionary<string, (double, int[])>`
+          - Keys represent each pin (`string`)
+          - Values represent a tuple of max value (`double`) across sites, and an array of which sites have that max value (which could be one or more, `int[]`).
+        - Description: Gets the minimum value across sites for each pin, and returns both the minimum value and which site(s) the minimum value was found on for each pin. Note that the minimum value may be repeated across multiple sites.
+      - `Mean()`
+        - Return Type: `SiteData<double>`
+        - Description: Calculates the mean value across pins for each site, and returns the mean value for each site. Alternatively, you can use the `MeanBySite` method to calculate the mean value across sites for each pin.
+      - `MeanBySite()`
+        - Return Type: `Dictionary<string, double>`
+          - Keys represent each pin (`string`)
+          - Values represent the max value (`double`) across sites.
+        - Description: Calculates the mean value across sites for each pin, and returns the site-to-site mean value for each pin.
+    - New Unary Math Operations added to `SiteData<T>`:
+      - `Max()`
+        - Return Type: `double`
+        - Description: Calculates the maximum value across sites.
+      - `Max(out int[] siteNumbers)`
+        - Return Type: `double`
+        - Description: Gets the maximum value across sites and additionally passes out an array of which site(s) the maximum value was found. Note that the maximum value may be repeated across multiple sites.
+      - `Min()`;
+        - Return Type: `double`
+        - Description: Calculates the minimum value across sites.
+      - `Min(out int[] siteNumbers)`
+        - Return Type: `double`
+        - Description: Gets the minimum value across sites and additionally passes out an array of which site(s) the minimum value was found. Note that the minimum value may be repeated across multiple sites.
+      - `Mean()`
+        - Return Type: `double`
+        - Description: Calculates the mean value across sites.
+    - New constructors added to `PinSiteData<T>` and `SiteData<T>`
+      - `PinSiteData<T>`
+        - `PinSiteData(int[] siteNumbers, Dictionary<string, T> pinData)`: Initializes a PinSiteData object with pin unique data. Where the specified pin unique data value will be repeated across all sites.
+        - `PinSiteData(string[] pinNames, int[] siteNumbers, T data)`: Initializes a PinSiteData object with the same data value across all pins and sites.
+        - `PinSiteData(string[] pinNames, int[] siteNumbers, T[] perPinData)`: Initializes a PinSiteData object with pin unique data. Where the specified site unique data will be repeated across all sites.
+        - `PinSiteData(int[] siteNumbers, string[] pinNames, T[] perSiteData)`: Initializes a PinSiteData object with site unique data. Where the specified site unique data will be repeated across all pins.
+        - `PinSiteData(string[] pinNames, int[] siteNumbers, T[][] perPinPerSiteData)`: Initializes a PinSiteData object with pin and site unique data. Where the specified data value is unique for each pin and each sites, and the input array is formatted in that order: `[pins][sites]`.
+        - `PinSiteData(int[] siteNumbers, string[] pinNames, T[][] perSitePerPinData)`: Initializes a PinSiteData object with site and pin unique data. Where the specified data value is unique for each site and each pin, and the input array is formatted in that order: `[sites][pins]`.
+      - `SiteData<T>`
+        - `SiteData(int[] siteNumbers, T[] perSiteData)`: Initializes a SiteData object with site unique data.
+    - New `Select` Method added to support advanced element-by-element data transformations (such as changing type) and complex math operations.
+      - `SiteData<T>`
+        - `Select<TResult>(Func<T, TResult> operation)`
+          - Description: Selects each element, of type `T` within the `SiteData<T>` object to perform an operation on that element and return a new `SiteData` object containing the result of that operation, `TResult`.
+          - Return Type: `SiteData<TResult>`
+          - Example: `SiteData<double> MySiteDataAsDoubleObj = MySiteDataAsIntObj.Select(x => (double)x);`
+      - `PinSiteData<T>`
+        - `Select<TResult>(Func<T, TResult> operation)`
+          - Description: Selects each element, of type `T` within the `PinSiteData<T>` object to perform an operation on that element and return a new `PinSiteData` object containing the result of that operation, `TResult`.
+          - Return Type: `PinSiteData<TResult>`
+          - Example: `PinSiteData<double> MyPinSiteDataAsDoubleObj = MySiteDataAsIntObj.Select(x => (double)x);`
+    - Support added for overloading math operators: `+` , `-`, `*`, `/`, `>>`, `<<`, `&`, `|`, `^`, `~`
+    - New `TryGetValue` method added to `PinSiteData<T>`.
+      - `TryGetValue(int siteNumber, string pinName, out T value)`
+        - Return Type: `bool`
+        - Description: Returns `true` if the data for a given site number, pin name pair exists in the `PinSiteData<T>` object.
+  - **Instrument Abstraction**
+    - Overloads added for the `DCPower.Source.ForceVoltage` Extension Method
+      - `ForceVoltage(Dictionary<string, double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)`
+      - `ForceVoltage(SiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)`
+      - `ForceVoltage(DCPowerSourceSettings settings, bool waitForSourceCompletion = false)`
+      - `ForceVoltage(SiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)`
+      - `ForceVoltage(PinSiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)`
+    - Overloads added for the `DCPower.Source.ForceCurrent` Extension Method
+      - `ForceCurrent(IDictionary<string, double> currentLevels, double? voltageLimit = null, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)`
+      - `ForceCurrent(SiteData<double> currentLevels, double? voltageLimit = null, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)`
+      - `ForceCurrent(PinSiteData<double> currentLevels, double? voltageLimit = null, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)`
+      - `ForceCurrent(DCPowerSourceSettings settings, bool waitForSourceCompletion = false)`
+      - `ForceCurrent(SiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)`
+      - `ForceCurrent(PinSiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)`
+    - Overloads added for the `Digital.PPMU.ForceVoltage` Extension Method
+      - `void ForceVoltage(IDictionary<string, double> voltageLevels, double? currentLimitRange = null, double? apertureTime = null, double? settlingTime = null)`
+      - `ForceVoltage(PPMUSettings settings)`
+      - `ForceVoltage(SiteData<PPMUSettings> settings`
+      - `ForceVoltage(PinSiteData<PPMUSettings> settings)`
+    - Overloads added for the `Digital.PPMU.ForceCurrent` Extension Method
+      - `ForceCurrent(PPMUSettings settings)`
+      - `ForceCurrent(SiteData<PPMUSettings> settings)`
+      - `ForceCurrent(PinSiteData<PPMUSettings> settings)`
+    - Overloads added for querying Session Bundle (Digital, DCPower, DAQmx, DMM, Scope, Fgen, Sync) with boolean parameter to enable whether to automatically filter out non-instrument-related pins. Note, these new methods will return null if all pins are non-instrument-related rather than throwing an exception.
+      - `TSMSessionManager.Digital(string pin, bool filterPins)`
+      - `TSMSessionManager.Dmm(string pin, bool filterPins)`
+      - `TSMSessionManager.DAQmx(string pin, bool filterPins)`
+      - `TSMSessionManager.Scope(string pin, bool filterPins)`
+      - `TSMSessionManager.Fgen(string pin, bool filterPins)`
+      - `TSMSessionManager.Sync(string pin, bool filterPins)`
+  - **Utilities**
+    - New `FilterPinsOrPinGroups` extension method added that extends `ISemiconductorModuleContext` to filter pins or pin groups by instrument type, and provide a List of the filtered pins (pin groups intact) and the index of each of the filtered pins in the input pins or pin groups array, as well as a flatted list of pins (pin groups expanded).
+      - `FilterPinsOrPinGroups(string[] pinsOrPinGroups, string instrumentTypeId, out IList<string[]> pins, out IList<int> pinIndexes, out string[] pinsFlattened)`
+        - Return Type: `void`
+
+- ### Changed
+
+  - **Data Abstraction**
+    - Math Operations methods now support most common numeric data types with improved exceptions for catching unsupported types and input array size mismatches.
+    - Math Operations methods now support scalar input values when the underlying type, `T`, of the `SiteData<T>` or `PinSiteData<T>` object is an array type.
+      - For `PinSiteData<T>` objects, the scalar value will be applied to all elements in the array, across each pin and site.
+      - For `SiteData<T>` objects, the scalar value will be applied to all elements in the array, across each site.
+  - **Instrument Abstraction**
+    - DMM Multi-point extension methods now return `PinSiteData<double[]>` instead of a 2D per-instrument, per-sample array `double[][]`
+      - `PinSiteData<double[]> ReadMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)`
+      - `PinSiteData<double[]> FetchMultiPoint(this DMMSessionsBundle sessionsBundle, int numberOfPoints, double maximumTimeInMilliseconds)`
+    - Improved documentation for the following DCPower extension methods: `ConfigureOutputEnabled`, `ConfigureOutputConnected`, `PowerDown`.
+  - **TestStandSteps**
+    - `ContinuityTest` modified to correctly accept negative current level values.
+    - `FilterPinsOrPinGroups` removed as a private method from ContinuityTest.cs, the `ContinuityTest` method now references the new public implementation for this method in the common `Utilities` class: `FilterPinsOrPinGroups`
+    - `LeakageTest` now forces 0V on all pins at start of test and after measuring. It also now ensures all pins are forced to the specified voltage level before measuring current. Finally, it will now disable the output of all pins at the end of the test. The method summary documentation has also been updated to reflect this change.
+    - `ForceDcCurrent` now correctly applies the specified voltage limit symmetrically for PPMU pins and has updated method summary documentation to reflect this change.
+    - `ForceCurrentMeasureVoltage` now correctly applies symmetric voltage limits for PPMU pins and has updated method summary documentation to reflect this change.
+  - **Common**
+    - `Utilities.TryDeterminePowerLineFrequency` updated to now support OfflineMode.
+    - `Publish.PublishResults` extension methods now correctly publish site-agnostic data. Site-agnostic data has no specific site number associated with it (i.e. -1), such as with measurements for SystemPins.
+  - **GitHub Repo**
+    - CSProject files for TestStandSteps and Extensions now exclude net48 path from being included as a folder within the project, which could cause build issues for contributors in certain situations.
+
+## 24.5.0 - 2024-08-16
+
+- ### Added
+
+  - Initial Release
