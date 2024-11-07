@@ -181,8 +181,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - `LeakageTest` now forces 0V on all pins at start of test and after measuring. It also now ensures all pins are forced to the specified voltage level before measuring current. Finally, it will now disable the output of all pins at the end of the test. The method summary documentation has also been updated to reflect this change.
     - `ForceDcCurrent` now correctly applies the specified voltage limit symmetrically for PPMU pins and has updated method summary documentation to reflect this change.
     - `ForceCurrentMeasureVoltage` now correctly applies symmetric voltage limits for PPMU pins and has updated method summary documentation to reflect this change.
-  - **Utilities**
+  - **Common**
     - `Utilities.TryDeterminePowerLineFrequency` updated to now support OfflineMode.
+    - `Publish.PublishResults` extension methods now correctly publish site-agnostic data. Site-agnostic data has no specific site number associated with it (i.e. -1), such as with measurements for SystemPins.
   - **GitHub Repo**
     - CSProject files for TestStandSteps and Extensions now exclude net48 path from being included as a folder within the project, which could cause build issues for contributors in certain situations.
 
