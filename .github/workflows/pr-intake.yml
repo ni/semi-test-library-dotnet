@@ -35,7 +35,7 @@ jobs:
                              | jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id")
 
           # Fetch runs of Workflow
-          response=$(curl -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
+          response=$(curl -s -w "%{http_code}" "https://api.github.com/reps/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
                    -o runs.json)
 
           if [ $response -ne 200 ]; then
@@ -58,7 +58,7 @@ jobs:
           ELAPSED=0
           while true; do
             # Check the status of the specific run
-            STATUS=$(curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_RUN_ID" \
+            STATUS=$(curl -s "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_RUN_ID" \
                           | jq -r '.status')
 
             echo "Current Status: $STATUS"
@@ -79,7 +79,7 @@ jobs:
       - name: Check Conclusion of Workflow
         run: |
           SPECIFIC_RUN_ID=${{ steps.get_runid.outputs.run_id }}
-          CONCLUSION=$(curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_RUN_ID" \
+          CONCLUSION=$(curl -s "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_RUN_ID" \
                             | jq -r '.conclusion')
 
           echo "Workflow Conclusion: $CONCLUSION"
