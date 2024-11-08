@@ -38,7 +38,7 @@ jobs:
           response=$(curl -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
                    -o runs.json)
 
-          if [ "$response" ne "200" ]; then
+          if [ "$response" -ne "200" ]; then
             echo "Failed to fetch runs of Workflow - $WORKFLOW_NAME. Exiting."
             exit 1
           fi
