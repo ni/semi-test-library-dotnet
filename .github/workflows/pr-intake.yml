@@ -31,7 +31,7 @@ jobs:
         run: |
           WORKFLOW_NAME="pr-build"
 
-          WORKFLOW_ID=$(curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows" \
+          WORKFLOW_ID=$(curl -s "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows" \
                              | jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id")
 
           # Fetch runs of Workflow
@@ -43,6 +43,7 @@ jobs:
             exit 1
           fi
 
+          # Assuming that the PR Build Workflow run has a display title containing the PR number
           run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains("#")) | .id' runs.json) # Temprarory change
           
           echo "Fetched run_id: $run_id"
