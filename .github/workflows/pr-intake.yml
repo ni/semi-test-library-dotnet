@@ -26,18 +26,18 @@ jobs:
       - name: Wait for PR Build Workflow to Start
         run: sleep 10
 
-      - name: Get PR_Build Workflow Run ID
+      - name: Get PR Build Workflow Run ID
         id: get_runid
         run: |
           WORKFLOW_NAME="pr-build"
 
           WORKFLOW_ID=$(curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows" \
                              | jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id")
-
+          echo "Fetched Workflow ID: $WORKFLOW_ID"
           # Fetch runs of Workflow
           response=$(curl -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
                    -o runs.json)
-
+          echo "Response: $response"
           if [ "$response" -ne 200 ]; then
             echo "Failed to fetch runs of Workflow - $WORKFLOW_NAME. Exiting."
             exit 1
