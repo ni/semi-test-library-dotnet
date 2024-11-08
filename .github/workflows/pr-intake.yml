@@ -43,7 +43,7 @@ jobs:
             exit 1
           fi
 
-          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{env.PR_Number}})) | .id' runs.json)
+          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains("#")) | .id' runs.json) # Temprarory change
           
           echo "Fetched run_id: $run_id"
           echo "::set-output name=run_id::$run_id"
