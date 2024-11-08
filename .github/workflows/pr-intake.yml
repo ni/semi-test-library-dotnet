@@ -15,20 +15,34 @@ on:
 
 env:
     GitHub_Repo_Name: "semi-test-library-dotnet"
-    PR_Number: "PR Build #${{ github.event.number }}"
+    PR_Number: "#${{ github.event.number }}"
 
 jobs:
   wait-for-pr-build-workflow:
     runs-on: ubuntu-latest
+    environment: gh-action-testing
     steps:
+      # Before fetching the run ID, we need to wait for the PR Build Workflow run to start as it uses in_progress type of workflow_run event.
+      - name: Wait for PR Build Workflow to Start
+        run: sleep 10
+
       - name: Get PR_Build Workflow Run ID
         id: get_runid
         run: |
-          WORKFLOW_ID=126108688 # ID of pr-build workflow
+          WORKFLOW_NAME="pr-build"
+
+          WORKFLOW_ID=$(curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows" \
+                             | jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id")
 
           # Fetch runs of Workflow
           curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
                -o runs.json
+
+          status=$(jq -r '.status' runs.json)
+          if [ "$status" != "200" ]; then
+            echo "Failed to fetch runs of Workflow $WORKFLOW_NAME. Exiting."
+            exit 1
+          fi
 
           run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{env.PR_Number}})) | .id' runs.json)
           
@@ -39,25 +53,34 @@ jobs:
         id: wait
         run: |
           SPECIFIC_RUN_ID=${{ steps.get_runid.outputs.run_id }}
+          TIMEOUT=3600 # 1 hour
+          INTERVAL=240 # 4 minutes
+          ELAPSED=0
           while true; do
             # Check the status of the specific run
             STATUS=$(curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_RUN_ID" \
-                           | jq -r '.status')
+                          | jq -r '.status')
 
             echo "Current Status: $STATUS"
             if [[ "$STATUS" == "completed" ]]; then
               break
             fi
 
+            if [[ "$ELAPSED" -ge "$TIMEOUT" ]]; then
+              echo "Error: Timeout reached while waiting for workflow to complete."
+              exit 1
+            fi
+
             echo "Waiting for Workflow to complete..."
-            sleep 10 # Wait before polling again
+            sleep $INTERVAL # Wait before polling again
+            ELAPSED=$((ELAPSED+INTERVAL))
           done
 
       - name: Check Conclusion of Workflow
         run: |
           SPECIFIC_RUN_ID=${{ steps.get_runid.outputs.run_id }}
           CONCLUSION=$(curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_RUN_ID" \
-                          | jq -r '.conclusion')
+                            | jq -r '.conclusion')
 
           echo "Workflow Conclusion: $CONCLUSION"
           
