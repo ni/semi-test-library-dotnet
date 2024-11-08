@@ -43,6 +43,7 @@ jobs:
             exit 1
           fi
 
+          cat runs.json
           run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{env.PR_Number}})) | .id' runs.json)
           
           echo "Fetched run_id: $run_id"
