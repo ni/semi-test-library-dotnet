@@ -33,17 +33,16 @@ jobs:
 
           WORKFLOW_ID=$(curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows" \
                              | jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id")
-          echo "Fetched Workflow ID: $WORKFLOW_ID"
+
           # Fetch runs of Workflow
           response=$(curl -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
                    -o runs.json)
-          echo "Response: $response"
-          if [ "$response" -ne 200 ]; then
+
+          if [ $response -ne 200 ]; then
             echo "Failed to fetch runs of Workflow - $WORKFLOW_NAME. Exiting."
             exit 1
           fi
 
-          cat runs.json
           run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{env.PR_Number}})) | .id' runs.json)
           
           echo "Fetched run_id: $run_id"
