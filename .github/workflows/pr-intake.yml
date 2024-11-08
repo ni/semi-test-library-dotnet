@@ -39,8 +39,9 @@ jobs:
                -o runs.json
 
           status=$(jq -r '.status' runs.json)
+          echo "Status: $status"
           if [ "$status" != "200" ]; then
-            echo "Failed to fetch runs of Workflow $WORKFLOW_NAME. Exiting."
+            echo "Failed to fetch runs of Workflow - $WORKFLOW_NAME. Exiting."
             exit 1
           fi
 
