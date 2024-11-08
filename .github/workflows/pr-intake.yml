@@ -35,12 +35,10 @@ jobs:
                              | jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id")
 
           # Fetch runs of Workflow
-          curl "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
-               -o runs.json
+          response=$(curl -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
+                   -o runs.json)
 
-          status=$(jq -r '.status' runs.json)
-          echo "Status: $status"
-          if [ "$status" != "200" ]; then
+          if [ "$response" ne "200" ]; then
             echo "Failed to fetch runs of Workflow - $WORKFLOW_NAME. Exiting."
             exit 1
           fi
