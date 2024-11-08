@@ -20,7 +20,7 @@ env:
 jobs:
   wait-for-pr-build-workflow:
     runs-on: ubuntu-latest
-    environment: gh-action-testing
+    # environment: gh-action-testing # Temporary commenting out the environment to test the workflow without it.
     steps:
       # Before fetching the run ID, we need to wait for the PR Build Workflow run to start as it uses in_progress type of workflow_run event.
       - name: Wait for PR Build Workflow to Start
