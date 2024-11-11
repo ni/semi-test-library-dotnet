@@ -35,7 +35,7 @@ jobs:
                     -o runs.json)
           
           if [ $response -ne 200 ]; then
-            echo "Failed to fetch runs of Workflow - $WORKFLOW_NAME. Exiting."
+            echo "Failed to fetch id of Workflow - $WORKFLOW_NAME. Exiting."
             exit 1
           fi
           WORKFLOW_ID=$(jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id" runs.json)
@@ -64,7 +64,7 @@ jobs:
       #               -o runs.json)
 
       #     if [ $response -ne 200 ]; then
-      #       echo "Failed to fetch runs of Workflow - $WORKFLOW_NAME. Exiting."
+      #       echo "Failed to fetch id of Workflow - $WORKFLOW_NAME. Exiting."
       #       exit 1
       #     fi
       #     WORKFLOW_ID=$(jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id" runs.json)
@@ -131,7 +131,7 @@ jobs:
       #               -o runs.json)         
 
       #       if [ $response -ne 200 ]; then
-      #         echo "Failed to fetch status of Build Workflow. Exiting."
+      #         echo "Failed to fetch status of Test Workflow. Exiting."
       #         exit 1
       #       fi
 
@@ -155,11 +155,11 @@ jobs:
       - name: Check Conclusion of Build Workflow
         run: |
           SPECIFIC_BUILD_RUN_ID=${{ steps.get_build_runid.outputs.build_run_id }}
-          response=$(curl -s -w "%{http_code}" "https://api.gitub.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_BUILD_RUN_ID" \
+          response=$(curl -s -w "%{http_code}" "https://api.github.com/repos/ni1/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_BUILD_RUN_ID" \
                     -o runs.json) 
 
           if [ $response -ne 200 ]; then
-            echo "Failed to fetch status of Build Workflow. Exiting."
+            echo "Failed to fetch conclusion of Build Workflow. Exiting."
             exit 1
           fi
 
@@ -180,7 +180,7 @@ jobs:
                     -o runs.json)    
                     
           if [ $response -ne 200 ]; then
-            echo "Failed to fetch status of Build Workflow. Exiting."
+            echo "Failed to fetch conclusion of Test Workflow. Exiting."
             exit 1
           fi
 
