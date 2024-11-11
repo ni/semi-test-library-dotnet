@@ -155,7 +155,7 @@ jobs:
       - name: Check Conclusion of Build Workflow
         run: |
           SPECIFIC_BUILD_RUN_ID=${{ steps.get_build_runid.outputs.build_run_id }}
-          response=$(curl -s -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_BUILD_RUN_ID" \
+          response=$(curl -s -w "%{http_code}" "https://api.gitub.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_BUILD_RUN_ID" \
                     -o runs.json) 
 
           if [ $response -ne 200 ]; then
