@@ -24,15 +24,21 @@ jobs:
     steps:
       # Before fetching the run ID, we need to wait for the PR Build and PR Test Workflow run to start as it uses in_progress type of workflow_run event.
       - name: Wait for PR Build and PR Test Workflow to Start
-        run: sleep 10
+        run: sleep 30
 
       - name: Get PR Build Workflow Run ID
         id: get_build_runid
         run: |
           WORKFLOW_NAME="pr-build"
 
-          WORKFLOW_ID=$(curl -s "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows" \
-                             | jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id")
+          response=$(curl -s -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows" \
+                    -o runs.json)
+          
+          if [ $response -ne 200 ]; then
+            echo "Failed to fetch runs of Workflow - $WORKFLOW_NAME. Exiting."
+            exit 1
+          fi
+          WORKFLOW_ID=$(jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id" runs.json)
 
           # Fetch runs of Workflow
           response=$(curl -s -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
@@ -54,8 +60,14 @@ jobs:
         run: |
           WORKFLOW_NAME="pr-test"
 
-          WORKFLOW_ID=$(curl -s "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows" \
-                              | jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id")
+          response=$(curl -s -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows" \
+                    -o runs.json)
+
+          if [ $response -ne 200 ]; then
+            echo "Failed to fetch runs of Workflow - $WORKFLOW_NAME. Exiting."
+            exit 1
+          fi
+          WORKFLOW_ID=$(jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id" runs.json)
 
           # Fetch runs of Workflow
           response=$(curl -s -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/workflows/$WORKFLOW_ID/runs" \
@@ -81,10 +93,17 @@ jobs:
           ELAPSED=0
           while true; do
             # Check the status of the specific run
-            STATUS=$(curl -s "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_BUILD_RUN_ID" \
-                          | jq -r '.status')
+            response=$(curl -s -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_BUILD_RUN_ID" \
+                    -o runs.json)
+            
+            if [ $response -ne 200 ]; then
+              echo "Failed to fetch status of Build Workflow. Exiting."
+              exit 1
+            fi
 
+            STATUS=$(jq -r '.status' runs.json)
             echo "Current Status: $STATUS"
+
             if [[ "$STATUS" == "completed" ]]; then
               break
             fi
@@ -108,10 +127,17 @@ jobs:
           ELAPSED=0
           while true; do
             # Check the status of the specific run
-            STATUS=$(curl -s "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_TEST_RUN_ID" \
-                          | jq -r '.status')
+            response=$(curl -s -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_TEST_RUN_ID" \
+                    -o runs.json)         
 
+            if [ $response -ne 200 ]; then
+              echo "Failed to fetch status of Build Workflow. Exiting."
+              exit 1
+            fi
+
+            STATUS=$(jq -r '.status' runs.json)
             echo "Current Status: $STATUS"
+            
             if [[ "$STATUS" == "completed" ]]; then
               break
             fi
@@ -129,9 +155,15 @@ jobs:
       - name: Check Conclusion of Build Workflow
         run: |
           SPECIFIC_BUILD_RUN_ID=${{ steps.get_build_runid.outputs.build_run_id }}
-          CONCLUSION=$(curl -s "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_BUILD_RUN_ID" \
-                            | jq -r '.conclusion')
+          response=$(curl -s -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_BUILD_RUN_ID" \
+                    -o runs.json) 
 
+          if [ $response -ne 200 ]; then
+            echo "Failed to fetch status of Build Workflow. Exiting."
+            exit 1
+          fi
+
+          CONCLUSION=$(jq -r '.conclusion' runs.json)
           echo "Workflow Conclusion: $CONCLUSION"
           
           if [ "$CONCLUSION" == "success" ]; then
@@ -144,9 +176,15 @@ jobs:
       - name: Check Conclusion of Test Workflow
         run: |
           SPECIFIC_TEST_RUN_ID=${{ steps.get_test_runid.outputs.test_run_id }}
-          CONCLUSION=$(curl -s "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_TEST_RUN_ID" \
-                            | jq -r '.conclusion')
+          response=$(curl -s -w "%{http_code}" "https://api.github.com/repos/ni/${{ env.GitHub_Repo_Name }}/actions/runs/$SPECIFIC_TEST_RUN_ID" \
+                    -o runs.json)    
+                    
+          if [ $response -ne 200 ]; then
+            echo "Failed to fetch status of Build Workflow. Exiting."
+            exit 1
+          fi
 
+          CONCLUSION=$(jq -r '.conclusion' runs.json)
           echo "Test Workflow Conclusion: $CONCLUSION"
           
           if [ "$CONCLUSION" == "success" ]; then
