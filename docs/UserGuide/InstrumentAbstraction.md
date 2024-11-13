@@ -74,14 +74,14 @@ flowchart TB
 
 Instrument sessions are initialized once at the start your test program and then closed at the end of your test program. When using TSM for session management, this is expected to take place in the ProcessSetup and in the ProcessCleanup callbacks of your TestStand sequence, respectively.
 
-The Semiconductor Test Library provides instrument type specific initialization and cleanup code in the `Initialization` class.
+The Semiconductor Test Library provides instrument type specific initialization and cleanup code in the `InitializeAndClose` class.
 
 > [!NOTE]
-> Class: `Initialization`\
+> Class: `InitializeAndClose`\
 > Namespace: `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.<InstrumentType>` \
 > Assembly: `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll`
 >
-> Refer to the API Reference for more details regarding the `Initialization` class for each supported instrument type
+> Refer to the API Reference for more details regarding the `InitializeAndClose` class for each supported instrument type
 
 The `TestStandSteps.SetupAndCleanupSteps` class adds TestStand-level setup and cleanup step types that can be called directly from ProcessSetup and ProcessCleanup, which leverages the `Initialization` class for each supported instrument type.
 
