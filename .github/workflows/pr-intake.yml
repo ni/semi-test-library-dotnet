@@ -15,7 +15,6 @@ on:
 
 env:
     GitHub_Repo_Name: "semi-test-library-dotnet"
-    PR_Number: "#${{ github.event.number }}"
 
 jobs:
   wait-for-pr-build-and-test-workflows:
@@ -50,7 +49,7 @@ jobs:
           fi
 
           # Assuming that the PR Build Workflow run has a display title containing the PR number.
-          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{ env.PR_Number }})) | .id' runs.json)
+          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{ github.run_number }})) | .id' runs.json)
           
           echo "Fetched build run_id: $run_id"
           echo "::set-output name=build_run_id::$run_id"
@@ -79,7 +78,7 @@ jobs:
           fi
 
           # Assuming that the PR Test Workflow run has a display title containing the PR number.
-          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{ env.PR_Number }})) | .id' runs.json)
+          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{ github.run_number }})) | .id' runs.json)
           
           echo "Fetched test run_id: $run_id"
           echo "::set-output name=test_run_id::$run_id"
