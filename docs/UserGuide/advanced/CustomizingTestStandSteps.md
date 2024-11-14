@@ -10,14 +10,14 @@ Leverage the source code for any of the TestStandSteps available in the Semicond
    - [ContinuityTest.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/SemiconductorTestLibrary.TestStandSteps/source/ContinuityTest.cs)
    - [CleanupInstrumentation.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs)
 
-3. Add the download .cs file(s) to your project source.
+3. Add the downloaded .cs file(s) to your project source.
 4. Rename the Namespace and Class name within the file(s) to match your project.
 
    ![CustomizingTestStandSteps-1](../../images/CustomizingTestStandSteps-1.png)
 
-5. Customize the method to meet your application's needs
+5. Customize the method to meet your application's needs.
 6. Rebuild your project source.
-7. When calling from TestStand, place a new Semiconductor Multi Test step in the desired sequence, and within the Module Tab for that step, point it to the newly added custom method within your project's assembly. Add any required Tests to the Tests tab for published data results.
+7. When calling from TestStand, place a new Semiconductor Multi Test step in the desired sequence, and within the Module Tab for that step, point it to the newly added custom method within your project's assembly. Then, configure the input parameters and add any required Tests to the Tests tab to evaluate published data results.
 
 > [!NOTE]  
 > There will be one file per TestStandStep method. Downloading the whole file ensures all of the using declarations and any private methods are properly included (the only exceptions to this are called out in step #2).
