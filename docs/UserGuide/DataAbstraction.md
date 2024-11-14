@@ -4,7 +4,9 @@ The Semiconductor Test Library provides Pin- and Site-Aware data types to simpli
 
 ## Pin- and Site-Aware Data Types
 
-**`SiteData<T>`** \
+### **SiteData**
+
+Class: `SiteData<T>` \
 Namespace: `NationalInstruments.SemiconductorTestLibrary.DataAbstraction`
 
 Defines an object containing values for one or more sites, where `T` can be passed as any data type.
@@ -18,9 +20,17 @@ The `SiteData` object exposes basic methods for extracting a single site value o
 >
 > Find examples for using the `SiteData` object [here on GitHub](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/DataAbstraction).
 
+A `SiteData` object is an immutable dictionary of key-value pairs, where each key corresponds to a unique site number, and each value represents site-specific data for that site. This is also the observable structure when debugging a `SiteData` object at runtime in Visual Studio, as shown in the example below.
+
+**Example of `SiteData` objects in Visual Studio at runtime**
+
+![ExampleOfDebuggingSiteDataInVisualStudio](../images/ExampleOfDebuggingSiteDataInVisualStudio.png)
+
 ---
 
-**`PinSiteData<T>`** \
+### **PinSiteData**
+
+Class: `PinSiteData<T>` \
 Namespace: `NationalInstruments.SemiconductorTestLibrary.DataAbstraction`
 
 Defines an object containing values for one or more sites that are associated with a particular pin or set of pins, where `T` can be passed as any data type.
@@ -33,3 +43,9 @@ The `PinSiteData` object exposes basic methods for extracting a single site valu
 > Refer to the API Reference for more details regarding the properties and methods exposed by the `PinSiteData`.
 >
 > Find examples for using the `PinSiteData` object [here on GitHub](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/DataAbstraction).
+
+A `PinSiteData` object is an immutable dictionary of key-value pairs, where each key corresponds to a unique pin name, and each value is a `SiteData` object containing site-unique data for the given pin. This is also the observable structure when debugging a `SiteData` object at runtime in Visual Studio, as shown in the example below.
+
+**Example of `PinSiteData` objects in Visual Studio at runtime:**
+
+![ExampleOfDebuggingPinSiteDataInVisualStudio](../images/ExampleOfDebuggingPinSiteDataInVisualStudio.png)
