@@ -5,8 +5,8 @@ items:
   id: SetupAndCleanupSteps
   parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   children:
-  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
-  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxAIVoltageTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Double,System.Double,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxAOFGenVoltageTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.DAQmx.AOFunctionGenerationType,System.Double,System.Double,System.Double,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxAOVoltageTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Double,System.Double,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)
@@ -27,7 +27,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -46,19 +46,19 @@ items:
   - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
-- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
-  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
-  id: CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
+  id: CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
   parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps
   langs:
   - csharp
   - vb
   name: CleanupInstrumentation(ISemiconductorModuleContext, bool, NIInstrumentType)
-  nameWithType: SetupAndCleanupSteps.CleanupInstrumentation(ISemiconductorModuleContext, bool, SetupAndCleanupSteps.NIInstrumentType)
-  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, bool, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
+  nameWithType: SetupAndCleanupSteps.CleanupInstrumentation(ISemiconductorModuleContext, bool, NIInstrumentType)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, bool, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/CleanupInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -78,7 +78,7 @@ items:
     Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDAQmx, niDMM, niScope, niFGen, and niSync.
   example: []
   syntax:
-    content: public static void CleanupInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, SetupAndCleanupSteps.NIInstrumentType instrumentType = NIInstrumentType.All)
+    content: public static void CleanupInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, NIInstrumentType instrumentType = NIInstrumentType.All)
     parameters:
     - id: tsmContext
       type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
@@ -87,26 +87,26 @@ items:
       type: System.Boolean
       description: Whether to reset device during initialization.
     - id: instrumentType
-      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
+      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
       description: The type of instrument to close.
-    content.vb: Public Shared Sub CleanupInstrumentation(tsmContext As ISemiconductorModuleContext, resetDevice As Boolean = False, instrumentType As SetupAndCleanupSteps.NIInstrumentType = NIInstrumentType.All)
+    content.vb: Public Shared Sub CleanupInstrumentation(tsmContext As ISemiconductorModuleContext, resetDevice As Boolean = False, instrumentType As NIInstrumentType = NIInstrumentType.All)
   overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation*
-  nameWithType.vb: SetupAndCleanupSteps.CleanupInstrumentation(ISemiconductorModuleContext, Boolean, SetupAndCleanupSteps.NIInstrumentType)
-  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, Boolean, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
+  nameWithType.vb: SetupAndCleanupSteps.CleanupInstrumentation(ISemiconductorModuleContext, Boolean, NIInstrumentType)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, Boolean, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
   name.vb: CleanupInstrumentation(ISemiconductorModuleContext, Boolean, NIInstrumentType)
-- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
-  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
-  id: ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
+  id: ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
   parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps
   langs:
   - csharp
   - vb
   name: ResetInstrumentation(ISemiconductorModuleContext, bool, NIInstrumentType)
-  nameWithType: SetupAndCleanupSteps.ResetInstrumentation(ISemiconductorModuleContext, bool, SetupAndCleanupSteps.NIInstrumentType)
-  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, bool, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
+  nameWithType: SetupAndCleanupSteps.ResetInstrumentation(ISemiconductorModuleContext, bool, NIInstrumentType)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, bool, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/ResetInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/ResetInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -130,7 +130,7 @@ items:
     Refer to the individual instrument driver documentation for more details.
   example: []
   syntax:
-    content: public static void ResetInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, SetupAndCleanupSteps.NIInstrumentType instrumentType = NIInstrumentType.All)
+    content: public static void ResetInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, NIInstrumentType instrumentType = NIInstrumentType.All)
     parameters:
     - id: tsmContext
       type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
@@ -139,12 +139,12 @@ items:
       type: System.Boolean
       description: Whether to perform a hard reset on the device.
     - id: instrumentType
-      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
+      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
       description: The type of instrument to reset.
-    content.vb: Public Shared Sub ResetInstrumentation(tsmContext As ISemiconductorModuleContext, resetDevice As Boolean = False, instrumentType As SetupAndCleanupSteps.NIInstrumentType = NIInstrumentType.All)
+    content.vb: Public Shared Sub ResetInstrumentation(tsmContext As ISemiconductorModuleContext, resetDevice As Boolean = False, instrumentType As NIInstrumentType = NIInstrumentType.All)
   overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation*
-  nameWithType.vb: SetupAndCleanupSteps.ResetInstrumentation(ISemiconductorModuleContext, Boolean, SetupAndCleanupSteps.NIInstrumentType)
-  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, Boolean, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType)
+  nameWithType.vb: SetupAndCleanupSteps.ResetInstrumentation(ISemiconductorModuleContext, Boolean, NIInstrumentType)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, Boolean, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
   name.vb: ResetInstrumentation(ISemiconductorModuleContext, Boolean, NIInstrumentType)
 - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxAIVoltageTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Double,System.Double,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxAIVoltageTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Double,System.Double,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)
@@ -158,7 +158,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxAIVoltageTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, double, double, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDAQmxAIVoltageTask.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDAQmxAIVoltageTask.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -204,7 +204,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxAOFGenVoltageTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, NationalInstruments.DAQmx.AOFunctionGenerationType, double, double, double, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDAQmxAOFGenVoltageTask.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDAQmxAOFGenVoltageTask.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -258,7 +258,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxAOVoltageTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, double, double, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDAQmxAOVoltageTask.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDAQmxAOVoltageTask.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -304,7 +304,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxDITask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, NationalInstruments.DAQmx.ChannelLineGrouping)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDAQmxDITask.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDAQmxDITask.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -344,7 +344,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxDOTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, NationalInstruments.DAQmx.ChannelLineGrouping)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDAQmxDOTask.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDAQmxDOTask.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -384,7 +384,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDCPowerInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, bool, double, NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasureApertureTimeUnits, NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasurementWhen, NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasurementSense, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDCPowerInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDCPowerInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -449,7 +449,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDigitalPatternInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, bool, string, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDigitalPatternInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDigitalPatternInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -498,7 +498,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDMMInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, bool, NationalInstruments.ModularInstruments.NIDmm.DmmApertureTimeUnits, double, double, double, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -558,7 +558,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIFGenInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIFGenInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNIFGenInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -593,7 +593,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIRelayModules(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, bool, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIRelayModules.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNIRelayModules.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -639,7 +639,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIScopeInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNIScopeInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNIScopeInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -676,7 +676,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNISyncInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.TestStandSteps/source/SetupNISyncInstrumentation.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/SetupNISyncInstrumentation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -984,7 +984,7 @@ references:
 - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation
   isExternal: true
-  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_CleanupInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_NIInstrumentType_
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_CleanupInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_NationalInstruments_SemiconductorTestLibrary_TestStandSteps_NIInstrumentType_
   name: CleanupInstrumentation
   nameWithType: SetupAndCleanupSteps.CleanupInstrumentation
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation
@@ -999,34 +999,14 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
-- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
-  commentId: T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
   parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   isExternal: true
-  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.html
-  name: SetupAndCleanupSteps.NIInstrumentType
-  nameWithType: SetupAndCleanupSteps.NIInstrumentType
-  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
-  spec.csharp:
-  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps
-    name: SetupAndCleanupSteps
-    isExternal: true
-    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.html
-  - name: .
-  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
-    name: NIInstrumentType
-    isExternal: true
-    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.html
-  spec.vb:
-  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps
-    name: SetupAndCleanupSteps
-    isExternal: true
-    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.html
-  - name: .
-  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
-    name: NIInstrumentType
-    isExternal: true
-    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.html
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.html
+  name: NIInstrumentType
+  nameWithType: NIInstrumentType
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
 - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
   commentId: N:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
   isExternal: true
@@ -1068,7 +1048,7 @@ references:
 - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation
   isExternal: true
-  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_ResetInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_NIInstrumentType_
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_SetupAndCleanupSteps_ResetInstrumentation_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_Boolean_NationalInstruments_SemiconductorTestLibrary_TestStandSteps_NIInstrumentType_
   name: ResetInstrumentation
   nameWithType: SetupAndCleanupSteps.ResetInstrumentation
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation

@@ -6,8 +6,8 @@ items:
   children:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps
-  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
   langs:
   - csharp
   - vb
@@ -32,6 +32,14 @@ references:
   name: DMMMeasurementSettings
   nameWithType: DMMMeasurementSettings
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.html
+  name: NIInstrumentType
+  nameWithType: NIInstrumentType
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
 - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps
   commentId: T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps
   isExternal: true
@@ -39,34 +47,6 @@ references:
   name: SetupAndCleanupSteps
   nameWithType: SetupAndCleanupSteps
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps
-- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
-  commentId: T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
-  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
-  isExternal: true
-  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.html
-  name: SetupAndCleanupSteps.NIInstrumentType
-  nameWithType: SetupAndCleanupSteps.NIInstrumentType
-  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
-  spec.csharp:
-  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps
-    name: SetupAndCleanupSteps
-    isExternal: true
-    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.html
-  - name: .
-  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
-    name: NIInstrumentType
-    isExternal: true
-    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.html
-  spec.vb:
-  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps
-    name: SetupAndCleanupSteps
-    isExternal: true
-    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.html
-  - name: .
-  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType
-    name: NIInstrumentType
-    isExternal: true
-    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.NIInstrumentType.html
 - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   commentId: N:NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   isExternal: true

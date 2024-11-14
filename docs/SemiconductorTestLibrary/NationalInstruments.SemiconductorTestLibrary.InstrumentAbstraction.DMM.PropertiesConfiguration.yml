@@ -24,7 +24,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -56,7 +56,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration.ConfigureACBandwidth(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -92,7 +92,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration.ConfigureApertureTime(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, NationalInstruments.ModularInstruments.NIDmm.DmmApertureTimeUnits, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -128,7 +128,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration.ConfigureSettleTime(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -161,7 +161,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration.ConfigureMeasurementAbsolute(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -200,7 +200,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration.ConfigureMeasurementDigits(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -239,7 +239,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration.ConfigureMultiPoint(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, int, int, string, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -281,7 +281,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration.ConfigurePowerlineFrequency(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -314,7 +314,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration.ConfigureTrigger(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, NationalInstruments.ModularInstruments.NIDmm.DmmTriggerSource, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -350,7 +350,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration.SendSoftwareTrigger(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -377,7 +377,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration.ConfigureADCCalibration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, NationalInstruments.ModularInstruments.NIDmm.DmmAdcCalibration)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
@@ -417,7 +417,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration.ConfigureAutoZero(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle, NationalInstruments.ModularInstruments.NIDmm.DmmAuto)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/668911d8a54d33efaf58c2bf06978de453546f44/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DMM/PropertiesConfiguration.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM

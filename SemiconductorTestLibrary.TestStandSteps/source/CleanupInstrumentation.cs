@@ -82,56 +82,5 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 NISemiconductorTestException.Throw(e);
             }
         }
-
-        /// <summary>
-        /// Defines NI instrument types the NI Semiconductor Test Library supports.
-        /// </summary>
-        public enum NIInstrumentType
-        {
-            /// <summary>
-            /// All NI instruments.
-            /// </summary>
-            All,
-
-            /// <summary>
-            /// An NI-DCPower instrument.
-            /// </summary>
-            NIDCPower,
-
-            /// <summary>
-            /// An NI-Digital Pattern instrument.
-            /// </summary>
-            NIDigitalPattern,
-
-            /// <summary>
-            /// A relay driver module (NI-SWITCH instrument).
-            /// </summary>
-            NIRelayDriver,
-
-            /// <summary>
-            /// An NI-DAQmx task.
-            /// </summary>
-            NIDAQmx,
-
-            /// <summary>
-            /// An NI-DMM instrument.
-            /// </summary>
-            NIDMM,
-
-            /// <summary>
-            /// An NI-FGEN instrument.
-            /// </summary>
-            NIFGen,
-
-            /// <summary>
-            /// An NI-SCOPE instrument.
-            /// </summary>
-            NIScope,
-
-            /// <summary>
-            /// An NI-Sync instrument.
-            /// </summary>
-            NISync
-        }
     }
 }
