@@ -39,7 +39,7 @@
 - name: Extending the Semiconductor Test Library
   href: advanced/ExtendingTheSemiconductorTestLibrary.md
 - name: Customizing TestStand Steps
-  href: CustomizingTestStandSteps.md
+  href: advanced/CustomizingTestStandSteps.md
 
 - name: TestStand Steps
 - name: Using TestStand Steps
