@@ -11,6 +11,16 @@ Complete the following steps to use Semiconductor Test Library in your test code
 7. Repeat steps 4 through 6 as necessary for your test.
 8. Clean up and restore the state of the instrumentation after finishing the test.
 
+> [!NOTE]
+> These steps only capture the typical operations found in a test code module. Some may not be required and other steps could be necessary depending on the test methodology being implemented.
+>
+> These steps and the example below assume that the .csproj file and .cs file that you are writing test code within have been setup with the appropriate assembly/package references and using directives, respectively. If otherwise, refer to the related information linked below.
+
+**Related Information:**
+
+- [Getting Started](../index.md#getting-started)
+- [Adding Using Directives](AddingUsingDirectives.md)
+
 ## Example C# Code Snippet of Workflow
 
 ```C#
