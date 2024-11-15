@@ -11,10 +11,10 @@ on:
         - 'SemiconductorTestLibrary.Extensions/**'
         - 'SemiconductorTestLibrary.TestStandSteps/**'
         - 'TestAssets/**'
-        - '.github/**'
 
 env:
     GitHub_Repo_Name: "semi-test-library-dotnet"
+    Run_Number: "#${{ github.run_number }}"
 
 jobs:
   wait-for-pr-build-and-test-workflows:
@@ -49,7 +49,7 @@ jobs:
           fi
 
           # Assuming that the PR Build Workflow run has a display title containing the run number.
-          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{ github.run_number }})) | .id' runs.json)
+          run_id=$(jq -r ".workflow_runs[] | select(.display_title | contains(\"${{ env.Run_Number }}\")) | .id" runs.json)
           
           echo "Fetched build run_id: $run_id"
           echo "::set-output name=build_run_id::$run_id"
@@ -78,7 +78,7 @@ jobs:
           fi
 
           # Assuming that the PR Test Workflow run has a display title containing the run number.
-          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{ github.run_number }})) | .id' runs.json)
+          run_id=$(jq -r ".workflow_runs[] | select(.display_title | contains(\"${{ env.Run_Number }}\")) | .id" runs.json)
           
           echo "Fetched test run_id: $run_id"
           echo "::set-output name=test_run_id::$run_id"
@@ -100,7 +100,7 @@ jobs:
               exit 1
             fi
 
-            STATUS=$(jq -r '.status' runs.json)
+            STATUS=$(jq -r ".status" runs.json)
             echo "Current Status: $STATUS"
 
             if [[ "$STATUS" == "completed" ]]; then
@@ -134,7 +134,7 @@ jobs:
               exit 1
             fi
 
-            STATUS=$(jq -r '.status' runs.json)
+            STATUS=$(jq -r ".status" runs.json)
             echo "Current Status: $STATUS"
             
             if [[ "$STATUS" == "completed" ]]; then
@@ -162,7 +162,7 @@ jobs:
             exit 1
           fi
 
-          CONCLUSION=$(jq -r '.conclusion' runs.json)
+          CONCLUSION=$(jq -r ".conclusion" runs.json)
           echo "Workflow Conclusion: $CONCLUSION"
           
           if [ "$CONCLUSION" == "success" ]; then
@@ -183,7 +183,7 @@ jobs:
             exit 1
           fi
 
-          CONCLUSION=$(jq -r '.conclusion' runs.json)
+          CONCLUSION=$(jq -r ".conclusion" runs.json)
           echo "Test Workflow Conclusion: $CONCLUSION"
           
           if [ "$CONCLUSION" == "success" ]; then
