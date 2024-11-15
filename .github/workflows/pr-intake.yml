@@ -48,7 +48,7 @@ jobs:
             exit 1
           fi
 
-          # Assuming that the PR Build Workflow run has a display title containing the PR number.
+          # Assuming that the PR Build Workflow run has a display title containing the run number.
           run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{ github.run_number }})) | .id' runs.json)
           
           echo "Fetched build run_id: $run_id"
@@ -77,7 +77,7 @@ jobs:
             exit 1
           fi
 
-          # Assuming that the PR Test Workflow run has a display title containing the PR number.
+          # Assuming that the PR Test Workflow run has a display title containing the run number.
           run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{ github.run_number }})) | .id' runs.json)
           
           echo "Fetched test run_id: $run_id"
