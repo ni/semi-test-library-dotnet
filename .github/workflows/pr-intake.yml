@@ -20,7 +20,7 @@ env:
 jobs:
   wait-for-pr-build-and-test-workflows:
     runs-on: ubuntu-latest
-    environment: gh-action-testing
+    # environment: gh-action-testing # Temporary commented.
     steps:
       # Before fetching the run ID, we need to wait for the PR Build and PR Test Workflow run to start as it uses in_progress type of workflow_run event.
       - name: Wait for PR Build and PR Test Workflow to Start
@@ -50,7 +50,7 @@ jobs:
           fi
 
           # Assuming that the PR Build Workflow run has a display title containing the run number.
-          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{ env.Run_Number }})) | .id' runs.json)
+          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(\"${{ env.Run_Number }}\")) | .id' runs.json)
           
           echo "Fetched build run_id: $run_id"
           echo "::set-output name=build_run_id::$run_id"
@@ -79,7 +79,7 @@ jobs:
           fi
 
           # Assuming that the PR Test Workflow run has a display title containing the run number.
-          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(${{ env.Run_Number }})) | .id' runs.json)
+          run_id=$(jq -r '.workflow_runs[] | select(.display_title | contains(\"${{ env.Run_Number }}\")) | .id' runs.json)
           
           echo "Fetched test run_id: $run_id"
           echo "::set-output name=test_run_id::$run_id"
