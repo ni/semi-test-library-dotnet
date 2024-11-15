@@ -11,7 +11,6 @@ on:
         - 'SemiconductorTestLibrary.Extensions/**'
         - 'SemiconductorTestLibrary.TestStandSteps/**'
         - 'TestAssets/**'
-        - '.github/**'
 
 env:
     GitHub_Repo_Name: "semi-test-library-dotnet"
