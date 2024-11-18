@@ -16,14 +16,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
     public sealed class DigitalOutputTests : IDisposable
     {
-        private readonly ISemiconductorModuleContext _tsmContext;
-        private readonly TSMSessionManager _sessionManager;
+        private ISemiconductorModuleContext _tsmContext;
 
-        public DigitalOutputTests()
+        public TSMSessionManager Initialize(string pinMapFileName = "")
         {
-            _tsmContext = CreateTSMContext("DAQmxTests.pinmap");
-            _sessionManager = new TSMSessionManager(_tsmContext);
+            _tsmContext = CreateTSMContext(string.IsNullOrEmpty(pinMapFileName) ? "DAQmxTests.pinmap" : pinMapFileName);
             InitializeAndClose.CreateDAQmxDOTasks(_tsmContext);
+            return new TSMSessionManager(_tsmContext);
         }
 
         public void Dispose()
@@ -36,9 +35,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(false)]
         public void SingleBooleanDigitalSample_WriteSucceeds(bool autoStart)
         {
+            var sessionManager = Initialize();
             bool data = true;
 
-            var tasksBundle = _sessionManager.DAQmx("DOPin");
+            var tasksBundle = sessionManager.DAQmx("DOPin");
             if (!autoStart)
             {
                 tasksBundle.Do(taskInfo => taskInfo.Task.Control(TaskAction.Start));
@@ -51,9 +51,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(false)]
         public void SinglePerSitePerPinBooleanDigitalSample_WriteSucceeds(bool autoStart)
         {
+            var sessionManager = Initialize();
             var data = new PinSiteData<bool>(new Dictionary<string, IDictionary<int, bool>> { { "DOPin", new Dictionary<int, bool> { { 0, true }, { 1, false } } } });
 
-            var tasksBundle = _sessionManager.DAQmx("DOPin");
+            var tasksBundle = sessionManager.DAQmx("DOPin");
             if (!autoStart)
             {
                 tasksBundle.Do(taskInfo => taskInfo.Task.Control(TaskAction.Start));
@@ -66,16 +67,30 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(false)]
         public void DigitalWaveformSamples_WriteSucceeds(bool autoStart)
         {
+            var sessionManager = Initialize();
             var site0Data = DigitalWaveform.FromPort(new byte[] { 6 }, mask: 8);
             var site1Data = DigitalWaveform.FromPort(new byte[] { 8 }, mask: 8);
             var data = new PinSiteData<DigitalWaveform>(new Dictionary<string, IDictionary<int, DigitalWaveform>> { { "DOPin", new Dictionary<int, DigitalWaveform> { { 0, site0Data }, { 1, site1Data } } } });
 
-            var tasksBundle = _sessionManager.DAQmx("DOPin");
+            var tasksBundle = sessionManager.DAQmx("DOPin");
             if (!autoStart)
             {
                 tasksBundle.Do(taskInfo => taskInfo.Task.Control(TaskAction.Start));
             }
             tasksBundle.WriteDigitalWaveform(data, autoStart);
+        }
+
+        [Theory]
+        [InlineData("DOPin1")]
+        [InlineData("DOPin2")]
+        [InlineData("DOPin3")]
+        public void PinMapWithMismatchChannelListOrder_WriteSucceeds(string pinName)
+        {
+            var sessionManager = Initialize("DAQmxChannelListOrderTests.pinmap");
+            var data = true;
+
+            var tasksBundle = sessionManager.DAQmx(pinName);
+            tasksBundle.WriteDigital(data);
         }
     }
 }
