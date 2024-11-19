@@ -80,7 +80,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         }
 
         /// <summary>
-        /// Starts the task.
+        /// Stops the task.
         /// </summary>
         /// <remarks>
         /// This is a low-level driver control method that is not recommended for general use.
