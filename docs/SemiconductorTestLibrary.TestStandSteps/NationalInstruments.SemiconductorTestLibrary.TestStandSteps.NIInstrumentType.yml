@@ -22,7 +22,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
   type: Enum
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -43,7 +43,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.All
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -65,7 +65,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDCPower
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -87,7 +87,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDigitalPattern
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -109,7 +109,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIRelayDriver
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -131,7 +131,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDAQmx
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -153,7 +153,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDMM
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -175,7 +175,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIFGen
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -197,7 +197,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIScope
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -219,7 +219,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NISync
   type: Field
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
   namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
