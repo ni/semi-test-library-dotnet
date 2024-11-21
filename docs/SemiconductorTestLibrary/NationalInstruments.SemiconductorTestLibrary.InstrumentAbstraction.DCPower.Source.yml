@@ -55,7 +55,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -87,7 +87,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureSourceSettings(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -122,7 +122,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureSourceSettings(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -160,7 +160,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureSourceSettings(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -198,7 +198,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureSourceSettings(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, System.Collections.Generic.IDictionary<string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -231,7 +231,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, double, double?, double?, double?, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -278,7 +278,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, System.Collections.Generic.IDictionary<string, double>, double?, double?, double?, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -325,7 +325,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>, double?, double?, double?, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -372,7 +372,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>, double?, double?, double?, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -419,7 +419,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -457,7 +457,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings>, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -495,7 +495,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, System.Collections.Generic.IDictionary<string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings>, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -533,7 +533,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings>, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -571,7 +571,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceVoltageAsymmetricLimit(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, double, double, double, double?, double?, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -621,7 +621,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, double, double?, double?, double?, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -668,7 +668,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, System.Collections.Generic.IDictionary<string, double>, double?, double?, double?, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -715,7 +715,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>, double?, double?, double?, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -762,7 +762,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>, double?, double?, double?, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -809,7 +809,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -847,7 +847,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings>, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -885,7 +885,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, System.Collections.Generic.IDictionary<string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings>, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -923,7 +923,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings>, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -961,7 +961,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ForceCurrentAsymmetricLimit(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, double, double, double, double?, double?, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1011,7 +1011,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.PowerDown(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1044,7 +1044,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureCurrentLimit(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, double, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1080,7 +1080,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureCurrentLimits(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, System.Collections.Generic.IDictionary<string, double>, System.Collections.Generic.IDictionary<string, double>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1116,7 +1116,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureSequence(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, double[], int, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1155,7 +1155,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.GetCurrentLimits(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1185,7 +1185,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.CheckDCVoltageModeAndLevels(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, out System.Collections.Generic.IEnumerable<string>, System.Collections.Generic.IDictionary<string, double>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1224,7 +1224,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureOutputConnected(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1284,7 +1284,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureOutputConnected(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<bool>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1344,7 +1344,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureOutputConnected(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<bool>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1404,7 +1404,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureOutputEnabled(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1438,7 +1438,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureOutputEnabled(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<bool>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1472,7 +1472,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureOutputEnabled(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<bool>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1506,7 +1506,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureSourceDelay(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1542,7 +1542,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureSourceDelay(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1578,7 +1578,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureSourceDelay(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1614,7 +1614,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.GetSourceDelayInSeconds(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1644,7 +1644,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureCurrentLimit(NationalInstruments.ModularInstruments.NIDCPower.DCPowerOutput, double, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1680,7 +1680,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureSequence(NationalInstruments.ModularInstruments.NIDCPower.DCPowerOutput, double[], int, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1719,7 +1719,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureTransientResponse(NationalInstruments.ModularInstruments.NIDCPower.NIDCPower, string, string, NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceTransientResponse)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1758,7 +1758,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source.ConfigureSourceSettings(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower

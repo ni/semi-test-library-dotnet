@@ -20,7 +20,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -52,7 +52,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.AOFunctionGenerationSettings()
   type: Constructor
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -75,7 +75,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.FunctionType
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -101,7 +101,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.Frequency
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -127,7 +127,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.Amplitude
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -153,7 +153,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.Offset
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -179,7 +179,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.StartPhase
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -205,7 +205,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.DutyCycle
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx

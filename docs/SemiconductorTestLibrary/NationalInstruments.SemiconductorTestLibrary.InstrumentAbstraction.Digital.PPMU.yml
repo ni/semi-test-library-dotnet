@@ -40,7 +40,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -72,7 +72,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double, double?, double?, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -115,7 +115,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, System.Collections.Generic.IDictionary<string, double>, double?, double?, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -158,7 +158,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>, double?, double?, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -201,7 +201,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>, double?, double?, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -244,7 +244,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -274,7 +274,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -307,7 +307,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, System.Collections.Generic.IDictionary<string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -340,7 +340,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -373,7 +373,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double, double?, double?, double?, double?, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -422,7 +422,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -452,7 +452,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -485,7 +485,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, System.Collections.Generic.IDictionary<string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -518,7 +518,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ForceCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -551,7 +551,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndReturnPerInstrumentPerChannelResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -584,7 +584,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -614,7 +614,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -644,7 +644,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndPublishVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, out double[][])
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -684,7 +684,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndPublishVoltage(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -720,7 +720,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndPublishCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, out double[][])
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -760,7 +760,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.MeasureAndPublishCurrent(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -796,7 +796,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.TurnOffOutput(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -839,7 +839,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.DisconnectOutput(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -882,7 +882,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.SelectPPMU(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -928,7 +928,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.SelectDigital(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double?)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -971,7 +971,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.ConfigureApertureTime(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -1004,7 +1004,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.Measure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -1037,7 +1037,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU.Force(NationalInstruments.ModularInstruments.NIDigital.NIDigital, string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/PPMU.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital

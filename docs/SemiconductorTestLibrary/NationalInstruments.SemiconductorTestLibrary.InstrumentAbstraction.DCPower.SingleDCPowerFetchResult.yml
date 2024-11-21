@@ -17,7 +17,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult
   type: Struct
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -45,7 +45,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult.SingleDCPowerFetchResult(double, double, bool)
   type: Constructor
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -80,7 +80,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult.VoltageMeasurement
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -105,7 +105,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult.CurrentMeasurement
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -130,7 +130,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult.InCompliance
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower

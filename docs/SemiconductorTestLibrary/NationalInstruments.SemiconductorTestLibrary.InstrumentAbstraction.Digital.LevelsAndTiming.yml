@@ -34,7 +34,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -66,7 +66,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -102,7 +102,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -138,7 +138,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureVoltageLevels(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double, double, double, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -183,7 +183,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTerminationMode(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.ModularInstruments.NIDigital.TerminationMode)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -213,7 +213,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -249,7 +249,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -285,7 +285,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -321,7 +321,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -357,7 +357,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.ModularInstruments.NIDigital.DriveFormat, double, double, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -405,7 +405,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.ModularInstruments.NIDigital.DriveFormat, double, double, double, double, double, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -459,7 +459,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTdrEndpointTermination(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -488,7 +488,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -528,7 +528,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, out Ivi.Driver.PrecisionTimeSpan[][], bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -569,7 +569,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<Ivi.Driver.PrecisionTimeSpan>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -605,7 +605,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, Ivi.Driver.PrecisionTimeSpan[][])
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -641,7 +641,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyLevelsAndTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -677,7 +677,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType, double)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -713,7 +713,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<Ivi.Driver.PrecisionTimeSpan>, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -749,7 +749,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, Ivi.Driver.PrecisionTimeSpan[][], string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -786,7 +786,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -829,7 +829,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, out Ivi.Driver.PrecisionTimeSpan[][], bool)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/4160d19a9be86dc8a5133b5cbd49471323c8158a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
