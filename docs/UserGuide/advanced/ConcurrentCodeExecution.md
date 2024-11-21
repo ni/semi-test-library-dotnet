@@ -15,22 +15,18 @@ The following example demonstrates how to use the `InvokeInParallel` method from
 public static void ConcurrentCodeExample(ISemiconductorModuleContext semiconductorModuleContext, string pinNames)
 {
     var sessionManager = new TSMSessionManager(semiconductorModuleContext);
-    var publishDataID = "Measurement";
-    var filteredPinNamesDmm = semiconductorModuleContext.FilterPinsByInstrumentType(pinNames, InstrumentTypeIdConstants.NIDmm);
-    var filteredPinNamesPpmu = semiconductorModuleContext.FilterPinsByInstrumentType(pinNames, InstrumentTypeIdConstants.NIDigitalPattern);
+    var publishedDataId = "Measurement";
     var filteredPinNamesSmu = semiconductorModuleContext.FilterPinsByInstrumentType(pinNames, InstrumentTypeIdConstants.NIDCPower);
-    var ppmuPins = sessionManager.DCPower(filteredPinNamesSmu);
-    var smuPins = sessionManager.Digital(filteredPinNamesPpmu);
+    var filteredPinNamesPpmu = semiconductorModuleContext.FilterPinsByInstrumentType(pinNames, InstrumentTypeIdConstants.NIDigitalPattern);
+    var filteredPinNamesDmm = semiconductorModuleContext.FilterPinsByInstrumentType(pinNames, InstrumentTypeIdConstants.NIDmm);
+    var smuPins = sessionManager.DCPower(filteredPinNamesSmu);
+    var ppmuPins = sessionManager.Digital(filteredPinNamesPpmu);
     var dmmPins = sessionManager.DMM(filteredPinNamesPpmu);
 
     // Assumes that the instrumentation is already configured.
     Utilities.InvokeInParallel(
-        () => ppmuPins.MeasureAndPublishCurrent(publishDataID),
-        () => smuPins.MeasureAndPublishCurrent(publishDataID),
-        () =>
-        {
-            var measurements = dmmPins.Read(maximumTimeInMilliseconds: 2000);
-            semiconductorModuleContext.PublishResults(measurements, publishDataID);
-        });
+        () => ppmuPins.MeasureAndPublishCurrent(publishedDataId),
+        () => smuPins.MeasureAndPublishCurrent(publishedDataId),
+        () => dmmPins.ReadAndPublish(maximumTimeInMilliseconds: 2000, publishedDataId));
 }
 ```
