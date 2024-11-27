@@ -6,10 +6,12 @@ on:
         types:
             - in_progress
 
-run-name: "PR Test #${{ github.event.workflow_run.pull_requests[0].number }}"
+run-name: "PR Test for pr-intake #${{ github.event.workflow_run.run_number }}"
 
 env:
-    GITHUB_MixedSignalTestLibrary_BRANCH_NAME: '{"GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ github.event.workflow_run.pull_requests[0].head.ref || github.event.workflow_run.head_branch }}"}'
+    GITHUB_MixedSignalTestLibrary_REPO_OWNER: ${{ github.event.workflow_run.head_repository.owner.login }}
+    GITHUB_MixedSignalTestLibrary_REPO_NAME: ${{ github.event.workflow_run.head_repository.name }}
+    GITHUB_MixedSignalTestLibrary_BRANCH_NAME: ${{ github.event.workflow_run.head_branch }}
 
 jobs:
     build:   
@@ -23,5 +25,5 @@ jobs:
             azure-devops-project-url: https://ni.visualstudio.com/DevCentral
             azure-pipeline-name: 'Pre - Mixed Signal Test Library Extensions'
             azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-            azure-pipeline-variables:  ${{ env.GITHUB_MixedSignalTestLibrary_BRANCH_NAME }}
-            azure-pipeline-sourcebranch: "refs/heads/${{ github.event.workflow_run.pull_requests[0].base.ref }}"
+            azure-pipeline-variables: '{"GITHUB_MixedSignalTestLibrary_REPO_OWNER": "${{ env.GITHUB_MixedSignalTestLibrary_REPO_OWNER }}", "GITHUB_MixedSignalTestLibrary_REPO_NAME": "${{ env.GITHUB_MixedSignalTestLibrary_REPO_NAME }}", "GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ env.GITHUB_MixedSignalTestLibrary_BRANCH_NAME }}"}'
+            azure-pipeline-sourcebranch: "refs/heads/main"
