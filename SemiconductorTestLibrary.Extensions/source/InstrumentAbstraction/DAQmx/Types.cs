@@ -53,6 +53,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// This value is used to get/set the value of the NationalInstruments.DAQmx.AOChannel.FunctionGenerationDutyCycle.
         /// </remarks>
         public double? DutyCycle { get; set; }
+
+        /// <summary>
+        /// Set up the configurations for an Analog Output Function Generation task in DAQmx.
+        /// </summary>
+        public AOFunctionGenerationSettings()
+        {
+        }
     }
 
     /// <summary>
@@ -109,5 +116,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// This value is used to get/set the value of the NationalInstruments.DAQmx.Timing.SampleClockSource driver property.
         /// </remarks>
         public int? SamplesPerChannel { get; set; }
+
+        /// <summary>
+        /// Configures the timing settings for a DAQmx task, enabling the user to define one or more properties in a single operation.
+        /// </summary>
+        public DAQmxTimingSampleClockSettings()
+        {
+        }
     }
 }

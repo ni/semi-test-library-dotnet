@@ -150,6 +150,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// The measure trigger type.
         /// </summary>
         public DCPowerMeasureTriggerType MeasureTriggerType { get; set; }
+
+        /// <summary>
+        /// Configures DCPower waveform acquisition settings.
+        /// </summary>
+        public DCPowerWaveformAcquisitionSettings()
+        {
+        }
     }
 
     /// <summary>
