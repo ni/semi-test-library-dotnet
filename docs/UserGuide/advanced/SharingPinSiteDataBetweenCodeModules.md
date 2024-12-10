@@ -7,6 +7,9 @@ The Semiconductor Test Library provides the following extension methods for you 
 - `SetGlobalPinSiteData`
 - `GetGlobalPinSiteData`
 
+> [!NOTE]
+> The `GetGlobalSiteData` and `GetGlobalPinSiteData` methods filter for active sites in SemiconductorModuleContext by default. If you want to retrieve the exact data you store with the `SetGlobalSiteData` and `SetGlobalPinSiteData` methods, make sure to pass `false` to the `filterForActiveSites` input parameter.
+
 ## Sharing SiteData Example
 
 The following example shows how to store per-site measurement data for comparison in a later test step::
