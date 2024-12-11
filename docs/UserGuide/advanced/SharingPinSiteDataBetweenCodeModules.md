@@ -1,11 +1,16 @@
+
 # Sharing SiteData and PinSiteData Between Code Modules
 
-As you develop your test program, it may be necessary to store results measured in one code module for later use in the same test sequence by another code module. To achieve this, you need to store the data within the SemiconductorModuleContext in one code module and retrieve it later in another code module using an ID string. For more information, refer to the [Sharing Data between Code Modules (TSM)](https://www.ni.com/docs/bundle/teststand-semiconductor-module/page/sharing-data-between-code-modules.html) topic in the TSM documentation.
+As you develop your test program, it may be necessary to store data in one code module for later use in the same test program by another code module. To achieve this, you can store the data within the SemiconductorModuleContext in one code module and retrieve it later in another code module using an ID string. For more information, refer to the [Sharing Data between Code Modules (TSM)](https://www.ni.com/docs/bundle/teststand-semiconductor-module/page/sharing-data-between-code-modules.html)  topic in the TSM documentation.
 
-The `SetSiteData` and `GetSiteData` .NET methods, provided by TSM, cannot be passed to SiteData or PinSiteData objects directly. Therefore, you must convert SiteData into a 1D array of per-site values, where each element in the array represents a given site value; and convert PinSiteData into a 1D array of per-pin dictionaries, where each dictionary element in the array represents a given site and each item in the dictionary represents a pin value for the given site.
+However, the `SetSiteData` and `GetSiteData` methods provided by the TSM Code Module API do not support `SiteData` or `PinSiteData` objects directly. Instead, use the following methods from the Semiconductor Test library to share `SiteData` and `PinSiteData` objects between code modules:
+- `SetGlobalSiteData`
+- `GetGlobalSiteData`
+- `SetGlobalPinSiteData`
+- `GetGlobalPinSiteData`
 
 > [!NOTE]
-> The data must be ordered to match the order of sites in the Semiconductor Module context. This order might not be sequential. Use the `SiteNumbers` property in the `ISemiconductorModuleContext` .NET object to determine the order of the sites in the Semiconductor Module context and arrange the data manually.
+> The `GetGlobalSiteData` and `GetGlobalPinSiteData` methods filter for active sites in SemiconductorModuleContext by default. If you want to retrieve the exact data you store with the `SetGlobalSiteData` and `SetGlobalPinSiteData` methods, make sure to pass `false` to the `filterForActiveSites` input parameter.
 
 ## Sharing SiteData Example
 
@@ -24,12 +29,7 @@ public static void FirstCodeModule(
     digitalPins.BurstPattern(patternName);
     SiteData<uint[]> measurement = digitalPins.FetchCaptureWaveform(waveformName, samplesToRead);
 
-    var perSiteDataArray = new uint[semiconductorModuleContext.SiteNumbers.Count][];
-    for (int i = 0; i < perSiteDataArray.Length; i++)
-    {
-        perSiteDataArray[i] = measurement.GetValue(semiconductorModuleContext.SiteNumbers.ElementAt(i));
-    }
-    semiconductorModuleContext.SetSiteData("ComparisonData", perSiteDataArray);
+    semiconductorModuleContext.SetGlobalSiteData("ComparisonData", measurement);
 }
 
 public static void SecondCodeModule(
@@ -39,8 +39,7 @@ public static void SecondCodeModule(
     string waveformName,
     int samplesToRead)
 {
-    var perSiteComparisonDataArray = semiconductorModuleContext.GetSiteData<uint[]>("ComparisonData");
-    var comparisonData = new SiteData<uint[]>(perSiteComparisonDataArray);
+    var comparisonData = semiconductorModuleContext.GetGlobalSiteData<uint[]>("ComparisonData");
 
     var sessionManager = new TSMSessionManager(semiconductorModuleContext);
     var digitalPins = sessionManager.Digital(pinName);
@@ -63,39 +62,12 @@ public static void FirstCodeModule(ISemiconductorModuleContext semiconductorModu
     var dcPowerPin = sessionManager.DCPower(pinName);
     PinSiteData<double> measurement = dcPowerPin.MeasureVoltage();
 
-    var perSiteDataArray = new IDictionary<string, double>[semiconductorModuleContext.SiteNumbers.Count];
-    for (int i = 0; i < perSiteDataArray.Length; i++)
-    {
-        perSiteDataArray[i] = measurement.ExtractSite(semiconductorModuleContext.SiteNumbers.ElementAt(i));
-    }
-    semiconductorModuleContext.SetSiteData("ComparisonData", perSiteDataArray);
+    semiconductorModuleContext.SetGlobalPinSiteData("ComparisonData", measurement);
 }
 
 public static void SecondCodeModule(ISemiconductorModuleContext semiconductorModuleContext, string pinName)
 {
-    var perSitePinDict = semiconductorModuleContext.GetSiteData<IDictionary<string, double>>("ComparisonData");
-    var pinSiteDictionary = new Dictionary<string, IDictionary<int, double>>();
-    for (int i = 0; i < semiconductorModuleContext.SiteNumbers.Count; i++)
-    {
-        var siteNumber = semiconductorModuleContext.SiteNumbers.ElementAt(i);
-        foreach (var pin in perSitePinDict[i].Keys)
-        {
-            var singlePinSiteValue = perSitePinDict[i][pin];
-            if (!pinSiteDictionary.TryGetValue(pin, out IDictionary<int, double> perSitePinValues))
-            {
-                perSitePinValues = new Dictionary<int, double>() { [siteNumber] = singlePinSiteValue };
-                pinSiteDictionary.Add(pin, perSitePinValues);
-                continue;
-            }
-            if (!perSitePinValues.ContainsKey(siteNumber))
-            {
-                perSitePinValues.Add(siteNumber, singlePinSiteValue);
-                continue;
-            }
-            perSitePinValues[siteNumber] = singlePinSiteValue;
-        }
-    }
-    var comparisonData = new PinSiteData<double>(pinSiteDictionary);
+    var comparisonData = semiconductorModuleContext.GetGlobalPinSiteData<double>("ComparisonData");
 
     var sessionManager = new TSMSessionManager(semiconductorModuleContext);
     var dcPowerPin = sessionManager.DCPower(pinName);
