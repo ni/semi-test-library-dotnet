@@ -1,7 +1,9 @@
+
 # Sharing SiteData and PinSiteData Between Code Modules
 
-As you develop your test program, it may be necessary to store results measured in one code module for later use in the same test sequence by another code module. 
-The Semiconductor Test Library provides the following extension methods for you to achieve this.
+As you develop your test program, it may be necessary to store data in one code module for later use in the same test program by another code module. To achieve this, you can store the data within the SemiconductorModuleContext in one code module and retrieve it later in another code module using an ID string. For more information, refer to the [Sharing Data between Code Modules (TSM)](https://www.ni.com/docs/bundle/teststand-semiconductor-module/page/sharing-data-between-code-modules.html)  topic in the TSM documentation.
+
+However, the `SetSiteData` and `GetSiteData` methods provided by the TSM Code Module API do not support `SiteData` or `PinSiteData` objects directly. Instead, use the following methods from the Semiconductor Test library to share `SiteData` and `PinSiteData` objects between code modules:
 - `SetGlobalSiteData`
 - `GetGlobalSiteData`
 - `SetGlobalPinSiteData`
@@ -75,7 +77,3 @@ public static void SecondCodeModule(ISemiconductorModuleContext semiconductorMod
     semiconductorModuleContext.PublishResults(comparisonResults, "ComparisonResults");
 }
 ```
-
-**Related Concepts:**
-
-- [NI TSM: Sharing Data between Code Modules](https://www.ni.com/docs/bundle/teststand-semiconductor-module/page/sharing-data-between-code-modules.html)
