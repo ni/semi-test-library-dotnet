@@ -6,7 +6,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     /// The class is used to configure the settings for an Analog Output Function Generation DAQmx task.
     /// </summary>
     /// <remarks>
-    /// Using this class is adventegous as it allows the user to set one or more properties in a single call.
+    /// Using this class is advantageous as it allows the user to set one or more properties in a single call.
     /// </remarks>
     public class AOFunctionGenerationSettings
     {
@@ -55,7 +55,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         public double? DutyCycle { get; set; }
 
         /// <summary>
-        /// Set up the configurations for an Analog Output Function Generation task in DAQmx.
+        /// Creates an object to define and set Analog Output Function Generation specific settings.
+        /// This object is used as an parameter for configuring an Analog Output Function Generation DAQmx task <see cref="AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(DAQmxTasksBundle, AOFunctionGenerationSettings)"/>
         /// </summary>
         public AOFunctionGenerationSettings()
         {
