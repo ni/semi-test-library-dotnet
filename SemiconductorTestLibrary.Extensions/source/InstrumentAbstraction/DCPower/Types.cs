@@ -153,7 +153,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <summary>
         /// Creates an object to define and set DCPower waveform acquisition specific settings.
-        /// This object is used as a parameter for configuring a DCPower waveform acquisition settings for Pin Site Data <see cref="Measure.ConfigureAndStartWaveformAcquisition(DCPowerSessionsBundle, double, double)"/>
+        /// This object is used as a parameter for configuring waveform acquisition settings for a DCPower channel. <see cref="Measure.ConfigureAndStartWaveformAcquisition(DCPowerSessionsBundle, double, double)"/>
         /// </summary>
         public DCPowerWaveformAcquisitionSettings()
         {

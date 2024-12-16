@@ -120,7 +120,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
 
         /// <summary>
         /// Creates an object to define and set DAQmx Timing Sample Clock specific settings.
-        /// This object is used as a parameter for configuring a timing sample clock for DAQmx task <see cref="Configure.ConfigureTiming(DAQmxTasksBundle, DAQmxTimingSampleClockSettings)"/>
+        /// This object is used as a parameter for configuring a sample clock timing type for a DAQmx task. <see cref="Configure.ConfigureTiming(DAQmxTasksBundle, DAQmxTimingSampleClockSettings)"/>
         /// </summary>
         public DAQmxTimingSampleClockSettings()
         {
