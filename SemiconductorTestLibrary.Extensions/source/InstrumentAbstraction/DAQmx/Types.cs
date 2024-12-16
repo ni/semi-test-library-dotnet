@@ -56,7 +56,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
 
         /// <summary>
         /// Creates an object to define and set Analog Output Function Generation specific settings.
-        /// This object is used as an parameter for configuring an Analog Output Function Generation DAQmx task <see cref="AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(DAQmxTasksBundle, AOFunctionGenerationSettings)"/>
+        /// This object is used as a parameter for configuring an Analog Output Function Generation DAQmx task <see cref="AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(DAQmxTasksBundle, AOFunctionGenerationSettings)"/>
         /// </summary>
         public AOFunctionGenerationSettings()
         {
@@ -119,7 +119,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         public int? SamplesPerChannel { get; set; }
 
         /// <summary>
-        /// Configures the timing settings for a DAQmx task, enabling the user to define one or more properties in a single operation.
+        /// Creates an object to define and set DAQmx Timing Sample Clock specific settings.
+        /// This object is used as a parameter for configuring a timing sample clock for DAQmx task <see cref="Configure.ConfigureTiming(DAQmxTasksBundle, DAQmxTimingSampleClockSettings)"/>
         /// </summary>
         public DAQmxTimingSampleClockSettings()
         {
