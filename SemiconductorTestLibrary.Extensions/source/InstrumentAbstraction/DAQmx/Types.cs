@@ -6,7 +6,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     /// The class is used to configure the settings for an Analog Output Function Generation DAQmx task.
     /// </summary>
     /// <remarks>
-    /// Using this class is adventegous as it allows the user to set one or more properties in a single call.
+    /// Using this class is advantageous as it allows the user to set one or more properties in a single call.
     /// </remarks>
     public class AOFunctionGenerationSettings
     {
@@ -53,6 +53,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// This value is used to get/set the value of the NationalInstruments.DAQmx.AOChannel.FunctionGenerationDutyCycle.
         /// </remarks>
         public double? DutyCycle { get; set; }
+
+        /// <summary>
+        /// Creates an object to define and set Analog Output Function Generation specific settings.
+        /// This object is used as a parameter for configuring an Analog Output Function Generation DAQmx task <see cref="AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(DAQmxTasksBundle, AOFunctionGenerationSettings)"/>
+        /// </summary>
+        public AOFunctionGenerationSettings()
+        {
+        }
     }
 
     /// <summary>
@@ -64,10 +72,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     public class DAQmxTimingSampleClockSettings
     {
         /// <summary>
-        /// Specifies the type of sample timing to use for the task.
+        /// Returns the NationalInstruments.DAQmx.SampleTimingType.SampleClock sample timing type.
         /// </summary>
         /// <remarks>
-        /// This value is used to get/set the value of the NationalInstruments.DAQmx.Timing.SampleTimingType driver property.
+        /// This value is used to set the value of the NationalInstruments.DAQmx.Timing.SampleTimingType driver property.
         /// </remarks>
         public SampleTimingType SampleTimingType { get { return SampleTimingType.SampleClock; } }
         /// <summary>
@@ -109,5 +117,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// This value is used to get/set the value of the NationalInstruments.DAQmx.Timing.SampleClockSource driver property.
         /// </remarks>
         public int? SamplesPerChannel { get; set; }
+
+        /// <summary>
+        /// Creates an object to define and set DAQmx Timing Sample Clock specific settings.
+        /// This object is used as a parameter for configuring a sample clock timing type for a DAQmx task. <see cref="Configure.ConfigureTiming(DAQmxTasksBundle, DAQmxTimingSampleClockSettings)"/>
+        /// </summary>
+        public DAQmxTimingSampleClockSettings()
+        {
+        }
     }
 }
