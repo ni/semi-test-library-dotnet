@@ -72,10 +72,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
     public class DAQmxTimingSampleClockSettings
     {
         /// <summary>
-        /// Specifies the type of sample timing to use for the task.
+        /// Returns the NationalInstruments.DAQmx.SampleTimingType.SampleClock sample timing type.
         /// </summary>
         /// <remarks>
-        /// This value is used to get/set the value of the NationalInstruments.DAQmx.Timing.SampleTimingType driver property.
+        /// This value is used to set the value of the NationalInstruments.DAQmx.Timing.SampleTimingType driver property.
         /// </remarks>
         public SampleTimingType SampleTimingType { get { return SampleTimingType.SampleClock; } }
         /// <summary>
