@@ -1,4 +1,3 @@
-
 # Sharing SiteData and PinSiteData Between Code Modules
 
 As you develop your test program, it may be necessary to store data in one code module for later use in the same test program by another code module. To achieve this, you can store the data within the SemiconductorModuleContext in one code module and retrieve it later in another code module using an ID string. For more information, refer to the [Sharing Data between Code Modules (TSM)](https://www.ni.com/docs/bundle/teststand-semiconductor-module/page/sharing-data-between-code-modules.html)  topic in the TSM documentation.
@@ -8,6 +7,9 @@ However, the `SetSiteData` and `GetSiteData` methods provided by the TSM Code Mo
 - `GetGlobalSiteData`
 - `SetGlobalPinSiteData`
 - `GetGlobalPinSiteData`
+
+> [!NOTE]
+>When data for a specific site already exists in the `SiteData` object that is associated with a given ID string, or data for a specific pin-site pair already exists in the `PinSiteData` object that is associated with a given ID string, the `SetGlobalSiteData` and `SetGlobalPinSiteData` methods override the existing data by default. If you don't want existing data to be overwritten, make sure to pass `false` to the `overrideIfExisting` input parameter. An `NISemiconductorTestException` will be thrown when data already exists and `overrideIfExisting` is set to `false`.
 
 > [!NOTE]
 > The `GetGlobalSiteData` and `GetGlobalPinSiteData` methods filter for active sites in SemiconductorModuleContext by default. If you want to retrieve the exact data you store with the `SetGlobalSiteData` and `SetGlobalPinSiteData` methods, make sure to pass `false` to the `filterForActiveSites` input parameter.
