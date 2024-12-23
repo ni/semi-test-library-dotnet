@@ -19,6 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
+                taskInfo.Task.Stream.ChannelsToRead = taskInfo.ChannelList;
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
                 SampleValuesCacher<bool>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, staticState, data => writer.WriteSingleSampleSingleLine(autoStart, data));
             });
@@ -34,6 +35,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
+                taskInfo.Task.Stream.ChannelsToRead = taskInfo.ChannelList;
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
                 SampleValuesCacher<bool>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, siteData, data => writer.WriteSingleSampleSingleLine(autoStart, data));
             });
@@ -49,6 +51,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
+                taskInfo.Task.Stream.ChannelsToRead = taskInfo.ChannelList;
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
                 SampleValuesCacher<bool>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, pinSiteData, data => writer.WriteSingleSampleSingleLine(autoStart, data));
             });
@@ -64,6 +67,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
+                taskInfo.Task.Stream.ChannelsToRead = taskInfo.ChannelList;
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
                 SampleValuesCacher<DigitalWaveform>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, waveform, data => writer.WriteWaveform(autoStart, data));
             });
@@ -79,6 +83,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
+                taskInfo.Task.Stream.ChannelsToRead = taskInfo.ChannelList;
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
                 SampleValuesCacher<DigitalWaveform>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, siteData, data => writer.WriteWaveform(autoStart, data));
             });
@@ -94,6 +99,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             tasksBundle.Do(taskInfo =>
             {
+                taskInfo.Task.Stream.ChannelsToRead = taskInfo.ChannelList;
                 var writer = new DigitalMultiChannelWriter(taskInfo.Task.Stream);
                 SampleValuesCacher<DigitalWaveform>.Instance.TryWriteAndRecoverCacheOnFailure(taskInfo, pinSiteData, data => writer.WriteWaveform(autoStart, data));
             });
