@@ -3963,6 +3963,11 @@
               Looks up a localized string similar to The number of bits to shift must be positive..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_TypeMustBeArray">
+            <summary>
+              Looks up a localized string similar to The {0} must be an array..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.PinSiteData_DataAlreadyExists">
             <summary>
               Looks up a localized string similar to Data for the {0} pin on site {1} already exists..
