@@ -20,14 +20,14 @@ The following example shows how to store per-site measurement data for compariso
 
 ```C#
 public static void FirstCodeModule(
-    ISemiconductorModuleContext semiconductorModuleContext,
-    string pinName,
-    string patternName,
-    string waveformName,
-    int samplesToRead)
+	ISemiconductorModuleContext semiconductorModuleContext,
+	string pinName,
+	string patternName,
+	string waveformName,
+	int samplesToRead)
 {
-    var sessionManager = new TSMSessionManager(semiconductorModuleContext);
-    var digitalPins = sessionManager.Digital(pinName);
+    TSMSessionManager sessionManager = new TSMSessionManager(semiconductorModuleContext);
+    DigitalSessionsBundle digitalPins = sessionManager.Digital(pinName);
     digitalPins.BurstPattern(patternName);
     SiteData<uint[]> measurement = digitalPins.FetchCaptureWaveform(waveformName, samplesToRead);
 
@@ -41,15 +41,16 @@ public static void SecondCodeModule(
     string waveformName,
     int samplesToRead)
 {
-    var comparisonData = semiconductorModuleContext.GetGlobalSiteData<uint[]>("ComparisonData");
+    SiteData<uint[]> comparisonData = semiconductorModuleContext.GetGlobalSiteData<uint[]>("ComparisonData");
 
-    var sessionManager = new TSMSessionManager(semiconductorModuleContext);
-    var digitalPins = sessionManager.Digital(pinName);
+    TSMSessionManager sessionManager = new TSMSessionManager(semiconductorModuleContext);
+    DigitalSessionsBundle digitalPins = sessionManager.Digital(pinName);
     digitalPins.BurstPattern(patternName);
-    SiteData<uint[]> measurement = digitalPins.FetchCaptureWaveform(waveformName, 1);
+    SiteData<uint[]> measurement = digitalPins.FetchCaptureWaveform(waveformName, samplesToRead);
 
-    var comparisonResults = measurement.Compare(ComparisonType.EqualTo, comparisonData);
-    semiconductorModuleContext.PublishResults(comparisonResults, "ComparisonResults");
+    SiteData<bool[]> comparisonResults = measurement.Compare<uint[], bool[]>(ComparisonType.EqualTo, comparisonData);
+    SiteData<bool> resultsToPublish = comparisonResults.Select(result => result.All(value => value == true));
+    semiconductorModuleContext.PublishResults(resultsToPublish, "ComparisonResults");
 }
 ```
 
@@ -60,8 +61,8 @@ The following example shows how to store per-pin per-site measurement data for c
 ``` C#
 public static void FirstCodeModule(ISemiconductorModuleContext semiconductorModuleContext, string pinName)
 {
-    var sessionManager = new TSMSessionManager(semiconductorModuleContext);
-    var dcPowerPin = sessionManager.DCPower(pinName);
+    TSMSessionManager sessionManager = new TSMSessionManager(semiconductorModuleContext);
+    DCPowerSessionsBundle dcPowerPin = sessionManager.DCPower(pinName);
     PinSiteData<double> measurement = dcPowerPin.MeasureVoltage();
 
     semiconductorModuleContext.SetGlobalPinSiteData("ComparisonData", measurement);
@@ -69,13 +70,13 @@ public static void FirstCodeModule(ISemiconductorModuleContext semiconductorModu
 
 public static void SecondCodeModule(ISemiconductorModuleContext semiconductorModuleContext, string pinName)
 {
-    var comparisonData = semiconductorModuleContext.GetGlobalPinSiteData<double>("ComparisonData");
+    PinSiteData<double> comparisonData = semiconductorModuleContext.GetGlobalPinSiteData<double>("ComparisonData");
 
-    var sessionManager = new TSMSessionManager(semiconductorModuleContext);
-    var dcPowerPin = sessionManager.DCPower(pinName);
+    TSMSessionManager sessionManager = new TSMSessionManager(semiconductorModuleContext);
+    DCPowerSessionsBundle dcPowerPin = sessionManager.DCPower(pinName);
     PinSiteData<double> measurement = dcPowerPin.MeasureVoltage();
 
-    var comparisonResults = measurement.Subtract(comparisonData);
+    PinSiteData<double> comparisonResults = measurement.Subtract(comparisonData);
     semiconductorModuleContext.PublishResults(comparisonResults, "ComparisonResults");
 }
 ```

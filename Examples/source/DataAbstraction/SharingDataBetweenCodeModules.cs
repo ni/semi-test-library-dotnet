@@ -21,7 +21,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
 
         internal static void GetSiteDataFromAnotherCodeModule(ISemiconductorModuleContext tsmContext)
         {
-            var measurments = tsmContext.GetGlobalSiteData<double>("MeasurementsFromCodeModuleA");
+            SiteData<double> measurments = tsmContext.GetGlobalSiteData<double>("MeasurementsFromCodeModuleA");
         }
 
         internal static void StorePinSiteDataForLaterRetrival(ISemiconductorModuleContext tsmContext)
@@ -32,7 +32,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
 
         internal static void GetPinSiteDataFromAnotherCodeModule(ISemiconductorModuleContext tsmContext)
         {
-            var measurmentsAB = tsmContext.GetGlobalPinSiteData<double>("MeasurementsAB");
+            PinSiteData<double> measurmentsAB = tsmContext.GetGlobalPinSiteData<double>("MeasurementsAB");
         }
     }
 }
