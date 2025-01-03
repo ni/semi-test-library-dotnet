@@ -49,7 +49,8 @@ public static void SecondCodeModule(
     SiteData<uint[]> measurement = digitalPins.FetchCaptureWaveform(waveformName, samplesToRead);
 
     SiteData<bool[]> comparisonResults = measurement.Compare<uint[], bool[]>(ComparisonType.EqualTo, comparisonData);
-    SiteData<bool> resultsToPublish = comparisonResults.Select(result => result.All(value => value == true));
+    // Publish the Aggregate Comparison Result: whether or not all samples in the comparison result are found to be True.
+    SiteData<bool> aggregateComparisonResult = comparisonResults.Select(result => result.All(value => value));
     semiconductorModuleContext.PublishResults(resultsToPublish, "ComparisonResults");
 }
 ```
