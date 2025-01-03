@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
@@ -54,6 +55,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2, results.ExtractSite(1).Count);
             Assert.Equal(5, results.ExtractSite(1)["VCC1"].Length);
             Assert.Equal(5, results.ExtractSite(1)["VCC2"].Length);
+        }
+
+        [Theory]
+        [InlineData("AIPin")]
+        public void ReadTwoAnalogSamples_ChannelForMultipleSitesPerPinInstrument_ResultsContainExpectedData(string pinName)
+        {
+            var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
+            var tasksBundle = sessionManager.DAQmx(pinName);
+            var filteredResult = tasksBundle.FilterBySite(new int[] { 1, 3 }).ReadAnalogMultiSample(100);
+            var site1Data = filteredResult.GetValue(filteredResult.SiteNumbers[0], pinName).FirstOrDefault();
+            var site2Data = filteredResult.GetValue(filteredResult.SiteNumbers[1], pinName).FirstOrDefault();
+
+            Assert.True(0.10 > site1Data && 0.01 < site1Data);
+            Assert.True(0.30 > site2Data && 0.20 < site2Data);
+            Assert.Equal(2, filteredResult.SiteNumbers.Length);
         }
 
         [Fact]
@@ -140,6 +156,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(5, results.ExtractSite(0)["AIPin"].SampleCount);
             Assert.Equal(1, results.ExtractSite(1).Count);
             Assert.Equal(5, results.ExtractSite(1)["AIPin"].SampleCount);
+        }
+
+        [Theory]
+        [InlineData("AIPin")]
+        public void ReadTwoAnalogWaveformSamples_ChannelsForMultipleSitesPerPinInstrument_ResultsContainExpectedData(string pinName)
+        {
+            var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
+            var tasksBundle = sessionManager.DAQmx(pinName);
+            var filteredResult = tasksBundle.FilterBySite(new int[] { 1, 3 }).ReadAnalogWaveform(100);
+            var site1Data = filteredResult.GetValue(filteredResult.SiteNumbers[0], pinName).Samples.FirstOrDefault().Value;
+            var site2Data = filteredResult.GetValue(filteredResult.SiteNumbers[1], pinName).Samples.FirstOrDefault().Value;
+
+            Assert.True(0.10 > site1Data && 0.01 < site1Data);
+            Assert.True(0.30 > site2Data && 0.20 < site2Data);
+            Assert.Equal(2, filteredResult.SiteNumbers.Length);
         }
     }
 }
