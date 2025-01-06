@@ -1494,6 +1494,14 @@
             <returns>Single site data.</returns>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for the given site number does not exist.</exception>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.TryGetValue(System.Int32,`0@)">
+            <summary>
+            Tries to get the data for a given site number.
+            </summary>
+            <param name="siteNumber">The site number.</param>
+            <param name="value">The data for the given site number.</param>
+            <returns>Returns true if the data for the given site number exists in the SiteData object.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ExtractSites(System.Int32[])">
             <summary>
             Gets a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with the data for the given sites.
