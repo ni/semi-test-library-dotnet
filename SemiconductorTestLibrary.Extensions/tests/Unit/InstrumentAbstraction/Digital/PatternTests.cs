@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Ivi.Driver;
 using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -223,6 +224,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.False(sessionInfo.Session.PatternControl.IsKeepAliveActive);
             });
+        }
+
+        [Fact]
+        public void DigitalSessionsInitializedForAllDUTPins_BurstPatternSucceeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital();
+            sessionsBundle.BurstPattern("TX_RF");
+            sessionsBundle.WaitUntilDone();
+            var results = sessionsBundle.GetSitePassFail();
+            var failCountResults = sessionsBundle.GetFailCount();
+
+            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(2, failCountResults.SiteNumbers.Length);
+            Assert.Equal(5, failCountResults.ExtractSite(0).Count);
         }
     }
 }

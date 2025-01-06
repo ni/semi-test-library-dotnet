@@ -721,5 +721,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
             });
         }
+
+        [Fact]
+        public void DigitalSessionsInitializedForAllDUTPins_ForceSameVoltage_ValuesCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital();
+            var settings = new PPMUSettings() { VoltageLevel = 3.5, CurrentLimitRange = 0.01 };
+            sessionsBundle.ForceVoltage(settings);
+
+            Assert.Equal(2, sessionsBundle.InstrumentSessions.Count());
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList.Count);
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(1).AssociatedSitePinList.Count);
+            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(3.5, sessionInfo.PinSet.Ppmu.DCVoltage.VoltageLevel, 1));
+        }
     }
 }
