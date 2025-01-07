@@ -735,7 +735,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void DigitalSessionsInitializedForAllDUTPins_ConfigureTimeSetPeriod_ValueCorrectlySet()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
 
             var sessionsBundle = sessionManager.Digital();
             sessionsBundle.ConfigureTimeSetPeriod("TS_SW", 5e-6);

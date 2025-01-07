@@ -725,7 +725,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void DigitalSessionsInitializedForAllDUTPins_ForceSameVoltage_ValuesCorrectlySet()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
 
             var sessionsBundle = sessionManager.Digital();
             var settings = new PPMUSettings() { VoltageLevel = 3.5, CurrentLimitRange = 0.01 };
