@@ -748,15 +748,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DigitalSessionsInitializedForAllDUTPins_A_ValueCorrectlySet()
+        public void DigitalSessionsInitializedForAllDUTPins_ApplyLevelsAndTiming_ValueCorrectlySet()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
 
             var sessionsBundle = sessionManager.Digital();
             sessionsBundle.ApplyLevelsAndTiming("Levels_MixedSignal", "Timing_MixedSignal");
 
             Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList.Count);
-            // Assert.Equal(1.8, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.DigitalLevels.Vih);
+            Assert.Equal(1.8, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.DigitalLevels.Vih, 4);
         }
 
         /// <summary>
