@@ -1494,6 +1494,14 @@
             <returns>Single site data.</returns>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for the given site number does not exist.</exception>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.TryGetValue(System.Int32,`0@)">
+            <summary>
+            Tries to get the data for a given site number.
+            </summary>
+            <param name="siteNumber">The site number.</param>
+            <param name="value">The data for the given site number.</param>
+            <returns>Returns true if the data for the given site number exists in the SiteData object.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ExtractSites(System.Int32[])">
             <summary>
             Gets a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with the data for the given sites.
@@ -3961,6 +3969,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_ShiftCountMustBePositive">
             <summary>
               Looks up a localized string similar to The number of bits to shift must be positive..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_TypeMustBeArray">
+            <summary>
+              Looks up a localized string similar to The {0} must be an array..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.PinSiteData_DataAlreadyExists">
