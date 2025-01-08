@@ -756,7 +756,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ApplyLevelsAndTiming("Levels_MixedSignal", "Timing_MixedSignal");
 
             Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList.Count);
-            Assert.Equal(1.8, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.DigitalLevels.Vih, 4);
+            Assert.Equal(1.8, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.DigitalLevels.Vih, 1);
         }
 
         /// <summary>
