@@ -18,15 +18,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="resetDevice">Whether to reset device during initialization.</param>
         /// <param name="levelsSheetToApply">The name of the levels sheet to apply.</param>
         /// <param name="timingSheetToApply">The name of the timing sheet to apply.</param>
+        /// <param name="applySourceWaveformData">Whether to apply the data in waveform files to source waveforms.</param>
         public static void SetupNIDigitalPatternInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,
             string levelsSheetToApply = "",
-            string timingSheetToApply = "")
+            string timingSheetToApply = "",
+            bool applySourceWaveformData = false)
         {
             try
             {
-                InstrumentAbstraction.Digital.InitializeAndClose.Initialize(tsmContext, levelsSheetToApply, timingSheetToApply, resetDevice);
+                InstrumentAbstraction.Digital.InitializeAndClose.Initialize(
+                    tsmContext, levelsSheetToApply, timingSheetToApply, resetDevice, applySourceWaveformData);
             }
             catch (Exception e)
             {
