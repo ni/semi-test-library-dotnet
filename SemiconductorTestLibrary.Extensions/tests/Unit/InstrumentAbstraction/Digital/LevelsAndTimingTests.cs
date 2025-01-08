@@ -733,7 +733,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DigitalSessionsInitializedForAllDUTPins_ConfigureTimeSetPeriod_ValueCorrectlySet()
+        public void SessionsInitialized_ConfigureTimeSetPeriodWithoutSpecifyingPins_ValueCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
 
@@ -748,7 +748,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DigitalSessionsInitializedForAllDUTPins_ApplyLevelsAndTiming_ValueCorrectlySet()
+        public void SessionsInitialized_ApplyLevelsAndTimingWithoutSpecifyingPins_ValueCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
 

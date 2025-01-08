@@ -62,7 +62,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DigitalSessionsInitializedForAllDUTPins_WriteAndReadSequencerFlag_ValuesCorrectlySetAndReadBack()
+        public void SessionsInitialized_WriteAndReadSequencerFlagWithoutSpecifyingPins_ValuesCorrectlySetAndReadBack()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
             var sessionManager = new TSMSessionManager(tsmContext);

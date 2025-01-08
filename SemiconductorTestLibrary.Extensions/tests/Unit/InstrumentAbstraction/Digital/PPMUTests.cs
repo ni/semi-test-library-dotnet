@@ -723,7 +723,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DigitalSessionsInitializedForAllDUTPins_ForceSameVoltage_ValuesCorrectlySet()
+        public void SessionsInitialized_ForceSameVoltagWithoutSpecifyingPinse_ValuesCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
 
