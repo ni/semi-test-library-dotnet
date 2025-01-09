@@ -67,10 +67,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
             var sessionManager = new TSMSessionManager(tsmContext);
             Initialize(tsmContext);
-            var sessionsBundle = sessionManager.Digital();
             // Not fully supported in OfflineMode.
             var expectedValues = tsmContext.IsSemiconductorModuleInOfflineMode ? new bool[] { false, false, false, false } : new bool[] { true, false, true, true };
 
+            var sessionsBundle = sessionManager.Digital();
             sessionsBundle.WriteSequencerFlag($"seqflag{0}", true);
             sessionsBundle.WriteSequencerFlag($"seqflag{1}", false);
             sessionsBundle.WriteSequencerFlag($"seqflag{2}", true);
