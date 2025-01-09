@@ -2346,17 +2346,24 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.FilterByPin(System.String)">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> and returns a new one with the requested pin.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> and returns a new one with the requested pin.
             </summary>
             <param name="requestedPin">The requested pin.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> object with the requested pin.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.FilterByPin(System.String[])">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> and returns a new one with requested pins.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> and returns a new one with requested pins.
             </summary>
             <param name="requestedPins">The requested pins.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> object with requested pins.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.FilterByTaskType(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)">
+            <summary>
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> and returns a new one with requested task type.
+            </summary>
+            <param name="requestedTaskType">The requested task type.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> object with requested task type.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose">
             <summary>
@@ -3777,6 +3784,34 @@
             <param name="filterPins">Whether to automatically filter out non-NIDAQmx pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>. Returns null if all pins are non-NIDAQmx pins.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pin of the expected task type.
+            </summary>
+            <param name="pin">The given pin.</param>
+            <param name="expectedTaskType">The expected task type.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when there is no task that is of the expected type.</exception>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pins of the expected task type.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <param name="expectedTaskType">The expected task type.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when there is no task that is of the expected type.</exception>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pins of the expected task type.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <param name="filterPins">Whether to automatically filter out non-NIDAQmx pins.</param>
+            <param name="expectedTaskType">The expected task type.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>. Returns null if all pins are non-NIDAQmx pins.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when there is no task that is of the expected type.</exception>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String)">
             <summary>
             Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle"/> associated with the specified pin.
@@ -3895,6 +3930,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DAQmx_InvalidTaskType">
             <summary>
               Looks up a localized string similar to The task type is invalid. The task may be improperly initialized..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DAQmx_NoTypeMatchingTasks">
+            <summary>
+              Looks up a localized string similar to No DAQmx task matches the expected type {0} for the pins specified..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DAQmx_ReferenceTriggerNotSupported">
