@@ -227,7 +227,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SessionsInitialized_BurstPatternSucceedsWithoutSpecifyingPins_Succeeds()
+        public void SessionsInitialized_BurstPatternWithoutSpecifyingPins_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
 
