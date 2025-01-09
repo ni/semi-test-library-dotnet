@@ -44,7 +44,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             aoPins.StartAOFunctionGeneration();
 
             // Waits 2 seconds, then stops generation.
-            Utilities.PreciseWait(2);
+            Common.Utilities.PreciseWait(2);
             aoPins.Stop();
         }
 
@@ -66,7 +66,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             aoPins.WriteAnalogSingleSample(voltageLevel, autoStart: true);
 
             // Waits 2 seconds, then stops generation.
-            Utilities.PreciseWait(timeInSeconds: 2);
+            Common.Utilities.PreciseWait(timeInSeconds: 2);
 
             // Switches from AO to AOFGen on same instrument channels.
             // The AO tasks must first be stopped, then the hardware must be unreserved.
@@ -86,7 +86,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstra
             aoFGenPins.StartAOFunctionGeneration();
 
             // Waits 2 seconds, then stops generation.
-            Utilities.PreciseWait(timeInSeconds: 2);
+            Common.Utilities.PreciseWait(timeInSeconds: 2);
 
             // To switch back to AO to AOFGen on same instrument channels.
             // the AO tasks must again be stopped, and the hardware must be unreserved.
