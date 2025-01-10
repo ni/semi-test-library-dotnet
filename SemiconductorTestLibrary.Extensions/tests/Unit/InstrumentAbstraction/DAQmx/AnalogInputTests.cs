@@ -59,7 +59,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [InlineData("AIPin")]
-        public void ReadTwoAnalogSamples_ChannelForMultipleSitesPerPinInstrument_ResultsContainExpectedData(string pinName)
+        public void ReadAnalogSamplesFromTwoFilteredChannels_ResultsContainExpectedData(string pinName)
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
             var tasksBundle = sessionManager.DAQmx(pinName);
@@ -160,7 +160,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [InlineData("AIPin")]
-        public void ReadTwoAnalogWaveformSamples_ChannelsForMultipleSitesPerPinInstrument_ResultsContainExpectedData(string pinName)
+        public void ReadAnalogWaveformSamplesFromTwoFilteredChannels_ResultsContainExpectedData(string pinName)
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
             var tasksBundle = sessionManager.DAQmx(pinName);
