@@ -205,6 +205,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             var pinSiteData = new PinSiteData<double>(siteNumbers, perPinData);
         }
 
+        internal static void ConstructWithPinDataDictionaryAndSiteNumbersArrayWithSystemPin()
+        {
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 2, 4, 3, 1 };
+            // Dictionaries containing pin-unique data.
+            // Two separate dictionaries are used to delineate between DUT pins from System pin data.
+            var perDutPinData = new Dictionary<string, double> { ["VDET"] = 22, ["VCC1"] = 44, ["VCC2"] = 33 };
+            var perSystemPinSiteData = new Dictionary<string, double> { ["SystemSupply"] = -15 };
+            // First, construct a PinSiteData object with the DUT pin specific data dictionary and the siteNumbers array.
+            // Then, combine it with a new PinSiteData object constructed for the system pin specific data dictionary,
+            // where the siteNumbers input is an array containing a single element value of -1.
+            // Note that data associated with system pins is considered site-agnostic,
+            // and site-agnostic data can represented with -1 as the site value.
+            var pinSiteData = new PinSiteData<double>(siteNumbers, perDutPinData)
+                .Combine(new PinSiteData<double>(new[] { -1 }, perSystemPinSiteData));
+        }
+
         internal static void ConstructWithArraysForCommonDataValue()
         {
             // Site numbers to associate with the data.
