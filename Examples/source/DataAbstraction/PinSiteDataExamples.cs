@@ -160,24 +160,47 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             var pinSiteData = new PinSiteData<double>(pinNames, perPinSiteData);
         }
 
+        internal static void ConstructWithArraysWithSystemPin()
+        {
+            // Pin names to associate with the data.
+            var pinNames = new string[] { "VCC1", "VCC2", "SystemSupply" };
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 0, 1 };
+            // Per-pin SiteData objects.
+            // Note that data associated with system pins is considered site-agnostic,
+            // and site-agnostic data can represented with -1 as the site value.
+            var perPinSiteData = new[]
+            {
+                new SiteData<double>(siteNumbers, 1.5),
+                new SiteData<double>(siteNumbers, 2.5),
+                new SiteData<double>(new[] { -1 }, -22.5)
+            };
+            // Constructs a PinSiteData object with pin names and associated SiteData object array,
+            // inclusive of system pin data.
+            var pinSiteData = new PinSiteData<double>(pinNames, perPinSiteData);
+        }
+
         internal static void ConstructWithDictionaryWithSystemPin()
         {
-            // Dictionary containing pin- and site-unique data.
+            // Dictionary containing pin- and site-unique data, including system pin data.
+            // Note that data associated with system pins is considered site-agnostic,
+            // and site-agnostic data can represented with -1 as the site value.
             var pinAndSiteUnqiueDataDictionary = new Dictionary<string, IDictionary<int, double>>
             {
-                ["VCC1"] = new Dictionary<int, double> { [0] = 1.5, [1] = 11.5, [-1] = -11.5 },
-                ["VCC2"] = new Dictionary<int, double> { [0] = 2.5, [1] = 22.5, [-1] = -22.5 }
+                ["VCC1"] = new Dictionary<int, double> { [0] = 1.5, [1] = 11.5 },
+                ["SystemSupply"] = new Dictionary<int, double> { [-1] = -22.5 }
             };
-            // Constructs a PinSiteData object with pin and site unique data dictionary.
+            // Constructs a PinSiteData object with pin and site unique data dictionary,
+            // inclusive of system pin data.
             var pinSiteData = new PinSiteData<double>(pinAndSiteUnqiueDataDictionary);
         }
 
         internal static void ConstructWithPinDataDictionaryAndSiteNumbersArray()
         {
             // Site numbers to associate with the data.
-            var siteNumbers = new int[] { 2, 4, 3, -1 };
+            var siteNumbers = new int[] { 2, 4, 3, 1 };
             // Dictionary containing pin-unique data.
-            var perPinData = new Dictionary<string, double> { ["VDET"] = 22, ["VCC1"] = 44, ["VCC2"] = 33, ["SystemSupply"] = -15 };
+            var perPinData = new Dictionary<string, double> { ["VDET"] = 22, ["VCC1"] = 44, ["VCC2"] = 33 };
             // Constructs a PinSiteData object with a pin specific data dictionary and siteNumbers array.
             var pinSiteData = new PinSiteData<double>(siteNumbers, perPinData);
         }
