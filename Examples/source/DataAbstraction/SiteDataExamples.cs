@@ -139,9 +139,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
             var perSiteDataDictionary = new Dictionary<int, double> { [1] = 11, [2] = 22, [3] = 33 };
             var siteData = new SiteData<double>(perSiteDataDictionary);
         }
-        internal static void ConstructWithDictionaryContainsSystemPin()
+        internal static void ConstructWithDictionaryWithSystemData()
         {
-            // Constructs a SiteData object with a dictionary of site unique data values, inclusive of a system pin
+            // Constructs a SiteData object with a dictionary of site unique data values,
+            // inclusive of a site-agnostic data,such as that associated with a system resource or pin.
+            // Note there can only be one site-agnostic value represented in a SiteData object.
             var perSiteDataDictionary = new Dictionary<int, double> { [1] = 11, [2] = 22, [-1] = 33 };
             var siteData = new SiteData<double>(perSiteDataDictionary);
         }
