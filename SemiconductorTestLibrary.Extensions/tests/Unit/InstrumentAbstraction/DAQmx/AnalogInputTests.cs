@@ -63,9 +63,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        public void ReadAnalogSamplesFromTwoFilteredChannels_ResultsContainExpectedData()
+        public void ReadAnalogSamplesFromOenFilteredChannels_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
             InitializeAndClose.CreateDAQmxAOVoltageTasks(_tsmContext);
@@ -84,7 +83,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             aiTasksBundle.Stop();
             var maxValueOfFilteredSamples = filteredSiteData.GetValue(filteredSiteData.SiteNumbers[0], "AIPin").Max();
 
-            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle);
+            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.45, 0.5);
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
@@ -176,7 +175,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        public void ReadAnalogWaveformSamplesFromTwoFilteredChannels_ResultsContainExpectedData()
+        public void ReadAnalogWaveformSamplesFromOneFilteredChannels_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
             InitializeAndClose.CreateDAQmxAOVoltageTasks(_tsmContext);
@@ -198,26 +197,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var filteredWaveformSamples = filteredSite.GetValue(filteredSite.SiteNumbers[0], "AIPin").Samples;
             var maxValueOfFilteredSamples = filteredWaveformSamples.Max(filteredSample => filteredSample.Value);
 
-            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle);
+            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
-        private void ConfigureTimingSampleClockSettings(DAQmxTasksBundle aiTaskBundle, DAQmxTasksBundle aoTaskBundle)
+        private void ConfigureTimingSampleClockSettings(DAQmxTasksBundle aiTasksBundle, DAQmxTasksBundle aoTasksBundle)
         {
             // Setting acquisition sampling rate to be more than the generation sampling rate to get more accurate samples
             DAQmxTimingSampleClockSettings dAQmxTimingSampleClockSettingsAI = new DAQmxTimingSampleClockSettings() { SampleClockRate = 3000, SampleQuantityMode = SampleQuantityMode.ContinuousSamples };
             DAQmxTimingSampleClockSettings dAQmxTimingSampleClockSettingsAO = new DAQmxTimingSampleClockSettings() { SampleClockRate = 1000, SampleQuantityMode = SampleQuantityMode.ContinuousSamples };
 
-            aoTaskBundle.ConfigureTiming(dAQmxTimingSampleClockSettingsAO);
-            aiTaskBundle.ConfigureTiming(dAQmxTimingSampleClockSettingsAI);
+            aoTasksBundle.ConfigureTiming(dAQmxTimingSampleClockSettingsAO);
+            aiTasksBundle.ConfigureTiming(dAQmxTimingSampleClockSettingsAI);
         }
 
-        private void AssertFilteredSample(double filteredSample, DAQmxTasksBundle tasksBundle)
+        private void AssertFilteredSample(double filteredSample, DAQmxTasksBundle inputTasksBundle, double lowerLimit, double upperLimit)
         {
             var availableChannels = "DAQ_4468_C2_S13/ai0, DAQ_4468_C2_S13/ai1";
 
-            Assert.True(filteredSample > 0.75 && filteredSample < 0.8);
-            tasksBundle.Do(taskInfo =>
+            Assert.True(filteredSample > lowerLimit && filteredSample < upperLimit);
+            inputTasksBundle.Do(taskInfo =>
             {
                 Assert.Equal(availableChannels, taskInfo.Task.Stream.ChannelsToRead);
             });
