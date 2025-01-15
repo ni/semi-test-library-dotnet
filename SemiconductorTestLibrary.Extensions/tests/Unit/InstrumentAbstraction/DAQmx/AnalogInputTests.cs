@@ -64,7 +64,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        public void ReadAnalogSamplesFromOenFilteredChannels_ResultsContainExpectedData()
+        public void ReadAnalogSamplesFromOenFilteredChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
             InitializeAndClose.CreateDAQmxAOVoltageTasks(_tsmContext);
@@ -175,7 +175,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        public void ReadAnalogWaveformSamplesFromOneFilteredChannels_ResultsContainExpectedData()
+        public void ReadAnalogWaveformSamplesFromOneFilteredChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
             InitializeAndClose.CreateDAQmxAOVoltageTasks(_tsmContext);
