@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using NationalInstruments.DAQmx;
+using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
@@ -57,19 +62,30 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(5, results.ExtractSite(1)["VCC2"].Length);
         }
 
-        [Theory]
-        [InlineData("AIPin")]
-        public void ReadAnalogSamplesFromTwoFilteredChannels_ResultsContainExpectedData(string pinName)
+        [Fact]
+
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        public void ReadAnalogSamplesFromTwoFilteredChannels_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
-            var tasksBundle = sessionManager.DAQmx(pinName);
-            var filteredResult = tasksBundle.FilterBySite(new int[] { 1, 3 }).ReadAnalogMultiSample(100);
-            var site1Data = filteredResult.GetValue(filteredResult.SiteNumbers[0], pinName).FirstOrDefault();
-            var site2Data = filteredResult.GetValue(filteredResult.SiteNumbers[1], pinName).FirstOrDefault();
+            InitializeAndClose.CreateDAQmxAOVoltageTasks(_tsmContext);
+            var aiTasksBundle = sessionManager.DAQmx("AIPin");
+            var aoTasksBundle = sessionManager.DAQmx("AOPin");
+            var data = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>> { { "AOPin", new Dictionary<int, double> { { 0, 0.5 }, { 1, 0.8 } } } });
+            ConfigureTimingSampleClockSettings(aiTasksBundle, aoTasksBundle);
 
-            Assert.True(0.10 > site1Data && 0.01 < site1Data);
-            Assert.True(0.30 > site2Data && 0.20 < site2Data);
-            Assert.Equal(2, filteredResult.SiteNumbers.Length);
+            aoTasksBundle.WriteAnalogSingleSample(data, false);
+            aiTasksBundle.Start();
+            aoTasksBundle.Start();
+            // Wait for the generation to get completed
+            Thread.Sleep(100);
+            aoTasksBundle.Stop();
+            var filteredSiteData = aiTasksBundle.FilterBySite(0).ReadAnalogMultiSample();
+            aiTasksBundle.Stop();
+            var maxValueOfFilteredSamples = filteredSiteData.GetValue(filteredSiteData.SiteNumbers[0], "AIPin").Max();
+
+            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle);
+            InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
         [Fact]
@@ -158,19 +174,53 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(5, results.ExtractSite(1)["AIPin"].SampleCount);
         }
 
-        [Theory]
-        [InlineData("AIPin")]
-        public void ReadAnalogWaveformSamplesFromTwoFilteredChannels_ResultsContainExpectedData(string pinName)
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        public void ReadAnalogWaveformSamplesFromTwoFilteredChannels_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
-            var tasksBundle = sessionManager.DAQmx(pinName);
-            var filteredResult = tasksBundle.FilterBySite(new int[] { 1, 3 }).ReadAnalogWaveform(100);
-            var site1Data = filteredResult.GetValue(filteredResult.SiteNumbers[0], pinName).Samples.FirstOrDefault().Value;
-            var site2Data = filteredResult.GetValue(filteredResult.SiteNumbers[1], pinName).Samples.FirstOrDefault().Value;
+            InitializeAndClose.CreateDAQmxAOVoltageTasks(_tsmContext);
+            var aiTasksBundle = sessionManager.DAQmx("AIPin");
+            var aoTasksBundle = sessionManager.DAQmx("AOPin");
+            var site0Data = AnalogWaveform<double>.FromArray1D(new double[] { 0.5 });
+            var site1Data = AnalogWaveform<double>.FromArray1D(new double[] { 0.8 });
+            var data = new PinSiteData<AnalogWaveform<double>>(new Dictionary<string, IDictionary<int, AnalogWaveform<double>>> { { "AOPin", new Dictionary<int, AnalogWaveform<double>> { { 0, site0Data }, { 1, site1Data } } } });
+            ConfigureTimingSampleClockSettings(aiTasksBundle, aoTasksBundle);
 
-            Assert.True(0.10 > site1Data && 0.01 < site1Data);
-            Assert.True(0.30 > site2Data && 0.20 < site2Data);
-            Assert.Equal(2, filteredResult.SiteNumbers.Length);
+            aoTasksBundle.WriteAnalogWaveform(data, false);
+            aiTasksBundle.Start();
+            aoTasksBundle.Start();
+            // Wait for the generation to get completed
+            Thread.Sleep(100);
+            aoTasksBundle.Stop();
+            var filteredSite = aiTasksBundle.FilterBySite(1).ReadAnalogWaveform();
+            aiTasksBundle.Stop();
+            var filteredWaveformSamples = filteredSite.GetValue(filteredSite.SiteNumbers[0], "AIPin").Samples;
+            var maxValueOfFilteredSamples = filteredWaveformSamples.Max(filteredSample => filteredSample.Value);
+
+            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle);
+            InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
+        }
+
+        private void ConfigureTimingSampleClockSettings(DAQmxTasksBundle aiTaskBundle, DAQmxTasksBundle aoTaskBundle)
+        {
+            // Setting acquisition sampling rate to be more than the generation sampling rate to get more accurate samples
+            DAQmxTimingSampleClockSettings dAQmxTimingSampleClockSettingsAI = new DAQmxTimingSampleClockSettings() { SampleClockRate = 3000, SampleQuantityMode = SampleQuantityMode.ContinuousSamples };
+            DAQmxTimingSampleClockSettings dAQmxTimingSampleClockSettingsAO = new DAQmxTimingSampleClockSettings() { SampleClockRate = 1000, SampleQuantityMode = SampleQuantityMode.ContinuousSamples };
+
+            aoTaskBundle.ConfigureTiming(dAQmxTimingSampleClockSettingsAO);
+            aiTaskBundle.ConfigureTiming(dAQmxTimingSampleClockSettingsAI);
+        }
+
+        private void AssertFilteredSample(double filteredSample, DAQmxTasksBundle tasksBundle)
+        {
+            var availableChannels = "DAQ_4468_C2_S13/ai0, DAQ_4468_C2_S13/ai1";
+
+            Assert.True(filteredSample > 0.75 && filteredSample < 0.8);
+            tasksBundle.Do(taskInfo =>
+            {
+                Assert.Equal(availableChannels, taskInfo.Task.Stream.ChannelsToRead);
+            });
         }
     }
 }
