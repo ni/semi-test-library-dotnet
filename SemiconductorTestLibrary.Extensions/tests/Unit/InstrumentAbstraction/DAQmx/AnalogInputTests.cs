@@ -65,7 +65,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        public void ReadAnalogSamplesFromOenFilteredChannel_ResultsContainExpectedData()
+        public void ReadAnalogSamplesFromOneFilteredChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
             InitializeAndClose.CreateDAQmxAOVoltageTasks(_tsmContext);
@@ -74,13 +74,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var data = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>> { { "AOPin", new Dictionary<int, double> { { 0, 0.5 }, { 1, 0.8 } } } });
             ConfigureTimingSampleClockSettings(aiTasksBundle, aoTasksBundle);
 
-            aoTasksBundle.WriteAnalogSingleSample(data, false);
+            aoTasksBundle.WriteAnalogSingleSample(data, autoStart: false);
             aiTasksBundle.Start();
             aoTasksBundle.Start();
             // Wait for the generation to get completed
             Thread.Sleep(100);
             aoTasksBundle.Stop();
-            var filteredSiteData = aiTasksBundle.FilterBySite(0).ReadAnalogMultiSample();
+            var filteredSiteData = aiTasksBundle.FilterBySite(1).ReadAnalogMultiSample();
             aiTasksBundle.Stop();
             var maxValueOfFilteredSamples = filteredSiteData.GetValue(filteredSiteData.SiteNumbers[0], "AIPin").Max();
 
@@ -188,7 +188,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var data = new PinSiteData<AnalogWaveform<double>>(new Dictionary<string, IDictionary<int, AnalogWaveform<double>>> { { "AOPin", new Dictionary<int, AnalogWaveform<double>> { { 0, site0Data }, { 1, site1Data } } } });
             ConfigureTimingSampleClockSettings(aiTasksBundle, aoTasksBundle);
 
-            aoTasksBundle.WriteAnalogWaveform(data, false);
+            aoTasksBundle.WriteAnalogWaveform(data, autoStart: false);
             aiTasksBundle.Start();
             aoTasksBundle.Start();
             // Wait for the generation to get completed
