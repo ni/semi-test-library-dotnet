@@ -22,16 +22,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
                 taskInfo.VerifyTaskType(DAQmxTaskType.AnalogInput);
+
+                double[][] analogSample = default;
+                var availableChannels = taskInfo.Task.Stream.ChannelsToRead.Clone();
+
+                taskInfo.Task.Stream.ChannelsToRead = taskInfo.ChannelList;
                 if (taskInfo.Task.AIChannels.HasSingleChannel())
                 {
                     var reader = new AnalogSingleChannelReader(taskInfo.Task.Stream);
-                    return new double[][] { reader.ReadMultiSample(samplesToRead) };
+                    analogSample = new double[][] { reader.ReadMultiSample(samplesToRead) };
                 }
                 else
                 {
                     var reader = new AnalogMultiChannelReader(taskInfo.Task.Stream);
-                    return reader.ReadMultiSample(samplesToRead).ToJaggedArray();
+                    analogSample = reader.ReadMultiSample(samplesToRead).ToJaggedArray();
                 }
+                taskInfo.Task.Stream.ChannelsToRead = (string)availableChannels;
+
+                return analogSample;
             });
         }
 
@@ -47,16 +55,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
                 taskInfo.VerifyTaskType(DAQmxTaskType.AnalogInput);
+
+                AnalogWaveform<double>[] analogSample = default;
+                var availableChannels = taskInfo.Task.Stream.ChannelsToRead.Clone();
+
+                taskInfo.Task.Stream.ChannelsToRead = taskInfo.ChannelList;
                 if (taskInfo.Task.AIChannels.HasSingleChannel())
                 {
                     var reader = new AnalogSingleChannelReader(taskInfo.Task.Stream);
-                    return new AnalogWaveform<double>[] { reader.ReadWaveform(samplesToRead) };
+                    analogSample = new AnalogWaveform<double>[] { reader.ReadWaveform(samplesToRead) };
                 }
                 else
                 {
                     var reader = new AnalogMultiChannelReader(taskInfo.Task.Stream);
-                    return reader.ReadWaveform(samplesToRead);
+                    analogSample = reader.ReadWaveform(samplesToRead);
                 }
+                taskInfo.Task.Stream.ChannelsToRead = (string)availableChannels;
+
+                return analogSample;
             });
         }
     }
