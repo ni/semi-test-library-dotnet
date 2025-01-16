@@ -63,6 +63,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         public void ReadAnalogSamplesFromOenFilteredChannel_ResultsContainExpectedData()
         {
@@ -174,6 +175,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         public void ReadAnalogWaveformSamplesFromOneFilteredChannel_ResultsContainExpectedData()
         {
