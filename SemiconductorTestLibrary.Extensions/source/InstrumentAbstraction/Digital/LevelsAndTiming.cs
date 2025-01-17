@@ -245,6 +245,96 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <summary>
+        /// <inheritdoc cref="DigitalTiming.GetTimeSet(string)"/>
+        /// </summary>
+        /// <remarks>
+        /// Gets the configured time set period.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">The name of the time set.</param>
+        /// <returns>An per-site per-pin timespan period for the specified timeset.</returns>
+        public static PinSiteData<Ivi.Driver.PrecisionTimeSpan> GetTimeSetPeriod(this DigitalSessionsBundle sessionsBundle, string timeSet)
+        {
+            var result = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((DigitalSessionInformation sessionInfo) =>
+            {
+                var period = sessionInfo.Session.Timing.GetTimeSet(timeSet).Period;
+                return Enumerable.Repeat(period, sessionInfo.AssociatedSitePinList.Count).ToArray();
+            });
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(result);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="DigitalTiming.GetTimeSet(string)"/>
+        /// Gets the configured time set period.
+        /// </summary>
+        /// <remarks>
+        /// It also checks to confirm if the timeset period values are the same across all sessions in the bundle.
+        /// If the values are indeed the same, it will return the single timeset period value.
+        /// Otherwise, it will throw an exception.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">The name of the time set.</param>
+        /// <returns>An single timeset period value for the specified timeset.</returns>
+        public static Ivi.Driver.PrecisionTimeSpan GetTimeSetPeriodDistinct(this DigitalSessionsBundle sessionsBundle, string timeSet)
+        {
+            return HelperMethods.GetDistinctValue(
+                sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Timing.GetTimeSet(timeSet).Period),
+                string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TimeSetPeriodDistinctNotDistinct, timeSet));
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="DigitalTiming.GetTimeSet(string)"/>
+        /// </summary>
+        /// <remarks>
+        /// Gets the configured the strobe edge time.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">The name of the time set.</param>
+        /// <param name="driveEdge">The drive edge to be read.</param>
+        /// <returns>The per-site per-pin strobe edge value.</returns>
+        public static PinSiteData<Ivi.Driver.PrecisionTimeSpan> GetTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge driveEdge)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
+            {
+                return sessionInfo.Session.Timing.GetTimeSet(timeSet).GetEdge(pinSiteInfo.SitePinString, driveEdge);
+            });
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="DigitalTiming.GetTimeSet(string)"/>
+        /// </summary>
+        /// <remarks>
+        /// Gets the configured timeset edge multplier value.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">the name of the time set.</param>
+        /// <returns>The per-site per-pin edge multiper value.</returns>
+        public static PinSiteData<int> GetTimeSetEdgeMultiplier(this DigitalSessionsBundle sessionsBundle, string timeSet)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
+            {
+                return sessionInfo.Session.Timing.GetTimeSet(timeSet).GetEdgeMultiplier(pinSiteInfo.SitePinString);
+            });
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="DigitalTiming.GetTimeSet(string)"/>
+        /// </summary>
+        /// <remarks>
+        /// Gets the configured timeset drive format.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">the name of the time set.</param>
+        /// <returns>The per-site per-pin drive format.</returns>
+        public static PinSiteData<DriveFormat> GetTimeSetDriveFormat(this DigitalSessionsBundle sessionsBundle, string timeSet)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
+            {
+                return sessionInfo.Session.Timing.GetTimeSet(timeSet).GetDriveFormat(pinSiteInfo.SitePinString);
+            });
+        }
+
         /// <inheritdoc cref="DigitalTiming.TdrEndpointTermination"/>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="tdrEndpointTermination">TDR Endpoint Termination type. The default value is <see cref="TdrEndpointTermination.TdrToOpenCircuit"/>.</param>
