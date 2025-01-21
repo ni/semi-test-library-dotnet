@@ -766,6 +766,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(5e-6, timeSet2);
         }
 
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_GetTimeSetPeriodDistinct_ThrowsException(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var timeSetPeriod = 5e-6;
+
+            var sessionsBundle = sessionManager.Digital();
+            foreach (var session in sessionsBundle.InstrumentSessions)
+            {
+                session.Session.Timing.GetTimeSet("TS").ConfigurePeriod(Ivi.Driver.PrecisionTimeSpan.FromSeconds(timeSetPeriod));
+                timeSetPeriod /= 10;
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTimeSetPeriodDistinct("TS"));
+            Assert.Contains("The value of the time set period (TS) is not the same for all underlying instrument sessions.", exception.Message);
+        }
+
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_GetPerSiteTimeSetCompareEdgesStrobe_ValueCorrectlySet()
         {
