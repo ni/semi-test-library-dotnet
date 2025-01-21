@@ -20,16 +20,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
                 taskInfo.VerifyTaskType(DAQmxTaskType.DigitalInput);
+
+                bool[] digitalSample = default;
+                var availableChannels = taskInfo.Task.Stream.ChannelsToRead.Clone();
+
+                taskInfo.Task.Stream.ChannelsToRead = taskInfo.ChannelList;
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
                     var reader = new DigitalSingleChannelReader(taskInfo.Task.Stream);
-                    return new bool[] { reader.ReadSingleSampleSingleLine() };
+                    digitalSample = new bool[] { reader.ReadSingleSampleSingleLine() };
                 }
                 else
                 {
                     var reader = new DigitalMultiChannelReader(taskInfo.Task.Stream);
-                    return reader.ReadSingleSampleSingleLine();
+                    digitalSample = reader.ReadSingleSampleSingleLine();
                 }
+                taskInfo.Task.Stream.ChannelsToRead = (string)availableChannels;
+
+                return digitalSample;
             });
         }
 
@@ -45,16 +53,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
                 taskInfo.VerifyTaskType(DAQmxTaskType.DigitalInput);
+
+                DigitalWaveform[] digitalSample = default;
+                var availableChannels = taskInfo.Task.Stream.ChannelsToRead.Clone();
+
+                taskInfo.Task.Stream.ChannelsToRead = taskInfo.ChannelList;
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
                     var reader = new DigitalSingleChannelReader(taskInfo.Task.Stream);
-                    return new DigitalWaveform[] { reader.ReadWaveform(samplesToRead) };
+                    digitalSample = new DigitalWaveform[] { reader.ReadWaveform(samplesToRead) };
                 }
                 else
                 {
                     var reader = new DigitalMultiChannelReader(taskInfo.Task.Stream);
-                    return reader.ReadWaveform(samplesToRead);
+                    digitalSample = reader.ReadWaveform(samplesToRead);
                 }
+                taskInfo.Task.Stream.ChannelsToRead = (string)availableChannels;
+
+                return digitalSample;
             });
         }
 
@@ -69,16 +85,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
                 taskInfo.VerifyTaskType(DAQmxTaskType.DigitalInput);
+
+                uint[][] digitalSample = default;
+                var availableChannels = taskInfo.Task.Stream.ChannelsToRead.Clone();
+
+                taskInfo.Task.Stream.ChannelsToRead = taskInfo.ChannelList;
                 if (taskInfo.Task.DIChannels.HasSingleChannel())
                 {
                     var reader = new DigitalSingleChannelReader(taskInfo.Task.Stream);
-                    return new uint[][] { reader.ReadMultiSamplePortUInt32(samplesToRead) };
+                    digitalSample = new uint[][] { reader.ReadMultiSamplePortUInt32(samplesToRead) };
                 }
                 else
                 {
                     var reader = new DigitalMultiChannelReader(taskInfo.Task.Stream);
-                    return reader.ReadMultiSamplePortUInt32(samplesToRead).ToJaggedArray();
+                    digitalSample = reader.ReadMultiSamplePortUInt32(samplesToRead).ToJaggedArray();
                 }
+                taskInfo.Task.Stream.ChannelsToRead = (string)availableChannels;
+
+                return digitalSample;
             });
         }
     }

@@ -4,8 +4,17 @@ using NationalInstruments.SemiconductorTestLibrary.Common;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
 {
-    internal static class Utilities
+    /// <summary>
+    /// Provides utility methods for NI DAQmx instrument abstraction.
+    /// </summary>
+    public static class Utilities
     {
+        /// <summary>
+        /// Verifies whether an NI DAQmx task is of a specific type.
+        /// </summary>
+        /// <param name="taskInformation">The task to check.</param>
+        /// <param name="expectedTaskType">The expected task type.</param>
+        /// <exception cref="NISemiconductorTestException">Thrown when the NI DAQmx task is not the specific type.</exception>
         public static void VerifyTaskType(this DAQmxTaskInformation taskInformation, DAQmxTaskType expectedTaskType)
         {
             if (!taskInformation.TaskType.Equals(expectedTaskType))
@@ -14,7 +23,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
             }
         }
 
-        public static bool HasSingleChannel(this ICollection channels)
+        internal static bool HasSingleChannel(this ICollection channels)
         {
             return channels.Count == 1;
         }

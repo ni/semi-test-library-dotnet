@@ -51,7 +51,7 @@ public static void SecondCodeModule(
     SiteData<bool[]> comparisonResults = measurement.Compare<uint[], bool[]>(ComparisonType.EqualTo, comparisonData);
     // Publish the Aggregate Comparison Result: whether or not all samples in the comparison result are found to be True.
     SiteData<bool> aggregateComparisonResult = comparisonResults.Select(result => result.All(value => value));
-    semiconductorModuleContext.PublishResults(resultsToPublish, "ComparisonResults");
+    semiconductorModuleContext.PublishResults(aggregateComparisonResult, "ComparisonResults");
 }
 ```
 

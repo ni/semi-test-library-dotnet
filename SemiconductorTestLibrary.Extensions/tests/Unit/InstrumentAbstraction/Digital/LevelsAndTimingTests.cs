@@ -849,6 +849,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Fact]
+        public void SessionsInitialized_ConfigureTimeSetPeriodWithoutSpecifyingPins_ValueCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital();
+            sessionsBundle.ConfigureTimeSetPeriod("TS_SW", 5e-6);
+
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList.Count);
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(5e-6, sessionInfo.Session.Timing.GetTimeSet("TS_SW").Period.TotalSeconds);
+            });
+        }
+
+        [Fact]
+        public void SessionsInitialized_ApplyLevelsAndTimingWithoutSpecifyingPins_ValueCorrectlySet()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital();
+            sessionsBundle.ApplyLevelsAndTiming("Levels_MixedSignal", "Timing_MixedSignal");
+
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList.Count);
+            Assert.Equal(1.8, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.DigitalLevels.Vih, 1);
+        }
+
         /// <summary>
         /// Removes a temporary file, if it exists.
         /// This method is intended to be called at the end of the unit test that saving information to a temporary file.
