@@ -117,9 +117,9 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         /// <summary>
         ///   Looks up a localized string similar to The value of the time set period ({0}) is not the same for all underlying instrument sessions..
         /// </summary>
-        internal static string Digital_TimeSetPeriodDistinctNotDistinct {
+        internal static string Digital_TimeSetPeriodNotDistinct {
             get {
-                return ResourceManager.GetString("Digital_TimeSetPeriodDistinctNotDistinct", resourceCulture);
+                return ResourceManager.GetString("Digital_TimeSetPeriodNotDistinct", resourceCulture);
             }
         }
     }

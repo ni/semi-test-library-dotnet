@@ -738,15 +738,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var pins = new string[] { "C0", "C1" };
-
-            var sessionsBundle = sessionManager.Digital();
+            var sessionsBundle = sessionManager.Digital(pins);
             sessionsBundle.ConfigureTimeSetPeriod("TS_SW", 5e-6);
 
-            for (int i = 0; i <= 1; i++)
-            {
-                var timeSetPeriod = sessionsBundle.GetTimeSetPeriod("TS_SW").ExtractSite(i).Select(value => value.Value.TotalSeconds);
-                Assert.True(timeSetPeriod.All(value => value == 5e-6));
-            }
+            var timeSetPeriod = sessionsBundle.GetTimeSetPeriod("TS_SW");
+
+            Assert.Equal(5e-6, timeSetPeriod.GetValue(0, "C0").TotalSeconds);
+            Assert.Equal(5e-6, timeSetPeriod.GetValue(0, "C1").TotalSeconds);
+            Assert.Equal(5e-6, timeSetPeriod.GetValue(1, "C0").TotalSeconds);
+            Assert.Equal(5e-6, timeSetPeriod.GetValue(1, "C1").TotalSeconds);
         }
 
         [Theory]
@@ -755,10 +755,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsInitialized_GetTimeSetPeriodDistinct_ValueCorrectlySet(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-
             var sessionsBundle = sessionManager.Digital();
             sessionsBundle.ConfigureTimeSetPeriod("TS_SW", 5e-6);
             sessionsBundle.ConfigureTimeSetPeriod("TS", 5e-6);
+
             var timeSet1 = sessionsBundle.GetTimeSetPeriodDistinct("TS_SW").TotalSeconds;
             var timeSet2 = sessionsBundle.GetTimeSetPeriodDistinct("TS").TotalSeconds;
 
@@ -773,7 +773,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var timeSetPeriod = 5e-6;
-
             var sessionsBundle = sessionManager.Digital();
             foreach (var session in sessionsBundle.InstrumentSessions)
             {
@@ -781,7 +780,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 timeSetPeriod /= 10;
             }
 
-            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTimeSetPeriodDistinct("TS"));
+            void GetTimeSetPeriodDistinctMethod() => sessionsBundle.GetTimeSetPeriodDistinct("TS");
+
+            var exception = Assert.Throws<NISemiconductorTestException>(GetTimeSetPeriodDistinctMethod);
             Assert.Contains("The value of the time set period (TS) is not the same for all underlying instrument sessions.", exception.Message);
         }
 
@@ -790,7 +791,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
             var pins = new string[] { "C0", "C1" };
-
             var sessionsBundle = sessionManager.Digital(pins);
             var compareEdges = new SiteData<double>(new Dictionary<int, double>()
             {
@@ -798,13 +798,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 [1] = 8e-6
             });
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges);
+
             var timeSetEdge = sessionsBundle.GetTimeSetEdge("TS_SW", TimeSetEdge.CompareStrobe);
 
-            for (int i = 0; i <= 1; i++)
-            {
-                var siteData = timeSetEdge.ExtractSite(i).Values.Select(value => value.TotalSeconds);
-                Assert.True(siteData.All(value => value == compareEdges.GetValue(i)));
-            }
+            Assert.Equal(5e-6, timeSetEdge.GetValue(0, "C0").TotalSeconds);
+            Assert.Equal(5e-6, timeSetEdge.GetValue(0, "C1").TotalSeconds);
+            Assert.Equal(8e-6, timeSetEdge.GetValue(1, "C0").TotalSeconds);
+            Assert.Equal(8e-6, timeSetEdge.GetValue(1, "C1").TotalSeconds);
         }
 
         [Theory]
@@ -813,19 +813,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsInitialized_GetTimeSetEdgeMultiplier_ValueCorrectlySet(string pinMap, string digitalProject, int edgeMultiplier)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-
-            var sessionsBundle = sessionManager.Digital();
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Timing.GetTimeSet("TS_SW").ConfigureEdgeMultiplier(sessionInfo.PinSet, edgeMultiplier);
             });
-            var timeSet1 = sessionsBundle.GetTimeSetEdgeMultiplier("TS_SW");
 
-            for (int i = 0; i <= 1; i++)
-            {
-                var siteData = timeSet1.ExtractSite(i).Values;
-                Assert.True(siteData.All(value => value == edgeMultiplier));
-            }
+            var timeSetEdgeMultiplier = sessionsBundle.GetTimeSetEdgeMultiplier("TS_SW");
+
+            Assert.Equal(edgeMultiplier, timeSetEdgeMultiplier.GetValue(0, "C0"));
+            Assert.Equal(edgeMultiplier, timeSetEdgeMultiplier.GetValue(0, "C1"));
+            Assert.Equal(edgeMultiplier, timeSetEdgeMultiplier.GetValue(1, "C0"));
+            Assert.Equal(edgeMultiplier, timeSetEdgeMultiplier.GetValue(1, "C1"));
         }
 
         [Theory]
@@ -834,19 +834,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsInitialized_GetTimeSetDriveFormat_ValueCorrectlySet(string pinMap, string digitalProject, DriveFormat driveFormat)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-
-            var sessionsBundle = sessionManager.Digital();
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Timing.GetTimeSet("TS_SW").ConfigureDriveFormat(sessionInfo.PinSet, driveFormat);
             });
-            var timeSet1 = sessionsBundle.GetTimeSetDriveFormat("TS_SW");
 
-            for (int i = 0; i <= 1; i++)
-            {
-                var siteData = timeSet1.ExtractSite(i).Values;
-                Assert.True(siteData.All(value => value == driveFormat));
-            }
+            var timeSetDriveFormat = sessionsBundle.GetTimeSetDriveFormat("TS_SW");
+
+            Assert.Equal(driveFormat, timeSetDriveFormat.GetValue(0, "C0"));
+            Assert.Equal(driveFormat, timeSetDriveFormat.GetValue(0, "C1"));
+            Assert.Equal(driveFormat, timeSetDriveFormat.GetValue(1, "C0"));
+            Assert.Equal(driveFormat, timeSetDriveFormat.GetValue(1, "C1"));
         }
 
         [Fact]
