@@ -734,7 +734,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_GetTimeSetPeriod_ValueCorrectlySet(string pinMap, string digitalProject)
+        public void SessionsInitialized_GetTimeSetPeriod_ValueCorrectlyGet(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var pins = new string[] { "C0", "C1" };
@@ -752,7 +752,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_GetTimeSetPeriodDistinct_ValueCorrectlySet(string pinMap, string digitalProject)
+        public void SameTimeSetPeriodConfigured_GetTimeSetPeriodDistinct_ValueCorrectlyGet(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital();
@@ -769,7 +769,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_GetTimeSetPeriodDistinct_ThrowsException(string pinMap, string digitalProject)
+        public void DifferentTimeSetPeriodConfigured_GetTimeSetPeriodDistinct_ThrowsException(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var timeSetPeriod = 5e-6;
@@ -787,7 +787,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void TwoDevicesWorkForTwoSitesSeparately_GetPerSiteTimeSetCompareEdgesStrobe_ValueCorrectlySet()
+        public void TwoDevicesWorkForTwoSitesSeparately_GetPerSiteTimeSetCompareEdgesStrobe_ValueCorrectlyGet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
             var pins = new string[] { "C0", "C1" };
@@ -810,7 +810,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", 2)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", 2)]
-        public void SessionsInitialized_GetTimeSetEdgeMultiplier_ValueCorrectlySet(string pinMap, string digitalProject, int edgeMultiplier)
+        public void SessionsInitialized_GetTimeSetEdgeMultiplier_ValueCorrectlyGet(string pinMap, string digitalProject, int edgeMultiplier)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var pins = new string[] { "C0", "C1" };
@@ -831,7 +831,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", DriveFormat.ReturnToHigh)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", DriveFormat.ReturnToHigh)]
-        public void SessionsInitialized_GetTimeSetDriveFormat_ValueCorrectlySet(string pinMap, string digitalProject, DriveFormat driveFormat)
+        public void SessionsInitialized_GetTimeSetDriveFormat_ValueCorrectlyGet(string pinMap, string digitalProject, DriveFormat driveFormat)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var pins = new string[] { "C0", "C1" };

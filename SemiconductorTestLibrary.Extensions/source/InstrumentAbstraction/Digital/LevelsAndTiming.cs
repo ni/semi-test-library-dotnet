@@ -7,6 +7,7 @@ using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using IviDriverPrecisionTimeSpan = Ivi.Driver.PrecisionTimeSpan;
+using static NationalInstruments.SemiconductorTestLibrary.Common.HelperMethods;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -277,7 +278,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <returns>A single timeset period value for the specified timeset.</returns>
         public static IviDriverPrecisionTimeSpan GetTimeSetPeriodDistinct(this DigitalSessionsBundle sessionsBundle, string timeSet)
         {
-            return HelperMethods.GetDistinctValue(
+            return GetDistinctValue(
                 sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Timing.GetTimeSet(timeSet).Period),
                 string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TimeSetPeriodNotDistinct, timeSet));
         }
@@ -286,7 +287,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <inheritdoc cref="DigitalTiming.GetTimeSet(string)"/>
         /// </summary>
         /// <remarks>
-        /// Gets the configured the timeset edge.
+        /// Gets the configured timeset edge.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
