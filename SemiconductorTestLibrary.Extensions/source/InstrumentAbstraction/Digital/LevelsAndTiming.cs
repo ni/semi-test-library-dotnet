@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -7,6 +6,8 @@ using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using IviDriverPrecisionTimeSpan = Ivi.Driver.PrecisionTimeSpan;
+using static NationalInstruments.SemiconductorTestLibrary.Common.HelperMethods;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -242,6 +243,82 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveOff),
                     Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveData2),
                     Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveReturn2));
+            });
+        }
+
+        /// <summary>
+        /// Gets the configured time set period.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">The name of the time set.</param>
+        /// <returns>The pin-site aware timespan period for the specified timeset.</returns>
+        public static PinSiteData<IviDriverPrecisionTimeSpan> GetTimeSetPeriod(this DigitalSessionsBundle sessionsBundle, string timeSet)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((DigitalSessionInformation sessionInfo) =>
+            {
+                var period = sessionInfo.Session.Timing.GetTimeSet(timeSet).Period;
+                return Enumerable.Repeat(period, sessionInfo.AssociatedSitePinList.Count).ToArray();
+            });
+        }
+
+        /// <summary>
+        /// Gets the distinct configured time set period.
+        /// </summary>
+        /// <remarks>
+        /// It also checks to confirm if the timeset period values are the same across all sessions in the bundle.
+        /// If the values are indeed the same, it will return the single timeset period value.
+        /// Otherwise, it will throw an exception.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">The name of the time set.</param>
+        /// <returns>A single timeset period value for the specified timeset.</returns>
+        public static IviDriverPrecisionTimeSpan GetTimeSetPeriodDistinct(this DigitalSessionsBundle sessionsBundle, string timeSet)
+        {
+            return GetDistinctValue(
+                sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Timing.GetTimeSet(timeSet).Period),
+                string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TimeSetPeriodNotDistinct, timeSet));
+        }
+
+        /// <summary>
+        /// Gets the configured timeset edge.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">The name of the time set.</param>
+        /// <param name="driveEdge">The drive edge to be read.</param>
+        /// <returns>The pin-site aware timespan edge values for the specified timeset.</returns>
+        public static PinSiteData<IviDriverPrecisionTimeSpan> GetTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge driveEdge)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
+            {
+                return sessionInfo.Session.Timing.GetTimeSet(timeSet).GetEdge(pinSiteInfo.SitePinString, driveEdge);
+            });
+        }
+
+        /// <summary>
+        /// Gets the configured timeset edge multiplier value.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">the name of the time set.</param>
+        /// <returns>The pin-site aware timespan edge multiplier values for the specified timeset.</returns>
+        public static PinSiteData<int> GetTimeSetEdgeMultiplier(this DigitalSessionsBundle sessionsBundle, string timeSet)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
+            {
+                return sessionInfo.Session.Timing.GetTimeSet(timeSet).GetEdgeMultiplier(pinSiteInfo.SitePinString);
+            });
+        }
+
+        /// <summary>
+        /// Gets the configured timeset drive format.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">the name of the time set.</param>
+        /// <returns>The pin-site aware drive format for the specified timeset.</returns>
+        public static PinSiteData<DriveFormat> GetTimeSetDriveFormat(this DigitalSessionsBundle sessionsBundle, string timeSet)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
+            {
+                return sessionInfo.Session.Timing.GetTimeSet(timeSet).GetDriveFormat(pinSiteInfo.SitePinString);
             });
         }
 
