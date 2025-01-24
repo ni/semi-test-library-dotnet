@@ -280,7 +280,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets the configured timeset edge
+        /// Gets the configured timeset edge.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
@@ -295,7 +295,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets the configured timeset edge multiplier value
+        /// Gets the configured timeset edge multiplier value.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">the name of the time set.</param>
@@ -309,7 +309,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets the configured timeset drive format
+        /// Gets the configured timeset drive format.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">the name of the time set.</param>
