@@ -247,11 +247,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// <inheritdoc cref="DigitalTiming.GetTimeSet(string)"/>
-        /// </summary>
-        /// <remarks>
         /// Gets the configured time set period.
-        /// </remarks>
+        /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <returns>The pin-site aware timespan period for the specified timeset.</returns>
@@ -265,8 +262,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// <inheritdoc cref="DigitalTiming.GetTimeSet(string)"/>
-        /// Gets the configured time set period.
+        /// Gets the distinct configured time set period.
         /// </summary>
         /// <remarks>
         /// It also checks to confirm if the timeset period values are the same across all sessions in the bundle.
@@ -284,11 +280,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// <inheritdoc cref="DigitalTiming.GetTimeSet(string)"/>
+        /// Gets the configured timeset edge
         /// </summary>
-        /// <remarks>
-        /// Gets the configured timeset edge.
-        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="driveEdge">The drive edge to be read.</param>
@@ -302,11 +295,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// <inheritdoc cref="DigitalTiming.GetTimeSet(string)"/>
+        /// Gets the configured timeset edge multiplier value
         /// </summary>
-        /// <remarks>
-        /// Gets the configured timeset edge multiplier value.
-        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">the name of the time set.</param>
         /// <returns>The pin-site aware timespan edge multiplier values for the specified timeset.</returns>
@@ -319,11 +309,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// <inheritdoc cref="DigitalTiming.GetTimeSet(string)"/>
+        /// Gets the configured timeset drive format
         /// </summary>
-        /// <remarks>
-        /// Gets the configured timeset drive format.
-        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">the name of the time set.</param>
         /// <returns>The pin-site aware drive format for the specified timeset.</returns>
