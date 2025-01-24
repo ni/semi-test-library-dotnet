@@ -781,7 +781,10 @@
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given value.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
@@ -806,7 +809,10 @@
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
@@ -831,7 +837,10 @@
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
@@ -863,7 +872,10 @@
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given value.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="value">The divisor value.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
             <remarks>
@@ -894,7 +906,10 @@
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
             <remarks>
@@ -925,7 +940,10 @@
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
             <remarks>
@@ -943,7 +961,10 @@
             <summary>
             Performs invert operation on every element in current PinSiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <returns>A new PinSiteData object that contains the inverted results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10">
@@ -956,7 +977,10 @@
             <summary>
             Performs Math.Log10 operation on every element in current PinSiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <returns>A new PinSiteData object that contains the log10 results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum``1(``0)">
@@ -1131,7 +1155,10 @@
             <summary>
             Returns the square root of every element in current PinSiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <returns>A new PinSiteData object that contains the square root values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
@@ -1621,7 +1648,10 @@
             <summary>
             Performs compare operation between every element in current SiteData object and the given value.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
@@ -1646,7 +1676,10 @@
             <summary>
             Performs compare operation between every element in current SiteData object and the given SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
@@ -1678,7 +1711,10 @@
             <summary>
             Performs divide operation between every element in current SiteData object and the given value.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <param name="value">The divisor value.</param>
             <returns>A new SiteData object that contains the results.</returns>
             <remarks>
@@ -1709,7 +1745,10 @@
             <summary>
             Performs divide operation between every element in current SiteData object and the given SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new SiteData object that contains the results.</returns>
             <remarks>
@@ -1727,7 +1766,10 @@
             <summary>
             Performs invert operation on every element in current SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <returns>A new SiteData object that contains the inverted results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Log10">
@@ -1740,7 +1782,10 @@
             <summary>
             Performs Math.Log10 operation on every element in current SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <returns>A new SiteData object that contains the log10 results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum``1(``0)">
@@ -1863,7 +1908,10 @@
             <summary>
             Returns the square root of every element in current SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <returns>A new SiteData object that contains the square root values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
@@ -3990,6 +4038,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_SheetDoesNotExist">
             <summary>
               Looks up a localized string similar to The specified {0} sheet &quot;{1}&quot; does not exist in the associated digital pattern project..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_ArrayDimensionMismatch">
+            <summary>
+              Looks up a localized string similar to When the underlying type, T, of the SiteData or PinSiteData object being operated on is an array, the TResult must also be an array of equal dimensions as the underlying type, T..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_ArrayLengthMismatch">
