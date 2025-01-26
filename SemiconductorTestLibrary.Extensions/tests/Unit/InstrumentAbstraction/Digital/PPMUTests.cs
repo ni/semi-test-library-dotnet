@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
-using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -50,7 +49,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(3.5, sessionInfo.PinSet.Ppmu.DCVoltage.VoltageLevel, 1));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(3.5, sessionInfo.PinSet.Ppmu.DCVoltage.VoltageLevel, 1));
         }
 
         [Fact]
@@ -283,7 +282,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ForceCurrent(currentLevel: 0.02);
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(0.02, sessionInfo.PinSet.Ppmu.DCCurrent.CurrentLevel, 2));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(0.02, sessionInfo.PinSet.Ppmu.DCCurrent.CurrentLevel, 2));
         }
 
         [Fact]
@@ -560,11 +559,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
 
             sessionsBundle.TurnOffOutput();
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Off, sessionInfo.PinSet.SelectedFunction));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(SelectedFunction.Off, sessionInfo.PinSet.SelectedFunction));
         }
 
         [Theory]
@@ -575,11 +574,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
 
             sessionsBundle.DisconnectOutput();
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Disconnect, sessionInfo.PinSet.SelectedFunction));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(SelectedFunction.Disconnect, sessionInfo.PinSet.SelectedFunction));
         }
 
         [Theory]
@@ -590,11 +589,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ForceVoltage(voltageLevel: 3.5, currentLimitRange: 0.01);
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
 
             sessionsBundle.SelectDigital();
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Digital, sessionInfo.PinSet.SelectedFunction));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(SelectedFunction.Digital, sessionInfo.PinSet.SelectedFunction));
         }
 
         [Theory]
@@ -604,11 +603,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Disconnect, sessionInfo.PinSet.SelectedFunction));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(SelectedFunction.Disconnect, sessionInfo.PinSet.SelectedFunction));
 
             sessionsBundle.SelectPPMU();
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(SelectedFunction.Ppmu, sessionInfo.PinSet.SelectedFunction));
         }
 
         [Theory]
@@ -621,7 +620,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ConfigureApertureTime(0.05);
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(0.05, sessionInfo.PinSet.Ppmu.ApertureTime, 2));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(0.05, sessionInfo.PinSet.Ppmu.ApertureTime, 2));
         }
 
         [Theory]
@@ -668,16 +667,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void MeasureAndPublishCurrent() => sessionsBundle.MeasureAndPublishCurrent("CurrentMeasurments");
 
-            var exception = Assert.Throws<AggregateException>(MeasureAndPublishCurrent);
+            AggregateException excAggregate = null;
+            excAggregate = Assert.Throws<AggregateException>(MeasureAndPublishCurrent);
+
             Assert.Empty(publishDatReader.GetAndClearPublishedData());
-            exception.IfNotNull(e =>
+            if (null != excAggregate.InnerException)
             {
-                foreach (var innerExeption in e.InnerExceptions)
+                foreach (Exception innerExeption in excAggregate.InnerExceptions)
                 {
                     Assert.IsType<InvalidOperationException>(innerExeption);
                     Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
                 }
-            });
+            }
         }
 
         [Theory]
@@ -710,16 +711,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void MeasureCurrent() => sessionsBundle.MeasureCurrent();
 
-            var exception = Assert.Throws<AggregateException>(MeasureCurrent);
+            AggregateException excAggregate = null;
+            excAggregate = Assert.Throws<AggregateException>(MeasureCurrent);
             Assert.Empty(publishDatReader.GetAndClearPublishedData());
-            exception.IfNotNull(x =>
+            if (null != excAggregate.InnerException)
             {
-                foreach (var innerExeption in x.InnerExceptions)
+                foreach (Exception innerExeption in excAggregate.InnerExceptions)
                 {
                     Assert.IsType<InvalidOperationException>(innerExeption);
                     Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
                 }
-            });
+            }
         }
     }
 }
