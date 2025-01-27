@@ -42,8 +42,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("DAQmxTests.pinmap");
             var tasksBundle = sessionManager.DAQmx("VDD");
 
-            AggregateException excAggregate = Assert.Throws<AggregateException>(() => GenerateSineWave(tasksBundle));
-            foreach (Exception innerExeption in excAggregate.InnerExceptions)
+            AggregateException aggregateException = Assert.Throws<AggregateException>(() => GenerateSineWave(tasksBundle));
+            foreach (Exception innerExeption in aggregateException.InnerExceptions)
             {
                 Assert.Contains("Specified property is not supported by the device or is not applicable to the task.", innerExeption.InnerException.Message);
             }

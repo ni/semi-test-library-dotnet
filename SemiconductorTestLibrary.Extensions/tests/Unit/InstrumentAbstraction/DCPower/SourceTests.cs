@@ -717,8 +717,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ConfigureOutputConnected(values);
             }
 
-            AggregateException excAggregate = Assert.Throws<AggregateException>(ConfigureOutputConnected);
-            foreach (Exception innerExeption in excAggregate.InnerExceptions)
+            AggregateException aggregateException = Assert.Throws<AggregateException>(ConfigureOutputConnected);
+            foreach (Exception innerExeption in aggregateException.InnerExceptions)
             {
                 Assert.Contains("Invalid value for parameter or property.", innerExeption.InnerException.Message);
             }

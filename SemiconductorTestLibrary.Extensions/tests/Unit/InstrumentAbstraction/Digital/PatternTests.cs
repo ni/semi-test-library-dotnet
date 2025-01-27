@@ -132,8 +132,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.False(sessionInfo.Session.PatternControl.IsDone);
             });
 
-            AggregateException excAggregate = Assert.Throws<AggregateException>(() => sessionsBundle.WaitUntilDone(0.001));
-            foreach (Exception innerExeption in excAggregate.InnerExceptions)
+            AggregateException aggregateException = Assert.Throws<AggregateException>(() => sessionsBundle.WaitUntilDone(0.001));
+            foreach (Exception innerExeption in aggregateException.InnerExceptions)
             {
                 Assert.IsType<IviCDriverException>(innerExeption);
                 Assert.Contains("Specified operation did not complete, because the specified timeout expired.", innerExeption.Message);
@@ -150,8 +150,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital("C0");
             void WaitUntilDone() => sessionsBundle.WaitUntilDone(-2);
 
-            AggregateException excAggregate = Assert.Throws<AggregateException>(WaitUntilDone);
-            foreach (AggregateException innerExeption in excAggregate.InnerExceptions)
+            AggregateException aggregateException = Assert.Throws<AggregateException>(WaitUntilDone);
+            foreach (Exception innerExeption in aggregateException.InnerExceptions)
             {
                 Assert.IsType<ArgumentException>(innerExeption);
             }

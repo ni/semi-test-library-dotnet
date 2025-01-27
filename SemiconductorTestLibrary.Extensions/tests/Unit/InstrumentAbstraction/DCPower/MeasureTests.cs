@@ -498,8 +498,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void Operation() => sessionsBundle.FetchMeasurement();
 
-            AggregateException excAggregate = Assert.Throws<AggregateException>(Operation);
-            foreach (Exception innerExeption in excAggregate.InnerExceptions)
+            AggregateException aggregateException = Assert.Throws<AggregateException>(Operation);
+            foreach (Exception innerExeption in aggregateException.InnerExceptions)
             {
                 Assert.Contains("Function or method not supported.", innerExeption.InnerException.Message);
             }
