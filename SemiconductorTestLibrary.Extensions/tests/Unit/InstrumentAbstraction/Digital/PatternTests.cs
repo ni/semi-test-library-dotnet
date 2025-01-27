@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Ivi.Driver;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -217,6 +218,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.False(sessionInfo.Session.PatternControl.IsKeepAliveActive);
             });
+        }
+
+        [Fact]
+        public void SessionsInitialized_BurstPatternWithoutSpecifyingPins_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital();
+            sessionsBundle.BurstPattern("TX_RF");
+            sessionsBundle.WaitUntilDone();
+            var results = sessionsBundle.GetSitePassFail();
+            var failCountResults = sessionsBundle.GetFailCount();
+
+            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(2, failCountResults.SiteNumbers.Length);
+            Assert.Equal(5, failCountResults.ExtractSite(0).Count);
         }
     }
 }
