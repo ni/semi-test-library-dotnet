@@ -667,17 +667,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void MeasureAndPublishCurrent() => sessionsBundle.MeasureAndPublishCurrent("CurrentMeasurments");
 
-            AggregateException excAggregate = null;
-            excAggregate = Assert.Throws<AggregateException>(MeasureAndPublishCurrent);
+            AggregateException excAggregate = Assert.Throws<AggregateException>(MeasureAndPublishCurrent);
 
             Assert.Empty(publishDatReader.GetAndClearPublishedData());
-            if (null != excAggregate.InnerException)
+            foreach (Exception innerExeption in excAggregate.InnerExceptions)
             {
-                foreach (Exception innerExeption in excAggregate.InnerExceptions)
-                {
-                    Assert.IsType<InvalidOperationException>(innerExeption);
-                    Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
-                }
+                Assert.IsType<InvalidOperationException>(innerExeption);
+                Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
             }
         }
 
@@ -711,16 +707,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void MeasureCurrent() => sessionsBundle.MeasureCurrent();
 
-            AggregateException excAggregate = null;
-            excAggregate = Assert.Throws<AggregateException>(MeasureCurrent);
+            AggregateException excAggregate = Assert.Throws<AggregateException>(MeasureCurrent);
             Assert.Empty(publishDatReader.GetAndClearPublishedData());
-            if (null != excAggregate.InnerException)
+            foreach (Exception innerExeption in excAggregate.InnerExceptions)
             {
-                foreach (Exception innerExeption in excAggregate.InnerExceptions)
-                {
-                    Assert.IsType<InvalidOperationException>(innerExeption);
-                    Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
-                }
+                Assert.IsType<InvalidOperationException>(innerExeption);
+                Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
             }
         }
     }

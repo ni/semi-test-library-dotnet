@@ -1,6 +1,5 @@
 ﻿using System;
 using Ivi.Driver;
-using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -132,16 +131,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.False(sessionInfo.Session.PatternControl.IsDone);
             });
-            var exception = Assert.Throws<AggregateException>(() => sessionsBundle.WaitUntilDone(0.001));
 
-            exception.IfNotNull(x =>
+            AggregateException excAggregate = Assert.Throws<AggregateException>(() => sessionsBundle.WaitUntilDone(0.001));
+            foreach (Exception innerExeption in excAggregate.InnerExceptions)
             {
-                foreach (var innerExeption in x.InnerExceptions)
-                {
-                    Assert.IsType<IviCDriverException>(innerExeption);
-                    Assert.Contains("Specified operation did not complete, because the specified timeout expired.", innerExeption.Message);
-                }
-            });
+                Assert.IsType<IviCDriverException>(innerExeption);
+                Assert.Contains("Specified operation did not complete, because the specified timeout expired.", innerExeption.Message);
+            }
         }
 
         [Theory]
@@ -154,15 +150,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital("C0");
             void WaitUntilDone() => sessionsBundle.WaitUntilDone(-2);
 
-            var exception = Assert.Throws<AggregateException>(WaitUntilDone);
-            exception.IfNotNull(x =>
+            AggregateException excAggregate = Assert.Throws<AggregateException>(WaitUntilDone);
+            foreach (AggregateException innerExeption in excAggregate.InnerExceptions)
             {
-                foreach (var innerExeption in x.InnerExceptions)
-                {
-                    Assert.IsType<ArgumentException>(innerExeption);
-                }
-            });
+                Assert.IsType<ArgumentException>(innerExeption);
+            }
         }
+
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]

@@ -717,14 +717,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ConfigureOutputConnected(values);
             }
 
-            AggregateException excAggregate = null;
-            excAggregate = Assert.Throws<AggregateException>(ConfigureOutputConnected);
-            if (null != excAggregate.InnerException)
+            AggregateException excAggregate = Assert.Throws<AggregateException>(ConfigureOutputConnected);
+            foreach (Exception innerExeption in excAggregate.InnerExceptions)
             {
-                foreach (Exception innerExeption in excAggregate.InnerExceptions)
-                {
-                    Assert.Contains("Invalid value for parameter or property.", innerExeption.InnerException.Message);
-                }
+                Assert.Contains("Invalid value for parameter or property.", innerExeption.InnerException.Message);
             }
         }
 
