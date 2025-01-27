@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
-using NationalInstruments.Restricted;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
@@ -48,8 +48,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltage(voltageLevel: 3.6, currentLimit: 0.1);
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedVoltageLevel: 3.6, expectedCurrentLimit: 0.1));
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry));
+            sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedVoltageLevel: 3.6, expectedCurrentLimit: 0.1));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry));
         }
 
         [Theory]
@@ -152,7 +152,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltage(new DCPowerSourceSettings() { Level = 3.6, Limit = 0.1 });
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedVoltageLevel: 3.6, expectedCurrentLimit: 0.1));
+            sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedVoltageLevel: 3.6, expectedCurrentLimit: 0.1));
         }
 
         [Theory]
@@ -303,8 +303,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltageAsymmetricLimit(voltageLevel: 3.6, currentLimitHigh: 0.2, currentLimitLow: -0.1);
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedVoltageLevel: 3.6, expectedCurrentLimitHigh: 0.2, expectedCurrentLimitLow: -0.1));
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(DCPowerComplianceLimitSymmetry.Asymmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry));
+            sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedVoltageLevel: 3.6, expectedCurrentLimitHigh: 0.2, expectedCurrentLimitLow: -0.1));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(DCPowerComplianceLimitSymmetry.Asymmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry));
         }
 
         [Theory]
@@ -332,8 +332,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceCurrent(currentLevel: 0.1, voltageLimit: 5);
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimit: 5));
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry));
+            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimit: 5));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry));
         }
 
         [Theory]
@@ -436,7 +436,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceCurrent(new DCPowerSourceSettings() { Level = 0.1, Limit = 3.6 });
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimit: 3.6));
+            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimit: 3.6));
         }
 
         [Theory]
@@ -588,8 +588,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceCurrentAsymmetricLimit(currentLevel: 0.1, voltageLimitHigh: 3, voltageLimitLow: -1);
 
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimitHigh: 3, expectedVoltageLimitLow: -1));
-            sessionsBundle.InstrumentSessions.SafeForEach(sessionInfo => Assert.Equal(DCPowerComplianceLimitSymmetry.Asymmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry));
+            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.1, expectedVoltageLimitHigh: 3, expectedVoltageLimitLow: -1));
+
+            sessionsBundle.Do(sessionInfo => Assert.Equal(DCPowerComplianceLimitSymmetry.Asymmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry));
         }
 
         [Theory]
@@ -716,14 +717,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ConfigureOutputConnected(values);
             }
 
-            var exception = Assert.Throws<AggregateException>(ConfigureOutputConnected);
-            exception.IfNotNull(x =>
+            AggregateException aggregateException = Assert.Throws<AggregateException>(ConfigureOutputConnected);
+            foreach (Exception innerExeption in aggregateException.InnerExceptions)
             {
-                foreach (var innerExeption in x.InnerExceptions)
-                {
-                    Assert.Contains("Invalid value for parameter or property.", innerExeption.InnerException.Message);
-                }
-            });
+                Assert.Contains("Invalid value for parameter or property.", innerExeption.InnerException.Message);
+            }
         }
 
 #pragma warning disable xUnit1013 // Public method should be marked as test
