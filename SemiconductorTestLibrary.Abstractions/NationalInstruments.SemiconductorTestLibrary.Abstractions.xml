@@ -3813,17 +3813,21 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[])">
             <summary>
             Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pins.
+            The specified pins must map to the same task type, otherwise the method throws an exception.
             </summary>
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>.</returns>
+            <exception cref="T:NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleContextException">Thrown when there is more than one task type associated with the specified pins.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean)">
             <summary>
             Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pins.
+            The specified pins must map to the same task type, otherwise the method throws an exception.
             </summary>
             <param name="pins">The given pins.</param>
             <param name="filterPins">Whether to automatically filter out non-NIDAQmx pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>. Returns null if all pins are non-NIDAQmx pins.</returns>
+            <exception cref="T:NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleContextException">Thrown when there is more than one task type associated with the specified pins.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)">
             <summary>
