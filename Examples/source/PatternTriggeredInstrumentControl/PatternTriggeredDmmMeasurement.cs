@@ -5,7 +5,6 @@ using Ivi.Visa;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.ModularInstruments.NIDmm;
 using NationalInstruments.ModularInstruments.SystemServices.DeviceServices;
-using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -157,7 +156,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples
                 }
                 if (destinationDeviceResourceStrings.Contains(deviceInfo.Name))
                 {
-                    var index = destinationDeviceResourceStrings.IndexOf(deviceInfo.Name);
+                    int index = Array.IndexOf(destinationDeviceResourceStrings, deviceInfo.Name);
                     destinationChassisNumbers[index] = deviceInfo.ChassisNumber;
                     destinationSegments[index] = GetChassisSegment(deviceInfo.SlotNumber);
                 }
