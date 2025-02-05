@@ -876,6 +876,99 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(1.8, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.DigitalLevels.Vih, 1);
         }
 
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_GetPerPinPerSiteTimeSetCompareEdgesStrobe_ReturnsCorrectValue()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
+            var compareEdges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [pins[0]] = new Dictionary<int, double> { [0] = 5e-6, [1] = 10e-6 },
+                [pins[1]] = new Dictionary<int, double> { [0] = 8e-6, [1] = 11e-6 }
+            });
+            sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges);
+
+            var timeSetEdge = sessionsBundle.GetTimeSetEdge("TS_SW", TimeSetEdge.CompareStrobe);
+
+            Assert.Equal(5e-6, timeSetEdge.GetValue(0, "C0").TotalSeconds);
+            Assert.Equal(10e-6, timeSetEdge.GetValue(1, "C0").TotalSeconds);
+            Assert.Equal(8e-6, timeSetEdge.GetValue(0, "C1").TotalSeconds);
+            Assert.Equal(11e-6, timeSetEdge.GetValue(1, "C1").TotalSeconds);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitializedPerPinPerSiteEdgeMultiplier_GetTimeSetEdgeMultiplier_ReturnsCorrectValue(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var pins = new string[] { "C0", "C1" };
+            var sites = new int[] { 0, 1 };
+            var perPinPerSiteEdgeMultiplier = new PinSiteData<int>(pins, sites, new int[][]
+            {
+                // First Pin's Per Site Values (2 sites)
+                new[] { 1, 2 },
+                // Second Pin's Per Site Values (2 sites)
+                new[] { 2, 1 },
+            });
+            var timeSet = "TS_SW";
+            var sessionsBundle = sessionManager.Digital(pins);
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureEdgeMultiplier(pinSiteInfo.SitePinString, perPinPerSiteEdgeMultiplier.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName));
+            });
+
+            var timeSetEdgeMultiplier = sessionsBundle.GetTimeSetEdgeMultiplier(timeSet);
+
+            for (int pinCount = 0; pinCount < pins.Length; pinCount++)
+            {
+                for (int siteCount = 0; siteCount < sites.Length; siteCount++)
+                {
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]), timeSetEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]));
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]), timeSetEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]));
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]), timeSetEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]));
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]), timeSetEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]));
+                }
+            }
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitializedPerPinPerSiteDriveFormatsSet_GetTimeSetDriveFormat_ReturnsCorrectValue(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var pins = new string[] { "C0", "C1" };
+            var sites = new int[] { 0, 1 };
+            var perPinPerSiteFormats = new PinSiteData<DriveFormat>(pins, sites, new DriveFormat[][]
+            {
+                // First Pin's Per Site Values (2 sites)
+                new[] { DriveFormat.ReturnToLow, DriveFormat.ReturnToHigh },
+                // Second Pin's Per Site Values (2 sites)
+                new[] { DriveFormat.SurroundByComplement, DriveFormat.ReturnToLow }
+            });
+            var timeSet = "TS_SW";
+            var sessionsBundle = sessionManager.Digital(pins);
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureDriveFormat(pinSiteInfo.SitePinString, perPinPerSiteFormats.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName));
+            });
+
+            var timeSetDriveFormat = sessionsBundle.GetTimeSetDriveFormat(timeSet);
+
+            for (int pinCount = 0; pinCount < pins.Length; pinCount++)
+            {
+                for (int siteCount = 0; siteCount < sites.Length; siteCount++)
+                {
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteCount], pins[pinCount]), timeSetDriveFormat.GetValue(sites[siteCount], pins[pinCount]));
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteCount], pins[pinCount]), timeSetDriveFormat.GetValue(sites[siteCount], pins[pinCount]));
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteCount], pins[pinCount]), timeSetDriveFormat.GetValue(sites[siteCount], pins[pinCount]));
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteCount], pins[pinCount]), timeSetDriveFormat.GetValue(sites[siteCount], pins[pinCount]));
+                }
+            }
+        }
+
         /// <summary>
         /// Removes a temporary file, if it exists.
         /// This method is intended to be called at the end of the unit test that saving information to a temporary file.
