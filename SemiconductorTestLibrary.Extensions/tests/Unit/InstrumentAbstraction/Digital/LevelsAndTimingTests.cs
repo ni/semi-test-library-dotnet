@@ -921,14 +921,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var timeSetEdgeMultiplier = sessionsBundle.GetTimeSetEdgeMultiplier(timeSet);
 
-            for (int pinCount = 0; pinCount < pins.Length; pinCount++)
+            for (int pinIndex = 0; pinIndex < pins.Length; pinIndex++)
             {
-                for (int siteCount = 0; siteCount < sites.Length; siteCount++)
+                for (int siteIndex = 0; siteIndex < sites.Length; siteIndex++)
                 {
-                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]), timeSetEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]));
-                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]), timeSetEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]));
-                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]), timeSetEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]));
-                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]), timeSetEdgeMultiplier.GetValue(sites[siteCount], pins[pinCount]));
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]), timeSetEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]), timeSetEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]), timeSetEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]), timeSetEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]));
                 }
             }
         }
@@ -957,14 +957,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var timeSetDriveFormat = sessionsBundle.GetTimeSetDriveFormat(timeSet);
 
-            for (int pinCount = 0; pinCount < pins.Length; pinCount++)
+            for (int pinIndex = 0; pinIndex < pins.Length; pinIndex++)
             {
-                for (int siteCount = 0; siteCount < sites.Length; siteCount++)
+                for (int siteIndex = 0; siteIndex < sites.Length; siteIndex++)
                 {
-                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteCount], pins[pinCount]), timeSetDriveFormat.GetValue(sites[siteCount], pins[pinCount]));
-                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteCount], pins[pinCount]), timeSetDriveFormat.GetValue(sites[siteCount], pins[pinCount]));
-                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteCount], pins[pinCount]), timeSetDriveFormat.GetValue(sites[siteCount], pins[pinCount]));
-                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteCount], pins[pinCount]), timeSetDriveFormat.GetValue(sites[siteCount], pins[pinCount]));
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteIndex], pins[pinIndex]), timeSetDriveFormat.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteIndex], pins[pinIndex]), timeSetDriveFormat.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteIndex], pins[pinIndex]), timeSetDriveFormat.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteIndex], pins[pinIndex]), timeSetDriveFormat.GetValue(sites[siteIndex], pins[pinIndex]));
                 }
             }
         }
