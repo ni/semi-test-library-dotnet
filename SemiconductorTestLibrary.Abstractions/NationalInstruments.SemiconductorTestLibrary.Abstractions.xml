@@ -783,7 +783,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
             </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare to.</param>
@@ -811,7 +811,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
             </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare to.</param>
@@ -839,7 +839,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
             </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to compare to.</param>
@@ -874,7 +874,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
             </typeparam>
             <param name="value">The divisor value.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -908,7 +908,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
             </typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -942,7 +942,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
             </typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -963,7 +963,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
             </typeparam>
             <returns>A new PinSiteData object that contains the inverted results.</returns>
         </member>
@@ -979,7 +979,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
             </typeparam>
             <returns>A new PinSiteData object that contains the log10 results.</returns>
         </member>
@@ -1157,7 +1157,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
             </typeparam>
             <returns>A new PinSiteData object that contains the square root values.</returns>
         </member>
@@ -1523,7 +1523,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.TryGetValue(System.Int32,`0@)">
             <summary>
-            Tries to get the data for a given site number.
+            Attempts to get the data for a given site number.
             </summary>
             <param name="siteNumber">The site number.</param>
             <param name="value">The data for the given site number.</param>
@@ -1542,9 +1542,9 @@
             Combines the current SiteData object with another SiteData object and produces a new SiteData object.
             </summary>
             <param name="other">The other SiteData object to combine.</param>
-            <param name="overrideIfExisting">Specifies whether to override the existing data for a specific site with that in the other SiteData object.</param>
+            <param name="overrideIfExisting">Specifies whether to override the existing data for a specific site with data from the other SiteData object.</param>
             <returns>A new SiteData object with data from both SiteData objects.</returns>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for a specific site already exists in current SiteData object but <paramref name="overrideIfExisting"/> is set to false.</exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for a specific site already exists in current SiteData object, but <paramref name="overrideIfExisting"/> is set to false.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Max">
             <summary>
@@ -1650,7 +1650,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare.</param>
@@ -1678,7 +1678,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare.</param>
@@ -1713,7 +1713,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <param name="value">The divisor value.</param>
             <returns>A new SiteData object that contains the results.</returns>
@@ -1747,7 +1747,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new SiteData object that contains the results.</returns>
@@ -1768,7 +1768,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <returns>A new SiteData object that contains the inverted results.</returns>
         </member>
@@ -1784,7 +1784,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <returns>A new SiteData object that contains the log10 results.</returns>
         </member>
@@ -1910,7 +1910,7 @@
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
-            It must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <returns>A new SiteData object that contains the square root values.</returns>
         </member>
@@ -2175,14 +2175,14 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.Boolean)">
             <summary>
-            Associates a data item with a dataId. Use this method to store a SiteData object you initialize in one location to be later accessed in a downstream location
+            Associates a data item with a dataId. Use this method to store a SiteData object you initialize in one location and access later in a downstream location
             using the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)"/> method.
             </summary>
             <typeparam name="T">Data type of value to use with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</typeparam>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="dataId">A unique ID to distinguish the data.</param>
             <param name="siteData">A data item to store and later retrieve using the specified dataId. If the data item is null, the method deletes the data with the specified dataId if it exists.</param>
-            <param name="overrideIfExisting">Specifies whether to override the existing data for a specific site with that in the given SiteData object.</param>
+            <param name="overrideIfExisting">Specifies whether to override the existing data for a specific site with data from the given SiteData object.</param>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for a specific site already exists but <paramref name="overrideIfExisting"/> is set to false.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)">
@@ -2199,7 +2199,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0},System.Boolean)">
             <summary>
-            Associates a data item with a dataId. Use this method to store a PinSiteData object you initialize in one location to be later accessed in a downstream location
+            Associates a data item with a dataId. Use this method to store a PinSiteData object you initialize in one location and access later in a downstream location
             using the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)"/> method.
             </summary>
             <typeparam name="T">Data type of value to use with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> object.</typeparam>
@@ -3856,7 +3856,7 @@
             <param name="expectedTaskType">The expected task type.</param>
             <returns>
             The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>.
-            Returns null if all pins are non-NIDAQmx pins or there is no task of the expected type found for specified pins.
+            Returns null if there are no NIDAQmx pins or there is no task of the expected type found for specified pins.
             </returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String)">
