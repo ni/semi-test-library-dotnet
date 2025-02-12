@@ -10,7 +10,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
-    public sealed class ForceCurrentMeasureVoltageTests
+    public class ForceCurrentMeasureVoltageTests
     {
         [Fact]
         public void Initialize_RunForceCurrentMeasureVoltageWithPositiveInRangeVoltageLimit_VoltageLimitsCorrectlySet()
