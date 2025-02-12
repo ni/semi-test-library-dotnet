@@ -7,7 +7,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
-    public class LeakageTestTests
+    public sealed class LeakageTestTests
     {
         [Fact]
         public void Initialize_RunLeakageTestWithPositiveLevel_Succeeds()

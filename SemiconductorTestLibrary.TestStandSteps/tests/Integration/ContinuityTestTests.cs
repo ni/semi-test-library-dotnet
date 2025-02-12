@@ -8,7 +8,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
-    public class ContinuityTestTests
+    public sealed class ContinuityTestTests
     {
         [Fact]
         public void Initialize_RunContinuityTestWithNegativeCurrentLevel_Succeeds()
