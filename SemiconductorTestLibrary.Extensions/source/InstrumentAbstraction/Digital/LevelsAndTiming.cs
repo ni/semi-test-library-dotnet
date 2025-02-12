@@ -262,24 +262,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets the distinct configured time set period.
-        /// </summary>
-        /// <remarks>
-        /// It also checks to confirm if the timeset period values are the same across all sessions in the bundle.
-        /// If the values are indeed the same, it will return the single timeset period value.
-        /// Otherwise, it will throw an exception.
-        /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="timeSet">The name of the time set.</param>
-        /// <returns>A single timeset period value for the specified timeset.</returns>
-        public static IviDriverPrecisionTimeSpan GetTimeSetPeriodDistinct(this DigitalSessionsBundle sessionsBundle, string timeSet)
-        {
-            return GetDistinctValue(
-                sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Timing.GetTimeSet(timeSet).Period),
-                string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TimeSetPeriodNotDistinct, timeSet));
-        }
-
-        /// <summary>
         /// Gets the configured timeset edge.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>

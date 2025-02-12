@@ -97,22 +97,5 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 return taskInfo.Task.Timing.SampleClockRate;
             });
         }
-
-        /// <summary>
-        /// <inheritdoc cref="Timing.SampleClockRate"/>/>
-        /// </summary>
-        /// <remarks>
-        /// This method is the same as <see cref="GetSampleClockRates"/>,
-        /// except it also checks if the flag state is the same values across all sessions in the bundle.
-        /// If the values are the same, it returns the single double value.
-        /// Otherwise, it throws an exception.
-        /// </remarks>
-        /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
-        /// <returns>Sample clock rate.</returns>
-        /// <exception cref="NISemiconductorTestException">The value for the sample clock rate is not the same for all underlying instrument sessions.</exception>
-        public static double GetSampleClockRateDistinct(this DAQmxTasksBundle tasksBundle)
-        {
-            return GetDistinctValue(tasksBundle.GetSampleClockRates(), string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_SampleClockRateNotDistinct));
-        }
     }
 }
