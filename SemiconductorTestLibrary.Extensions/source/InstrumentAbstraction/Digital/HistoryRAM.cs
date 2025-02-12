@@ -255,6 +255,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The History RAM trigger settings.
         /// </summary>
         public HistoryRAMTriggerSettings TriggerSettings { get; set; } = new HistoryRAMTriggerSettings();
+
+        /// <summary>
+        /// Creates an object to define and set History RAM settings.
+        /// This object is used as a parameter for configuring History RAM settings. <see cref="HistoryRAM.ConfigureHistoryRAM(DigitalSessionsBundle, HistoryRAMSettings)"/>
+        /// </summary>
+        public HistoryRAMSettings()
+        {
+        }
     }
 
     /// <summary>
@@ -291,6 +299,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The vector offset. Use this property only when <see cref="TriggerType"/> is set to <see cref="HistoryRamTriggerType.PatternLabel"/>.
         /// </summary>
         public long VectorOffset { get; set; }
+
+        /// <summary>
+        /// Creates an object to define and set History RAM trigger settings.
+        /// This object is used as a parameter for configuring trigger settings of History RAM settings. <see cref="HistoryRAMSettings.TriggerSettings"/>
+        /// </summary>
+        public HistoryRAMTriggerSettings()
+        {
+        }
     }
 
     /// <summary>

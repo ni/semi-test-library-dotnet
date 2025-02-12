@@ -7,7 +7,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
-    public class PatternTriggeredInstrumentControl
+    public sealed class PatternTriggeredInstrumentControl
     {
         [Fact]
         public void Initialize_RunPatternTriggeredSmuMeasurement_SucceedsAndPublishesData()
