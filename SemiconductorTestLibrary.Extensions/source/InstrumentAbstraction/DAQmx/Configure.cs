@@ -1,7 +1,5 @@
-﻿using System.Globalization;
-using NationalInstruments.DAQmx;
+﻿using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.Common;
-using static NationalInstruments.SemiconductorTestLibrary.Common.HelperMethods;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
 {
