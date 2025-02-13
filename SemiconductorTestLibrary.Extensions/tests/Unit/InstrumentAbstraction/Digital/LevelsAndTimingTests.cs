@@ -974,6 +974,62 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigureEdgeWithSingleValue_ValueCorrectlySet(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            sessionsBundle.ConfigureEdge("TS", TimeSetEdge.CompareStrobe, 5e-6);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var edge = sessionInfo.Session.Timing.GetTimeSet("TS").GetEdge(sitePinInfo.SitePinString, TimeSetEdge.CompareStrobe);
+                Assert.Equal(5e-6, edge.TotalSeconds);
+            });
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigureEdgeWithSiteSpecificValues_ValueCorrectlySet(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            sessionsBundle.ConfigureEdge("TS", TimeSetEdge.CompareStrobe, new SiteData<double>(new[] { 5e-6, 6e-6 }));
+
+            var edge = sessionsBundle.GetTimeSetEdge("TS", TimeSetEdge.CompareStrobe);
+            Assert.Equal(5e-6, edge.GetValue(0, "C0").TotalSeconds);
+            Assert.Equal(5e-6, edge.GetValue(0, "C1").TotalSeconds);
+            Assert.Equal(6e-6, edge.GetValue(1, "C0").TotalSeconds);
+            Assert.Equal(6e-6, edge.GetValue(1, "C1").TotalSeconds);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigureEdgeWithChannelSpecificValues_ValueCorrectlySet(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            var time = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>
+            {
+                ["C0"] = new Dictionary<int, double> { [0] = 5e-6, [1] = 6e-6 },
+                ["C1"] = new Dictionary<int, double> { [0] = 7e-6, [1] = 8e-6 },
+            });
+            sessionsBundle.ConfigureEdge("TS", TimeSetEdge.CompareStrobe, time);
+
+            var edge = sessionsBundle.GetTimeSetEdge("TS", TimeSetEdge.CompareStrobe);
+            Assert.Equal(5e-6, edge.GetValue(0, "C0").TotalSeconds);
+            Assert.Equal(6e-6, edge.GetValue(1, "C0").TotalSeconds);
+            Assert.Equal(7e-6, edge.GetValue(0, "C1").TotalSeconds);
+            Assert.Equal(8e-6, edge.GetValue(1, "C1").TotalSeconds);
+        }
+
         /// <summary>
         /// Removes a temporary file, if it exists.
         /// This method is intended to be called at the end of the unit test that saving information to a temporary file.
