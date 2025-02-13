@@ -267,7 +267,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure.</param>
-        public static void ConfigureEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, double time)
+        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, double time)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -282,7 +282,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure for different sites.</param>
-        public static void ConfigureEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, SiteData<double> time)
+        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, SiteData<double> time)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
@@ -297,7 +297,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure for different site-pin pairs.</param>
-        public static void ConfigureEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, PinSiteData<double> time)
+        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, PinSiteData<double> time)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {

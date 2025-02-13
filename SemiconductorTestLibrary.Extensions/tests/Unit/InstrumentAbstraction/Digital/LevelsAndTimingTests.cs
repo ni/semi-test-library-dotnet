@@ -982,7 +982,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            sessionsBundle.ConfigureEdge("TS", TimeSetEdge.CompareStrobe, 5e-6);
+            sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, 5e-6);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -999,7 +999,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            sessionsBundle.ConfigureEdge("TS", TimeSetEdge.CompareStrobe, new SiteData<double>(new[] { 5e-6, 6e-6 }));
+            sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, new SiteData<double>(new[] { 5e-6, 6e-6 }));
 
             var edge = sessionsBundle.GetTimeSetEdge("TS", TimeSetEdge.CompareStrobe);
             Assert.Equal(5e-6, edge.GetValue(0, "C0").TotalSeconds);
@@ -1021,7 +1021,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 ["C0"] = new Dictionary<int, double> { [0] = 5e-6, [1] = 6e-6 },
                 ["C1"] = new Dictionary<int, double> { [0] = 7e-6, [1] = 8e-6 },
             });
-            sessionsBundle.ConfigureEdge("TS", TimeSetEdge.CompareStrobe, time);
+            sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, time);
 
             var edge = sessionsBundle.GetTimeSetEdge("TS", TimeSetEdge.CompareStrobe);
             Assert.Equal(5e-6, edge.GetValue(0, "C0").TotalSeconds);
