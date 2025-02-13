@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
@@ -18,7 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
-    <PackageReference Include="SemiconductorTestLibrary.Analyzers.CodeFixes" Version="1.0.0" />
+    <PackageReference Include="SemiconductorTestLibrary.Analyzers" Version="1.0.0" />
     <Reference Include="Ivi.Driver">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
