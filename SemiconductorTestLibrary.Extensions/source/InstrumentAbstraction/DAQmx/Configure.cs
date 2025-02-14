@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -92,7 +93,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <returns>Sample clock rate, one value per underlying instrument session.</returns>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
-        [Obsolete("This method has been deprecated. Please use GetSampleClockRate() instead")]
+        [Obsolete("This method has been deprecated. Use GetSampleClockRate() instead")]
         public static double[] GetSampleClockRates(this DAQmxTasksBundle tasksBundle)
         {
             return tasksBundle.DoAndReturnPerInstrumentPerChannelResults(taskInfo =>
@@ -102,18 +103,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         }
 
         /// <summary>
-        /// <inheritdoc cref="Timing.SampleClockRate"/>/>
+        /// <inheritdoc cref="Timing.SampleClockRate"/>
         /// </summary>
         /// <remarks>
         /// This method is the same as <see cref="GetSampleClockRates"/>,
-        /// except it also checks if the flag state is the same values across all sessions in the bundle.
+        /// except it also checks if the sample clock rate is the same value across all sessions in the bundle.
         /// If the values are the same, it returns the single double value.
         /// Otherwise, it throws an exception.
         /// </remarks>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <returns>Sample clock rate.</returns>
         /// <exception cref="NISemiconductorTestException">The value for the sample clock rate is not the same for all underlying instrument sessions.</exception>
-        [Obsolete("Do not sure this method, call GetSampleClockRates().Single() to get the same functionality instead.", true)]
+        [Obsolete("This method has been deprecated, do not use this method. Consider calling GetSampleClockRates().Distinct().Single() for the same functionality.", true)]
         public static double GetSampleClockRateDistinct(this DAQmxTasksBundle tasksBundle)
         {
             return GetDistinctValue(tasksBundle.GetSampleClockRates(), string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_SampleClockRateNotDistinct));
@@ -129,7 +130,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
-                return new double[] { taskInfo.Task.Timing.SampleClockRate };
+                return Enumerable.Repeat(taskInfo.Task.Timing.SampleClockRate, taskInfo.AssociatedSitePinList.Count).ToArray();
             });
         }
     }
