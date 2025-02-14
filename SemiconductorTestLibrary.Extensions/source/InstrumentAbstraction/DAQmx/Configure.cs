@@ -1,7 +1,6 @@
-﻿using System.Globalization;
-using NationalInstruments.DAQmx;
+﻿using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.Common;
-using static NationalInstruments.SemiconductorTestLibrary.Common.HelperMethods;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
 {
@@ -90,29 +89,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
         /// <returns>Sample clock rate, one value per underlying instrument session.</returns>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
-        public static double[] GetSampleClockRates(this DAQmxTasksBundle tasksBundle)
+        public static PinSiteData<double> GetSampleClockRates(this DAQmxTasksBundle tasksBundle)
         {
-            return tasksBundle.DoAndReturnPerInstrumentPerChannelResults(taskInfo =>
+            return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
-                return taskInfo.Task.Timing.SampleClockRate;
+                return new double[] { taskInfo.Task.Timing.SampleClockRate };
             });
-        }
-
-        /// <summary>
-        /// <inheritdoc cref="Timing.SampleClockRate"/>/>
-        /// </summary>
-        /// <remarks>
-        /// This method is the same as <see cref="GetSampleClockRates"/>,
-        /// except it also checks if the flag state is the same values across all sessions in the bundle.
-        /// If the values are the same, it returns the single double value.
-        /// Otherwise, it throws an exception.
-        /// </remarks>
-        /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
-        /// <returns>Sample clock rate.</returns>
-        /// <exception cref="NISemiconductorTestException">The value for the sample clock rate is not the same for all underlying instrument sessions.</exception>
-        public static double GetSampleClockRateDistinct(this DAQmxTasksBundle tasksBundle)
-        {
-            return GetDistinctValue(tasksBundle.GetSampleClockRates(), string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_SampleClockRateNotDistinct));
         }
     }
 }
