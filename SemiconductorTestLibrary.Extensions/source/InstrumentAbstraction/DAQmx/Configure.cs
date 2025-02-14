@@ -87,9 +87,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         /// Gets the actual sample clock rate (Hz).
         /// </summary>
         /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
-        /// <returns>Sample clock rate, one value per underlying instrument session.</returns>
+        /// <returns>The pin-site aware sample clock rate.</returns>
         /// <exception cref="DaqException">The underling driver session returned an error.</exception>
-        public static PinSiteData<double> GetSampleClockRates(this DAQmxTasksBundle tasksBundle)
+        public static PinSiteData<double> GetSampleClockRate(this DAQmxTasksBundle tasksBundle)
         {
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {

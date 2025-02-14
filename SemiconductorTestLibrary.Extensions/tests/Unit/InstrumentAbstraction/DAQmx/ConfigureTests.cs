@@ -41,11 +41,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             tasksBundle.ConfigureTiming(timingSettings);
 
-            var sampleClockRateActual = tasksBundle.GetSampleClockRates();
-            foreach (var sampleClockRate in sampleClockRateActual)
-            {
-                Assert.Equal(5555, sampleClockRate, 0);
-            }
+            var sampleClockRate = tasksBundle.GetSampleClockRate();
+            Assert.Equal(5555, sampleClockRate.GetValue(0, "VCC1"), 0);
+            Assert.Equal(5555, sampleClockRate.GetValue(1, "VCC1"), 0);
         }
     }
 }
