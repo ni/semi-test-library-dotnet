@@ -1,6 +1,9 @@
-﻿using NationalInstruments.DAQmx;
+﻿using System;
+using System.Globalization;
+using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using static NationalInstruments.SemiconductorTestLibrary.Common.HelperMethods;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
 {
@@ -81,6 +84,39 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
                 }
                 taskInfo.Task.Control(TaskAction.Commit);
             });
+        }
+
+        /// <summary>
+        /// Gets the actual sample clock rate (Hz).
+        /// </summary>
+        /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
+        /// <returns>Sample clock rate, one value per underlying instrument session.</returns>
+        /// <exception cref="DaqException">The underling driver session returned an error.</exception>
+        [Obsolete("This method has been deprecated. Please use GetSampleClockRate() instead")]
+        public static double[] GetSampleClockRates(this DAQmxTasksBundle tasksBundle)
+        {
+            return tasksBundle.DoAndReturnPerInstrumentPerChannelResults(taskInfo =>
+            {
+                return taskInfo.Task.Timing.SampleClockRate;
+            });
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="Timing.SampleClockRate"/>/>
+        /// </summary>
+        /// <remarks>
+        /// This method is the same as <see cref="GetSampleClockRates"/>,
+        /// except it also checks if the flag state is the same values across all sessions in the bundle.
+        /// If the values are the same, it returns the single double value.
+        /// Otherwise, it throws an exception.
+        /// </remarks>
+        /// <param name="tasksBundle">The <see cref="DAQmxTasksBundle"/> object.</param>
+        /// <returns>Sample clock rate.</returns>
+        /// <exception cref="NISemiconductorTestException">The value for the sample clock rate is not the same for all underlying instrument sessions.</exception>
+        [Obsolete("Do not sure this method, call GetSampleClockRates().Single() to get the same functionality instead.", true)]
+        public static double GetSampleClockRateDistinct(this DAQmxTasksBundle tasksBundle)
+        {
+            return GetDistinctValue(tasksBundle.GetSampleClockRates(), string.Format(CultureInfo.InvariantCulture, ResourceStrings.DAQmx_SampleClockRateNotDistinct));
         }
 
         /// <summary>
