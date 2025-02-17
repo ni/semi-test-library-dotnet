@@ -31,11 +31,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Obsolete("The GetSampleClockRateDistinct method is obsolete, but behavior can still be tested at this time.")]
-        public void ConfigureTimingAndGetSampleClockRateDistinct_ReturnsCorrectValue()
+        public void ConfigureTiming_GetSampleClockRateDistinct_ReturnsCorrectValue()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
             var tasksBundle = sessionManager.DAQmx("VCC1");
-
             DAQmxTimingSampleClockSettings timingSettings = new DAQmxTimingSampleClockSettings
             {
                 SampleClockRate = 5555,
@@ -52,11 +51,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Obsolete("The GetSampleClockRateDistinct method is obsolete, this test validates the suggested alternative.")]
-        public void ConfigureTimingAndGetSampleClockRatesDistinctSingle_ReturnsSameValueAsGetSampleClockRateDistinct()
+        public void ConfigureTiming_GetSampleClockRatesDistinctSingle_ReturnsSameValueAsGetSampleClockRateDistinct()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
             var tasksBundle = sessionManager.DAQmx("VCC1");
-
             DAQmxTimingSampleClockSettings timingSettings = new DAQmxTimingSampleClockSettings
             {
                 SampleClockRate = 5555,
@@ -72,11 +70,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void ConfigureTimingAndGetSampleClockRates_ReturnsCorrectValue()
+        public void ConfigureTiming_GetSampleClockRates_ReturnsCorrectValue()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
             var tasksBundle = sessionManager.DAQmx("VCC1");
-
             DAQmxTimingSampleClockSettings timingSettings = new DAQmxTimingSampleClockSettings
             {
                 SampleClockRate = 5555,
@@ -88,6 +85,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 #pragma warning disable CS0618 // Type or member is obsolete, but can still be used.
             double[] sampleClockRateActualPerInstrument = tasksBundle.GetSampleClockRates();
 #pragma warning restore CS0618 // Type or member is obsolete, but can still be used.
+
             foreach (var sampleClockRate in sampleClockRateActualPerInstrument)
             {
                 Assert.Equal(5555, sampleClockRate, 0);
@@ -95,11 +93,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void ConfigureTimingAndGetSampleClockRate_ReturnsCorrectValue()
+        public void ConfigureTiming_GetSampleClockRate_ReturnsCorrectValue()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
             var tasksBundle = sessionManager.DAQmx(new[] { "VCC1", "VCC2" });
-
             DAQmxTimingSampleClockSettings timingSettings = new DAQmxTimingSampleClockSettings
             {
                 SampleClockRate = 5555,
@@ -109,6 +106,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             tasksBundle.ConfigureTiming(timingSettings);
 
             PinSiteData<double> sampleClockRate = tasksBundle.GetSampleClockRate();
+
             foreach (var siteNumber in sampleClockRate.SiteNumbers)
             {
                 Assert.Equal(5555, sampleClockRate.GetValue(siteNumber, "VCC1"), 0);
