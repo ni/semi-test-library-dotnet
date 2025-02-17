@@ -17,8 +17,8 @@
     <None Remove="net48\**" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary.Analyzers" Version="1.0.0" />
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
-    <PackageReference Include="SemiconductorTestLibrary.Analyzers" Version="1.0.0" />
     <Reference Include="Ivi.Driver">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
