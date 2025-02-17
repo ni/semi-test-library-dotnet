@@ -749,41 +749,46 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(5e-6, timeSetPeriod.GetValue(1, "C1").TotalSeconds);
         }
 
-        [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
-        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SameTimeSetPeriodConfigured_GetTimeSetPeriodDistinct_ReturnsCorrectValue(string pinMap, string digitalProject)
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparatelyAndDifferentTimeSetPeriodConfigured_GetTimeSetPeriod_ReturnsCorrectValue()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var sessionsBundle = sessionManager.Digital();
-            sessionsBundle.ConfigureTimeSetPeriod("TS_SW", 5e-6);
-            sessionsBundle.ConfigureTimeSetPeriod("TS", 5e-6);
-
-            var timeSet1 = sessionsBundle.GetTimeSetPeriodDistinct("TS_SW").TotalSeconds;
-            var timeSet2 = sessionsBundle.GetTimeSetPeriodDistinct("TS").TotalSeconds;
-
-            Assert.Equal(5e-6, timeSet1);
-            Assert.Equal(5e-6, timeSet2);
-        }
-
-        [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
-        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void DifferentTimeSetPeriodConfigured_GetTimeSetPeriodDistinct_ThrowsException(string pinMap, string digitalProject)
-        {
-            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
             var timeSetPeriod = 5e-6;
-            var sessionsBundle = sessionManager.Digital();
             foreach (var session in sessionsBundle.InstrumentSessions)
             {
                 session.Session.Timing.GetTimeSet("TS").ConfigurePeriod(Ivi.Driver.PrecisionTimeSpan.FromSeconds(timeSetPeriod));
                 timeSetPeriod /= 10;
             }
 
-            void GetTimeSetPeriodDistinctMethod() => sessionsBundle.GetTimeSetPeriodDistinct("TS");
+            var resultTimeSetPeriod = sessionsBundle.GetTimeSetPeriod("TS");
 
-            var exception = Assert.Throws<NISemiconductorTestException>(GetTimeSetPeriodDistinctMethod);
-            Assert.Contains("The value of the time set period (TS) is not the same for all underlying instrument sessions.", exception.Message);
+            Assert.Equal(5e-6, resultTimeSetPeriod.GetValue(0, "C0").TotalSeconds, 6);
+            Assert.Equal(5e-6, resultTimeSetPeriod.GetValue(0, "C1").TotalSeconds, 6);
+            Assert.Equal(5e-7, resultTimeSetPeriod.GetValue(1, "C0").TotalSeconds, 7);
+            Assert.Equal(5e-7, resultTimeSetPeriod.GetValue(1, "C1").TotalSeconds, 7);
+        }
+
+        [Fact]
+        public void OneDeviceWorksForOnePinOnTwoSitesAndDifferentTimeSetPeriodConfigured_GetTimeSetPeriod_ReturnsCorrectValue()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
+            var timeSetPeriod = 5e-6;
+            foreach (var session in sessionsBundle.InstrumentSessions)
+            {
+                session.Session.Timing.GetTimeSet("TS").ConfigurePeriod(Ivi.Driver.PrecisionTimeSpan.FromSeconds(timeSetPeriod));
+                timeSetPeriod /= 10;
+            }
+
+            var resultTimeSetPeriod = sessionsBundle.GetTimeSetPeriod("TS");
+
+            Assert.Equal(5e-6, resultTimeSetPeriod.GetValue(0, "C0").TotalSeconds, 6);
+            Assert.Equal(5e-6, resultTimeSetPeriod.GetValue(0, "C1").TotalSeconds, 6);
+            Assert.Equal(5e-6, resultTimeSetPeriod.GetValue(1, "C0").TotalSeconds, 6);
+            Assert.Equal(5e-7, resultTimeSetPeriod.GetValue(1, "C1").TotalSeconds, 7);
         }
 
         [Fact]
@@ -874,6 +879,155 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList.Count);
             Assert.Equal(1.8, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.DigitalLevels.Vih, 1);
+        }
+
+        [Fact]
+        public void TwoDevicesWorkForTwoSitesSeparately_GetPerPinPerSiteTimeSetCompareEdgesStrobe_ReturnsCorrectValue()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
+            var compareEdges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [pins[0]] = new Dictionary<int, double> { [0] = 5e-6, [1] = 10e-6 },
+                [pins[1]] = new Dictionary<int, double> { [0] = 8e-6, [1] = 11e-6 }
+            });
+            sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges);
+
+            var timeSetEdge = sessionsBundle.GetTimeSetEdge("TS_SW", TimeSetEdge.CompareStrobe);
+
+            Assert.Equal(5e-6, timeSetEdge.GetValue(0, "C0").TotalSeconds);
+            Assert.Equal(10e-6, timeSetEdge.GetValue(1, "C0").TotalSeconds);
+            Assert.Equal(8e-6, timeSetEdge.GetValue(0, "C1").TotalSeconds);
+            Assert.Equal(11e-6, timeSetEdge.GetValue(1, "C1").TotalSeconds);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitializedPerPinPerSiteEdgeMultiplier_GetTimeSetEdgeMultiplier_ReturnsCorrectValue(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var pins = new string[] { "C0", "C1" };
+            var sites = new int[] { 0, 1 };
+            var perPinPerSiteEdgeMultiplier = new PinSiteData<int>(pins, sites, new int[][]
+            {
+                // First Pin's Per Site Values (2 sites)
+                new[] { 1, 2 },
+                // Second Pin's Per Site Values (2 sites)
+                new[] { 2, 1 },
+            });
+            var timeSet = "TS_SW";
+            var sessionsBundle = sessionManager.Digital(pins);
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureEdgeMultiplier(pinSiteInfo.SitePinString, perPinPerSiteEdgeMultiplier.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName));
+            });
+
+            var timeSetEdgeMultiplier = sessionsBundle.GetTimeSetEdgeMultiplier(timeSet);
+
+            for (int pinIndex = 0; pinIndex < pins.Length; pinIndex++)
+            {
+                for (int siteIndex = 0; siteIndex < sites.Length; siteIndex++)
+                {
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]), timeSetEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]), timeSetEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]), timeSetEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]), timeSetEdgeMultiplier.GetValue(sites[siteIndex], pins[pinIndex]));
+                }
+            }
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitializedPerPinPerSiteDriveFormatsSet_GetTimeSetDriveFormat_ReturnsCorrectValue(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var pins = new string[] { "C0", "C1" };
+            var sites = new int[] { 0, 1 };
+            var perPinPerSiteFormats = new PinSiteData<DriveFormat>(pins, sites, new DriveFormat[][]
+            {
+                // First Pin's Per Site Values (2 sites)
+                new[] { DriveFormat.ReturnToLow, DriveFormat.ReturnToHigh },
+                // Second Pin's Per Site Values (2 sites)
+                new[] { DriveFormat.SurroundByComplement, DriveFormat.ReturnToLow }
+            });
+            var timeSet = "TS_SW";
+            var sessionsBundle = sessionManager.Digital(pins);
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureDriveFormat(pinSiteInfo.SitePinString, perPinPerSiteFormats.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName));
+            });
+
+            var timeSetDriveFormat = sessionsBundle.GetTimeSetDriveFormat(timeSet);
+
+            for (int pinIndex = 0; pinIndex < pins.Length; pinIndex++)
+            {
+                for (int siteIndex = 0; siteIndex < sites.Length; siteIndex++)
+                {
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteIndex], pins[pinIndex]), timeSetDriveFormat.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteIndex], pins[pinIndex]), timeSetDriveFormat.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteIndex], pins[pinIndex]), timeSetDriveFormat.GetValue(sites[siteIndex], pins[pinIndex]));
+                    Assert.Equal(perPinPerSiteFormats.GetValue(sites[siteIndex], pins[pinIndex]), timeSetDriveFormat.GetValue(sites[siteIndex], pins[pinIndex]));
+                }
+            }
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigureEdgeWithSingleValue_ValueCorrectlySet(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, 5e-6);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var edge = sessionInfo.Session.Timing.GetTimeSet("TS").GetEdge(sitePinInfo.SitePinString, TimeSetEdge.CompareStrobe);
+                Assert.Equal(5e-6, edge.TotalSeconds);
+            });
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigureEdgeWithSiteSpecificValues_ValueCorrectlySet(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, new SiteData<double>(new[] { 5e-6, 6e-6 }));
+
+            var edge = sessionsBundle.GetTimeSetEdge("TS", TimeSetEdge.CompareStrobe);
+            Assert.Equal(5e-6, edge.GetValue(0, "C0").TotalSeconds);
+            Assert.Equal(5e-6, edge.GetValue(0, "C1").TotalSeconds);
+            Assert.Equal(6e-6, edge.GetValue(1, "C0").TotalSeconds);
+            Assert.Equal(6e-6, edge.GetValue(1, "C1").TotalSeconds);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigureEdgeWithChannelSpecificValues_ValueCorrectlySet(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            var time = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>
+            {
+                ["C0"] = new Dictionary<int, double> { [0] = 5e-6, [1] = 6e-6 },
+                ["C1"] = new Dictionary<int, double> { [0] = 7e-6, [1] = 8e-6 },
+            });
+            sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, time);
+
+            var edge = sessionsBundle.GetTimeSetEdge("TS", TimeSetEdge.CompareStrobe);
+            Assert.Equal(5e-6, edge.GetValue(0, "C0").TotalSeconds);
+            Assert.Equal(6e-6, edge.GetValue(1, "C0").TotalSeconds);
+            Assert.Equal(7e-6, edge.GetValue(0, "C1").TotalSeconds);
+            Assert.Equal(8e-6, edge.GetValue(1, "C1").TotalSeconds);
         }
 
         /// <summary>
