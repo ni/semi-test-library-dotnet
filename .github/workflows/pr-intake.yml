@@ -87,7 +87,7 @@ jobs:
         id: wait_build
         run: |
           SPECIFIC_BUILD_RUN_ID=${{ steps.get_build_runid.outputs.build_run_id }}
-          TIMEOUT=3600 # 1 hour
+          TIMEOUT=10800 # 3 hour
           INTERVAL=240 # 4 minutes
           ELAPSED=0
           while true; do
@@ -121,7 +121,7 @@ jobs:
         id: wait_test
         run: |
           SPECIFIC_TEST_RUN_ID=${{ steps.get_test_runid.outputs.test_run_id }}
-          TIMEOUT=3600 # 1 hour
+          TIMEOUT=10800 # 3 hour
           INTERVAL=240 # 4 minutes
           ELAPSED=0
           while true; do
