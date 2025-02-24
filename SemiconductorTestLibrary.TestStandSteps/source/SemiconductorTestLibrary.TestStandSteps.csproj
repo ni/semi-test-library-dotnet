@@ -17,6 +17,7 @@
     <None Remove="net48\**" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary.Analyzers" Version="1.0.0" />
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
     <ProjectReference Include="..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
     <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
