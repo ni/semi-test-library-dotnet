@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using Ivi.Driver;
-using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -132,16 +132,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.False(sessionInfo.Session.PatternControl.IsDone);
             });
-            var exception = Assert.Throws<AggregateException>(() => sessionsBundle.WaitUntilDone(0.001));
 
-            exception.IfNotNull(x =>
+            AggregateException aggregateException = Assert.Throws<AggregateException>(() => sessionsBundle.WaitUntilDone(0.001));
+            foreach (Exception innerExeption in aggregateException.InnerExceptions)
             {
-                foreach (var innerExeption in x.InnerExceptions)
-                {
-                    Assert.IsType<IviCDriverException>(innerExeption);
-                    Assert.Contains("Specified operation did not complete, because the specified timeout expired.", innerExeption.Message);
-                }
-            });
+                Assert.IsType<IviCDriverException>(innerExeption);
+                Assert.Contains("Specified operation did not complete, because the specified timeout expired.", innerExeption.Message);
+            }
         }
 
         [Theory]
@@ -154,15 +151,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital("C0");
             void WaitUntilDone() => sessionsBundle.WaitUntilDone(-2);
 
-            var exception = Assert.Throws<AggregateException>(WaitUntilDone);
-            exception.IfNotNull(x =>
+            AggregateException aggregateException = Assert.Throws<AggregateException>(WaitUntilDone);
+            foreach (Exception innerExeption in aggregateException.InnerExceptions)
             {
-                foreach (var innerExeption in x.InnerExceptions)
-                {
-                    Assert.IsType<ArgumentException>(innerExeption);
-                }
-            });
+                Assert.IsType<ArgumentException>(innerExeption);
+            }
         }
+
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
@@ -223,6 +218,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.False(sessionInfo.Session.PatternControl.IsKeepAliveActive);
             });
+        }
+
+        [Fact]
+        public void SessionsInitialized_BurstPatternWithoutSpecifyingPins_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital();
+            sessionsBundle.BurstPattern("TX_RF");
+            sessionsBundle.WaitUntilDone();
+            var results = sessionsBundle.GetSitePassFail();
+            var failCountResults = sessionsBundle.GetFailCount();
+
+            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(2, failCountResults.SiteNumbers.Length);
+            Assert.Equal(5, failCountResults.ExtractSite(0).Count);
         }
     }
 }

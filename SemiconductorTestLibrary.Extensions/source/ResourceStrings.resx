@@ -135,4 +135,7 @@
   <data name="Digital_TDROffsetsMissing" xml:space="preserve">
     <value>TDR offsets for following channels are missing from {0}: {1}.</value>
   </data>
+  <data name="Digital_TimeSetPeriodNotDistinct" xml:space="preserve">
+    <value>The value of the time set period ({0}) is not the same for all underlying instrument sessions.</value>
+  </data>
 </root>

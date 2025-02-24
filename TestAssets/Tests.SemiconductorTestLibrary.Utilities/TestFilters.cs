@@ -5,4 +5,9 @@
         GP3,
         Lungyuan
     }
+
+    public enum Platform
+    {
+        TesterOnly
+    }
 }

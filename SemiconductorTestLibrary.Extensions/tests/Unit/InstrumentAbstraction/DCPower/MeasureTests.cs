@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
-using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
@@ -499,14 +498,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void Operation() => sessionsBundle.FetchMeasurement();
 
-            var exception = Assert.Throws<AggregateException>(Operation);
-            exception.IfNotNull(x =>
+            AggregateException aggregateException = Assert.Throws<AggregateException>(Operation);
+            foreach (Exception innerExeption in aggregateException.InnerExceptions)
             {
-                foreach (var innerExeption in x.InnerExceptions)
-                {
-                    Assert.Contains("Function or method not supported.", innerExeption.InnerException.Message);
-                }
-            });
+                Assert.Contains("Function or method not supported.", innerExeption.InnerException.Message);
+            }
         }
 
         [Theory]
