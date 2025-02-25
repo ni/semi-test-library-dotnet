@@ -1,12 +1,53 @@
 
 # Changelog
 
+- [25.0.0 - 2025-03-01](#2500---2025-03-01)
 - [24.5.1 - 2024-10-31](#2451---2024-10-31)
 - [24.5.0 - 2024-08-16](#2450---2024-08-16)
 
 All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## 25.0.0 - 2025-03-01
+
+- ### Added
+
+  - **Data Abstraction**
+    - New `ISemiconductorModuleContext` extension methods added for sharing data between NI TestStand code modules
+      - `SetGlobalSiteData<T>(string dataId, SiteData<T> siteData, bool overrideIfExisting = true)`
+        - `SiteData<T> GetGlobalSiteData<T>(string dataId, bool filterForActiveSites = true)`
+        - `SetGlobalPinSiteData<T>(string dataId, PinSiteData<T> pinSiteData, bool overrideIfExisting = true)`
+        - `PinSiteData<T> GetGlobalPinSiteData<T>(string dataId, bool filterForActiveSites = true)`
+      - New `TryGetValue` method added to `SiteData<T>`
+        - `TryGetValue(int siteNumber, out T value)`
+          - Return Type: `bool`
+          - Description: Returns `true` if the data for the given site number exists in the `SiteData<T>` object.
+  - **Instrument Abstraction**
+    - A new overload added for querying Digital Sessions Bundle without specifying any pin. Note, the returned Sessions Bundle associates with all the available DUT pins.
+      - `TSMSessionManager.Digital()`
+    - New overloads added for querying DAQmx Sessions Bundle with expected task type
+      - `TSMSessionManager.DAQmx(string pin, DAQmxTaskType expectedTaskType)`
+      - `TSMSessionManager.DAQmx(string[] pins, DAQmxTaskType expectedTaskType)`
+      - `TSMSessionManager.DAQmx(string[] pins, bool filterPins, DAQmxTaskType expectedTaskType)`
+    - New `Digital.LevelsAndTiming` extension methods added to configure and retrieve some time set related information
+      - `ConfigureTimeSetEdge( string timeSet, TimeSetEdge edge, double time)`
+      - `ConfigureTimeSetEdge(string timeSet, TimeSetEdge edge, SiteData<double> time)`
+      - `ConfigureTimeSetEdge(string timeSet, TimeSetEdge edge, PinSiteData<double> time)`
+      - `PinSiteData<Ivi.Driver.PrecisionTimeSpan> GetTimeSetPeriod(string timeSet)`
+      - `PinSiteData<Ivi.Driver.PrecisionTimeSpan> GetTimeSetEdge(string timeSet, TimeSetEdge driveEdge)`
+      - `PinSiteData<int> GetTimeSetEdgeMultiplier(string timeSet)`
+      - `PinSiteData<DriveFormat> GetTimeSetDriveFormat(string timeSet)`
+  - **NuGet Package**
+    - `NationalInstruments.SemiconductorTestLibrary.25.0.0.nupkg` now includes PDB files for `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll` and `NationalInstruments.SemiconductorTestLibrary.Extensions.dll`
+    - Source Link is now enabled on `NationalInstruments.SemiconductorTestLibrary.25.0.0.nupkg` which allows developers to debug into the source code of the Semiconductor Test Library for troubleshooting and understanding how it works.
+
+- ### Changed
+
+  - **Instrument Abstraction**
+    - For DAQmx, now provides `PinSiteData<double> GetSampleClockRate()` extension method, and obsoletes `double[] GetSampleClockRates()` and `double GetSampleClockRateDistinct()`.
+  - **TestStandSteps**
+    - `SetupNIDigitalPatternInstruementation` now provides a new boolean input `applySourceWaveformData` to control whether to apply the data in waveform files to source waveforms.
 
 ## 24.5.1 - 2024-10-31
 
