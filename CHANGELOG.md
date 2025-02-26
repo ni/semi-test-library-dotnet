@@ -44,6 +44,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - ### Changed
 
+  - **Data Abstraction**
+    - Math Operations methods now check and report the following error
+      - When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.
   - **Instrument Abstraction**
     - For DAQmx, now provides `PinSiteData<double> GetSampleClockRate()` extension method, and obsoletes `double[] GetSampleClockRates()` and `double GetSampleClockRateDistinct()`.
   - **TestStandSteps**
