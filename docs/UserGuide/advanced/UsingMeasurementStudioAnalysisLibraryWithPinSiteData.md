@@ -2,7 +2,7 @@
 
 NI Measurement Studio Analysis Library provides powerful and easy-to-use mathematical analysis tools for measurement applications written for the Microsoft .NET Framework. For more information, refer to *Measurement Studio Analysis Help*.
 
-> **Note:** Measurement Studio Analysis Library does not support PinSiteData objects directly.
+> **Note:** Measurement Studio Analysis Library does not support `PinSiteData` objects directly.
 
 Follow the steps below to use Measurement Studio Analysis Library with `PinSiteData`.
 
@@ -13,7 +13,7 @@ Follow the steps below to use Measurement Studio Analysis Library with `PinSiteD
   - `NationalInstruments.Analysis.Enterprise`
 3. In the CS project, reference `NationalInstruments.Common` assembly which contains the `ComplexDouble` data type.
 4. In the CS project, reference either `NationalInstruments.SemiconductorTestLibrary.Abstractions` assembly or `NationalInstruments.SemiconductorTestLibrary.25.0.0.nupkg` which contains the `PinSiteData` data type.
-5. In the CS file, add the following using directives.
+5. In the CS file, add the following `using` directives.
   - `using NationalInstruments;`
   - `using NationalInstruments.Analysis;`
   - `using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;`
@@ -25,7 +25,7 @@ Follow the steps below to use Measurement Studio Analysis Library with `PinSiteD
 9. Then convert the data or data copy appropriately as necessary, or directly pass it as an input into the desired Analysis Library method.
 
 ## Example
-The following example shows how to compute Fast Fourier Transform (FFT) of a PinSiteData object of real-valued arrays, and real, two-dimensional time-domain signals.
+The following example shows how to compute Fast Fourier Transform (FFT) of a `PinSiteData` object of real-valued arrays, and real, two-dimensional time-domain signals.
 ```
 using NationalInstruments;
 using NationalInstruments.Analysis.Dsp;
@@ -48,10 +48,10 @@ namespace UsingAnalysisLibraryWithPinSiteData
 }
 ```
 
-There are also Analysis Library methods that take more than one input data. In these cases, you need to explicitly traverse pin names and site numbers on all input PinSiteData objects to retrieve the right elements to pass to Analysis Library methods.
+There are also Analysis Library methods that take more than one input data. In these cases, you need to explicitly traverse pin names and site numbers on all input `PinSiteData` objects to retrieve the right elements to pass to Analysis Library methods.
 
 ## Example
-The following example shows how to calculate the convolution of the input PinSiteData objects of arrays.
+The following example shows how to calculate the convolution of the input `PinSiteData` objects of arrays.
 ```
 using System;
 using System.Collections.Generic;
