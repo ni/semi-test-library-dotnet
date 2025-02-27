@@ -22,7 +22,7 @@ Follow the steps below to use Measurement Studio Analysis Library with `PinSiteD
 8. Make a copy of the selected data element within the body of the expression when both of the following statements are true.
   - The inner data element is reference type (e.g. an array).
   - The Analysis Library method to be invoked operates data in place.
-9. Then pass the data or data copy as an input into the desired Analysis Library method.
+9. Then convert the data or data copy appropriately as necessary, or directly pass it as an input into the desired Analysis Library method.
 
 ## Example
 The following example shows how to compute Fast Fourier Transform (FFT) of a PinSiteData object of real-valued arrays, and real, two-dimensional time-domain signals.
