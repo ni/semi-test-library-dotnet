@@ -4,11 +4,29 @@ on:
   issues:
     types: [opened]
   workflow_dispatch:
+    inputs:
+        issue_number:
+            description: 'The issue number to process'
+            required: true
 
 jobs:
   handle-new-issue:
     runs-on: ubuntu-latest
     steps:
+      - name: Fetch Issue Details
+        id: fetch-issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issueNumber = parseInt(core.getInput('issue_number'));
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber
+            });
+            return issue;
+          result-encoding: string
+
       - name: Determine Work Item Type
         id: determine-work-item-type
         uses: actions/github-script@v6
