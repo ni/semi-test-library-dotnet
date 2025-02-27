@@ -3,6 +3,7 @@ name: Issue Created Handler
 on:
   issues:
     types: [opened]
+  workflow_dispatch:
 
 jobs:
   handle-new-issue:
