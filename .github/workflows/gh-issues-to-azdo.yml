@@ -3,30 +3,11 @@ name: Issue Created Handler
 on:
   issues:
     types: [opened]
-  workflow_dispatch:
-    inputs:
-        issue_number:
-            description: 'The issue number to process'
-            required: true
-
+# Change AZURE_DEVOPS_TOKEN
 jobs:
   handle-new-issue:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch Issue Details
-        id: fetch-issue
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const issueNumber = parseInt(core.getInput('issue_number'));
-            const { data: issue } = await github.rest.issues.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber
-            });
-            return issue;
-          result-encoding: string
-
       - name: Determine Work Item Type
         id: determine-work-item-type
         uses: actions/github-script@v6
@@ -51,7 +32,7 @@ jobs:
         env:
           AZDO_ORG: ${{ secrets.AZDO_ORG }}
           AZDO_PROJECT: ${{ secrets.AZDO_PROJECT }}
-          AZDO_PAT: ${{ secrets.AZDO_PAT }}
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
           AZDO_AREA_PATH: ${{ secrets.AZDO_AREA_PATH }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -83,7 +64,7 @@ jobs:
           echo "$PATCH_DOC" > patch.json
           WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/\$${WORK_ITEM_TYPE}?api-version=6.0"
           echo "Work Item API URL: $WORK_ITEM_API_URL"
-          RESPONSE=$(curl -s -u :$AZDO_PAT \
+          RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
             -X POST \
             -H "Content-Type: application/json-patch+json" \
             --data @patch.json \
@@ -101,7 +82,7 @@ jobs:
         env:
           AZDO_ORG: ${{ secrets.AZDO_ORG }}
           AZDO_PROJECT: ${{ secrets.AZDO_PROJECT }}
-          AZDO_PAT: ${{ secrets.AZDO_PAT }}
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
           WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           GH_REPO_GUID: ${{ secrets.GH_REPO_GUID }}
@@ -123,7 +104,7 @@ jobs:
             }]')
           echo "$PATCH_RELATION" > patch-relation.json
           WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$WORK_ITEM_ID?api-version=6.0"
-          RESPONSE=$(curl -s -u :$AZDO_PAT \
+          RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
             -X PATCH \
             -H "Content-Type: application/json-patch+json" \
             --data @patch-relation.json \
