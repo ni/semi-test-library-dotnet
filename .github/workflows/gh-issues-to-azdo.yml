@@ -3,7 +3,7 @@ name: Issue Created Handler
 on:
   issues:
     types: [opened]
-# Change AZURE_DEVOPS_TOKEN
+
 jobs:
   handle-new-issue:
     runs-on: ubuntu-latest
