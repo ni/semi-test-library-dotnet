@@ -101,7 +101,7 @@ jobs:
               }
                 
               if (eligible) {
-                const commentBody = `The fix for this issue is included in version ${version}, which has now been released ([click here](${releaseLink})). This issue will auto close within the next 30 days.`;
+                const commentBody = `The fix for this issue is included in version ${version}, which has now been released ([v${version](${releaseLink})). This issue will auto close within the next 30 days.`;
                 await github.rest.issues.createComment({
                   owner,
                   repo,
