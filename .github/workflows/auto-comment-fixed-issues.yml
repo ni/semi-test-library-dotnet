@@ -17,17 +17,55 @@ jobs:
             const branchRef = context.ref;
             const version = branchRef.replace('refs/heads/releases/', '');
             const releaseLink = `https://github.com/${owner}/${repo}/tree/releases/${version}`;
-            const targetUser = "Tanish-NI";
+            const targetUser = "github-actions[bot]";
 
-            let latestRelease;
-            let previousReleaseDate;
+            let latestReleaseBranch = null;
+            let previousReleaseBranch = null;
+            let previousReleaseDate = new Date(0); // default fallback
+
             try {
-              latestRelease = await github.rest.repos.getLatestRelease({ owner, repo });
-              previousReleaseDate = new Date(latestRelease.data.published_at);
-              console.log("Latest release published at:", previousReleaseDate);
-            }catch (error) {
-              console.log("No previous release found; defaulting to epoch start.");
-              previousReleaseDate = new Date(0); // Fallback if no release exists.
+              const branchesResponse = await github.rest.repos.listBranches({
+                owner,
+                repo,
+                per_page: 100,
+              });
+
+              const releaseBranches = branchesResponse.data.filter(branch =>
+                branch.name.startsWith("releases/")
+              );
+
+              if (releaseBranches.length === 0) {
+                console.log("No release branches found.");
+              } else {
+                const branchDetails = await Promise.all(releaseBranches.map(async branch => {
+                  const commitResponse = await github.rest.repos.getCommit({
+                    owner,
+                    repo,
+                    ref: branch.commit.sha,
+                  });
+                  return {
+                    branchName: branch.name,
+                    commitDate: new Date(commitResponse.data.commit.author.date)
+                  };
+                }));
+              
+                branchDetails.sort((a, b) => b.commitDate - a.commitDate);
+                latestReleaseBranch = branchDetails[0];
+
+                if (branchDetails.length >= 2) {
+                  previousReleaseBranch = branchDetails[1];
+                  previousReleaseDate = previousReleaseBranch.commitDate;
+                }
+
+                console.log("Latest release branch:", latestReleaseBranch.branchName, "with commit date:", latestReleaseBranch.commitDate);
+                if (previousReleaseBranch) {
+                  console.log("Previous release branch:", previousReleaseBranch.branchName, "with commit date:", previousReleaseBranch.commitDate);
+                } else {
+                  console.log("Only one release branch found; no previous release branch available.");
+                }
+              }
+            } catch (error) {
+              console.log("Error fetching release branch details; defaulting previous release date to epoch start. Error details:", error);
             }
             
             const searchQuery = `repo:${owner}/${repo} is:issue "The corresponding work item has been closed. The fix should be available in the next release." in:comments`;
