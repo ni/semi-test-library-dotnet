@@ -27,8 +27,6 @@ jobs:
             -X POST "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/wiql?api-version=7.1-preview.2" \
             -H "Content-Type: application/json" \
             --data-binary "$PAYLOAD")
-          # echo "Raw response from Azure DevOps:"
-          # echo "$RESPONSE"
           if echo "$RESPONSE" | jq -e '.workItems' >/dev/null 2>&1; then
             ITEM_COUNT=$(echo "$RESPONSE" | jq '.workItems | length')
             if [ "$ITEM_COUNT" -eq 0 ]; then
