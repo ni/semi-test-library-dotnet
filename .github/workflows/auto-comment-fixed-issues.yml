@@ -1,4 +1,4 @@
-name: Comment on Fixed Issues
+name: Comment on fixed issues about new release branch.
 
 on:
   create:
@@ -72,7 +72,7 @@ jobs:
             console.log("Search query:", searchQuery);
 
             const issues = await github.paginate(github.rest.search.issuesAndPullRequests, {
-              q: `repo:${owner}/${repo} is:issue "The corresponding work item has been closed. The fix should be available in the next release." in:comments`,
+              q: searchQuery,
               per_page: 100,
             });
             console.log(`Found ${issues.length} issues with matching comment.`);
