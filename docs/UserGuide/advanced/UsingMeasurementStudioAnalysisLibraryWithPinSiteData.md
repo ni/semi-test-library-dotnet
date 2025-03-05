@@ -2,27 +2,35 @@
 
 NI Measurement Studio Analysis Library provides powerful and easy-to-use mathematical analysis tools for measurement applications written for the Microsoft .NET Framework. For more information, refer to *Measurement Studio Analysis Help*.
 
-> **Note:** Measurement Studio Analysis Library does not support `PinSiteData` objects directly.
+> [!NOTE]
+> Measurement Studio Analysis Library does not support `PinSiteData` objects directly.
 
 Follow the steps below to use Measurement Studio Analysis Library with `PinSiteData`.
 
-1. Check the NI Measurement Studio Analysis Library license you have.
-2. In the CS project, reference one of the Analysis Library assemblies below according to the license you have.
-  - `NationalInstruments.Analysis.Standard`
-  - `NationalInstruments.Analysis.Professional`
-  - `NationalInstruments.Analysis.Enterprise`
-3. In the CS project, reference `NationalInstruments.Common` assembly which contains the `ComplexDouble` data type.
-4. In the CS project, reference either `NationalInstruments.SemiconductorTestLibrary.Abstractions` assembly or `NationalInstruments.SemiconductorTestLibrary.25.0.0.nupkg` which contains the `PinSiteData` data type.
+1. Open NI License Manager and verify your system has a valid license for the NI Measurement Studio Analysis Library, and check the specific license level: Standard, Professional, or Enterprise.
+2. In the CS project, ensure there is an assembly reference to one of the Analysis Library assemblies below according to the license you have.
+   - `NationalInstruments.Analysis.Standard.dll`
+   - `NationalInstruments.Analysis.Professional.dll`
+   - `NationalInstruments.Analysis.Enterprise.dll`
+3. In the CS project, ensure there is an assembly reference to the `NationalInstruments.Common.dll` assembly which contains the `ComplexDouble` data type.
+4. In the CS project, ensure there is either a package reference to `NationalInstruments.SemiconductorTestLibrary` or an assembly reference to the `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll` assembly which contains the `PinSiteData` data type.
 5. In the CS file, add the following `using` directives.
-  - `using NationalInstruments;`
-  - `using NationalInstruments.Analysis;`
-  - `using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;`
+   - `using NationalInstruments;`
+   - `using NationalInstruments.Analysis;`
+   - `using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;`
 6. Enumerate each element of `PinSiteData` object using the `Select` method.
 7. Use a Lambda expression to select the inner data element.
 8. Make a copy of the selected data element within the body of the expression when both of the following statements are true.
-  - The inner data element is reference type (e.g. an array).
-  - The Analysis Library method to be invoked operates data in place.
-9. Then convert the data or data copy appropriately as necessary, or directly pass it as an input into the desired Analysis Library method.
+   - The inner data element is reference type (e.g. an array).
+   - The Analysis Library method to be invoked operates data in place.
+9. Convert the data copy as necessary, then pass it as an input into the desired Analysis Library method..
+
+> [!NOTE]
+> The standard licensing for STS Software is expected to activate the Professional license level for Measurement Studio by default.
+>
+> The necessary references mentioned in step 3 & 4 should already be defined within the CSProject file if it was created by the STS Project Creation Tool using the NI Default - C#/.NET template.
+>
+> When the body of your Lambda expression spans multiple lines, you must explicitly return the appropriate result to the `Select` method. Depending on the number of lines, you may want to consider implementing the code as its own standalone method.
 
 ## Example
 The following example shows how to compute Fast Fourier Transform (FFT) of a `PinSiteData` object of real-valued arrays, and real, two-dimensional time-domain signals.
