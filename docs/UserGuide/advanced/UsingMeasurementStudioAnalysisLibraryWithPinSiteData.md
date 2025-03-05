@@ -101,3 +101,40 @@ namespace UsingAnalysisLibraryWithPinSiteData
     }
 }
 ```
+
+There are Analysis Library methods that do not return values. In these cases, you have different ways to implement your methods to either return a new `PinSiteData` object that contains the calculated values, or do the calculation on the input `PinSiteData` object.
+
+## Example
+The following example shows how to calculate the power spectrum of a `PinSiteData` object of arrays. The `PowerSpectrum` method returns the calculated power spectrum as a new `PinSiteData` object. The `InPlacePowerSpectrum` method does the calculation in place.
+```
+using NationalInstruments.Analysis.Dsp;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+
+namespace UsingAnalysisLibraryWithPinSiteData
+{
+    public class NoReturnValueAnalysisLibraryMethodExample
+    {
+        public static PinSiteData<double[]> PowerSpectrum(PinSiteData<double[]> inputData)
+        {
+            return inputData.Select(data =>
+            {
+                double[] dataCopy = (double[])data.Clone();
+                Transforms.PowerSpectrum(dataCopy);
+                return dataCopy;
+            });
+        }
+
+        public static void InPlacePowerSpectrum(PinSiteData<double[]> data)
+        {
+            foreach (string pinName in data.PinNames)
+            {
+                SiteData<double[]> perPinData = data.ExtractPin(pinName);
+                foreach (int siteNumber in perPinData.SiteNumbers)
+                {
+                    Transforms.PowerSpectrum(perPinData.GetValue(siteNumber));
+                }
+            }
+        }
+    }
+}
+```
