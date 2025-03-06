@@ -49,8 +49,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.
   - **Instrument Abstraction**
     - For DAQmx, now provides `PinSiteData<double> GetSampleClockRate()` extension method, and obsoletes `double[] GetSampleClockRates()` and `double GetSampleClockRateDistinct()`.
+    - For DAQmx, the `VerifyTaskType` utility method is now public to clients.
+    - Fix an improper error when `CreateDAQmxAOVoltageTasks`, `CreateDAQmxAOFunctionGenerationTasks`, or `CreateDAQmxDOTasks` is called under the condition that in Pinmap task definition, the channels defined in the Channel List are not listed in ascending order by site number for a specific DUT pin.
+    - Fix a DAQmx input tasks read issue that measurements of channels for all sites are returned even though some sites are actually filtered out.
+    - Fix `DCPower.Measure.FetchMeasurement` to include current measurement instead of returning voltage measurement twice.
   - **TestStandSteps**
     - `SetupNIDigitalPatternInstrumentation` now provides a new boolean input `applySourceWaveformData` to control whether to apply the data in waveform files to source waveforms.
+    - Fix the default Evaluation Type of the Pattern Pass/Fail Result test item to be Pass/Fail instead of Numeric Limit to avoid improper error.
   - **Documentation & Examples**
     - Various changes to examples and documentation to either fix, improve, or update them in accordance with user feedback and latest changes.
       - Fix examples for Constructing PinSiteData/SiteData with Site-agnostic Data
