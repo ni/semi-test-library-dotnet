@@ -7,7 +7,7 @@ NI Measurement Studio Analysis Library provides powerful and easy-to-use mathema
 
 Follow the steps below to use Measurement Studio Analysis Library with `PinSiteData`.
 
-1. Open NI License Manager and verify your system has a valid license for the NI Measurement Studio Analysis Library, and check the specific license level: Standard, Professional, or Enterprise.
+1. Open NI License Manager and verify your system has a valid license for the Measurement Studio Development System, and check the specific license level: Standard, Professional, or Enterprise.
 2. In the CS project, ensure there is an assembly reference to one of the Analysis Library assemblies below according to the license you have.
    - `NationalInstruments.Analysis.Standard.dll`
    - `NationalInstruments.Analysis.Professional.dll`
@@ -26,13 +26,13 @@ Follow the steps below to use Measurement Studio Analysis Library with `PinSiteD
 9. Convert the data copy as necessary, then pass it as an input into the desired Analysis Library method..
 
 > [!NOTE]
-> The standard licensing for STS Software is expected to activate the Professional license level for Measurement Studio by default.
+> The standard licensing for STS Software activates the Professional license level for Measurement Studio by default.
 >
 > The necessary references mentioned in step 3 & 4 should already be defined within the CSProject file if it was created by the STS Project Creation Tool using the NI Default - C#/.NET template.
 >
 > When the body of your Lambda expression spans multiple lines, you must explicitly return the appropriate result to the `Select` method. Depending on the number of lines, you may want to consider implementing the code as its own standalone method.
 
-## Example
+## Example: FFT Transformations
 The following example shows how to compute Fast Fourier Transform (FFT) of a `PinSiteData` object of real-valued arrays, and real, two-dimensional time-domain signals.
 ```
 using NationalInstruments;
@@ -56,9 +56,46 @@ namespace UsingAnalysisLibraryWithPinSiteData
 }
 ```
 
+## Example: Handling Methods With No Return Value (in-place transforms)
+There are Analysis Library methods that do not return values. In these cases, you have different ways to implement your methods to either return a new `PinSiteData` object that contains the calculated values, or do the calculation on the input `PinSiteData` object.
+
+The following example shows how to calculate the power spectrum of a `PinSiteData` object of arrays. The `PowerSpectrum` method returns the calculated power spectrum as a new `PinSiteData` object. The `InPlacePowerSpectrum` method does the calculation in place.
+```
+using NationalInstruments.Analysis.Dsp;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+
+namespace UsingAnalysisLibraryWithPinSiteData
+{
+    public class NoReturnValueAnalysisLibraryMethodExample
+    {
+        public static PinSiteData<double[]> PowerSpectrum(PinSiteData<double[]> inputData)
+        {
+            return inputData.Select(data =>
+            {
+                double[] dataCopy = (double[])data.Clone();
+                Transforms.PowerSpectrum(dataCopy);
+                return dataCopy;
+            });
+        }
+
+        public static void InPlacePowerSpectrum(PinSiteData<double[]> data)
+        {
+            foreach (string pinName in data.PinNames)
+            {
+                SiteData<double[]> perPinData = data.ExtractPin(pinName);
+                foreach (int siteNumber in perPinData.SiteNumbers)
+                {
+                    Transforms.PowerSpectrum(perPinData.GetValue(siteNumber));
+                }
+            }
+        }
+    }
+}
+```
+
+## Example: Handling Methods With Multiple Inputs
 There are also Analysis Library methods that take more than one input data. In these cases, you need to explicitly traverse pin names and site numbers on all input `PinSiteData` objects to retrieve the right elements to pass to Analysis Library methods.
 
-## Example
 The following example shows how to calculate the convolution of the input `PinSiteData` objects of arrays.
 ```
 using System;
@@ -97,43 +134,6 @@ namespace UsingAnalysisLibraryWithPinSiteData
                 }
             }
             return new PinSiteData<double[]>(result);
-        }
-    }
-}
-```
-
-There are Analysis Library methods that do not return values. In these cases, you have different ways to implement your methods to either return a new `PinSiteData` object that contains the calculated values, or do the calculation on the input `PinSiteData` object.
-
-## Example
-The following example shows how to calculate the power spectrum of a `PinSiteData` object of arrays. The `PowerSpectrum` method returns the calculated power spectrum as a new `PinSiteData` object. The `InPlacePowerSpectrum` method does the calculation in place.
-```
-using NationalInstruments.Analysis.Dsp;
-using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-
-namespace UsingAnalysisLibraryWithPinSiteData
-{
-    public class NoReturnValueAnalysisLibraryMethodExample
-    {
-        public static PinSiteData<double[]> PowerSpectrum(PinSiteData<double[]> inputData)
-        {
-            return inputData.Select(data =>
-            {
-                double[] dataCopy = (double[])data.Clone();
-                Transforms.PowerSpectrum(dataCopy);
-                return dataCopy;
-            });
-        }
-
-        public static void InPlacePowerSpectrum(PinSiteData<double[]> data)
-        {
-            foreach (string pinName in data.PinNames)
-            {
-                SiteData<double[]> perPinData = data.ExtractPin(pinName);
-                foreach (int siteNumber in perPinData.SiteNumbers)
-                {
-                    Transforms.PowerSpectrum(perPinData.GetValue(siteNumber));
-                }
-            }
         }
     }
 }
