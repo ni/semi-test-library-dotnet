@@ -1,6 +1,6 @@
 # Sharing SiteData and PinSiteData Between Code Modules
 
-You can store site and pin data within the SemiconductorModuleContext in one code module, and retrieve it later in another code module within the same test program using an ID string. For more information, refer to [Sharing Data between Code Modules (TSM)](https://www.ni.com/docs/bundle/teststand-semiconductor-module/page/sharing-data-between-code-modules.html) topic in the TSM documentation.
+You can store site and pin data within the `SemiconductorModuleContext` in one code module, and retrieve it later in another code module within the same test program using an ID string. For more information, refer to [Sharing Data between Code Modules (TSM)](https://www.ni.com/docs/bundle/teststand-semiconductor-module/page/sharing-data-between-code-modules.html) topic in the TSM documentation.
 
 > [!NOTE]
 > The `SetSiteData` and `GetSiteData` methods provided by the TSM Code Module API do not support `SiteData` or `PinSiteData` objects directly.
@@ -20,7 +20,7 @@ The `SetGlobalSiteData` and `SetGlobalPinSiteData` methods override the existing
 
 ## `GetGlobalSiteData` and `GetGlobalPinSiteData` behavior
 
-The `GetGlobalSiteData` and `GetGlobalPinSiteData` methods filter for active sites in SemiconductorModuleContext by default. To retrieve the exact data you store with the `SetGlobalSiteData` and `SetGlobalPinSiteData` methods, pass `false` to the `filterForActiveSites` input parameter.
+The `GetGlobalSiteData` and `GetGlobalPinSiteData` methods filter for active sites in `SemiconductorModuleContext` by default. To retrieve the exact data you store with the `SetGlobalSiteData` and `SetGlobalPinSiteData` methods, pass `false` to the `filterForActiveSites` input parameter.
 
 > [!NOTE]
 > An `NISemiconductorTestException` is thrown when data has not been set for one or more active sites, and `filterForActiveSites` input parameter is set to `true` (default). To retrieve the exact data stored with the `SetGlobalSiteData` and `SetGlobalPinSiteData` methods regardless of the active sites, pass `false` to the `filterForActiveSites` input parameter.
