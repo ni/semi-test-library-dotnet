@@ -55,7 +55,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - Fix `DCPower.Measure.FetchMeasurement` to include current measurement instead of returning voltage measurement twice.
   - **TestStandSteps**
     - `SetupNIDigitalPatternInstrumentation` now provides a new boolean input `applySourceWaveformData` to control whether to apply the data in waveform files to source waveforms.
-    - For Burst Pattern step, fix the default Evaluation Type of the Pattern Pass/Fail Result test item to be Pass/Fail instead of Numeric Limit to avoid improper error.
   - **Documentation & Examples**
     - Various changes to examples and documentation to either fix, improve, or update them in accordance with user feedback and latest changes.
       - Fix examples for Constructing PinSiteData/SiteData with Site-agnostic Data
