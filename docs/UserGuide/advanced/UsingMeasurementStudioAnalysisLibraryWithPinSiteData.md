@@ -7,7 +7,7 @@ NI Measurement Studio Analysis Library provides powerful and easy-to-use mathema
 
 Follow the steps below to use Measurement Studio Analysis Library with `PinSiteData`.
 
-1. Open NI License Manager and verify your system has a valid license for the Measurement Studio Development System, and check the specific license level: Standard, Professional, or Enterprise.
+1. Open NI License Manager and verify that your system has a valid license for the Measurement Studio Development System, and check the specific license level: Standard, Professional, or Enterprise.
 2. In the CS project, ensure there is an assembly reference to one of the Analysis Library assemblies below according to the license you have.
    - `NationalInstruments.Analysis.Standard.dll`
    - `NationalInstruments.Analysis.Professional.dll`
@@ -20,7 +20,7 @@ Follow the steps below to use Measurement Studio Analysis Library with `PinSiteD
    - `using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;`
 6. Enumerate each element of `PinSiteData` object using the `Select` method.
 7. Use a Lambda expression to select the inner data element.
-8. Make a copy of the selected data element within the body of the expression when both of the following statements are true.
+8. Make a copy of the selected data element within the body of the expression if both of the following statements are true:
    - The inner data element is reference type (e.g. an array).
    - The Analysis Library method to be invoked operates data in place.
 9. Convert the data copy as necessary, then pass it as an input into the desired Analysis Library method..
@@ -30,7 +30,7 @@ Follow the steps below to use Measurement Studio Analysis Library with `PinSiteD
 >
 > The necessary references mentioned in step 3 & 4 should already be defined within the CSProject file if it was created by the STS Project Creation Tool using the NI Default - C#/.NET template.
 >
-> When the body of your Lambda expression spans multiple lines, you must explicitly return the appropriate result to the `Select` method. Depending on the number of lines, you may want to consider implementing the code as its own standalone method.
+> When the body of your Lambda expression spans multiple lines, you must explicitly return the appropriate result to the `Select` method. Depending on the number of lines, consider implementing the code as its own standalone method.
 
 ## Example: FFT Transformations
 The following example shows how to compute Fast Fourier Transform (FFT) of a `PinSiteData` object of real-valued arrays, and real, two-dimensional time-domain signals.
@@ -94,7 +94,7 @@ namespace UsingAnalysisLibraryWithPinSiteData
 ```
 
 ## Example: Handling Methods With Multiple Inputs
-There are also Analysis Library methods that take more than one input data. In these cases, you need to explicitly traverse pin names and site numbers on all input `PinSiteData` objects to retrieve the right elements to pass to Analysis Library methods.
+There are also Analysis Library methods that take more than one input data. In these cases, you must explicitly traverse pin names and site numbers on all input `PinSiteData` objects to retrieve the right elements to pass to Analysis Library methods.
 
 The following example shows how to calculate the convolution of the input `PinSiteData` objects of arrays.
 ```
