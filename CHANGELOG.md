@@ -24,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
         - Return Type: `bool`
         - Description: Returns `true` if the data for the given site number exists in the `SiteData<T>` object.
   - **Instrument Abstraction**
-    - A new overload added for querying Digital Sessions Bundle without specifying any pin. Note, the returned Sessions Bundle associates with all the available DUT pins.
+    - A new overload added for querying Digital Sessions Bundle without specifying any pin. Note that the returned Sessions Bundle associates with all the available DUT pins.
       - `TSMSessionManager.Digital()`
     - New overloads added for querying DAQmx Sessions Bundle with expected task type
       - `TSMSessionManager.DAQmx(string pin, DAQmxTaskType expectedTaskType)`
