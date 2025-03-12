@@ -13,6 +13,7 @@
 	<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary.Analyzers" Version="1.0.0" />
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
   </ItemGroup>
   <ItemGroup>
