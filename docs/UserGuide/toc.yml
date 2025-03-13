@@ -40,6 +40,8 @@
   href: advanced/ExtendingTheSemiconductorTestLibrary.md
 - name: Customizing TestStand Steps
   href: advanced/CustomizingTestStandSteps.md
+- name: Using Measurement Studio Analysis Library with PinSiteData
+  href: advanced/UsingMeasurementStudioAnalysisLibraryWithPinSiteData.md
 
 - name: TestStand Steps
 - name: Using TestStand Steps
