@@ -23,9 +23,6 @@ jobs:
               `^The fix for this issue is included in the [0-9.]+ release, which is now available \\(\\[v[0-9.]+\\]\\(.+\\)\\)\\. This issue will automatically close within the next 30 days\\.$`
             );
 
-
-            //The fix for this issue is included in the ${version} release, which is now available ([v${version}](${releaseLink})). This issue will automatically close within the next 30 days.
-
             const searchQuery = `repo:${owner}/${repo} is:issue "${triggerText}" in:comments`;
             console.log("Search query:", searchQuery);
 
@@ -65,5 +62,3 @@ jobs:
                 console.log(`Issue #${issue.number} either does not have the trigger comment or already has a release comment; skipping.`);
               }
             }
-
-            //The fix for this issue is included in the ${version} release, which is now available ([v${version}](${releaseLink})). This issue will automatically close within the next 30 days.
