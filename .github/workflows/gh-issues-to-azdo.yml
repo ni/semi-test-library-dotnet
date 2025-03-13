@@ -145,7 +145,7 @@ jobs:
         with:
           script: |
             const issueNumber = context.payload.issue.number;
-            const commentBody = `The NI development team has been notified and a corresponding work item has been created.`;
+            const commentBody = `Thank you for posting, the NI development team has been notified and a corresponding work item has been created internally. The team will review and reply back if any further clarification is required.`;
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
