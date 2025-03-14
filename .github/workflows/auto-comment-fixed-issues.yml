@@ -20,7 +20,7 @@ jobs:
             const targetUser = "github-actions[bot]";
             const triggerText = "The corresponding work item has been closed. The fix should be available in the next release.";
             const releaseCommentRegex = new RegExp(
-              `^The fix for this issue is included in the [0-9.]+ release, which is now available \\(\\[v[0-9.]+\\]\\(.+\\)\\)\\. This issue will automatically close within the next 30 days\\.$`
+              `^The fix for this issue is included in the [0-9.]+ release, which is now available \\(\\[v[0-9.]+\\]\\(.+\\)\\)\\.(?: This issue will automatically close within the next 30 days\\.)?$`
             );
 
             const searchQuery = `repo:${owner}/${repo} is:issue "${triggerText}" in:comments`;
@@ -50,7 +50,9 @@ jobs:
               );
 
               if (hasTriggerComment && !hasReleaseComment) {
-                const commentBody = `The fix for this issue is included in the ${version} release, which is now available ([v${version}](${releaseLink})). This issue will automatically close within the next 30 days.`;
+                const commentBody = issue.state === 'closed'
+                  ? `The fix for this issue is included in the ${version} release, which is now available ([v${version}](${releaseLink})).`
+                  : `The fix for this issue is included in the ${version} release, which is now available ([v${version}](${releaseLink})). This issue will automatically close within the next 30 days.`;
                 await github.rest.issues.createComment({
                   owner,
                   repo,
