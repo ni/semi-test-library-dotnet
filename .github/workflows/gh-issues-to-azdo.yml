@@ -1,0 +1,154 @@
+name: Issue Created Handler
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  handle-new-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine Work Item Type
+        id: determine-work-item-type
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const labels = context.payload.issue.labels.map(label => label.name.toLowerCase());
+            let workItemType = "";
+            if (labels.includes("bug")) {
+              workItemType = "Bug";
+            } else if (labels.includes("enhancement")) {
+              workItemType = "User Story";
+            } else {
+              workItemType = "Customer Escalation";
+            }
+            // URL-encode the work item type (e.g., "User Story" becomes "User%20Story")
+            const encodedType = encodeURIComponent(workItemType);
+            return encodedType;
+          result-encoding: string
+
+      - name: Create work item in Azure DevOps
+        id: create-work-item
+        env:
+          AZDO_ORG: ${{ secrets.AZDO_ORG }}
+          AZDO_PROJECT: ${{ secrets.AZDO_PROJECT }}
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+          AZDO_AREA_PATH: ${{ secrets.AZDO_AREA_PATH }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.result }}
+        run: |
+          echo "Creating Azure DevOps work item for GitHub Issue: $ISSUE_TITLE"
+          # Build the base work item payload
+          PATCH_DOC=$(jq -n \
+            --arg title "GitHub Issue #$ISSUE_NUMBER: $ISSUE_TITLE" \
+            --arg description "<div>
+              <p><strong>ISSUE DETAILS:</strong></p>
+              <p>Issue Number: $ISSUE_NUMBER</p>
+              <p>$ISSUE_BODY</p>
+              <p><a href=\"$ISSUE_URL\">View Issue on GitHub</a></p>
+            </div>" \
+            --arg areaPath "$AZDO_AREA_PATH" \
+            '[{"op": "add", "path": "/fields/System.Title", "value": $title},
+              {"op": "add", "path": "/fields/System.Description", "value": $description},
+              {"op": "add", "path": "/fields/System.AreaPath", "value": $areaPath}]')
+          # Adding additional custom fields if the work item type is "Customer Escalation"
+          if [[ "$WORK_ITEM_TYPE" == "Customer%20Escalation" ]]; then
+            PATCH_DOC=$(echo "$PATCH_DOC" | jq '. + 
+              [{"op": "add", "path": "/fields/Custom.EscalationSeverity", "value": "2 - Medium (SLA = 3 Business days)"},
+              {"op": "add", "path": "/fields/Custom.Requestor", "value": "Semi BU"},
+              {"op": "add", "path": "/fields/Custom.BUAffinity", "value": "Semi/Elec"}]')
+          fi
+          echo "$PATCH_DOC" > patch.json
+          WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/\$${WORK_ITEM_TYPE}?api-version=6.0"
+          echo "Work Item API URL: $WORK_ITEM_API_URL"
+          RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
+            -X POST \
+            -H "Content-Type: application/json-patch+json" \
+            --data @patch.json \
+            "$WORK_ITEM_API_URL")
+          WORK_ITEM_ID=$(echo "$RESPONSE" | jq -r '.id')
+          if [ "$WORK_ITEM_ID" = "null" ]; then
+            echo "Error: Work item creation failed."
+            exit 1
+          fi
+          WORK_ITEM_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_workitems/edit/$WORK_ITEM_ID"
+          echo "::set-output name=work_item_id::$WORK_ITEM_ID"
+          echo "::set-output name=work_item_url::$WORK_ITEM_URL"
+
+      - name: Link GitHub Issue to Azure DevOps Work Item
+        env:
+          AZDO_ORG: ${{ secrets.AZDO_ORG }}
+          AZDO_PROJECT: ${{ secrets.AZDO_PROJECT }}
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+          WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GH_REPO_GUID: ${{ secrets.GH_REPO_GUID }}
+        run: |
+          echo "Linking GitHub Issue to the Azure DevOps Work Item"
+          PATCH_RELATION=$(jq -n \
+            --arg issueNumber "$ISSUE_NUMBER" \
+            --arg repoGuid "$GH_REPO_GUID" \
+            '[{
+              "op": "add",
+              "path": "/relations/-",
+              "value": {
+                "rel": "ArtifactLink",
+                "url": "vstfs:///GitHub/Issue/\($repoGuid)%2F\($issueNumber)",
+                "attributes": {
+                  "name": "GitHub Issue"
+                }
+              }
+            }]')
+          echo "$PATCH_RELATION" > patch-relation.json
+          WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$WORK_ITEM_ID?api-version=6.0"
+          RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
+            -X PATCH \
+            -H "Content-Type: application/json-patch+json" \
+            --data @patch-relation.json \
+            "$WORK_ITEM_API_URL")
+
+      - name: Notify NI Developers on Teams
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
+          WORK_ITEM_URL: ${{ steps.create-work-item.outputs.work_item_url }}
+          WORK_ITEM_TYPE_ENCODED: ${{ steps.determine-work-item-type.outputs.result }}
+        run: |
+          echo "Decoding work item type..."
+          WORK_ITEM_TYPE=$(python -c "import urllib.parse; print(urllib.parse.unquote('''$WORK_ITEM_TYPE_ENCODED'''))")
+          echo "Notifying NI developers on Teams about the new issue and work item creation..."
+          teams_payload='{
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "themeColor": "0076D7",
+            "summary": "New GitHub Issue and Work Item Created",
+            "sections": [
+              {
+                "text": "# New GitHub Issue: '"$ISSUE_TITLE"' (#'"$ISSUE_NUMBER"')<br><br>**Title:** '"$ISSUE_TITLE"' <br>**Description:** '"$ISSUE_BODY"' <br>**Issue URL:** [View Issue]('"$ISSUE_URL"') <br>**Work Item ID:** '"$WORK_ITEM_ID"' <br>**Work Item Type:** '"$WORK_ITEM_TYPE"' <br>**Work Item URL:** [View Work Item]('"$WORK_ITEM_URL"')",
+                "markdown": true
+              }
+            ]
+          }'
+          echo "$teams_payload" > teams_payload.json
+          cat teams_payload.json
+          curl -H "Content-Type: application/json" -d @teams_payload.json "$TEAMS_WEBHOOK_URL"
+
+      - name: Add comment on GitHub Issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issueNumber = context.payload.issue.number;
+            const commentBody = `Thank you for posting, the NI development team has been notified and a corresponding work item has been created internally. The team will review and reply back if any further clarification is required.`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: commentBody,
+            });
