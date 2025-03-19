@@ -56,6 +56,7 @@ A `PinSiteData` object is an immutable dictionary of key-value pairs, where each
 ### **SiteData** 
 ### Binary Operator
 The following table outlines the binary operator-based mathematical operations available for `SiteData<T>` and specifies the permitted data types for `T` for each operation.
+
 #### *List of Binary operators*
 
 |Methods |Description|Supported Data Types|
@@ -71,6 +72,7 @@ The following table outlines the binary operator-based mathematical operations a
 |[Multiply](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Multiply.html)|Performs a multiply operation between every element in current `SiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Power](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Power.html)|Raises every element in current `SiteData` to the power of the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Subtract](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Subtract.html)|Subtracts the given value from every element in current `SiteData` object.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+
 ### Usage Considerations
 1. The `SiteData` object on which the method operates, and the input value provided to the method serve as the two operands in the binary math operation being performed.
 1. All methods can accept either a scalar, an array, or `SiteData` object as an input value. 
@@ -89,7 +91,8 @@ The following table outlines the binary operator-based mathematical operations a
 1. **`Math_ArrayDimensionMismatc`** : This exception occurs when array dimensions of the result array and input array are not matching. The exception message follows “*When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.*”.
 1. **`Math_OperationNotSupported`** : This exception occurs when the data type of either operand is not supported. The exception message follows “*The `<math operation>` operation on the `<data type>` data type is not supported.*”.
 1. **`Math_TypeMustBeArray`** : This exception occurs when the defined data type of result is not array in case of array – scalar operations. The exception message follows “*The `<TResult>` must be an array.*”
-1. **`Math_ArrayLengthMismatch`** : This exception occurs when data array length of the first operand and that of the second array operand do not match. The exception message follows “*For `<math operation>` operation, the data array length of the first operand (`<array length of operand 1>`) and that of the second operand (`<array length of operand 2>`) must match.*”
+1. **`Math_ArrayLengthMismatch`** : This exception occurs when data array length of the first operand and that of the second array operand do not match. The exception message follows “*For `<math operation>` operation, the data array length of the first operand (`<array length of operand 1>`) and that of the second operand (`<array length of operand 2>`) must match.*”.
+
 ### Examples
 ```csharp
 // ALLOWED OPERATIONS
@@ -119,6 +122,7 @@ result = siteData1.Add(siteData2);
 ```
 ### Unary Operators
 The following table outlines the Unary operator-based mathematical operations available for `SiteData<T>` and specifies the permitted data types for `T` for each operation.
+
 #### *List of Unary operators*
 
 |Methods|Description|Supported Data Types|
@@ -143,6 +147,7 @@ The following table outlines the Unary operator-based mathematical operations av
 1. **`Math_ArrayDimensionMismatch`**: This exception occurs when array dimensions of the result array and input array are not matching. The exception message follows “*When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.*”.
 1. **`Math_OperationNotSupported`** : This exception occurs when the operand/operands data type is not supported. The exception message follows “*The `<math operation>` operation on the `<data type>` data type is not supported.*”.
 1. **`Math_ShiftCountMustBePositive`**: This exception occurs when the shift `count` is given negative. The exception message follows “*The number of bits to shift must be positive.*”.
+
 ### Examples
 ```csharp
 //Allowed operation 
@@ -162,6 +167,7 @@ var result= siteData.Abs();
 ```
 
 ---
+
 ### **PinSiteData**
 ### Binary Operator
 The following table outlines the binary operator-based mathematical operations available for `PinSiteData<T>` and specifies the permitted data types for `T` for each operation.
@@ -179,7 +185,7 @@ The following table outlines the binary operator-based mathematical operations a
 |[Multiply](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Multiply.html)|Performs a multiply operation on every element in current `PinSiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Power<br>](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Power.html)|Raises every element in current `PinSiteData` object to the power of the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Subtract](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Subtract.html)|Subtracts the given value from every element in current `PinSiteData` object.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
-###
+
 ### Usage Considerations
 1. The `PinSiteData` object on which the method operates, and the input value provided to the method serve as the two operands in the binary math operation being performed.
 1. All methods can accept either a scalar, an array, `SiteData` object or `PinSiteData` as an input value.
@@ -194,12 +200,14 @@ The following table outlines the binary operator-based mathematical operations a
 1. When the input value is an array or a `PinSiteData` object of an array type, the array element data type must match the underlying type of the `PinSiteData<T>` object, `T`, and be of equal or lesser dimensions (i.e. TOther cannot be 2D when `T` is 1D).
 1. The `Divide` method returns a scalar double value per site by default. When the underlying data type `T` of the `PinSiteData<T>` object is an array, the `TResult` type must be explicitly specified as a double array with the same dimensions as `T`. Otherwise, a `Math_ArrayDimensionMismatch` exception is thrown. Refer to the [`Divide<TOther, TResult>(TOther)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Divide__2___0_), [`Divide<TOther, TResult>(SiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Divide__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__) and [`Divide<TOther, TResult>(PinSiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Divide__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData___0__)  method signatures in the API Reference documentation.
 1. The `Compare` method returns a boolean value per site by default. When the underlying data type `T` of the `PinSiteData<T>` object is an array, the `TResult` type must be explicitly specified as a boolean array with the same dimensions as `T`. Otherwise, a `Math_ArrayDimensionMismatch` exception is thrown. Refer to the [`Compare<TOther, TResult>(ComparisonType, TOther)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType___0_), [`Compare<TOther, TResult>(ComparisonType, SiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__) and [`Compare<TOther, TResult>(ComparisonType, PinSiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData___0__)  method signatures in the API Reference documentation.
+
 ### Exceptions
 1. **`Math_OperandsTypeMismatch`**  : This exception occurs when operand types do not match. The exception message follows “*For `<math operation>` operation, the inner data type of the first operand (`<type of first operand>`) and that of the second operand (`<type of second operand>`) must match.*”.
 1. **`Math_ArrayDimensionMismatc`**h : This exception occurs when array dimensions of the result array and input array are not matching. The exception message follows “*When the underlying type, `T`, of the SiteData or `PinSiteData` object being operated on is an array, the TResult must also be an array of equal dimensions as the underlying type, `T`.*”.
 1. **`Math_OperationNotSupported`** : This exception occurs when the data type of either operand is not supported. The exception message follows “*The `<math operation>` operation on the `<data type>` data type is not supported.*”.
 1. **`Math_TypeMustBeArray`** : This exception occurs when the defined data type of result is not array in case of array – scalar operations. The exception message follows “*The `<TResult>` must be an array.*”
-1. **`Math_ArrayLengthMismatch`** : This exception occurs when data array length of the first operand and that of the second array operand do not match. The exception message follows “*For `<math operation>` operation, the data array length of the first operand (`<array length of operand 1>`) and that of the second operand (`<array length of operand 2>`) must match.*”
+1. **`Math_ArrayLengthMismatch`** : This exception occurs when data array length of the first operand and that of the second array operand do not match. The exception message follows “*For `<math operation>` operation, the data array length of the first operand (`<array length of operand 1>`) and that of the second operand (`<array length of operand 2>`) must match.*”.
+
 ### Examples
 ```csharp
 //Allowed operation 
@@ -227,9 +235,6 @@ var result =  pinSiteData.Add(siteData);
 // the inner data type of the first operand (System.Double) and 
 //that of the second operand (System.Int64) must match.
 ```
-
-
-
 ### Unary Operators
 The following table outlines the Unary operator-based mathematical operations available for `PinSiteData<T>` and specifies the permitted data types for `T` for each operation.
 #### *List of Unary operators*
@@ -260,6 +265,7 @@ The following table outlines the Unary operator-based mathematical operations av
 1. **`Math_ArrayDimensionMismatch`**: This exception occurs when array dimensions of the result array and input array are not matching. The exception message follows “*When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the TResult must also be an array of equal dimensions as the underlying type, `T`.*”.
 1. **`Math_OperationNotSupported`** : This exception occurs when the operand/operands data type is not supported. The exception message follows “*The `<math operation>` operation on the `<data type>` data type is not supported.*”.
 1. **`Math_ShiftCountMustBePositive`**: This exception occurs when the shift count is given negative. The exception message follows “*The number of bits to shift must be positive.*”.
+
 ### Examples
 ```csharp
 //Allowed Operation 
