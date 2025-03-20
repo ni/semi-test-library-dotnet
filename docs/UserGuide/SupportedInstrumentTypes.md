@@ -2,30 +2,37 @@
 
 The Semiconductor Test Library supports the core set of modular instruments commonly used within the NI [Semiconductor Test System (STS)](https://www.ni.com/sts). Refer to the following table for the instrument types currently supported by the library.
 
+> [!TIP]
+> When Extensions are not supported by an instrument type, but a Abstractions support is provided, you can refer to the [Making Low-Level Driver Calls](advanced/MakingLowLevelDriverCalls.md) topic the to learn how to interact with the lower-level driver APIs at the Abstractions layer.
+>
+> If a instrument type is not listed in the table below, you will need to use the [TestStand Semiconductor Module Code Module API](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/tsm-code-module-api.html) in combination with the low-level instrument driver API and proceed with instrument channel centric programming. If you need any assistance with this, contact NI for support.
+
 **Table 1:** Supported Instrument Types
 
 | Instrument Type                           | Driver    | Abstractions | Extensions           |
 | :--------------------------------------   | :-------- | :----------- | :------------------- |
-| NI Source Measurement Unit (SMU)          | niDCPower | Supported    | Core Support         |
-| NI Programmable Power Supply (PPS)        | niDCPower | Supported    | Core Support         |
-| NI Multifunction I/O (DAQ) \*             | niDAQmx   | Supported    | Limited Support \+   |
-| NI Sound and Vibration Module (DSA) \* \* | niDAQmx   | Supported    | Limited Support \+\+ |
-| NI Digital Pattern Instrument (DPI/HSD)   | niDigital | Supported    | Core Support         |
-| NI Digital Multimeter (DMM)               | niDmm     | Supported    | Core Support         |
-| NI Relay Module (RELAY)                   | niSwitch  | Supported    | Core Support         |
-| NI Function Generator (FGEN)              | niFgen    | Supported    | Not Yet Supported    |
-| NI Digitizer/Oscilloscope (SCOPE)         | niScope   | Supported    | Not Yet Supported    |
-| NI Timing Synchronization Module (SYNC)   | niSync    | Supported    | Not Yet Supported    |
+| NI Source Measurement Unit (SMU)          | niDCPower | :heavy_check_mark: | :heavy_check_mark: |
+| NI Programmable Power Supply (PPS)        | niDCPower | :heavy_check_mark: | :heavy_check_mark: |
+| NI Multifunction I/O (DAQ) \*             | niDAQmx   | :warning: | :warning:   |
+| NI Sound and Vibration Module (DSA) \* \* | niDAQmx   | :warning: | :warning: |
+| NI Digital Pattern Instrument (DPI/HSD)   | niDigital | :heavy_check_mark: | :heavy_check_mark: |
+| NI Digital Multimeter (DMM)               | niDmm     | :heavy_check_mark: | :heavy_check_mark: |
+| NI Relay Module (RELAY)                   | niSwitch  | :heavy_check_mark: | :heavy_check_mark: |
+| NI Function Generator (FGEN)              | niFgen    | :heavy_check_mark: | :x: |
+| NI Digitizer/Oscilloscope (SCOPE)         | niScope   | :heavy_check_mark: | :x: |
+| NI Timing Synchronization Module (SYNC)   | niSync    | :heavy_check_mark: | :x: |
 
 > [!NOTE]
-> Core Support: Only the core functionality to use the instrument is supported, and some advanced features are not yet exposed with a high-level Extension method. Refer to the documentation to learn how to interact with the lower-level driver APIs using the provided Abstraction methods.
+> :heavy_check_mark: Supported
 >
-> Limited Support: Only the most common use cases are implemented.
+> :warning: Only a Subset of Devices/Functionality Supported
 >
-> \* Only PXIe-6368 devices are currently supported.
+> :x: Not Yet Supported
 >
-> \* \* Only PXIe-4467/8 devices are currently supported.
+> \* \
+> Supported Devices: PXIe-636x \
+> Supported Functionality: Analog Input, Analog Output, Digital Input, Digital Output
 >
-> \+ Only Analog Input, Analog Output, Digital Input, and Digital Output task types are currently supported.
->
-> \+\+ Only Analog Input, Analog Output, and Analog Output: Function Generation task types are supported.
+> \* \* \
+> Supported Devices: PXIe-4467/8 \
+> Supported Functionality: Analog Input, Analog Output, Analog Output: Function Generation
