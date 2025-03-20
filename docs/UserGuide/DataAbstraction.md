@@ -81,7 +81,8 @@ The following table outlines the binary operator-based mathematical operations a
 1. The `SiteData` object on which the method operates, and the input value provided to the method serve as the two operands in the binary math operation being performed.
 1. All methods can accept either a scalar, an array, or `SiteData` object as an input value. 
 1. When the input is a `SiteData` object it must match the same underlying type, `T`, as the `SiteData` object being operated on.
-1. Both operands must be of identical data types, and that data type must be supported by the desired method. 
+1. When both operands are scaler, they must have identical data types, and that data type must be supported by the desired method. 
+1. When one of the operand is `SiteData<T>` and other operand is scaler, then both operand must be of identical data type, `T`, and that data type must be supported by the desired method.
 1. When the underlying data, `T`, of the `SiteData<T>` object is an array type, if the second operand is:
    1. Also an array type, the second operand must have the same length, dimensions, and underlying type as the array contained within the `SiteData<T>` object.
    1. Scalar type, the scalar type must match the array element type of the underlining data within the `SiteData<T>` object.
@@ -112,7 +113,7 @@ var result = siteData1.Add(siteData2);
 // { [0] = 5, [1] =7, [2] = 9} }
 
 var siteData1 = new SiteData<long[]>(new long[][] { new long [] { 1, 2, 3 }, new long [] { 4, 5, 6 } });
-var siteData2 = new SiteData< long >(new long [] { 4, -5 });
+var siteData2 = new SiteData<long>(new long [] { 4, -5 });
 
 var result = siteData1.Add(siteData2);
 // The result will be a SiteData<long[]> object containing two sites worth of array data equivalent to:   
@@ -124,8 +125,8 @@ var siteData1 = new SiteData<int>(new int[] { 1, 2, 3 });
 var siteData2 = new SiteData<long>(new long[] { 4, -5, 6 });
 
 result = siteData1.Add(siteData2);
-// The above operation will throw an exception of SemiconductorTestExeption  following with
-//message For Add operation, the inner data type of the first operand (System.Double) and that of the  second operand (System.Int64)  must match.
+// The above operation will throw an exception of SemiconductorTestExeption following with message 
+// For Add operation, the inner data type of the first operand (System.Double) and that of the second operand (System.Int64) must match.
 ```
 ### Unary Operators
 
@@ -207,7 +208,8 @@ The following table outlines the binary operator-based mathematical operations a
 1. The `PinSiteData` object on which the method operates, and the input value provided to the method serve as the two operands in the binary math operation being performed.
 1. All methods can accept either a scalar, an array, `SiteData` object or `PinSiteData` as an input value.
 1. When the input is a `SiteData` or `PinSiteData` object it must match the same underlying type, `T`, as the `PinSiteData` object being operated on.
-1. Both operands must be of identical data types, and that data type must be supported by the desired method.
+1. When both operands are scaler, they must have identical data types, and that data type must be supported by the desired method.
+1. When one of the operand is `PinSiteData<T>` and other operand is scaler, then both operand must be of identical data type, `T`, and that data type must be supported by the desired method.
 1. When the underlying data, `T`,  of the `PinSiteData<T>` object is an array type, if the second operand is:
    1. Also an array type, the second operand must have the same length, dimensions, and underlying type as the array contained within the `PinSiteData<T>` object.
    1. Scalar type, the scalar type must match the array element type of the underlining data within the `PinSiteData<T>` object.
@@ -235,7 +237,7 @@ var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int
 { 
    ["VCC1"] = new Dictionary<int, double> { [0] = 3.5 } 
 });
-var siteData = new SiteData< double >(new Dictionary<int, double > { [0] = 1 });
+var siteData = new SiteData<double>(new Dictionary<int, double > { [0] = 1 });
 
 var result =  pinSiteData.Add(siteData);
 // The result is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to: 
@@ -247,12 +249,11 @@ var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int
 { 
    ["VCC1"] = new Dictionary<int, double> { [0] = 3.5 } 
 });
-var siteData = new SiteData< long>(new Dictionary<int, long> { { 0, 1 } });
+var siteData = new SiteData<long>(new Dictionary<int, long> { { 0, 1 } });
 
 var result =  pinSiteData.Add(siteData);
-// The above operation will throw an exception of Math_OperandsTypeMismatch as For Add operation, 
-// the inner data type of the first operand (System.Double) and 
-//that of the second operand (System.Int64) must match.
+// The above operation will throw an exception of Math_OperandsTypeMismatch as For Add operation,
+// the inner data type of the first operand (System.Double) and that of the second operand (System.Int64) must match.
 ```
 ### Unary Operators
 
@@ -302,7 +303,7 @@ var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int
 }); 
 
 var result =  pinSiteData.Abs();
-// The result is a  PinSiteData<double> object containing scalar data for one pin, one site equivalent to:  { ["VCC1"] = { [0] = 3.5 } }
+// The result is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to: { ["VCC1"] = { [0] = 3.5 } }
 
 // Not Allowed Operation
 
@@ -312,6 +313,5 @@ var pinSiteData = new PinSiteData<string>(new Dictionary<string, IDictionary<int
 });
 
 var result  = pinSiteData.Abs();
-// Above operation with throw an exception of Math_OperationNotSupported as Abs() does not support 
-// string type.
+// Above operation with throw an exception of Math_OperationNotSupported as Abs() does not support string type.
 ```
