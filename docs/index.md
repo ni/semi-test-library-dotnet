@@ -19,7 +19,7 @@ You must have the following software to use the Semiconductor Test Library:
 
 Visual Studio 2022 is highly recommended.
 
-Refer to the [STS Software Version Compatibility](UserGuide/Overview.md#sts-software-version-compatibility) table more details.
+Refer to the [STS Software Version Compatibility](UserGuide/Overview.md#sts-software-version-compatibility) table for more details.
 
 ## Getting Started
 
