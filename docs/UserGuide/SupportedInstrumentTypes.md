@@ -2,11 +2,6 @@
 
 The Semiconductor Test Library supports the core set of modular instruments commonly used within the NI [Semiconductor Test System (STS)](https://www.ni.com/sts). Refer to the following table for the instrument types currently supported by the library.
 
-> [!TIP]
-> When Extensions are not supported by an instrument type, but a Abstractions support is provided, you can refer to the [Making Low-Level Driver Calls](advanced/MakingLowLevelDriverCalls.md) topic the to learn how to interact with the lower-level driver APIs at the Abstractions layer.
->
-> If a instrument type is not listed in the table below, you will need to use the [TestStand Semiconductor Module Code Module API](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/tsm-code-module-api.html) in combination with the low-level instrument driver API and proceed with instrument channel centric programming. If you need any assistance with this, contact NI for support.
-
 **Table 1:** Supported Instrument Types
 
 | Instrument Type                           | Driver    | Abstractions | Extensions           |
@@ -25,7 +20,7 @@ The Semiconductor Test Library supports the core set of modular instruments comm
 > [!NOTE]
 > :heavy_check_mark: Supported
 >
-> :warning: Only a Subset of Devices/Functionality Supported
+> :warning: Subset of Devices and/or Device Functionality Supported
 >
 > :x: Not Yet Supported
 >
@@ -36,3 +31,8 @@ The Semiconductor Test Library supports the core set of modular instruments comm
 > \* \* \
 > Supported Devices: PXIe-4467/8 \
 > Supported Functionality: Analog Input, Analog Output, Analog Output: Function Generation
+
+> [!TIP]
+> When Extensions are not supported by an instrument type, but Abstractions support is provided, you can refer to the [Making Low-Level Driver Calls](advanced/MakingLowLevelDriverCalls.md) topic to learn how to interact with the low-level driver APIs at the Abstractions layer.
+>
+> If an instrument type is not listed in the table above, you should expect to proceed with low-level instrument channel centric programming for the desired instrument type in your test code. This will involve using the [TestStand Semiconductor Module Code Module API](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/tsm-code-module-api.html) to query instruments and pin-to-channel mappings from the pin map, in combination with the appropriate driver API used to control the desired instrument. Contact NI support if you need any assistance with this.
