@@ -189,7 +189,7 @@ var siteData = new SiteData<string>(new string[] { "A", "B", "C" });
 
 var result= siteData.Abs();
 // The above operation will throw exception of NISemiconductorTestExeption with an exception message of Math operations
-// not supported on the System.String type data. 
+// not supported on the System.String type data.
 ```
 
 ---
@@ -258,7 +258,7 @@ var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int
 });
 var siteData = new SiteData<double>(new Dictionary<int, double> { [0] = 1 });
 
-var result =  pinSiteData.Add(siteData);
+var result = pinSiteData.Add(siteData);
 // The result is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to:
 // { ["VCC1"] = { [0] = 4.5 } }
 
@@ -281,7 +281,7 @@ var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int
 });
 var siteData = new SiteData<long>(new Dictionary<int, long> { { 0, 1 } });
 
-var result =  pinSiteData.Add(siteData);
+var result = pinSiteData.Add(siteData);
 // The above operation will throw an exception of NISemiconductorTestExeption as For Add operation,
 // the inner data type of the first operand (System.Double) and that of the second operand (System.Int64) must match.
 ```
@@ -335,7 +335,7 @@ var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int
    ["VCC1"] = new Dictionary<int, double> { [0] = -3.5 }
 }); 
 
-var result =  pinSiteData.Abs();
+var result = pinSiteData.Abs();
 // The result is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to: { ["VCC1"] = { [0] = 3.5 } }
 ```
 
@@ -344,9 +344,9 @@ var result =  pinSiteData.Abs();
 ```csharp
 var pinSiteData = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
 { 
-   ["VCC1"] = new Dictionary<int, string> { [0] = "Negative 3.5"  } 
+   ["VCC1"] = new Dictionary<int, string> { [0] = "Negative 3.5" } 
 });
 
-var result  = pinSiteData.Abs();
+var result = pinSiteData.Abs();
 // Above operation with throw an exception of NISemiconductorTestExeption as Abs() does not support string type.
 ```
