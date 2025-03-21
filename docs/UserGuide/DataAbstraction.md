@@ -65,16 +65,23 @@ The following table outlines the binary operator-based mathematical operations a
 |Methods |Description|Supported Data Types|
 | :- | :- | :- |
 |[Add](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Add.html)|Performs an add operation between every element in current `SiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator +](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.op_Addition.html)|Performs an add operation between every element in current `SiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[BitwiseAnd](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.BitwiseAnd.html)|Performs a bitwise AND operation with another `SiteData` object, for each element across each site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator &](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.op_BitwiseAnd.html)|Performs a bitwise AND operation with another `SiteData` object, for each element across each site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[BitwiseOr](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.BitwiseOr.html)|Performs a bitwise OR operation with another `SiteData` object, for each element across each site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator \|](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.op_BitwiseOr.html)|Performs a bitwise OR operation with another `SiteData` object, for each element across each site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[BitwiseXor](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.BitwiseXor.html)|Performs a bitwise XOR operation with another `SiteData` object|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator ^](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.op_ExclusiveOr.html)|Performs a bitwise XOR operation with another `SiteData` object|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Compare](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Compare.html)|Performs a compare operation between every element in current `SiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Divide](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Divide.html)|Performs a divide operation between every element in current `SiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator /](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.op_Division.html)|Performs a divide operation between every element in current `SiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Maximum](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Maximum.html)|Returns the larger of the element in current `SiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Minimum](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Minimum.html)|Returns the smaller of the element in current `SiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Multiply](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Multiply.html)|Performs a multiply operation between every element in current `SiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator \*](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.op_Multiply.html)|Performs a multiply operation between every element in current `SiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Power](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Power.html)|Raises every element in current `SiteData` to the power of the given value.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Subtract](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Subtract.html)|Subtracts the given value from every element in current `SiteData` object.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator -](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.op_Subtraction.html)|Subtracts the given value from every element in current `SiteData` object.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 
 ### Usage Considerations
 
@@ -108,17 +115,18 @@ The following table outlines the binary operator-based mathematical operations a
 var siteData1 = new SiteData<int>(new int[] { 1, 2, 3 });
 var siteData2 = new SiteData<int>(new int[] { 4, 5, 6 });
 
-var result = siteData1.Add(siteData2);
-// The result will be a SiteData<int> object containing three sites worth of scalar data equivalent to: 
+var operatorOverloadResult = siteData1 + siteData2; 
+// The operatorOverloadResult will be a SiteData<int> object containing three sites worth of scalar data equivalent to: 
 // { [0] = 5, [1] =7, [2] = 9} }
 
-var siteData1 = new SiteData<long[]>(new long[][] { new long [] { 1, 2, 3 }, new long [] { 4, 5, 6 } });
-var siteData2 = new SiteData<long>(new long [] { 4, -5 });
+var siteData3 = new SiteData<long[]>(new long[][] { new long [] { 1, 2, 3 }, new long [] { 4, 5, 6 } });
+var siteData4 = new SiteData<long>(new long [] { 4, -5 });
 
-var result = siteData1.Add(siteData2);
+var result = siteData3.Add(siteData4);
 // The result will be a SiteData<long[]> object containing two sites worth of array data equivalent to:   
 // { [0] = {5, 6, 7}, [1] = {-1, 0, 1} }
-
+```
+```csharp
 //NOT ALLOWED OPERATIONS
 
 var siteData1 = new SiteData<int>(new int[] { 1, 2, 3 });
@@ -138,6 +146,7 @@ The following table outlines the Unary operator-based mathematical operations av
 | :- | :- | :- |
 |[Abs](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Abs.html)|Performs `Math.Abs` operation on every element in current `SiteData` object.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[BitwiseComplement](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.BitwiseComplement.html)|Gets the bitwise complement (`~`) of the original `SiteData` object.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator ~](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.op_OnesComplement.html)|Gets the bitwise complement (`~`) of the original `SiteData` object.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Invert](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Invert.html)|Performs invert operation on every element in current `SiteData` object.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Log10](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Log10.html)|Performs `Math.Log10` operation on every element in current `SiteData` object.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Max](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Max.html)|Calculates the maximum value across sites.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
@@ -145,7 +154,9 @@ The following table outlines the Unary operator-based mathematical operations av
 |[Min](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Min.html)|Calculates the minimum value across sites.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Negate](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Negate.html)|Returns the negative value of every element in current `SiteData` object.|`int`, `long`, `sbyte`, `short`, `double`, `decimnal`, `float`|
 |[ShiftLeft](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.ShiftLeft.html)|Shifts the value to the left by the specified bit count, for each element, per site. |`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator <<](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.op_LeftShift.html)|Shifts the value to the left by the specified bit count, for each element, per site. |`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[ShiftRight](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.ShiftRight.html)|Shifts the value to the right by the specified bit count, for each element, per site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator >>](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.op_RightShift.html)|Shifts the value to the right by the specified bit count, for each element, per site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[SquareRoot](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.SquareRoot.html)|Returns the square root of every element in current `SiteData` object.|`double`, `decimal`, `float`, `int`, `unint`,`long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Truncate](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Truncate.html)|Returns integer portion of every element in current `SiteData` object.|`double`, `decimnal`, `float`|
 
@@ -192,16 +203,23 @@ The following table outlines the binary operator-based mathematical operations a
 |Methods |Description|Supported Data Types|
 | :- | :- | :- |
 |[Add](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Add.html)|Performs an add operation between every element in current `PinSiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator +](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.op_Addition.html)|Performs add operation between a `PinSiteData` object and a given value, for each element across each pin and each site.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[BitwiseAnd](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.BitwiseAnd.html)|Performs a bitwise `AND` operation with a scalar for each element across each pin and each site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator &](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.op_BitwiseAnd.html)|Performs a bitwise AND operation with a scalar, for each element across each pin and each site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[BitwiseOr](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.BitwiseOr.html)|Performs a bitwise `OR` operation with a scalar for each element across each pin and each site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator \|](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.op_BitwiseOr.html)|Performs a bitwise `OR` operation with a scalar for each element across each pin and each site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[BitwiseXor](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.BitwiseXor.html)|Performs a bitwise `XOR` operation with a scalar for each element across each pin and each site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator ^](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.op_ExclusiveOr.html)|Performs a bitwise `XOR` operation with a scalar for each element across each pin and each site.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Compare](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Compare.html)|Performs a compare operation between every element in current `PinSiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Divide](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Divide.html)|Performs a divide operation between every element in current `PinSiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator /](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.op_Division.html)|Performs a divide operation between every element in current `PinSiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Maximum](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Maximum.html)|Returns the larger one of the elements in current `PinSiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Minimum](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Minimum.html)|Returns the smaller one of the elements in current `PinSiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Multiply](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Multiply.html)|Performs a multiply operation on every element in current `PinSiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
-|[Power<br>](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Power.html)|Raises every element in current `PinSiteData` object to the power of the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator \*](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.op_Multiply.html)|Performs a multiply operation on every element in current `PinSiteData` object and the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[Power](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Power.html)|Raises every element in current `PinSiteData` object to the power of the given value.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Subtract](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Subtract.html)|Subtracts the given value from every element in current `PinSiteData` object.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator -](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.op_Subtraction.html)|Subtracts the given value from every element in current `PinSiteData` object.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 
 ### Usage Considerations
 
@@ -243,6 +261,16 @@ var result =  pinSiteData.Add(siteData);
 // The result is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to: 
 // { ["VCC1"] = { [0] = 4.5 } }
 
+var pinSiteData1 = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>
+{ 
+   ["VCC1"] = new Dictionary<int, double> { [0] = 3.5 } 
+});
+
+var operatorOverloadResult = pinSiteData1 + 2
+// The operatorOverloadResult is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to: 
+// { ["VCC1"] = { [0] = 5.5 } }
+```
+```csharp
 // Not Allowed Operation
 
 var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>
@@ -265,6 +293,7 @@ The following table outlines the Unary operator-based mathematical operations av
 | :- | :- | :- |
 |[Abs](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Abs.html)|Performs `Math.Abs` operation on every element in current `PinSiteData` object.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[BitwiseComplement](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.BitwiseComplement.html)|Gets the bitwise complement (`~`) of the original `PinSiteData` object.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator ~](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.op_OnesComplement.html)|Gets the bitwise complement (`~`) of the original `PinSiteData` object.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Invert](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Invert.html)|Performs invert operation on every element in current `PinSiteData` object.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Log10](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Log10.html)|Performs `Math.Log10`operation on every element in current `PinSiteData` object.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Max](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Max.html)|Calculates the maximum value across sites.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
@@ -277,7 +306,9 @@ The following table outlines the Unary operator-based mathematical operations av
 |[MinBySite](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.MinBySite.html)|Gets the minimum value across sites for each pin and returns both the minimum value and each site(s) where the minimum value was found for each pin.|`double`, `decimal`, `float`, `int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Negate](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Negate.html)|Returns the negative value of every element in current `PinSiteData` object.|`int`, `long`, `sbyte`, `short`, `double`, `decimnal`, `float`|
 |[ShiftLeft](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.ShiftLeft.html)|Shifts the value to the left by the specified bit count for each element per site. |`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator <<](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.op_LeftShift.html)|Shifts the value to the left by the specified bit count for each element per site. |`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[ShiftRight](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.ShiftRight.html)|Shifts the value to the right by the specified bit count.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
+|[operator >>](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.op_RightShift.html)|Shifts the value to the right by the specified bit count.|`int`, `unint` , `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[SquareRoot](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.SquareRoot.html)|Returns the square root of every element in the current `PinSiteData` object.|`double`, `decimal`, `float`, `int`, `unint`, `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`|
 |[Truncate](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Truncate.html)|Returns integer portion of every element in current `PinSiteData` object.|`double`, `decimnal`, `float`|
 
