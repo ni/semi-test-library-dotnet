@@ -96,12 +96,12 @@ The following table outlines the binary operator-based mathematical operations a
    1. `SiteData<T>` object, both operand objects must be of identical data types, `T`.
 1. The Bitwise methods are only supported when the underlying data type of the `SiteData` object, `T`, is an `integer` type, either a scalar integer, array of integers, or another `SiteData` object of the same integer type. 
 1. When the input value is an array or a `SiteData` object of an array type, the array element data type must match the underlying type of the `SiteData<T>` object, `T`, and be of equal or lesser dimensions (i.e. `TOther` cannot be 2D when `T` is 1D).
-1. The `Divide` method returns a scalar double value per site by default. When the underlying data type `T` of the `SiteData<T>` object is an array, the `TResult` type must be explicitly specified as a `double` array with the same dimensions as `T`. Otherwise, a `SemiconductorTestExeption` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*. Refer to the [`Divide<TOther, TResult>(TOther)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Divide__2___0_) and [`Divide<TOther, TResult>(SiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Divide__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__) method signatures in the API Reference documentation. 
-1. The `Compare` method returns a `boolean` value per site by default. When the underlying data type `T` of the `SiteData<T>` object is an array, the TResult type must be explicitly specified as a `boolean` array with the same dimensions as `T`. Otherwise, a `SemiconductorTestExeption` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*. Refer to the [`Compare<TOther, TResult>(ComparisonType, TOther)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType___0_) and [`Compare<TOther, TResult>(ComparisonType, SiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__) method signatures in the API Reference documentation.
+1. The `Divide` method returns a scalar double value per site by default. When the underlying data type `T` of the `SiteData<T>` object is an array, the `TResult` type must be explicitly specified as a `double` array with the same dimensions as `T`. Otherwise, a `NISemiconductorTestExeption` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*. Refer to the [`Divide<TOther, TResult>(TOther)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Divide__2___0_) and [`Divide<TOther, TResult>(SiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Divide__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__) method signatures in the API Reference documentation. 
+1. The `Compare` method returns a `boolean` value per site by default. When the underlying data type `T` of the `SiteData<T>` object is an array, the TResult type must be explicitly specified as a `boolean` array with the same dimensions as `T`. Otherwise, a `NISemiconductorTestExeption` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*. Refer to the [`Compare<TOther, TResult>(ComparisonType, TOther)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType___0_) and [`Compare<TOther, TResult>(ComparisonType, SiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__) method signatures in the API Reference documentation.
 
 **Exception Scenarios:**
 
-The above mentioned methods throw `SemiconductorTestExeption` in failure scenarios. The exception message varies depending on the specific issue encountered. Below are the possible scenarios and their corresponding exception messages:
+The above mentioned methods throw `NISemiconductorTestExeption` in failure scenarios. The exception message varies depending on the specific issue encountered. Below are the possible scenarios and their corresponding exception messages:
 1. **Mismatched Operand Types**  : An exception occurs when operand types do not match. The exception message follows “*For `<math operation>` operation, the inner data type of the first operand (<`type of first operand>`) and that of the second operand (`<type of second operand>`) must match.*”.
 1. **Mismatched Array Dimensions** : An exception occurs when array dimensions of the result array and input array are not matching. The exception message follows “*When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.*”.
 1. **Type Not Supported** : An exception occurs when the data type of either operand is not supported. The exception message follows “*The `<math operation>` operation on the `<data type>` data type is not supported.*”.
@@ -133,7 +133,7 @@ var siteData1 = new SiteData<int>(new int[] { 1, 2, 3 });
 var siteData2 = new SiteData<long>(new long[] { 4, -5, 6 });
 
 result = siteData1.Add(siteData2);
-// The above operation will throw an exception of SemiconductorTestExeption following with message 
+// The above operation will throw an exception of NISemiconductorTestExeption following with message 
 // For Add operation, the inner data type of the first operand (System.Double) and that of the second operand (System.Int64) must match.
 ```
 
@@ -163,12 +163,12 @@ The following table outlines the Unary operator-based mathematical operations av
 
 **Usage Considerations:**
 
-1. The `Invert`, `Log10`, and `SquareRoot` methods return a scalar double value per site by default. When the underlying data type `T` of the `SiteData<T>` object is an array, the `TResult` type must be explicitly specified as a `double` array with the same dimensions as `T`. Otherwise, a `SemiconductorTestExeption` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*.
-1. The `count` input value passed to the `ShiftLeft` and `ShiftRight` operators must be positive, otherwise an exception `SemiconductorTestExeption` is thrown with exception message matching the exception scenarios of *Shift Count Must Be Positive*.
+1. The `Invert`, `Log10`, and `SquareRoot` methods return a scalar double value per site by default. When the underlying data type `T` of the `SiteData<T>` object is an array, the `TResult` type must be explicitly specified as a `double` array with the same dimensions as `T`. Otherwise, a `NISemiconductorTestExeption` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*.
+1. The `count` input value passed to the `ShiftLeft` and `ShiftRight` operators must be positive, otherwise an exception `NISemiconductorTestExeption` is thrown with exception message matching the exception scenarios of *Shift Count Must Be Positive*.
 
 **Exception Scenarios:**
 
-The above mentioned methods throw `SemiconductorTestExeption` in failure scenarios. The exception message varies depending on the specific issue encountered. Below are the possible scenarios and their corresponding exception messages:
+The above mentioned methods throw `NISemiconductorTestExeption` in failure scenarios. The exception message varies depending on the specific issue encountered. Below are the possible scenarios and their corresponding exception messages:
 1. **Mismatched Array Dimensions** : An exception occurs when array dimensions of the result array and input array are not matching. The exception message follows “*When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.*”.
 1. **Type Not Supported** : An exception occurs when the operand/operands data type is not supported. The exception message follows “*The `<math operation>` operation on the `<data type>` data type is not supported.*”.
 1. **Shift Count Must Be Positive**: An exception occurs when the shift `count` is given negative. The exception message follows “*The number of bits to shift must be positive.*”.
@@ -188,7 +188,7 @@ var result = siteData.Abs();
 var siteData = new SiteData<string>(new string[] { "A", "B", "C" });
 
 var result= siteData.Abs();
-// The above operation will throw exception of SemiconductorTestExeption with an exception message of Math operations
+// The above operation will throw exception of NISemiconductorTestExeption with an exception message of Math operations
 // not supported on the System.String type data. 
 ```
 
@@ -242,7 +242,7 @@ The following table outlines the binary operator-based mathematical operations a
 
 **Exception Scenarios:**
 
-The above mentioned methods throw `SemiconductorTestExeption` in failure scenarios. The exception message varies depending on the specific issue encountered. Below are the possible scenarios and their corresponding exception messages:
+The above mentioned methods throw `NISemiconductorTestExeption` in failure scenarios. The exception message varies depending on the specific issue encountered. Below are the possible scenarios and their corresponding exception messages:
 1. **Mismatched Operand Types**  : An exception occurs when operand types do not match. The exception message follows “*For `<math operation>` operation, the inner data type of the first operand (<`type of first operand>`) and that of the second operand (`<type of second operand>`) must match.*”.
 1. **Mismatched Array Dimensions** : An exception occurs when array dimensions of the result array and input array are not matching. The exception message follows “*When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.*”.
 1. **Type Not Supported** : An exception occurs when the data type of either operand is not supported. The exception message follows “*The `<math operation>` operation on the `<data type>` data type is not supported.*”.
@@ -256,7 +256,7 @@ var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int
 { 
    ["VCC1"] = new Dictionary<int, double> { [0] = 3.5 } 
 });
-var siteData = new SiteData<double>(new Dictionary<int, double > { [0] = 1 });
+var siteData = new SiteData<double>(new Dictionary<int, double> { [0] = 1 });
 
 var result =  pinSiteData.Add(siteData);
 // The result is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to: 
@@ -282,7 +282,7 @@ var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int
 var siteData = new SiteData<long>(new Dictionary<int, long> { { 0, 1 } });
 
 var result =  pinSiteData.Add(siteData);
-// The above operation will throw an exception of SemiconductorTestExeption as For Add operation,
+// The above operation will throw an exception of NISemiconductorTestExeption as For Add operation,
 // the inner data type of the first operand (System.Double) and that of the second operand (System.Int64) must match.
 ```
 
@@ -317,12 +317,12 @@ The following table outlines the Unary operator-based mathematical operations av
 
 **Usage Considerations:**
 
-1. The `Invert`, `Log10`, and `SquareRoot` methods return a scalar double value per site by default. When the underlying data type `T` of the `PinSiteData<T>` object is an array, the `TResult` type must be explicitly specified as a `double` array with the same dimensions as `T`. Otherwise, a `SemiconductorTestExeption` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*.
-1. The count input value passed to the `ShiftLeft` and `ShiftRight` operators must be positive, otherwise an exception `SemiconductorTestExeption` is thrown with exception message matching the exception scenarios of *Shift Count Must Be Positive*.
+1. The `Invert`, `Log10`, and `SquareRoot` methods return a scalar double value per site by default. When the underlying data type `T` of the `PinSiteData<T>` object is an array, the `TResult` type must be explicitly specified as a `double` array with the same dimensions as `T`. Otherwise, a `NISemiconductorTestExeption` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*.
+1. The count input value passed to the `ShiftLeft` and `ShiftRight` operators must be positive, otherwise an exception `NISemiconductorTestExeption` is thrown with exception message matching the exception scenarios of *Shift Count Must Be Positive*.
 
 **Exception Scenarios:**
 
-The above mentioned methods throw `SemiconductorTestExeption` in failure scenarios. The exception message varies depending on the specific issue encountered. Below are the possible scenarios and their corresponding exception messages:
+The above mentioned methods throw `NISemiconductorTestExeption` in failure scenarios. The exception message varies depending on the specific issue encountered. Below are the possible scenarios and their corresponding exception messages:
 1. **Mismatched Array Dimensions** : An exception occurs when array dimensions of the result array and input array are not matching. The exception message follows “*When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.*”.
 1. **Type Not Supported** : An exception occurs when the operand/operands data type is not supported. The exception message follows “*The `<math operation>` operation on the `<data type>` data type is not supported.*”.
 1. **Shift Count Must Be Positive**: An exception occurs when the shift `count` is given negative. The exception message follows “*The number of bits to shift must be positive.*”.
@@ -348,5 +348,5 @@ var pinSiteData = new PinSiteData<string>(new Dictionary<string, IDictionary<int
 });
 
 var result  = pinSiteData.Abs();
-// Above operation with throw an exception of SemiconductorTestExeption as Abs() does not support string type.
+// Above operation with throw an exception of NISemiconductorTestExeption as Abs() does not support string type.
 ```
