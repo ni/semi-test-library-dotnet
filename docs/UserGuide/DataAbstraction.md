@@ -102,11 +102,11 @@ The following table outlines the binary operator-based mathematical operations a
 **Exception Scenarios:**
 
 The above mentioned methods throw `SemiconductorTestExeption` in failure scenarios. The exception message varies depending on the specific issue encountered. Below are the possible scenarios and their corresponding exception messages:
-1. **Mismatched Operand Types**  : This exception occurs when operand types do not match. The exception message follows “*For `<math operation>` operation, the inner data type of the first operand (<`type of first operand>`) and that of the second operand (`<type of second operand>`) must match.*”.
-1. **Mismatched Array Dimensions** : This exception occurs when array dimensions of the result array and input array are not matching. The exception message follows “*When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.*”.
-1. **Type Not Supported** : This exception occurs when the data type of either operand is not supported. The exception message follows “*The `<math operation>` operation on the `<data type>` data type is not supported.*”.
-1. **Result Type Must Be Array** : This exception occurs when the defined data type of result is not array in case of array – scalar operations. The exception message follows “*The `<TResult>` must be an array.*”
-1. **Mismatched Array Lengths** : This exception occurs when data array length of the first operand and that of the second array operand do not match. The exception message follows “*For `<math operation>` operation, the data array length of the first operand (`<array length of operand 1>`) and that of the second operand (`<array length of operand 2>`) must match.*”.
+1. **Mismatched Operand Types**  : An exception occurs when operand types do not match. The exception message follows “*For `<math operation>` operation, the inner data type of the first operand (<`type of first operand>`) and that of the second operand (`<type of second operand>`) must match.*”.
+1. **Mismatched Array Dimensions** : An exception occurs when array dimensions of the result array and input array are not matching. The exception message follows “*When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.*”.
+1. **Type Not Supported** : An exception occurs when the data type of either operand is not supported. The exception message follows “*The `<math operation>` operation on the `<data type>` data type is not supported.*”.
+1. **Result Type Must Be Array** : An exception occurs when the defined data type of result is not array in case of array – scalar operations. The exception message follows “*The `<TResult>` must be an array.*”
+1. **Mismatched Array Lengths** : An exception occurs when data array length of the first operand and that of the second array operand do not match. The exception message follows “*For `<math operation>` operation, the data array length of the first operand (`<array length of operand 1>`) and that of the second operand (`<array length of operand 2>`) must match.*”.
 
 **Example of binary operations ALLOWED with `SiteData` objects:**
 
