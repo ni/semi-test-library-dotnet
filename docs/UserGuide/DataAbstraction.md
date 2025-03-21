@@ -115,14 +115,14 @@ var siteData1 = new SiteData<int>(new int[] { 1, 2, 3 });
 var siteData2 = new SiteData<int>(new int[] { 4, 5, 6 });
 
 var operatorOverloadResult = siteData1 + siteData2; 
-// The operatorOverloadResult will be a SiteData<int> object containing three sites worth of scalar data equivalent to: 
+// The operatorOverloadResult will be a SiteData<int> object containing three sites worth of scalar data equivalent to:
 // { [0] = 5, [1] =7, [2] = 9} }
 
 var siteData3 = new SiteData<long[]>(new long[][] { new long [] { 1, 2, 3 }, new long [] { 4, 5, 6 } });
 var siteData4 = new SiteData<long>(new long [] { 4, -5 });
 
 var result = siteData3.Add(siteData4);
-// The result will be a SiteData<long[]> object containing two sites worth of array data equivalent to:   
+// The result will be a SiteData<long[]> object containing two sites worth of array data equivalent to:
 // { [0] = {5, 6, 7}, [1] = {-1, 0, 1} }
 ```
 
@@ -132,8 +132,8 @@ var result = siteData3.Add(siteData4);
 var siteData1 = new SiteData<int>(new int[] { 1, 2, 3 });
 var siteData2 = new SiteData<long>(new long[] { 4, -5, 6 });
 
-result = siteData1.Add(siteData2);
-// The above operation will throw an exception of NISemiconductorTestExeption following with message 
+var result = siteData1.Add(siteData2);
+// The above operation will throw an exception of NISemiconductorTestExeption following with message
 // For Add operation, the inner data type of the first operand (System.Double) and that of the second operand (System.Int64) must match.
 ```
 
@@ -259,7 +259,7 @@ var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int
 var siteData = new SiteData<double>(new Dictionary<int, double> { [0] = 1 });
 
 var result =  pinSiteData.Add(siteData);
-// The result is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to: 
+// The result is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to:
 // { ["VCC1"] = { [0] = 4.5 } }
 
 var pinSiteData1 = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>
@@ -267,8 +267,8 @@ var pinSiteData1 = new PinSiteData<double>(new Dictionary<string, IDictionary<in
    ["VCC1"] = new Dictionary<int, double> { [0] = 3.5 } 
 });
 
-var operatorOverloadResult = pinSiteData1 + 2
-// The operatorOverloadResult is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to: 
+var operatorOverloadResult = pinSiteData1 + 2;
+// The operatorOverloadResult is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to:
 // { ["VCC1"] = { [0] = 5.5 } }
 ```
 
@@ -332,7 +332,7 @@ The above mentioned methods throw `NISemiconductorTestExeption` in failure scena
 ```csharp
 var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>
 { 
-   ["VCC1"] =  new Dictionary<int, double> { [0] = -3.5 }
+   ["VCC1"] = new Dictionary<int, double> { [0] = -3.5 }
 }); 
 
 var result =  pinSiteData.Abs();
