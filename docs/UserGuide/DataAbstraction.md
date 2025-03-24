@@ -54,7 +54,7 @@ A `PinSiteData` object is an immutable dictionary of key-value pairs, where each
 
 ## Math Operations
 
-### **SiteData** 
+### **SiteData**
 
 #### Binary Operations
 
@@ -88,12 +88,12 @@ The following table outlines the binary operator-based mathematical operations a
    1. Also an array type, the second operand must have the same length, dimensions, and underlying type as the array contained within the `SiteData<T>` object.
    1. Scalar type, the scalar type must match the array element type of the underlining data within the `SiteData<T>` object.
    1. `SiteData<T>` object, both operand objects must be of identical data types, `T`.
-1. The Bitwise methods are only supported when the underlying data type of the `SiteData` object, `T`, is an `integer` type, either a scalar integer, array of integers, or another `SiteData` object of the same integer type. 
+1. The Bitwise methods are only supported when the underlying data type of the `SiteData` object, `T`, is an `integer` type, either a scalar integer, array of integers, or another `SiteData` object of the same integer type.
 1. When the input argument is an array or a `SiteData` object of an array type, the array element data type must match the underlying type of the `SiteData<T>` object, `T`, and be of equal or lesser dimensions (i.e. `TOther` cannot be 2D when `T` is 1D).
-1. The `Divide` method returns a scalar double value per site by default. When the underlying data type `T` of the `SiteData<T>` object is an array, the `TResult` type must be explicitly specified as a `double` array with the same dimensions as `T`. Otherwise, a `NISemiconductorTestException` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*. Refer to the [`Divide<TOther, TResult>(TOther)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Divide__2___0_) and [`Divide<TOther, TResult>(SiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Divide__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__) method signatures in the API Reference documentation. 
+1. The `Divide` method returns a scalar double value per site by default. When the underlying data type `T` of the `SiteData<T>` object is an array, the `TResult` type must be explicitly specified as a `double` array with the same dimensions as `T`. Otherwise, a `NISemiconductorTestException` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*. Refer to the [`Divide<TOther, TResult>(TOther)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Divide__2___0_) and [`Divide<TOther, TResult>(SiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Divide__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__) method signatures in the API Reference documentation.
 1. The `Compare` method returns a `boolean` value per site by default. When the underlying data type `T` of the `SiteData<T>` object is an array, the TResult type must be explicitly specified as a `boolean` array with the same dimensions as `T`. Otherwise, a `NISemiconductorTestException` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*. Refer to the [`Compare<TOther, TResult>(ComparisonType, TOther)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType___0_) and [`Compare<TOther, TResult>(ComparisonType, SiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__) method signatures in the API Reference documentation.
 
-**Example of binary operations ALLOWED with `SiteData` objects:**
+**Example of binary operations :heavy_check_mark: ALLOWED  with `SiteData` objects:**
 
 ```csharp
 var siteData1 = new SiteData<int>(new int[] { 1, 2, 3 });
@@ -111,7 +111,7 @@ var result = siteData3.Add(siteData4);
 // { [0] = {5, 6, 7}, [1] = {-1, 0, 1} }
 ```
 
-**Example of a binary operation NOT ALLOWED with `SiteData`:**
+**Example of a binary operation :x: NOT ALLOWED with `SiteData`:**
 
 ```csharp
 var siteData1 = new SiteData<int>(new int[] { 1, 2, 3 });
@@ -148,7 +148,7 @@ The following table outlines the Unary operator-based mathematical operations av
 1. The `Invert`, `Log10`, and `SquareRoot` methods return a scalar double value per site by default. When the underlying data type `T` of the `SiteData<T>` object is an array, the `TResult` type must be explicitly specified as a `double` array with the same dimensions as `T`. Otherwise, a `NISemiconductorTestException` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*.
 1. The `count` input value passed to the `ShiftLeft` and `ShiftRight` operators must be positive, otherwise an exception `NISemiconductorTestException` is thrown with exception message matching the exception scenarios of *Shift Count Must Be Positive*.
 
-**Example of unary operation ALLOWED with `SiteData` objects:**
+**Example of unary operation :heavy_check_mark: ALLOWED with `SiteData` objects:**
 
 ```csharp
 var siteData = new SiteData<double>(new double[] { -1, 2, -3 });
@@ -157,7 +157,7 @@ var result = siteData.Abs();
 // The result will be { [0] =1, [1] = 2, [2] = 3 }
 ```
 
-**Example of unary operation NOT ALLOWED with `SiteData` objects:**
+**Example of unary operation :x: NOT ALLOWED with `SiteData` objects:**
 
 ```csharp
 var siteData = new SiteData<string>(new string[] { "A", "B", "C" });
@@ -204,7 +204,7 @@ The following table outlines the binary operator-based mathematical operations a
    1. Scalar type, the scalar type must match the array element type of the underlining data within the `PinSiteData<T>` object.
    1. `SiteData<T>` object, both operand objects must be of identical data types, `T`.
    1. `PinSiteData<T>` object, both operand objects must be of identical data types, `T`.
-1. The Bitwise methods are only supported when the underlying data type of the `PinSiteData` object, `T`, is an integer type, either a scalar integer, array of integers, or another `PinSiteData` object of the same integer type. 
+1. The Bitwise methods are only supported when the underlying data type of the `PinSiteData` object, `T`, is an integer type, either a scalar integer, array of integers, or another `PinSiteData` object of the same integer type.
 1. When the input argument is an array or a `PinSiteData` object of an array type, the array element data type must match the underlying type of the `PinSiteData<T>` object, `T`, and be of equal or lesser dimensions (i.e. TOther cannot be 2D when `T` is 1D).
 1. The `Divide` method returns a scalar double value per site by default. When the underlying data type `T` of the `PinSiteData<T>` object is an array, the `TResult` type must be explicitly specified as a double array with the same dimensions as `T`. Otherwise, a `NISemiconductorTestException` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*. Refer to the [`Divide<TOther, TResult>(TOther)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Divide__2___0_), [`Divide<TOther, TResult>(SiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Divide__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__) and [`Divide<TOther, TResult>(PinSiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Divide.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Divide__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData___0__)  method signatures in the API Reference documentation.
 1. The `Compare` method returns a boolean value per site by default. When the underlying data type `T` of the `PinSiteData<T>` object is an array, the `TResult` type must be explicitly specified as a boolean array with the same dimensions as `T`. Otherwise, a `NISemiconductorTestException` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*. Refer to the [`Compare<TOther, TResult>(ComparisonType, TOther)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType___0_), [`Compare<TOther, TResult>(ComparisonType, SiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__) and [`Compare<TOther, TResult>(ComparisonType, PinSiteData<TOther>)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Compare.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Compare__2_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_ComparisonType_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData___0__)  method signatures in the API Reference documentation.
@@ -227,7 +227,7 @@ var operatorOverloadResult = pinSiteData + 2;
 // { ["VCC1"] = { [0] = 5.5 } }
 ```
 
-**Example of binary operation NOT ALLOWED with `PinSiteData` objects:**
+**Example of binary operation :x: NOT ALLOWED with `PinSiteData` objects:**
 
 ```csharp
 var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>
@@ -272,7 +272,7 @@ The following table outlines the Unary operator-based mathematical operations av
 1. The `Invert`, `Log10`, and `SquareRoot` methods return a scalar double value per site by default. When the underlying data type `T` of the `PinSiteData<T>` object is an array, the `TResult` type must be explicitly specified as a `double` array with the same dimensions as `T`. Otherwise, a `NISemiconductorTestException` exception is thrown with exception message matching the exception scenarios of *Mismatched Array Dimensions*.
 1. The `count` input value passed to the `ShiftLeft` and `ShiftRight` operators must be positive, otherwise an exception `NISemiconductorTestException` is thrown with exception message matching the exception scenarios of *Shift Count Must Be Positive*.
 
-**Example of unary operation ALLOWED with `PinSiteData` objects:**
+**Example of unary operation :heavy_check_mark: ALLOWED with `PinSiteData` objects:**
 
 ```csharp
 var pinSiteData = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>
@@ -284,7 +284,7 @@ var result = pinSiteData.Abs();
 // The result is a PinSiteData<double> object containing scalar data for one pin, one site equivalent to: { ["VCC1"] = { [0] = 3.5 } }
 ```
 
-**Example of unary operation NOT ALLOWED with `PinSiteData` objects:**
+**Example of unary operation :x: NOT ALLOWED with `PinSiteData` objects:**
 
 ```csharp
 var pinSiteData = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
@@ -296,6 +296,7 @@ var result = pinSiteData.Abs();
 // Above operation with throw an exception of NISemiconductorTestException with the following message:
 // "Math operations not supported on the System.String type data."
 ```
+
 ---
 
 ### **Exception Conditions**
@@ -308,7 +309,7 @@ The aforementioned operations will throw `NISemiconductorTestException` in certa
 | :- | :- | :- | :- |
 |Mismatched Array Dimensions |An exception occurs when array dimensions of the result array and input array are not matching.|When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.|All Math Operations|
 |Mismatched Array Lengths |An exception occurs when data array length of the first operand and that of the second array operand do not match.|For `<math operation>` operation, the data array length of the first operand (`<array length of operand 1>`) and that of the second operand (`<array length of operand 2>`) must match.|Binary Math Operations|
-|Mismatched Operand Types |An exception occurs when operand types do not match.|For `<math operation>` operation, the inner data type of the first operand (<`type of first operand>`) and that of the second operand (`<type of second operand>`) must match.|Binary Math Operations|
+|Mismatched Operand Types |An exception occurs when operand types do not match.|For `<math operation>` operation, the inner data type of the first operand (`<type of first operand>`) and that of the second operand (`<type of second operand>`) must match.|Binary Math Operations|
 |Result Type Must Be Array |An exception occurs when the defined data type of result is not array in case of array – scalar operations.|The `<TResult>` must be an array.|Binary Math Operations|
 |Shift Count Must Be Positive |An exception occurs when the shift `count` is given negative.|The number of bits to shift must be positive.|`ShiftLeft` and `ShiftRight`|
 |Type Not Supported |An exception occurs when the data type is not supported or appropriate for any math operation.|The `<math operation>` operation on the `<data type>` data type is not supported.|All Math Operations|
