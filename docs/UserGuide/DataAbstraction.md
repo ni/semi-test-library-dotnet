@@ -296,6 +296,7 @@ var result = pinSiteData.Abs();
 // Above operation with throw an exception of NISemiconductorTestException with the following message:
 // "Math operations not supported on the System.String type data."
 ```
+---
 
 ### **Exception Conditions**
 
@@ -303,7 +304,7 @@ The aforementioned operations will throw `NISemiconductorTestException` in certa
 
 **Table of Possible Exceptions:**
 
-|Condition|Description|Exception Message|Applicable to|
+|Condition|Description|Exception Message|Applicable To|
 | :- | :- | :- | :- |
 |Mismatched Array Dimensions |An exception occurs when array dimensions of the result array and input array are not matching.|When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.|All Math Operations|
 |Mismatched Array Lengths |An exception occurs when data array length of the first operand and that of the second array operand do not match.|For `<math operation>` operation, the data array length of the first operand (`<array length of operand 1>`) and that of the second operand (`<array length of operand 2>`) must match.|Binary Math Operations|
