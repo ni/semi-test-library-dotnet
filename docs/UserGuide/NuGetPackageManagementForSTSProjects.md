@@ -73,7 +73,7 @@ Use the following procedure to upgrade a dependent NuGet package that has alread
 
 ## Using STL Dependent 3rd-Party NuGet Packages
 
-If there is a 3rd-party NuGet package you want to use within an STS project, which itself is dependent on the Semiconductor Test Library (STL), then the STS project must use the same version of STL that the 3rd party package was built with. Otherwise, the STS project may encounter a runtime error.
+If there is a 3rd-party NuGet package you want to use that is dependent on the Semiconductor Test Library (STL), then your STS project must use the same version of STL that the 3rd party package was built with. Otherwise, your STS project may encounter a runtime error.
 
 >[!NOTE]
 > In all other instances, the STS project is free to target any version of the STL NuGet package that is compatible with the STS Software version being used. Refer to the [STS Software Version Compatibility](Overview.md/#sts-software-version-compatibility) table for more details.
