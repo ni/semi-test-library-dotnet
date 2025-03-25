@@ -70,3 +70,18 @@ Additionally, the `TestStandSteps` assembly is installed in the following TestSt
 
 >[!NOTE]
 > Refer to [Using TestStand Steps](UsingTestStandSteps.md) for more information.
+
+### STS Software Version Compatibility
+
+The following table highlights which release versions of Semiconductor Test Library (STL) are installed with which version of STS Software, and which version of the STL NuGet packages are supported when using a certain version of STS Software.
+
+| **STS Software Version** | **Installed STL Version** | **Compatible STL NuGet Package Version** |
+| ------ | ------ | ------------------------------ |
+| 24.5.0 | 24.5.0 | 24.5.0, 24.5.1, 24.5.2, 25.0.0 |
+| 24.5.1 | 24.5.1 | 24.5.0, 24.5.1, 24.5.2, 25.0.0 |
+| 24.5.2 | 24.5.1 | 24.5.0, 24.5.1, 24.5.2, 25.0.0 |
+
+> [!NOTE]
+> *Installed STL Version* - refers to the release version of STL assemblies that are installed by STS Software into the following directory: `C:\Program Files\National Instruments\Shared\NI_SemiconductorTestLibrary`.
+>
+> *Compatible STL NuGet Package Version* - refers to the version of the STL NuGet package that can be used and referenced by your test program project.
