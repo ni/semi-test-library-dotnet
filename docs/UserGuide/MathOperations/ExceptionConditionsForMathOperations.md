@@ -11,5 +11,5 @@ Math operations for `SiteData` and `PinSiteData` will throw `NISemiconductorTest
 |Mismatched Operand Types |An exception occurs when operand types do not match.|For `<math operation>` operation, the inner data type of the first operand (`<type of first operand>`) and that of the second operand (`<type of second operand>`) must match.|Binary Math Operations|
 |Result Type Must Be Array |An exception occurs when the defined data type of result is not array in case of array – scalar operations.|The `<TResult>` must be an array.|Binary Math Operations|
 |Shift Count Must Be Positive |An exception occurs when the shift `count` is given negative.|The number of bits to shift must be positive.|`ShiftLeft` and `ShiftRight`|
-|Type Not Supported |An exception occurs when the data type is not supported or appropriate for any math operation.|The `<math operation>` operation on the `<data type>` data type is not supported.|All Math Operations|
+|Type Not Supported |An exception occurs when the data type is not supported or appropriate for any math operation.|Math operations not supported on the `<data type>` type data.|All Math Operations|
 |Type Not Supported by Operation|An exception occurs when the data type of either operand is not supported.|The `<math operation>` operation on the `<data type>` data type is not supported.|All Math Operations|

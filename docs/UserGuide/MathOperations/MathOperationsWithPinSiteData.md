@@ -78,7 +78,7 @@ var siteData = new SiteData<long>(new Dictionary<int, long> { { 0, 1 } });
 
 var result = pinSiteData.Add(siteData);
 // The above operation will throw an NISemiconductorTestException with the following message:
-// "Add operation, the inner data type of the first operand (System.Double) and that of the second operand (System.Int64) must match."
+// "For Add operation, the inner data type of the first operand (System.Double) and that of the second operand (System.Int64) must match."
 ```
 
 ---
