@@ -19,6 +19,8 @@ You must have the following software to use the Semiconductor Test Library:
 
 Visual Studio 2022 is highly recommended.
 
+Refer to the [STS Software Version Compatibility](UserGuide/Overview.md#sts-software-version-compatibility) table for more details.
+
 ## Getting Started
 
 To get started, use the STS Project Creation Tool included with STS Software 24.5 (or later) to create a new test program using the NI Default - C#/.NET template. The template program includes and references a copy of the NationalInstruments.SemiconductorTestLibrary NuGet package. NI recommends using this template test program as a starting point to use the Semiconductor Test Library in new projects.
