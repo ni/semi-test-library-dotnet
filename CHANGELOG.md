@@ -1,7 +1,7 @@
 
 # Changelog
 
-- [25.0.0 - 2025-03-31](#2500---2025-03-31)
+- [25.0.0 - 2025-04-11](#2500---2025-04-11)
 - [24.5.1 - 2024-10-31](#2451---2024-10-31)
 - [24.5.0 - 2024-08-16](#2450---2024-08-16)
 
@@ -9,7 +9,7 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## 25.0.0 - 2025-03-31
+## 25.0.0 - 2025-04-11
 
 - ### Added
 
