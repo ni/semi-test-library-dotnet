@@ -1,0 +1,108 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  id: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  type: Namespace
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.html
+  name: Initialization
+  nameWithType: Initialization
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.html
+  name: ISessionInformation
+  nameWithType: ISessionInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  name: ISessionsBundle<TSessionInformation>
+  nameWithType: ISessionsBundle<TSessionInformation>
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>
+  nameWithType.vb: ISessionsBundle(Of TSessionInformation)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation)
+  name.vb: ISessionsBundle(Of TSessionInformation)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+    name: ISessionsBundle
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  - name: <
+  - name: TSessionInformation
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+    name: ISessionsBundle
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.html
+  name: TSMSessionManager
+  nameWithType: TSMSessionManager
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+memberLayout: SeparatePages

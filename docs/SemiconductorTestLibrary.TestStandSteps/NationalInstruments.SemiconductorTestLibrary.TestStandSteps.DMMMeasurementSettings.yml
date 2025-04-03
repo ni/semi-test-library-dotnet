@@ -1,0 +1,487 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+  id: DMMMeasurementSettings
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.#ctor(NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction,System.Double,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.MeasurementFunction
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.Range
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.ResolutionDigits
+  langs:
+  - csharp
+  - vb
+  name: DMMMeasurementSettings
+  nameWithType: DMMMeasurementSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+  type: Struct
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: Defines DMM measurement settings.
+  example: []
+  syntax:
+    content: public struct DMMMeasurementSettings
+    content.vb: Public Structure DMMMeasurementSettings
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.#ctor(NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction,System.Double,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.#ctor(NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction,System.Double,System.Double)
+  id: '#ctor(NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction,System.Double,System.Double)'
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+  langs:
+  - csharp
+  - vb
+  name: DMMMeasurementSettings(DmmMeasurementFunction, double, double)
+  nameWithType: DMMMeasurementSettings.DMMMeasurementSettings(DmmMeasurementFunction, double, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.DMMMeasurementSettings(NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction, double, double)
+  type: Constructor
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: Initializes a new instance of the <xref href="NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings" data-throw-if-not-resolved="false"></xref> struct.
+  example: []
+  syntax:
+    content: public DMMMeasurementSettings(DmmMeasurementFunction measurementFunction, double range, double resolutionDigits)
+    parameters:
+    - id: measurementFunction
+      type: NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction
+      description: The measurement function.
+    - id: range
+      type: System.Double
+      description: The measurement range.
+    - id: resolutionDigits
+      type: System.Double
+      description: The resolution in digits.
+    content.vb: Public Sub New(measurementFunction As DmmMeasurementFunction, range As Double, resolutionDigits As Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.#ctor*
+  nameWithType.vb: DMMMeasurementSettings.New(DmmMeasurementFunction, Double, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.New(NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction, Double, Double)
+  name.vb: New(DmmMeasurementFunction, Double, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.MeasurementFunction
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.MeasurementFunction
+  id: MeasurementFunction
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+  langs:
+  - csharp
+  - vb
+  name: MeasurementFunction
+  nameWithType: DMMMeasurementSettings.MeasurementFunction
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.MeasurementFunction
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: The measurement function.
+  example: []
+  syntax:
+    content: public DmmMeasurementFunction MeasurementFunction { get; }
+    parameters: []
+    return:
+      type: NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction
+    content.vb: Public ReadOnly Property MeasurementFunction As DmmMeasurementFunction
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.MeasurementFunction*
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.Range
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.Range
+  id: Range
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+  langs:
+  - csharp
+  - vb
+  name: Range
+  nameWithType: DMMMeasurementSettings.Range
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.Range
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: The measurement range.
+  example: []
+  syntax:
+    content: public double Range { get; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public ReadOnly Property Range As Double
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.Range*
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.ResolutionDigits
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.ResolutionDigits
+  id: ResolutionDigits
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+  langs:
+  - csharp
+  - vb
+  name: ResolutionDigits
+  nameWithType: DMMMeasurementSettings.ResolutionDigits
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.ResolutionDigits
+  type: Property
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.TestStandSteps/source/SetupNIDMMInstrumentation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: The resolution in digits.
+  example: []
+  syntax:
+    content: public double ResolutionDigits { get; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public ReadOnly Property ResolutionDigits As Double
+  overload: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.ResolutionDigits*
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+    name: TestStandSteps
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+    name: TestStandSteps
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.html
+  name: DMMMeasurementSettings
+  nameWithType: DMMMeasurementSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.#ctor*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.#ctor
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.-ctor.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_DMMMeasurementSettings__ctor_NationalInstruments_ModularInstruments_NIDmm_DmmMeasurementFunction_System_Double_System_Double_
+  name: DMMMeasurementSettings
+  nameWithType: DMMMeasurementSettings.DMMMeasurementSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.DMMMeasurementSettings
+  nameWithType.vb: DMMMeasurementSettings.New
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.New
+  name.vb: New
+- uid: NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction
+  commentId: T:NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction
+  parent: NationalInstruments.ModularInstruments.NIDmm
+  isExternal: true
+  name: DmmMeasurementFunction
+  nameWithType: DmmMeasurementFunction
+  fullName: NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: NationalInstruments.ModularInstruments.NIDmm
+  commentId: N:NationalInstruments.ModularInstruments.NIDmm
+  isExternal: true
+  name: NationalInstruments.ModularInstruments.NIDmm
+  nameWithType: NationalInstruments.ModularInstruments.NIDmm
+  fullName: NationalInstruments.ModularInstruments.NIDmm
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments
+    name: ModularInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments.NIDmm
+    name: NIDmm
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments
+    name: ModularInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments.NIDmm
+    name: NIDmm
+    isExternal: true
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.MeasurementFunction*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.MeasurementFunction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.MeasurementFunction.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_DMMMeasurementSettings_MeasurementFunction
+  name: MeasurementFunction
+  nameWithType: DMMMeasurementSettings.MeasurementFunction
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.MeasurementFunction
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.Range*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.Range
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.Range.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_DMMMeasurementSettings_Range
+  name: Range
+  nameWithType: DMMMeasurementSettings.Range
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.Range
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.ResolutionDigits*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.ResolutionDigits
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.ResolutionDigits.html#NationalInstruments_SemiconductorTestLibrary_TestStandSteps_DMMMeasurementSettings_ResolutionDigits
+  name: ResolutionDigits
+  nameWithType: DMMMeasurementSettings.ResolutionDigits
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.ResolutionDigits
+memberLayout: SeparatePages

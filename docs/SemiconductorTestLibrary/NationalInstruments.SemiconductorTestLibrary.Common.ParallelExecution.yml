@@ -1,0 +1,2545 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  id: ParallelExecution
+  parent: NationalInstruments.SemiconductorTestLibrary.Common
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Boolean[]},System.String)
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Boolean},System.String)
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Double[]},System.String)
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Double},System.String)
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{System.Double[],System.Double[]}},System.String,System.String)
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1})
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1})
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``3(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{``1,``2}})
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1})
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Int32,``1[]})
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[0:,0:]})
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[]})
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``3(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{``1[],``2[]}})
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,System.Int32,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,System.Int32})
+  - NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0})
+  langs:
+  - csharp
+  - vb
+  name: ParallelExecution
+  nameWithType: ParallelExecution
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Defines utility methods for handling parallel execution.
+  example: []
+  syntax:
+    content: public static class ParallelExecution
+    content.vb: Public Module ParallelExecution
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0})
+  id: Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation>)
+  nameWithType: ParallelExecution.Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Action<TSessionInformation>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions in parallel with the same inputs.
+  example: []
+  syntax:
+    content: public static void Do<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Action<TSessionInformation> action)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: action
+      type: System.Action{{TSessionInformation}}
+      description: The operation to happen on each session info.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    content.vb: Public Shared Sub [Do](Of TSessionInformation)(sessionsBundle As ISessionsBundle(Of TSessionInformation), action As Action(Of TSessionInformation))
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do*
+  nameWithType.vb: ParallelExecution.Do(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Action(Of TSessionInformation))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do(Of TSessionInformation)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Action(Of TSessionInformation))
+  name.vb: Do(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Action(Of TSessionInformation))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,System.Int32})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,System.Int32})
+  id: Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,System.Int32})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation, int>)
+  nameWithType: ParallelExecution.Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation, int>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Action<TSessionInformation, int>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions in parallel with session specific inputs.
+  example: []
+  syntax:
+    content: public static void Do<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Action<TSessionInformation, int> action)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: action
+      type: System.Action{{TSessionInformation},System.Int32}
+      description: The operation to happen on each session info. The second parameter is the session index.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    content.vb: Public Shared Sub [Do](Of TSessionInformation)(sessionsBundle As ISessionsBundle(Of TSessionInformation), action As Action(Of TSessionInformation, Integer))
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do*
+  nameWithType.vb: ParallelExecution.Do(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Action(Of TSessionInformation, Integer))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do(Of TSessionInformation)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Action(Of TSessionInformation, Integer))
+  name.vb: Do(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Action(Of TSessionInformation, Integer))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  id: Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation, SitePinInfo>)
+  nameWithType: ParallelExecution.Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation, SitePinInfo>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Action<TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions and channels in parallel.
+  example: []
+  syntax:
+    content: public static void Do<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Action<TSessionInformation, SitePinInfo> action)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: action
+      type: System.Action{{TSessionInformation},NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+      description: The operation to happen on each session info. The second parameter is the <xref href="NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo" data-throw-if-not-resolved="false"></xref> associated with a single channel.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    content.vb: Public Shared Sub [Do](Of TSessionInformation)(sessionsBundle As ISessionsBundle(Of TSessionInformation), action As Action(Of TSessionInformation, SitePinInfo))
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do*
+  nameWithType.vb: ParallelExecution.Do(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Action(Of TSessionInformation, SitePinInfo))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do(Of TSessionInformation)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Action(Of TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo))
+  name.vb: Do(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Action(Of TSessionInformation, SitePinInfo))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,System.Int32,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,System.Int32,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  id: Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0,System.Int32,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation, int, SitePinInfo>)
+  nameWithType: ParallelExecution.Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation, int, SitePinInfo>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Action<TSessionInformation, int, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions in parallel.
+  example: []
+  syntax:
+    content: public static void Do<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Action<TSessionInformation, int, SitePinInfo> action)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: action
+      type: System.Action{{TSessionInformation},System.Int32,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+      description: The operation to happen on each session info. The second parameter is the session index. The third parameter is the <xref href="NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo" data-throw-if-not-resolved="false"></xref> associates with a single channel.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    content.vb: Public Shared Sub [Do](Of TSessionInformation)(sessionsBundle As ISessionsBundle(Of TSessionInformation), action As Action(Of TSessionInformation, Integer, SitePinInfo))
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do*
+  nameWithType.vb: ParallelExecution.Do(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Action(Of TSessionInformation, Integer, SitePinInfo))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do(Of TSessionInformation)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Action(Of TSessionInformation, Integer, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo))
+  name.vb: Do(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Action(Of TSessionInformation, Integer, SitePinInfo))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1})
+  id: DoAndReturnPerInstrumentPerChannelResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, TResult>)
+  nameWithType: ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, TResult>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, TResult>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions in parallel with the same inputs and returns per-instrument per-channel results.
+  example: []
+  syntax:
+    content: public static TResult[] DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, TResult> function)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},{TResult}}
+      description: The operation to happen on each session info.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    - id: TResult
+      description: The type of the operation result.
+    return:
+      type: '{TResult}[]'
+      description: An array of the operation results for all sessions.
+    content.vb: Public Shared Function DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, TResult)) As TResult()
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults*
+  nameWithType.vb: ParallelExecution.DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, TResult))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, TResult))
+  name.vb: DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, TResult))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1})
+  id: DoAndReturnPerInstrumentPerChannelResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, SitePinInfo, TResult>)
+  nameWithType: ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, SitePinInfo, TResult>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo, TResult>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions and channels in parallel and returns per-instrument per-channel results.
+  example: []
+  syntax:
+    content: public static TResult[][] DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, SitePinInfo, TResult> function)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,{TResult}}
+      description: The operation to happen on each session info. The second parameter is the <xref href="NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo" data-throw-if-not-resolved="false"></xref> associated with a single channel.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    - id: TResult
+      description: The type of the operation result.
+    return:
+      type: '{TResult}[][]'
+      description: An array of the operation results for all sessions.
+    content.vb: Public Shared Function DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, SitePinInfo, TResult)) As TResult()()
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults*
+  nameWithType.vb: ParallelExecution.DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, SitePinInfo, TResult))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo, TResult))
+  name.vb: DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, SitePinInfo, TResult))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``3(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{``1,``2}})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults``3(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{``1,``2}})
+  id: DoAndReturnPerInstrumentPerChannelResults``3(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{``1,``2}})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult1, TResult2>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, Tuple<TResult1, TResult2>>)
+  nameWithType: ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult1, TResult2>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, Tuple<TResult1, TResult2>>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult1, TResult2>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, System.Tuple<TResult1, TResult2>>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions in parallel with the same inputs and returns per-instrument per-channel results.
+  example: []
+  syntax:
+    content: public static Tuple<TResult1[], TResult2[]> DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult1, TResult2>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, Tuple<TResult1, TResult2>> function)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},System.Tuple{{TResult1},{TResult2}}}
+      description: The operation to happen on each session info.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    - id: TResult1
+      description: The type of the first item of the operation result.
+    - id: TResult2
+      description: The type of the second item of the operation result.
+    return:
+      type: System.Tuple{{TResult1}[],{TResult2}[]}
+      description: Two arrays of the operation results for all sessions.
+    content.vb: Public Shared Function DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult1, TResult2)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, Tuple(Of TResult1, TResult2))) As Tuple(Of TResult1(), TResult2())
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults*
+  nameWithType.vb: ParallelExecution.DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult1, TResult2)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Tuple(Of TResult1, TResult2)))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult1, TResult2)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, System.Tuple(Of TResult1, TResult2)))
+  name.vb: DoAndReturnPerInstrumentPerChannelResults(Of TSessionInformation, TResult1, TResult2)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Tuple(Of TResult1, TResult2)))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[]})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[]})
+  id: DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[]})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, TResult[]>)
+  nameWithType: ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, TResult[]>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, TResult[]>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions in parallel with the same inputs and returns per-site per-pin results.
+  remarks: The output parameter of the <code class="paramref">function</code> is the <b>per-instrument all channels</b> result.
+  example: []
+  syntax:
+    content: public static PinSiteData<TResult> DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, TResult[]> function)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},{TResult}[]}
+      description: The operation to happen on each session info.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    - id: TResult
+      description: The type of the operation result.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
+      description: The per-site per-pin results of the operation.
+    content.vb: Public Shared Function DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, TResult())) As PinSiteData(Of TResult)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults*
+  nameWithType.vb: ParallelExecution.DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, TResult()))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, TResult()))
+  name.vb: DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, TResult()))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1})
+  id: DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, SitePinInfo, TResult>)
+  nameWithType: ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, SitePinInfo, TResult>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo, TResult>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions and channels in parallel and returns per-site per-pin results.
+  remarks: The output parameter of the <code class="paramref">function</code> is the <b>per-instrument per channel</b> result.
+  example: []
+  syntax:
+    content: public static PinSiteData<TResult> DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, SitePinInfo, TResult> function)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,{TResult}}
+      description: The operation to happen on each session info. The second parameter is the <xref href="NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo" data-throw-if-not-resolved="false"></xref> associated with a single channel.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    - id: TResult
+      description: The type of the operation result.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
+      description: The per-site per-pin results of the operation.
+    content.vb: Public Shared Function DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, SitePinInfo, TResult)) As PinSiteData(Of TResult)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults*
+  nameWithType.vb: ParallelExecution.DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, SitePinInfo, TResult))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo, TResult))
+  name.vb: DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, SitePinInfo, TResult))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``3(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{``1[],``2[]}})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``3(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{``1[],``2[]}})
+  id: DoAndReturnPerSitePerPinResults``3(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{``1[],``2[]}})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndReturnPerSitePerPinResults<TSessionInformation, TResult1, TResult2>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, Tuple<TResult1[], TResult2[]>>)
+  nameWithType: ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult1, TResult2>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, Tuple<TResult1[], TResult2[]>>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult1, TResult2>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, System.Tuple<TResult1[], TResult2[]>>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions in parallel with the same inputs and returns per-site per-pin results.
+  remarks: The output parameter of the <code class="paramref">function</code> is the <b>per-instrument all channels</b> result.
+  example: []
+  syntax:
+    content: public static Tuple<PinSiteData<TResult1>, PinSiteData<TResult2>> DoAndReturnPerSitePerPinResults<TSessionInformation, TResult1, TResult2>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, Tuple<TResult1[], TResult2[]>> function)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},System.Tuple{{TResult1}[],{TResult2}[]}}
+      description: The operation to happen on each session info.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    - id: TResult1
+      description: The element type of the first array item of the operation result.
+    - id: TResult2
+      description: The element type of the second array item of the operation result.
+    return:
+      type: System.Tuple{NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult1}},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult2}}}
+      description: The per-site per-pin results of the operation.
+    content.vb: Public Shared Function DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult1, TResult2)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, Tuple(Of TResult1(), TResult2()))) As Tuple(Of PinSiteData(Of TResult1), PinSiteData(Of TResult2))
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults*
+  nameWithType.vb: ParallelExecution.DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult1, TResult2)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Tuple(Of TResult1(), TResult2())))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult1, TResult2)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, System.Tuple(Of TResult1(), TResult2())))
+  name.vb: DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult1, TResult2)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Tuple(Of TResult1(), TResult2())))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[0:,0:]})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[0:,0:]})
+  id: DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[0:,0:]})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, TResult[,]>)
+  nameWithType: ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, TResult[,]>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, TResult[,]>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions in parallel with the same inputs and returns per-site per-pin results.
+  remarks: The output parameter of the <code class="paramref">function</code> is the <b>per-instrument all channels</b> result.
+  example: []
+  syntax:
+    content: public static PinSiteData<TResult[]> DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, TResult[,]> function)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},{TResult}[0:,0:]}
+      description: The operation to happen on each session info.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    - id: TResult
+      description: The type of the operation result.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}[]}
+      description: The per-site per-pin results of the operation.
+    content.vb: Public Shared Function DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, TResult(,))) As PinSiteData(Of TResult())
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults*
+  nameWithType.vb: ParallelExecution.DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, TResult(,)))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, TResult(,)))
+  name.vb: DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, TResult(,)))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Int32,``1[]})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Int32,``1[]})
+  id: DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Int32,``1[]})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, int, TResult[]>)
+  nameWithType: ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, int, TResult[]>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, int, TResult[]>)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation on all sessions in parallel with the same inputs and returns per-site per-pin results.
+  example: []
+  syntax:
+    content: public static PinSiteData<TResult> DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, int, TResult[]> function)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},System.Int32,{TResult}[]}
+      description: The operation to happen on each session info. The second parameter is the session index. The output parameter is the per-instrument result.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    - id: TResult
+      description: The type of the operation result.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
+      description: The per-site per-pin results of the operation.
+    content.vb: Public Shared Function DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, Integer, TResult())) As PinSiteData(Of TResult)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults*
+  nameWithType.vb: ParallelExecution.DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Integer, TResult()))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, Integer, TResult()))
+  name.vb: DoAndReturnPerSitePerPinResults(Of TSessionInformation, TResult)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Integer, TResult()))
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Double},System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Double},System.String)
+  id: DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Double},System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, double>, string)
+  nameWithType: ParallelExecution.DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, double>, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, double>, string)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation and publishes the results.
+  example: []
+  syntax:
+    content: public static double[] DoAndPublishResults<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, double> function, string publishedDataId = "")
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},System.Double}
+      description: The operation to happen on each session info.
+    - id: publishedDataId
+      type: System.String
+      description: The unique data id to use when publishing.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    return:
+      type: System.Double[]
+      description: The per-instrument operation results.
+    content.vb: Public Shared Function DoAndPublishResults(Of TSessionInformation)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, Double), publishedDataId As String = "") As Double()
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults*
+  nameWithType.vb: ParallelExecution.DoAndPublishResults(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Double), String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults(Of TSessionInformation)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, Double), String)
+  name.vb: DoAndPublishResults(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Double), String)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Double[]},System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Double[]},System.String)
+  id: DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Double[]},System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, double[]>, string)
+  nameWithType: ParallelExecution.DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, double[]>, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, double[]>, string)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation and publishes the results.
+  example: []
+  syntax:
+    content: public static double[][] DoAndPublishResults<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, double[]> function, string publishedDataId = "")
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},System.Double[]}
+      description: The operation to happen on each session info.
+    - id: publishedDataId
+      type: System.String
+      description: The unique data id to use when publishing.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    return:
+      type: System.Double[][]
+      description: The per-instrument per-channel operation results as a jagged array. Where, the first dimension represents the instrument sessions, and the second dimension represents the instrument channels within an instrument session.
+    content.vb: Public Shared Function DoAndPublishResults(Of TSessionInformation)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, Double()), publishedDataId As String = "") As Double()()
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults*
+  nameWithType.vb: ParallelExecution.DoAndPublishResults(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Double()), String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults(Of TSessionInformation)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, Double()), String)
+  name.vb: DoAndPublishResults(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Double()), String)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Boolean},System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Boolean},System.String)
+  id: DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Boolean},System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, bool>, string)
+  nameWithType: ParallelExecution.DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, bool>, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, bool>, string)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation and publishes the results.
+  example: []
+  syntax:
+    content: public static bool[] DoAndPublishResults<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, bool> function, string publishedDataId = "")
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},System.Boolean}
+      description: The operation to happen on each session info.
+    - id: publishedDataId
+      type: System.String
+      description: The unique data id to use when publishing.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    return:
+      type: System.Boolean[]
+      description: The per-instrument operation results.
+    content.vb: Public Shared Function DoAndPublishResults(Of TSessionInformation)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, Boolean), publishedDataId As String = "") As Boolean()
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults*
+  nameWithType.vb: ParallelExecution.DoAndPublishResults(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Boolean), String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults(Of TSessionInformation)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, Boolean), String)
+  name.vb: DoAndPublishResults(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Boolean), String)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Boolean[]},System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Boolean[]},System.String)
+  id: DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Boolean[]},System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, bool[]>, string)
+  nameWithType: ParallelExecution.DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, bool[]>, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, bool[]>, string)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation and publishes the results.
+  example: []
+  syntax:
+    content: public static bool[][] DoAndPublishResults<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, bool[]> function, string publishedDataId = "")
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},System.Boolean[]}
+      description: The operation to happen on each session info.
+    - id: publishedDataId
+      type: System.String
+      description: The unique data id to use when publishing.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    return:
+      type: System.Boolean[][]
+      description: The per-instrument per-channel operation results as a jagged array. Where, the first dimension represents the instrument sessions, and the second dimension represents the instrument channels within an instrument session.
+    content.vb: Public Shared Function DoAndPublishResults(Of TSessionInformation)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, Boolean()), publishedDataId As String = "") As Boolean()()
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults*
+  nameWithType.vb: ParallelExecution.DoAndPublishResults(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Boolean()), String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults(Of TSessionInformation)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, Boolean()), String)
+  name.vb: DoAndPublishResults(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Boolean()), String)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{System.Double[],System.Double[]}},System.String,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{System.Double[],System.Double[]}},System.String,System.String)
+  id: DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{System.Double[],System.Double[]}},System.String,System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+  langs:
+  - csharp
+  - vb
+  name: DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, Tuple<double[], double[]>>, string, string)
+  nameWithType: ParallelExecution.DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, Tuple<double[], double[]>>, string, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, System.Tuple<double[], double[]>>, string, string)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Does an operation and publishes the results.
+  example: []
+  syntax:
+    content: public static Tuple<double[][], double[][]> DoAndPublishResults<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, Tuple<double[], double[]>> function, string publishedDataId1 = "", string publishedDataId2 = "")
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: function
+      type: System.Func{{TSessionInformation},System.Tuple{System.Double[],System.Double[]}}
+      description: The operation to happen on each session info. This operation returns two results.
+    - id: publishedDataId1
+      type: System.String
+      description: The unique data id to use when publishing the first operation result.
+    - id: publishedDataId2
+      type: System.String
+      description: The unique data id to use when publishing the second operation result.
+    typeParameters:
+    - id: TSessionInformation
+      description: The type of the session info.
+    return:
+      type: System.Tuple{System.Double[][],System.Double[][]}
+      description: The two per-instrument per-channel operation results as a tuple of two jagged arrays, one for each set of results. Where, the first dimension of each jagged array represents the instrument sessions, and the second dimension represents the instrument channels within an instrument session.
+    content.vb: Public Shared Function DoAndPublishResults(Of TSessionInformation)(sessionsBundle As ISessionsBundle(Of TSessionInformation), [function] As Func(Of TSessionInformation, Tuple(Of Double(), Double())), publishedDataId1 As String = "", publishedDataId2 As String = "") As Tuple(Of Double()(), Double()())
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults*
+  nameWithType.vb: ParallelExecution.DoAndPublishResults(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Tuple(Of Double(), Double())), String, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults(Of TSessionInformation)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), System.Func(Of TSessionInformation, System.Tuple(Of Double(), Double())), String, String)
+  name.vb: DoAndPublishResults(Of TSessionInformation)(ISessionsBundle(Of TSessionInformation), Func(Of TSessionInformation, Tuple(Of Double(), Double())), String, String)
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.Common
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.Common
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.Common
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.Common
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common
+    name: Common
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common
+    name: Common
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do.html#NationalInstruments_SemiconductorTestLibrary_Common_ParallelExecution_Do__1_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_ISessionsBundle___0__System_Action___0__
+  name: Do
+  nameWithType: ParallelExecution.Do
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0}
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  name: ISessionsBundle<TSessionInformation>
+  nameWithType: ISessionsBundle<TSessionInformation>
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>
+  nameWithType.vb: ISessionsBundle(Of TSessionInformation)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation)
+  name.vb: ISessionsBundle(Of TSessionInformation)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+    name: ISessionsBundle
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  - name: <
+  - name: TSessionInformation
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+    name: ISessionsBundle
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: )
+- uid: System.Action{{TSessionInformation}}
+  commentId: T:System.Action{``0}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<TSessionInformation>
+  nameWithType: Action<TSessionInformation>
+  fullName: System.Action<TSessionInformation>
+  nameWithType.vb: Action(Of TSessionInformation)
+  fullName.vb: System.Action(Of TSessionInformation)
+  name.vb: Action(Of TSessionInformation)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: TSessionInformation
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  name: ISessionsBundle<TSessionInformation>
+  nameWithType: ISessionsBundle<TSessionInformation>
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>
+  nameWithType.vb: ISessionsBundle(Of TSessionInformation)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation)
+  name.vb: ISessionsBundle(Of TSessionInformation)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+    name: ISessionsBundle
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  - name: <
+  - name: TSessionInformation
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+    name: ISessionsBundle
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Action{{TSessionInformation},System.Int32}
+  commentId: T:System.Action{``0,System.Int32}
+  parent: System
+  definition: System.Action`2
+  href: https://learn.microsoft.com/dotnet/api/system.action-2
+  name: Action<TSessionInformation, int>
+  nameWithType: Action<TSessionInformation, int>
+  fullName: System.Action<TSessionInformation, int>
+  nameWithType.vb: Action(Of TSessionInformation, Integer)
+  fullName.vb: System.Action(Of TSessionInformation, Integer)
+  name.vb: Action(Of TSessionInformation, Integer)
+  spec.csharp:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: System.Action`2
+  commentId: T:System.Action`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-2
+  name: Action<T1, T2>
+  nameWithType: Action<T1, T2>
+  fullName: System.Action<T1, T2>
+  nameWithType.vb: Action(Of T1, T2)
+  fullName.vb: System.Action(Of T1, T2)
+  name.vb: Action(Of T1, T2)
+  spec.csharp:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  name: SitePinInfo
+  nameWithType: SitePinInfo
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+- uid: System.Action{{TSessionInformation},NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+  commentId: T:System.Action{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+  parent: System
+  definition: System.Action`2
+  href: https://learn.microsoft.com/dotnet/api/system.action-2
+  name: Action<TSessionInformation, SitePinInfo>
+  nameWithType: Action<TSessionInformation, SitePinInfo>
+  fullName: System.Action<TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo>
+  nameWithType.vb: Action(Of TSessionInformation, SitePinInfo)
+  fullName.vb: System.Action(Of TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo)
+  name.vb: Action(Of TSessionInformation, SitePinInfo)
+  spec.csharp:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+    name: SitePinInfo
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+    name: SitePinInfo
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  - name: )
+- uid: System.Action{{TSessionInformation},System.Int32,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+  commentId: T:System.Action{``0,System.Int32,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+  parent: System
+  definition: System.Action`3
+  href: https://learn.microsoft.com/dotnet/api/system.action-3
+  name: Action<TSessionInformation, int, SitePinInfo>
+  nameWithType: Action<TSessionInformation, int, SitePinInfo>
+  fullName: System.Action<TSessionInformation, int, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo>
+  nameWithType.vb: Action(Of TSessionInformation, Integer, SitePinInfo)
+  fullName.vb: System.Action(Of TSessionInformation, Integer, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo)
+  name.vb: Action(Of TSessionInformation, Integer, SitePinInfo)
+  spec.csharp:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+    name: SitePinInfo
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+    name: SitePinInfo
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  - name: )
+- uid: System.Action`3
+  commentId: T:System.Action`3
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-3
+  name: Action<T1, T2, T3>
+  nameWithType: Action<T1, T2, T3>
+  fullName: System.Action<T1, T2, T3>
+  nameWithType.vb: Action(Of T1, T2, T3)
+  fullName.vb: System.Action(Of T1, T2, T3)
+  name.vb: Action(Of T1, T2, T3)
+  spec.csharp:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults.html#NationalInstruments_SemiconductorTestLibrary_Common_ParallelExecution_DoAndReturnPerInstrumentPerChannelResults__2_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_ISessionsBundle___0__System_Func___0___1__
+  name: DoAndReturnPerInstrumentPerChannelResults
+  nameWithType: ParallelExecution.DoAndReturnPerInstrumentPerChannelResults
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults
+- uid: System.Func{{TSessionInformation},{TResult}}
+  commentId: T:System.Func{``0,``1}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<TSessionInformation, TResult>
+  nameWithType: Func<TSessionInformation, TResult>
+  fullName: System.Func<TSessionInformation, TResult>
+  nameWithType.vb: Func(Of TSessionInformation, TResult)
+  fullName.vb: System.Func(Of TSessionInformation, TResult)
+  name.vb: Func(Of TSessionInformation, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: '{TResult}[]'
+  isExternal: true
+  name: TResult[]
+  nameWithType: TResult[]
+  fullName: TResult[]
+  nameWithType.vb: TResult()
+  fullName.vb: TResult()
+  name.vb: TResult()
+  spec.csharp:
+  - name: TResult
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: TResult
+  - name: (
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{{TSessionInformation},NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,{TResult}}
+  commentId: T:System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1}
+  parent: System
+  definition: System.Func`3
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<TSessionInformation, SitePinInfo, TResult>
+  nameWithType: Func<TSessionInformation, SitePinInfo, TResult>
+  fullName: System.Func<TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo, TResult>
+  nameWithType.vb: Func(Of TSessionInformation, SitePinInfo, TResult)
+  fullName.vb: System.Func(Of TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo, TResult)
+  name.vb: Func(Of TSessionInformation, SitePinInfo, TResult)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+    name: SitePinInfo
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+    name: SitePinInfo
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: '{TResult}[][]'
+  isExternal: true
+  name: TResult[][]
+  nameWithType: TResult[][]
+  fullName: TResult[][]
+  nameWithType.vb: TResult()()
+  fullName.vb: TResult()()
+  name.vb: TResult()()
+  spec.csharp:
+  - name: TResult
+  - name: '['
+  - name: ']'
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: TResult
+  - name: (
+  - name: )
+  - name: (
+  - name: )
+- uid: System.Func`3
+  commentId: T:System.Func`3
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<T1, T2, TResult>
+  nameWithType: Func<T1, T2, TResult>
+  fullName: System.Func<T1, T2, TResult>
+  nameWithType.vb: Func(Of T1, T2, TResult)
+  fullName.vb: System.Func(Of T1, T2, TResult)
+  name.vb: Func(Of T1, T2, TResult)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{{TSessionInformation},System.Tuple{{TResult1},{TResult2}}}
+  commentId: T:System.Func{``0,System.Tuple{``1,``2}}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<TSessionInformation, Tuple<TResult1, TResult2>>
+  nameWithType: Func<TSessionInformation, Tuple<TResult1, TResult2>>
+  fullName: System.Func<TSessionInformation, System.Tuple<TResult1, TResult2>>
+  nameWithType.vb: Func(Of TSessionInformation, Tuple(Of TResult1, TResult2))
+  fullName.vb: System.Func(Of TSessionInformation, System.Tuple(Of TResult1, TResult2))
+  name.vb: Func(Of TSessionInformation, Tuple(Of TResult1, TResult2))
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: <
+  - name: TResult1
+  - name: ','
+  - name: " "
+  - name: TResult2
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult1
+  - name: ','
+  - name: " "
+  - name: TResult2
+  - name: )
+  - name: )
+- uid: System.Tuple{{TResult1}[],{TResult2}[]}
+  commentId: T:System.Tuple{``1[],``2[]}
+  parent: System
+  definition: System.Tuple`2
+  href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  name: Tuple<TResult1[], TResult2[]>
+  nameWithType: Tuple<TResult1[], TResult2[]>
+  fullName: System.Tuple<TResult1[], TResult2[]>
+  nameWithType.vb: Tuple(Of TResult1(), TResult2())
+  fullName.vb: System.Tuple(Of TResult1(), TResult2())
+  name.vb: Tuple(Of TResult1(), TResult2())
+  spec.csharp:
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: <
+  - name: TResult1
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - name: TResult2
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult1
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - name: TResult2
+  - name: (
+  - name: )
+  - name: )
+- uid: System.Tuple`2
+  commentId: T:System.Tuple`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  name: Tuple<T1, T2>
+  nameWithType: Tuple<T1, T2>
+  fullName: System.Tuple<T1, T2>
+  nameWithType.vb: Tuple(Of T1, T2)
+  fullName.vb: System.Tuple(Of T1, T2)
+  name.vb: Tuple(Of T1, T2)
+  spec.csharp:
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: '>'
+  spec.vb:
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults.html#NationalInstruments_SemiconductorTestLibrary_Common_ParallelExecution_DoAndReturnPerSitePerPinResults__2_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_ISessionsBundle___0__System_Func___0___1____
+  name: DoAndReturnPerSitePerPinResults
+  nameWithType: ParallelExecution.DoAndReturnPerSitePerPinResults
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults
+- uid: System.Func{{TSessionInformation},{TResult}[]}
+  commentId: T:System.Func{``0,``1[]}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<TSessionInformation, TResult[]>
+  nameWithType: Func<TSessionInformation, TResult[]>
+  fullName: System.Func<TSessionInformation, TResult[]>
+  nameWithType.vb: Func(Of TSessionInformation, TResult())
+  fullName.vb: System.Func(Of TSessionInformation, TResult())
+  name.vb: Func(Of TSessionInformation, TResult())
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: (
+  - name: )
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``1}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<TResult>
+  nameWithType: PinSiteData<TResult>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TResult>
+  nameWithType.vb: PinSiteData(Of TResult)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of TResult)
+  name.vb: PinSiteData(Of TResult)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+- uid: System.Func{{TSessionInformation},System.Tuple{{TResult1}[],{TResult2}[]}}
+  commentId: T:System.Func{``0,System.Tuple{``1[],``2[]}}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<TSessionInformation, Tuple<TResult1[], TResult2[]>>
+  nameWithType: Func<TSessionInformation, Tuple<TResult1[], TResult2[]>>
+  fullName: System.Func<TSessionInformation, System.Tuple<TResult1[], TResult2[]>>
+  nameWithType.vb: Func(Of TSessionInformation, Tuple(Of TResult1(), TResult2()))
+  fullName.vb: System.Func(Of TSessionInformation, System.Tuple(Of TResult1(), TResult2()))
+  name.vb: Func(Of TSessionInformation, Tuple(Of TResult1(), TResult2()))
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: <
+  - name: TResult1
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - name: TResult2
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult1
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - name: TResult2
+  - name: (
+  - name: )
+  - name: )
+  - name: )
+- uid: System.Tuple{NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult1}},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult2}}}
+  commentId: T:System.Tuple{NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``1},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``2}}
+  parent: System
+  definition: System.Tuple`2
+  href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  name: Tuple<PinSiteData<TResult1>, PinSiteData<TResult2>>
+  nameWithType: Tuple<PinSiteData<TResult1>, PinSiteData<TResult2>>
+  fullName: System.Tuple<NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TResult1>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TResult2>>
+  nameWithType.vb: Tuple(Of PinSiteData(Of TResult1), PinSiteData(Of TResult2))
+  fullName.vb: System.Tuple(Of NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of TResult1), NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of TResult2))
+  name.vb: Tuple(Of PinSiteData(Of TResult1), PinSiteData(Of TResult2))
+  spec.csharp:
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: <
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: TResult1
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: TResult2
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult1
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult2
+  - name: )
+  - name: )
+- uid: System.Func{{TSessionInformation},{TResult}[0:,0:]}
+  commentId: T:System.Func{``0,``1[0:,0:]}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<TSessionInformation, TResult[,]>
+  nameWithType: Func<TSessionInformation, TResult[,]>
+  fullName: System.Func<TSessionInformation, TResult[,]>
+  nameWithType.vb: Func(Of TSessionInformation, TResult(,))
+  fullName.vb: System.Func(Of TSessionInformation, TResult(,))
+  name.vb: Func(Of TSessionInformation, TResult(,))
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '['
+  - name: ','
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: (
+  - name: ','
+  - name: )
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}[]}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``1[]}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<TResult[]>
+  nameWithType: PinSiteData<TResult[]>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TResult[]>
+  nameWithType.vb: PinSiteData(Of TResult())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of TResult())
+  name.vb: PinSiteData(Of TResult())
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: TResult
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: (
+  - name: )
+  - name: )
+- uid: System.Func{{TSessionInformation},System.Int32,{TResult}[]}
+  commentId: T:System.Func{``0,System.Int32,``1[]}
+  parent: System
+  definition: System.Func`3
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<TSessionInformation, int, TResult[]>
+  nameWithType: Func<TSessionInformation, int, TResult[]>
+  fullName: System.Func<TSessionInformation, int, TResult[]>
+  nameWithType.vb: Func(Of TSessionInformation, Integer, TResult())
+  fullName.vb: System.Func(Of TSessionInformation, Integer, TResult())
+  name.vb: Func(Of TSessionInformation, Integer, TResult())
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: (
+  - name: )
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults.html#NationalInstruments_SemiconductorTestLibrary_Common_ParallelExecution_DoAndPublishResults__1_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_ISessionsBundle___0__System_Func___0_System_Double__System_String_
+  name: DoAndPublishResults
+  nameWithType: ParallelExecution.DoAndPublishResults
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults
+- uid: System.Func{{TSessionInformation},System.Double}
+  commentId: T:System.Func{``0,System.Double}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<TSessionInformation, double>
+  nameWithType: Func<TSessionInformation, double>
+  fullName: System.Func<TSessionInformation, double>
+  nameWithType.vb: Func(Of TSessionInformation, Double)
+  fullName.vb: System.Func(Of TSessionInformation, Double)
+  name.vb: Func(Of TSessionInformation, Double)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Double[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double[]
+  nameWithType: double[]
+  fullName: double[]
+  nameWithType.vb: Double()
+  fullName.vb: Double()
+  name.vb: Double()
+  spec.csharp:
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: (
+  - name: )
+- uid: System.Func{{TSessionInformation},System.Double[]}
+  commentId: T:System.Func{``0,System.Double[]}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<TSessionInformation, double[]>
+  nameWithType: Func<TSessionInformation, double[]>
+  fullName: System.Func<TSessionInformation, double[]>
+  nameWithType.vb: Func(Of TSessionInformation, Double())
+  fullName.vb: System.Func(Of TSessionInformation, Double())
+  name.vb: Func(Of TSessionInformation, Double())
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: (
+  - name: )
+  - name: )
+- uid: System.Double[][]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double[][]
+  nameWithType: double[][]
+  fullName: double[][]
+  nameWithType.vb: Double()()
+  fullName.vb: Double()()
+  name.vb: Double()()
+  spec.csharp:
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '['
+  - name: ']'
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: (
+  - name: )
+  - name: (
+  - name: )
+- uid: System.Func{{TSessionInformation},System.Boolean}
+  commentId: T:System.Func{``0,System.Boolean}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<TSessionInformation, bool>
+  nameWithType: Func<TSessionInformation, bool>
+  fullName: System.Func<TSessionInformation, bool>
+  nameWithType.vb: Func(Of TSessionInformation, Boolean)
+  fullName.vb: System.Func(Of TSessionInformation, Boolean)
+  name.vb: Func(Of TSessionInformation, Boolean)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: System.Boolean[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool[]
+  nameWithType: bool[]
+  fullName: bool[]
+  nameWithType.vb: Boolean()
+  fullName.vb: Boolean()
+  name.vb: Boolean()
+  spec.csharp:
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: (
+  - name: )
+- uid: System.Func{{TSessionInformation},System.Boolean[]}
+  commentId: T:System.Func{``0,System.Boolean[]}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<TSessionInformation, bool[]>
+  nameWithType: Func<TSessionInformation, bool[]>
+  fullName: System.Func<TSessionInformation, bool[]>
+  nameWithType.vb: Func(Of TSessionInformation, Boolean())
+  fullName.vb: System.Func(Of TSessionInformation, Boolean())
+  name.vb: Func(Of TSessionInformation, Boolean())
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: (
+  - name: )
+  - name: )
+- uid: System.Boolean[][]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool[][]
+  nameWithType: bool[][]
+  fullName: bool[][]
+  nameWithType.vb: Boolean()()
+  fullName.vb: Boolean()()
+  name.vb: Boolean()()
+  spec.csharp:
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '['
+  - name: ']'
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: (
+  - name: )
+  - name: (
+  - name: )
+- uid: System.Func{{TSessionInformation},System.Tuple{System.Double[],System.Double[]}}
+  commentId: T:System.Func{``0,System.Tuple{System.Double[],System.Double[]}}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<TSessionInformation, Tuple<double[], double[]>>
+  nameWithType: Func<TSessionInformation, Tuple<double[], double[]>>
+  fullName: System.Func<TSessionInformation, System.Tuple<double[], double[]>>
+  nameWithType.vb: Func(Of TSessionInformation, Tuple(Of Double(), Double()))
+  fullName.vb: System.Func(Of TSessionInformation, System.Tuple(Of Double(), Double()))
+  name.vb: Func(Of TSessionInformation, Tuple(Of Double(), Double()))
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: ','
+  - name: " "
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: (
+  - name: )
+  - name: )
+  - name: )
+- uid: System.Tuple{System.Double[][],System.Double[][]}
+  commentId: T:System.Tuple{System.Double[][],System.Double[][]}
+  parent: System
+  definition: System.Tuple`2
+  href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  name: Tuple<double[][], double[][]>
+  nameWithType: Tuple<double[][], double[][]>
+  fullName: System.Tuple<double[][], double[][]>
+  nameWithType.vb: Tuple(Of Double()(), Double()())
+  fullName.vb: System.Tuple(Of Double()(), Double()())
+  name.vb: Tuple(Of Double()(), Double()())
+  spec.csharp:
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '['
+  - name: ']'
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '['
+  - name: ']'
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: (
+  - name: )
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: (
+  - name: )
+  - name: (
+  - name: )
+  - name: )
+memberLayout: SeparatePages

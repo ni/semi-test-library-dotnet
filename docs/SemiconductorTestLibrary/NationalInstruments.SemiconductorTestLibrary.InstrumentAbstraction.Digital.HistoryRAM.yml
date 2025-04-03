@@ -1,0 +1,976 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
+  id: HistoryRAM
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.Configure(NationalInstruments.ModularInstruments.NIDigital.NIDigital,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.Collections.Generic.IDictionary{System.String,System.String})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetConfiguration(NationalInstruments.ModularInstruments.NIDigital.NIDigital)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetHistoryRAMConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.LogResultsToFiles(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{System.Int64}},System.String,System.String)
+  langs:
+  - csharp
+  - vb
+  name: HistoryRAM
+  nameWithType: HistoryRAM
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
+  type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Defines methods for History RAM.
+  example: []
+  syntax:
+    content: public static class HistoryRAM
+    content.vb: Public Module HistoryRAM
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  id: ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
+  langs:
+  - csharp
+  - vb
+  name: ConfigureHistoryRAM(DigitalSessionsBundle, HistoryRAMSettings)
+  nameWithType: HistoryRAM.ConfigureHistoryRAM(DigitalSessionsBundle, HistoryRAMSettings)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures History RAM.
+  example: []
+  syntax:
+    content: public static void ConfigureHistoryRAM(this DigitalSessionsBundle sessionsBundle, HistoryRAMSettings settings)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: settings
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings
+      description: The configuration to apply.
+    content.vb: Public Shared Sub ConfigureHistoryRAM(sessionsBundle As DigitalSessionsBundle, settings As HistoryRAMSettings)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetHistoryRAMConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetHistoryRAMConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
+  id: GetHistoryRAMConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
+  langs:
+  - csharp
+  - vb
+  name: GetHistoryRAMConfiguration(DigitalSessionsBundle)
+  nameWithType: HistoryRAM.GetHistoryRAMConfiguration(DigitalSessionsBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetHistoryRAMConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Gets History RAM configuration.
+  example: []
+  syntax:
+    content: public static HistoryRAMSettings GetHistoryRAMConfiguration(this DigitalSessionsBundle sessionsBundle)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings
+      description: Current History RAM configuration.
+    content.vb: Public Shared Function GetHistoryRAMConfiguration(sessionsBundle As DigitalSessionsBundle) As HistoryRAMSettings
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetHistoryRAMConfiguration*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
+  id: FetchHistoryRAMResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
+  langs:
+  - csharp
+  - vb
+  name: FetchHistoryRAMResults(DigitalSessionsBundle)
+  nameWithType: HistoryRAM.FetchHistoryRAMResults(DigitalSessionsBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Fetches results from the History RAM and returns as a site-aware object of type DigitalHistoryRamCycleInformation.
+  example: []
+  syntax:
+    content: public static SiteData<HistoryRAMResults> FetchHistoryRAMResults(this DigitalSessionsBundle sessionsBundle)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults}
+      description: The per-site History RAM cycle information and scan cycle numbers.
+    content.vb: Public Shared Function FetchHistoryRAMResults(sessionsBundle As DigitalSessionsBundle) As SiteData(Of HistoryRAMResults)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.Configure(NationalInstruments.ModularInstruments.NIDigital.NIDigital,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.Configure(NationalInstruments.ModularInstruments.NIDigital.NIDigital,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  id: Configure(NationalInstruments.ModularInstruments.NIDigital.NIDigital,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
+  langs:
+  - csharp
+  - vb
+  name: Configure(NIDigital, HistoryRAMSettings)
+  nameWithType: HistoryRAM.Configure(NIDigital, HistoryRAMSettings)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.Configure(NationalInstruments.ModularInstruments.NIDigital.NIDigital, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures History RAM.
+  example: []
+  syntax:
+    content: public static void Configure(this NIDigital session, HistoryRAMSettings settings)
+    parameters:
+    - id: session
+      type: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+      description: The <xref href="NationalInstruments.ModularInstruments.NIDigital.NIDigital" data-throw-if-not-resolved="false"></xref> session.
+    - id: settings
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings
+      description: The configuration to apply.
+    content.vb: Public Shared Sub Configure(session As NIDigital, settings As HistoryRAMSettings)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.Configure*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetConfiguration(NationalInstruments.ModularInstruments.NIDigital.NIDigital)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetConfiguration(NationalInstruments.ModularInstruments.NIDigital.NIDigital)
+  id: GetConfiguration(NationalInstruments.ModularInstruments.NIDigital.NIDigital)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
+  langs:
+  - csharp
+  - vb
+  name: GetConfiguration(NIDigital)
+  nameWithType: HistoryRAM.GetConfiguration(NIDigital)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetConfiguration(NationalInstruments.ModularInstruments.NIDigital.NIDigital)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Gets History RAM configuration.
+  example: []
+  syntax:
+    content: public static HistoryRAMSettings GetConfiguration(this NIDigital session)
+    parameters:
+    - id: session
+      type: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+      description: The <xref href="NationalInstruments.ModularInstruments.NIDigital.NIDigital" data-throw-if-not-resolved="false"></xref> session.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings
+      description: Current History RAM configuration.
+    content.vb: Public Shared Function GetConfiguration(session As NIDigital) As HistoryRAMSettings
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetConfiguration*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.Collections.Generic.IDictionary{System.String,System.String})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.Collections.Generic.IDictionary{System.String,System.String})
+  id: FetchHistoryRAMResults(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.Collections.Generic.IDictionary{System.String,System.String})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
+  langs:
+  - csharp
+  - vb
+  name: FetchHistoryRAMResults(NIDigital, IDictionary<string, string>)
+  nameWithType: HistoryRAM.FetchHistoryRAMResults(NIDigital, IDictionary<string, string>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults(NationalInstruments.ModularInstruments.NIDigital.NIDigital, System.Collections.Generic.IDictionary<string, string>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Fetches History RAM results.
+  example: []
+  syntax:
+    content: public static SiteData<HistoryRAMResults> FetchHistoryRAMResults(this NIDigital session, IDictionary<string, string> perSitePinSetStrings)
+    parameters:
+    - id: session
+      type: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+      description: The <xref href="NationalInstruments.ModularInstruments.NIDigital.NIDigital" data-throw-if-not-resolved="false"></xref> session.
+    - id: perSitePinSetStrings
+      type: System.Collections.Generic.IDictionary{System.String,System.String}
+      description: The per-site pin set strings associated with the session.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults}
+      description: The single session per-site History RAM cycle information and scan cycle numbers.
+    content.vb: Public Shared Function FetchHistoryRAMResults(session As NIDigital, perSitePinSetStrings As IDictionary(Of String, String)) As SiteData(Of HistoryRAMResults)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults*
+  nameWithType.vb: HistoryRAM.FetchHistoryRAMResults(NIDigital, IDictionary(Of String, String))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults(NationalInstruments.ModularInstruments.NIDigital.NIDigital, System.Collections.Generic.IDictionary(Of String, String))
+  name.vb: FetchHistoryRAMResults(NIDigital, IDictionary(Of String, String))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.LogResultsToFiles(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{System.Int64}},System.String,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.LogResultsToFiles(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{System.Int64}},System.String,System.String)
+  id: LogResultsToFiles(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{System.Int64}},System.String,System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
+  langs:
+  - csharp
+  - vb
+  name: LogResultsToFiles(DigitalSessionsBundle, SiteData<List<DigitalHistoryRamCycleInformation>>, SiteData<List<long>>, string, string)
+  nameWithType: HistoryRAM.LogResultsToFiles(DigitalSessionsBundle, SiteData<List<DigitalHistoryRamCycleInformation>>, SiteData<List<long>>, string, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.LogResultsToFiles(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<System.Collections.Generic.List<NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation>>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<System.Collections.Generic.List<long>>, string, string)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/56a70d2e9f9184b94179d198ac1ed5e39eafd992/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Logs History RAM results to CSV files. This method should be used for debug only.
+  example: []
+  syntax:
+    content: public static void LogResultsToFiles(this DigitalSessionsBundle sessionsBundle, SiteData<List<DigitalHistoryRamCycleInformation>> cycleInformation, SiteData<List<long>> scanCycleNumbers, string patternName, string outputDirectory)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: cycleInformation
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}}
+      description: The per-site cycle information.
+    - id: scanCycleNumbers
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{System.Int64}}
+      description: The per-site scan cycle numbers.
+    - id: patternName
+      type: System.String
+      description: The name of the pattern.
+    - id: outputDirectory
+      type: System.String
+      description: The directory to save the CSV files.
+    content.vb: Public Shared Sub LogResultsToFiles(sessionsBundle As DigitalSessionsBundle, cycleInformation As SiteData(Of List(Of DigitalHistoryRamCycleInformation)), scanCycleNumbers As SiteData(Of List(Of Long)), patternName As String, outputDirectory As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.LogResultsToFiles*
+  nameWithType.vb: HistoryRAM.LogResultsToFiles(DigitalSessionsBundle, SiteData(Of List(Of DigitalHistoryRamCycleInformation)), SiteData(Of List(Of Long)), String, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.LogResultsToFiles(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of System.Collections.Generic.List(Of NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation)), NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of System.Collections.Generic.List(Of Long)), String, String)
+  name.vb: LogResultsToFiles(DigitalSessionsBundle, SiteData(Of List(Of DigitalHistoryRamCycleInformation)), SiteData(Of List(Of Long)), String, String)
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+    name: Digital
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+    name: Digital
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.html
+  name: DigitalSessionsBundle
+  nameWithType: DigitalSessionsBundle
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAM_ConfigureHistoryRAM_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAMSettings_
+  name: ConfigureHistoryRAM
+  nameWithType: HistoryRAM.ConfigureHistoryRAM
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.html
+  name: HistoryRAMSettings
+  nameWithType: HistoryRAMSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetHistoryRAMConfiguration*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetHistoryRAMConfiguration
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetHistoryRAMConfiguration.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAM_GetHistoryRAMConfiguration_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_
+  name: GetHistoryRAMConfiguration
+  nameWithType: HistoryRAM.GetHistoryRAMConfiguration
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetHistoryRAMConfiguration
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAM_FetchHistoryRAMResults_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_
+  name: FetchHistoryRAMResults
+  nameWithType: HistoryRAM.FetchHistoryRAMResults
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  name: SiteData<HistoryRAMResults>
+  nameWithType: SiteData<HistoryRAMResults>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults>
+  nameWithType.vb: SiteData(Of HistoryRAMResults)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults)
+  name.vb: SiteData(Of HistoryRAMResults)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  - name: <
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults
+    name: HistoryRAMResults
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.html
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults
+    name: HistoryRAMResults
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.html
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+- uid: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+  commentId: T:NationalInstruments.ModularInstruments.NIDigital.NIDigital
+  parent: NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: NIDigital
+  nameWithType: NIDigital
+  fullName: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.Configure*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.Configure
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.Configure.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAM_Configure_NationalInstruments_ModularInstruments_NIDigital_NIDigital_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAMSettings_
+  name: Configure
+  nameWithType: HistoryRAM.Configure
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.Configure
+- uid: NationalInstruments.ModularInstruments.NIDigital
+  commentId: N:NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: NationalInstruments.ModularInstruments.NIDigital
+  nameWithType: NationalInstruments.ModularInstruments.NIDigital
+  fullName: NationalInstruments.ModularInstruments.NIDigital
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments
+    name: ModularInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments.NIDigital
+    name: NIDigital
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments
+    name: ModularInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments.NIDigital
+    name: NIDigital
+    isExternal: true
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetConfiguration*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetConfiguration
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetConfiguration.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAM_GetConfiguration_NationalInstruments_ModularInstruments_NIDigital_NIDigital_
+  name: GetConfiguration
+  nameWithType: HistoryRAM.GetConfiguration
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetConfiguration
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<string, string>
+  nameWithType: IDictionary<string, string>
+  fullName: System.Collections.Generic.IDictionary<string, string>
+  nameWithType.vb: IDictionary(Of String, String)
+  fullName.vb: System.Collections.Generic.IDictionary(Of String, String)
+  name.vb: IDictionary(Of String, String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.IDictionary`2
+  commentId: T:System.Collections.Generic.IDictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<TKey, TValue>
+  nameWithType: IDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
+  nameWithType.vb: IDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
+  name.vb: IDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.LogResultsToFiles*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.LogResultsToFiles
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.LogResultsToFiles.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAM_LogResultsToFiles_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_System_Collections_Generic_List_NationalInstruments_ModularInstruments_NIDigital_DigitalHistoryRamCycleInformation___NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData_System_Collections_Generic_List_System_Int64___System_String_System_String_
+  name: LogResultsToFiles
+  nameWithType: HistoryRAM.LogResultsToFiles
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.LogResultsToFiles
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  name: SiteData<List<DigitalHistoryRamCycleInformation>>
+  nameWithType: SiteData<List<DigitalHistoryRamCycleInformation>>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<System.Collections.Generic.List<NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation>>
+  nameWithType.vb: SiteData(Of List(Of DigitalHistoryRamCycleInformation))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of System.Collections.Generic.List(Of NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation))
+  name.vb: SiteData(Of List(Of DigitalHistoryRamCycleInformation))
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  - name: <
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation
+    name: DigitalHistoryRamCycleInformation
+    isExternal: true
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation
+    name: DigitalHistoryRamCycleInformation
+    isExternal: true
+  - name: )
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{System.Int64}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{System.Int64}}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  name: SiteData<List<long>>
+  nameWithType: SiteData<List<long>>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<System.Collections.Generic.List<long>>
+  nameWithType.vb: SiteData(Of List(Of Long))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of System.Collections.Generic.List(Of Long))
+  name.vb: SiteData(Of List(Of Long))
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  - name: <
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.Int64
+    name: long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int64
+    name: Long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: )
+  - name: )
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+memberLayout: SeparatePages

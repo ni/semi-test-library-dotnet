@@ -1,0 +1,302 @@
+### YamlMime:TableOfContent
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.Common
+  name: NationalInstruments.SemiconductorTestLibrary.Common
+  type: Namespace
+  items:
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.MeasurementType
+    name: MeasurementType
+    type: Enum
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    name: NISemiconductorTestException
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
+    name: ParallelExecution
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish
+    name: Publish
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+    name: SitePinInfo
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SystemSettings
+    name: SystemSettings
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.Utilities
+    name: Utilities
+    type: Class
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  type: Namespace
+  items:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
+    name: ComparisonType
+    type: Enum
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData<T>
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData<T>
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+    name: TSMContextExtensions
+    type: Class
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  type: Namespace
+  items:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+    name: ISessionInformation
+    type: Interface
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+    name: ISessionsBundle<TSessionInformation>
+    type: Interface
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization
+    name: Initialization
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+    name: TSMSessionManager
+    type: Class
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  type: Namespace
+  items:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings
+    name: AOFunctionGenerationSettings
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogInput
+    name: AnalogInput
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+    name: AnalogOutput
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration
+    name: AnalogOutputFunctionGeneration
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure
+    name: Configure
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+    name: DAQmxTaskInformation
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+    name: DAQmxTaskType
+    type: Enum
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+    name: DAQmxTasksBundle
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+    name: DAQmxTerminalConfiguration
+    type: Enum
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings
+    name: DAQmxTimingSampleClockSettings
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings
+    name: DefaultDAQmxTaskTypeStrings
+    type: Struct
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput
+    name: DigitalInput
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalOutput
+    name: DigitalOutput
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose
+    name: InitializeAndClose
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1
+    name: SampleValuesCacher<T>
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
+    name: TaskControl
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents
+    name: TriggersAndEvents
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Utilities
+    name: Utilities
+    type: Class
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  type: Namespace
+  items:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Control
+    name: Control
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings
+    name: DCPowerMeasureSettings
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings
+    name: DCPowerModelStrings
+    type: Struct
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation
+    name: DCPowerSessionInformation
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle
+    name: DCPowerSessionsBundle
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings
+    name: DCPowerSettings
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings
+    name: DCPowerSourceSettings
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings
+    name: DCPowerWaveformAcquisitionSettings
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults
+    name: DCPowerWaveformResults
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType
+    name: EventType
+    type: Enum
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose
+    name: InitializeAndClose
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Measure
+    name: Measure
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult
+    name: SingleDCPowerFetchResult
+    type: Struct
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Source
+    name: Source
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+    name: TriggerType
+    type: Enum
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggersAndEvents
+    name: TriggersAndEvents
+    type: Class
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM
+  type: Namespace
+  items:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation
+    name: DMMSessionInformation
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle
+    name: DMMSessionsBundle
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose
+    name: InitializeAndClose
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.Measurement
+    name: Measurement
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.PropertiesConfiguration
+    name: PropertiesConfiguration
+    type: Class
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  type: Namespace
+  items:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+    name: DigitalSessionInformation
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+    name: DigitalSessionsBundle
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.FrequencyCounter
+    name: FrequencyCounter
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
+    name: HistoryRAM
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults
+    name: HistoryRAMResults
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings
+    name: HistoryRAMSettings
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMTriggerSettings
+    name: HistoryRAMTriggerSettings
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose
+    name: InitializeAndClose
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+    name: LevelsAndTiming
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+    name: LevelsAndTiming.LevelType
+    type: Enum
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMU
+    name: PPMU
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.PPMUSettings
+    name: PPMUSettings
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.Pattern
+    name: Pattern
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SequencerFlagsAndRegisters
+    name: SequencerFlagsAndRegisters
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.SourceAndCapture
+    name: SourceAndCapture
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.StaticState
+    name: StaticState
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TriggersAndEvents
+    name: TriggersAndEvents
+    type: Class
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen
+  type: Namespace
+  items:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation
+    name: FgenSessionInformation
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle
+    name: FgenSessionsBundle
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.InitializeAndClose
+    name: InitializeAndClose
+    type: Class
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay
+  type: Namespace
+  items:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.Control
+    name: Control
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.InitializeAndClose
+    name: InitializeAndClose
+    type: Class
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
+  type: Namespace
+  items:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose
+    name: InitializeAndClose
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation
+    name: ScopeSessionInformation
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle
+    name: ScopeSessionsBundle
+    type: Class
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  type: Namespace
+  items:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose
+    name: InitializeAndClose
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync
+    name: NISync
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation
+    name: SyncSessionInformation
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle
+    name: SyncSessionsBundle
+    type: Class
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock
+    name: SynchronizationClock
+    type: Enum
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+    name: UpdateEdge
+    type: Enum
+memberLayout: SeparatePages
