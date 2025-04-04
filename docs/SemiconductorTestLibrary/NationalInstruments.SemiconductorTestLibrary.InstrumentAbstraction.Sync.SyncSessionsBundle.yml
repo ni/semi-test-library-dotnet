@@ -18,6 +18,8 @@ items:
   nameWithType: SyncSessionsBundle
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle
   type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/SyncSessionsBundle.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -69,6 +71,8 @@ items:
   nameWithType: SyncSessionsBundle.SyncSessionsBundle(ISemiconductorModuleContext, IEnumerable<SyncSessionInformation>)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.SyncSessionsBundle(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, System.Collections.Generic.IEnumerable<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionInformation>)
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/SyncSessionsBundle.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -99,6 +103,8 @@ items:
   nameWithType: SyncSessionsBundle.FilterBySite(int)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.FilterBySite(int)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/SyncSessionsBundle.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -129,6 +135,8 @@ items:
   nameWithType: SyncSessionsBundle.FilterBySite(int[])
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.FilterBySite(int[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/SyncSessionsBundle.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -159,6 +167,8 @@ items:
   nameWithType: SyncSessionsBundle.TSMContext
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.TSMContext
   type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/SyncSessionsBundle.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -184,6 +194,8 @@ items:
   nameWithType: SyncSessionsBundle.InstrumentSessions
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.InstrumentSessions
   type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/SyncSessionsBundle.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -209,6 +221,8 @@ items:
   nameWithType: SyncSessionsBundle.AggregateSitePinList
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SyncSessionsBundle.AggregateSitePinList
   type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/SyncSessionsBundle.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync

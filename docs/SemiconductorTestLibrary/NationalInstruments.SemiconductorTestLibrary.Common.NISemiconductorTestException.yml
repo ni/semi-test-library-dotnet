@@ -17,6 +17,8 @@ items:
   nameWithType: NISemiconductorTestException
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
   type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -59,6 +61,8 @@ items:
   nameWithType: NISemiconductorTestException.NISemiconductorTestException()
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.NISemiconductorTestException()
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -82,6 +86,8 @@ items:
   nameWithType: NISemiconductorTestException.NISemiconductorTestException(string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.NISemiconductorTestException(string)
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -109,6 +115,8 @@ items:
   nameWithType: NISemiconductorTestException.NISemiconductorTestException(string, Exception)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.NISemiconductorTestException(string, System.Exception)
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -139,6 +147,8 @@ items:
   nameWithType: NISemiconductorTestException.NISemiconductorTestException(int, Exception)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.NISemiconductorTestException(int, System.Exception)
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -169,6 +179,8 @@ items:
   nameWithType: NISemiconductorTestException.Throw(Exception)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.Throw(System.Exception)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common

@@ -19,7 +19,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -50,10 +50,15 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.HistoryRAMSettings()
   type: Constructor
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: >-
+    Creates an object to define and set History RAM settings.
+
+    This object is used as a parameter for configuring History RAM settings. <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle%2cNationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)" data-throw-if-not-resolved="false"></xref>
+  example: []
   syntax:
     content: public HistoryRAMSettings()
     content.vb: Public Sub New()
@@ -73,7 +78,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.NumberOfSamplesIsFinite
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -98,7 +103,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.CyclesToAcquire
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -123,7 +128,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.MaximumSamplesToAcquirePerSite
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -148,7 +153,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.BufferSizePerSite
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -173,7 +178,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.TriggerSettings
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -471,6 +476,47 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAM_ConfigureHistoryRAM_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAMSettings_
+  name: ConfigureHistoryRAM(DigitalSessionsBundle, HistoryRAMSettings)
+  nameWithType: HistoryRAM.ConfigureHistoryRAM(DigitalSessionsBundle, HistoryRAMSettings)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+    name: ConfigureHistoryRAM
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAM_ConfigureHistoryRAM_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAMSettings_
+  - name: (
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+    name: DigitalSessionsBundle
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionsBundle.cs
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings
+    name: HistoryRAMSettings
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.html
+  - name: )
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
+    name: ConfigureHistoryRAM
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAM_ConfigureHistoryRAM_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAMSettings_
+  - name: (
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+    name: DigitalSessionsBundle
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionsBundle.cs
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings
+    name: HistoryRAMSettings
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.html
+  - name: )
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.#ctor*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.#ctor
   isExternal: true

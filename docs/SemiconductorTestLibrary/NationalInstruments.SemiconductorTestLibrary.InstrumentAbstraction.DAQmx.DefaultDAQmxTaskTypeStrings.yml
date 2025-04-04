@@ -19,6 +19,8 @@ items:
   nameWithType: DefaultDAQmxTaskTypeStrings
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings
   type: Struct
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/Constants.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -45,6 +47,8 @@ items:
   nameWithType: DefaultDAQmxTaskTypeStrings.AnalogInput
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.AnalogInput
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/Constants.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -66,6 +70,8 @@ items:
   nameWithType: DefaultDAQmxTaskTypeStrings.AnalogOutput
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.AnalogOutput
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/Constants.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -87,6 +93,8 @@ items:
   nameWithType: DefaultDAQmxTaskTypeStrings.DigitalInput
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.DigitalInput
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/Constants.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -108,6 +116,8 @@ items:
   nameWithType: DefaultDAQmxTaskTypeStrings.DigitalOutput
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.DigitalOutput
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/Constants.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -129,6 +139,8 @@ items:
   nameWithType: DefaultDAQmxTaskTypeStrings.CounterInput
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.CounterInput
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/Constants.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -150,6 +162,8 @@ items:
   nameWithType: DefaultDAQmxTaskTypeStrings.CounterOutput
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.CounterOutput
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/Constants.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -171,6 +185,8 @@ items:
   nameWithType: DefaultDAQmxTaskTypeStrings.AnalogOutputFunctionGeneration
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings.AnalogOutputFunctionGeneration
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/Constants.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx

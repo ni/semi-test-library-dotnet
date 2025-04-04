@@ -18,6 +18,8 @@ items:
   nameWithType: SampleValuesCacher<T>
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher<T>
   type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/SampleValuesCacher.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -42,6 +44,31 @@ items:
   nameWithType.vb: SampleValuesCacher(Of T)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher(Of T)
   name.vb: SampleValuesCacher(Of T)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.#ctor
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.#ctor
+  id: '#ctor'
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1
+  langs:
+  - csharp
+  - vb
+  name: SampleValuesCacher()
+  nameWithType: SampleValuesCacher<T>.SampleValuesCacher()
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher<T>.SampleValuesCacher()
+  type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/SampleValuesCacher.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Stores sample values updated on each successful write operation.
+  example: []
+  syntax:
+    content: public SampleValuesCacher()
+    content.vb: Public Sub New()
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.#ctor*
+  nameWithType.vb: SampleValuesCacher(Of T).New()
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher(Of T).New()
+  name.vb: New()
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.GenerateDefaultSampleValues(System.String[])
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.GenerateDefaultSampleValues(System.String[])
   id: GenerateDefaultSampleValues(System.String[])
@@ -53,6 +80,8 @@ items:
   nameWithType: SampleValuesCacher<T>.GenerateDefaultSampleValues(string[])
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher<T>.GenerateDefaultSampleValues(string[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/SampleValuesCacher.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -80,6 +109,8 @@ items:
   nameWithType: SampleValuesCacher<T>.TryWriteAndRecoverCacheOnFailure(DAQmxTaskInformation, T, Action<T[]>)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher<T>.TryWriteAndRecoverCacheOnFailure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation, T, System.Action<T[]>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/SampleValuesCacher.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -113,6 +144,8 @@ items:
   nameWithType: SampleValuesCacher<T>.TryWriteAndRecoverCacheOnFailure(DAQmxTaskInformation, SiteData<T>, Action<T[]>)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher<T>.TryWriteAndRecoverCacheOnFailure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>, System.Action<T[]>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/SampleValuesCacher.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -146,6 +179,8 @@ items:
   nameWithType: SampleValuesCacher<T>.TryWriteAndRecoverCacheOnFailure(DAQmxTaskInformation, PinSiteData<T>, Action<T[]>)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher<T>.TryWriteAndRecoverCacheOnFailure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, System.Action<T[]>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/SampleValuesCacher.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -168,27 +203,6 @@ items:
   nameWithType.vb: SampleValuesCacher(Of T).TryWriteAndRecoverCacheOnFailure(DAQmxTaskInformation, PinSiteData(Of T), Action(Of T()))
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher(Of T).TryWriteAndRecoverCacheOnFailure(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T), System.Action(Of T()))
   name.vb: TryWriteAndRecoverCacheOnFailure(DAQmxTaskInformation, PinSiteData(Of T), Action(Of T()))
-- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.#ctor
-  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.#ctor
-  id: '#ctor'
-  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1
-  langs:
-  - csharp
-  - vb
-  name: SampleValuesCacher()
-  nameWithType: SampleValuesCacher<T>.SampleValuesCacher()
-  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher<T>.SampleValuesCacher()
-  type: Constructor
-  assemblies:
-  - NationalInstruments.SemiconductorTestLibrary.Abstractions
-  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
-  syntax:
-    content: public SampleValuesCacher()
-    content.vb: Public Sub New()
-  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.#ctor*
-  nameWithType.vb: SampleValuesCacher(Of T).New()
-  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher(Of T).New()
-  name.vb: New()
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.Instance
   commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.Instance
   id: Instance
@@ -200,6 +214,8 @@ items:
   nameWithType: SampleValuesCacher<T>.Instance
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher<T>.Instance
   type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/SampleValuesCacher.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -499,6 +515,16 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.#ctor*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.#ctor
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher-1.-ctor.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_SampleValuesCacher_1__ctor
+  name: SampleValuesCacher
+  nameWithType: SampleValuesCacher<T>.SampleValuesCacher
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher<T>.SampleValuesCacher
+  nameWithType.vb: SampleValuesCacher(Of T).New
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher(Of T).New
+  name.vb: New
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.GenerateDefaultSampleValues*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.GenerateDefaultSampleValues
   isExternal: true
@@ -772,16 +798,6 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.#ctor*
-  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.#ctor
-  isExternal: true
-  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher-1.-ctor.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_SampleValuesCacher_1__ctor
-  name: SampleValuesCacher
-  nameWithType: SampleValuesCacher<T>.SampleValuesCacher
-  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher<T>.SampleValuesCacher
-  nameWithType.vb: SampleValuesCacher(Of T).New
-  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher(Of T).New
-  name.vb: New
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1
   commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1
   parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx

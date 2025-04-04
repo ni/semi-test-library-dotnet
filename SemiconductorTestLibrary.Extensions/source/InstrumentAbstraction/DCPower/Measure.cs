@@ -410,7 +410,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var samples = new SingleDCPowerFetchResult[pointsToFetch];
                 for (int i = 0; i < pointsToFetch; i++)
                 {
-                    samples[i] = new SingleDCPowerFetchResult(measureResult.VoltageMeasurements[i], measureResult.VoltageMeasurements[i], measureResult.InCompliance[i]);
+                    samples[i] = new SingleDCPowerFetchResult(measureResult.VoltageMeasurements[i], measureResult.CurrentMeasurements[i], measureResult.InCompliance[i]);
                 }
                 return samples;
             });

@@ -1,4 +1,5 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+﻿using System.Linq;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using Xunit;
@@ -57,6 +58,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedValues[1], sessionsBundle.ReadSequencerRegisterDistinct($"reg{1}"));
             Assert.Equal(expectedValues[2], sessionsBundle.ReadSequencerRegisterDistinct($"reg{2}"));
             Assert.Equal(expectedValues[3], sessionsBundle.ReadSequencerRegisterDistinct($"reg{3}"));
+            Close(tsmContext);
+        }
+
+        [Fact]
+        public void SessionsInitialized_WriteAndReadSequencerFlagWithoutSpecifyingPins_ValuesCorrectlySetAndReadBack()
+        {
+            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+            // Not fully supported in OfflineMode.
+            var expectedValues = tsmContext.IsSemiconductorModuleInOfflineMode ? new bool[] { false, false, false, false } : new bool[] { true, false, true, true };
+
+            var sessionsBundle = sessionManager.Digital();
+            sessionsBundle.WriteSequencerFlag($"seqflag{0}", true);
+            sessionsBundle.WriteSequencerFlag($"seqflag{1}", false);
+            sessionsBundle.WriteSequencerFlag($"seqflag{2}", true);
+            sessionsBundle.WriteSequencerFlag($"seqflag{3}", true);
+
+            Assert.Equal(5, sessionsBundle.Pins.Count());
+            Assert.Equal(expectedValues[0], sessionsBundle.ReadSequencerFlagDistinct($"seqflag{0}"));
+            Assert.Equal(expectedValues[1], sessionsBundle.ReadSequencerFlagDistinct($"seqflag{1}"));
+            Assert.Equal(expectedValues[2], sessionsBundle.ReadSequencerFlagDistinct($"seqflag{2}"));
+            Assert.Equal(expectedValues[3], sessionsBundle.ReadSequencerFlagDistinct($"seqflag{3}"));
             Close(tsmContext);
         }
     }

@@ -17,7 +17,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.StaticState
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/StaticState.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/StaticState.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -49,7 +49,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.StaticState.WriteStatic(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.ModularInstruments.NIDigital.PinState)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/StaticState.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/StaticState.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -80,7 +80,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.StaticState.WriteStatic(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.ModularInstruments.NIDigital.PinState>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/StaticState.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/StaticState.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -114,7 +114,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.StaticState.WriteStatic(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.ModularInstruments.NIDigital.PinState>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/StaticState.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/StaticState.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -148,7 +148,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.StaticState.ReadStatic(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/StaticState.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/StaticState.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -506,6 +506,7 @@ references:
   commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.ModularInstruments.NIDigital.PinState}
   parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
   definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   name: SiteData<PinState>
   nameWithType: SiteData<PinState>
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.ModularInstruments.NIDigital.PinState>
@@ -516,6 +517,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
     name: SiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   - name: <
   - uid: NationalInstruments.ModularInstruments.NIDigital.PinState
     name: PinState
@@ -525,6 +527,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
     name: SiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   - name: (
   - name: Of
   - name: " "
@@ -602,6 +605,7 @@ references:
   commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.ModularInstruments.NIDigital.PinState}
   parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
   definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   name: PinSiteData<PinState>
   nameWithType: PinSiteData<PinState>
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.ModularInstruments.NIDigital.PinState>
@@ -612,6 +616,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
     name: PinSiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   - name: <
   - uid: NationalInstruments.ModularInstruments.NIDigital.PinState
     name: PinState
@@ -621,6 +626,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
     name: PinSiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   - name: (
   - name: Of
   - name: " "

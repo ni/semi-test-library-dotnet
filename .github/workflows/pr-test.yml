@@ -1,0 +1,29 @@
+name: pr-test
+
+on:
+    workflow_run:
+        workflows: ["pr-intake"]
+        types:
+            - in_progress
+
+run-name: "PR Test for pr-intake #${{ github.event.workflow_run.run_number }}"
+
+env:
+    GITHUB_MixedSignalTestLibrary_REPO_OWNER: ${{ github.event.workflow_run.head_repository.owner.login }}
+    GITHUB_MixedSignalTestLibrary_REPO_NAME: ${{ github.event.workflow_run.head_repository.name }}
+    GITHUB_MixedSignalTestLibrary_BRANCH_NAME: ${{ github.event.workflow_run.head_branch }}
+
+jobs:
+    build:   
+        name: Call Azure Pre Test Pipeline
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v2
+        - name: Trigger Azure Pipeline for Unit Test
+          uses: enfa/azure-pipeline-github-action@v1.0.0
+          with:
+            azure-devops-project-url: https://ni.visualstudio.com/DevCentral
+            azure-pipeline-name: 'Pre - Mixed Signal Test Library Extensions'
+            azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+            azure-pipeline-variables: '{"GITHUB_MixedSignalTestLibrary_REPO_OWNER": "${{ env.GITHUB_MixedSignalTestLibrary_REPO_OWNER }}", "GITHUB_MixedSignalTestLibrary_REPO_NAME": "${{ env.GITHUB_MixedSignalTestLibrary_REPO_NAME }}", "GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ env.GITHUB_MixedSignalTestLibrary_BRANCH_NAME }}"}'
+            azure-pipeline-sourcebranch: "refs/heads/main"

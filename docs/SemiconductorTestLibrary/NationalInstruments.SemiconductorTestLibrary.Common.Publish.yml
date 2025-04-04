@@ -18,6 +18,8 @@ items:
   nameWithType: Publish
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish
   type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -48,6 +50,8 @@ items:
   nameWithType: Publish.PublishResults<T>(ISemiconductorModuleContext, PinSiteData<T>, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -85,6 +89,8 @@ items:
   nameWithType: Publish.PublishResults<T>(ISemiconductorModuleContext, SiteData<T>, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>, string, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -125,6 +131,8 @@ items:
   nameWithType: Publish.PublishResult<T>(ISemiconductorModuleContext, T, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T, string, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -165,6 +173,8 @@ items:
   nameWithType: Publish.PublishSingleSiteResult<T>(ISemiconductorModuleContext, T, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T, string, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -206,6 +216,8 @@ items:
   nameWithType: Publish.PublishResults<TSessionInformation, TData>(ISessionsBundle<TSessionInformation>, TData[][], string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults<TSessionInformation, TData>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, TData[][], string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -248,6 +260,8 @@ items:
   nameWithType: Publish.PublishResults<TSessionInformation, TData>(ISessionsBundle<TSessionInformation>, TData[], string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults<TSessionInformation, TData>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, TData[], string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common

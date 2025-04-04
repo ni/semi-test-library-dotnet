@@ -20,7 +20,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMTriggerSettings
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -51,10 +51,15 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMTriggerSettings.HistoryRAMTriggerSettings()
   type: Constructor
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: >-
+    Creates an object to define and set History RAM trigger settings.
+
+    This object is used as a parameter for configuring trigger settings of History RAM settings. <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.TriggerSettings" data-throw-if-not-resolved="false"></xref>
+  example: []
   syntax:
     content: public HistoryRAMTriggerSettings()
     content.vb: Public Sub New()
@@ -74,7 +79,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMTriggerSettings.TriggerType
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -99,7 +104,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMTriggerSettings.PretriggerSamples
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -124,7 +129,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMTriggerSettings.CycleNumber
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -149,7 +154,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMTriggerSettings.PatternLabel
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -174,7 +179,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMTriggerSettings.CycleOffset
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -199,7 +204,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMTriggerSettings.VectorOffset
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -497,6 +502,13 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.TriggerSettings
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.TriggerSettings
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.TriggerSettings.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_HistoryRAMSettings_TriggerSettings
+  name: TriggerSettings
+  nameWithType: HistoryRAMSettings.TriggerSettings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings.TriggerSettings
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMTriggerSettings.#ctor*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMTriggerSettings.#ctor
   isExternal: true

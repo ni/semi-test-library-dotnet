@@ -20,7 +20,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -52,10 +52,15 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.DAQmxTimingSampleClockSettings()
   type: Constructor
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: >-
+    Creates an object to define and set DAQmx Timing Sample Clock specific settings.
+
+    This object is used as a parameter for configuring a sample clock timing type for a DAQmx task. <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle%2cNationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings)" data-throw-if-not-resolved="false"></xref>
+  example: []
   syntax:
     content: public DAQmxTimingSampleClockSettings()
     content.vb: Public Sub New()
@@ -75,12 +80,12 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SampleTimingType
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
-  summary: Specifies the type of sample timing to use for the task.
-  remarks: This value is used to get/set the value of the NationalInstruments.DAQmx.Timing.SampleTimingType driver property.
+  summary: Returns the NationalInstruments.DAQmx.SampleTimingType.SampleClock sample timing type.
+  remarks: This value is used to set the value of the NationalInstruments.DAQmx.Timing.SampleTimingType driver property.
   example: []
   syntax:
     content: public SampleTimingType SampleTimingType { get; }
@@ -101,7 +106,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SampleClockSource
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -130,7 +135,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SampleClockActiveEdge
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -159,7 +164,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SampleClockRate
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -188,7 +193,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SampleQuantityMode
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -217,7 +222,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.SamplesPerChannel
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -516,6 +521,47 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings)
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureTiming.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_Configure_ConfigureTiming_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTimingSampleClockSettings_
+  name: ConfigureTiming(DAQmxTasksBundle, DAQmxTimingSampleClockSettings)
+  nameWithType: Configure.ConfigureTiming(DAQmxTasksBundle, DAQmxTimingSampleClockSettings)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings)
+    name: ConfigureTiming
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureTiming.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_Configure_ConfigureTiming_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTimingSampleClockSettings_
+  - name: (
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+    name: DAQmxTasksBundle
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTasksBundle.cs
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings
+    name: DAQmxTimingSampleClockSettings
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.html
+  - name: )
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings)
+    name: ConfigureTiming
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureTiming.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_Configure_ConfigureTiming_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTimingSampleClockSettings_
+  - name: (
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+    name: DAQmxTasksBundle
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTasksBundle.cs
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings
+    name: DAQmxTimingSampleClockSettings
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.html
+  - name: )
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.#ctor*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings.#ctor
   isExternal: true

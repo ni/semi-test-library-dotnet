@@ -26,7 +26,7 @@ Complete the following steps to use Semiconductor Test Library in your test code
 ```C#
 public static void WorkFlowExample(
     ISemiconductorModuleContext semiconductorModuleContext,
-    string[] sumPinNames,
+    string[] smuPinNames,
     string[] digitalPinNames,
     string relayConfigBeforeTest,
     string relayConfigAfterTest,
@@ -42,7 +42,7 @@ public static void WorkFlowExample(
         Sense = DCPowerMeasurementSense.Remote
     };
 
-    var smuPins = sessionManager.DCPower(sumPinNames);
+    var smuPins = sessionManager.DCPower(smuPinNames);
     var digitalPins = sessionManager.Digital(digitalPinNames);
 
     smuPins.ConfigureMeasureSettings(measureSettings);

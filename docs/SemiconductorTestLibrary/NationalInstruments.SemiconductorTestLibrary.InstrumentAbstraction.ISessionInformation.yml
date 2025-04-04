@@ -13,6 +13,8 @@ items:
   nameWithType: ISessionInformation
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
   type: Interface
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/ISessionInformation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -36,6 +38,8 @@ items:
   nameWithType: ISessionInformation.AssociatedSitePinList
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList
   type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/ISessionInformation.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction

@@ -13,6 +13,28 @@
         <Vterm>0</Vterm>
         <TerminationMode>HighZ</TerminationMode>
       </DigitalPinLevelSet>
+      <DigitalPinLevelSet pin="SCLK">
+        <Vil>0</Vil>
+        <Vih>1.8</Vih>
+        <Vol>0.5</Vol>
+        <Voh>1.5</Voh>
+        <Iol>2 mA</Iol>
+        <Ioh>-2 mA</Ioh>
+        <Vcom>0</Vcom>
+        <Vterm>0</Vterm>
+        <TerminationMode>HighZ</TerminationMode>
+      </DigitalPinLevelSet>
+      <DigitalPinLevelSet pin="SDATA">
+        <Vil>0</Vil>
+        <Vih>1.8</Vih>
+        <Vol>0.5</Vol>
+        <Voh>1.5</Voh>
+        <Iol>2 mA</Iol>
+        <Ioh>-2 mA</Ioh>
+        <Vcom>0</Vcom>
+        <Vterm>0</Vterm>
+        <TerminationMode>HighZ</TerminationMode>
+      </DigitalPinLevelSet>
     </DigitalPinLevelSets>
     <PowerPinLevelSets>
       <PowerPinLevelSet pin="VDD">

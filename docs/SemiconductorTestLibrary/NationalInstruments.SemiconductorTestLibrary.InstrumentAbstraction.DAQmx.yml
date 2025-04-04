@@ -21,6 +21,7 @@ items:
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TaskControl
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Utilities
   langs:
   - csharp
   - vb
@@ -178,6 +179,13 @@ references:
   name: DAQmxTimingSampleClockSettings
   nameWithType: DAQmxTimingSampleClockSettings
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Utilities
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Utilities
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Utilities.html
+  name: Utilities
+  nameWithType: Utilities
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Utilities
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
   commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
   isExternal: true

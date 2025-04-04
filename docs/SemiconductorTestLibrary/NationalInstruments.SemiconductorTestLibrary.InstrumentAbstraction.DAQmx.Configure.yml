@@ -8,6 +8,7 @@ items:
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureAITerminalConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.DAQmx.AITerminalConfiguration)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureAOTerminalConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.DAQmx.AOTerminalConfiguration)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRate(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRateDistinct(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRates(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   langs:
@@ -18,7 +19,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -50,7 +51,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureAOTerminalConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.DAQmx.AOTerminalConfiguration)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -87,7 +88,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureAITerminalConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.DAQmx.AITerminalConfiguration)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -124,7 +125,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.ConfigureTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTimingSampleClockSettings)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -158,14 +159,17 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRates(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
   summary: Gets the actual sample clock rate (Hz).
   example: []
   syntax:
-    content: public static double[] GetSampleClockRates(this DAQmxTasksBundle tasksBundle)
+    content: >-
+      [Obsolete("This method has been deprecated. Use GetSampleClockRate() instead")]
+
+      public static double[] GetSampleClockRates(this DAQmxTasksBundle tasksBundle)
     parameters:
     - id: tasksBundle
       type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
@@ -173,12 +177,21 @@ items:
     return:
       type: System.Double[]
       description: Sample clock rate, one value per underlying instrument session.
-    content.vb: Public Shared Function GetSampleClockRates(tasksBundle As DAQmxTasksBundle) As Double()
+    content.vb: >-
+      <Obsolete("This method has been deprecated. Use GetSampleClockRate() instead")>
+
+      Public Shared Function GetSampleClockRates(tasksBundle As DAQmxTasksBundle) As Double()
   overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRates*
   exceptions:
   - type: NationalInstruments.DAQmx.DaqException
     commentId: T:NationalInstruments.DAQmx.DaqException
     description: The underling driver session returned an error.
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: This method has been deprecated. Use GetSampleClockRate() instead
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRateDistinct(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRateDistinct(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   id: GetSampleClockRateDistinct(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
@@ -192,22 +205,25 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRateDistinct(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
-  summary: Specifies the sampling rate in samples per channel per second. If you use an external source for the Sample Clock, set this input to the maximum expected rate of that clock./&gt;
+  summary: Specifies the sampling rate in samples per channel per second. If you use an external source for the Sample Clock, set this input to the maximum expected rate of that clock.
   remarks: >-
     This method is the same as <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRates(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)" data-throw-if-not-resolved="false"></xref>,
 
-    except it also checks if the flag state is the same values across all sessions in the bundle.
+    except it also checks if the sample clock rate is the same value across all sessions in the bundle.
 
     If the values are the same, it returns the single double value.
 
     Otherwise, it throws an exception.
   example: []
   syntax:
-    content: public static double GetSampleClockRateDistinct(this DAQmxTasksBundle tasksBundle)
+    content: >-
+      [Obsolete("This method has been deprecated, do not use this method. Consider calling GetSampleClockRates().Distinct().Single() for the same functionality.", true)]
+
+      public static double GetSampleClockRateDistinct(this DAQmxTasksBundle tasksBundle)
     parameters:
     - id: tasksBundle
       type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
@@ -215,12 +231,57 @@ items:
     return:
       type: System.Double
       description: Sample clock rate.
-    content.vb: Public Shared Function GetSampleClockRateDistinct(tasksBundle As DAQmxTasksBundle) As Double
+    content.vb: >-
+      <Obsolete("This method has been deprecated, do not use this method. Consider calling GetSampleClockRates().Distinct().Single() for the same functionality.", True)>
+
+      Public Shared Function GetSampleClockRateDistinct(tasksBundle As DAQmxTasksBundle) As Double
   overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRateDistinct*
   exceptions:
   - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
     commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
     description: The value for the sample clock rate is not the same for all underlying instrument sessions.
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String,System.Boolean)
+    arguments:
+    - type: System.String
+      value: This method has been deprecated, do not use this method. Consider calling GetSampleClockRates().Distinct().Single() for the same functionality.
+    - type: System.Boolean
+      value: true
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRate(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRate(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  id: GetSampleClockRate(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure
+  langs:
+  - csharp
+  - vb
+  name: GetSampleClockRate(DAQmxTasksBundle)
+  nameWithType: Configure.GetSampleClockRate(DAQmxTasksBundle)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRate(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Gets the actual sample clock rate (Hz).
+  example: []
+  syntax:
+    content: public static PinSiteData<double> GetSampleClockRate(this DAQmxTasksBundle tasksBundle)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+      description: The pin-site aware sample clock rate.
+    content.vb: Public Shared Function GetSampleClockRate(tasksBundle As DAQmxTasksBundle) As PinSiteData(Of Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRate*
+  exceptions:
+  - type: NationalInstruments.DAQmx.DaqException
+    commentId: T:NationalInstruments.DAQmx.DaqException
+    description: The underling driver session returned an error.
 references:
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
   commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -631,6 +692,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
     name: DAQmxTasksBundle
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTasksBundle.cs
   - name: )
   spec.vb:
   - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRates(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
@@ -641,6 +703,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
     name: DAQmxTasksBundle
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTasksBundle.cs
   - name: )
 - uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
   commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
@@ -667,4 +730,112 @@ references:
   nameWithType.vb: Double
   fullName.vb: Double
   name.vb: Double
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRate*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRate
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRate.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_Configure_GetSampleClockRate_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_
+  name: GetSampleClockRate
+  nameWithType: Configure.GetSampleClockRate
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Configure.GetSampleClockRate
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<double>
+  nameWithType: PinSiteData<double>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>
+  nameWithType.vb: PinSiteData(Of Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Double)
+  name.vb: PinSiteData(Of Double)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
 memberLayout: SeparatePages

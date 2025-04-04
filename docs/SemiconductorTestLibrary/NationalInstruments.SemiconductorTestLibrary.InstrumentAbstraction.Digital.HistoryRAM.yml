@@ -20,7 +20,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -52,7 +52,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.ConfigureHistoryRAM(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -82,7 +82,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetHistoryRAMConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -112,7 +112,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -142,7 +142,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.Configure(NationalInstruments.ModularInstruments.NIDigital.NIDigital, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMSettings)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -172,7 +172,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.GetConfiguration(NationalInstruments.ModularInstruments.NIDigital.NIDigital)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -202,7 +202,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.FetchHistoryRAMResults(NationalInstruments.ModularInstruments.NIDigital.NIDigital, System.Collections.Generic.IDictionary<string, string>)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -238,7 +238,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAM.LogResultsToFiles(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<System.Collections.Generic.List<NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation>>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<System.Collections.Generic.List<long>>, string, string)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/HistoryRAM.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
@@ -593,7 +593,7 @@ references:
   commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults}
   parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
   definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
-  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.html
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   name: SiteData<HistoryRAMResults>
   nameWithType: SiteData<HistoryRAMResults>
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults>
@@ -604,6 +604,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
     name: SiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   - name: <
   - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults
     name: HistoryRAMResults
@@ -614,6 +615,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
     name: SiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   - name: (
   - name: Of
   - name: " "
@@ -868,7 +870,7 @@ references:
   commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation}}
   parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
   definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   name: SiteData<List<DigitalHistoryRamCycleInformation>>
   nameWithType: SiteData<List<DigitalHistoryRamCycleInformation>>
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<System.Collections.Generic.List<NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation>>
@@ -879,6 +881,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
     name: SiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   - name: <
   - uid: System.Collections.Generic.List`1
     name: List
@@ -894,6 +897,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
     name: SiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   - name: (
   - name: Of
   - name: " "
@@ -913,7 +917,7 @@ references:
   commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Collections.Generic.List{System.Int64}}
   parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
   definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   name: SiteData<List<long>>
   nameWithType: SiteData<List<long>>
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<System.Collections.Generic.List<long>>
@@ -924,6 +928,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
     name: SiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   - name: <
   - uid: System.Collections.Generic.List`1
     name: List
@@ -940,6 +945,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
     name: SiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
   - name: (
   - name: Of
   - name: " "

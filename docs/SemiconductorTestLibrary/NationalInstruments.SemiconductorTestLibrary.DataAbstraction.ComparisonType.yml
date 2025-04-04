@@ -18,6 +18,8 @@ items:
   nameWithType: ComparisonType
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType
   type: Enum
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/MathOperations.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -37,6 +39,8 @@ items:
   nameWithType: ComparisonType.EqualTo
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.EqualTo
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/MathOperations.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -57,6 +61,8 @@ items:
   nameWithType: ComparisonType.NotEqualTo
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.NotEqualTo
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/MathOperations.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -77,6 +83,8 @@ items:
   nameWithType: ComparisonType.LessThan
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThan
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/MathOperations.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -97,6 +105,8 @@ items:
   nameWithType: ComparisonType.LessThanOrEqualTo
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.LessThanOrEqualTo
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/MathOperations.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -117,6 +127,8 @@ items:
   nameWithType: ComparisonType.GreaterThan
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThan
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/MathOperations.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -137,6 +149,8 @@ items:
   nameWithType: ComparisonType.GreaterThanOrEqualTo
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType.GreaterThanOrEqualTo
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/MathOperations.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction

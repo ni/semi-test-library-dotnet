@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -7,6 +6,7 @@ using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using IviDriverPrecisionTimeSpan = Ivi.Driver.PrecisionTimeSpan;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -131,7 +131,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sessionInfo.PinSet, Ivi.Driver.PrecisionTimeSpan.FromSeconds(compareEdge));
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sessionInfo.PinSet, IviDriverPrecisionTimeSpan.FromSeconds(compareEdge));
             });
         }
 
@@ -145,7 +145,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sitePinInfo.SitePinString, Ivi.Driver.PrecisionTimeSpan.FromSeconds(compareEdges.GetValue(sitePinInfo.SiteNumber)));
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sitePinInfo.SitePinString, IviDriverPrecisionTimeSpan.FromSeconds(compareEdges.GetValue(sitePinInfo.SiteNumber)));
             });
         }
 
@@ -159,7 +159,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sitePinInfo.SitePinString, Ivi.Driver.PrecisionTimeSpan.FromSeconds(compareEdges.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName)));
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sitePinInfo.SitePinString, IviDriverPrecisionTimeSpan.FromSeconds(compareEdges.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName)));
             });
         }
 
@@ -173,7 +173,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigurePeriod(Ivi.Driver.PrecisionTimeSpan.FromSeconds(period));
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigurePeriod(IviDriverPrecisionTimeSpan.FromSeconds(period));
             });
         }
 
@@ -201,10 +201,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureDriveEdges(
                     sessionInfo.PinSet,
                     format,
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveOn),
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveData),
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveReturn),
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveOff));
+                    IviDriverPrecisionTimeSpan.FromSeconds(driveOn),
+                    IviDriverPrecisionTimeSpan.FromSeconds(driveData),
+                    IviDriverPrecisionTimeSpan.FromSeconds(driveReturn),
+                    IviDriverPrecisionTimeSpan.FromSeconds(driveOff));
             });
         }
 
@@ -236,12 +236,115 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureDriveEdges(
                     sessionInfo.PinSet,
                     format,
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveOn),
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveData),
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveReturn),
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveOff),
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveData2),
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(driveReturn2));
+                    IviDriverPrecisionTimeSpan.FromSeconds(driveOn),
+                    IviDriverPrecisionTimeSpan.FromSeconds(driveData),
+                    IviDriverPrecisionTimeSpan.FromSeconds(driveReturn),
+                    IviDriverPrecisionTimeSpan.FromSeconds(driveOff),
+                    IviDriverPrecisionTimeSpan.FromSeconds(driveData2),
+                    IviDriverPrecisionTimeSpan.FromSeconds(driveReturn2));
+            });
+        }
+
+        /// <summary>
+        /// Gets the configured time set period.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">The name of the time set.</param>
+        /// <returns>The pin-site aware timespan period for the specified time set.</returns>
+        public static PinSiteData<IviDriverPrecisionTimeSpan> GetTimeSetPeriod(this DigitalSessionsBundle sessionsBundle, string timeSet)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((DigitalSessionInformation sessionInfo) =>
+            {
+                var period = sessionInfo.Session.Timing.GetTimeSet(timeSet).Period;
+                return Enumerable.Repeat(period, sessionInfo.AssociatedSitePinList.Count).ToArray();
+            });
+        }
+
+        /// <summary>
+        /// Configures the edge of a time set.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">The name of the time set.</param>
+        /// <param name="edge">The edge of the time set to configure.</param>
+        /// <param name="time">The time of the edge to configure.</param>
+        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, double time)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureEdge(sessionInfo.PinSet, edge, IviDriverPrecisionTimeSpan.FromSeconds(time));
+            });
+        }
+
+        /// <summary>
+        /// Configures the edge of a time set.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">The name of the time set.</param>
+        /// <param name="edge">The edge of the time set to configure.</param>
+        /// <param name="time">The time of the edge to configure for different sites.</param>
+        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, SiteData<double> time)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureEdge(pinSiteInfo.SitePinString, edge, IviDriverPrecisionTimeSpan.FromSeconds(time.GetValue(pinSiteInfo.SiteNumber)));
+            });
+        }
+
+        /// <summary>
+        /// Configures the edge of a time set.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">The name of the time set.</param>
+        /// <param name="edge">The edge of the time set to configure.</param>
+        /// <param name="time">The time of the edge to configure for different site-pin pairs.</param>
+        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, PinSiteData<double> time)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureEdge(pinSiteInfo.SitePinString, edge, IviDriverPrecisionTimeSpan.FromSeconds(time.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName)));
+            });
+        }
+
+        /// <summary>
+        /// Gets the configured time set edge.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">The name of the time set.</param>
+        /// <param name="driveEdge">The drive edge to be read.</param>
+        /// <returns>The pin-site aware timespan edge values for the specified time set.</returns>
+        public static PinSiteData<IviDriverPrecisionTimeSpan> GetTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge driveEdge)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
+            {
+                return sessionInfo.Session.Timing.GetTimeSet(timeSet).GetEdge(pinSiteInfo.SitePinString, driveEdge);
+            });
+        }
+
+        /// <summary>
+        /// Gets the configured time set edge multiplier value.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">the name of the time set.</param>
+        /// <returns>The pin-site aware timespan edge multiplier values for the specified time set.</returns>
+        public static PinSiteData<int> GetTimeSetEdgeMultiplier(this DigitalSessionsBundle sessionsBundle, string timeSet)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
+            {
+                return sessionInfo.Session.Timing.GetTimeSet(timeSet).GetEdgeMultiplier(pinSiteInfo.SitePinString);
+            });
+        }
+
+        /// <summary>
+        /// Gets the configured time set drive format.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="timeSet">the name of the time set.</param>
+        /// <returns>The pin-site aware drive format for the specified time set.</returns>
+        public static PinSiteData<DriveFormat> GetTimeSetDriveFormat(this DigitalSessionsBundle sessionsBundle, string timeSet)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
+            {
+                return sessionInfo.Session.Timing.GetTimeSet(timeSet).GetDriveFormat(pinSiteInfo.SitePinString);
             });
         }
 
@@ -263,7 +366,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="apply">Whether to apply the offsets to the pins.</param>
-        public static PinSiteData<Ivi.Driver.PrecisionTimeSpan> MeasureTDROffsets(this DigitalSessionsBundle sessionsBundle, bool apply = false)
+        public static PinSiteData<IviDriverPrecisionTimeSpan> MeasureTDROffsets(this DigitalSessionsBundle sessionsBundle, bool apply = false)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
@@ -279,7 +382,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="offsets">The measured TDR offsets. Where the first dimension represents instrument sessions, and the second dimension represents pins.</param>
         /// <param name="apply">Whether to apply the offsets to the pins.</param>
-        public static void MeasureTDROffsets(this DigitalSessionsBundle sessionsBundle, out Ivi.Driver.PrecisionTimeSpan[][] offsets, bool apply = false)
+        public static void MeasureTDROffsets(this DigitalSessionsBundle sessionsBundle, out IviDriverPrecisionTimeSpan[][] offsets, bool apply = false)
         {
             offsets = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
@@ -293,11 +396,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="offsets">The per-site per-pin offsets to apply.</param>
-        public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, PinSiteData<Ivi.Driver.PrecisionTimeSpan> offsets)
+        public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, PinSiteData<IviDriverPrecisionTimeSpan> offsets)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).ApplyTdrOffsets(new Ivi.Driver.PrecisionTimeSpan[] { offsets.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName) });
+                sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).ApplyTdrOffsets(new IviDriverPrecisionTimeSpan[] { offsets.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName) });
             });
         }
 
@@ -307,7 +410,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="offsets">Offsets to apply. Where the first dimension represents instrument sessions and the second dimension represents pins.</param>
-        public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, Ivi.Driver.PrecisionTimeSpan[][] offsets)
+        public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, IviDriverPrecisionTimeSpan[][] offsets)
         {
             sessionsBundle.Do((DigitalSessionInformation sessionInfo, int instrumentIndex) =>
             {
@@ -315,7 +418,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 {
                     sessionInfo.Session.PinAndChannelMap
                         .GetPinSet(sessionInfo.AssociatedSitePinList.ElementAt(pinSetIndex).SitePinString)
-                        .ApplyTdrOffsets(new Ivi.Driver.PrecisionTimeSpan[] { offsets[instrumentIndex][pinSetIndex] });
+                        .ApplyTdrOffsets(new IviDriverPrecisionTimeSpan[] { offsets[instrumentIndex][pinSetIndex] });
                 }
             });
         }
@@ -392,7 +495,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="offsets">The per-site per-pin offsets to save.</param>
         /// <param name="filePath">The path of the file to save the offsets to.</param>
-        public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, PinSiteData<Ivi.Driver.PrecisionTimeSpan> offsets, string filePath)
+        public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, PinSiteData<IviDriverPrecisionTimeSpan> offsets, string filePath)
         {
             using (var file = new StreamWriter(filePath))
             {
@@ -412,7 +515,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="offsets">The per-instrument session per-pin offsets to save. Where the first dimension represents instrument sessions and the second dimension represents pins.</param>
         /// <param name="filePath">The path of the file to save the offsets to.</param>
-        public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, Ivi.Driver.PrecisionTimeSpan[][] offsets, string filePath)
+        public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, IviDriverPrecisionTimeSpan[][] offsets, string filePath)
         {
             using (var file = new StreamWriter(filePath))
             {
@@ -437,11 +540,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="ArgumentException">
         /// This exception will be thrown if throwOnMissingChannels is true and an offset value was not found in the file for one or more of channels in the sessions bundle.
         /// </exception>
-        public static PinSiteData<Ivi.Driver.PrecisionTimeSpan> LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, bool throwOnMissingChannels = true)
+        public static PinSiteData<IviDriverPrecisionTimeSpan> LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, bool throwOnMissingChannels = true)
         {
             var offsetsFromFile = ReadTdrOffsetsFromFile(filePath);
 
-            var offsetsDict = new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>();
+            var offsetsDict = new Dictionary<string, IDictionary<int, IviDriverPrecisionTimeSpan>>();
             var missingChannels = new List<string>();
             // Check if channels match what is in the current bundle.
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList)
@@ -456,7 +559,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     perSitePinValues.Add(sitePinInfo.SiteNumber, offsetsFromFile[sitePinInfo.SitePinString]);
                     break;
                 }
-                offsetsDict.Add(sitePinInfo.PinName, new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>());
+                offsetsDict.Add(sitePinInfo.PinName, new Dictionary<int, IviDriverPrecisionTimeSpan>());
                 offsetsDict[sitePinInfo.PinName].Add(sitePinInfo.SiteNumber, offsetsFromFile[sitePinInfo.SitePinString]);
             }
 
@@ -465,7 +568,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TDROffsetsMissing, filePath, string.Join(",", missingChannels)));
             }
 
-            return new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(offsetsDict);
+            return new PinSiteData<IviDriverPrecisionTimeSpan>(offsetsDict);
         }
 
         /// <summary>
@@ -478,17 +581,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="ArgumentException">
         /// This exception will be thrown if throwOnMissingChannels is true and an offset value was not found in the file for one or more of channels in the sessions bundle.
         /// </exception>
-        public static void LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, out Ivi.Driver.PrecisionTimeSpan[][] offsets, bool throwOnMissingChannels = true)
+        public static void LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, out IviDriverPrecisionTimeSpan[][] offsets, bool throwOnMissingChannels = true)
         {
             var offsetsFromFile = ReadTdrOffsetsFromFile(filePath);
 
             int instrumentCount = sessionsBundle.InstrumentSessions.Count();
-            offsets = new Ivi.Driver.PrecisionTimeSpan[instrumentCount][];
+            offsets = new IviDriverPrecisionTimeSpan[instrumentCount][];
             var missingChannels = new List<string>();
             for (int instrumentIndex = 0; instrumentIndex < instrumentCount; instrumentIndex++)
             {
                 var sitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList;
-                offsets[instrumentIndex] = new Ivi.Driver.PrecisionTimeSpan[sitePinList.Count];
+                offsets[instrumentIndex] = new IviDriverPrecisionTimeSpan[sitePinList.Count];
                 for (int channelIndex = 0; channelIndex < sitePinList.Count; channelIndex++)
                 {
                     string sitePinString = sitePinList[channelIndex].SitePinString;
@@ -513,9 +616,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         #region private methods
 
-        private static Dictionary<string, Ivi.Driver.PrecisionTimeSpan> ReadTdrOffsetsFromFile(string filePath)
+        private static Dictionary<string, IviDriverPrecisionTimeSpan> ReadTdrOffsetsFromFile(string filePath)
         {
-            var offsetsFromFile = new Dictionary<string, Ivi.Driver.PrecisionTimeSpan>();
+            var offsetsFromFile = new Dictionary<string, IviDriverPrecisionTimeSpan>();
 
             using (var file = new StreamReader(filePath))
             {
@@ -523,7 +626,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 while ((line = file.ReadLine()) != null)
                 {
                     var contents = line.Split(':');
-                    var tdrValue = Ivi.Driver.PrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[1].Trim(), CultureInfo.InvariantCulture));
+                    var tdrValue = IviDriverPrecisionTimeSpan.FromSeconds(Convert.ToDouble(contents[1].Trim(), CultureInfo.InvariantCulture));
                     offsetsFromFile.Add(contents[0], tdrValue);
                 }
             }

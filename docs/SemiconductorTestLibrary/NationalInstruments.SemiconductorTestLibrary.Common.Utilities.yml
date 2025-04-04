@@ -20,6 +20,8 @@ items:
   nameWithType: Utilities
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities
   type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Utilities.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -49,6 +51,8 @@ items:
   nameWithType: Utilities.PreciseWait(double?)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PreciseWait(double?)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Utilities.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -80,6 +84,8 @@ items:
   nameWithType: Utilities.InvokeInParallel(params Action[])
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InvokeInParallel(params System.Action[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Utilities.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -111,6 +117,8 @@ items:
   nameWithType: Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults<T>(IEnumerable<ISessionInformation>, T[][])
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults<T>(System.Collections.Generic.IEnumerable<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation>, T[][])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Utilities.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -148,6 +156,8 @@ items:
   nameWithType: Utilities.PerInstrumentPerChannelResultsToPinSiteData<T>(IEnumerable<ISessionInformation>, T[][])
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData<T>(System.Collections.Generic.IEnumerable<NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation>, T[][])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Utilities.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -185,6 +195,8 @@ items:
   nameWithType: Utilities.ToJaggedArray<T>(T[,])
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray<T>(T[,])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Utilities.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -219,6 +231,8 @@ items:
   nameWithType: Utilities.ElementAtOrFirst<T>(T[], int)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ElementAtOrFirst<T>(T[], int)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Utilities.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -255,6 +269,8 @@ items:
   nameWithType: Utilities.TryDeterminePowerLineFrequency(ref double, bool)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.TryDeterminePowerLineFrequency(ref double, bool)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Utilities.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -289,6 +305,8 @@ items:
   nameWithType: Utilities.FilterPinsOrPinGroups(ISemiconductorModuleContext, string[], string, out IList<string[]>, out IList<int>, out string[])
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.Utilities.FilterPinsOrPinGroups(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string[], string, out System.Collections.Generic.IList<string[]>, out System.Collections.Generic.IList<int>, out string[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Utilities.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common

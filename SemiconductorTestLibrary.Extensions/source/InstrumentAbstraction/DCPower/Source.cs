@@ -677,7 +677,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the output relay of the underlying device channel (s) to either be connected (closed) or disconnected (open).
         /// Accepts a scalar input of type <see  cref="bool"/>.
         /// With overrides for <see cref="SiteData{Boolean}" />, and <see cref="PinSiteData{Boolean}"/> input.
-        /// <para>Pass this method a true value to physically disconnect the output terminal from the front panel.</para>
+        /// <para>Pass this method a false value to physically disconnect the output terminal from the front panel.</para>
         /// <remarks>
         /// Excessive connecting and disconnecting of the output can cause premature wear on the relay.
         /// Disconnect the output only if physically disconnecting is necessary for your application.

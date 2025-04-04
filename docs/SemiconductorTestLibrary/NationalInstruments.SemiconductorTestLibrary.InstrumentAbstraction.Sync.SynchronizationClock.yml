@@ -16,6 +16,8 @@ items:
   nameWithType: SynchronizationClock
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock
   type: Enum
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/DataTypes.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -35,6 +37,8 @@ items:
   nameWithType: SynchronizationClock.Asynchronous
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock.Asynchronous
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/DataTypes.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -55,6 +59,8 @@ items:
   nameWithType: SynchronizationClock.FullSpeedClock
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock.FullSpeedClock
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/DataTypes.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -75,6 +81,8 @@ items:
   nameWithType: SynchronizationClock.DividedClock1
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock.DividedClock1
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/DataTypes.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -95,6 +103,8 @@ items:
   nameWithType: SynchronizationClock.DividedClock2
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock.DividedClock2
   type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/DataTypes.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync

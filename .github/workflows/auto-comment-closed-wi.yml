@@ -1,0 +1,110 @@
+name: Comment on GitHub Issue for Closed Work Items
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+env:
+  AZDO_ORG: ${{ secrets.AZDO_ORG }}
+  AZDO_PROJECT: ${{ secrets.AZDO_PROJECT }}
+  AREA_PATH: ${{ secrets.AZDO_AREA_PATH }}
+
+jobs:
+  CommentOnGitHubIssue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Closed Work Items from Azure DevOps
+        run: |
+          echo "Fetching closed work items updated in the last day..."
+          TOKEN="${{ secrets.AZURE_DEVOPS_TOKEN }}"
+          AREA_PATH_ESCAPED="${AREA_PATH//\\/\\\\}"
+          echo "Escaped AREA_PATH: $AREA_PATH_ESCAPED"
+          QUERY="SELECT [System.Id] FROM WorkItems WHERE [System.State] = 'Closed' AND [System.ChangedDate] >= @Today - 2 AND [System.WorkItemType] IN ('User Story', 'Bug', 'Customer Escalation') AND [System.AreaPath] = '$AREA_PATH_ESCAPED'"
+          PAYLOAD=$(jq -n --arg query "$QUERY" '{query: $query}')
+          echo "Payload: $PAYLOAD"
+          RESPONSE=$(curl -s -u ":$TOKEN" \
+            -X POST "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/wiql?api-version=7.1-preview.2" \
+            -H "Content-Type: application/json" \
+            --data-binary "$PAYLOAD")
+          if echo "$RESPONSE" | jq -e '.workItems' >/dev/null 2>&1; then
+            ITEM_COUNT=$(echo "$RESPONSE" | jq '.workItems | length')
+            if [ "$ITEM_COUNT" -eq 0 ]; then
+              echo "No closed work items found. Exiting."
+              exit 0
+            fi
+            echo "$RESPONSE" | jq -r '.workItems[].id' > closed_items.txt
+          else
+            echo "Error: Response does not contain 'workItems'. Verify WIQL query."
+            exit 1
+          fi
+        shell: bash
+
+      - name: Process Work Items and Identify GitHub Issues
+        run: |
+          echo "Processing each work item..."
+          if [ ! -s closed_items.txt ]; then
+            echo "No closed work items found. Exiting."
+            exit 0
+          fi
+          TOKEN="${{ secrets.AZURE_DEVOPS_TOKEN }}"
+          while read id; do
+            echo "Processing Work Item ID: $id"
+            WI_DETAILS=$(curl -s -u ":$TOKEN" \
+              -X GET "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$id?\$expand=relations&api-version=7.1-preview.2")
+            EXISTING_TAGS=$(echo "$WI_DETAILS" | jq -r '.fields["System.Tags"]')
+            if echo "$EXISTING_TAGS" | grep -q "GitHubCommented"; then
+              echo "Work Item $id already has GitHubCommented tag. Skipping."
+              continue
+            fi
+            ISSUE_URL=$(echo "$WI_DETAILS" | jq -r '.relations[]? | select(.rel=="ArtifactLink" and .attributes.name=="GitHub Issue") | .url')
+            if [[ -n "$ISSUE_URL" && "$ISSUE_URL" != "null" ]]; then
+              DECODED_URL=$(python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))" "$ISSUE_URL")
+              ISSUE_NUMBER=$(basename "$DECODED_URL")
+              echo "Work Item $id is linked to GitHub Issue number: $ISSUE_NUMBER"
+              echo "$id,$ISSUE_NUMBER" >> process_list.txt
+            else
+              echo "Work Item $id has no linked GitHub Issue."
+            fi
+          done < closed_items.txt
+        shell: bash
+
+      - name: Post Comments on GitHub Issues and Update Work Items
+        uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+          AZDO_ORG: ${{ env.AZDO_ORG }}
+          AZDO_PROJECT: ${{ env.AZDO_PROJECT }}
+        with:
+          script: |
+            const fs = require('fs');
+            const { execSync } = require('child_process');
+            const { owner, repo } = context.repo;
+            const commentBody = "The corresponding work item has been closed. The fix should be available in the next release.";
+            if (!fs.existsSync('process_list.txt')) {
+              console.log("No issues to process. Exiting.");
+              return;
+            }
+            const processList = fs.readFileSync('process_list.txt', 'utf8').trim().split('\n');
+            for (const line of processList) {
+              const [workItemId, issueNumber] = line.split(',');
+              console.log(`Posting comment on GitHub Issue #${issueNumber} for Work Item ${workItemId}`);
+              github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: issueNumber,
+                body: commentBody
+              });
+              const azureToken = process.env.AZURE_DEVOPS_TOKEN;
+              const azdoOrg = process.env.AZDO_ORG;
+              const azdoProject = process.env.AZDO_PROJECT;
+              const patchCmd = `curl -s -u ":${azureToken}" -X PATCH "https://dev.azure.com/${azdoOrg}/${azdoProject}/_apis/wit/workitems/${workItemId}?api-version=7.1-preview.3" -H "Content-Type: application/json-patch+json" --data-binary "[{\\"op\\": \\"add\\", \\"path\\": \\"/fields/System.Tags\\", \\"value\\": \\"GitHubCommented\\"}]"`;
+              console.log(`Executing command to update work item ${workItemId}: ${patchCmd}`);
+              try {
+                const updateOutput = execSync(patchCmd, { encoding: 'utf-8' });
+                console.log(`Update output for work item ${workItemId}: ${updateOutput}`);
+              } catch (err) {
+                console.error(`Error updating work item ${workItemId}:`, err.message);
+              }
+            }
