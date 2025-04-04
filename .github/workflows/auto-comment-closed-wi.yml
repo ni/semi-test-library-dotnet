@@ -54,7 +54,11 @@ jobs:
               -X GET "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$id?\$expand=relations&api-version=7.1-preview.2")
             EXISTING_TAGS=$(echo "$WI_DETAILS" | jq -r '.fields["System.Tags"]')
             if echo "$EXISTING_TAGS" | grep -q "GitHubCommented"; then
-              echo "Work Item $id already has GitHubCommented tag. Skipping."
+              echo "Work Item $id already has 'GitHubCommented' tag. Skipping."
+              continue
+            fi
+            if ! echo "$EXISTING_TAGS" | grep -q "Comment on GitHub"; then
+              echo "Work Item $id does not have 'Comment on GitHub' tag. Skipping."
               continue
             fi
             ISSUE_URL=$(echo "$WI_DETAILS" | jq -r '.relations[]? | select(.rel=="ArtifactLink" and .attributes.name=="GitHub Issue") | .url')
@@ -78,33 +82,45 @@ jobs:
           AZDO_PROJECT: ${{ env.AZDO_PROJECT }}
         with:
           script: |
-            const fs = require('fs');
-            const { execSync } = require('child_process');
-            const { owner, repo } = context.repo;
-            const commentBody = "The corresponding work item has been closed. The fix should be available in the next release.";
-            if (!fs.existsSync('process_list.txt')) {
-              console.log("No issues to process. Exiting.");
-              return;
-            }
-            const processList = fs.readFileSync('process_list.txt', 'utf8').trim().split('\n');
-            for (const line of processList) {
-              const [workItemId, issueNumber] = line.split(',');
-              console.log(`Posting comment on GitHub Issue #${issueNumber} for Work Item ${workItemId}`);
-              github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number: issueNumber,
-                body: commentBody
-              });
-              const azureToken = process.env.AZURE_DEVOPS_TOKEN;
-              const azdoOrg = process.env.AZDO_ORG;
-              const azdoProject = process.env.AZDO_PROJECT;
-              const patchCmd = `curl -s -u ":${azureToken}" -X PATCH "https://dev.azure.com/${azdoOrg}/${azdoProject}/_apis/wit/workitems/${workItemId}?api-version=7.1-preview.3" -H "Content-Type: application/json-patch+json" --data-binary "[{\\"op\\": \\"add\\", \\"path\\": \\"/fields/System.Tags\\", \\"value\\": \\"GitHubCommented\\"}]"`;
-              console.log(`Executing command to update work item ${workItemId}: ${patchCmd}`);
-              try {
-                const updateOutput = execSync(patchCmd, { encoding: 'utf-8' });
-                console.log(`Update output for work item ${workItemId}: ${updateOutput}`);
-              } catch (err) {
-                console.error(`Error updating work item ${workItemId}:`, err.message);
+            (async () => {
+              const fs = require('fs');
+              const { execSync } = require('child_process');
+              const { owner, repo } = context.repo;
+              const commentBody = "The corresponding work item has been closed. The fix should be available in the next release.";
+              if (!fs.existsSync('process_list.txt')) {
+                console.log("No issues to process. Exiting.");
+                return;
               }
-            }
+              const processList = fs.readFileSync('process_list.txt', 'utf8').trim().split('\n');
+              for (const line of processList) {
+                const [workItemId, issueNumber] = line.split(',');
+                console.log(`Checking status of GitHub Issue #${issueNumber} before commenting...`);
+                const issue = await github.rest.issues.get({
+                  owner,
+                  repo,
+                  issue_number: issueNumber
+                });
+                if (issue.data.state === "closed") {
+                  console.log(`Issue #${issueNumber} is already closed. Skipping.`);
+                  continue; // Skip commenting if the issue is closed
+                }      
+                console.log(`Posting comment on open GitHub Issue #${issueNumber} for Work Item ${workItemId}`);
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                  body: commentBody
+                });
+                const azureToken = process.env.AZURE_DEVOPS_TOKEN;
+                const azdoOrg = process.env.AZDO_ORG;
+                const azdoProject = process.env.AZDO_PROJECT;
+                const patchCmd = `curl -s -u ":${azureToken}" -X PATCH "https://dev.azure.com/${azdoOrg}/${azdoProject}/_apis/wit/workitems/${workItemId}?api-version=7.1-preview.3" -H "Content-Type: application/json-patch+json" --data-binary "[{\\"op\\": \\"add\\", \\"path\\": \\"/fields/System.Tags\\", \\"value\\": \\"GitHubCommented\\"}]"`;
+                console.log(`Executing command to update work item ${workItemId}.`);
+                try {
+                  const updateOutput = execSync(patchCmd, { encoding: 'utf-8' });
+                  console.log(`Update output for work item ${workItemId}.`);
+                } catch (err) {
+                  console.error(`Error updating work item ${workItemId}:`, err.message);
+                }
+              }
+            })();
