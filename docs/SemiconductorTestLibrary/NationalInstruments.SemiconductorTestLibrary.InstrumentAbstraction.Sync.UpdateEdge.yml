@@ -1,0 +1,127 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+  id: UpdateEdge
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.FallingEdge
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.RisingEdge
+  langs:
+  - csharp
+  - vb
+  name: UpdateEdge
+  nameWithType: UpdateEdge
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+  type: Enum
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/DataTypes.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  summary: Specifies the update edge options.
+  example: []
+  syntax:
+    content: public enum UpdateEdge
+    content.vb: Public Enum UpdateEdge
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.RisingEdge
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.RisingEdge
+  id: RisingEdge
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+  langs:
+  - csharp
+  - vb
+  name: RisingEdge
+  nameWithType: UpdateEdge.RisingEdge
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.RisingEdge
+  type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/DataTypes.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  summary: Propagates the trigger when the digital signal of the synchronization clock transitions from low to high.
+  example: []
+  syntax:
+    content: RisingEdge = 0
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.FallingEdge
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.FallingEdge
+  id: FallingEdge
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+  langs:
+  - csharp
+  - vb
+  name: FallingEdge
+  nameWithType: UpdateEdge.FallingEdge
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.FallingEdge
+  type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/DataTypes.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  summary: Propagates the trigger when the digital signal of the synchronization clock transitions from high to low.
+  example: []
+  syntax:
+    content: FallingEdge = 1
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+    name: Sync
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+    name: Sync
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.html
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge.html
+  name: UpdateEdge
+  nameWithType: UpdateEdge
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge
+memberLayout: SeparatePages

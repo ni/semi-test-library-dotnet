@@ -1,0 +1,909 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  id: AnalogOutput
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double},System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double},System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,System.Double,System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.AnalogWaveform{System.Double},System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.AnalogWaveform{System.Double}},System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.AnalogWaveform{System.Double}},System.Boolean)
+  langs:
+  - csharp
+  - vb
+  name: AnalogOutput
+  nameWithType: AnalogOutput
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutput.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Defines operations on analog output channels.
+  example: []
+  syntax:
+    content: public static class AnalogOutput
+    content.vb: Public Module AnalogOutput
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,System.Double,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,System.Double,System.Boolean)
+  id: WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,System.Double,System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  langs:
+  - csharp
+  - vb
+  name: WriteAnalogSingleSample(DAQmxTasksBundle, double, bool)
+  nameWithType: AnalogOutput.WriteAnalogSingleSample(DAQmxTasksBundle, double, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, double, bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutput.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Writes a static DC output state to the pin(s).
+  example: []
+  syntax:
+    content: public static void WriteAnalogSingleSample(this DAQmxTasksBundle tasksBundle, double staticState, bool autoStart = true)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: staticState
+      type: System.Double
+      description: The static state to write.
+    - id: autoStart
+      type: System.Boolean
+      description: Specifies whether to automatically start the tasks.
+    content.vb: Public Shared Sub WriteAnalogSingleSample(tasksBundle As DAQmxTasksBundle, staticState As Double, autoStart As Boolean = True)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample*
+  nameWithType.vb: AnalogOutput.WriteAnalogSingleSample(DAQmxTasksBundle, Double, Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, Double, Boolean)
+  name.vb: WriteAnalogSingleSample(DAQmxTasksBundle, Double, Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double},System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double},System.Boolean)
+  id: WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double},System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  langs:
+  - csharp
+  - vb
+  name: WriteAnalogSingleSample(DAQmxTasksBundle, SiteData<double>, bool)
+  nameWithType: AnalogOutput.WriteAnalogSingleSample(DAQmxTasksBundle, SiteData<double>, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>, bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutput.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Writes a static DC output state to the pin(s).
+  example: []
+  syntax:
+    content: public static void WriteAnalogSingleSample(this DAQmxTasksBundle tasksBundle, SiteData<double> siteData, bool autoStart = true)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: siteData
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double}
+      description: The per-site data to write.
+    - id: autoStart
+      type: System.Boolean
+      description: Specifies whether to automatically start the tasks.
+    content.vb: Public Shared Sub WriteAnalogSingleSample(tasksBundle As DAQmxTasksBundle, siteData As SiteData(Of Double), autoStart As Boolean = True)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample*
+  nameWithType.vb: AnalogOutput.WriteAnalogSingleSample(DAQmxTasksBundle, SiteData(Of Double), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of Double), Boolean)
+  name.vb: WriteAnalogSingleSample(DAQmxTasksBundle, SiteData(Of Double), Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double},System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double},System.Boolean)
+  id: WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double},System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  langs:
+  - csharp
+  - vb
+  name: WriteAnalogSingleSample(DAQmxTasksBundle, PinSiteData<double>, bool)
+  nameWithType: AnalogOutput.WriteAnalogSingleSample(DAQmxTasksBundle, PinSiteData<double>, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>, bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutput.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Writes a static DC output state to the pin(s).
+  example: []
+  syntax:
+    content: public static void WriteAnalogSingleSample(this DAQmxTasksBundle tasksBundle, PinSiteData<double> pinSiteData, bool autoStart = true)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: pinSiteData
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+      description: The per-site per-pin data to write.
+    - id: autoStart
+      type: System.Boolean
+      description: Specifies whether to automatically start the tasks.
+    content.vb: Public Shared Sub WriteAnalogSingleSample(tasksBundle As DAQmxTasksBundle, pinSiteData As PinSiteData(Of Double), autoStart As Boolean = True)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample*
+  nameWithType.vb: AnalogOutput.WriteAnalogSingleSample(DAQmxTasksBundle, PinSiteData(Of Double), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Double), Boolean)
+  name.vb: WriteAnalogSingleSample(DAQmxTasksBundle, PinSiteData(Of Double), Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.AnalogWaveform{System.Double},System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.AnalogWaveform{System.Double},System.Boolean)
+  id: WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.AnalogWaveform{System.Double},System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  langs:
+  - csharp
+  - vb
+  name: WriteAnalogWaveform(DAQmxTasksBundle, AnalogWaveform<double>, bool)
+  nameWithType: AnalogOutput.WriteAnalogWaveform(DAQmxTasksBundle, AnalogWaveform<double>, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.AnalogWaveform<double>, bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutput.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Writes the specified waveform to output on the pin(s).
+  example: []
+  syntax:
+    content: public static void WriteAnalogWaveform(this DAQmxTasksBundle tasksBundle, AnalogWaveform<double> waveform, bool autoStart = true)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: waveform
+      type: NationalInstruments.AnalogWaveform{System.Double}
+      description: The waveform to write.
+    - id: autoStart
+      type: System.Boolean
+      description: Specifies whether to automatically start the tasks.
+    content.vb: Public Shared Sub WriteAnalogWaveform(tasksBundle As DAQmxTasksBundle, waveform As AnalogWaveform(Of Double), autoStart As Boolean = True)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform*
+  nameWithType.vb: AnalogOutput.WriteAnalogWaveform(DAQmxTasksBundle, AnalogWaveform(Of Double), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.AnalogWaveform(Of Double), Boolean)
+  name.vb: WriteAnalogWaveform(DAQmxTasksBundle, AnalogWaveform(Of Double), Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.AnalogWaveform{System.Double}},System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.AnalogWaveform{System.Double}},System.Boolean)
+  id: WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.AnalogWaveform{System.Double}},System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  langs:
+  - csharp
+  - vb
+  name: WriteAnalogWaveform(DAQmxTasksBundle, SiteData<AnalogWaveform<double>>, bool)
+  nameWithType: AnalogOutput.WriteAnalogWaveform(DAQmxTasksBundle, SiteData<AnalogWaveform<double>>, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.AnalogWaveform<double>>, bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutput.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Writes the specified waveform to output on the pin(s).
+  example: []
+  syntax:
+    content: public static void WriteAnalogWaveform(this DAQmxTasksBundle tasksBundle, SiteData<AnalogWaveform<double>> siteData, bool autoStart = true)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: siteData
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.AnalogWaveform{System.Double}}
+      description: The per-site waveform to write.
+    - id: autoStart
+      type: System.Boolean
+      description: Specifies whether to automatically start the tasks.
+    content.vb: Public Shared Sub WriteAnalogWaveform(tasksBundle As DAQmxTasksBundle, siteData As SiteData(Of AnalogWaveform(Of Double)), autoStart As Boolean = True)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform*
+  nameWithType.vb: AnalogOutput.WriteAnalogWaveform(DAQmxTasksBundle, SiteData(Of AnalogWaveform(Of Double)), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of NationalInstruments.AnalogWaveform(Of Double)), Boolean)
+  name.vb: WriteAnalogWaveform(DAQmxTasksBundle, SiteData(Of AnalogWaveform(Of Double)), Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.AnalogWaveform{System.Double}},System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.AnalogWaveform{System.Double}},System.Boolean)
+  id: WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.AnalogWaveform{System.Double}},System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput
+  langs:
+  - csharp
+  - vb
+  name: WriteAnalogWaveform(DAQmxTasksBundle, PinSiteData<AnalogWaveform<double>>, bool)
+  nameWithType: AnalogOutput.WriteAnalogWaveform(DAQmxTasksBundle, PinSiteData<AnalogWaveform<double>>, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.AnalogWaveform<double>>, bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutput.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Writes the specified waveform to output on the pin(s).
+  example: []
+  syntax:
+    content: public static void WriteAnalogWaveform(this DAQmxTasksBundle tasksBundle, PinSiteData<AnalogWaveform<double>> pinSiteData, bool autoStart = true)
+    parameters:
+    - id: tasksBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: pinSiteData
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.AnalogWaveform{System.Double}}
+      description: The per-site per-pin waveform to write.
+    - id: autoStart
+      type: System.Boolean
+      description: Specifies whether to automatically start the tasks.
+    content.vb: Public Shared Sub WriteAnalogWaveform(tasksBundle As DAQmxTasksBundle, pinSiteData As PinSiteData(Of AnalogWaveform(Of Double)), autoStart As Boolean = True)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform*
+  nameWithType.vb: AnalogOutput.WriteAnalogWaveform(DAQmxTasksBundle, PinSiteData(Of AnalogWaveform(Of Double)), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of NationalInstruments.AnalogWaveform(Of Double)), Boolean)
+  name.vb: WriteAnalogWaveform(DAQmxTasksBundle, PinSiteData(Of AnalogWaveform(Of Double)), Boolean)
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+    name: DAQmx
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+    name: DAQmx
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.html
+  name: DAQmxTasksBundle
+  nameWithType: DAQmxTasksBundle
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_AnalogOutput_WriteAnalogSingleSample_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_System_Double_System_Boolean_
+  name: WriteAnalogSingleSample
+  nameWithType: AnalogOutput.WriteAnalogSingleSample
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogSingleSample
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<double>
+  nameWithType: SiteData<double>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>
+  nameWithType.vb: SiteData(Of Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of Double)
+  name.vb: SiteData(Of Double)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<double>
+  nameWithType: PinSiteData<double>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>
+  nameWithType.vb: PinSiteData(Of Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Double)
+  name.vb: PinSiteData(Of Double)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_AnalogOutput_WriteAnalogWaveform_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_NationalInstruments_AnalogWaveform_System_Double__System_Boolean_
+  name: WriteAnalogWaveform
+  nameWithType: AnalogOutput.WriteAnalogWaveform
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutput.WriteAnalogWaveform
+- uid: NationalInstruments.AnalogWaveform{System.Double}
+  commentId: T:NationalInstruments.AnalogWaveform{System.Double}
+  parent: NationalInstruments
+  definition: NationalInstruments.AnalogWaveform`1
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: AnalogWaveform<double>
+  nameWithType: AnalogWaveform<double>
+  fullName: NationalInstruments.AnalogWaveform<double>
+  nameWithType.vb: AnalogWaveform(Of Double)
+  fullName.vb: NationalInstruments.AnalogWaveform(Of Double)
+  name.vb: AnalogWaveform(Of Double)
+  spec.csharp:
+  - uid: NationalInstruments.AnalogWaveform`1
+    name: AnalogWaveform
+    isExternal: true
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.AnalogWaveform`1
+    name: AnalogWaveform
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: NationalInstruments.AnalogWaveform`1
+  commentId: T:NationalInstruments.AnalogWaveform`1
+  isExternal: true
+  name: AnalogWaveform<TData>
+  nameWithType: AnalogWaveform<TData>
+  fullName: NationalInstruments.AnalogWaveform<TData>
+  nameWithType.vb: AnalogWaveform(Of TData)
+  fullName.vb: NationalInstruments.AnalogWaveform(Of TData)
+  name.vb: AnalogWaveform(Of TData)
+  spec.csharp:
+  - uid: NationalInstruments.AnalogWaveform`1
+    name: AnalogWaveform
+    isExternal: true
+  - name: <
+  - name: TData
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.AnalogWaveform`1
+    name: AnalogWaveform
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TData
+  - name: )
+- uid: NationalInstruments
+  commentId: N:NationalInstruments
+  isExternal: true
+  name: NationalInstruments
+  nameWithType: NationalInstruments
+  fullName: NationalInstruments
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.AnalogWaveform{System.Double}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{NationalInstruments.AnalogWaveform{System.Double}}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  name: SiteData<AnalogWaveform<double>>
+  nameWithType: SiteData<AnalogWaveform<double>>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<NationalInstruments.AnalogWaveform<double>>
+  nameWithType.vb: SiteData(Of AnalogWaveform(Of Double))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of NationalInstruments.AnalogWaveform(Of Double))
+  name.vb: SiteData(Of AnalogWaveform(Of Double))
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  - name: <
+  - uid: NationalInstruments.AnalogWaveform`1
+    name: AnalogWaveform
+    isExternal: true
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/SiteData.cs
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.AnalogWaveform`1
+    name: AnalogWaveform
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.AnalogWaveform{System.Double}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.AnalogWaveform{System.Double}}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  name: PinSiteData<AnalogWaveform<double>>
+  nameWithType: PinSiteData<AnalogWaveform<double>>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.AnalogWaveform<double>>
+  nameWithType.vb: PinSiteData(Of AnalogWaveform(Of Double))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of NationalInstruments.AnalogWaveform(Of Double))
+  name.vb: PinSiteData(Of AnalogWaveform(Of Double))
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  - name: <
+  - uid: NationalInstruments.AnalogWaveform`1
+    name: AnalogWaveform
+    isExternal: true
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.AnalogWaveform`1
+    name: AnalogWaveform
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+  - name: )
+memberLayout: SeparatePages

@@ -1,0 +1,196 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  id: TriggerType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.MeasureTrigger
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.PulseTrigger
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SequenceAdvanceTrigger
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SourceTrigger
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.StartTrigger
+  langs:
+  - csharp
+  - vb
+  name: TriggerType
+  nameWithType: TriggerType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  type: Enum
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: Defines DCPower trigger type.
+  example: []
+  syntax:
+    content: public enum TriggerType
+    content.vb: Public Enum TriggerType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.MeasureTrigger
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.MeasureTrigger
+  id: MeasureTrigger
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  langs:
+  - csharp
+  - vb
+  name: MeasureTrigger
+  nameWithType: TriggerType.MeasureTrigger
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.MeasureTrigger
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The measure trigger.
+  example: []
+  syntax:
+    content: MeasureTrigger = 0
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.PulseTrigger
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.PulseTrigger
+  id: PulseTrigger
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  langs:
+  - csharp
+  - vb
+  name: PulseTrigger
+  nameWithType: TriggerType.PulseTrigger
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.PulseTrigger
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The pulse trigger.
+  example: []
+  syntax:
+    content: PulseTrigger = 1
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SequenceAdvanceTrigger
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SequenceAdvanceTrigger
+  id: SequenceAdvanceTrigger
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  langs:
+  - csharp
+  - vb
+  name: SequenceAdvanceTrigger
+  nameWithType: TriggerType.SequenceAdvanceTrigger
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SequenceAdvanceTrigger
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The sequence advance trigger.
+  example: []
+  syntax:
+    content: SequenceAdvanceTrigger = 2
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SourceTrigger
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SourceTrigger
+  id: SourceTrigger
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  langs:
+  - csharp
+  - vb
+  name: SourceTrigger
+  nameWithType: TriggerType.SourceTrigger
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SourceTrigger
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The source trigger.
+  example: []
+  syntax:
+    content: SourceTrigger = 3
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.StartTrigger
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.StartTrigger
+  id: StartTrigger
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  langs:
+  - csharp
+  - vb
+  name: StartTrigger
+  nameWithType: TriggerType.StartTrigger
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.StartTrigger
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Types.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  summary: The start trigger.
+  example: []
+  syntax:
+    content: StartTrigger = 4
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+    name: DCPower
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+    name: DCPower
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.html
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.html
+  name: TriggerType
+  nameWithType: TriggerType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType
+memberLayout: SeparatePages

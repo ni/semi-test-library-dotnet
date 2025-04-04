@@ -1,0 +1,907 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  id: DAQmxTaskInformation
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor(NationalInstruments.DAQmx.Task,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor(NationalInstruments.DAQmx.Task,System.String)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.AssociatedSitePinList
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal(NationalInstruments.DAQmx.ExportSignal)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelList
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelType
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.Task
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.TaskType
+  langs:
+  - csharp
+  - vb
+  name: DAQmxTaskInformation
+  nameWithType: DAQmxTaskInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTaskInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Defines an object that contains an individual NI-DAQmx task and its related information.
+  example: []
+  syntax:
+    content: 'public class DAQmxTaskInformation : ISessionInformation'
+    content.vb: Public Class DAQmxTaskInformation Implements ISessionInformation
+  inheritance:
+  - System.Object
+  implements:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor(NationalInstruments.DAQmx.Task,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor(NationalInstruments.DAQmx.Task,System.String)
+  id: '#ctor(NationalInstruments.DAQmx.Task,System.String)'
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  langs:
+  - csharp
+  - vb
+  name: DAQmxTaskInformation(Task, string)
+  nameWithType: DAQmxTaskInformation.DAQmxTaskInformation(Task, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.DAQmxTaskInformation(NationalInstruments.DAQmx.Task, string)
+  type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTaskInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Constructs a task information object that associates with an NI-DAQmx task.
+  example: []
+  syntax:
+    content: public DAQmxTaskInformation(Task task, string channelList)
+    parameters:
+    - id: task
+      type: NationalInstruments.DAQmx.Task
+      description: The NI-DAQmx task.
+    - id: channelList
+      type: System.String
+      description: The channels associated with the task.
+    content.vb: Public Sub New(task As Task, channelList As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor*
+  nameWithType.vb: DAQmxTaskInformation.New(Task, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.New(NationalInstruments.DAQmx.Task, String)
+  name.vb: New(Task, String)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor(NationalInstruments.DAQmx.Task,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor(NationalInstruments.DAQmx.Task,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  id: '#ctor(NationalInstruments.DAQmx.Task,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})'
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  langs:
+  - csharp
+  - vb
+  name: DAQmxTaskInformation(Task, IList<SitePinInfo>)
+  nameWithType: DAQmxTaskInformation.DAQmxTaskInformation(Task, IList<SitePinInfo>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.DAQmxTaskInformation(NationalInstruments.DAQmx.Task, System.Collections.Generic.IList<NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo>)
+  type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTaskInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Constructs a task information object.
+  example: []
+  syntax:
+    content: public DAQmxTaskInformation(Task task, IList<SitePinInfo> associatedSitePinList)
+    parameters:
+    - id: task
+      type: NationalInstruments.DAQmx.Task
+      description: The NI-DAQmx task.
+    - id: associatedSitePinList
+      type: System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+      description: The specified subset of channels associated with the task.
+    content.vb: Public Sub New(task As Task, associatedSitePinList As IList(Of SitePinInfo))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor*
+  nameWithType.vb: DAQmxTaskInformation.New(Task, IList(Of SitePinInfo))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.New(NationalInstruments.DAQmx.Task, System.Collections.Generic.IList(Of NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo))
+  name.vb: New(Task, IList(Of SitePinInfo))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal(NationalInstruments.DAQmx.ExportSignal)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal(NationalInstruments.DAQmx.ExportSignal)
+  id: BuildFullyQualifiedOutputTerminal(NationalInstruments.DAQmx.ExportSignal)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  langs:
+  - csharp
+  - vb
+  name: BuildFullyQualifiedOutputTerminal(ExportSignal)
+  nameWithType: DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal(ExportSignal)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal(NationalInstruments.DAQmx.ExportSignal)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTaskInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Builds a fully qualified output terminal string for the specified signal.
+  example: []
+  syntax:
+    content: public string BuildFullyQualifiedOutputTerminal(ExportSignal signal)
+    parameters:
+    - id: signal
+      type: NationalInstruments.DAQmx.ExportSignal
+      description: The given signal.
+    return:
+      type: System.String
+      description: The fully qualified output terminal string.
+    content.vb: Public Function BuildFullyQualifiedOutputTerminal(signal As ExportSignal) As String
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)
+  id: GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  langs:
+  - csharp
+  - vb
+  name: GenerateInstrumentChannelToSitePinDictionary(ISemiconductorModuleContext)
+  nameWithType: DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary(ISemiconductorModuleContext)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTaskInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Generates a dictionary that takes a channel string and returns the associated site-pin pair information.
+  example: []
+  syntax:
+    content: public static void GenerateInstrumentChannelToSitePinDictionary(ISemiconductorModuleContext tsmContext)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Sub GenerateInstrumentChannelToSitePinDictionary(tsmContext As ISemiconductorModuleContext)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.Task
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.Task
+  id: Task
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  langs:
+  - csharp
+  - vb
+  name: Task
+  nameWithType: DAQmxTaskInformation.Task
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.Task
+  type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTaskInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: The NI-DAQmx task.
+  example: []
+  syntax:
+    content: public Task Task { get; }
+    parameters: []
+    return:
+      type: NationalInstruments.DAQmx.Task
+    content.vb: Public ReadOnly Property Task As Task
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.Task*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelList
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelList
+  id: ChannelList
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  langs:
+  - csharp
+  - vb
+  name: ChannelList
+  nameWithType: DAQmxTaskInformation.ChannelList
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelList
+  type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTaskInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: The channels associated with the task.
+  remarks: It's a comma-separated string of instrument-channel pair, e.g. "DAQmx_6363_C1_S08/ai0:2, DAQmx_6363_C1_S08/ai4".
+  example: []
+  syntax:
+    content: public string ChannelList { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property ChannelList As String
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelList*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.TaskType
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.TaskType
+  id: TaskType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  langs:
+  - csharp
+  - vb
+  name: TaskType
+  nameWithType: DAQmxTaskInformation.TaskType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.TaskType
+  type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTaskInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: The NI-DAQmx task type.
+  example: []
+  syntax:
+    content: public DAQmxTaskType TaskType { get; }
+    parameters: []
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+    content.vb: Public ReadOnly Property TaskType As DAQmxTaskType
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.TaskType*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelType
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelType
+  id: ChannelType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  langs:
+  - csharp
+  - vb
+  name: ChannelType
+  nameWithType: DAQmxTaskInformation.ChannelType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelType
+  type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTaskInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: The NI-DAQmx channel type.
+  example: []
+  syntax:
+    content: public ChannelType ChannelType { get; }
+    parameters: []
+    return:
+      type: NationalInstruments.DAQmx.ChannelType
+    content.vb: Public ReadOnly Property ChannelType As ChannelType
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelType*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.AssociatedSitePinList
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.AssociatedSitePinList
+  id: AssociatedSitePinList
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation
+  langs:
+  - csharp
+  - vb
+  name: AssociatedSitePinList
+  nameWithType: DAQmxTaskInformation.AssociatedSitePinList
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.AssociatedSitePinList
+  type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTaskInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: >-
+    Gets a list of <xref href="NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo" data-throw-if-not-resolved="false"></xref> objects containing information for the individual site-pin pairs
+
+    associated with the driver session.
+  example: []
+  syntax:
+    content: public IList<SitePinInfo> AssociatedSitePinList { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+    content.vb: Public ReadOnly Property AssociatedSitePinList As IList(Of SitePinInfo)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.AssociatedSitePinList*
+  implements:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+    name: DAQmx
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+    name: DAQmx
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.html
+  name: ISessionInformation
+  nameWithType: ISessionInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.-ctor.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTaskInformation__ctor_NationalInstruments_DAQmx_Task_System_String_
+  name: DAQmxTaskInformation
+  nameWithType: DAQmxTaskInformation.DAQmxTaskInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.DAQmxTaskInformation
+  nameWithType.vb: DAQmxTaskInformation.New
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.New
+  name.vb: New
+- uid: NationalInstruments.DAQmx.Task
+  commentId: T:NationalInstruments.DAQmx.Task
+  parent: NationalInstruments.DAQmx
+  isExternal: true
+  name: Task
+  nameWithType: Task
+  fullName: NationalInstruments.DAQmx.Task
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: NationalInstruments.DAQmx
+  commentId: N:NationalInstruments.DAQmx
+  isExternal: true
+  name: NationalInstruments.DAQmx
+  nameWithType: NationalInstruments.DAQmx
+  fullName: NationalInstruments.DAQmx
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.DAQmx
+    name: DAQmx
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.DAQmx
+    name: DAQmx
+    isExternal: true
+- uid: System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+  commentId: T:System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  name: IList<SitePinInfo>
+  nameWithType: IList<SitePinInfo>
+  fullName: System.Collections.Generic.IList<NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo>
+  nameWithType.vb: IList(Of SitePinInfo)
+  fullName.vb: System.Collections.Generic.IList(Of NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo)
+  name.vb: IList(Of SitePinInfo)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: <
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+    name: SitePinInfo
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+    name: SitePinInfo
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  - name: )
+- uid: System.Collections.Generic.IList`1
+  commentId: T:System.Collections.Generic.IList`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  name: IList<T>
+  nameWithType: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  nameWithType.vb: IList(Of T)
+  fullName.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTaskInformation_BuildFullyQualifiedOutputTerminal_NationalInstruments_DAQmx_ExportSignal_
+  name: BuildFullyQualifiedOutputTerminal
+  nameWithType: DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.BuildFullyQualifiedOutputTerminal
+- uid: NationalInstruments.DAQmx.ExportSignal
+  commentId: T:NationalInstruments.DAQmx.ExportSignal
+  parent: NationalInstruments.DAQmx
+  isExternal: true
+  name: ExportSignal
+  nameWithType: ExportSignal
+  fullName: NationalInstruments.DAQmx.ExportSignal
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  commentId: T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  parent: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: ISemiconductorModuleContext
+  nameWithType: ISemiconductorModuleContext
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTaskInformation_GenerateInstrumentChannelToSitePinDictionary_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_
+  name: GenerateInstrumentChannelToSitePinDictionary
+  nameWithType: DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  commentId: N:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  nameWithType: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.Task*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.Task
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.Task.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTaskInformation_Task
+  name: Task
+  nameWithType: DAQmxTaskInformation.Task
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.Task
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelList*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelList
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelList.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTaskInformation_ChannelList
+  name: ChannelList
+  nameWithType: DAQmxTaskInformation.ChannelList
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelList
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.TaskType*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.TaskType
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.TaskType.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTaskInformation_TaskType
+  name: TaskType
+  nameWithType: DAQmxTaskInformation.TaskType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.TaskType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType.html
+  name: DAQmxTaskType
+  nameWithType: DAQmxTaskType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelType*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelType
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelType.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTaskInformation_ChannelType
+  name: ChannelType
+  nameWithType: DAQmxTaskInformation.ChannelType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.ChannelType
+- uid: NationalInstruments.DAQmx.ChannelType
+  commentId: T:NationalInstruments.DAQmx.ChannelType
+  parent: NationalInstruments.DAQmx
+  isExternal: true
+  name: ChannelType
+  nameWithType: ChannelType
+  fullName: NationalInstruments.DAQmx.ChannelType
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  name: SitePinInfo
+  nameWithType: SitePinInfo
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.AssociatedSitePinList*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.AssociatedSitePinList
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.AssociatedSitePinList.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTaskInformation_AssociatedSitePinList
+  name: AssociatedSitePinList
+  nameWithType: DAQmxTaskInformation.AssociatedSitePinList
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.AssociatedSitePinList
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_ISessionInformation_AssociatedSitePinList
+  name: AssociatedSitePinList
+  nameWithType: ISessionInformation.AssociatedSitePinList
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList
+memberLayout: SeparatePages

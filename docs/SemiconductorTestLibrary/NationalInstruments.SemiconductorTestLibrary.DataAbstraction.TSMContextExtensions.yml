@@ -1,0 +1,976 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  id: TSMContextExtensions
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0[])
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0},System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.Boolean)
+  langs:
+  - csharp
+  - vb
+  name: TSMContextExtensions
+  nameWithType: TSMContextExtensions
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/TSMContextExtensions.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Defines extension methods for <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static class TSMContextExtensions
+    content.vb: Public Module TSMContextExtensions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0)
+  id: NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  langs:
+  - csharp
+  - vb
+  name: NewSiteData<T>(ISemiconductorModuleContext, T)
+  nameWithType: TSMContextExtensions.NewSiteData<T>(ISemiconductorModuleContext, T)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/TSMContextExtensions.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Creates a new <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object with the same value for all sites.
+  remarks: >-
+    <p>Example Usage:</p>
+
+    <example>
+      <pre><code class="lang-csharp">var data = tsmContext.NewSiteData(4.0);</code></pre>
+    </example>
+  example: []
+  syntax:
+    content: public static SiteData<T> NewSiteData<T>(this ISemiconductorModuleContext tsmContext, T value)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: value
+      type: '{T}'
+      description: Value to apply to all sites.
+    typeParameters:
+    - id: T
+      description: Data Type of value to use with <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: A new <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Function NewSiteData(Of T)(tsmContext As ISemiconductorModuleContext, value As T) As SiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData*
+  nameWithType.vb: TSMContextExtensions.NewSiteData(Of T)(ISemiconductorModuleContext, T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T)
+  name.vb: NewSiteData(Of T)(ISemiconductorModuleContext, T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0[])
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0[])
+  id: NewSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0[])
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  langs:
+  - csharp
+  - vb
+  name: NewSiteData<T>(ISemiconductorModuleContext, T[])
+  nameWithType: TSMContextExtensions.NewSiteData<T>(ISemiconductorModuleContext, T[])
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T[])
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/TSMContextExtensions.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Creates a new <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object with unique values for all sites.
+  remarks: >-
+    Note: the number of elements in value must equal to number of sites in <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref>.
+
+    <p>Example Usage:</p><example>
+                                  <pre><code class="lang-csharp">var data = tsmContext.NewSiteData(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0 });</code></pre></example>
+  example: []
+  syntax:
+    content: public static SiteData<T> NewSiteData<T>(this ISemiconductorModuleContext tsmContext, T[] values)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: values
+      type: '{T}[]'
+      description: Values to apply to each site.
+    typeParameters:
+    - id: T
+      description: Data Type of value to use with <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: A new <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Function NewSiteData(Of T)(tsmContext As ISemiconductorModuleContext, values As T()) As SiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData*
+  nameWithType.vb: TSMContextExtensions.NewSiteData(Of T)(ISemiconductorModuleContext, T())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T())
+  name.vb: NewSiteData(Of T)(ISemiconductorModuleContext, T())
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.Boolean)
+  id: SetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  langs:
+  - csharp
+  - vb
+  name: SetGlobalSiteData<T>(ISemiconductorModuleContext, string, SiteData<T>, bool)
+  nameWithType: TSMContextExtensions.SetGlobalSiteData<T>(ISemiconductorModuleContext, string, SiteData<T>, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>, bool)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/TSMContextExtensions.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: >-
+    Associates a data item with a dataId. Use this method to store a SiteData object you initialize in one location and access later in a downstream location
+
+    using the <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData%60%601(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext%2cSystem.String%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> method.
+  example: []
+  syntax:
+    content: public static void SetGlobalSiteData<T>(this ISemiconductorModuleContext tsmContext, string dataId, SiteData<T> siteData, bool overrideIfExisting = true)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: dataId
+      type: System.String
+      description: A unique ID to distinguish the data.
+    - id: siteData
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: A data item to store and later retrieve using the specified dataId. If the data item is null, the method deletes the data with the specified dataId if it exists.
+    - id: overrideIfExisting
+      type: System.Boolean
+      description: Specifies whether to override the existing data for a specific site with data from the given SiteData object.
+    typeParameters:
+    - id: T
+      description: Data type of value to use with <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Sub SetGlobalSiteData(Of T)(tsmContext As ISemiconductorModuleContext, dataId As String, siteData As SiteData(Of T), overrideIfExisting As Boolean = True)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData*
+  exceptions:
+  - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    description: Thrown when data for a specific site already exists but <code class="paramref">overrideIfExisting</code> is set to false.
+  nameWithType.vb: TSMContextExtensions.SetGlobalSiteData(Of T)(ISemiconductorModuleContext, String, SiteData(Of T), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T), Boolean)
+  name.vb: SetGlobalSiteData(Of T)(ISemiconductorModuleContext, String, SiteData(Of T), Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  id: GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  langs:
+  - csharp
+  - vb
+  name: GetGlobalSiteData<T>(ISemiconductorModuleContext, string, bool)
+  nameWithType: TSMContextExtensions.GetGlobalSiteData<T>(ISemiconductorModuleContext, string, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, bool)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/TSMContextExtensions.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: >-
+    Gets a SiteData object previously stored by the SetGlobalSiteData&lt;T&gt;(ISemiconductorModuleContext, string, SiteData&lt;T&gt;) method.
+
+    The global data item is filtered for sites in <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> before return when <code class="paramref">filterForActiveSites</code> is set to true.
+  example: []
+  syntax:
+    content: public static SiteData<T> GetGlobalSiteData<T>(this ISemiconductorModuleContext tsmContext, string dataId, bool filterForActiveSites = true)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: dataId
+      type: System.String
+      description: A unique ID to distinguish the data. This parameter must match a value you specify in a call to the SetGlobalSiteData method.
+    - id: filterForActiveSites
+      type: System.Boolean
+      description: Determines whether to filter the global data item for sites in <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref>.
+    typeParameters:
+    - id: T
+      description: Data type of value to use with <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: The global SiteData item that is previously stored.
+    content.vb: Public Shared Function GetGlobalSiteData(Of T)(tsmContext As ISemiconductorModuleContext, dataId As String, filterForActiveSites As Boolean = True) As SiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData*
+  exceptions:
+  - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    description: Thrown when the stored SiteData object does not contain value for a specific site in <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref>.
+  nameWithType.vb: TSMContextExtensions.GetGlobalSiteData(Of T)(ISemiconductorModuleContext, String, Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String, Boolean)
+  name.vb: GetGlobalSiteData(Of T)(ISemiconductorModuleContext, String, Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0},System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0},System.Boolean)
+  id: SetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0},System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  langs:
+  - csharp
+  - vb
+  name: SetGlobalPinSiteData<T>(ISemiconductorModuleContext, string, PinSiteData<T>, bool)
+  nameWithType: TSMContextExtensions.SetGlobalPinSiteData<T>(ISemiconductorModuleContext, string, PinSiteData<T>, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, bool)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/TSMContextExtensions.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: >-
+    Associates a data item with a dataId. Use this method to store a PinSiteData object you initialize in one location and access later in a downstream location
+
+    using the <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData%60%601(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext%2cSystem.String%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> method.
+  example: []
+  syntax:
+    content: public static void SetGlobalPinSiteData<T>(this ISemiconductorModuleContext tsmContext, string dataId, PinSiteData<T> pinSiteData, bool overrideIfExisting = true)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: dataId
+      type: System.String
+      description: A unique ID to distinguish the data.
+    - id: pinSiteData
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{T}}
+      description: A data item to store and later retrieve using the specified dataId. If the data item is null, the method deletes the data with the specified dataId if it exists.
+    - id: overrideIfExisting
+      type: System.Boolean
+      description: Specifies whether to override the existing data for a specific pin-site pair with that in the given PinSiteData object.
+    typeParameters:
+    - id: T
+      description: Data type of value to use with <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Shared Sub SetGlobalPinSiteData(Of T)(tsmContext As ISemiconductorModuleContext, dataId As String, pinSiteData As PinSiteData(Of T), overrideIfExisting As Boolean = True)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData*
+  exceptions:
+  - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    description: Thrown when data for a specific pin-site pair already exists but <code class="paramref">overrideIfExisting</code> is set to false.
+  nameWithType.vb: TSMContextExtensions.SetGlobalPinSiteData(Of T)(ISemiconductorModuleContext, String, PinSiteData(Of T), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T), Boolean)
+  name.vb: SetGlobalPinSiteData(Of T)(ISemiconductorModuleContext, String, PinSiteData(Of T), Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  id: GetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions
+  langs:
+  - csharp
+  - vb
+  name: GetGlobalPinSiteData<T>(ISemiconductorModuleContext, string, bool)
+  nameWithType: TSMContextExtensions.GetGlobalPinSiteData<T>(ISemiconductorModuleContext, string, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, bool)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/TSMContextExtensions.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: >-
+    Gets a PinSiteData object previously stored by the SetGlobalPinSiteData&lt;T&gt;(ISemiconductorModuleContext, string, PinSiteData&lt;T&gt;) method.
+
+    The global data item is filtered for sites in <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> before return when <code class="paramref">filterForActiveSites</code> is set to true.
+  example: []
+  syntax:
+    content: public static PinSiteData<T> GetGlobalPinSiteData<T>(this ISemiconductorModuleContext tsmContext, string dataId, bool filterForActiveSites = true)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: dataId
+      type: System.String
+      description: A unique ID to distinguish the data. This parameter must match a value you specify in a call to the SetGlobalPinSiteData method.
+    - id: filterForActiveSites
+      type: System.Boolean
+      description: Determines whether to filter the global data item for sites in <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref>.
+    typeParameters:
+    - id: T
+      description: Data type of value to use with <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> object.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{T}}
+      description: The global PinSiteData item that is previously stored.
+    content.vb: Public Shared Function GetGlobalPinSiteData(Of T)(tsmContext As ISemiconductorModuleContext, dataId As String, filterForActiveSites As Boolean = True) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData*
+  exceptions:
+  - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    description: Thrown when the stored PinSiteData object does not contain value for a specific site in <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref>.
+  nameWithType.vb: TSMContextExtensions.GetGlobalPinSiteData(Of T)(ISemiconductorModuleContext, String, Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String, Boolean)
+  name.vb: GetGlobalPinSiteData(Of T)(ISemiconductorModuleContext, String, Boolean)
+references:
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  commentId: T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  parent: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: ISemiconductorModuleContext
+  nameWithType: ISemiconductorModuleContext
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  commentId: N:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  nameWithType: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_NewSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext___0_
+  name: NewSiteData
+  nameWithType: TSMContextExtensions.NewSiteData
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.NewSiteData
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: '{T}[]'
+  isExternal: true
+  name: T[]
+  nameWithType: T[]
+  fullName: T[]
+  nameWithType.vb: T()
+  fullName.vb: T()
+  name.vb: T()
+  spec.csharp:
+  - name: T
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: T
+  - name: (
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_GetGlobalSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_System_Boolean_
+  name: GetGlobalSiteData<T>(ISemiconductorModuleContext, string, bool)
+  nameWithType: TSMContextExtensions.GetGlobalSiteData<T>(ISemiconductorModuleContext, string, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, bool)
+  nameWithType.vb: TSMContextExtensions.GetGlobalSiteData(Of T)(ISemiconductorModuleContext, String, Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String, Boolean)
+  name.vb: GetGlobalSiteData(Of T)(ISemiconductorModuleContext, String, Boolean)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+    name: GetGlobalSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_GetGlobalSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_System_Boolean_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+    name: ISemiconductorModuleContext
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+    name: GetGlobalSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_GetGlobalSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_System_Boolean_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+    name: ISemiconductorModuleContext
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.html
+  name: NISemiconductorTestException
+  nameWithType: NISemiconductorTestException
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_SetGlobalSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__System_Boolean_
+  name: SetGlobalSiteData
+  nameWithType: TSMContextExtensions.SetGlobalSiteData
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_GetGlobalSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_System_Boolean_
+  name: GetGlobalSiteData
+  nameWithType: TSMContextExtensions.GetGlobalSiteData
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_GetGlobalPinSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_System_Boolean_
+  name: GetGlobalPinSiteData<T>(ISemiconductorModuleContext, string, bool)
+  nameWithType: TSMContextExtensions.GetGlobalPinSiteData<T>(ISemiconductorModuleContext, string, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, string, bool)
+  nameWithType.vb: TSMContextExtensions.GetGlobalPinSiteData(Of T)(ISemiconductorModuleContext, String, Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, String, Boolean)
+  name.vb: GetGlobalPinSiteData(Of T)(ISemiconductorModuleContext, String, Boolean)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+    name: GetGlobalPinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_GetGlobalPinSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_System_Boolean_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+    name: ISemiconductorModuleContext
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)
+    name: GetGlobalPinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_GetGlobalPinSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_System_Boolean_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+    name: ISemiconductorModuleContext
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_SetGlobalPinSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData___0__System_Boolean_
+  name: SetGlobalPinSiteData
+  nameWithType: TSMContextExtensions.SetGlobalPinSiteData
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{T}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_TSMContextExtensions_GetGlobalPinSiteData__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_System_String_System_Boolean_
+  name: GetGlobalPinSiteData
+  nameWithType: TSMContextExtensions.GetGlobalPinSiteData
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData
+memberLayout: SeparatePages

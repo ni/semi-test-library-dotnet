@@ -1,0 +1,716 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  id: NISemiconductorTestException
+  parent: NationalInstruments.SemiconductorTestLibrary.Common
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor
+  - NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.Int32,System.Exception)
+  - NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.String)
+  - NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.String,System.Exception)
+  - NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.Throw(System.Exception)
+  langs:
+  - csharp
+  - vb
+  name: NISemiconductorTestException
+  nameWithType: NISemiconductorTestException
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Defines a specific exception for NI Semiconductor Test Library.
+  example: []
+  syntax:
+    content: 'public sealed class NISemiconductorTestException : Exception, ISerializable, _Exception'
+    content.vb: Public NotInheritable Class NISemiconductorTestException Inherits Exception Implements ISerializable, _Exception
+  inheritance:
+  - System.Object
+  - System.Exception
+  implements:
+  - System.Runtime.Serialization.ISerializable
+  - System.Runtime.InteropServices._Exception
+  inheritedMembers:
+  - System.Exception.GetBaseException
+  - System.Exception.ToString
+  - System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  - System.Exception.GetType
+  - System.Exception.Message
+  - System.Exception.Data
+  - System.Exception.InnerException
+  - System.Exception.TargetSite
+  - System.Exception.StackTrace
+  - System.Exception.HelpLink
+  - System.Exception.Source
+  - System.Exception.HResult
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor
+  id: '#ctor'
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  langs:
+  - csharp
+  - vb
+  name: NISemiconductorTestException()
+  nameWithType: NISemiconductorTestException.NISemiconductorTestException()
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.NISemiconductorTestException()
+  type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Initializes a new instance of the <xref href="NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public NISemiconductorTestException()
+    content.vb: Public Sub New()
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor*
+  nameWithType.vb: NISemiconductorTestException.New()
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.New()
+  name.vb: New()
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  langs:
+  - csharp
+  - vb
+  name: NISemiconductorTestException(string)
+  nameWithType: NISemiconductorTestException.NISemiconductorTestException(string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.NISemiconductorTestException(string)
+  type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Initializes a new instance of the <xref href="NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException" data-throw-if-not-resolved="false"></xref> class with an error message.
+  example: []
+  syntax:
+    content: public NISemiconductorTestException(string message)
+    parameters:
+    - id: message
+      type: System.String
+      description: The error message that explains the reason for the exception.
+    content.vb: Public Sub New(message As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor*
+  nameWithType.vb: NISemiconductorTestException.New(String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.New(String)
+  name.vb: New(String)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.String,System.Exception)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.String,System.Exception)
+  id: '#ctor(System.String,System.Exception)'
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  langs:
+  - csharp
+  - vb
+  name: NISemiconductorTestException(string, Exception)
+  nameWithType: NISemiconductorTestException.NISemiconductorTestException(string, Exception)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.NISemiconductorTestException(string, System.Exception)
+  type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Initializes a new instance of the <xref href="NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException" data-throw-if-not-resolved="false"></xref> class with an error message and a reference to the inner exception resulting in this exception.
+  example: []
+  syntax:
+    content: public NISemiconductorTestException(string message, Exception innerException)
+    parameters:
+    - id: message
+      type: System.String
+      description: The error message that explains the reason for the exception.
+    - id: innerException
+      type: System.Exception
+      description: The exception resulting in the current exception.
+    content.vb: Public Sub New(message As String, innerException As Exception)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor*
+  nameWithType.vb: NISemiconductorTestException.New(String, Exception)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.New(String, System.Exception)
+  name.vb: New(String, Exception)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.Int32,System.Exception)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor(System.Int32,System.Exception)
+  id: '#ctor(System.Int32,System.Exception)'
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  langs:
+  - csharp
+  - vb
+  name: NISemiconductorTestException(int, Exception)
+  nameWithType: NISemiconductorTestException.NISemiconductorTestException(int, Exception)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.NISemiconductorTestException(int, System.Exception)
+  type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Initializes an instance of <xref href="NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException" data-throw-if-not-resolved="false"></xref> with an error code and an inner exception.
+  example: []
+  syntax:
+    content: public NISemiconductorTestException(int errorCode, Exception innerException)
+    parameters:
+    - id: errorCode
+      type: System.Int32
+      description: The error code to be included.
+    - id: innerException
+      type: System.Exception
+      description: The exception to be embedded.
+    content.vb: Public Sub New(errorCode As Integer, innerException As Exception)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor*
+  nameWithType.vb: NISemiconductorTestException.New(Integer, Exception)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.New(Integer, System.Exception)
+  name.vb: New(Integer, Exception)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.Throw(System.Exception)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.Throw(System.Exception)
+  id: Throw(System.Exception)
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  langs:
+  - csharp
+  - vb
+  name: Throw(Exception)
+  nameWithType: NISemiconductorTestException.Throw(Exception)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.Throw(System.Exception)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/NISemiconductorTestException.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Wraps an exception into a <xref href="NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException" data-throw-if-not-resolved="false"></xref> and throws.
+  example: []
+  syntax:
+    content: public static void Throw(Exception e)
+    parameters:
+    - id: e
+      type: System.Exception
+      description: The exception to be wrapped.
+    content.vb: Public Shared Sub [Throw](e As Exception)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.Throw*
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.Common
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.Common
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.Common
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.Common
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common
+    name: Common
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common
+    name: Common
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Exception
+  commentId: T:System.Exception
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception
+  name: Exception
+  nameWithType: Exception
+  fullName: System.Exception
+- uid: System.Runtime.Serialization.ISerializable
+  commentId: T:System.Runtime.Serialization.ISerializable
+  parent: System.Runtime.Serialization
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization.iserializable
+  name: ISerializable
+  nameWithType: ISerializable
+  fullName: System.Runtime.Serialization.ISerializable
+- uid: System.Runtime.InteropServices._Exception
+  commentId: T:System.Runtime.InteropServices._Exception
+  parent: System.Runtime.InteropServices
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.interopservices._exception
+  name: _Exception
+  nameWithType: _Exception
+  fullName: System.Runtime.InteropServices._Exception
+- uid: System.Exception.GetBaseException
+  commentId: M:System.Exception.GetBaseException
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.getbaseexception
+  name: GetBaseException()
+  nameWithType: Exception.GetBaseException()
+  fullName: System.Exception.GetBaseException()
+  spec.csharp:
+  - uid: System.Exception.GetBaseException
+    name: GetBaseException
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.getbaseexception
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Exception.GetBaseException
+    name: GetBaseException
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.getbaseexception
+  - name: (
+  - name: )
+- uid: System.Exception.ToString
+  commentId: M:System.Exception.ToString
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.tostring
+  name: ToString()
+  nameWithType: Exception.ToString()
+  fullName: System.Exception.ToString()
+  spec.csharp:
+  - uid: System.Exception.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Exception.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.tostring
+  - name: (
+  - name: )
+- uid: System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  commentId: M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.getobjectdata
+  name: GetObjectData(SerializationInfo, StreamingContext)
+  nameWithType: Exception.GetObjectData(SerializationInfo, StreamingContext)
+  fullName: System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  spec.csharp:
+  - uid: System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+    name: GetObjectData
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.getobjectdata
+  - name: (
+  - uid: System.Runtime.Serialization.SerializationInfo
+    name: SerializationInfo
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization.serializationinfo
+  - name: ','
+  - name: " "
+  - uid: System.Runtime.Serialization.StreamingContext
+    name: StreamingContext
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization.streamingcontext
+  - name: )
+  spec.vb:
+  - uid: System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+    name: GetObjectData
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.getobjectdata
+  - name: (
+  - uid: System.Runtime.Serialization.SerializationInfo
+    name: SerializationInfo
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization.serializationinfo
+  - name: ','
+  - name: " "
+  - uid: System.Runtime.Serialization.StreamingContext
+    name: StreamingContext
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization.streamingcontext
+  - name: )
+- uid: System.Exception.GetType
+  commentId: M:System.Exception.GetType
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.gettype
+  name: GetType()
+  nameWithType: Exception.GetType()
+  fullName: System.Exception.GetType()
+  spec.csharp:
+  - uid: System.Exception.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Exception.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception.gettype
+  - name: (
+  - name: )
+- uid: System.Exception.Message
+  commentId: P:System.Exception.Message
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.message
+  name: Message
+  nameWithType: Exception.Message
+  fullName: System.Exception.Message
+- uid: System.Exception.Data
+  commentId: P:System.Exception.Data
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.data
+  name: Data
+  nameWithType: Exception.Data
+  fullName: System.Exception.Data
+- uid: System.Exception.InnerException
+  commentId: P:System.Exception.InnerException
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.innerexception
+  name: InnerException
+  nameWithType: Exception.InnerException
+  fullName: System.Exception.InnerException
+- uid: System.Exception.TargetSite
+  commentId: P:System.Exception.TargetSite
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.targetsite
+  name: TargetSite
+  nameWithType: Exception.TargetSite
+  fullName: System.Exception.TargetSite
+- uid: System.Exception.StackTrace
+  commentId: P:System.Exception.StackTrace
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.stacktrace
+  name: StackTrace
+  nameWithType: Exception.StackTrace
+  fullName: System.Exception.StackTrace
+- uid: System.Exception.HelpLink
+  commentId: P:System.Exception.HelpLink
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.helplink
+  name: HelpLink
+  nameWithType: Exception.HelpLink
+  fullName: System.Exception.HelpLink
+- uid: System.Exception.Source
+  commentId: P:System.Exception.Source
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.source
+  name: Source
+  nameWithType: Exception.Source
+  fullName: System.Exception.Source
+- uid: System.Exception.HResult
+  commentId: P:System.Exception.HResult
+  parent: System.Exception
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception.hresult
+  name: HResult
+  nameWithType: Exception.HResult
+  fullName: System.Exception.HResult
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Runtime.Serialization
+  commentId: N:System.Runtime.Serialization
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Runtime.Serialization
+  nameWithType: System.Runtime.Serialization
+  fullName: System.Runtime.Serialization
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Runtime
+    name: Runtime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime
+  - name: .
+  - uid: System.Runtime.Serialization
+    name: Serialization
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Runtime
+    name: Runtime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime
+  - name: .
+  - uid: System.Runtime.Serialization
+    name: Serialization
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization
+- uid: System.Runtime.InteropServices
+  commentId: N:System.Runtime.InteropServices
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Runtime.InteropServices
+  nameWithType: System.Runtime.InteropServices
+  fullName: System.Runtime.InteropServices
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Runtime
+    name: Runtime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime
+  - name: .
+  - uid: System.Runtime.InteropServices
+    name: InteropServices
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.interopservices
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Runtime
+    name: Runtime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime
+  - name: .
+  - uid: System.Runtime.InteropServices
+    name: InteropServices
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.interopservices
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.html
+  name: NISemiconductorTestException
+  nameWithType: NISemiconductorTestException
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.#ctor
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.-ctor.html#NationalInstruments_SemiconductorTestLibrary_Common_NISemiconductorTestException__ctor
+  name: NISemiconductorTestException
+  nameWithType: NISemiconductorTestException.NISemiconductorTestException
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.NISemiconductorTestException
+  nameWithType.vb: NISemiconductorTestException.New
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.Throw*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.Throw
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.Throw.html#NationalInstruments_SemiconductorTestLibrary_Common_NISemiconductorTestException_Throw_System_Exception_
+  name: Throw
+  nameWithType: NISemiconductorTestException.Throw
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.Throw
+memberLayout: SeparatePages

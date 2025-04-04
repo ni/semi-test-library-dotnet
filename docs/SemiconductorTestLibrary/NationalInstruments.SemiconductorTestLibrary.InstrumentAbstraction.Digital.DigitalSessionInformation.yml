@@ -1,0 +1,981 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  id: DigitalSessionInformation
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.String)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSet
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString
+  langs:
+  - csharp
+  - vb
+  name: DigitalSessionInformation
+  nameWithType: DigitalSessionInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Defines an object that contains an individual <xref href="NationalInstruments.ModularInstruments.NIDigital.NIDigital" data-throw-if-not-resolved="false"></xref> session and its related information.
+  example: []
+  syntax:
+    content: 'public class DigitalSessionInformation : ISessionInformation'
+    content.vb: Public Class DigitalSessionInformation Implements ISessionInformation
+  inheritance:
+  - System.Object
+  implements:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.String)
+  id: '#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.String)'
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  langs:
+  - csharp
+  - vb
+  name: DigitalSessionInformation(NIDigital, string, string)
+  nameWithType: DigitalSessionInformation.DigitalSessionInformation(NIDigital, string, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.DigitalSessionInformation(NationalInstruments.ModularInstruments.NIDigital.NIDigital, string, string)
+  type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Constructs a session information object that associates with a <xref href="NationalInstruments.ModularInstruments.NIDigital.NIDigital" data-throw-if-not-resolved="false"></xref> instrument session.
+  example: []
+  syntax:
+    content: public DigitalSessionInformation(NIDigital session, string pinSetString, string siteList)
+    parameters:
+    - id: session
+      type: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+      description: The <xref href="NationalInstruments.ModularInstruments.NIDigital.NIDigital" data-throw-if-not-resolved="false"></xref> session.
+    - id: pinSetString
+      type: System.String
+      description: The pin set string associated with the <xref href="NationalInstruments.ModularInstruments.NIDigital.NIDigital" data-throw-if-not-resolved="false"></xref> session.
+    - id: siteList
+      type: System.String
+      description: The site list associated with the <xref href="NationalInstruments.ModularInstruments.NIDigital.NIDigital" data-throw-if-not-resolved="false"></xref> session.
+    content.vb: Public Sub New(session As NIDigital, pinSetString As String, siteList As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor*
+  nameWithType.vb: DigitalSessionInformation.New(NIDigital, String, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.New(NationalInstruments.ModularInstruments.NIDigital.NIDigital, String, String)
+  name.vb: New(NIDigital, String, String)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})
+  id: '#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})'
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  langs:
+  - csharp
+  - vb
+  name: DigitalSessionInformation(NIDigital, IList<SitePinInfo>)
+  nameWithType: DigitalSessionInformation.DigitalSessionInformation(NIDigital, IList<SitePinInfo>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.DigitalSessionInformation(NationalInstruments.ModularInstruments.NIDigital.NIDigital, System.Collections.Generic.IList<NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo>)
+  type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Constructs a session information object.
+  example: []
+  syntax:
+    content: public DigitalSessionInformation(NIDigital session, IList<SitePinInfo> associatedSitePinList)
+    parameters:
+    - id: session
+      type: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+      description: The <xref href="NationalInstruments.ModularInstruments.NIDigital.NIDigital" data-throw-if-not-resolved="false"></xref> session.
+    - id: associatedSitePinList
+      type: System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+      description: The specified subset of channels associated with the session.
+    content.vb: Public Sub New(session As NIDigital, associatedSitePinList As IList(Of SitePinInfo))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor*
+  nameWithType.vb: DigitalSessionInformation.New(NIDigital, IList(Of SitePinInfo))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.New(NationalInstruments.ModularInstruments.NIDigital.NIDigital, System.Collections.Generic.IList(Of NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo))
+  name.vb: New(NIDigital, IList(Of SitePinInfo))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings
+  id: GetPerSitePinSetStrings
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  langs:
+  - csharp
+  - vb
+  name: GetPerSitePinSetStrings()
+  nameWithType: DigitalSessionInformation.GetPerSitePinSetStrings()
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings()
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Gets pin set strings on per-site basis.
+  example: []
+  syntax:
+    content: public IDictionary<string, string> GetPerSitePinSetStrings()
+    return:
+      type: System.Collections.Generic.IDictionary{System.String,System.String}
+      description: A dictionary that contains per-site pin set strings.
+    content.vb: Public Function GetPerSitePinSetStrings() As IDictionary(Of String, String)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session
+  id: Session
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  langs:
+  - csharp
+  - vb
+  name: Session
+  nameWithType: DigitalSessionInformation.Session
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session
+  type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The <xref href="NationalInstruments.ModularInstruments.NIDigital.NIDigital" data-throw-if-not-resolved="false"></xref> session.
+  example: []
+  syntax:
+    content: public NIDigital Session { get; }
+    parameters: []
+    return:
+      type: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+    content.vb: Public ReadOnly Property Session As NIDigital
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString
+  id: PinSetString
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  langs:
+  - csharp
+  - vb
+  name: PinSetString
+  nameWithType: DigitalSessionInformation.PinSetString
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString
+  type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The pin set string associated with the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session" data-throw-if-not-resolved="false"></xref>.
+  remarks: It's a comma-separated string of site-pin pairs, e.g. "site0/A, site0/B".
+  example: []
+  syntax:
+    content: public string PinSetString { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property PinSetString As String
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString
+  id: SiteListString
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  langs:
+  - csharp
+  - vb
+  name: SiteListString
+  nameWithType: DigitalSessionInformation.SiteListString
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString
+  type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The site list string associated with the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session" data-throw-if-not-resolved="false"></xref>.
+  remarks: It's a comma-separated string of sites, e.g. "site0, site1".
+  example: []
+  syntax:
+    content: public string SiteListString { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property SiteListString As String
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSet
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSet
+  id: PinSet
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  langs:
+  - csharp
+  - vb
+  name: PinSet
+  nameWithType: DigitalSessionInformation.PinSet
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSet
+  type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The <xref href="NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet" data-throw-if-not-resolved="false"></xref> according to <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString" data-throw-if-not-resolved="false"></xref> on the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public DigitalPinSet PinSet { get; }
+    parameters: []
+    return:
+      type: NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet
+    content.vb: Public ReadOnly Property PinSet As DigitalPinSet
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSet*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList
+  id: AssociatedSitePinList
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  langs:
+  - csharp
+  - vb
+  name: AssociatedSitePinList
+  nameWithType: DigitalSessionInformation.AssociatedSitePinList
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList
+  type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The pin set info corresponding to <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString" data-throw-if-not-resolved="false"></xref> in a more accessible format.
+  example: []
+  syntax:
+    content: public IList<SitePinInfo> AssociatedSitePinList { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+    content.vb: Public ReadOnly Property AssociatedSitePinList As IList(Of SitePinInfo)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList*
+  implements:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList
+  id: AssociatedSiteList
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation
+  langs:
+  - csharp
+  - vb
+  name: AssociatedSiteList
+  nameWithType: DigitalSessionInformation.AssociatedSiteList
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList
+  type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Digital/DigitalSessionInformation.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: The site numbers corresponding to <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString" data-throw-if-not-resolved="false"></xref> in a more accessible format.
+  example: []
+  syntax:
+    content: public IList<int> AssociatedSiteList { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IList{System.Int32}
+    content.vb: Public ReadOnly Property AssociatedSiteList As IList(Of Integer)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList*
+references:
+- uid: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+  commentId: T:NationalInstruments.ModularInstruments.NIDigital.NIDigital
+  parent: NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: NIDigital
+  nameWithType: NIDigital
+  fullName: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+    name: Digital
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+    name: Digital
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.html
+  name: ISessionInformation
+  nameWithType: ISessionInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: NationalInstruments.ModularInstruments.NIDigital
+  commentId: N:NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: NationalInstruments.ModularInstruments.NIDigital
+  nameWithType: NationalInstruments.ModularInstruments.NIDigital
+  fullName: NationalInstruments.ModularInstruments.NIDigital
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments
+    name: ModularInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments.NIDigital
+    name: NIDigital
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments
+    name: ModularInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments.NIDigital
+    name: NIDigital
+    isExternal: true
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.-ctor.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionInformation__ctor_NationalInstruments_ModularInstruments_NIDigital_NIDigital_System_String_System_String_
+  name: DigitalSessionInformation
+  nameWithType: DigitalSessionInformation.DigitalSessionInformation
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.DigitalSessionInformation
+  nameWithType.vb: DigitalSessionInformation.New
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+  commentId: T:System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  name: IList<SitePinInfo>
+  nameWithType: IList<SitePinInfo>
+  fullName: System.Collections.Generic.IList<NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo>
+  nameWithType.vb: IList(Of SitePinInfo)
+  fullName.vb: System.Collections.Generic.IList(Of NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo)
+  name.vb: IList(Of SitePinInfo)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: <
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+    name: SitePinInfo
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo
+    name: SitePinInfo
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html
+  - name: )
+- uid: System.Collections.Generic.IList`1
+  commentId: T:System.Collections.Generic.IList`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  name: IList<T>
+  nameWithType: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  nameWithType.vb: IList(Of T)
+  fullName.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionInformation_GetPerSitePinSetStrings
+  name: GetPerSitePinSetStrings
+  nameWithType: DigitalSessionInformation.GetPerSitePinSetStrings
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings
+- uid: System.Collections.Generic.IDictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.IDictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<string, string>
+  nameWithType: IDictionary<string, string>
+  fullName: System.Collections.Generic.IDictionary<string, string>
+  nameWithType.vb: IDictionary(Of String, String)
+  fullName.vb: System.Collections.Generic.IDictionary(Of String, String)
+  name.vb: IDictionary(Of String, String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.IDictionary`2
+  commentId: T:System.Collections.Generic.IDictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<TKey, TValue>
+  nameWithType: IDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
+  nameWithType.vb: IDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
+  name.vb: IDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionInformation_Session
+  name: Session
+  nameWithType: DigitalSessionInformation.Session
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionInformation_Session
+  name: Session
+  nameWithType: DigitalSessionInformation.Session
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionInformation_PinSetString
+  name: PinSetString
+  nameWithType: DigitalSessionInformation.PinSetString
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionInformation_SiteListString
+  name: SiteListString
+  nameWithType: DigitalSessionInformation.SiteListString
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString
+- uid: NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet
+  commentId: T:NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet
+  parent: NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: DigitalPinSet
+  nameWithType: DigitalPinSet
+  fullName: NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionInformation_PinSetString
+  name: PinSetString
+  nameWithType: DigitalSessionInformation.PinSetString
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSet*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSet
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSet.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionInformation_PinSet
+  name: PinSet
+  nameWithType: DigitalSessionInformation.PinSet
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSet
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionInformation_AssociatedSitePinList
+  name: AssociatedSitePinList
+  nameWithType: DigitalSessionInformation.AssociatedSitePinList
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_ISessionInformation_AssociatedSitePinList
+  name: AssociatedSitePinList
+  nameWithType: ISessionInformation.AssociatedSitePinList
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation.AssociatedSitePinList
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString
+  commentId: P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionInformation_SiteListString
+  name: SiteListString
+  nameWithType: DigitalSessionInformation.SiteListString
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionInformation_AssociatedSiteList
+  name: AssociatedSiteList
+  nameWithType: DigitalSessionInformation.AssociatedSiteList
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList
+- uid: System.Collections.Generic.IList{System.Int32}
+  commentId: T:System.Collections.Generic.IList{System.Int32}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  name: IList<int>
+  nameWithType: IList<int>
+  fullName: System.Collections.Generic.IList<int>
+  nameWithType.vb: IList(Of Integer)
+  fullName.vb: System.Collections.Generic.IList(Of Integer)
+  name.vb: IList(Of Integer)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+memberLayout: SeparatePages

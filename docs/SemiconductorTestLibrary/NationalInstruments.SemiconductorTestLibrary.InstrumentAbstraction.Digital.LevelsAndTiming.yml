@@ -1,0 +1,2026 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  id: LevelsAndTiming
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyLevelsAndTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.String)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][])
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTdrEndpointTermination(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTerminationMode(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.ModularInstruments.NIDigital.TerminationMode)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.DriveFormat,System.Double,System.Double,System.Double,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.DriveFormat,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureVoltageLevels(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Double,System.Double,System.Double,System.Double,System.Double)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetDriveFormat(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdgeMultiplier(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,Ivi.Driver.PrecisionTimeSpan[][]@,System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][]@,System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][],System.String)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan},System.String)
+  langs:
+  - csharp
+  - vb
+  name: LevelsAndTiming
+  nameWithType: LevelsAndTiming
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  type: Class
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Defines methods for levels and timing.
+  example: []
+  syntax:
+    content: public static class LevelsAndTiming
+    content.vb: Public Module LevelsAndTiming
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,System.Double)
+  id: ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,System.Double)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureSingleLevel(DigitalSessionsBundle, LevelType, double)
+  nameWithType: LevelsAndTiming.ConfigureSingleLevel(DigitalSessionsBundle, LevelsAndTiming.LevelType, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures a single level. Use this method to configure the same level for all sessions.
+  example: []
+  syntax:
+    content: public static void ConfigureSingleLevel(this DigitalSessionsBundle sessionsBundle, LevelsAndTiming.LevelType levelType, double levelValue)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: levelType
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+      description: The type of level to configure.
+    - id: levelValue
+      type: System.Double
+      description: The value of level to configure.
+    content.vb: Public Shared Sub ConfigureSingleLevel(sessionsBundle As DigitalSessionsBundle, levelType As LevelsAndTiming.LevelType, levelValue As Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel*
+  nameWithType.vb: LevelsAndTiming.ConfigureSingleLevel(DigitalSessionsBundle, LevelsAndTiming.LevelType, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType, Double)
+  name.vb: ConfigureSingleLevel(DigitalSessionsBundle, LevelType, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  id: ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureSingleLevel(DigitalSessionsBundle, LevelType, SiteData<double>)
+  nameWithType: LevelsAndTiming.ConfigureSingleLevel(DigitalSessionsBundle, LevelsAndTiming.LevelType, SiteData<double>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures a single level. Use this method to configure different levels for different sites.
+  example: []
+  syntax:
+    content: public static void ConfigureSingleLevel(this DigitalSessionsBundle sessionsBundle, LevelsAndTiming.LevelType levelType, SiteData<double> perSiteLevelValues)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: levelType
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+      description: The type of level to configure.
+    - id: perSiteLevelValues
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double}
+      description: The per-site value of level to configure.
+    content.vb: Public Shared Sub ConfigureSingleLevel(sessionsBundle As DigitalSessionsBundle, levelType As LevelsAndTiming.LevelType, perSiteLevelValues As SiteData(Of Double))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel*
+  nameWithType.vb: LevelsAndTiming.ConfigureSingleLevel(DigitalSessionsBundle, LevelsAndTiming.LevelType, SiteData(Of Double))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of Double))
+  name.vb: ConfigureSingleLevel(DigitalSessionsBundle, LevelType, SiteData(Of Double))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureVoltageLevels(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Double,System.Double,System.Double,System.Double,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureVoltageLevels(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Double,System.Double,System.Double,System.Double,System.Double)
+  id: ConfigureVoltageLevels(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Double,System.Double,System.Double,System.Double,System.Double)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureVoltageLevels(DigitalSessionsBundle, double, double, double, double, double)
+  nameWithType: LevelsAndTiming.ConfigureVoltageLevels(DigitalSessionsBundle, double, double, double, double, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureVoltageLevels(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, double, double, double, double, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures multiple types of levels.
+  example: []
+  syntax:
+    content: public static void ConfigureVoltageLevels(this DigitalSessionsBundle sessionsBundle, double vil, double vih, double vol, double voh, double vterm)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: vil
+      type: System.Double
+      description: The vil value to configure.
+    - id: vih
+      type: System.Double
+      description: The vih value to configure.
+    - id: vol
+      type: System.Double
+      description: The vol value to configure.
+    - id: voh
+      type: System.Double
+      description: The voh value to configure.
+    - id: vterm
+      type: System.Double
+      description: The vterm value to configure.
+    content.vb: Public Shared Sub ConfigureVoltageLevels(sessionsBundle As DigitalSessionsBundle, vil As Double, vih As Double, vol As Double, voh As Double, vterm As Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureVoltageLevels*
+  nameWithType.vb: LevelsAndTiming.ConfigureVoltageLevels(DigitalSessionsBundle, Double, Double, Double, Double, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureVoltageLevels(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, Double, Double, Double, Double, Double)
+  name.vb: ConfigureVoltageLevels(DigitalSessionsBundle, Double, Double, Double, Double, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTerminationMode(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.ModularInstruments.NIDigital.TerminationMode)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTerminationMode(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.ModularInstruments.NIDigital.TerminationMode)
+  id: ConfigureTerminationMode(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.ModularInstruments.NIDigital.TerminationMode)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureTerminationMode(DigitalSessionsBundle, TerminationMode)
+  nameWithType: LevelsAndTiming.ConfigureTerminationMode(DigitalSessionsBundle, TerminationMode)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTerminationMode(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.ModularInstruments.NIDigital.TerminationMode)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures termination mode.
+  example: []
+  syntax:
+    content: public static void ConfigureTerminationMode(this DigitalSessionsBundle sessionsBundle, TerminationMode terminationMode)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: terminationMode
+      type: NationalInstruments.ModularInstruments.NIDigital.TerminationMode
+      description: The termination mode to configure.
+    content.vb: Public Shared Sub ConfigureTerminationMode(sessionsBundle As DigitalSessionsBundle, terminationMode As TerminationMode)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTerminationMode*
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Double)
+  id: ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Double)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, string, double)
+  nameWithType: LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, string, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures the strobe edge time. Use this method to configure the same strobe edge time to all sessions.
+  example: []
+  syntax:
+    content: public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, double compareEdge)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: The name of the time set.
+    - id: compareEdge
+      type: System.Double
+      description: The strobe edge time to configure.
+    content.vb: Public Shared Sub ConfigureTimeSetCompareEdgesStrobe(sessionsBundle As DigitalSessionsBundle, timeSet As String, compareEdge As Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe*
+  nameWithType.vb: LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, String, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, Double)
+  name.vb: ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, String, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  id: ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, string, SiteData<double>)
+  nameWithType: LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, string, SiteData<double>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures the strobe edge time. Use this method to configure different strobe edge times for different sites.
+  example: []
+  syntax:
+    content: public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, SiteData<double> compareEdges)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: The name of the time set.
+    - id: compareEdges
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double}
+      description: The per-site strobe edge time to configure.
+    content.vb: Public Shared Sub ConfigureTimeSetCompareEdgesStrobe(sessionsBundle As DigitalSessionsBundle, timeSet As String, compareEdges As SiteData(Of Double))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe*
+  nameWithType.vb: LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, String, SiteData(Of Double))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of Double))
+  name.vb: ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, String, SiteData(Of Double))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double})
+  id: ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, string, PinSiteData<double>)
+  nameWithType: LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, string, PinSiteData<double>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures the strobe edge time. Use this method to configure different strobe edge times for different site-pin pairs.
+  example: []
+  syntax:
+    content: public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, PinSiteData<double> compareEdges)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: The name of the time set.
+    - id: compareEdges
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+      description: The strobe edge time for all site-pin pairs to configure.
+    content.vb: Public Shared Sub ConfigureTimeSetCompareEdgesStrobe(sessionsBundle As DigitalSessionsBundle, timeSet As String, compareEdges As PinSiteData(Of Double))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe*
+  nameWithType.vb: LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, String, PinSiteData(Of Double))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Double))
+  name.vb: ConfigureTimeSetCompareEdgesStrobe(DigitalSessionsBundle, String, PinSiteData(Of Double))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Double)
+  id: ConfigureTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Double)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureTimeSetPeriod(DigitalSessionsBundle, string, double)
+  nameWithType: LevelsAndTiming.ConfigureTimeSetPeriod(DigitalSessionsBundle, string, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures the period of a time set.
+  example: []
+  syntax:
+    content: public static void ConfigureTimeSetPeriod(this DigitalSessionsBundle sessionsBundle, string timeSet, double period)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: The name of the time set.
+    - id: period
+      type: System.Double
+      description: The period to configure.
+    content.vb: Public Shared Sub ConfigureTimeSetPeriod(sessionsBundle As DigitalSessionsBundle, timeSet As String, period As Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetPeriod*
+  nameWithType.vb: LevelsAndTiming.ConfigureTimeSetPeriod(DigitalSessionsBundle, String, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, Double)
+  name.vb: ConfigureTimeSetPeriod(DigitalSessionsBundle, String, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.DriveFormat,System.Double,System.Double,System.Double,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.DriveFormat,System.Double,System.Double,System.Double,System.Double)
+  id: ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.DriveFormat,System.Double,System.Double,System.Double,System.Double)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureTimeSetDriveEdges(DigitalSessionsBundle, string, DriveFormat, double, double, double, double)
+  nameWithType: LevelsAndTiming.ConfigureTimeSetDriveEdges(DigitalSessionsBundle, string, DriveFormat, double, double, double, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.ModularInstruments.NIDigital.DriveFormat, double, double, double, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures the drive format and drive edge placement.
+  example: []
+  syntax:
+    content: public static void ConfigureTimeSetDriveEdges(this DigitalSessionsBundle sessionsBundle, string timeSet, DriveFormat format, double driveOn, double driveData, double driveReturn, double driveOff)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: The name of the time set.
+    - id: format
+      type: NationalInstruments.ModularInstruments.NIDigital.DriveFormat
+      description: The drive format of the time set.
+    - id: driveOn
+      type: System.Double
+      description: The delay from the beginning of the vector period for turning on the pin driver.
+    - id: driveData
+      type: System.Double
+      description: The delay from the beginning of the vector period until the pattern data is driven to the pattern value.
+    - id: driveReturn
+      type: System.Double
+      description: The delay from the beginning of the vector period until the pin changes from the pattern data to the return value.
+    - id: driveOff
+      type: System.Double
+      description: The delay from the beginning of the vector period to turn off the pin driver.
+    content.vb: Public Shared Sub ConfigureTimeSetDriveEdges(sessionsBundle As DigitalSessionsBundle, timeSet As String, format As DriveFormat, driveOn As Double, driveData As Double, driveReturn As Double, driveOff As Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges*
+  nameWithType.vb: LevelsAndTiming.ConfigureTimeSetDriveEdges(DigitalSessionsBundle, String, DriveFormat, Double, Double, Double, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, NationalInstruments.ModularInstruments.NIDigital.DriveFormat, Double, Double, Double, Double)
+  name.vb: ConfigureTimeSetDriveEdges(DigitalSessionsBundle, String, DriveFormat, Double, Double, Double, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.DriveFormat,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.DriveFormat,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)
+  id: ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.DriveFormat,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureTimeSetDriveEdges(DigitalSessionsBundle, string, DriveFormat, double, double, double, double, double, double)
+  nameWithType: LevelsAndTiming.ConfigureTimeSetDriveEdges(DigitalSessionsBundle, string, DriveFormat, double, double, double, double, double, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.ModularInstruments.NIDigital.DriveFormat, double, double, double, double, double, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures the drive format and drive edge placement.
+  example: []
+  syntax:
+    content: public static void ConfigureTimeSetDriveEdges(this DigitalSessionsBundle sessionsBundle, string timeSet, DriveFormat format, double driveOn, double driveData, double driveReturn, double driveOff, double driveData2, double driveReturn2)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: The name of the time set.
+    - id: format
+      type: NationalInstruments.ModularInstruments.NIDigital.DriveFormat
+      description: The drive format of the time set.
+    - id: driveOn
+      type: System.Double
+      description: The delay from the beginning of the vector period for turning on the pin driver.
+    - id: driveData
+      type: System.Double
+      description: The delay from the beginning of the vector period until the pattern data is driven to the pattern value.
+    - id: driveReturn
+      type: System.Double
+      description: The delay from the beginning of the vector period until the pin changes from the pattern data to the return value.
+    - id: driveOff
+      type: System.Double
+      description: The delay from the beginning of the vector period to turn off the pin driver.
+    - id: driveData2
+      type: System.Double
+      description: The delay from the beginning of the vector period until the pattern data is driven to the second pattern value.
+    - id: driveReturn2
+      type: System.Double
+      description: The delay from the beginning of the vector period until the pin changes from the second pattern data to the return value.
+    content.vb: Public Shared Sub ConfigureTimeSetDriveEdges(sessionsBundle As DigitalSessionsBundle, timeSet As String, format As DriveFormat, driveOn As Double, driveData As Double, driveReturn As Double, driveOff As Double, driveData2 As Double, driveReturn2 As Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges*
+  nameWithType.vb: LevelsAndTiming.ConfigureTimeSetDriveEdges(DigitalSessionsBundle, String, DriveFormat, Double, Double, Double, Double, Double, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, NationalInstruments.ModularInstruments.NIDigital.DriveFormat, Double, Double, Double, Double, Double, Double)
+  name.vb: ConfigureTimeSetDriveEdges(DigitalSessionsBundle, String, DriveFormat, Double, Double, Double, Double, Double, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  id: GetTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: GetTimeSetPeriod(DigitalSessionsBundle, string)
+  nameWithType: LevelsAndTiming.GetTimeSetPeriod(DigitalSessionsBundle, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Gets the configured time set period.
+  example: []
+  syntax:
+    content: public static PinSiteData<PrecisionTimeSpan> GetTimeSetPeriod(this DigitalSessionsBundle sessionsBundle, string timeSet)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: The name of the time set.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan}
+      description: The pin-site aware timespan period for the specified time set.
+    content.vb: Public Shared Function GetTimeSetPeriod(sessionsBundle As DigitalSessionsBundle, timeSet As String) As PinSiteData(Of PrecisionTimeSpan)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetPeriod*
+  nameWithType.vb: LevelsAndTiming.GetTimeSetPeriod(DigitalSessionsBundle, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetPeriod(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String)
+  name.vb: GetTimeSetPeriod(DigitalSessionsBundle, String)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,System.Double)
+  id: ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,System.Double)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureTimeSetEdge(DigitalSessionsBundle, string, TimeSetEdge, double)
+  nameWithType: LevelsAndTiming.ConfigureTimeSetEdge(DigitalSessionsBundle, string, TimeSetEdge, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures the edge of a time set.
+  example: []
+  syntax:
+    content: public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, double time)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: The name of the time set.
+    - id: edge
+      type: NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge
+      description: The edge of the time set to configure.
+    - id: time
+      type: System.Double
+      description: The time of the edge to configure.
+    content.vb: Public Shared Sub ConfigureTimeSetEdge(sessionsBundle As DigitalSessionsBundle, timeSet As String, edge As TimeSetEdge, time As Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge*
+  nameWithType.vb: LevelsAndTiming.ConfigureTimeSetEdge(DigitalSessionsBundle, String, TimeSetEdge, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge, Double)
+  name.vb: ConfigureTimeSetEdge(DigitalSessionsBundle, String, TimeSetEdge, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  id: ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureTimeSetEdge(DigitalSessionsBundle, string, TimeSetEdge, SiteData<double>)
+  nameWithType: LevelsAndTiming.ConfigureTimeSetEdge(DigitalSessionsBundle, string, TimeSetEdge, SiteData<double>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures the edge of a time set.
+  example: []
+  syntax:
+    content: public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, SiteData<double> time)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: The name of the time set.
+    - id: edge
+      type: NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge
+      description: The edge of the time set to configure.
+    - id: time
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double}
+      description: The time of the edge to configure for different sites.
+    content.vb: Public Shared Sub ConfigureTimeSetEdge(sessionsBundle As DigitalSessionsBundle, timeSet As String, edge As TimeSetEdge, time As SiteData(Of Double))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge*
+  nameWithType.vb: LevelsAndTiming.ConfigureTimeSetEdge(DigitalSessionsBundle, String, TimeSetEdge, SiteData(Of Double))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of Double))
+  name.vb: ConfigureTimeSetEdge(DigitalSessionsBundle, String, TimeSetEdge, SiteData(Of Double))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double})
+  id: ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureTimeSetEdge(DigitalSessionsBundle, string, TimeSetEdge, PinSiteData<double>)
+  nameWithType: LevelsAndTiming.ConfigureTimeSetEdge(DigitalSessionsBundle, string, TimeSetEdge, PinSiteData<double>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures the edge of a time set.
+  example: []
+  syntax:
+    content: public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, PinSiteData<double> time)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: The name of the time set.
+    - id: edge
+      type: NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge
+      description: The edge of the time set to configure.
+    - id: time
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+      description: The time of the edge to configure for different site-pin pairs.
+    content.vb: Public Shared Sub ConfigureTimeSetEdge(sessionsBundle As DigitalSessionsBundle, timeSet As String, edge As TimeSetEdge, time As PinSiteData(Of Double))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge*
+  nameWithType.vb: LevelsAndTiming.ConfigureTimeSetEdge(DigitalSessionsBundle, String, TimeSetEdge, PinSiteData(Of Double))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Double))
+  name.vb: ConfigureTimeSetEdge(DigitalSessionsBundle, String, TimeSetEdge, PinSiteData(Of Double))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge)
+  id: GetTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: GetTimeSetEdge(DigitalSessionsBundle, string, TimeSetEdge)
+  nameWithType: LevelsAndTiming.GetTimeSetEdge(DigitalSessionsBundle, string, TimeSetEdge)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Gets the configured time set edge.
+  example: []
+  syntax:
+    content: public static PinSiteData<PrecisionTimeSpan> GetTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge driveEdge)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: The name of the time set.
+    - id: driveEdge
+      type: NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge
+      description: The drive edge to be read.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan}
+      description: The pin-site aware timespan edge values for the specified time set.
+    content.vb: Public Shared Function GetTimeSetEdge(sessionsBundle As DigitalSessionsBundle, timeSet As String, driveEdge As TimeSetEdge) As PinSiteData(Of PrecisionTimeSpan)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdge*
+  nameWithType.vb: LevelsAndTiming.GetTimeSetEdge(DigitalSessionsBundle, String, TimeSetEdge)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdge(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge)
+  name.vb: GetTimeSetEdge(DigitalSessionsBundle, String, TimeSetEdge)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdgeMultiplier(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdgeMultiplier(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  id: GetTimeSetEdgeMultiplier(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: GetTimeSetEdgeMultiplier(DigitalSessionsBundle, string)
+  nameWithType: LevelsAndTiming.GetTimeSetEdgeMultiplier(DigitalSessionsBundle, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdgeMultiplier(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Gets the configured time set edge multiplier value.
+  example: []
+  syntax:
+    content: public static PinSiteData<int> GetTimeSetEdgeMultiplier(this DigitalSessionsBundle sessionsBundle, string timeSet)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: the name of the time set.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Int32}
+      description: The pin-site aware timespan edge multiplier values for the specified time set.
+    content.vb: Public Shared Function GetTimeSetEdgeMultiplier(sessionsBundle As DigitalSessionsBundle, timeSet As String) As PinSiteData(Of Integer)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdgeMultiplier*
+  nameWithType.vb: LevelsAndTiming.GetTimeSetEdgeMultiplier(DigitalSessionsBundle, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdgeMultiplier(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String)
+  name.vb: GetTimeSetEdgeMultiplier(DigitalSessionsBundle, String)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetDriveFormat(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetDriveFormat(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  id: GetTimeSetDriveFormat(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: GetTimeSetDriveFormat(DigitalSessionsBundle, string)
+  nameWithType: LevelsAndTiming.GetTimeSetDriveFormat(DigitalSessionsBundle, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetDriveFormat(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Gets the configured time set drive format.
+  example: []
+  syntax:
+    content: public static PinSiteData<DriveFormat> GetTimeSetDriveFormat(this DigitalSessionsBundle sessionsBundle, string timeSet)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: timeSet
+      type: System.String
+      description: the name of the time set.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.ModularInstruments.NIDigital.DriveFormat}
+      description: The pin-site aware drive format for the specified time set.
+    content.vb: Public Shared Function GetTimeSetDriveFormat(sessionsBundle As DigitalSessionsBundle, timeSet As String) As PinSiteData(Of DriveFormat)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetDriveFormat*
+  nameWithType.vb: LevelsAndTiming.GetTimeSetDriveFormat(DigitalSessionsBundle, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetDriveFormat(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String)
+  name.vb: GetTimeSetDriveFormat(DigitalSessionsBundle, String)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTdrEndpointTermination(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTdrEndpointTermination(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination)
+  id: ConfigureTdrEndpointTermination(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureTdrEndpointTermination(DigitalSessionsBundle, TdrEndpointTermination)
+  nameWithType: LevelsAndTiming.ConfigureTdrEndpointTermination(DigitalSessionsBundle, TdrEndpointTermination)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTdrEndpointTermination(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Gets or sets the endpoint termination used for TDR.
+  remarks: For more information, refer to the <a href="javascript:LaunchHelp('digipat6570.chm::/tdr.html');">TDR</a> topic in the <format type="italics">Digital Pattern Help</format>.
+  example: []
+  syntax:
+    content: public static void ConfigureTdrEndpointTermination(this DigitalSessionsBundle sessionsBundle, TdrEndpointTermination tdrEndpointTermination)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: tdrEndpointTermination
+      type: NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination
+      description: TDR Endpoint Termination type. The default value is <xref href="NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination.TdrToOpenCircuit" data-throw-if-not-resolved="false"></xref>.
+    content.vb: Public Shared Sub ConfigureTdrEndpointTermination(sessionsBundle As DigitalSessionsBundle, tdrEndpointTermination As TdrEndpointTermination)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTdrEndpointTermination*
+  exceptions:
+  - type: Ivi.Driver.OutOfRangeException
+    commentId: T:Ivi.Driver.OutOfRangeException
+    description: >-
+      The value for
+                  <xref href="NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination" data-throw-if-not-resolved="false"></xref> is invalid.
+  - type: Ivi.Driver.IviCDriverException
+    commentId: T:Ivi.Driver.IviCDriverException
+    description: The underlying NI-Digital driver returned an error.
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: >-
+      <xref href="NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination" data-throw-if-not-resolved="false"></xref>
+              was accessed after the associated
+              <xref href="NationalInstruments.ModularInstruments.NIDigital.NIDigital" data-throw-if-not-resolved="false"></xref>
+              or
+              <xref href="NationalInstruments.ModularInstruments.NIDigital.DigitalDriverUtility" data-throw-if-not-resolved="false"></xref>
+              object was disposed.
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Boolean)
+  id: MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: MeasureTDROffsets(DigitalSessionsBundle, bool)
+  nameWithType: LevelsAndTiming.MeasureTDROffsets(DigitalSessionsBundle, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: >-
+    Measures propagation delays through cables, connectors, and load boards using Time-Domain Reflectometry (TDR).
+
+    You can optionally apply the offsets to the pins.
+
+    Use this method to measure per-site per-pin offsets.
+  example: []
+  syntax:
+    content: public static PinSiteData<PrecisionTimeSpan> MeasureTDROffsets(this DigitalSessionsBundle sessionsBundle, bool apply = false)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: apply
+      type: System.Boolean
+      description: Whether to apply the offsets to the pins.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan}
+    content.vb: Public Shared Function MeasureTDROffsets(sessionsBundle As DigitalSessionsBundle, apply As Boolean = False) As PinSiteData(Of PrecisionTimeSpan)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets*
+  nameWithType.vb: LevelsAndTiming.MeasureTDROffsets(DigitalSessionsBundle, Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, Boolean)
+  name.vb: MeasureTDROffsets(DigitalSessionsBundle, Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][]@,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][]@,System.Boolean)
+  id: MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][]@,System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: MeasureTDROffsets(DigitalSessionsBundle, out PrecisionTimeSpan[][], bool)
+  nameWithType: LevelsAndTiming.MeasureTDROffsets(DigitalSessionsBundle, out PrecisionTimeSpan[][], bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, out Ivi.Driver.PrecisionTimeSpan[][], bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: >-
+    Measures propagation delays through cables, connectors, and load boards using Time-Domain Reflectometry (TDR).
+
+    You can optionally apply the offsets to the pins.
+
+    Use this method to measure per-instrument session per-pin offsets.
+  example: []
+  syntax:
+    content: public static void MeasureTDROffsets(this DigitalSessionsBundle sessionsBundle, out PrecisionTimeSpan[][] offsets, bool apply = false)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: offsets
+      type: Ivi.Driver.PrecisionTimeSpan[][]
+      description: The measured TDR offsets. Where the first dimension represents instrument sessions, and the second dimension represents pins.
+    - id: apply
+      type: System.Boolean
+      description: Whether to apply the offsets to the pins.
+    content.vb: Public Shared Sub MeasureTDROffsets(sessionsBundle As DigitalSessionsBundle, offsets As PrecisionTimeSpan()(), apply As Boolean = False)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets*
+  nameWithType.vb: LevelsAndTiming.MeasureTDROffsets(DigitalSessionsBundle, PrecisionTimeSpan()(), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, Ivi.Driver.PrecisionTimeSpan()(), Boolean)
+  name.vb: MeasureTDROffsets(DigitalSessionsBundle, PrecisionTimeSpan()(), Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan})
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan})
+  id: ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan})
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ApplyTDROffsets(DigitalSessionsBundle, PinSiteData<PrecisionTimeSpan>)
+  nameWithType: LevelsAndTiming.ApplyTDROffsets(DigitalSessionsBundle, PinSiteData<PrecisionTimeSpan>)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<Ivi.Driver.PrecisionTimeSpan>)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: >-
+    Applies the correction for propagation delay offsets to a digital pattern instrument.
+
+    Use this method to apply per-site per-pin offsets.
+  example: []
+  syntax:
+    content: public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, PinSiteData<PrecisionTimeSpan> offsets)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: offsets
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan}
+      description: The per-site per-pin offsets to apply.
+    content.vb: Public Shared Sub ApplyTDROffsets(sessionsBundle As DigitalSessionsBundle, offsets As PinSiteData(Of PrecisionTimeSpan))
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets*
+  nameWithType.vb: LevelsAndTiming.ApplyTDROffsets(DigitalSessionsBundle, PinSiteData(Of PrecisionTimeSpan))
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Ivi.Driver.PrecisionTimeSpan))
+  name.vb: ApplyTDROffsets(DigitalSessionsBundle, PinSiteData(Of PrecisionTimeSpan))
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][])
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][])
+  id: ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][])
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ApplyTDROffsets(DigitalSessionsBundle, PrecisionTimeSpan[][])
+  nameWithType: LevelsAndTiming.ApplyTDROffsets(DigitalSessionsBundle, PrecisionTimeSpan[][])
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, Ivi.Driver.PrecisionTimeSpan[][])
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: >-
+    Applies the correction for propagation delay offsets to a digital pattern instrument.
+
+    Use this method to apply per-instrument session per-pin offsets.
+  example: []
+  syntax:
+    content: public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, PrecisionTimeSpan[][] offsets)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: offsets
+      type: Ivi.Driver.PrecisionTimeSpan[][]
+      description: Offsets to apply. Where the first dimension represents instrument sessions and the second dimension represents pins.
+    content.vb: Public Shared Sub ApplyTDROffsets(sessionsBundle As DigitalSessionsBundle, offsets As PrecisionTimeSpan()())
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets*
+  nameWithType.vb: LevelsAndTiming.ApplyTDROffsets(DigitalSessionsBundle, PrecisionTimeSpan()())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, Ivi.Driver.PrecisionTimeSpan()())
+  name.vb: ApplyTDROffsets(DigitalSessionsBundle, PrecisionTimeSpan()())
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyLevelsAndTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyLevelsAndTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.String)
+  id: ApplyLevelsAndTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ApplyLevelsAndTiming(DigitalSessionsBundle, string, string)
+  nameWithType: LevelsAndTiming.ApplyLevelsAndTiming(DigitalSessionsBundle, string, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyLevelsAndTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, string)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Applies digital levels and timing defined in the loaded levels and timing sheets.
+  example: []
+  syntax:
+    content: public static void ApplyLevelsAndTiming(this DigitalSessionsBundle sessionsBundle, string levelsSheet, string timingSheet)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: levelsSheet
+      type: System.String
+      description: The name of the levels sheet to apply.
+    - id: timingSheet
+      type: System.String
+      description: The name of the timing sheet to apply.
+    content.vb: Public Shared Sub ApplyLevelsAndTiming(sessionsBundle As DigitalSessionsBundle, levelsSheet As String, timingSheet As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyLevelsAndTiming*
+  nameWithType.vb: LevelsAndTiming.ApplyLevelsAndTiming(DigitalSessionsBundle, String, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyLevelsAndTiming(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, String)
+  name.vb: ApplyLevelsAndTiming(DigitalSessionsBundle, String, String)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,System.Double)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,System.Double)
+  id: ConfigureSingleLevel(NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType,System.Double)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: ConfigureSingleLevel(DigitalPinSet, LevelType, double)
+  nameWithType: LevelsAndTiming.ConfigureSingleLevel(DigitalPinSet, LevelsAndTiming.LevelType, double)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType, double)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Configures a single level.
+  example: []
+  syntax:
+    content: public static void ConfigureSingleLevel(this DigitalPinSet pinSet, LevelsAndTiming.LevelType levelType, double levelValue)
+    parameters:
+    - id: pinSet
+      type: NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet
+      description: The <xref href="NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet" data-throw-if-not-resolved="false"></xref> object.
+    - id: levelType
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+      description: The type of the level to configure.
+    - id: levelValue
+      type: System.Double
+      description: The value of the level to configure.
+    content.vb: Public Shared Sub ConfigureSingleLevel(pinSet As DigitalPinSet, levelType As LevelsAndTiming.LevelType, levelValue As Double)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel*
+  nameWithType.vb: LevelsAndTiming.ConfigureSingleLevel(DigitalPinSet, LevelsAndTiming.LevelType, Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel(NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType, Double)
+  name.vb: ConfigureSingleLevel(DigitalPinSet, LevelType, Double)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan},System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan},System.String)
+  id: SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan},System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: SaveTDROffsetsToFile(DigitalSessionsBundle, PinSiteData<PrecisionTimeSpan>, string)
+  nameWithType: LevelsAndTiming.SaveTDROffsetsToFile(DigitalSessionsBundle, PinSiteData<PrecisionTimeSpan>, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<Ivi.Driver.PrecisionTimeSpan>, string)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Saves TDR offsets to a file.
+  example: []
+  syntax:
+    content: public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, PinSiteData<PrecisionTimeSpan> offsets, string filePath)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: offsets
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan}
+      description: The per-site per-pin offsets to save.
+    - id: filePath
+      type: System.String
+      description: The path of the file to save the offsets to.
+    content.vb: Public Shared Sub SaveTDROffsetsToFile(sessionsBundle As DigitalSessionsBundle, offsets As PinSiteData(Of PrecisionTimeSpan), filePath As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile*
+  nameWithType.vb: LevelsAndTiming.SaveTDROffsetsToFile(DigitalSessionsBundle, PinSiteData(Of PrecisionTimeSpan), String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Ivi.Driver.PrecisionTimeSpan), String)
+  name.vb: SaveTDROffsetsToFile(DigitalSessionsBundle, PinSiteData(Of PrecisionTimeSpan), String)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][],System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][],System.String)
+  id: SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,Ivi.Driver.PrecisionTimeSpan[][],System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: SaveTDROffsetsToFile(DigitalSessionsBundle, PrecisionTimeSpan[][], string)
+  nameWithType: LevelsAndTiming.SaveTDROffsetsToFile(DigitalSessionsBundle, PrecisionTimeSpan[][], string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, Ivi.Driver.PrecisionTimeSpan[][], string)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Saves TDR offsets to a file.
+  remarks: The resulting file is pinmap specific. It is recommended that the filename provided contains the same name as the pinmap, as well as timestamp.
+  example: []
+  syntax:
+    content: public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, PrecisionTimeSpan[][] offsets, string filePath)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: offsets
+      type: Ivi.Driver.PrecisionTimeSpan[][]
+      description: The per-instrument session per-pin offsets to save. Where the first dimension represents instrument sessions and the second dimension represents pins.
+    - id: filePath
+      type: System.String
+      description: The path of the file to save the offsets to.
+    content.vb: Public Shared Sub SaveTDROffsetsToFile(sessionsBundle As DigitalSessionsBundle, offsets As PrecisionTimeSpan()(), filePath As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile*
+  nameWithType.vb: LevelsAndTiming.SaveTDROffsetsToFile(DigitalSessionsBundle, PrecisionTimeSpan()(), String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, Ivi.Driver.PrecisionTimeSpan()(), String)
+  name.vb: SaveTDROffsetsToFile(DigitalSessionsBundle, PrecisionTimeSpan()(), String)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Boolean)
+  id: LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: LoadTDROffsetsFromFile(DigitalSessionsBundle, string, bool)
+  nameWithType: LevelsAndTiming.LoadTDROffsetsFromFile(DigitalSessionsBundle, string, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Loads TDR offsets from a file.
+  example: []
+  syntax:
+    content: public static PinSiteData<PrecisionTimeSpan> LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, bool throwOnMissingChannels = true)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: filePath
+      type: System.String
+      description: The path of the file to load the offsets.
+    - id: throwOnMissingChannels
+      type: System.Boolean
+      description: Whether to throw an exception if the offset for any channel is missing.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan}
+      description: TDR offset values retrieved from the file.
+    content.vb: Public Shared Function LoadTDROffsetsFromFile(sessionsBundle As DigitalSessionsBundle, filePath As String, throwOnMissingChannels As Boolean = True) As PinSiteData(Of PrecisionTimeSpan)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile*
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: This exception will be thrown if throwOnMissingChannels is true and an offset value was not found in the file for one or more of channels in the sessions bundle.
+  nameWithType.vb: LevelsAndTiming.LoadTDROffsetsFromFile(DigitalSessionsBundle, String, Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, Boolean)
+  name.vb: LoadTDROffsetsFromFile(DigitalSessionsBundle, String, Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,Ivi.Driver.PrecisionTimeSpan[][]@,System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,Ivi.Driver.PrecisionTimeSpan[][]@,System.Boolean)
+  id: LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle,System.String,Ivi.Driver.PrecisionTimeSpan[][]@,System.Boolean)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+  langs:
+  - csharp
+  - vb
+  name: LoadTDROffsetsFromFile(DigitalSessionsBundle, string, out PrecisionTimeSpan[][], bool)
+  nameWithType: LevelsAndTiming.LoadTDROffsetsFromFile(DigitalSessionsBundle, string, out PrecisionTimeSpan[][], bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, string, out Ivi.Driver.PrecisionTimeSpan[][], bool)
+  type: Method
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Extensions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  summary: Loads TDR offsets from a file.
+  example: []
+  syntax:
+    content: public static void LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, out PrecisionTimeSpan[][] offsets, bool throwOnMissingChannels = true)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> object.
+    - id: filePath
+      type: System.String
+      description: The path of the file to load the offsets.
+    - id: offsets
+      type: Ivi.Driver.PrecisionTimeSpan[][]
+      description: TDR offset values retrieved from the file. Where the first dimension represents instrument sessions and the second dimension represents pins.
+    - id: throwOnMissingChannels
+      type: System.Boolean
+      description: Whether to throw a message if the offset for any channel is missing.
+    content.vb: Public Shared Sub LoadTDROffsetsFromFile(sessionsBundle As DigitalSessionsBundle, filePath As String, offsets As PrecisionTimeSpan()(), throwOnMissingChannels As Boolean = True)
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile*
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: This exception will be thrown if throwOnMissingChannels is true and an offset value was not found in the file for one or more of channels in the sessions bundle.
+  nameWithType.vb: LevelsAndTiming.LoadTDROffsetsFromFile(DigitalSessionsBundle, String, PrecisionTimeSpan()(), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle, String, Ivi.Driver.PrecisionTimeSpan()(), Boolean)
+  name.vb: LoadTDROffsetsFromFile(DigitalSessionsBundle, String, PrecisionTimeSpan()(), Boolean)
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+    name: Digital
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+    name: Digital
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.html
+  name: DigitalSessionsBundle
+  nameWithType: DigitalSessionsBundle
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_ConfigureSingleLevel_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_LevelType_System_Double_
+  name: ConfigureSingleLevel
+  nameWithType: LevelsAndTiming.ConfigureSingleLevel
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureSingleLevel
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.html
+  name: LevelsAndTiming.LevelType
+  nameWithType: LevelsAndTiming.LevelType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+    name: LevelsAndTiming
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+    name: LevelType
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.html
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming
+    name: LevelsAndTiming
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType
+    name: LevelType
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LevelType.html
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{System.Double}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<double>
+  nameWithType: SiteData<double>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<double>
+  nameWithType.vb: SiteData(Of Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of Double)
+  name.vb: SiteData(Of Double)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureVoltageLevels*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureVoltageLevels
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureVoltageLevels.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_ConfigureVoltageLevels_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_Double_System_Double_System_Double_System_Double_System_Double_
+  name: ConfigureVoltageLevels
+  nameWithType: LevelsAndTiming.ConfigureVoltageLevels
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureVoltageLevels
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTerminationMode*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTerminationMode
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTerminationMode.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_ConfigureTerminationMode_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_ModularInstruments_NIDigital_TerminationMode_
+  name: ConfigureTerminationMode
+  nameWithType: LevelsAndTiming.ConfigureTerminationMode
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTerminationMode
+- uid: NationalInstruments.ModularInstruments.NIDigital.TerminationMode
+  commentId: T:NationalInstruments.ModularInstruments.NIDigital.TerminationMode
+  parent: NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: TerminationMode
+  nameWithType: TerminationMode
+  fullName: NationalInstruments.ModularInstruments.NIDigital.TerminationMode
+- uid: NationalInstruments.ModularInstruments.NIDigital
+  commentId: N:NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: NationalInstruments.ModularInstruments.NIDigital
+  nameWithType: NationalInstruments.ModularInstruments.NIDigital
+  fullName: NationalInstruments.ModularInstruments.NIDigital
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments
+    name: ModularInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments.NIDigital
+    name: NIDigital
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments
+    name: ModularInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.ModularInstruments.NIDigital
+    name: NIDigital
+    isExternal: true
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_ConfigureTimeSetCompareEdgesStrobe_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_String_System_Double_
+  name: ConfigureTimeSetCompareEdgesStrobe
+  nameWithType: LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetCompareEdgesStrobe
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<double>
+  nameWithType: PinSiteData<double>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<double>
+  nameWithType.vb: PinSiteData(Of Double)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Double)
+  name.vb: PinSiteData(Of Double)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetPeriod*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetPeriod
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetPeriod.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_ConfigureTimeSetPeriod_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_String_System_Double_
+  name: ConfigureTimeSetPeriod
+  nameWithType: LevelsAndTiming.ConfigureTimeSetPeriod
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetPeriod
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_ConfigureTimeSetDriveEdges_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_String_NationalInstruments_ModularInstruments_NIDigital_DriveFormat_System_Double_System_Double_System_Double_System_Double_
+  name: ConfigureTimeSetDriveEdges
+  nameWithType: LevelsAndTiming.ConfigureTimeSetDriveEdges
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetDriveEdges
+- uid: NationalInstruments.ModularInstruments.NIDigital.DriveFormat
+  commentId: T:NationalInstruments.ModularInstruments.NIDigital.DriveFormat
+  parent: NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: DriveFormat
+  nameWithType: DriveFormat
+  fullName: NationalInstruments.ModularInstruments.NIDigital.DriveFormat
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetPeriod*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetPeriod
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetPeriod.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_GetTimeSetPeriod_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_String_
+  name: GetTimeSetPeriod
+  nameWithType: LevelsAndTiming.GetTimeSetPeriod
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetPeriod
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{Ivi.Driver.PrecisionTimeSpan}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  name: PinSiteData<PrecisionTimeSpan>
+  nameWithType: PinSiteData<PrecisionTimeSpan>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<Ivi.Driver.PrecisionTimeSpan>
+  nameWithType.vb: PinSiteData(Of PrecisionTimeSpan)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Ivi.Driver.PrecisionTimeSpan)
+  name.vb: PinSiteData(Of PrecisionTimeSpan)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  - name: <
+  - uid: Ivi.Driver.PrecisionTimeSpan
+    name: PrecisionTimeSpan
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Ivi.Driver.PrecisionTimeSpan
+    name: PrecisionTimeSpan
+    isExternal: true
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_ConfigureTimeSetEdge_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_String_NationalInstruments_ModularInstruments_NIDigital_TimeSetEdge_System_Double_
+  name: ConfigureTimeSetEdge
+  nameWithType: LevelsAndTiming.ConfigureTimeSetEdge
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTimeSetEdge
+- uid: NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge
+  commentId: T:NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge
+  parent: NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: TimeSetEdge
+  nameWithType: TimeSetEdge
+  fullName: NationalInstruments.ModularInstruments.NIDigital.TimeSetEdge
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdge*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdge
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdge.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_GetTimeSetEdge_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_String_NationalInstruments_ModularInstruments_NIDigital_TimeSetEdge_
+  name: GetTimeSetEdge
+  nameWithType: LevelsAndTiming.GetTimeSetEdge
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdge
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdgeMultiplier*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdgeMultiplier
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdgeMultiplier.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_GetTimeSetEdgeMultiplier_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_String_
+  name: GetTimeSetEdgeMultiplier
+  nameWithType: LevelsAndTiming.GetTimeSetEdgeMultiplier
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetEdgeMultiplier
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Int32}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Int32}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  name: PinSiteData<int>
+  nameWithType: PinSiteData<int>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<int>
+  nameWithType.vb: PinSiteData(Of Integer)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of Integer)
+  name.vb: PinSiteData(Of Integer)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetDriveFormat*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetDriveFormat
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetDriveFormat.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_GetTimeSetDriveFormat_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_String_
+  name: GetTimeSetDriveFormat
+  nameWithType: LevelsAndTiming.GetTimeSetDriveFormat
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.GetTimeSetDriveFormat
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.ModularInstruments.NIDigital.DriveFormat}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.ModularInstruments.NIDigital.DriveFormat}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  name: PinSiteData<DriveFormat>
+  nameWithType: PinSiteData<DriveFormat>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.ModularInstruments.NIDigital.DriveFormat>
+  nameWithType.vb: PinSiteData(Of DriveFormat)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of NationalInstruments.ModularInstruments.NIDigital.DriveFormat)
+  name.vb: PinSiteData(Of DriveFormat)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  - name: <
+  - uid: NationalInstruments.ModularInstruments.NIDigital.DriveFormat
+    name: DriveFormat
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: NationalInstruments.ModularInstruments.NIDigital.DriveFormat
+    name: DriveFormat
+    isExternal: true
+  - name: )
+- uid: NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination.TdrToOpenCircuit
+  commentId: F:NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination.TdrToOpenCircuit
+  isExternal: true
+  name: TdrToOpenCircuit
+  nameWithType: TdrEndpointTermination.TdrToOpenCircuit
+  fullName: NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination.TdrToOpenCircuit
+- uid: NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination
+  commentId: T:NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination
+  parent: NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: TdrEndpointTermination
+  nameWithType: TdrEndpointTermination
+  fullName: NationalInstruments.ModularInstruments.NIDigital.TdrEndpointTermination
+- uid: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+  commentId: T:NationalInstruments.ModularInstruments.NIDigital.NIDigital
+  parent: NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: NIDigital
+  nameWithType: NIDigital
+  fullName: NationalInstruments.ModularInstruments.NIDigital.NIDigital
+- uid: NationalInstruments.ModularInstruments.NIDigital.DigitalDriverUtility
+  commentId: T:NationalInstruments.ModularInstruments.NIDigital.DigitalDriverUtility
+  isExternal: true
+  name: DigitalDriverUtility
+  nameWithType: DigitalDriverUtility
+  fullName: NationalInstruments.ModularInstruments.NIDigital.DigitalDriverUtility
+- uid: Ivi.Driver.OutOfRangeException
+  commentId: T:Ivi.Driver.OutOfRangeException
+  isExternal: true
+  name: OutOfRangeException
+  nameWithType: OutOfRangeException
+  fullName: Ivi.Driver.OutOfRangeException
+- uid: Ivi.Driver.IviCDriverException
+  commentId: T:Ivi.Driver.IviCDriverException
+  isExternal: true
+  name: IviCDriverException
+  nameWithType: IviCDriverException
+  fullName: Ivi.Driver.IviCDriverException
+- uid: System.ObjectDisposedException
+  commentId: T:System.ObjectDisposedException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.objectdisposedexception
+  name: ObjectDisposedException
+  nameWithType: ObjectDisposedException
+  fullName: System.ObjectDisposedException
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTdrEndpointTermination*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTdrEndpointTermination
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTdrEndpointTermination.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_ConfigureTdrEndpointTermination_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_ModularInstruments_NIDigital_TdrEndpointTermination_
+  name: ConfigureTdrEndpointTermination
+  nameWithType: LevelsAndTiming.ConfigureTdrEndpointTermination
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ConfigureTdrEndpointTermination
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_MeasureTDROffsets_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_Boolean_
+  name: MeasureTDROffsets
+  nameWithType: LevelsAndTiming.MeasureTDROffsets
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Ivi.Driver.PrecisionTimeSpan[][]
+  isExternal: true
+  name: PrecisionTimeSpan[][]
+  nameWithType: PrecisionTimeSpan[][]
+  fullName: Ivi.Driver.PrecisionTimeSpan[][]
+  nameWithType.vb: PrecisionTimeSpan()()
+  fullName.vb: Ivi.Driver.PrecisionTimeSpan()()
+  name.vb: PrecisionTimeSpan()()
+  spec.csharp:
+  - uid: Ivi.Driver.PrecisionTimeSpan
+    name: PrecisionTimeSpan
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: Ivi.Driver.PrecisionTimeSpan
+    name: PrecisionTimeSpan
+    isExternal: true
+  - name: (
+  - name: )
+  - name: (
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_ApplyTDROffsets_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_Ivi_Driver_PrecisionTimeSpan__
+  name: ApplyTDROffsets
+  nameWithType: LevelsAndTiming.ApplyTDROffsets
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyLevelsAndTiming*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyLevelsAndTiming
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyLevelsAndTiming.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_ApplyLevelsAndTiming_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_String_System_String_
+  name: ApplyLevelsAndTiming
+  nameWithType: LevelsAndTiming.ApplyLevelsAndTiming
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyLevelsAndTiming
+- uid: NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet
+  commentId: T:NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet
+  parent: NationalInstruments.ModularInstruments.NIDigital
+  isExternal: true
+  name: DigitalPinSet
+  nameWithType: DigitalPinSet
+  fullName: NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_SaveTDROffsetsToFile_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_Ivi_Driver_PrecisionTimeSpan__System_String_
+  name: SaveTDROffsetsToFile
+  nameWithType: LevelsAndTiming.SaveTDROffsetsToFile
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile
+- uid: System.ArgumentException
+  commentId: T:System.ArgumentException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentexception
+  name: ArgumentException
+  nameWithType: ArgumentException
+  fullName: System.ArgumentException
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_LoadTDROffsetsFromFile_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_String_System_Boolean_
+  name: LoadTDROffsetsFromFile
+  nameWithType: LevelsAndTiming.LoadTDROffsetsFromFile
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile
+memberLayout: SeparatePages

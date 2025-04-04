@@ -1,0 +1,940 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.Publish
+  id: Publish
+  parent: NationalInstruments.SemiconductorTestLibrary.Common
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
+  - NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0},System.String)
+  - NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.String,System.String)
+  - NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[],System.String)
+  - NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[][],System.String)
+  - NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
+  langs:
+  - csharp
+  - vb
+  name: Publish
+  nameWithType: Publish
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish
+  type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Defines measurement results publish methods.
+  example: []
+  syntax:
+    content: public static class Publish
+    content.vb: Public Module Publish
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0},System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0},System.String)
+  id: PublishResults``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0},System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Publish
+  langs:
+  - csharp
+  - vb
+  name: PublishResults<T>(ISemiconductorModuleContext, PinSiteData<T>, string)
+  nameWithType: Publish.PublishResults<T>(ISemiconductorModuleContext, PinSiteData<T>, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, string)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Publishes measurement results.
+  example: []
+  syntax:
+    content: public static void PublishResults<T>(this ISemiconductorModuleContext tsmContext, PinSiteData<T> results, string publishedDataId)
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: results
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{T}}
+      description: The measurement results to publish.
+    - id: publishedDataId
+      type: System.String
+      description: The unique data id to use when publishing.
+    typeParameters:
+    - id: T
+      description: The type of the measurement data.
+    content.vb: Public Shared Sub PublishResults(Of T)(tsmContext As ISemiconductorModuleContext, results As PinSiteData(Of T), publishedDataId As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults*
+  nameWithType.vb: Publish.PublishResults(Of T)(ISemiconductorModuleContext, PinSiteData(Of T), String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T), String)
+  name.vb: PublishResults(Of T)(ISemiconductorModuleContext, PinSiteData(Of T), String)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.String,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.String,System.String)
+  id: PublishResults``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.String,System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Publish
+  langs:
+  - csharp
+  - vb
+  name: PublishResults<T>(ISemiconductorModuleContext, SiteData<T>, string, string)
+  nameWithType: Publish.PublishResults<T>(ISemiconductorModuleContext, SiteData<T>, string, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>, string, string)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Publishes measurement results for a specific pin.
+  example: []
+  syntax:
+    content: public static void PublishResults<T>(this ISemiconductorModuleContext tsmContext, SiteData<T> results, string publishedDataId, string pin = "")
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: results
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+      description: The measurement results to publish.
+    - id: publishedDataId
+      type: System.String
+      description: The unique data id to use when publishing.
+    - id: pin
+      type: System.String
+      description: The pin to publish results for.
+    typeParameters:
+    - id: T
+      description: The type of the measurement data.
+    content.vb: Public Shared Sub PublishResults(Of T)(tsmContext As ISemiconductorModuleContext, results As SiteData(Of T), publishedDataId As String, pin As String = "")
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults*
+  nameWithType.vb: Publish.PublishResults(Of T)(ISemiconductorModuleContext, SiteData(Of T), String, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T), String, String)
+  name.vb: PublishResults(Of T)(ISemiconductorModuleContext, SiteData(Of T), String, String)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
+  id: PublishResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Publish
+  langs:
+  - csharp
+  - vb
+  name: PublishResult<T>(ISemiconductorModuleContext, T, string, string)
+  nameWithType: Publish.PublishResult<T>(ISemiconductorModuleContext, T, string, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T, string, string)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Publishes measurement result.
+  example: []
+  syntax:
+    content: public static void PublishResult<T>(this ISemiconductorModuleContext tsmContext, T result, string publishedDataId, string pin = "")
+    parameters:
+    - id: tsmContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: result
+      type: '{T}'
+      description: The measurement result to publish.
+    - id: publishedDataId
+      type: System.String
+      description: The unique data id to use when publishing.
+    - id: pin
+      type: System.String
+      description: The pin to publish result for.
+    typeParameters:
+    - id: T
+      description: The type of the measurement data.
+    content.vb: Public Shared Sub PublishResult(Of T)(tsmContext As ISemiconductorModuleContext, result As T, publishedDataId As String, pin As String = "")
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult*
+  nameWithType.vb: Publish.PublishResult(Of T)(ISemiconductorModuleContext, T, String, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T, String, String)
+  name.vb: PublishResult(Of T)(ISemiconductorModuleContext, T, String, String)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
+  id: PublishSingleSiteResult``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,``0,System.String,System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Publish
+  langs:
+  - csharp
+  - vb
+  name: PublishSingleSiteResult<T>(ISemiconductorModuleContext, T, string, string)
+  nameWithType: Publish.PublishSingleSiteResult<T>(ISemiconductorModuleContext, T, string, string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult<T>(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T, string, string)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Publishes measurement result for a specific site-pin pair.
+  remarks: Use this method with a single site context only.
+  example: []
+  syntax:
+    content: public static void PublishSingleSiteResult<T>(this ISemiconductorModuleContext tsmSingleSiteContext, T result, string publishedDataId, string pin = "")
+    parameters:
+    - id: tsmSingleSiteContext
+      type: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+      description: The single site <xref href="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext" data-throw-if-not-resolved="false"></xref> object.
+    - id: result
+      type: '{T}'
+      description: The measurement result to publish.
+    - id: publishedDataId
+      type: System.String
+      description: The unique data id to use when publishing.
+    - id: pin
+      type: System.String
+      description: The pin to publish result for.
+    typeParameters:
+    - id: T
+      description: The type of the measurement data.
+    content.vb: Public Shared Sub PublishSingleSiteResult(Of T)(tsmSingleSiteContext As ISemiconductorModuleContext, result As T, publishedDataId As String, pin As String = "")
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult*
+  nameWithType.vb: Publish.PublishSingleSiteResult(Of T)(ISemiconductorModuleContext, T, String, String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult(Of T)(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, T, String, String)
+  name.vb: PublishSingleSiteResult(Of T)(ISemiconductorModuleContext, T, String, String)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[][],System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[][],System.String)
+  id: PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[][],System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Publish
+  langs:
+  - csharp
+  - vb
+  name: PublishResults<TSessionInformation, TData>(ISessionsBundle<TSessionInformation>, TData[][], string)
+  nameWithType: Publish.PublishResults<TSessionInformation, TData>(ISessionsBundle<TSessionInformation>, TData[][], string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults<TSessionInformation, TData>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, TData[][], string)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Publishes measurement results.
+  example: []
+  syntax:
+    content: public static void PublishResults<TSessionInformation, TData>(this ISessionsBundle<TSessionInformation> sessionsBundle, TData[][] results, string publishedDataId)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: results
+      type: '{TData}[][]'
+      description: >-
+        The multisite measurement results from multiple pins connected to multiple instrument
+                    sessions. The data is in the form of an array of arrays. Each element in the data array is an array that
+                    contains the measurement results for the channels of a single instrument session.
+    - id: publishedDataId
+      type: System.String
+      description: The unique data id to use when publishing.
+    typeParameters:
+    - id: TSessionInformation
+      description: The session information object.
+    - id: TData
+      description: The type of the measurement data.
+    content.vb: Public Shared Sub PublishResults(Of TSessionInformation, TData)(sessionsBundle As ISessionsBundle(Of TSessionInformation), results As TData()(), publishedDataId As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults*
+  nameWithType.vb: Publish.PublishResults(Of TSessionInformation, TData)(ISessionsBundle(Of TSessionInformation), TData()(), String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults(Of TSessionInformation, TData)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), TData()(), String)
+  name.vb: PublishResults(Of TSessionInformation, TData)(ISessionsBundle(Of TSessionInformation), TData()(), String)
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[],System.String)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[],System.String)
+  id: PublishResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},``1[],System.String)
+  isExtensionMethod: true
+  parent: NationalInstruments.SemiconductorTestLibrary.Common.Publish
+  langs:
+  - csharp
+  - vb
+  name: PublishResults<TSessionInformation, TData>(ISessionsBundle<TSessionInformation>, TData[], string)
+  nameWithType: Publish.PublishResults<TSessionInformation, TData>(ISessionsBundle<TSessionInformation>, TData[], string)
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults<TSessionInformation, TData>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, TData[], string)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/Publish.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.Common
+  summary: Publishes measurement results.
+  example: []
+  syntax:
+    content: public static void PublishResults<TSessionInformation, TData>(this ISessionsBundle<TSessionInformation> sessionsBundle, TData[] results, string publishedDataId)
+    parameters:
+    - id: sessionsBundle
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+      description: The sessions bundle object.
+    - id: results
+      type: '{TData}[]'
+      description: >-
+        The multisite measurement results from multiple pins connected to multiple instrument
+                    sessions. Each element in the array represents a measurement made for a single channel from each instrument
+                    session.
+    - id: publishedDataId
+      type: System.String
+      description: The unique data id to use when publishing.
+    typeParameters:
+    - id: TSessionInformation
+      description: The session information object.
+    - id: TData
+      description: The type of the measurement data.
+    content.vb: Public Shared Sub PublishResults(Of TSessionInformation, TData)(sessionsBundle As ISessionsBundle(Of TSessionInformation), results As TData(), publishedDataId As String)
+  overload: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults*
+  nameWithType.vb: Publish.PublishResults(Of TSessionInformation, TData)(ISessionsBundle(Of TSessionInformation), TData(), String)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults(Of TSessionInformation, TData)(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation), TData(), String)
+  name.vb: PublishResults(Of TSessionInformation, TData)(ISessionsBundle(Of TSessionInformation), TData(), String)
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.Common
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.Common
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.Common
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.Common
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common
+    name: Common
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.Common
+    name: Common
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  commentId: T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+  parent: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: ISemiconductorModuleContext
+  nameWithType: ISemiconductorModuleContext
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults.html#NationalInstruments_SemiconductorTestLibrary_Common_Publish_PublishResults__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData___0__System_String_
+  name: PublishResults
+  nameWithType: Publish.PublishResults
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{T}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  commentId: N:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  isExternal: true
+  name: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  nameWithType: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  fullName: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand
+    name: TestStand
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule
+    name: SemiconductorModule
+    isExternal: true
+  - name: .
+  - uid: NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI
+    name: CodeModuleAPI
+    isExternal: true
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  name: PinSiteData<T>
+  nameWithType: PinSiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
+  nameWithType.vb: PinSiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T)
+  name.vb: PinSiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+    name: PinSiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+    name: DataAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.html
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{{T}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0}
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  name: SiteData<T>
+  nameWithType: SiteData<T>
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>
+  nameWithType.vb: SiteData(Of T)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData(Of T)
+  name.vb: SiteData(Of T)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1
+    name: SiteData
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult.html#NationalInstruments_SemiconductorTestLibrary_Common_Publish_PublishResult__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext___0_System_String_System_String_
+  name: PublishResult
+  nameWithType: Publish.PublishResult
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResult
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult.html#NationalInstruments_SemiconductorTestLibrary_Common_Publish_PublishSingleSiteResult__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext___0_System_String_System_String_
+  name: PublishSingleSiteResult
+  nameWithType: Publish.PublishSingleSiteResult
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishSingleSiteResult
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{{TSessionInformation}}
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0}
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  definition: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  name: ISessionsBundle<TSessionInformation>
+  nameWithType: ISessionsBundle<TSessionInformation>
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>
+  nameWithType.vb: ISessionsBundle(Of TSessionInformation)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation)
+  name.vb: ISessionsBundle(Of TSessionInformation)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+    name: ISessionsBundle
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  - name: <
+  - name: TSessionInformation
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+    name: ISessionsBundle
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: )
+- uid: '{TData}[][]'
+  isExternal: true
+  name: TData[][]
+  nameWithType: TData[][]
+  fullName: TData[][]
+  nameWithType.vb: TData()()
+  fullName.vb: TData()()
+  name.vb: TData()()
+  spec.csharp:
+  - name: TData
+  - name: '['
+  - name: ']'
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: TData
+  - name: (
+  - name: )
+  - name: (
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  name: ISessionsBundle<TSessionInformation>
+  nameWithType: ISessionsBundle<TSessionInformation>
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>
+  nameWithType.vb: ISessionsBundle(Of TSessionInformation)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle(Of TSessionInformation)
+  name.vb: ISessionsBundle(Of TSessionInformation)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+    name: ISessionsBundle
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  - name: <
+  - name: TSessionInformation
+  - name: '>'
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle`1
+    name: ISessionsBundle
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSessionInformation
+  - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+- uid: '{TData}[]'
+  isExternal: true
+  name: TData[]
+  nameWithType: TData[]
+  fullName: TData[]
+  nameWithType.vb: TData()
+  fullName.vb: TData()
+  name.vb: TData()
+  spec.csharp:
+  - name: TData
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: TData
+  - name: (
+  - name: )
+memberLayout: SeparatePages

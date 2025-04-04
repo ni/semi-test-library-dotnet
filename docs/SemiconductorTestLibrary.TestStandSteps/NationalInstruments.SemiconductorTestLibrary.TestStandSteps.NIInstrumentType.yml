@@ -1,0 +1,278 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  id: NIInstrumentType
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.All
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDAQmx
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDCPower
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDMM
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDigitalPattern
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIFGen
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIRelayDriver
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIScope
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NISync
+  langs:
+  - csharp
+  - vb
+  name: NIInstrumentType
+  nameWithType: NIInstrumentType
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  type: Enum
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: Defines NI instrument types the NI Semiconductor Test Library supports.
+  example: []
+  syntax:
+    content: public enum NIInstrumentType
+    content.vb: Public Enum NIInstrumentType
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.All
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.All
+  id: All
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: NIInstrumentType.All
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.All
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: All NI instruments.
+  example: []
+  syntax:
+    content: All = 0
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDCPower
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDCPower
+  id: NIDCPower
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  langs:
+  - csharp
+  - vb
+  name: NIDCPower
+  nameWithType: NIInstrumentType.NIDCPower
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDCPower
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: An NI-DCPower instrument.
+  example: []
+  syntax:
+    content: NIDCPower = 1
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDigitalPattern
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDigitalPattern
+  id: NIDigitalPattern
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  langs:
+  - csharp
+  - vb
+  name: NIDigitalPattern
+  nameWithType: NIInstrumentType.NIDigitalPattern
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDigitalPattern
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: An NI-Digital Pattern instrument.
+  example: []
+  syntax:
+    content: NIDigitalPattern = 2
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIRelayDriver
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIRelayDriver
+  id: NIRelayDriver
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  langs:
+  - csharp
+  - vb
+  name: NIRelayDriver
+  nameWithType: NIInstrumentType.NIRelayDriver
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIRelayDriver
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: A relay driver module (NI-SWITCH instrument).
+  example: []
+  syntax:
+    content: NIRelayDriver = 3
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDAQmx
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDAQmx
+  id: NIDAQmx
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  langs:
+  - csharp
+  - vb
+  name: NIDAQmx
+  nameWithType: NIInstrumentType.NIDAQmx
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDAQmx
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: An NI-DAQmx task.
+  example: []
+  syntax:
+    content: NIDAQmx = 4
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDMM
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDMM
+  id: NIDMM
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  langs:
+  - csharp
+  - vb
+  name: NIDMM
+  nameWithType: NIInstrumentType.NIDMM
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDMM
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: An NI-DMM instrument.
+  example: []
+  syntax:
+    content: NIDMM = 5
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIFGen
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIFGen
+  id: NIFGen
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  langs:
+  - csharp
+  - vb
+  name: NIFGen
+  nameWithType: NIInstrumentType.NIFGen
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIFGen
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: An NI-FGEN instrument.
+  example: []
+  syntax:
+    content: NIFGen = 6
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIScope
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIScope
+  id: NIScope
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  langs:
+  - csharp
+  - vb
+  name: NIScope
+  nameWithType: NIInstrumentType.NIScope
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIScope
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: An NI-SCOPE instrument.
+  example: []
+  syntax:
+    content: NIScope = 7
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NISync
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NISync
+  id: NISync
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  langs:
+  - csharp
+  - vb
+  name: NISync
+  nameWithType: NIInstrumentType.NISync
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NISync
+  type: Field
+  source:
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.TestStandSteps/source/Shared.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  namespace: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  summary: An NI-Sync instrument.
+  example: []
+  syntax:
+    content: NISync = 8
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+    name: TestStandSteps
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+    name: TestStandSteps
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.html
+- uid: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+  parent: NationalInstruments.SemiconductorTestLibrary.TestStandSteps
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.html
+  name: NIInstrumentType
+  nameWithType: NIInstrumentType
+  fullName: NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType
+memberLayout: SeparatePages

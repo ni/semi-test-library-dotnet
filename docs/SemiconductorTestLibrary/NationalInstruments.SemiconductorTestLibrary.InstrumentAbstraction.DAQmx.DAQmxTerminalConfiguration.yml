@@ -1,0 +1,196 @@
+### YamlMime:ManagedReference
+items:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  id: DAQmxTerminalConfiguration
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  children:
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Default
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Differential
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Nrse
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Pseudodifferential
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Rse
+  langs:
+  - csharp
+  - vb
+  name: DAQmxTerminalConfiguration
+  nameWithType: DAQmxTerminalConfiguration
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  type: Enum
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/InitializeAndClose.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Defines terminal configurations for analog input and output channels.
+  example: []
+  syntax:
+    content: public enum DAQmxTerminalConfiguration
+    content.vb: Public Enum DAQmxTerminalConfiguration
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Default
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Default
+  id: Default
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: DAQmxTerminalConfiguration.Default
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Default
+  type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/InitializeAndClose.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Uses device default terminal configuration.
+  example: []
+  syntax:
+    content: Default = -1
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Nrse
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Nrse
+  id: Nrse
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  langs:
+  - csharp
+  - vb
+  name: Nrse
+  nameWithType: DAQmxTerminalConfiguration.Nrse
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Nrse
+  type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/InitializeAndClose.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Measures the potential difference between the AI and the AI SENSE.
+  example: []
+  syntax:
+    content: Nrse = 10078
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Rse
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Rse
+  id: Rse
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  langs:
+  - csharp
+  - vb
+  name: Rse
+  nameWithType: DAQmxTerminalConfiguration.Rse
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Rse
+  type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/InitializeAndClose.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Measures the potential difference between the AI/AO and the AI/AO GND.
+  example: []
+  syntax:
+    content: Rse = 10083
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Differential
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Differential
+  id: Differential
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  langs:
+  - csharp
+  - vb
+  name: Differential
+  nameWithType: DAQmxTerminalConfiguration.Differential
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Differential
+  type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/InitializeAndClose.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Measures the potential difference between the AI/AO+ and AI/AO-.
+  example: []
+  syntax:
+    content: Differential = 10106
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Pseudodifferential
+  commentId: F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Pseudodifferential
+  id: Pseudodifferential
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  langs:
+  - csharp
+  - vb
+  name: Pseudodifferential
+  nameWithType: DAQmxTerminalConfiguration.Pseudodifferential
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.Pseudodifferential
+  type: Field
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/InitializeAndClose.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: Measures the potential difference between the AI/AO+ and AI/AO- while AI/AO- is tied to AI/AO GND through a relatively small impedance.
+  example: []
+  syntax:
+    content: Pseudodifferential = 12529
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+references:
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.html
+  name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  nameWithType: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  spec.csharp:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+    name: DAQmx
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.html
+  spec.vb:
+  - uid: NationalInstruments
+    name: NationalInstruments
+    isExternal: true
+    href: NationalInstruments.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary
+    name: SemiconductorTestLibrary
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+    name: InstrumentAbstraction
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.html
+  - name: .
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+    name: DAQmx
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.html
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration.html
+  name: DAQmxTerminalConfiguration
+  nameWithType: DAQmxTerminalConfiguration
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration
+memberLayout: SeparatePages
