@@ -36,7 +36,8 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.x
-      - run: dotnet tool update -g docfx
+      - name: Install docfx 2.77
+        run: dotnet tool install -g docfx --version 2.77
       - run: docfx build docs/docfx.json
       - run: docfx pdf docs/docfx.json
       - name: Upload artifact
