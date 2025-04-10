@@ -53,12 +53,12 @@ jobs:
             WI_DETAILS=$(curl -s -u ":$TOKEN" \
               -X GET "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$id?\$expand=relations&api-version=7.1-preview.2")
             EXISTING_TAGS=$(echo "$WI_DETAILS" | jq -r '.fields["System.Tags"]')
-            if echo "$EXISTING_TAGS" | grep -q "GitHubCommented"; then
-              echo "Work Item $id already has 'GitHubCommented' tag. Skipping."
+            if echo "$EXISTING_TAGS" | grep -q "GitHubCommentWasMade"; then
+              echo "Work Item $id already has 'GitHubCommentWasMade' tag. Skipping."
               continue
             fi
-            if ! echo "$EXISTING_TAGS" | grep -q "Comment on GitHub"; then
-              echo "Work Item $id does not have 'Comment on GitHub' tag. Skipping."
+            if ! echo "$EXISTING_TAGS" | grep -q "CommentOnGitHub"; then
+              echo "Work Item $id does not have 'CommentOnGitHub' tag. Skipping."
               continue
             fi
             ISSUE_URL=$(echo "$WI_DETAILS" | jq -r '.relations[]? | select(.rel=="ArtifactLink" and .attributes.name=="GitHub Issue") | .url')
@@ -114,7 +114,7 @@ jobs:
                 const azureToken = process.env.AZURE_DEVOPS_TOKEN;
                 const azdoOrg = process.env.AZDO_ORG;
                 const azdoProject = process.env.AZDO_PROJECT;
-                const patchCmd = `curl -s -u ":${azureToken}" -X PATCH "https://dev.azure.com/${azdoOrg}/${azdoProject}/_apis/wit/workitems/${workItemId}?api-version=7.1-preview.3" -H "Content-Type: application/json-patch+json" --data-binary "[{\\"op\\": \\"add\\", \\"path\\": \\"/fields/System.Tags\\", \\"value\\": \\"GitHubCommented\\"}]"`;
+                const patchCmd = `curl -s -u ":${azureToken}" -X PATCH "https://dev.azure.com/${azdoOrg}/${azdoProject}/_apis/wit/workitems/${workItemId}?api-version=7.1-preview.3" -H "Content-Type: application/json-patch+json" --data-binary "[{\\"op\\": \\"add\\", \\"path\\": \\"/fields/System.Tags\\", \\"value\\": \\"GitHubCommentWasMade\\"}]"`;
                 console.log(`Executing command to update work item ${workItemId}.`);
                 try {
                   const updateOutput = execSync(patchCmd, { encoding: 'utf-8' });
