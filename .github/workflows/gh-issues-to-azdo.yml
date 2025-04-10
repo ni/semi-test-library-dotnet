@@ -56,13 +56,13 @@ jobs:
               <p>Issue Number: $ISSUE_NUMBER</p>
               <p><a href=\"$ISSUE_URL\">View Issue on GitHub</a></p>
               <p>$FORMATTED_ISSUE_BODY</p>
-              <p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the \"Comment on GitHub\" tag <u>if no action is required</u> for the work item.</p>
+              <p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the \"CommentOnGitHub\" tag <u>if no action is required</u> for the work item.</p>
             </div>" \
             --arg areaPath "$AZDO_AREA_PATH" \
             '[{"op": "add", "path": "/fields/System.Title", "value": $title},
               {"op": "add", "path": "/fields/System.Description", "value": $description},
               {"op": "add", "path": "/fields/System.AreaPath", "value": $areaPath},
-              {"op": "add", "path": "/fields/System.Tags", "value": "Comment on GitHub"}]')
+              {"op": "add", "path": "/fields/System.Tags", "value": "CommentOnGitHub"}]')
           # Adding additional custom fields if the work item type is "Customer Escalation"
           if [[ "$WORK_ITEM_TYPE" == "Customer%20Escalation" ]]; then
             PATCH_DOC=$(echo "$PATCH_DOC" | jq '. + 
