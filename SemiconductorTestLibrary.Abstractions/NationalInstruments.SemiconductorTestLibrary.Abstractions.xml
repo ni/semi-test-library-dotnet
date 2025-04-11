@@ -2578,8 +2578,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings">
             <summary>
-            Defines DCPower model strings according to the driver definition below.
-            https://dev.azure.com/ni/DevCentral/_git/ni-central?path=/src/nidcpower/base/nidcpowerSharedSource/source/nidcpowerSharedSource/productid/ProductID.h
+            Defines model strings for supported DCPower instrument models.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerModelStrings.PXI_4110">
