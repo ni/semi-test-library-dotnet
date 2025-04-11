@@ -27,6 +27,7 @@ items:
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(``0)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Combine(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Boolean)
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)
@@ -42,6 +43,7 @@ items:
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin(System.String)
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins(System.String[])
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSite(System.Int32)
+  - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSites(System.Int32[])
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(System.Int32,System.String)
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert
   - NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert``1
@@ -111,6 +113,8 @@ items:
   nameWithType: PinSiteData<T>
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>
   type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -145,6 +149,8 @@ items:
   nameWithType: PinSiteData<T>.PinSiteData(string[], SiteData<T>[])
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinSiteData(string[], NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>[])
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -175,6 +181,8 @@ items:
   nameWithType: PinSiteData<T>.PinSiteData(Dictionary<string, IDictionary<int, T>>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinSiteData(System.Collections.Generic.Dictionary<string, System.Collections.Generic.IDictionary<int, T>>)
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -202,6 +210,8 @@ items:
   nameWithType: PinSiteData<T>.PinSiteData(int[], Dictionary<string, T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinSiteData(int[], System.Collections.Generic.Dictionary<string, T>)
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -235,6 +245,8 @@ items:
   nameWithType: PinSiteData<T>.PinSiteData(string[], int[], T)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinSiteData(string[], int[], T)
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -268,6 +280,8 @@ items:
   nameWithType: PinSiteData<T>.PinSiteData(string[], int[], T[])
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinSiteData(string[], int[], T[])
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -311,6 +325,8 @@ items:
   nameWithType: PinSiteData<T>.PinSiteData(int[], string[], T[])
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinSiteData(int[], string[], T[])
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -354,6 +370,8 @@ items:
   nameWithType: PinSiteData<T>.PinSiteData(string[], int[], T[][])
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinSiteData(string[], int[], T[][])
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -396,6 +414,8 @@ items:
   nameWithType: PinSiteData<T>.PinSiteData(int[], string[], T[][])
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinSiteData(int[], string[], T[][])
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -438,6 +458,8 @@ items:
   nameWithType: PinSiteData<T>.ExtractPin(string)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ExtractPin(string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -454,6 +476,10 @@ items:
       description: The <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData%601" data-throw-if-not-resolved="false"></xref> for the specified pin.
     content.vb: Public Function ExtractPin(pinName As String) As SiteData(Of T)
   overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin*
+  exceptions:
+  - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    description: Thrown when data for the given pin name does not exist.
   nameWithType.vb: PinSiteData(Of T).ExtractPin(String)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).ExtractPin(String)
   name.vb: ExtractPin(String)
@@ -468,6 +494,8 @@ items:
   nameWithType: PinSiteData<T>.ExtractPins(string[])
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ExtractPins(string[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -484,6 +512,10 @@ items:
       description: A new PinSiteData object that contains data for given pins.
     content.vb: Public Function ExtractPins(pinNames As String()) As PinSiteData(Of T)
   overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins*
+  exceptions:
+  - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    description: Thrown when data for some of the given pin names does not exist.
   nameWithType.vb: PinSiteData(Of T).ExtractPins(String())
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).ExtractPins(String())
   name.vb: ExtractPins(String())
@@ -498,6 +530,8 @@ items:
   nameWithType: PinSiteData<T>.ExtractSite(int)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ExtractSite(int)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -514,9 +548,49 @@ items:
       description: The data for the specified site number.
     content.vb: Public Function ExtractSite(siteNumber As Integer) As IDictionary(Of String, T)
   overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSite*
+  exceptions:
+  - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    description: Thrown when data for the given site number does not exist.
   nameWithType.vb: PinSiteData(Of T).ExtractSite(Integer)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).ExtractSite(Integer)
   name.vb: ExtractSite(Integer)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSites(System.Int32[])
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSites(System.Int32[])
+  id: ExtractSites(System.Int32[])
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: ExtractSites(int[])
+  nameWithType: PinSiteData<T>.ExtractSites(int[])
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ExtractSites(int[])
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Gets a new <xref href="NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData%601" data-throw-if-not-resolved="false"></xref> object for the specified sites.
+  example: []
+  syntax:
+    content: public PinSiteData<T> ExtractSites(int[] siteNumbers)
+    parameters:
+    - id: siteNumbers
+      type: System.Int32[]
+      description: The specified site numbers.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData object that contains data for given sites.
+    content.vb: Public Function ExtractSites(siteNumbers As Integer()) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSites*
+  exceptions:
+  - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    description: Thrown when data for some of the given site numbers does not exist.
+  nameWithType.vb: PinSiteData(Of T).ExtractSites(Integer())
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).ExtractSites(Integer())
+  name.vb: ExtractSites(Integer())
 - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(System.Int32,System.String)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(System.Int32,System.String)
   id: GetValue(System.Int32,System.String)
@@ -528,6 +602,8 @@ items:
   nameWithType: PinSiteData<T>.GetValue(int, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.GetValue(int, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -561,6 +637,8 @@ items:
   nameWithType: PinSiteData<T>.TryGetValue(int, string, out T)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.TryGetValue(int, string, out T)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -586,6 +664,45 @@ items:
   nameWithType.vb: PinSiteData(Of T).TryGetValue(Integer, String, T)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).TryGetValue(Integer, String, T)
   name.vb: TryGetValue(Integer, String, T)
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Combine(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Boolean)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Combine(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Boolean)
+  id: Combine(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Boolean)
+  parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  langs:
+  - csharp
+  - vb
+  name: Combine(PinSiteData<T>, bool)
+  nameWithType: PinSiteData<T>.Combine(PinSiteData<T>, bool)
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Combine(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, bool)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
+  summary: Combines the current PinSiteData object with another PinSiteData object and produces a new PinSiteData object.
+  example: []
+  syntax:
+    content: public PinSiteData<T> Combine(PinSiteData<T> other, bool overrideIfExisting = true)
+    parameters:
+    - id: other
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: The other PinSiteData object to combine.
+    - id: overrideIfExisting
+      type: System.Boolean
+      description: Specifies whether to override the existing data for a specific pin-site pair with that in the other PinSiteData object.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+      description: A new PinSiteData object with data from both PinSiteData objects.
+    content.vb: Public Function Combine(other As PinSiteData(Of T), overrideIfExisting As Boolean = True) As PinSiteData(Of T)
+  overload: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Combine*
+  exceptions:
+  - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    description: Thrown when data for a specific pin-site pair already exists in current PinSiteData object but <code class="paramref">overrideIfExisting</code> is set to false.
+  nameWithType.vb: PinSiteData(Of T).Combine(PinSiteData(Of T), Boolean)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Combine(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T), Boolean)
+  name.vb: Combine(PinSiteData(Of T), Boolean)
 - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Max
   commentId: M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Max
   id: Max
@@ -597,6 +714,8 @@ items:
   nameWithType: PinSiteData<T>.Max()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Max()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -626,6 +745,8 @@ items:
   nameWithType: PinSiteData<T>.MaxByPin()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.MaxByPin()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -655,6 +776,8 @@ items:
   nameWithType: PinSiteData<T>.MaxBySite()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.MaxBySite()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -684,6 +807,8 @@ items:
   nameWithType: PinSiteData<T>.Min()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Min()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -713,6 +838,8 @@ items:
   nameWithType: PinSiteData<T>.MinByPin()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.MinByPin()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -742,6 +869,8 @@ items:
   nameWithType: PinSiteData<T>.MinBySite()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.MinBySite()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -771,6 +900,8 @@ items:
   nameWithType: PinSiteData<T>.Mean()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Mean()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -797,6 +928,8 @@ items:
   nameWithType: PinSiteData<T>.MeanBySite()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.MeanBySite()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -822,6 +955,8 @@ items:
   nameWithType: PinSiteData<T>.Select<TResult>(Func<T, TResult>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Select<TResult>(System.Func<T, TResult>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -855,6 +990,8 @@ items:
   nameWithType: PinSiteData<T>.Abs()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Abs()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -880,6 +1017,8 @@ items:
   nameWithType: PinSiteData<T>.operator +(PinSiteData<T>, T)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator +(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, T)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -913,6 +1052,8 @@ items:
   nameWithType: PinSiteData<T>.Add<TOther>(TOther)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Add<TOther>(TOther)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -949,6 +1090,8 @@ items:
   nameWithType: PinSiteData<T>.operator +(PinSiteData<T>, SiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator +(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -982,6 +1125,8 @@ items:
   nameWithType: PinSiteData<T>.Add<TOther>(SiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Add<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1018,6 +1163,8 @@ items:
   nameWithType: PinSiteData<T>.operator +(PinSiteData<T>, PinSiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator +(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1051,6 +1198,8 @@ items:
   nameWithType: PinSiteData<T>.Add<TOther>(PinSiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Add<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1087,6 +1236,8 @@ items:
   nameWithType: PinSiteData<T>.Compare(ComparisonType, T)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, T)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1123,6 +1274,8 @@ items:
   nameWithType: PinSiteData<T>.Compare<TOther, TResult>(ComparisonType, TOther)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Compare<TOther, TResult>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, TOther)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1144,7 +1297,10 @@ items:
     typeParameters:
     - id: TOther
     - id: TResult
-      description: The output type of the result from the operation.
+      description: >-
+        The output type of the result from the operation.
+
+        The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
     return:
       type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
       description: A new PinSiteData object that contains the compare results.
@@ -1164,6 +1320,8 @@ items:
   nameWithType: PinSiteData<T>.Compare(ComparisonType, SiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1201,6 +1359,8 @@ items:
   nameWithType: PinSiteData<T>.Compare<TOther, TResult>(ComparisonType, SiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Compare<TOther, TResult>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1222,7 +1382,10 @@ items:
     typeParameters:
     - id: TOther
     - id: TResult
-      description: The output type of the result from the operation.
+      description: >-
+        The output type of the result from the operation.
+
+        The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
     return:
       type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
       description: A new PinSiteData object that contains the compare results.
@@ -1242,6 +1405,8 @@ items:
   nameWithType: PinSiteData<T>.Compare(ComparisonType, PinSiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1279,6 +1444,8 @@ items:
   nameWithType: PinSiteData<T>.Compare<TOther, TResult>(ComparisonType, PinSiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Compare<TOther, TResult>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1300,7 +1467,10 @@ items:
     typeParameters:
     - id: TOther
     - id: TResult
-      description: The output type of the result from the operation.
+      description: >-
+        The output type of the result from the operation.
+
+        The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
     return:
       type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
       description: A new PinSiteData object that contains the compare results.
@@ -1320,6 +1490,8 @@ items:
   nameWithType: PinSiteData<T>.operator /(PinSiteData<T>, T)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator /(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, T)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1353,6 +1525,8 @@ items:
   nameWithType: PinSiteData<T>.Divide(T)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Divide(T)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1386,6 +1560,8 @@ items:
   nameWithType: PinSiteData<T>.Divide<TOther, TResult>(TOther)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Divide<TOther, TResult>(TOther)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1404,7 +1580,10 @@ items:
     typeParameters:
     - id: TOther
     - id: TResult
-      description: The output type of the result from the operation.
+      description: >-
+        The output type of the result from the operation.
+
+        The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
     return:
       type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
       description: A new PinSiteData object that contains the results.
@@ -1424,6 +1603,8 @@ items:
   nameWithType: PinSiteData<T>.operator /(PinSiteData<T>, SiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator /(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1457,6 +1638,8 @@ items:
   nameWithType: PinSiteData<T>.Divide(SiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1491,6 +1674,8 @@ items:
   nameWithType: PinSiteData<T>.Divide<TOther, TResult>(SiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Divide<TOther, TResult>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1509,7 +1694,10 @@ items:
     typeParameters:
     - id: TOther
     - id: TResult
-      description: The output type of the result from the operation.
+      description: >-
+        The output type of the result from the operation.
+
+        The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
     return:
       type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
       description: A new PinSiteData object that contains the results.
@@ -1529,6 +1717,8 @@ items:
   nameWithType: PinSiteData<T>.operator /(PinSiteData<T>, PinSiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator /(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1562,6 +1752,8 @@ items:
   nameWithType: PinSiteData<T>.Divide(PinSiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1596,6 +1788,8 @@ items:
   nameWithType: PinSiteData<T>.Divide<TOther, TResult>(PinSiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Divide<TOther, TResult>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1614,7 +1808,10 @@ items:
     typeParameters:
     - id: TOther
     - id: TResult
-      description: The output type of the result from the operation.
+      description: >-
+        The output type of the result from the operation.
+
+        The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
     return:
       type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
       description: A new PinSiteData object that contains the results.
@@ -1634,6 +1831,8 @@ items:
   nameWithType: PinSiteData<T>.Invert()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Invert()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1659,6 +1858,8 @@ items:
   nameWithType: PinSiteData<T>.Invert<TResult>()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Invert<TResult>()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1668,7 +1869,10 @@ items:
     content: public PinSiteData<TResult> Invert<TResult>()
     typeParameters:
     - id: TResult
-      description: The output type of the result from the operation.
+      description: >-
+        The output type of the result from the operation.
+
+        The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
     return:
       type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
       description: A new PinSiteData object that contains the inverted results.
@@ -1688,6 +1892,8 @@ items:
   nameWithType: PinSiteData<T>.Log10()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Log10()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1713,6 +1919,8 @@ items:
   nameWithType: PinSiteData<T>.Log10<TResult>()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Log10<TResult>()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1722,7 +1930,10 @@ items:
     content: public PinSiteData<TResult> Log10<TResult>()
     typeParameters:
     - id: TResult
-      description: The output type of the result from the operation.
+      description: >-
+        The output type of the result from the operation.
+
+        The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
     return:
       type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
       description: A new PinSiteData object that contains the log10 results.
@@ -1742,6 +1953,8 @@ items:
   nameWithType: PinSiteData<T>.Maximum<TOther>(TOther)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Maximum<TOther>(TOther)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1778,6 +1991,8 @@ items:
   nameWithType: PinSiteData<T>.Maximum<TOther>(SiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Maximum<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1814,6 +2029,8 @@ items:
   nameWithType: PinSiteData<T>.Maximum<TOther>(PinSiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Maximum<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1850,6 +2067,8 @@ items:
   nameWithType: PinSiteData<T>.Minimum<TOther>(TOther)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Minimum<TOther>(TOther)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1886,6 +2105,8 @@ items:
   nameWithType: PinSiteData<T>.Minimum<TOther>(SiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Minimum<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1922,6 +2143,8 @@ items:
   nameWithType: PinSiteData<T>.Minimum<TOther>(PinSiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Minimum<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1958,6 +2181,8 @@ items:
   nameWithType: PinSiteData<T>.operator *(PinSiteData<T>, T)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator *(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, T)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -1991,6 +2216,8 @@ items:
   nameWithType: PinSiteData<T>.Multiply<TOther>(TOther)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Multiply<TOther>(TOther)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2027,6 +2254,8 @@ items:
   nameWithType: PinSiteData<T>.operator *(PinSiteData<T>, SiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator *(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2060,6 +2289,8 @@ items:
   nameWithType: PinSiteData<T>.Multiply<TOther>(SiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Multiply<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2096,6 +2327,8 @@ items:
   nameWithType: PinSiteData<T>.operator *(PinSiteData<T>, PinSiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator *(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2129,6 +2362,8 @@ items:
   nameWithType: PinSiteData<T>.Multiply<TOther>(PinSiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Multiply<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2165,6 +2400,8 @@ items:
   nameWithType: PinSiteData<T>.Negate()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Negate()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2190,6 +2427,8 @@ items:
   nameWithType: PinSiteData<T>.Power<TOther>(TOther)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Power<TOther>(TOther)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2226,6 +2465,8 @@ items:
   nameWithType: PinSiteData<T>.Power<TOther>(SiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Power<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2262,6 +2503,8 @@ items:
   nameWithType: PinSiteData<T>.Power<TOther>(PinSiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Power<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2298,6 +2541,8 @@ items:
   nameWithType: PinSiteData<T>.SquareRoot()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.SquareRoot()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2323,6 +2568,8 @@ items:
   nameWithType: PinSiteData<T>.SquareRoot<TResult>()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.SquareRoot<TResult>()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2332,7 +2579,10 @@ items:
     content: public PinSiteData<TResult> SquareRoot<TResult>()
     typeParameters:
     - id: TResult
-      description: The output type of the result from the operation.
+      description: >-
+        The output type of the result from the operation.
+
+        The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
     return:
       type: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{{TResult}}
       description: A new PinSiteData object that contains the square root values.
@@ -2352,6 +2602,8 @@ items:
   nameWithType: PinSiteData<T>.operator -(PinSiteData<T>, T)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator -(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, T)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2385,6 +2637,8 @@ items:
   nameWithType: PinSiteData<T>.Subtract<TOther>(TOther)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Subtract<TOther>(TOther)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2421,6 +2675,8 @@ items:
   nameWithType: PinSiteData<T>.operator -(PinSiteData<T>, SiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator -(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2454,6 +2710,8 @@ items:
   nameWithType: PinSiteData<T>.Subtract<TOther>(SiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Subtract<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2490,6 +2748,8 @@ items:
   nameWithType: PinSiteData<T>.operator -(PinSiteData<T>, PinSiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator -(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2523,6 +2783,8 @@ items:
   nameWithType: PinSiteData<T>.Subtract<TOther>(PinSiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Subtract<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2559,6 +2821,8 @@ items:
   nameWithType: PinSiteData<T>.Truncate()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Truncate()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2584,6 +2848,8 @@ items:
   nameWithType: PinSiteData<T>.operator <<(PinSiteData<T>, int)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator <<(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, int)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2618,6 +2884,8 @@ items:
   nameWithType: PinSiteData<T>.ShiftLeft(int)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ShiftLeft(int)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2649,6 +2917,8 @@ items:
   nameWithType: PinSiteData<T>.operator >>(PinSiteData<T>, int)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator >>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, int)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2683,6 +2953,8 @@ items:
   nameWithType: PinSiteData<T>.ShiftRight(int)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ShiftRight(int)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2714,6 +2986,8 @@ items:
   nameWithType: PinSiteData<T>.operator &(PinSiteData<T>, T)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator &(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, T)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2748,6 +3022,8 @@ items:
   nameWithType: PinSiteData<T>.BitwiseAnd<TOther>(TOther)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.BitwiseAnd<TOther>(TOther)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2786,6 +3062,8 @@ items:
   nameWithType: PinSiteData<T>.operator &(PinSiteData<T>, SiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator &(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2820,6 +3098,8 @@ items:
   nameWithType: PinSiteData<T>.BitwiseAnd<TOther>(SiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.BitwiseAnd<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2858,6 +3138,8 @@ items:
   nameWithType: PinSiteData<T>.operator &(PinSiteData<T>, PinSiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator &(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2892,6 +3174,8 @@ items:
   nameWithType: PinSiteData<T>.BitwiseAnd<TOther>(PinSiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.BitwiseAnd<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2930,6 +3214,8 @@ items:
   nameWithType: PinSiteData<T>.operator |(PinSiteData<T>, T)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator |(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, T)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -2964,6 +3250,8 @@ items:
   nameWithType: PinSiteData<T>.BitwiseOr<TOther>(TOther)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.BitwiseOr<TOther>(TOther)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3002,6 +3290,8 @@ items:
   nameWithType: PinSiteData<T>.operator |(PinSiteData<T>, SiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator |(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3036,6 +3326,8 @@ items:
   nameWithType: PinSiteData<T>.BitwiseOr<TOther>(SiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.BitwiseOr<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3074,6 +3366,8 @@ items:
   nameWithType: PinSiteData<T>.operator |(PinSiteData<T>, PinSiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator |(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3108,6 +3402,8 @@ items:
   nameWithType: PinSiteData<T>.BitwiseOr<TOther>(PinSiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.BitwiseOr<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3146,6 +3442,8 @@ items:
   nameWithType: PinSiteData<T>.operator ^(PinSiteData<T>, T)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator ^(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, T)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3180,6 +3478,8 @@ items:
   nameWithType: PinSiteData<T>.BitwiseXor<TOther>(TOther)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.BitwiseXor<TOther>(TOther)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3218,6 +3518,8 @@ items:
   nameWithType: PinSiteData<T>.operator ^(PinSiteData<T>, SiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator ^(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3252,6 +3554,8 @@ items:
   nameWithType: PinSiteData<T>.BitwiseXor<TOther>(SiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.BitwiseXor<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3290,6 +3594,8 @@ items:
   nameWithType: PinSiteData<T>.operator ^(PinSiteData<T>, PinSiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator ^(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>, NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3324,6 +3630,8 @@ items:
   nameWithType: PinSiteData<T>.BitwiseXor<TOther>(PinSiteData<TOther>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.BitwiseXor<TOther>(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<TOther>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3362,6 +3670,8 @@ items:
   nameWithType: PinSiteData<T>.operator ~(PinSiteData<T>)
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.operator ~(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>)
   type: Operator
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3393,6 +3703,8 @@ items:
   nameWithType: PinSiteData<T>.BitwiseComplement()
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.BitwiseComplement()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3419,6 +3731,8 @@ items:
   nameWithType: PinSiteData<T>.PinNames
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.PinNames
   type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -3444,6 +3758,8 @@ items:
   nameWithType: PinSiteData<T>.SiteNumbers
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.SiteNumbers
   type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
@@ -4074,6 +4390,13 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.html
+  name: NISemiconductorTestException
+  nameWithType: NISemiconductorTestException
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
 - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin
   isExternal: true
@@ -4256,6 +4579,15 @@ references:
   - name: " "
   - name: TValue
   - name: )
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSites*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSites
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.ExtractSites.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_ExtractSites_System_Int32___
+  name: ExtractSites
+  nameWithType: PinSiteData<T>.ExtractSites
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.ExtractSites
+  nameWithType.vb: PinSiteData(Of T).ExtractSites
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).ExtractSites
 - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue
   isExternal: true
@@ -4285,6 +4617,15 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
+- uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Combine*
+  commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Combine
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Combine.html#NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_1_Combine_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData__0__System_Boolean_
+  name: Combine
+  nameWithType: PinSiteData<T>.Combine
+  fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<T>.Combine
+  nameWithType.vb: PinSiteData(Of T).Combine
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData(Of T).Combine
 - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Max*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Max
   isExternal: true

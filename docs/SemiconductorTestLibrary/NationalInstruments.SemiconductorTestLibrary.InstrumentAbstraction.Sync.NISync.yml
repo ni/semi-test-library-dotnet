@@ -23,6 +23,8 @@ items:
   nameWithType: NISync
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync
   type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -52,6 +54,8 @@ items:
   nameWithType: NISync.NISync(string, bool, bool)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.NISync(string, bool, bool)
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -85,6 +89,8 @@ items:
   nameWithType: NISync.Reset()
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.Reset()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -105,6 +111,8 @@ items:
   nameWithType: NISync.Close()
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.Close()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -125,6 +133,8 @@ items:
   nameWithType: NISync.ConnectClkTerminals(string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.ConnectClkTerminals(string, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -158,6 +168,8 @@ items:
   nameWithType: NISync.DisconnectClkTerminals(string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.DisconnectClkTerminals(string, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -188,6 +200,8 @@ items:
   nameWithType: NISync.ConnectSoftwareTrigger(string, SynchronizationClock, bool, UpdateEdge, double)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.ConnectSoftwareTrigger(string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock, bool, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge, double)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -227,6 +241,8 @@ items:
   nameWithType: NISync.SendSoftwareTrigger()
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.SendSoftwareTrigger()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -247,6 +263,8 @@ items:
   nameWithType: NISync.DisconnectSoftwareTrigger(string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.DisconnectSoftwareTrigger(string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -274,6 +292,8 @@ items:
   nameWithType: NISync.ConnectTriggerTerminals(string, string, SynchronizationClock, bool, UpdateEdge)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.ConnectTriggerTerminals(string, string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock, bool, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.UpdateEdge)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -318,6 +338,8 @@ items:
   nameWithType: NISync.DisconnectTriggerTerminals(string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.DisconnectTriggerTerminals(string, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync
@@ -348,6 +370,8 @@ items:
   nameWithType: NISync.ResourceName
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.NISync.ResourceName
   type: Property
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/Sync/NISync.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync

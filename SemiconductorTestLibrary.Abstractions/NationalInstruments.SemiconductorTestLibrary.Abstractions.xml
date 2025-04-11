@@ -577,6 +577,7 @@
             </summary>
             <param name="pinName">The specified pin name.</param>
             <returns>The <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> for the specified pin.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for the given pin name does not exist.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins(System.String[])">
             <summary>
@@ -584,6 +585,7 @@
             </summary>
             <param name="pinNames">The specified pin names.</param>
             <returns>A new PinSiteData object that contains data for given pins.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for some of the given pin names does not exist.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSite(System.Int32)">
             <summary>
@@ -591,6 +593,15 @@
             </summary>
             <param name="siteNumber">The specified site number.</param>
             <returns>The data for the specified site number.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for the given site number does not exist.</exception>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSites(System.Int32[])">
+            <summary>
+            Gets a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> object for the specified sites.
+            </summary>
+            <param name="siteNumbers">The specified site numbers.</param>
+            <returns>A new PinSiteData object that contains data for given sites.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for some of the given site numbers does not exist.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(System.Int32,System.String)">
             <summary>
@@ -608,6 +619,15 @@
             <param name="pinName">The specified pin name.</param>
             <param name="value">The data for the specified site number and pin name.</param>
             <returns>Returns true if the data for a given site number-pin name pair exists in the PinSiteData object.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Combine(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Boolean)">
+            <summary>
+            Combines the current PinSiteData object with another PinSiteData object and produces a new PinSiteData object.
+            </summary>
+            <param name="other">The other PinSiteData object to combine.</param>
+            <param name="overrideIfExisting">Specifies whether to override the existing data for a specific pin-site pair with that in the other PinSiteData object.</param>
+            <returns>A new PinSiteData object with data from both PinSiteData objects.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for a specific pin-site pair already exists in current PinSiteData object but <paramref name="overrideIfExisting"/> is set to false.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Max">
             <summary>
@@ -761,7 +781,10 @@
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given value.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
@@ -786,7 +809,10 @@
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
@@ -811,7 +837,10 @@
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to compare to.</param>
             <returns>A new PinSiteData object that contains the compare results.</returns>
@@ -843,7 +872,10 @@
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given value.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="value">The divisor value.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
             <remarks>
@@ -874,7 +906,10 @@
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
             <remarks>
@@ -905,7 +940,10 @@
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given PinSiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
             <remarks>
@@ -923,7 +961,10 @@
             <summary>
             Performs invert operation on every element in current PinSiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <returns>A new PinSiteData object that contains the inverted results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10">
@@ -936,7 +977,10 @@
             <summary>
             Performs Math.Log10 operation on every element in current PinSiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <returns>A new PinSiteData object that contains the log10 results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum``1(``0)">
@@ -1111,7 +1155,10 @@
             <summary>
             Returns the square root of every element in current PinSiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current PinSiteData object.
+            </typeparam>
             <returns>A new PinSiteData object that contains the square root values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
@@ -1472,6 +1519,32 @@
             </summary>
             <param name="siteNumber">The site number.</param>
             <returns>Single site data.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for the given site number does not exist.</exception>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.TryGetValue(System.Int32,`0@)">
+            <summary>
+            Attempts to get the data for a given site number.
+            </summary>
+            <param name="siteNumber">The site number.</param>
+            <param name="value">The data for the given site number.</param>
+            <returns>Returns true if the data for the given site number exists in the SiteData object.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ExtractSites(System.Int32[])">
+            <summary>
+            Gets a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with the data for the given sites.
+            </summary>
+            <param name="siteNumbers">The site numbers.</param>
+            <returns>A new SiteData object that contains data for the given sites.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for some of the given site numbers does not exist.</exception>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Combine(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},System.Boolean)">
+            <summary>
+            Combines the current SiteData object with another SiteData object and produces a new SiteData object.
+            </summary>
+            <param name="other">The other SiteData object to combine.</param>
+            <param name="overrideIfExisting">Specifies whether to override the existing data for a specific site with data from the other SiteData object.</param>
+            <returns>A new SiteData object with data from both SiteData objects.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for a specific site already exists in current SiteData object, but <paramref name="overrideIfExisting"/> is set to false.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Max">
             <summary>
@@ -1575,7 +1648,10 @@
             <summary>
             Performs compare operation between every element in current SiteData object and the given value.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
@@ -1600,7 +1676,10 @@
             <summary>
             Performs compare operation between every element in current SiteData object and the given SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
@@ -1632,7 +1711,10 @@
             <summary>
             Performs divide operation between every element in current SiteData object and the given value.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <param name="value">The divisor value.</param>
             <returns>A new SiteData object that contains the results.</returns>
             <remarks>
@@ -1663,7 +1745,10 @@
             <summary>
             Performs divide operation between every element in current SiteData object and the given SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new SiteData object that contains the results.</returns>
             <remarks>
@@ -1681,7 +1766,10 @@
             <summary>
             Performs invert operation on every element in current SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <returns>A new SiteData object that contains the inverted results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Log10">
@@ -1694,7 +1782,10 @@
             <summary>
             Performs Math.Log10 operation on every element in current SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <returns>A new SiteData object that contains the log10 results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum``1(``0)">
@@ -1817,7 +1908,10 @@
             <summary>
             Returns the square root of every element in current SiteData object.
             </summary>
-            <typeparam name="TResult">The output type of the result from the operation.</typeparam>
+            <typeparam name="TResult">
+            The output type of the result from the operation.
+            The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
+            </typeparam>
             <returns>A new SiteData object that contains the square root values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
@@ -2079,6 +2173,54 @@
             <param name="values">Values to apply to each site.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.Boolean)">
+            <summary>
+            Associates a data item with a dataId. Use this method to store a SiteData object you initialize in one location and access later in a downstream location
+            using the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)"/> method.
+            </summary>
+            <typeparam name="T">Data type of value to use with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</typeparam>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="dataId">A unique ID to distinguish the data.</param>
+            <param name="siteData">A data item to store and later retrieve using the specified dataId. If the data item is null, the method deletes the data with the specified dataId if it exists.</param>
+            <param name="overrideIfExisting">Specifies whether to override the existing data for a specific site with data from the given SiteData object.</param>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for a specific site already exists but <paramref name="overrideIfExisting"/> is set to false.</exception>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)">
+            <summary>
+            Gets a SiteData object previously stored by the <see cref="!:SetGlobalSiteData&lt;T&gt;(ISemiconductorModuleContext, string, SiteData&lt;T&gt;)"/> method.
+            The global data item is filtered for sites in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> before return when <paramref name="filterForActiveSites"/> is set to true.
+            </summary>
+            <typeparam name="T">Data type of value to use with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object.</typeparam>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="dataId">A unique ID to distinguish the data. This parameter must match a value you specify in a call to the SetGlobalSiteData method.</param>
+            <param name="filterForActiveSites">Determines whether to filter the global data item for sites in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
+            <returns>The global SiteData item that is previously stored.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when the stored SiteData object does not contain value for a specific site in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</exception>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.SetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0},System.Boolean)">
+            <summary>
+            Associates a data item with a dataId. Use this method to store a PinSiteData object you initialize in one location and access later in a downstream location
+            using the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)"/> method.
+            </summary>
+            <typeparam name="T">Data type of value to use with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> object.</typeparam>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="dataId">A unique ID to distinguish the data.</param>
+            <param name="pinSiteData">A data item to store and later retrieve using the specified dataId. If the data item is null, the method deletes the data with the specified dataId if it exists.</param>
+            <param name="overrideIfExisting">Specifies whether to override the existing data for a specific pin-site pair with that in the given PinSiteData object.</param>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for a specific pin-site pair already exists but <paramref name="overrideIfExisting"/> is set to false.</exception>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions.GetGlobalPinSiteData``1(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Boolean)">
+            <summary>
+            Gets a PinSiteData object previously stored by the <see cref="!:SetGlobalPinSiteData&lt;T&gt;(ISemiconductorModuleContext, string, PinSiteData&lt;T&gt;)"/> method.
+            The global data item is filtered for sites in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> before return when <paramref name="filterForActiveSites"/> is set to true.
+            </summary>
+            <typeparam name="T">Data type of value to use with <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> object.</typeparam>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="dataId">A unique ID to distinguish the data. This parameter must match a value you specify in a call to the SetGlobalPinSiteData method.</param>
+            <param name="filterForActiveSites">Determines whether to filter the global data item for sites in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
+            <returns>The global PinSiteData item that is previously stored.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when the stored PinSiteData object does not contain value for a specific site in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</exception>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings">
             <summary>
             Defines the default DAQmx task type strings.
@@ -2252,14 +2394,14 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.FilterByPin(System.String)">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> and returns a new one with the requested pin.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> and returns a new one with the requested pin.
             </summary>
             <param name="requestedPin">The requested pin.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> object with the requested pin.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle.FilterByPin(System.String[])">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> and returns a new one with requested pins.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> and returns a new one with requested pins.
             </summary>
             <param name="requestedPins">The requested pins.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> object with requested pins.</returns>
@@ -2397,6 +2539,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.Instance">
             <summary>
             The singleton instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1"/>.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.#ctor">
+            <summary>
+            Stores sample values updated on each successful write operation.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.SampleValuesCacher`1.GenerateDefaultSampleValues(System.String[])">
@@ -3606,6 +3753,12 @@
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> that associates with this manager.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> associated with all the available DUT pins.
+            </summary>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/>.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String)">
             <summary>
             Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> associated with the specified pin.
@@ -3660,17 +3813,51 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[])">
             <summary>
             Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pins.
+            The specified pins must map to the same task type, otherwise the method throws an exception.
             </summary>
             <param name="pins">The given pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>.</returns>
+            <exception cref="T:NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleContextException">Thrown when there is more than one task type associated with the specified pins.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean)">
             <summary>
             Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pins.
+            The specified pins must map to the same task type, otherwise the method throws an exception.
             </summary>
             <param name="pins">The given pins.</param>
             <param name="filterPins">Whether to automatically filter out non-NIDAQmx pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>. Returns null if all pins are non-NIDAQmx pins.</returns>
+            <exception cref="T:NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleContextException">Thrown when there is more than one task type associated with the specified pins.</exception>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pin.
+            </summary>
+            <param name="pin">The given pin.</param>
+            <param name="expectedTaskType">The expected task type.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when there is no task of the expected type found for specified pin.</exception>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pins.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <param name="expectedTaskType">The expected task type.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when there is no task of the expected type found for specified pins.</exception>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/> associated with the specified pins of the expected task type.
+            </summary>
+            <param name="pins">The given pins.</param>
+            <param name="filterPins">Whether to automatically filter out non-NIDAQmx pins.</param>
+            <param name="expectedTaskType">The expected task type.</param>
+            <returns>
+            The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle"/>.
+            Returns null if there are no NIDAQmx pins or there is no task of the expected type found for specified pins.
+            </returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String)">
             <summary>
@@ -3792,6 +3979,11 @@
               Looks up a localized string similar to The task type is invalid. The task may be improperly initialized..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DAQmx_NoTypeMatchingTasks">
+            <summary>
+              Looks up a localized string similar to No DAQmx task matches the expected type {0} for the pins specified..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DAQmx_ReferenceTriggerNotSupported">
             <summary>
               Looks up a localized string similar to ReferenceTrigger is not supported for DigitalInput channels..
@@ -3847,6 +4039,11 @@
               Looks up a localized string similar to The specified {0} sheet &quot;{1}&quot; does not exist in the associated digital pattern project..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_ArrayDimensionMismatch">
+            <summary>
+              Looks up a localized string similar to When the underlying type, T, of the SiteData or PinSiteData object being operated on is an array, the TResult must also be an array of equal dimensions as the underlying type, T..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_ArrayLengthMismatch">
             <summary>
               Looks up a localized string similar to For {0} operation, the data array length of the first operand ({1}) and that of the second operand ({2}) must match..
@@ -3872,6 +4069,16 @@
               Looks up a localized string similar to The number of bits to shift must be positive..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_TypeMustBeArray">
+            <summary>
+              Looks up a localized string similar to The {0} must be an array..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.PinSiteData_DataAlreadyExists">
+            <summary>
+              Looks up a localized string similar to Data for the {0} pin on site {1} already exists..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Publish_InvalidDataType">
             <summary>
               Looks up a localized string similar to Cannot publish measurement data. The {0} data type is invalid..
@@ -3885,6 +4092,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Publish_NoAssociatedChannel">
             <summary>
               Looks up a localized string similar to No channel associates with the {0}..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.SiteData_DataAlreadyExists">
+            <summary>
+              Looks up a localized string similar to Data for site {0} already exists..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.SiteData_WrongDataSize">

@@ -113,5 +113,14 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("Digital_TDROffsetsMissing", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value of the time set period ({0}) is not the same for all underlying instrument sessions..
+        /// </summary>
+        internal static string Digital_TimeSetPeriodNotDistinct {
+            get {
+                return ResourceManager.GetString("Digital_TimeSetPeriodNotDistinct", resourceCulture);
+            }
+        }
     }
 }

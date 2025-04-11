@@ -1,12 +1,67 @@
 
 # Changelog
 
+- [25.0.0 - 2025-04-11](#2500---2025-04-11)
 - [24.5.1 - 2024-10-31](#2451---2024-10-31)
 - [24.5.0 - 2024-08-16](#2450---2024-08-16)
 
 All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## 25.0.0 - 2025-04-11
+
+- ### Added
+
+  - **Data Abstraction**
+    - New `ISemiconductorModuleContext` extension methods added for sharing data between NI TestStand code modules
+      - `SetGlobalSiteData<T>(string dataId, SiteData<T> siteData, bool overrideIfExisting = true)`
+      - `SiteData<T> GetGlobalSiteData<T>(string dataId, bool filterForActiveSites = true)`
+      - `SetGlobalPinSiteData<T>(string dataId, PinSiteData<T> pinSiteData, bool overrideIfExisting = true)`
+      - `PinSiteData<T> GetGlobalPinSiteData<T>(string dataId, bool filterForActiveSites = true)`
+    - New `TryGetValue` method added to `SiteData<T>`
+      - `TryGetValue(int siteNumber, out T value)`
+        - Return Type: `bool`
+        - Description: Returns `true` if the data for the given site number exists in the `SiteData<T>` object.
+  - **Instrument Abstraction**
+    - A new overload added for querying Digital Sessions Bundle without specifying any pin. Note that the returned Sessions Bundle associates with all the available DUT pins.
+      - `TSMSessionManager.Digital()`
+    - New overloads added for querying DAQmx Sessions Bundle with expected task type
+      - `TSMSessionManager.DAQmx(string pin, DAQmxTaskType expectedTaskType)`
+      - `TSMSessionManager.DAQmx(string[] pins, DAQmxTaskType expectedTaskType)`
+      - `TSMSessionManager.DAQmx(string[] pins, bool filterPins, DAQmxTaskType expectedTaskType)`
+    - New `Digital.LevelsAndTiming` extension methods added to configure and retrieve some time set related information
+      - `ConfigureTimeSetEdge(string timeSet, TimeSetEdge edge, double time)`
+      - `ConfigureTimeSetEdge(string timeSet, TimeSetEdge edge, SiteData<double> time)`
+      - `ConfigureTimeSetEdge(string timeSet, TimeSetEdge edge, PinSiteData<double> time)`
+      - `PinSiteData<Ivi.Driver.PrecisionTimeSpan> GetTimeSetPeriod(string timeSet)`
+      - `PinSiteData<Ivi.Driver.PrecisionTimeSpan> GetTimeSetEdge(string timeSet, TimeSetEdge driveEdge)`
+      - `PinSiteData<int> GetTimeSetEdgeMultiplier(string timeSet)`
+      - `PinSiteData<DriveFormat> GetTimeSetDriveFormat(string timeSet)`
+  - **NuGet Package**
+    - `NationalInstruments.SemiconductorTestLibrary.25.0.0.nupkg` now includes PDB files for `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll` and `NationalInstruments.SemiconductorTestLibrary.Extensions.dll`
+    - Source Link is now enabled on `NationalInstruments.SemiconductorTestLibrary.25.0.0.nupkg` which allows developers to view and debug Semiconductor Test Library source code for troubleshooting and understanding how it works. To use this feature it must be enabled within Visual Studio and requires access to the internet. You can learn more about the Source Link feature [here](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/sourcelink).
+
+- ### Changed
+
+  - **Data Abstraction**
+    - Math Operations methods now check and report the following error
+      - When the underlying type, `T`, of the `SiteData` or `PinSiteData` object being operated on is an array, the `TResult` must also be an array of equal dimensions as the underlying type, `T`.
+  - **Instrument Abstraction**
+    - For DAQmx, now provides `PinSiteData<double> GetSampleClockRate()` extension method, and obsoletes `double[] GetSampleClockRates()` and `double GetSampleClockRateDistinct()`.
+    - For DAQmx, the `VerifyTaskType` utility method is now public to clients.
+    - Fix an improper error when `CreateDAQmxAOVoltageTasks`, `CreateDAQmxAOFunctionGenerationTasks`, or `CreateDAQmxDOTasks` is called under the condition that in Pinmap task definition, the channels defined in the Channel List are not listed in ascending order by site number for a specific DUT pin.
+    - Fix a DAQmx input tasks read issue that measurements of channels for all sites are returned even though some sites are actually filtered out.
+    - Fix `DCPower.Measure.FetchMeasurement` to include current measurement instead of returning voltage measurement twice.
+  - **TestStandSteps**
+    - `SetupNIDigitalPatternInstrumentation` now provides a new boolean input `applySourceWaveformData` to control whether to apply the data in waveform files to source waveforms.
+  - **Documentation & Examples**
+    - Various changes to examples and documentation to either fix, improve, or update them in accordance with user feedback and latest changes.
+      - Fix examples for Constructing PinSiteData/SiteData with Site-agnostic Data
+      - Fix inline documentation for `ConfigureOutputConnected` extension method
+      - Minor fix to example code shown in WritingTestCode user guide topic
+      - Add missing constructors to provide additional documentation for certain classes
+      - Update the Sharing SiteData and PinSiteData Between Code Modules user guide topic to reflect latest changes
 
 ## 24.5.1 - 2024-10-31
 

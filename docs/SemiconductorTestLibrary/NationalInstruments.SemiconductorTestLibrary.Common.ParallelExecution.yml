@@ -29,6 +29,8 @@ items:
   nameWithType: ParallelExecution
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution
   type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -59,6 +61,8 @@ items:
   nameWithType: ParallelExecution.Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Action<TSessionInformation>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -93,6 +97,8 @@ items:
   nameWithType: ParallelExecution.Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation, int>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Action<TSessionInformation, int>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -127,6 +133,8 @@ items:
   nameWithType: ParallelExecution.Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation, SitePinInfo>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Action<TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -161,6 +169,8 @@ items:
   nameWithType: ParallelExecution.Do<TSessionInformation>(ISessionsBundle<TSessionInformation>, Action<TSessionInformation, int, SitePinInfo>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Action<TSessionInformation, int, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -195,6 +205,8 @@ items:
   nameWithType: ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, TResult>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, TResult>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -234,6 +246,8 @@ items:
   nameWithType: ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, SitePinInfo, TResult>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo, TResult>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -273,6 +287,8 @@ items:
   nameWithType: ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult1, TResult2>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, Tuple<TResult1, TResult2>>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult1, TResult2>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, System.Tuple<TResult1, TResult2>>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -314,6 +330,8 @@ items:
   nameWithType: ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, TResult[]>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, TResult[]>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -354,6 +372,8 @@ items:
   nameWithType: ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, SitePinInfo, TResult>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo, TResult>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -394,6 +414,8 @@ items:
   nameWithType: ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult1, TResult2>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, Tuple<TResult1[], TResult2[]>>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult1, TResult2>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, System.Tuple<TResult1[], TResult2[]>>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -436,6 +458,8 @@ items:
   nameWithType: ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, TResult[,]>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, TResult[,]>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -476,6 +500,8 @@ items:
   nameWithType: ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, int, TResult[]>)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, int, TResult[]>)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -515,6 +541,8 @@ items:
   nameWithType: ParallelExecution.DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, double>, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, double>, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -555,6 +583,8 @@ items:
   nameWithType: ParallelExecution.DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, double[]>, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, double[]>, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -595,6 +625,8 @@ items:
   nameWithType: ParallelExecution.DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, bool>, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, bool>, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -635,6 +667,8 @@ items:
   nameWithType: ParallelExecution.DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, bool[]>, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, bool[]>, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common
@@ -675,6 +709,8 @@ items:
   nameWithType: ParallelExecution.DoAndPublishResults<TSessionInformation>(ISessionsBundle<TSessionInformation>, Func<TSessionInformation, Tuple<double[], double[]>>, string, string)
   fullName: NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults<TSessionInformation>(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle<TSessionInformation>, System.Func<TSessionInformation, System.Tuple<double[], double[]>>, string, string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/Common/ParallelExecution.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.Common

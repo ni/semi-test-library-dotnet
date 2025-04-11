@@ -20,12 +20,12 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
   summary: The class is used to configure the settings for an Analog Output Function Generation DAQmx task.
-  remarks: Using this class is adventegous as it allows the user to set one or more properties in a single call.
+  remarks: Using this class is advantageous as it allows the user to set one or more properties in a single call.
   example: []
   syntax:
     content: public class AOFunctionGenerationSettings
@@ -52,10 +52,15 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.AOFunctionGenerationSettings()
   type: Constructor
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  summary: >-
+    Creates an object to define and set Analog Output Function Generation specific settings.
+
+    This object is used as a parameter for configuring an Analog Output Function Generation DAQmx task <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle%2cNationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings)" data-throw-if-not-resolved="false"></xref>
+  example: []
   syntax:
     content: public AOFunctionGenerationSettings()
     content.vb: Public Sub New()
@@ -75,7 +80,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.FunctionType
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -101,7 +106,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.Frequency
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -127,7 +132,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.Amplitude
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -153,7 +158,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.Offset
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -179,7 +184,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.StartPhase
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -205,7 +210,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.DutyCycle
   type: Property
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Types.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -507,6 +512,47 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings)
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_AnalogOutputFunctionGeneration_ConfigureAOFunctionGeneration_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_AOFunctionGenerationSettings_
+  name: ConfigureAOFunctionGeneration(DAQmxTasksBundle, AOFunctionGenerationSettings)
+  nameWithType: AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(DAQmxTasksBundle, AOFunctionGenerationSettings)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings)
+  spec.csharp:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings)
+    name: ConfigureAOFunctionGeneration
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_AnalogOutputFunctionGeneration_ConfigureAOFunctionGeneration_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_AOFunctionGenerationSettings_
+  - name: (
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+    name: DAQmxTasksBundle
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTasksBundle.cs
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings
+    name: AOFunctionGenerationSettings
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.html
+  - name: )
+  spec.vb:
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings)
+    name: ConfigureAOFunctionGeneration
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AnalogOutputFunctionGeneration.ConfigureAOFunctionGeneration.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_AnalogOutputFunctionGeneration_ConfigureAOFunctionGeneration_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_DAQmxTasksBundle_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_DAQmx_AOFunctionGenerationSettings_
+  - name: (
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+    name: DAQmxTasksBundle
+    isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/DAQmx/DAQmxTasksBundle.cs
+  - name: ','
+  - name: " "
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings
+    name: AOFunctionGenerationSettings
+    isExternal: true
+    href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.html
+  - name: )
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.#ctor*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.AOFunctionGenerationSettings.#ctor
   isExternal: true

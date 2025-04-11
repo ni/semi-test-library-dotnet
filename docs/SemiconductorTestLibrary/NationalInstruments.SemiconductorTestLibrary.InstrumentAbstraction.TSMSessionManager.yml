@@ -7,14 +7,18 @@ items:
   children:
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[])
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String[])
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(System.String[],System.Boolean)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String[])
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String[],System.Boolean)
+  - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String)
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String[])
   - NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String[],System.Boolean)
@@ -35,6 +39,8 @@ items:
   nameWithType: TSMSessionManager
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
   type: Class
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -64,6 +70,8 @@ items:
   nameWithType: TSMSessionManager.TSMSessionManager(ISemiconductorModuleContext)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.TSMSessionManager(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)
   type: Constructor
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -80,6 +88,31 @@ items:
   nameWithType.vb: TSMSessionManager.New(ISemiconductorModuleContext)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.New(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)
   name.vb: New(ISemiconductorModuleContext)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital
+  id: Digital
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: Digital()
+  nameWithType: TSMSessionManager.Digital()
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital()
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref> associated with all the available DUT pins.
+  example: []
+  syntax:
+    content: public DigitalSessionsBundle Digital()
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle
+      description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle" data-throw-if-not-resolved="false"></xref>.
+    content.vb: Public Function Digital() As DigitalSessionsBundle
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital*
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(System.String)
   id: Digital(System.String)
@@ -91,6 +124,8 @@ items:
   nameWithType: TSMSessionManager.Digital(string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -121,6 +156,8 @@ items:
   nameWithType: TSMSessionManager.Digital(string[])
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(string[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -151,6 +188,8 @@ items:
   nameWithType: TSMSessionManager.Digital(string[], bool)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital(string[], bool)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -184,6 +223,8 @@ items:
   nameWithType: TSMSessionManager.DCPower(string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -214,6 +255,8 @@ items:
   nameWithType: TSMSessionManager.DCPower(string[])
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(string[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -244,6 +287,8 @@ items:
   nameWithType: TSMSessionManager.DCPower(string[], bool)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DCPower(string[], bool)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -277,6 +322,8 @@ items:
   nameWithType: TSMSessionManager.DAQmx(string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -307,10 +354,15 @@ items:
   nameWithType: TSMSessionManager.DAQmx(string[])
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(string[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
-  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+  summary: >-
+    Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+
+    The specified pins must map to the same task type, otherwise the method throws an exception.
   example: []
   syntax:
     content: public DAQmxTasksBundle DAQmx(string[] pins)
@@ -323,6 +375,10 @@ items:
       description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref>.
     content.vb: Public Function DAQmx(pins As String()) As DAQmxTasksBundle
   overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx*
+  exceptions:
+  - type: NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleContextException
+    commentId: T:NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleContextException
+    description: Thrown when there is more than one task type associated with the specified pins.
   nameWithType.vb: TSMSessionManager.DAQmx(String())
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(String())
   name.vb: DAQmx(String())
@@ -337,10 +393,15 @@ items:
   nameWithType: TSMSessionManager.DAQmx(string[], bool)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(string[], bool)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
-  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+  summary: >-
+    Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+
+    The specified pins must map to the same task type, otherwise the method throws an exception.
   example: []
   syntax:
     content: public DAQmxTasksBundle DAQmx(string[] pins, bool filterPins)
@@ -356,9 +417,132 @@ items:
       description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref>. Returns null if all pins are non-NIDAQmx pins.
     content.vb: Public Function DAQmx(pins As String(), filterPins As Boolean) As DAQmxTasksBundle
   overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx*
+  exceptions:
+  - type: NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleContextException
+    commentId: T:NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleContextException
+    description: Thrown when there is more than one task type associated with the specified pins.
   nameWithType.vb: TSMSessionManager.DAQmx(String(), Boolean)
   fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(String(), Boolean)
   name.vb: DAQmx(String(), Boolean)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  id: DAQmx(System.String,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: DAQmx(string, DAQmxTaskType)
+  nameWithType: TSMSessionManager.DAQmx(string, DAQmxTaskType)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(string, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pin.
+  example: []
+  syntax:
+    content: public DAQmxTasksBundle DAQmx(string pin, DAQmxTaskType expectedTaskType)
+    parameters:
+    - id: pin
+      type: System.String
+      description: The given pin.
+    - id: expectedTaskType
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+      description: The expected task type.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref>.
+    content.vb: Public Function DAQmx(pin As String, expectedTaskType As DAQmxTaskType) As DAQmxTasksBundle
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx*
+  exceptions:
+  - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    description: Thrown when there is no task of the expected type found for specified pin.
+  nameWithType.vb: TSMSessionManager.DAQmx(String, DAQmxTaskType)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(String, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  name.vb: DAQmx(String, DAQmxTaskType)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  id: DAQmx(System.String[],NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: DAQmx(string[], DAQmxTaskType)
+  nameWithType: TSMSessionManager.DAQmx(string[], DAQmxTaskType)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(string[], NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins.
+  example: []
+  syntax:
+    content: public DAQmxTasksBundle DAQmx(string[] pins, DAQmxTaskType expectedTaskType)
+    parameters:
+    - id: pins
+      type: System.String[]
+      description: The given pins.
+    - id: expectedTaskType
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+      description: The expected task type.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref>.
+    content.vb: Public Function DAQmx(pins As String(), expectedTaskType As DAQmxTaskType) As DAQmxTasksBundle
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx*
+  exceptions:
+  - type: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+    description: Thrown when there is no task of the expected type found for specified pins.
+  nameWithType.vb: TSMSessionManager.DAQmx(String(), DAQmxTaskType)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(String(), NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  name.vb: DAQmx(String(), DAQmxTaskType)
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(System.String[],System.Boolean,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  id: DAQmx(System.String[],System.Boolean,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager
+  langs:
+  - csharp
+  - vb
+  name: DAQmx(string[], bool, DAQmxTaskType)
+  nameWithType: TSMSessionManager.DAQmx(string[], bool, DAQmxTaskType)
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(string[], bool, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
+  assemblies:
+  - NationalInstruments.SemiconductorTestLibrary.Abstractions
+  namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
+  summary: Gets the <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref> associated with the specified pins of the expected task type.
+  example: []
+  syntax:
+    content: public DAQmxTasksBundle DAQmx(string[] pins, bool filterPins, DAQmxTaskType expectedTaskType)
+    parameters:
+    - id: pins
+      type: System.String[]
+      description: The given pins.
+    - id: filterPins
+      type: System.Boolean
+      description: Whether to automatically filter out non-NIDAQmx pins.
+    - id: expectedTaskType
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+      description: The expected task type.
+    return:
+      type: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle
+      description: >-
+        The associated <xref href="NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle" data-throw-if-not-resolved="false"></xref>.
+
+        Returns null if there are no NIDAQmx pins or there is no task of the expected type found for specified pins.
+    content.vb: Public Function DAQmx(pins As String(), filterPins As Boolean, expectedTaskType As DAQmxTaskType) As DAQmxTasksBundle
+  overload: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx*
+  nameWithType.vb: TSMSessionManager.DAQmx(String(), Boolean, DAQmxTaskType)
+  fullName.vb: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DAQmx(String(), Boolean, NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType)
+  name.vb: DAQmx(String(), Boolean, DAQmxTaskType)
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String)
   commentId: M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(System.String)
   id: DMM(System.String)
@@ -370,6 +554,8 @@ items:
   nameWithType: TSMSessionManager.DMM(string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -400,6 +586,8 @@ items:
   nameWithType: TSMSessionManager.DMM(string[])
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(string[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -430,6 +618,8 @@ items:
   nameWithType: TSMSessionManager.DMM(string[], bool)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.DMM(string[], bool)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -463,6 +653,8 @@ items:
   nameWithType: TSMSessionManager.Scope(string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -493,6 +685,8 @@ items:
   nameWithType: TSMSessionManager.Scope(string[])
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(string[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -523,6 +717,8 @@ items:
   nameWithType: TSMSessionManager.Scope(string[], bool)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Scope(string[], bool)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -556,6 +752,8 @@ items:
   nameWithType: TSMSessionManager.Sync()
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync()
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -579,6 +777,8 @@ items:
   nameWithType: TSMSessionManager.Sync(string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -609,6 +809,8 @@ items:
   nameWithType: TSMSessionManager.Sync(string[])
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(string[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -639,6 +841,8 @@ items:
   nameWithType: TSMSessionManager.Sync(string[], bool)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Sync(string[], bool)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -672,6 +876,8 @@ items:
   nameWithType: TSMSessionManager.Fgen(string)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(string)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -702,6 +908,8 @@ items:
   nameWithType: TSMSessionManager.Fgen(string[])
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(string[])
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -732,6 +940,8 @@ items:
   nameWithType: TSMSessionManager.Fgen(string[], bool)
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Fgen(string[], bool)
   type: Method
+  source:
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/InstrumentAbstraction/TSMSessionManager.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Abstractions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction
@@ -1095,21 +1305,10 @@ references:
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital*
   commentId: Overload:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital
   isExternal: true
-  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_TSMSessionManager_Digital_System_String_
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_TSMSessionManager_Digital
   name: Digital
   nameWithType: TSMSessionManager.Digital
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.Digital
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.string
-  name: string
-  nameWithType: string
-  fullName: string
-  nameWithType.vb: String
-  fullName.vb: String
-  name.vb: String
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
   commentId: N:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
   isExternal: true
@@ -1157,6 +1356,17 @@ references:
     name: Digital
     isExternal: true
     href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.html
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
 - uid: System.String[]
   isExternal: true
   href: https://learn.microsoft.com/dotnet/api/system.string
@@ -1315,6 +1525,27 @@ references:
     name: DAQmx
     isExternal: true
     href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.html
+- uid: NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleContextException
+  commentId: T:NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleContextException
+  isExternal: true
+  name: SemiconductorModuleContextException
+  nameWithType: SemiconductorModuleContextException
+  fullName: NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleContextException
+- uid: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException.html
+  name: NISemiconductorTestException
+  nameWithType: NISemiconductorTestException
+  fullName: NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException
+- uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+  commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
+  parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
+  isExternal: true
+  href: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType.html
+  name: DAQmxTaskType
+  nameWithType: DAQmxTaskType
+  fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskType
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle
   commentId: T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionsBundle
   parent: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM

@@ -1,0 +1,66 @@
+name: Comment on Fixed Issues About New Release
+
+on:
+  create:
+    branches:
+      - 'releases/*'
+
+jobs:
+  comment-on-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Process issues for new release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const branchRef = context.ref;
+            const version = branchRef.replace('refs/heads/releases/', '');
+            const releaseLink = `https://github.com/${owner}/${repo}/tree/releases/${version}`;
+            const targetUser = "github-actions[bot]";
+            const triggerText = "The corresponding work item has been closed. The fix should be available in the next release.";
+            const releaseCommentRegex = new RegExp(
+              `^The fix for this issue is included in the [0-9.]+ release, which is now available \\(\\[v[0-9.]+\\]\\(.+\\)\\)\\.(?: This issue will automatically close within the next 30 days\\.)?$`
+            );
+
+            const searchQuery = `repo:${owner}/${repo} is:issue "${triggerText}" in:comments`;
+            console.log("Search query:", searchQuery);
+
+            const issues = await github.paginate(github.rest.search.issuesAndPullRequests, {
+              q: searchQuery,
+              per_page: 100,
+            });
+            console.log(`Found ${issues.length} issues with matching trigger comment.`);
+
+            for (const issue of issues) {
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner,
+                repo,
+                issue_number: issue.number,
+                per_page: 100,
+              });
+
+              const hasTriggerComment = comments.some(comment =>
+                comment.body.includes(triggerText) &&
+                comment.user.login === targetUser
+              );
+              
+              const hasReleaseComment = comments.some(comment =>
+                releaseCommentRegex.test(comment.body)
+              );
+
+              if (hasTriggerComment && !hasReleaseComment) {
+                const commentBody = issue.state === 'closed'
+                  ? `The fix for this issue is included in the ${version} release, which is now available ([v${version}](${releaseLink})).`
+                  : `The fix for this issue is included in the ${version} release, which is now available ([v${version}](${releaseLink})). This issue will automatically close within the next 30 days.`;
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: issue.number,
+                  body: commentBody,
+                });
+                console.log(`Comment added to issue #${issue.number}`);
+              } else {
+                console.log(`Issue #${issue.number} either does not have the trigger comment or already has a release comment; skipping.`);
+              }
+            }

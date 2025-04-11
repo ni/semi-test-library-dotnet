@@ -76,6 +76,8 @@ items:
     name: TaskControl
   - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.TriggersAndEvents
     name: TriggersAndEvents
+  - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.Utilities
+    name: Utilities
 - uid: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
   name: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
   items:

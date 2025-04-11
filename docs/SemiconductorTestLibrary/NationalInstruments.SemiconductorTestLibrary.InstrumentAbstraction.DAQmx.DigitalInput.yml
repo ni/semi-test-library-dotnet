@@ -16,7 +16,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput
   type: Class
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -48,7 +48,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput.ReadDigitalSingleSample(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -78,7 +78,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput.ReadDigitalWaveform(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, int)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -117,7 +117,7 @@ items:
   fullName: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DigitalInput.ReadDigitalMultiSampleU32(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTasksBundle, int)
   type: Method
   source:
-    href: https://github.com/ni/semi-test-library-dotnet/blob/671b91c4ba967593ada23738e2f3931688123a3a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
+    href: https://github.com/ni/semi-test-library-dotnet/blob/3e8ec8990d4320e486b0970cacc9aa1f06cdfaa0/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/DigitalInput.cs
   assemblies:
   - NationalInstruments.SemiconductorTestLibrary.Extensions
   namespace: NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx
@@ -563,6 +563,7 @@ references:
   commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{NationalInstruments.DigitalWaveform}
   parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
   definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   name: PinSiteData<DigitalWaveform>
   nameWithType: PinSiteData<DigitalWaveform>
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<NationalInstruments.DigitalWaveform>
@@ -573,6 +574,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
     name: PinSiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   - name: <
   - uid: NationalInstruments.DigitalWaveform
     name: DigitalWaveform
@@ -582,6 +584,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
     name: PinSiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   - name: (
   - name: Of
   - name: " "
@@ -600,7 +603,7 @@ references:
   commentId: T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.UInt32[]}
   parent: NationalInstruments.SemiconductorTestLibrary.DataAbstraction
   definition: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
-  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   name: PinSiteData<uint[]>
   nameWithType: PinSiteData<uint[]>
   fullName: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData<uint[]>
@@ -611,6 +614,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
     name: PinSiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   - name: <
   - uid: System.UInt32
     name: uint
@@ -623,6 +627,7 @@ references:
   - uid: NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1
     name: PinSiteData
     isExternal: true
+    href: https://dev.azure.com/ni/DevCentral/_apis/git/repositories/srd-sebu-mixed-signal-apt/items?api-version=1.0&versionType=commit&version=fb8731ed4fef14cbc20aac962f00515dce859cc3&path=/SemiconductorTestLibraryDotNET/SemiconductorTestLibraryAbstractions/source/DataAbstraction/PinSiteData.cs
   - name: (
   - name: Of
   - name: " "

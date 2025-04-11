@@ -1,6 +1,5 @@
 ﻿using System;
 using NationalInstruments.DAQmx;
-using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -43,14 +42,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("DAQmxTests.pinmap");
             var tasksBundle = sessionManager.DAQmx("VDD");
 
-            var exception = Assert.Throws<AggregateException>(() => GenerateSineWave(tasksBundle));
-            exception.IfNotNull(x =>
+            AggregateException aggregateException = Assert.Throws<AggregateException>(() => GenerateSineWave(tasksBundle));
+            foreach (Exception innerExeption in aggregateException.InnerExceptions)
             {
-                foreach (var innerExeption in x.InnerExceptions)
-                {
-                    Assert.Contains("Specified property is not supported by the device or is not applicable to the task.", innerExeption.InnerException.Message);
-                }
-            });
+                Assert.Contains("Specified property is not supported by the device or is not applicable to the task.", innerExeption.InnerException.Message);
+            }
         }
 
         private static void GenerateSineWave(DAQmxTasksBundle tasksBundle)

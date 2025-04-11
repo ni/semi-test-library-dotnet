@@ -4,7 +4,9 @@ The Semiconductor Test Library provides Pin- and Site-Aware data types to simpli
 
 ## Pin- and Site-Aware Data Types
 
-### **SiteData**
+---
+
+### SiteData
 
 Class: `SiteData<T>` \
 Namespace: `NationalInstruments.SemiconductorTestLibrary.DataAbstraction`
@@ -13,7 +15,7 @@ Defines an object containing values for one or more sites, where `T` can be pass
 
 This type is returned from methods in the Semiconductor Test Library where there may be a unique per-site value. This type can also be passed as an input parameter to some Semiconductor Test Library methods when there is a unique per-site value to operate with.
 
-The `SiteData` object exposes basic methods for extracting a single site value or subset of values. Additionally, frequently used mathematical operations can be performed on a `SiteData` object for the most commonly used data types.
+The `SiteData` object exposes basic methods for extracting a single site value or subset of values. Additionally, frequently used [mathematical operations](MathOperations/MathOperationsWithSiteData.md) can be performed on a `SiteData` object for the most commonly used data types.
 
 >[!NOTE]
 > Refer to the API Reference for more details regarding the properties and methods exposed by the `SiteData`.
@@ -28,7 +30,7 @@ A `SiteData` object is an immutable dictionary of key-value pairs, where each ke
 
 ---
 
-### **PinSiteData**
+### PinSiteData
 
 Class: `PinSiteData<T>` \
 Namespace: `NationalInstruments.SemiconductorTestLibrary.DataAbstraction`
@@ -37,7 +39,7 @@ Defines an object containing values for one or more sites that are associated wi
 
 This type is returned from methods in the Semiconductor Test Library, such as measurement methods, where there may be a unique value for each pin, regardless of whether the value is the same across all sites and/or pins. This type can also be passed as an input parameter to some Semiconductor Test Library methods when there is a unique per-site, per-pin value to operate with.
 
-The `PinSiteData` object exposes basic methods for extracting a single site value or subset of values. Additionally, frequently used mathematical operations can be performed on a `PinSiteData` object for the most commonly used data types.
+The `PinSiteData` object exposes basic methods for extracting a single site value or subset of values. Additionally, frequently used [mathematical operations](MathOperations/MathOperationsWithPinSiteData.md) can be performed on a `PinSiteData` object for the most commonly used data types.
 
 >[!NOTE]
 > Refer to the API Reference for more details regarding the properties and methods exposed by the `PinSiteData`.

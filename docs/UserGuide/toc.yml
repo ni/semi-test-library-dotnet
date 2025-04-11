@@ -16,6 +16,15 @@
   href: InstrumentAbstraction.md
 - name: Data Abstraction
   href: DataAbstraction.md
+  items:
+  - name: Math Operations
+    items:
+      - name: Math Operations with SiteData
+        href: MathOperations/MathOperationsWithSiteData.md
+      - name: Math Operations with PinSiteData
+        href: MathOperations/MathOperationsWithPinSiteData.md
+      - name: Exception Conditions for Math Operations
+        href: MathOperations/ExceptionConditionsForMathOperations.md
 - name: Configuring Instrument Sessions
   href: ConfiguringInstrumentSessions.md
 - name: Publishing Results
@@ -40,6 +49,8 @@
   href: advanced/ExtendingTheSemiconductorTestLibrary.md
 - name: Customizing TestStand Steps
   href: advanced/CustomizingTestStandSteps.md
+- name: Using Measurement Studio Analysis Library with PinSiteData
+  href: advanced/UsingMeasurementStudioAnalysisLibraryWithPinSiteData.md
 
 - name: TestStand Steps
 - name: Using TestStand Steps
