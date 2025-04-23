@@ -95,6 +95,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureTiming_GetSampleClockRate_ReturnsCorrectValue()
         {
+           // var sessionManager = Initialize("DAQmxTests.pinmap");
             var sessionManager = Initialize("DAQmxTests.pinmap");
             var tasksBundle = sessionManager.DAQmx(new[] { "VCC1", "VCC2" });
             DAQmxTimingSampleClockSettings timingSettings = new DAQmxTimingSampleClockSettings

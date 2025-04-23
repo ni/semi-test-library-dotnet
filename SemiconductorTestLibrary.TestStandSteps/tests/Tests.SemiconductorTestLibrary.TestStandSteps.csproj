@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
@@ -13,14 +13,17 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
+    <Reference Include="NationalInstruments.DAQmx">
+      <HintPath>..\..\..\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies (64-bit)\Current\NationalInstruments.DAQmx.dll</HintPath>
+    </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
-      <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+    <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
+      <HintPath>..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\NationalInstruments.ModularInstruments.NIDmm.Fx40\v4.0_23.8.0.49388__dc6ad606294fc298\NationalInstruments.ModularInstruments.NIDmm.Fx40.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <SpecificVersion>False</SpecificVersion>
@@ -43,5 +46,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj" />
     <ProjectReference Include="..\source\SemiconductorTestLibrary.TestStandSteps.csproj" />
+    <ProjectReference Include="C:\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\Scripts\..\..\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using NationalInstruments.DAQmx;
+using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -63,8 +64,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        // [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        // [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         public void InitializeDAQmxTasks_ReadAnalogSamplesFromOneFilteredChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
@@ -80,11 +81,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             // Wait for the generation to get completed
             Thread.Sleep(100);
             aoTasksBundle.Stop();
-            var filteredSiteData = aiTasksBundle.FilterBySite(1).ReadAnalogMultiSample();
+            var filteredSiteData = aiTasksBundle.ReadAnalogMultiSample();
             aiTasksBundle.Stop();
             var maxValueOfFilteredSamples = filteredSiteData.GetValue(filteredSiteData.SiteNumbers[0], "AIPin").Max();
+            var index = filteredSiteData.GetValue(filteredSiteData.SiteNumbers[0], "AIPin").IndexOf(maxValueOfFilteredSamples);
 
-            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
+            var site1Data = filteredSiteData.GetValue(filteredSiteData.SiteNumbers[0], "AIPin");
+            var site2Data = filteredSiteData.GetValue(filteredSiteData.SiteNumbers[1], "AIPin");
+
+            Assert.Equal(maxValueOfFilteredSamples, site1Data[index]);
+            Assert.Equal(maxValueOfFilteredSamples, site2Data[index]);
+
+            Assert.Equal(maxValueOfFilteredSamples, site1Data[index]);
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 

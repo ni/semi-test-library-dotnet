@@ -96,7 +96,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureAndReadMuliPoint_Succeeds()
         {
-            var sessionsBundle = _sessionManager.DMM("DUTPin_4081");
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4081" });
             var numberOfPoints = 4;
             sessionsBundle.ConfigureMultiPoint(1, numberOfPoints, DmmTriggerSource.SoftwareTrigger.ToString(), 1);
             var results = sessionsBundle.ReadMultiPoint(numberOfPoints, maximumTimeInMilliseconds: 1000);

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
@@ -20,10 +20,6 @@
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
     <ProjectReference Include="..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
     <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
-      <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NationalInstruments.Common">
@@ -55,5 +51,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <ProjectReference Include="C:\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\Scripts\..\..\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj" />
   </ItemGroup>
 </Project>

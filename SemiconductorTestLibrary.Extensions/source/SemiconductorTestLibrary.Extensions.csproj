@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
@@ -40,10 +40,6 @@
     <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
-      <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -61,5 +57,6 @@
       <LastGenOutput>ResourceStrings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <ProjectReference Include="C:\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\Scripts\..\..\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj" />
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@ using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
