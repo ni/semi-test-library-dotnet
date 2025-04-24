@@ -18,55 +18,32 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         [Fact]
         public void Initialize_RunForceCurrentMeasureVoltageWithPositiveInRangeVoltageLimit_VoltageLimitsCorrectlySet()
         {
-            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
-            var tsmContext1 = CreateTSMContext("SharedPinTests.pinmap");
+           // var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            var tsmContext = CreateTSMContext("SharedPinTests.pinmap", "SharedPinTests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             SetupNIDigitalPatternInstrumentation(tsmContext);
-            SetupNIDCPowerInstrumentation(tsmContext1, measurementSense: DCPowerMeasurementSense.Local);
-            SetupNIDMMInstrumentation(tsmContext1, resetDevice: false);
-            SetupNIDAQmxAIVoltageTask(tsmContext1);
-            SetupNIDAQmxAOVoltageTask(tsmContext1);
 
-            // ForceCurrentMeasureVoltage(
-            //    tsmContext,
-            //    pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
-            //    currentLevel: 0.005,
-            //    voltageLimit: 3.3,
-            //    apertureTime: 5e-5,
-            //    settlingTime: 5e-5);
-            ForceCurrentMeasureVoltage(
-                tsmContext1,
-                pinsOrPinGroups: new[] { "VCC1", "DMM1" },
-                currentLevel: 0.005,
-                voltageLimit: 3.3,
+             ForceCurrentMeasureVoltage(
+                tsmContext,
+               pinsOrPinGroups: new[] { "VCC1", "PA_EN" },
+               currentLevel: 0.005,
+               voltageLimit: 3.3,
                 apertureTime: 5e-5,
-                settlingTime: 5e-5);
+               settlingTime: 5e-5);
 
-           /* var dcPower = new TSMSessionManager(tsmContext).DCPower("VCC1");
+            var dcPower = new TSMSessionManager(tsmContext).DCPower("VCC1").FilterBySite(new int[] { 2, 3 });
             dcPower.Do(sessionInfo =>
             {
+                var dummy = sessionInfo.AllChannelsOutput.Source.Current.VoltageLimit;
                 Assert.Equal(3.3, sessionInfo.AllChannelsOutput.Source.Current.VoltageLimit, 1);
             });
-            var digital = new TSMSessionManager(tsmContext).Digital("DigitalPins");
+            var digital = new TSMSessionManager(tsmContext).Digital("PA_EN");
             digital.Do(sessionInfo =>
             {
                 Assert.Equal(-2, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow);
                 Assert.Equal(3.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
-            });*/
+            });
 
-            var dcPower1 = new TSMSessionManager(tsmContext1).DCPower("VCC1");
-            dcPower1.Do(sessionInfo =>
-            {
-                Assert.Equal(3.3, sessionInfo.AllChannelsOutput.Source.Current.VoltageLimit, 1);
-            });
-            var dmm = new TSMSessionManager(tsmContext1).DMM("DMM1");
-            dmm.ConfigureACBandwidth(minimumFrequency: 100, maximumFrequency: 10000);
-            dmm.Do(sessionInfo =>
-            {
-                Assert.Equal(100, sessionInfo.Session.AC.FrequencyMin);
-                Assert.Equal(0.001, sessionInfo.Session.CurrentSource);
-            });
-            var daq = new TSMSessionManager(tsmContext1).DAQmx("Daq1").FilterBySite(1);
             CleanupInstrumentation(tsmContext);
         }
 
