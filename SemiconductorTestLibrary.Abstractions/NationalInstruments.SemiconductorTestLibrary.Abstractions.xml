@@ -4,6 +4,27 @@
         <name>NationalInstruments.SemiconductorTestLibrary.Abstractions</name>
     </assembly>
     <members>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo">
+            <summary>
+            Defines an object that contains the cascading information for an individual pin per site.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo.IsSecondaryChannel">
+            <summary>
+            Flag for marking if the channel of the site-pin is a secondary channel of cascaded group.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo.OwningGroupName">
+            <summary>
+            Name of the cascaded group to which the site-pin belongs.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo.MergedChannelsStrings">
+            <summary>
+            A dictionary where the key is the cascaded pin group name and the value is a comma-separated string of associated secondary pin channels for the current site.
+            Example: { "pinGroupName": "SMU_4147_C1_S11/1,SMU_4147_C1_S11/2,SMU_4147_C1_S11/3" }.
+            </summary>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
             <summary>
             Defines a specific exception for NI Semiconductor Test Library.
@@ -287,6 +308,11 @@
             <summary>
             Defines an object that contains the information for an individual site-pin pair.
             Such as, the site number, pin name, instrument channel string used by the driver, instrument model, etc.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.ChannelCascadingInfo">
+            <summary>
+            class  <see cref = "T:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo"/> containg the information related to pins who are secondary of merged group for current site and the secondary channle string for each merged group of the current site.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.SitePinString">
