@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SourceFile Checksum="61C35F27D92BCB3000BF7BDF68996C78A2493B2EBB37FA0E92A437B9B609536307F30987DE9916492BD06E455486308CE00AABE167A01668B9CCB73CEB49CDE1" xmlns="http://www.ni.com/PlatformFramework">
+	<SourceModelFeatureSet>
+		<ParsableNamespace AssemblyFileVersion="9.13.0.49711" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
+		<ParsableNamespace AssemblyFileVersion="9.13.0.49711" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
+		<ApplicationVersionInfo Build="9.13.0.49711" Name="Digital Pattern Editor" Version="24.5.0" />
+	</SourceModelFeatureSet>
+	<Project xmlns="http://www.ni.com/PlatformFramework">
+		<EnvoyManagerRootEnvoy Id="1" ModelDefinitionType="EnvoyManagerRootEnvoy" Name="RootEnvoy" />
+		<EmbeddedDefinitionReference Id="2" ModelDefinitionType="NationalInstruments.ProjectExplorer.Modeling.ProjectDataManager" Name="ProjectExplorer">
+			<ProjectExplorer />
+		</EmbeddedDefinitionReference>
+		<NameScopingEnvoy Id="3" ModelDefinitionType="DefaultTarget" Name="DefaultTarget">
+			<DefaultTarget />
+			<EmbeddedDefinitionReference Id="163" ModelDefinitionType="{http://www.ni.com/PatternBasedDigital}CaptureResultsDefinition" Name="CaptureResults">
+				<CaptureResultsDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
+			</EmbeddedDefinitionReference>
+			<EmbeddedDefinitionReference Id="165" ModelDefinitionType="{http://www.ni.com/PatternBasedDigital}BurstResultsDefinition" Name="BurstResults">
+				<BurstResultsDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
+			</EmbeddedDefinitionReference>
+			<EmbeddedDefinitionReference Id="168" ModelDefinitionType="{http://www.ni.com/PatternBasedDigital}DigitalScopeDefinition" Name="DigitalScope">
+				<DigitalScopeDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
+			</EmbeddedDefinitionReference>
+			<FileReference Id="245" ModelDefinitionType="SpecificationsDefinition" Name="Specifications_MixedSignal.specs" StoragePath="Specifications\Specifications_MixedSignal.specs" />
+			<FileReference Id="263" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="TX_RF.digipat" StoragePath="Digital\Compiled Patterns\TX_RF.digipat" />
+			<FileReference Id="268" ModelDefinitionType="TimingDefinition" Name="Timing_MixedSignal.digitiming" StoragePath="Digital\Timing\Timing_MixedSignal.digitiming" p4:IsActive="True" xmlns:p4="http://www.ni.com/PatternBasedDigital" />
+			<FileReference Id="271" ModelDefinitionType="PinLevelsDefinition" Name="Levels_MixedSignal.digilevels" StoragePath="Digital\Levels\Levels_MixedSignal.digilevels" p4:IsActive="True" xmlns:p4="http://www.ni.com/PatternBasedDigital" />
+			<FileReference Id="274" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="CaptureWaveform.digipat" StoragePath="Digital\Compiled Patterns\CaptureWaveform.digipat" />
+			<FileReference Id="275" ModelDefinitionType="CaptureWaveformDefinition" Name="New_Waveform.digicapture" StoragePath="Digital\Capture Waveforms\New_Waveform.digicapture" />
+			<FileReference Id="278" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="TX_50_Duty_Cycle.digipat" StoragePath="Digital\Compiled Patterns\TX_50_Duty_Cycle.digipat" />
+			<FileReference Id="281" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="Write_LTE_HB_FDD.digipat" StoragePath="Digital\Compiled Patterns\Write_LTE_HB_FDD.digipat" />
+			<FileReference Id="282" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="Write_NR_HB_FDD.digipat" StoragePath="Digital\Compiled Patterns\Write_NR_HB_FDD.digipat" />
+			<FileReference Id="d5e757d6c1894a25931fa038bbc6573b" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="LongRunningPattern.digipat" StoragePath="Digital\Compiled Patterns\LongRunningPattern.digipat" />
+			<FileReference Id="c6b6a87212a84a72aca63400e26ac941" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="KeepAlivePattern.digipat" StoragePath="Digital\Compiled Patterns\KeepAlivePattern.digipat" />
+			<FileReference Id="db842b5e8af04c55b6944dce5fe5ecdd" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="StartKeepAlive.digipat" StoragePath="Digital\Compiled Patterns\StartKeepAlive.digipat" />
+			<FileReference Id="ee15ab35e0a541858e469eea9fcd1395" ModelDefinitionType="PinMap" Name="SharedPinTests.pinmap" StoragePath="Pin Maps\SharedPinTests.pinmap" p4:IsActive="True" xmlns:p4="http://www.ni.com/PatternBasedDigital" />
+		</NameScopingEnvoy>
+		<EmbeddedDefinitionReference Id="9" ModelDefinitionType="DigitalPatternEditor.ProjectPropertiesDefinition" Name="ProjectProperties">
+			<ProjectPropertiesDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
+		</EmbeddedDefinitionReference>
+	</Project>
+	<ProjectInformation xmlns="http://www.ni.com/PlatformFramework" />
+</SourceFile>
