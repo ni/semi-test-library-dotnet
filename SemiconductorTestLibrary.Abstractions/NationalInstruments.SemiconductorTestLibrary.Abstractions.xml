@@ -4,6 +4,49 @@
         <name>NationalInstruments.SemiconductorTestLibrary.Abstractions</name>
     </assembly>
     <members>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo">
+            <summary>
+            Defines an object that contains the cascading information for an individual pin per site.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo.IsSecondaryChannel">
+            <summary>
+            Flag for marking if the channel of the site-pin is a secondary channel of cascaded group.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo.OwningGroupName">
+            <summary>
+            Name of the cascaded group to which the site-pin belongs.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo.MergedChannelsStrings">
+            <summary>
+            A dictionary where the key is the cascaded pin group name and the value is a comma-separated string of associated secondary pin channels for the current site.
+            Example: { "pinGroupName": "SMU_4147_C1_S11/1,SMU_4147_C1_S11/2,SMU_4147_C1_S11/3" }.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.ChannelSharedInfo">
+            <summary>
+            Defines an object that contains the information about channel sharing.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.ChannelSharedInfo.IsShadowOfSharedChannel">
+            <summary>
+            A boolean value that indicates whether the channel is shared.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.ChannelSharedInfo.ChannelSharedTo">
+            <summary>
+            A collection of site-pin pairs that share the same physical channel.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ChannelSharedInfo.#ctor(System.Boolean,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})">
+            <summary>
+            Constructs a channel shared information object.
+            </summary>
+            <param name="isShadowOfSharedChannel">Indicates whether the channel is a shadow of a shared channel.</param>
+            <param name="channelSharedTo">A collection of site-pin pairs that are shared to the same channel.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
             <summary>
             Defines a specific exception for NI Semiconductor Test Library.
@@ -214,6 +257,16 @@
             <param name="publishedDataId2">The unique data id to use when publishing the second operation result.</param>
             <returns>The two per-instrument per-channel operation results as a tuple of two jagged arrays, one for each set of results. Where, the first dimension of each jagged array represents the instrument sessions, and the second dimension represents the instrument channels within an instrument session.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.GetFilteredAssociatedSitePinList``1(``0)">
+            <summary>
+            Filters the associated site-pin list to exclude shadow channels of shared channels.
+            </summary>
+            <param name="sessionInfo">The session information containing the associated site-pin list.</param>
+            <returns>A filtered enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> objects.</returns>
+            <remarks>
+            Shadow channels are duplicates of primary channels and do not require separate operations.
+            </remarks>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.Publish">
             <summary>
             Defines measurement results publish methods.
@@ -289,6 +342,11 @@
             Such as, the site number, pin name, instrument channel string used by the driver, instrument model, etc.
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.ChannelCascadingInfo">
+            <summary>
+            class  <see cref = "T:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo"/> containg the information related to pins who are secondary of merged group for current site and the secondary channle string for each merged group of the current site.
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.SitePinString">
             <summary>
             The site-pin pair in "site0/A" format.
@@ -322,6 +380,19 @@
             Defines the value of site number for a system pin.
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.ChannelSharedInfo">
+            <summary>
+            Gets or sets the channel shared information for the associated site-pin pair.
+            </summary>
+            <remarks>
+            Caches information about whether the site-pin pairs share the same channel.
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.SkipOperations">
+            <summary>
+            Gets a boolean value indicating whether operations should be skipped for the current site-pin pair.
+            </summary>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.#ctor(System.String)">
             <summary>
             Constructs a site-pin pair.
@@ -341,8 +412,14 @@
             </summary>
             <param name="siteNumber">The site number. Specify -1 for a system pin.</param>
             <param name="pinName">The pin name.</param>
-            <param name="invididualChannelString">The individual channel string.</param>
+            <param name="individualChannelString">The individual channel string.</param>
             <param name="modelString">The model string of the owning instrument.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.CloneSitePinInfo">
+            <summary>
+            Creates a shallow copy of the current <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> instance.
+            </summary>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> instance that is a shallow copy of the current instance.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.SystemSettings">
             <summary>
@@ -2220,6 +2297,47 @@
             <param name="filterForActiveSites">Determines whether to filter the global data item for sites in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
             <returns>The global PinSiteData item that is previously stored.</returns>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when the stored PinSiteData object does not contain value for a specific site in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</exception>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument">
+            <summary>
+            Defines an interface for a custom instrument.
+            </summary>
+            <remarks>
+            The class that implements this interface is expected to provide the implementation or wrapper for a custom instrument driver.
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument.InstrumentName">
+            <summary>
+            Gets the custom instrument name.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument.Close">
+            <summary>
+            Closes the custom instrument.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument.Reset">
+            <summary>
+            Resets the custom instrument.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrumentFactory">
+            <summary>
+            Defines a factory for creating <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> instances for a specific instrument type.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrumentFactory.InstrumentTypeId">
+            <summary>
+            Gets the custom instrument type ID.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrumentFactory.CreateInstrument(System.String,System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> based on the instrument name and channel group ID.
+            </summary>
+            <param name="instrumentName">Custom instrument name.</param>
+            <param name="channelGroupId">Channel Group Id.</param>
+            <returns>A new instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> object.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings">
             <summary>
