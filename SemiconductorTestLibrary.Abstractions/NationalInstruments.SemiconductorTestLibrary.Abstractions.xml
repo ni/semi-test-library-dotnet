@@ -25,6 +25,28 @@
             Example: { "pinGroupName": "SMU_4147_C1_S11/1,SMU_4147_C1_S11/2,SMU_4147_C1_S11/3" }.
             </summary>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.ChannelSharedInfo">
+            <summary>
+            Defines an object that contains the information about channel sharing.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.ChannelSharedInfo.IsShadowOfSharedChannel">
+            <summary>
+            A boolean value that indicates whether the channel is shared.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.ChannelSharedInfo.ChannelSharedTo">
+            <summary>
+            A collection of site-pin pairs that share the same physical channel.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ChannelSharedInfo.#ctor(System.Boolean,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})">
+            <summary>
+            Constructs a channel shared information object.
+            </summary>
+            <param name="isShadowOfSharedChannel">Indicates whether the channel is a shadow of a shared channel.</param>
+            <param name="channelSharedTo">A collection of site-pin pairs that are shared to the same channel.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
             <summary>
             Defines a specific exception for NI Semiconductor Test Library.
@@ -235,6 +257,16 @@
             <param name="publishedDataId2">The unique data id to use when publishing the second operation result.</param>
             <returns>The two per-instrument per-channel operation results as a tuple of two jagged arrays, one for each set of results. Where, the first dimension of each jagged array represents the instrument sessions, and the second dimension represents the instrument channels within an instrument session.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.GetFilteredAssociatedSitePinList``1(``0)">
+            <summary>
+            Filters the associated site-pin list to exclude shadow channels of shared channels.
+            </summary>
+            <param name="sessionInfo">The session information containing the associated site-pin list.</param>
+            <returns>A filtered enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> objects.</returns>
+            <remarks>
+            Shadow channels are duplicates of primary channels and do not require separate operations.
+            </remarks>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.Publish">
             <summary>
             Defines measurement results publish methods.
@@ -348,6 +380,19 @@
             Defines the value of site number for a system pin.
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.ChannelSharedInfo">
+            <summary>
+            Gets or sets the channel shared information for the associated site-pin pair.
+            </summary>
+            <remarks>
+            Caches information about whether the site-pin pairs share the same channel.
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.SkipOperations">
+            <summary>
+            Gets a boolean value indicating whether operations should be skipped for the current site-pin pair.
+            </summary>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.#ctor(System.String)">
             <summary>
             Constructs a site-pin pair.
@@ -367,8 +412,14 @@
             </summary>
             <param name="siteNumber">The site number. Specify -1 for a system pin.</param>
             <param name="pinName">The pin name.</param>
-            <param name="invididualChannelString">The individual channel string.</param>
+            <param name="individualChannelString">The individual channel string.</param>
             <param name="modelString">The model string of the owning instrument.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.CloneSitePinInfo">
+            <summary>
+            Creates a shallow copy of the current <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> instance.
+            </summary>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> instance that is a shallow copy of the current instance.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.SystemSettings">
             <summary>
