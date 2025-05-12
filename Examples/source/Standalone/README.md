@@ -1,6 +1,7 @@
-Use this directory to host Standalone Style examples.
+This directory contains Standalone style examples.
 
-**Description:** 
-Provides fully runnable example code for demonstrating how to program instrumentation or implement coding concepts. 
-
-Typically created with a certain context that is either documented with an accompanying preface and/or with comments in-line with the example code itself. It can be executed standalone, outside of the TestStand Sequence Editor, if the criteria defined by the provided context is met. Runs with actual hardware and in offline mode or with simulated hardware.
+**What is a Standalone style example?**
+- Standalone style examples demonstrate how to program instrumentation or implement code-level concepts.
+- Any assumed context required to run or understand the example is documented within an accompanying README.md file and via comments in-line with the code statements and method summaries.
+- It can be executed standalone, outside of the TestStand Sequence Editor, if the criteria defined by the provided context is met.
+- Runs in offline mode with simulated hardware or with actual hardware depending on the criteria defined by the provided context.

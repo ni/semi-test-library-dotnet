@@ -1,6 +1,7 @@
-Use this directory to host Test Program Style examples.
+This directory contains Test Program style examples.
 
-**Description:** 
-Provides a fully runnable mock test program for testing a certain DUT type.
- 
-It is accompanied by some level of documentation regarding the DUT type, capturing any assumptions and/or requirements, and should have fully documented code implementations (every test method has code-level summary documentation). Runs with actual hardware and in offline mode.
+**What is a Test Program style example?**
+- Test Program style examples demonstrate a mock test program for testing a certain DUT type. 
+- Accompanied by a README.md file that documents the DUT type, assumptions, and any requirements.
+- Contains fully documented code implementations (every test method has code-level summary documentation). 
+- Runs in offline mode with simulated hardware.
