@@ -7,4 +7,4 @@ This directory contains Sequence style examples.
 - Any assumed context required to run or understand the example is documented within an accompanying README.md file and via comments within the sequence file and in-line with the code statements.
 - They are intended to be run from within the TestStand Sequence Editor (assuming the criteria defined by the provided context is met). 
 - Runs both with actual hardware and in offline mode with simulated hardware.
-- Code modules are not expected to run standalone or be executable outside of TestStand. 
+- Code modules are not expected to run standalone or be executable outside of TestStand.
