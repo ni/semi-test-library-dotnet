@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
@@ -22,9 +22,6 @@
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-	<Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
-	  <SpecificVersion>False</SpecificVersion>
-	</Reference>
     <Reference Include="StandaloneSemiconductorModuleContext">
       <HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
     </Reference>
