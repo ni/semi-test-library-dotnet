@@ -15,6 +15,14 @@
 		</NIDCPowerInstrument>
 		<NIDigitalPatternInstrument name="HSD_6571_C1_S02" numberOfChannels="32" />
 		<NIDigitalPatternInstrument name="HSD_6571_C2_S02" numberOfChannels="32" />
+		<NIDmmInstrument name="DMM_4065_PCI" />
+		<NIDAQmxTask name="DAQ_6363_C1_S08_AITask" taskType="AI" channelList="DAQ_6363_C1_S08/ai0:2" useAsRelayDriver="false" />
+		<NIDAQmxTask name="DAQ_6363_C2_S12_AITask" taskType="AI" channelList="DAQ_6363_C2_S12/ai0:2" useAsRelayDriver="false" />
+		<NIDAQmxTask name="DAQ_6363_C1_S08_AOTask" taskType="AO" channelList="DAQ_6363_C1_S08/ao1,DAQ_6363_C1_S08/ao3" useAsRelayDriver="false" />
+		<NIFGenInstrument name="FGEN_5433_C1_S13" numberOfChannels="20" />
+		<NIFGenInstrument name="FGEN_5433_C2_S05" numberOfChannels="2" />
+		<NIScopeInstrument name="SCP_5162_C2_S09" numberOfChannels="4" group="Scope" />
+		<NIScopeInstrument name="SCP_5105_C1_S09" numberOfChannels="4" group="Scope" />
 	</Instruments>
 	<Pins>
 		<DUTPin name="VDD" />
@@ -27,6 +35,16 @@
 		<DUTPin name="SDATA" />
 		<SystemPin name="VDET" />
 		<SystemPin name="C2" />
+		<DUTPin name="DUTPIN_4065" />
+		<DUTPin name="DAQ_PIN1" />
+		<DUTPin name="DAQ_PIN2" />
+		<DUTPin name="DAQ_PIN3" />
+		<DUTPin name="FGEN_PIN1" />
+		<DUTPin name="FGEN_PIN2" />
+		<DUTPin name="FGEN_PIN3" />
+		<DUTPin name="SCP_PIN1" />
+		<DUTPin name="SCP_PIN2" />
+		<DUTPin name="SCP_PIN3" />
 	</Pins>
 	<PinGroups>
 		<PinGroup name="DigitalPins">
@@ -46,16 +64,32 @@
 		<Site siteNumber="2" />
 	</Sites>
 	<Connections>
+		<Connection pin="DAQ_PIN1" siteNumber="0,1,2" instrument="DAQ_6363_C1_S08_AITask" channel="DAQ_6363_C1_S08/ai0" />
+		<Connection pin="DAQ_PIN2" siteNumber="0" instrument="DAQ_6363_C1_S08_AITask" channel="DAQ_6363_C1_S08/ai1" />
+		<Connection pin="DAQ_PIN2" siteNumber="1,2" instrument="DAQ_6363_C1_S08_AITask" channel="DAQ_6363_C1_S08/ai2" />
 		<Connection pin="VDD" siteNumber="0,1,2" instrument="SMU_4147_C1_S11" channel="2" />
 		<Connection pin="VCC1" siteNumber="0" instrument="SMU_4147_C2_S10" channel="2" />
 		<Connection pin="C0" siteNumber="0" instrument="HSD_6571_C1_S02" channel="0" />
 		<Connection pin="C0" siteNumber="1,2" instrument="HSD_6571_C2_S02" channel="0" />
 		<Connection pin="C1" siteNumber="0,1" instrument="HSD_6571_C2_S02" channel="1" />
 		<Connection pin="C1" siteNumber="2" instrument="HSD_6571_C2_S02" channel="6" />
+		<Connection pin="DAQ_PIN3" siteNumber="0,1" instrument="DAQ_6363_C2_S12_AITask" channel="DAQ_6363_C2_S12/ai0" />
+		<Connection pin="DAQ_PIN3" siteNumber="2" instrument="DAQ_6363_C1_S08_AOTask" channel="DAQ_6363_C1_S08/ao3" />
+		<Connection pin="DUTPIN_4065" siteNumber="0,1,2" instrument="DMM_4065_PCI" channel="0" />
+		<Connection pin="FGEN_PIN1" siteNumber="0,1,2" instrument="FGEN_5433_C1_S13" channel="2" />
+		<Connection pin="FGEN_PIN2" siteNumber="0,1" instrument="FGEN_5433_C1_S13" channel="3" />
+		<Connection pin="FGEN_PIN2" siteNumber="2" instrument="FGEN_5433_C1_S13" channel="5" />
+		<Connection pin="FGEN_PIN3" siteNumber="0" instrument="FGEN_5433_C1_S13" channel="8" />
+		<Connection pin="FGEN_PIN3" siteNumber="1,2" instrument="FGEN_5433_C2_S05" channel="0" />
 		<Connection pin="PA_EN" siteNumber="0,1,2" instrument="HSD_6571_C1_S02" channel="2" />
 		<Connection pin="SCLK" siteNumber="0" instrument="HSD_6571_C1_S02" channel="3" />
 		<Connection pin="SCLK" siteNumber="1" instrument="HSD_6571_C2_S02" channel="3" />
 		<Connection pin="SCLK" siteNumber="2" instrument="HSD_6571_C2_S02" channel="8" />
+		<Connection pin="SCP_PIN1" siteNumber="0,1,2" instrument="SCP_5162_C2_S09" channel="0" />
+		<Connection pin="SCP_PIN2" siteNumber="0" instrument="SCP_5162_C2_S09" channel="1" />
+		<Connection pin="SCP_PIN2" siteNumber="1,2" instrument="SCP_5162_C2_S09" channel="3" />
+		<Connection pin="SCP_PIN3" siteNumber="0,1" instrument="SCP_5105_C1_S09" channel="0" />
+		<Connection pin="SCP_PIN3" siteNumber="2" instrument="SCP_5162_C2_S09" channel="2" />
 		<Connection pin="SDATA" siteNumber="0" instrument="HSD_6571_C1_S02" channel="9" />
 		<Connection pin="SDATA" siteNumber="1,2" instrument="HSD_6571_C1_S02" channel="4" />
 		<Connection pin="VCC1" siteNumber="1,2" instrument="SMU_4147_C2_S10" channel="0" />
