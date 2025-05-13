@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BinDefinitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.1" xmlns="http://www.ni.com/TestStand/SemiconductorModule/BinDefinitions">
+  <HardwareBins>
+    <Bin name="Pass" number="1" type="Pass" />
+    <Bin name="Fail" number="2" type="Fail" />
+    <Bin name="Error" number="3" type="Other" />
+  </HardwareBins>
+  <SoftwareBins errorBin="3" defaultFailBin="2" defaultPassBin="1">
+    <Bin name="Pass" number="1" hardwareBin="1" />
+    <Bin name="Fail" number="2" hardwareBin="2" />
+    <Bin name="Error" number="3" hardwareBin="3" />
+  </SoftwareBins>
+</BinDefinitions>

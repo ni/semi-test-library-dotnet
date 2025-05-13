@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.1">
+	<Instruments>
+		<NIDmmInstrument name="DMM_4081_C1_S02" />
+		<NIDmmInstrument name="DMM_4081_C1_S03" />
+		<NIDmmInstrument name="DMM_4081_C1_S04" />
+		<Multiplexer name="MUX1" multiplexerTypeId="SimulatedMultiplexer" />
+		<Multiplexer name="MUX2" multiplexerTypeId="SimulatedMultiplexer" />
+		<Multiplexer name="MUX3" multiplexerTypeId="SimulatedMultiplexer" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="A" />
+		<DUTPin name="B" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+		<Site siteNumber="3" />
+	</Sites>
+	<Connections>
+		<!-- Switched Connections -->
+		<MultiplexedConnection instrument="DMM_4081_C1_S02" channel="0">
+			<MultiplexedDUTPinRoute pin="A" siteNumber="0" multiplexer="MUX1" routeName="DMM1Site0" />
+			<MultiplexedDUTPinRoute pin="A" siteNumber="1" multiplexer="MUX1" routeName="DMM1Site1" />
+			<MultiplexedDUTPinRoute pin="A" siteNumber="2" multiplexer="MUX1" routeName="DMM1Site2" />
+			<MultiplexedDUTPinRoute pin="A" siteNumber="3" multiplexer="MUX1" routeName="DMM1Site3" />
+		</MultiplexedConnection>
+		<MultiplexedConnection instrument="DMM_4081_C1_S03" channel="0">
+			<MultiplexedDUTPinRoute pin="B" siteNumber="0" multiplexer="MUX2" routeName="DMM2Site0" />
+			<MultiplexedDUTPinRoute pin="B" siteNumber="1" multiplexer="MUX2" routeName="DMM2Site1" />
+		</MultiplexedConnection>
+		<MultiplexedConnection instrument="DMM_4081_C1_S04" channel="0">
+			<MultiplexedDUTPinRoute pin="B" siteNumber="2" multiplexer="MUX3" routeName="DMM3Site2" />
+			<MultiplexedDUTPinRoute pin="B" siteNumber="3" multiplexer="MUX3" routeName="DMM3Site3" />
+		</MultiplexedConnection>
+	</Connections>
+</PinMap>
