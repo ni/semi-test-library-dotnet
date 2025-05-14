@@ -4,9 +4,9 @@
 		<NIDmmInstrument name="DMM_4081_C1_S02" />
 		<NIDmmInstrument name="DMM_4081_C1_S03" />
 		<NIDmmInstrument name="DMM_4081_C1_S04" />
-		<Multiplexer name="MUX1" multiplexerTypeId="SimulatedMultiplexer" />
-		<Multiplexer name="MUX2" multiplexerTypeId="SimulatedMultiplexer" />
-		<Multiplexer name="MUX3" multiplexerTypeId="SimulatedMultiplexer" />
+		<Multiplexer name="MUX1" multiplexerTypeId="NIGenericMultiplexer" />
+		<Multiplexer name="MUX2" multiplexerTypeId="NIGenericMultiplexer" />
+		<Multiplexer name="MUX3" multiplexerTypeId="NIGenericMultiplexer" />
 	</Instruments>
 	<Pins>
 		<DUTPin name="A" />

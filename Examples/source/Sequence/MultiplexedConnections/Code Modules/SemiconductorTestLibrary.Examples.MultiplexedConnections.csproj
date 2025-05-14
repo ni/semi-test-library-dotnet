@@ -26,7 +26,10 @@
     <None Remove="packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary" Version="24.5.1" />
+    <Compile Remove="Common\MyPinSiteData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary" Version="25.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Ivi.Driver, Version=1.4.0.0, Culture=neutral">      

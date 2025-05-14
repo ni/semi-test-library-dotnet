@@ -2,8 +2,6 @@
 {
     public class SimulatedMultiplexer
     {
-        public static string MultiplexerTypeId => "SimulatedMultiplexer";
-
         public readonly string ResourceName;
         
         public SimulatedMultiplexer(string resourceName) 

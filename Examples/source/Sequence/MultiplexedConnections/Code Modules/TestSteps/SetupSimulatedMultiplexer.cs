@@ -15,7 +15,7 @@ namespace SemiconductorTestLibrary.Examples.MultiplexedConnections
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object reference.</param>
         public static void SetupSimulatedMultiplexer(ISemiconductorModuleContext tsmContext)
         {
-            string[] switchNames = tsmContext.GetSwitchNames(SimulatedMultiplexer.MultiplexerTypeId);
+            string[] switchNames = tsmContext.GetSwitchNames();
 
             foreach (string switchName in switchNames)
             {
