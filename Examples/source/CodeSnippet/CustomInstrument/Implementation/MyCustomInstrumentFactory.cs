@@ -18,7 +18,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.CustomInstrument.Examples
         /// </summary>
         public MyCustomInstrumentFactory()
         {
-            /// Intialize object
         }
 
         /// <summary>
