@@ -1,29 +1,29 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
-    <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <PlatformTarget>x64</PlatformTarget>
-    <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn), 1591</NoWarn>
-    <RootNamespace>NationalInstruments.Tests.SemiconductorTestLibrary</RootNamespace>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <AssemblyName>NationalInstruments.Tests.SemiconductorTestLibrary.Utilities</AssemblyName>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
-    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
-      <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="StandaloneSemiconductorModuleContext">
-      <HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<OutputType>Library</OutputType>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<PlatformTarget>x64</PlatformTarget>
+		<AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn), 1591</NoWarn>
+		<RootNamespace>NationalInstruments.Tests.SemiconductorTestLibrary</RootNamespace>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<AssemblyName>NationalInstruments.Tests.SemiconductorTestLibrary.Utilities</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
+		<Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
+			<HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+		</Reference>
+		<Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="StandaloneSemiconductorModuleContext">
+			<HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 </Project>
