@@ -13,24 +13,24 @@
 	</Instruments>
 	<Pins>
 		<DUTPin name="VCCPrimary" />
-		<DUTPin name="VCC1" />
-		<DUTPin name="VCC2Primary" />
-		<DUTPin name="VCC3" />
+		<DUTPin name="VCCSecondary" />
+		<DUTPin name="VDDPrimary" />
+		<DUTPin name="VDDSecondary" />
 	</Pins>
 	<PinGroups>
-		<PinGroup name="MergeVCCPrimary_4Pins">
+		<PinGroup name="AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin">
 			<PinReference pin="VCCPrimary" />
-			<PinReference pin="VCC1" />
-			<PinReference pin="VCC2Primary" />
-			<PinReference pin="VCC3" />
+			<PinReference pin="VCCSecondary" />
+			<PinReference pin="VDDPrimary" />
+			<PinReference pin="VDDSecondary" />
 		</PinGroup>
-		<PinGroup name="MergeVDDPrimary">
-			<PinReference pin="VCC2Primary" />
-			<PinReference pin="VCC3" />
+		<PinGroup name="MergedVDDGroup">
+			<PinReference pin="VDDPrimary" />
+			<PinReference pin="VDDSecondary" />
 		</PinGroup>
-		<PinGroup name="MergeVCCPrimary">
+		<PinGroup name="MergedVCCGroup">
 			<PinReference pin="VCCPrimary" />
-			<PinReference pin="VCC1" />
+			<PinReference pin="VCCSecondary" />
 		</PinGroup>
 	</PinGroups>
 	<Sites>
@@ -39,12 +39,12 @@
 	</Sites>
 	<Connections>
 		<Connection pin="VCCPrimary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="0" />
-		<Connection pin="VCC1" siteNumber="0" instrument="SMU_4147_C1_S11" channel="1" />
-		<Connection pin="VCC1" siteNumber="1" instrument="SMU_4147_C2_S10" channel="1" />
-		<Connection pin="VCC2Primary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="2" />
-		<Connection pin="VCC2Primary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="2" />
-		<Connection pin="VCC3" siteNumber="0" instrument="SMU_4147_C1_S11" channel="3" />
-		<Connection pin="VCC3" siteNumber="1" instrument="SMU_4147_C2_S10" channel="3" />
+		<Connection pin="VCCSecondary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="1" />
+		<Connection pin="VCCSecondary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="1" />
+		<Connection pin="VDDPrimary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="2" />
+		<Connection pin="VDDPrimary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="2" />
+		<Connection pin="VDDSecondary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="3" />
+		<Connection pin="VDDSecondary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="3" />
 		<Connection pin="VCCPrimary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="0" />
 	</Connections>
 </PinMap>
