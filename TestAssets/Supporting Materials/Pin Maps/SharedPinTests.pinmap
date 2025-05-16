@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<PinMap schemaVersion="1.9" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
 		<NIDCPowerInstrument name="SMU_4147_C1_S11" numberOfChannels="4">
 			<ChannelGroup name="SMU_4147_C1_S11_CH0" channels="0" />
@@ -18,7 +18,7 @@
 		<NIDmmInstrument name="DMM_4065_PCI" />
 		<NIDAQmxTask name="DAQ_6363_C1_S08_AITask" taskType="AI" channelList="DAQ_6363_C1_S08/ai0:2" useAsRelayDriver="false" />
 		<NIDAQmxTask name="DAQ_6363_C2_S12_AITask" taskType="AI" channelList="DAQ_6363_C2_S12/ai0:2" useAsRelayDriver="false" />
-		<NIDAQmxTask name="DAQ_4468_C2_S13_AITask" taskType="AI" channelList="DAQ_4468_C2_S13/ai0:2" useAsRelayDriver="false" />
+		<NIDAQmxTask name="DAQ_4468_C2_S13_AITask" taskType="AI" channelList="DAQ_4468_C2_S13/ai0:1" useAsRelayDriver="false" />
 		<NIFGenInstrument name="FGEN_5433_C1_S13" numberOfChannels="20" />
 		<NIFGenInstrument name="FGEN_5433_C2_S05" numberOfChannels="2" />
 		<NIScopeInstrument name="SCP_5162_C2_S09" numberOfChannels="4" group="Scope" />
