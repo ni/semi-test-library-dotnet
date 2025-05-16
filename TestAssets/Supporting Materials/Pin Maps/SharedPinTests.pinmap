@@ -18,7 +18,7 @@
 		<NIDmmInstrument name="DMM_4065_PCI" />
 		<NIDAQmxTask name="DAQ_6363_C1_S08_AITask" taskType="AI" channelList="DAQ_6363_C1_S08/ai0:2" useAsRelayDriver="false" />
 		<NIDAQmxTask name="DAQ_6363_C2_S12_AITask" taskType="AI" channelList="DAQ_6363_C2_S12/ai0:2" useAsRelayDriver="false" />
-		<NIDAQmxTask name="DAQ_6363_C1_S08_AOTask" taskType="AO" channelList="DAQ_6363_C1_S08/ao1,DAQ_6363_C1_S08/ao3" useAsRelayDriver="false" />
+		<NIDAQmxTask name="DAQ_4468_C2_S13_AITask" taskType="AI" channelList="DAQ_4468_C2_S13/ai0:2" useAsRelayDriver="false" />
 		<NIFGenInstrument name="FGEN_5433_C1_S13" numberOfChannels="20" />
 		<NIFGenInstrument name="FGEN_5433_C2_S05" numberOfChannels="2" />
 		<NIScopeInstrument name="SCP_5162_C2_S09" numberOfChannels="4" group="Scope" />
@@ -74,7 +74,7 @@
 		<Connection pin="C1" siteNumber="0,1" instrument="HSD_6571_C2_S02" channel="1" />
 		<Connection pin="C1" siteNumber="2" instrument="HSD_6571_C2_S02" channel="6" />
 		<Connection pin="DAQ_PIN3" siteNumber="0,1" instrument="DAQ_6363_C2_S12_AITask" channel="DAQ_6363_C2_S12/ai0" />
-		<Connection pin="DAQ_PIN3" siteNumber="2" instrument="DAQ_6363_C1_S08_AOTask" channel="DAQ_6363_C1_S08/ao3" />
+		<Connection pin="DAQ_PIN3" siteNumber="2" instrument="DAQ_4468_C2_S13_AITask" channel="DAQ_4468_C2_S13/ai1" />
 		<Connection pin="DUTPIN_4065" siteNumber="0,1,2" instrument="DMM_4065_PCI" channel="0" />
 		<Connection pin="FGEN_PIN1" siteNumber="0,1,2" instrument="FGEN_5433_C1_S13" channel="2" />
 		<Connection pin="FGEN_PIN2" siteNumber="0,1" instrument="FGEN_5433_C1_S13" channel="3" />
