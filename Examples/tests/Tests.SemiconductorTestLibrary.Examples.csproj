@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
 		<OutputType>Library</OutputType>
@@ -55,7 +55,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj" />
-		<ProjectReference Include="..\source\SemiconductorTestLibrary.Examples.csproj" />
+		<ProjectReference Include="..\source\CodeSnippet\SemiconductorTestLibrary.Examples.CodeSnippet.csproj" />
 		<ProjectReference Include="..\..\SemiconductorTestLibrary.TestStandSteps\source\SemiconductorTestLibrary.TestStandSteps.csproj" />
 
 	</ItemGroup>
