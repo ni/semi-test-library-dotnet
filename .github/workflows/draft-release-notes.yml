@@ -1,0 +1,198 @@
+name: Create Draft Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. 25.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  create-draft-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Validate CHANGELOG.md and extract changelog section for the given version
+      - name: Validate and Extract Changelog
+        id: extract_changelog
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          TAG="v$VERSION"
+
+          FIRST_VERSION=$(grep -Po '^- \[\K[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | head -1)
+          if [ "$FIRST_VERSION" != "$VERSION" ]; then
+            echo "::error ::CHANGELOG.md's latest version '$FIRST_VERSION' does not match input version '$VERSION'"
+            exit 1
+          fi
+
+          awk -v ver="$VERSION" '
+            $0 ~ "^## " ver " -" { in_section=1; next }
+            in_section {
+              if ($0 ~ "^## ") exit
+              print
+            }
+          ' CHANGELOG.md > latest_changelog.txt
+
+          echo "changelog_section<<EOF" >> $GITHUB_OUTPUT
+          cat latest_changelog.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      # Create git tag if not already present
+      - name: Create Git Tag
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          TAG="v$VERSION"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists. Reusing existing tag."
+          else
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
+
+      # Create release branch from tag (fail if branch already exists)
+      - name: Create Release Branch from Tag
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          TAG="v$VERSION"
+          BRANCH="releases/$VERSION"
+
+          if git ls-remote --exit-code --heads origin "$BRANCH"; then
+            echo "::error ::Branch $BRANCH already exists. Failing workflow."
+            exit 1
+          fi
+
+          git fetch origin "refs/tags/$TAG"
+          git checkout -b "$BRANCH" "tags/$TAG"
+          git push origin "$BRANCH"
+
+      # Trigger Azure DevOps Pipeline
+      - name: Trigger Azure DevOps Pipeline
+        id: trigger_pipeline
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          ORG="ni"
+          PROJECT="DevCentral"
+          PIPELINE_ID="${{ secrets.AZDO_PIPELINE_ID }}"
+          BRANCH="users/usaxena/test-jfrog-nupkg-download"
+          PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
+
+          BODY=$(jq -n \
+            --arg v "$VERSION" \
+            --arg s "refs/heads/$BRANCH" \
+            '{
+              resources: {
+                repositories: {
+                  self: {
+                    refName: $s
+                  }
+                }
+              },
+              templateParameters: {
+                version: $v
+              }
+            }')
+
+          RESPONSE=$(curl -sS -X POST \
+            -u ":$PAT" \
+            -H "Content-Type: application/json" \
+            -d "$BODY" \
+            "https://dev.azure.com/$ORG/$PROJECT/_apis/pipelines/$PIPELINE_ID/runs?api-version=7.0")
+
+          echo "Response: $RESPONSE"
+          BUILD_ID=$(echo "$RESPONSE" | jq -r '.id')
+
+          if [ -z "$BUILD_ID" ] || [ "$BUILD_ID" = "null" ]; then
+            echo "Failed to trigger Azure DevOps pipeline"
+            exit 1
+          fi
+
+          echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+
+      # Wait for pipeline to complete
+      - name: Wait for Pipeline to Complete
+        id: wait_pipeline
+        run: |
+          BUILD_ID="${{ steps.trigger_pipeline.outputs.build_id }}"
+          ORG="ni"
+          PROJECT="DevCentral"
+          PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
+          STATUS="inProgress"
+
+          while [ "$STATUS" = "inProgress" ] || [ "$STATUS" = "notStarted" ]; do
+            sleep 15
+            RESPONSE=$(curl -sS -u ":$PAT" \
+              "https://dev.azure.com/$ORG/$PROJECT/_apis/build/builds/$BUILD_ID?api-version=6.0")
+            STATUS=$(echo "$RESPONSE" | jq -r '.status')
+            echo "Current build status: $STATUS"
+          done
+
+          RESULT=$(echo "$RESPONSE" | jq -r '.result')
+          echo "Build result: $RESULT"
+          if [ "$RESULT" != "succeeded" ]; then
+            exit 1
+          fi
+
+      # Download nupkg and assemblies artifact
+      - name: Download Artifacts and Package Assemblies
+        run: |
+          set -e
+          VERSION="${{ github.event.inputs.version }}"
+          ARTIFACT_NAME="nupkg-download"
+          BUILD_ID="${{ steps.trigger_pipeline.outputs.build_id }}"
+          ORG="ni"
+          PROJECT="DevCentral"
+          PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
+
+          #================ DOWNLOAD .nupkg FILE ==================#
+          ARTIFACT_URL=$(curl -sS -u ":$PAT" \
+            "https://dev.azure.com/$ORG/$PROJECT/_apis/build/builds/$BUILD_ID/artifacts?api-version=6.0" |
+            jq -r ".value[] | select(.name==\"$ARTIFACT_NAME\") | .resource.downloadUrl")
+
+          curl -sSL -u ":$PAT" "$ARTIFACT_URL" -o artifact.zip
+          unzip artifact.zip
+          find . -name '*.nupkg' -exec mv {} . \;
+
+          #================ DOWNLOAD LATEST ASSEMBLY EXPORT.ZIP ==================#
+          echo "Fetching latest assembly export.zip from JFrog"
+          BASE_URL="https://pull.artifacts.ni.com/artifactory/rnd-nibuild-ci/semi/semiconductortestlibraryteststandsteps/$VERSION"
+
+          HTML=$(curl -sSL "$BASE_URL/")
+          LATEST_SUBDIR=$(echo "$HTML" | grep -oP 'href="\K[^"]+d[0-9]+' | sort -V | tail -n 1)
+
+          if [ -z "$LATEST_SUBDIR" ]; then
+            echo "No d-version subdirectory found for $VERSION"
+            exit 1
+          fi
+
+          ZIP_URL="$BASE_URL/$LATEST_SUBDIR/export.zip"
+          curl --fail -u "${{ secrets.JFROG_USERNAME }}:${{ secrets.JFROG_PASSWORD }}" -o export.zip "$ZIP_URL"
+
+          unzip -q export.zip "*/CustomExport/*"
+          mkdir -p assemblies
+          mv */CustomExport/* assemblies/
+          zip -r SemiconductorTestLibrary.$VERSION.Assemblies.zip assemblies
+
+      #================ CREATE RELEASE ==================#
+      - name: Create Draft GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ github.event.inputs.version }}
+          name: v${{ github.event.inputs.version }}
+          body: ${{ steps.extract_changelog.outputs.changelog_section }}
+          draft: true
+          files: |
+            NationalInstruments.SemiconductorTestLibrary.${{ github.event.inputs.version }}.nupkg
+            SemiconductorTestLibrary.${{ github.event.inputs.version }}.Assemblies.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
