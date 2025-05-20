@@ -2339,6 +2339,32 @@
             <param name="channelGroupId">Channel Group Id.</param>
             <returns>A new instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> object.</returns>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.InitializeAndClose">
+            <summary>
+            Defines <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> sessions initialize and close APIs.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.InitializeAndClose.Initialize(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrumentFactory)">
+            <summary>
+            Initializes the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> sessions in the test system.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="customInstrumentFactory">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrumentFactory"/> object.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.InitializeAndClose.Close(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String)">
+            <summary>
+            Closes all <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> sessions.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="instrumentTypeId">The instrument type ID.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.InitializeAndClose.Reset(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String)">
+            <summary>
+            Resets all <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> sessions.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="instrumentTypeId">The instrument type ID.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DefaultDAQmxTaskTypeStrings">
             <summary>
             Defines the default DAQmx task type strings.
@@ -4093,6 +4119,16 @@
             <summary>
               Overrides the current thread's CurrentUICulture property for all
               resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.CustomInstrument_NoInstrumentFound">
+            <summary>
+              Looks up a localized string similar to No instruments found of instrument type id &quot;{0}&quot;..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.CustomInstrument_SessionNotCreated">
+            <summary>
+              Looks up a localized string similar to Failed to create driver session for &quot;{0}&quot; instrument..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DAQmx_ExportSignalNotSupported">
