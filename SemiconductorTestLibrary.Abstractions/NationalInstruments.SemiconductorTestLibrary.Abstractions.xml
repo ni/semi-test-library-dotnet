@@ -2332,6 +2332,55 @@
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="instrumentTypeId">The instrument type ID.</param>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle">
+            <summary>
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionInformation"/> objects.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle.TSMContext">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle.InstrumentSessions">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle.AggregateSitePinList">
+            <inheritdoc/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionInformation})">
+            <summary>
+            Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionInformation"/>s.
+            </summary>
+            <param name="tsmContext">The associated <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
+            <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionInformation"/>s.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle.FilterByPin(System.String)">
+            <summary>
+            Filters the current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/> and returns a new one with the requested pin.
+            </summary>
+            <param name="requestedPin">The requested pin.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/> object with the requested pin.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle.FilterByPin(System.String[])">
+            <summary>
+            Filters the current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/> and returns a new one with the requested pins.
+            </summary>
+            <param name="requestedPins">The requested pins.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/> object with the requested pins.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle.FilterBySite(System.Int32)">
+            <summary>
+            Filters the current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/> and returns a new one with the requested site.
+            </summary>
+            <param name="requestedSite">The requested site.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/> object with the requested site.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle.FilterBySite(System.Int32[])">
+            <summary>
+            Filters the current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/> and returns a new one with the requested sites.
+            </summary>
+            <param name="requestedSites">The requested sites.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/> object with the requested sites.</returns>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument">
             <summary>
             Defines an interface for a custom instrument.
@@ -4138,6 +4187,22 @@
             <param name="pins">The given pins.</param>
             <param name="filterPins">Whether to automatically filter out non-NIFgen pins.</param>
             <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/>. Returns null if all pins are non-NIFgen pins.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.CustomInstrument(System.String,System.String)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/> associated with the specified pin.
+            </summary>
+            <param name="instrumentTypeId">The custom instrument type id.</param>
+            <param name="pin">The given pin.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/>.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.TSMSessionManager.CustomInstrument(System.String,System.String[])">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/> associated with the specified pins.
+            </summary>
+            <param name="instrumentTypeId">The custom instrument type id.</param>
+            <param name="pins">The given pins.</param>
+            <returns>The associated <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle"/>.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.ResourceStrings">
             <summary>
