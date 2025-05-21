@@ -2414,12 +2414,13 @@
             Gets the custom instrument type ID.
             </summary>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrumentFactory.CreateInstrument(System.String,System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrumentFactory.CreateInstrument(System.String,System.String,System.String)">
             <summary>
             Creates a new instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> based on the instrument name and channel group ID.
             </summary>
             <param name="instrumentName">Custom instrument name.</param>
             <param name="channelGroupId">Channel Group Id.</param>
+            <param name="channelList">Channel List.</param>
             <returns>A new instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> object.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.InitializeAndClose">
