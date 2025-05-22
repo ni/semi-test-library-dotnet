@@ -78,7 +78,6 @@ jobs:
           git push origin "$BRANCH"
 
       # Trigger Azure DevOps Pipeline
-      # Change branch name before PR
       - name: Trigger Azure DevOps Pipeline
         id: trigger_pipeline
         run: |
@@ -146,7 +145,6 @@ jobs:
           fi
 
       # Download NuPkg and Assemblies.zip from Azure DevOps pipeline artifacts
-      # Change Hardcoded version in line 169-170
       - name: Download Artifacts from Azure DevOps
         run: |
           set -e
@@ -171,7 +169,6 @@ jobs:
           mv jfrog-artifacts/SemiconductorTestLibrary.$VERSION.Assemblies.zip .
 
       # Create Release Notes Draft
-      # Change Hardcoded version number
       - name: Create Release Notes Draft
         uses: softprops/action-gh-release@v1
         with:
