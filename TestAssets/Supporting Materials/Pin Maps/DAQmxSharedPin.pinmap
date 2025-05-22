@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.9">
+	<Instruments>
+		<NIDAQmxTask name="DAQ_6363_C1_S08_AITask" taskType="AI" channelList="DAQ_6363_C1_S08/ai0:2" useAsRelayDriver="false" />
+		<NIDAQmxTask name="DAQ_6363_C2_S12_AITask" taskType="AI" channelList="DAQ_6363_C2_S12/ai0:2" useAsRelayDriver="false" />
+		<NIDAQmxTask name="DAQ_4468_C2_S13_AITask" taskType="AI" channelList="DAQ_4468_C2_S13/ai0:1" useAsRelayDriver="false" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="DAQ_PIN1" />
+		<DUTPin name="DAQ_PIN2" />
+		<DUTPin name="DAQ_PIN3" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Relays></Relays>
+	<RelayGroups></RelayGroups>
+	<RelayConfigurations></RelayConfigurations>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+	</Sites>
+	<Connections>
+		<Connection pin="DAQ_PIN1" siteNumber="0,1,2" instrument="DAQ_6363_C1_S08_AITask" channel="DAQ_6363_C1_S08/ai0" />
+		<Connection pin="DAQ_PIN2" siteNumber="0" instrument="DAQ_6363_C1_S08_AITask" channel="DAQ_6363_C1_S08/ai1" />
+		<Connection pin="DAQ_PIN2" siteNumber="1,2" instrument="DAQ_6363_C1_S08_AITask" channel="DAQ_6363_C1_S08/ai2" />
+		<Connection pin="DAQ_PIN3" siteNumber="0,1" instrument="DAQ_6363_C2_S12_AITask" channel="DAQ_6363_C2_S12/ai0" />
+		<Connection pin="DAQ_PIN3" siteNumber="2" instrument="DAQ_4468_C2_S13_AITask" channel="DAQ_4468_C2_S13/ai1" />
+	</Connections>
+</PinMap>
