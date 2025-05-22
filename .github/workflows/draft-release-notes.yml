@@ -1,4 +1,4 @@
-name: Create Draft Release
+name: Create Release Notes Draft
 
 on:
   workflow_dispatch:
@@ -12,8 +12,9 @@ permissions:
   contents: write
 
 jobs:
-  create-draft-release:
+  create-release-notes-draft:
     runs-on: ubuntu-latest
+    environment: gh-action-testing
 
     steps:
       - name: Checkout Repository
@@ -60,7 +61,7 @@ jobs:
             git push origin "$TAG"
           fi
 
-      # Create release branch from tag (fail if branch already exists)
+      # Create release branch from tag (Pipeline will fail if branch already exists)
       - name: Create Release Branch from Tag
         run: |
           VERSION="${{ github.event.inputs.version }}"
@@ -77,14 +78,15 @@ jobs:
           git push origin "$BRANCH"
 
       # Trigger Azure DevOps Pipeline
+      # Change branch name before PR
       - name: Trigger Azure DevOps Pipeline
         id: trigger_pipeline
         run: |
           VERSION="${{ github.event.inputs.version }}"
           ORG="ni"
           PROJECT="DevCentral"
-          PIPELINE_ID="${{ secrets.AZDO_PIPELINE_ID }}"
-          BRANCH="users/usaxena/test-jfrog-nupkg-download"
+          PIPELINE_ID="${{ secrets.JFROG_ASSETS_DOWNLOAD_AZDO_PIPELINE_ID }}"
+          BRANCH="main"
           PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
 
           BODY=$(jq -n \
@@ -143,48 +145,34 @@ jobs:
             exit 1
           fi
 
-      # Download nupkg and assemblies artifact
-      - name: Download Artifacts and Package Assemblies
+      # Download NuPkg and Assemblies.zip from Azure DevOps pipeline artifacts
+      # Change Hardcoded version in line 169-170
+      - name: Download Artifacts from Azure DevOps
         run: |
           set -e
           VERSION="${{ github.event.inputs.version }}"
-          ARTIFACT_NAME="nupkg-download"
+          ARTIFACT_NAME="jfrog-artifacts"
           BUILD_ID="${{ steps.trigger_pipeline.outputs.build_id }}"
           ORG="ni"
           PROJECT="DevCentral"
           PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
 
-          #================ DOWNLOAD .nupkg FILE ==================#
+          # Get the download URL for the artifact
           ARTIFACT_URL=$(curl -sS -u ":$PAT" \
             "https://dev.azure.com/$ORG/$PROJECT/_apis/build/builds/$BUILD_ID/artifacts?api-version=6.0" |
             jq -r ".value[] | select(.name==\"$ARTIFACT_NAME\") | .resource.downloadUrl")
 
+          # Download and unzip the artifact
           curl -sSL -u ":$PAT" "$ARTIFACT_URL" -o artifact.zip
-          unzip artifact.zip
-          find . -name '*.nupkg' -exec mv {} . \;
+          unzip -q artifact.zip
 
-          #================ DOWNLOAD LATEST ASSEMBLY EXPORT.ZIP ==================#
-          echo "Fetching latest assembly export.zip from JFrog"
-          BASE_URL="https://pull.artifacts.ni.com/artifactory/rnd-nibuild-ci/semi/semiconductortestlibraryteststandsteps/$VERSION"
+          # Move the expected files to the current directory (they are in flat layout already)
+          mv jfrog-artifacts/NationalInstruments.SemiconductorTestLibrary.$VERSION.nupkg .
+          mv jfrog-artifacts/SemiconductorTestLibrary.$VERSION.Assemblies.zip .
 
-          HTML=$(curl -sSL "$BASE_URL/")
-          LATEST_SUBDIR=$(echo "$HTML" | grep -oP 'href="\K[^"]+d[0-9]+' | sort -V | tail -n 1)
-
-          if [ -z "$LATEST_SUBDIR" ]; then
-            echo "No d-version subdirectory found for $VERSION"
-            exit 1
-          fi
-
-          ZIP_URL="$BASE_URL/$LATEST_SUBDIR/export.zip"
-          curl --fail -u "${{ secrets.JFROG_USERNAME }}:${{ secrets.JFROG_PASSWORD }}" -o export.zip "$ZIP_URL"
-
-          unzip -q export.zip "*/CustomExport/*"
-          mkdir -p assemblies
-          mv */CustomExport/* assemblies/
-          zip -r SemiconductorTestLibrary.$VERSION.Assemblies.zip assemblies
-
-      #================ CREATE RELEASE ==================#
-      - name: Create Draft GitHub Release
+      # Create Release Notes Draft
+      # Change Hardcoded version number
+      - name: Create Release Notes Draft
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ github.event.inputs.version }}
