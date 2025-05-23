@@ -18,10 +18,6 @@
 		<DUTPin name="DO_PIN1" />
 		<DUTPin name="AOFGEN_PIN1" />
 	</Pins>
-	<PinGroups></PinGroups>
-	<Relays></Relays>
-	<RelayGroups></RelayGroups>
-	<RelayConfigurations></RelayConfigurations>
 	<Sites>
 		<Site siteNumber="0" />
 		<Site siteNumber="1" />
