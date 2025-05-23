@@ -84,7 +84,7 @@ jobs:
           VERSION="${{ github.event.inputs.version }}"
           ORG="ni"
           PROJECT="DevCentral"
-          PIPELINE_ID="${{ secrets.JFROG_ASSETS_DOWNLOAD_AZDO_PIPELINE_ID }}"
+          PIPELINE_ID="27162"
           BRANCH="main"
           PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
 
