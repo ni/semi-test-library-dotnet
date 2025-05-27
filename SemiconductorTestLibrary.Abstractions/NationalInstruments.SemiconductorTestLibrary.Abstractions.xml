@@ -2525,6 +2525,15 @@
             <param name="task">The NI-DAQmx task.</param>
             <param name="channelList">The channels associated with the task.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor(NationalInstruments.DAQmx.Task,System.String,System.String[],System.Int32[])">
+            <summary>
+            Constructs a task information object that associates with an NI-DAQmx task.
+            </summary>
+            <param name="task">The NI-DAQmx task.</param>
+            <param name="channelList">The channels associated with the task.</param>
+            <param name="pinRange">An array of pin names in the task.</param>
+            <param name="siteRange">An array of sites in the task.</param>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.#ctor(NationalInstruments.DAQmx.Task,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})">
             <summary>
             Constructs a task information object.
@@ -2541,7 +2550,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTaskInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>
-            Generates a dictionary that takes a channel string and returns the associated site-pin pair information.
+            Generates a dictionary that takes a channel string and returns the list of associated site-pin pair information.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
         </member>
