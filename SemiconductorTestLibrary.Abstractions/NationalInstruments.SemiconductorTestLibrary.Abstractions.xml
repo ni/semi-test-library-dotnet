@@ -3169,6 +3169,16 @@
             <param name="pinSetString">The pin set string associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
             <param name="siteList">The site list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.String,System.String[],System.Int32[])">
+            <summary>
+            Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> instrument session.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="pinSetString">The pin set string associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="siteList">The site list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="pinRange">An array of pin names in the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="siteRange">An array of sites in the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})">
             <summary>
             Constructs a session information object.
@@ -3181,6 +3191,12 @@
             Gets pin set strings on per-site basis.
             </summary>
             <returns>A dictionary that contains per-site pin set strings.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
+            <summary>
+            Generates a dictionary that takes a pinset string and returns the list of associated site-pin pair information.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle">
             <summary>
@@ -4294,6 +4310,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_NotUsingChannelGroups">
             <summary>
               Looks up a localized string similar to Convert DCPower instruments to use channel groups in the pinmap..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_InvalidTSMContext">
+            <summary>
+              Looks up a localized string similar to For DigitalSessionsBundle query the TSM context should always contain all the sites that were initially included during the NIDigital device initialization. The following sites are currently missing: {0}..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_MixedUsageOfDUTPinsAndSystemPins">
