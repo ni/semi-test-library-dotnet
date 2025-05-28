@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFrameworks>net48;net8.0</TargetFrameworks>
     <OutputType>Library</OutputType>
+    <OutputPath>.\</OutputPath>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <PlatformTarget>x64</PlatformTarget>
-    <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <NoWarn>$(NoWarn), 1591</NoWarn>
     <RootNamespace>NationalInstruments.Tests.SemiconductorTestLibrary</RootNamespace>
@@ -13,17 +13,17 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
-    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
-      <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
-    </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
+      <HintPath>C:\Program Files\National Instruments\TestStand 2023\API\DotNET\Assemblies\CurrentVersion\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces">
+      <HintPath>C:\Program Files\National Instruments\TestStand 2023\Bin\NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="StandaloneSemiconductorModuleContext">
       <HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
     </Reference>
+    <ProjectReference Include="C:\Dev\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\Scripts\..\..\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj" />
   </ItemGroup>
 </Project>

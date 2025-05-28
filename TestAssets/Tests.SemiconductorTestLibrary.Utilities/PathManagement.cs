@@ -31,7 +31,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
         {
             get
             {
+#if NET8_0_OR_GREATER
+                var assemblyLocationURI = new Uri(Assembly.GetExecutingAssembly().Location);
+#else
                 var assemblyLocationURI = new Uri(Assembly.GetExecutingAssembly().CodeBase);
+#endif
                 var assemblyPath = Uri.UnescapeDataString(assemblyLocationURI.AbsolutePath);
                 return Path.GetDirectoryName(assemblyPath);
             }
