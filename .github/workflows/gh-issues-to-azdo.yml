@@ -150,26 +150,43 @@ jobs:
         run: |
           echo "Decoding work item type..."
           WORK_ITEM_TYPE=$(python -c "import urllib.parse; print(urllib.parse.unquote('''$WORK_ITEM_TYPE_ENCODED'''))")
-          
+
+          echo "Formatting issue body for Teams..."
           FORMATTED_ISSUE_BODY=$(echo "$ISSUE_BODY" \
             | sed -E 's/\*\*([^*]+)\*\*/<strong>\1<\/strong>/g' \
             | sed ':a;N;$!ba;s/\n/<br>/g')
-          
-          echo "Notifying NI developers on Teams about the new issue and work item creation..."
-          teams_payload='{
-            "@type": "MessageCard",
-            "@context": "https://schema.org/extensions",
-            "themeColor": "0076D7",
-            "summary": "New GitHub Issue and Work Item Created",
-            "sections": [
-              {
-                "text": "<strong># New GitHub Issue (#'"$ISSUE_NUMBER"'): '"$ISSUE_TITLE"'</strong> <br><br><strong>**Title:**</strong> '"$ISSUE_TITLE"'  <br><strong>**Issue URL:**</strong> [View Issue]('"$ISSUE_URL"') <br><strong>**Work Item ID:**</strong> '"$WORK_ITEM_ID"' <br><strong>**Work Item Type:**</strong> '"$WORK_ITEM_TYPE"' <br><strong>**Work Item URL:**</strong> [View Work Item]('"$WORK_ITEM_URL"') <br><br><strong>**Description:**</strong> '"$FORMATTED_ISSUE_BODY"' ",
-                "markdown": true
-              }
-            ]
-          }'
-          echo "$teams_payload" > teams_payload.json
+
+          echo "Generating JSON payload with jq"
+          jq -n \
+            --arg issueTitle "$ISSUE_TITLE" \
+            --arg issueBody "$FORMATTED_ISSUE_BODY" \
+            --arg issueUrl "$ISSUE_URL" \
+            --arg issueNumber "$ISSUE_NUMBER" \
+            --arg workItemId "$WORK_ITEM_ID" \
+            --arg workItemType "$WORK_ITEM_TYPE" \
+            --arg workItemUrl "$WORK_ITEM_URL" \
+            '{
+              "@type": "MessageCard",
+              "@context": "https://schema.org/extensions",
+              "themeColor": "0076D7",
+              "summary": "New GitHub Issue and Work Item Created",
+              "sections": [
+                {
+                  "text": ("<strong># New GitHub Issue (#" + $issueNumber + "): " + $issueTitle + "</strong><br><br>"
+                  + "<strong>**Title:**</strong> " + $issueTitle + "<br>"
+                  + "<strong>**Issue URL:**</strong> [View Issue](" + $issueUrl + ")<br>"
+                  + "<strong>**Work Item ID:**</strong> " + $workItemId + "<br>"
+                  + "<strong>**Work Item Type:**</strong> " + $workItemType + "<br>"
+                  + "<strong>**Work Item URL:**</strong> [View Work Item](" + $workItemUrl + ")<br><br>"
+                  + "<strong>**Description:**</strong> " + $issueBody),
+                  "markdown": true
+                }
+              ]
+            }' > teams_payload.json
+
+          echo "Previewing JSON payload:"
           cat teams_payload.json
+          echo "Sending to Teams..."
           curl -H "Content-Type: application/json" -d @teams_payload.json "$TEAMS_WEBHOOK_URL"
 
       - name: Add comment on GitHub Issue
