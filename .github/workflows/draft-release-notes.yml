@@ -117,6 +117,9 @@ jobs:
             echo "Failed to trigger Azure DevOps pipeline"
             exit 1
           fi
+          
+          PIPELINE_URL="https://dev.azure.com/$ORG/$PROJECT/_build/results?buildId=$BUILD_ID"
+          echo "Azure DevOps pipeline triggered: $PIPELINE_URL"
 
           echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
 
