@@ -172,7 +172,7 @@ jobs:
               "summary": "New GitHub Issue and Work Item Created",
               "sections": [
                 {
-                  "text": ("<strong># New GitHub Issue (#" + $issueNumber + "): " + $issueTitle + "</strong><br><br>"
+                  "text": ("<strong>New GitHub Issue (#" + $issueNumber + "): " + $issueTitle + "</strong><br><br>"
                   + "<strong>**Title:**</strong> " + $issueTitle + "<br>"
                   + "<strong>**Issue URL:**</strong> [View Issue](" + $issueUrl + ")<br>"
                   + "<strong>**Work Item ID:**</strong> " + $workItemId + "<br>"
@@ -186,8 +186,39 @@ jobs:
 
           echo "Previewing JSON payload:"
           cat teams_payload.json
-          echo "Sending to Teams..."
-          curl -H "Content-Type: application/json" -d @teams_payload.json "$TEAMS_WEBHOOK_URL"
+
+          echo "Sending notication to Teams Channel."
+          if ! curl -s -f -H "Content-Type: application/json" -d @teams_payload.json "$TEAMS_WEBHOOK_URL"; then
+            echo "Teams notification failed. Attempting to send error alert."
+
+            jq -n \
+              --arg workItemId "$WORK_ITEM_ID" \
+              --arg workItemType "$WORK_ITEM_TYPE" \
+              --arg workItemUrl "$WORK_ITEM_URL" \
+              --arg issueUrl "$ISSUE_URL" \
+              --arg errorText "Failed to send Teams notification for issue #$ISSUE_NUMBER" \
+              '{
+                "@type": "MessageCard",
+                "@context": "https://schema.org/extensions",
+                "themeColor": "FF0000",
+                "summary": "Error Posting to Teams",
+                "sections": [
+                  {
+                    "text": ("<strong>Error Posting Notification to Teams</strong><br><br>"
+                    + "<strong>**Issue URL:**</strong> [View Issue](" + $issueUrl + ")<br>"
+                    + "<strong>**Work Item ID:**</strong> " + $workItemId + "<br>"
+                    + "<strong>**Work Item Type:**</strong> " + $workItemType + "<br>"
+                    + "<strong>**Work Item URL:**</strong> [View Work Item](" + $workItemUrl + ")<br><br>"
+                    + "<strong>**Error Details:**</strong> " + $errorText),
+                    "markdown": true
+                  }
+                ]
+              }' > teams_error_payload.json
+
+            echo "Sending fallback error card..."
+            curl -s -H "Content-Type: application/json" -d @teams_error_payload.json "$TEAMS_WEBHOOK_URL"
+            exit 1
+          fi
 
       - name: Add comment on GitHub Issue
         uses: actions/github-script@v6
