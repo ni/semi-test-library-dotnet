@@ -3468,6 +3468,15 @@
             <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
             <param name="channelList">The channels list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIFgen.NIFgen,System.String,System.String[],System.Int32[])">
+            <summary>
+            Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> instrument session.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
+            <param name="channelList">The channels list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
+            <param name="pinRange">An array of pin names associated with the <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
+            <param name="siteRange">An array of sites associated with the <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIFgen.NIFgen,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})">
             <summary>
             Constructs a session information object.
@@ -3477,7 +3486,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>
-            Generates a dictionary that takes a channel string and returns the associated site-pin pair information.
+            Generates a dictionary that takes a channel string and returns the list of associated site-pin pair information.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
         </member>
