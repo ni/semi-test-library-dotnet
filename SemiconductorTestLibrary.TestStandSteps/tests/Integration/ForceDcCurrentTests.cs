@@ -125,7 +125,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_RunForceDcCurrentWithOutHighRangeVoltageLimit_ThrowsException()
+        public void Initialize_RunForceDcCurrentWithOutHighRangeVoltageLimit_ThrowsNISemiconductorTestException()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
             SetupNIDigitalPatternInstrumentation(tsmContext);
@@ -138,6 +138,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 settlingTime: 5e-5);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceDcCurrentMethod);
+            Assert.Contains("An error occurred while processing site1/PA_EN,site1/C0,site1/C1.", exception.Message);
             Assert.Contains("Maximum Value: 6", exception.Message);
             CleanupInstrumentation(tsmContext);
         }
