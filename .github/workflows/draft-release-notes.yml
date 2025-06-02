@@ -183,13 +183,13 @@ jobs:
           mv jfrog-artifacts/SemiconductorTestLibrary.$VERSION.Assemblies.zip .
 
       # Create Release Notes Draft
-      # Please do not change the 'draft' parameter to 'false', as we only intend to create a draft of the Release Notes
       - name: Create Release Notes Draft
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ github.event.inputs.version }}
           name: v${{ github.event.inputs.version }}
           body: ${{ steps.extract_changelog.outputs.changelog_section }}
+          # Please do not change the 'draft' parameter to 'false', as we only intend to create a draft of the Release Notes
           draft: true
           files: |
             NationalInstruments.SemiconductorTestLibrary.${{ github.event.inputs.version }}.nupkg
