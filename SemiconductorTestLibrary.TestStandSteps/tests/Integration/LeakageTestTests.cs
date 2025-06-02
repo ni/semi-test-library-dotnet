@@ -47,6 +47,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
+        public void Initialize_RunLeakageTestWithDigitalPinsOnly_Succeeds()
+        {
+            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            SetupNIDigitalPatternInstrumentation(tsmContext);
+
+            LeakageTest(
+               tsmContext,
+               pinsOrPinGroups: new[] { "DigitalPins" },
+               voltageLevel: 1.1,
+               currentLimit: 0.005,
+               apertureTime: 5e-5,
+               settlingTime: 5e-5);
+
+            CleanupInstrumentation(tsmContext);
+        }
+
+        [Fact]
         public void Initialize_RunLeakageTestWithHighVoltageLevel_ThrowsNISemiconductorTestException()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
