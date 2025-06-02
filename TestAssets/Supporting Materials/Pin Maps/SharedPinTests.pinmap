@@ -18,8 +18,8 @@
 		<NIDmmInstrument name="DMM_4065_PCI" />
 		<NIFGenInstrument name="FGEN_5433_C1_S13" numberOfChannels="20" />
 		<NIFGenInstrument name="FGEN_5433_C2_S05" numberOfChannels="2" />
-		<NIScopeInstrument name="SCP_5162_C2_S09" numberOfChannels="4" group="Scope" />
-		<NIScopeInstrument name="SCP_5105_C1_S09" numberOfChannels="4" group="Scope" />
+		<NIScopeInstrument name="SCP_5622_C3_S05" numberOfChannels="4" group="Scope" />
+		<NIScopeInstrument name="SCP_5622_C3_S06" numberOfChannels="4" group="Scope" />
 		<NIDmmInstrument name="DMM_4070_PCI" />
 		<NIDmmInstrument name="DMM_4081_C6_S13" />
 	</Instruments>
@@ -79,11 +79,11 @@
 		<Connection pin="SCLK" siteNumber="0" instrument="HSD_6571_C1_S02" channel="3" />
 		<Connection pin="SCLK" siteNumber="1" instrument="HSD_6571_C2_S02" channel="3" />
 		<Connection pin="SCLK" siteNumber="2" instrument="HSD_6571_C2_S02" channel="8" />
-		<Connection pin="SCP_PIN1" siteNumber="0,1,2" instrument="SCP_5162_C2_S09" channel="0" />
-		<Connection pin="SCP_PIN2" siteNumber="0" instrument="SCP_5162_C2_S09" channel="1" />
-		<Connection pin="SCP_PIN2" siteNumber="1,2" instrument="SCP_5162_C2_S09" channel="3" />
-		<Connection pin="SCP_PIN3" siteNumber="0,1" instrument="SCP_5105_C1_S09" channel="0" />
-		<Connection pin="SCP_PIN3" siteNumber="2" instrument="SCP_5162_C2_S09" channel="2" />
+		<Connection pin="SCP_PIN1" siteNumber="0,1,2" instrument="SCP_5622_C3_S05" channel="0" />
+		<Connection pin="SCP_PIN2" siteNumber="0" instrument="SCP_5622_C3_S05" channel="1" />
+		<Connection pin="SCP_PIN2" siteNumber="1,2" instrument="SCP_5622_C3_S05" channel="3" />
+		<Connection pin="SCP_PIN3" siteNumber="0,1" instrument="SCP_5622_C3_S06" channel="0" />
+		<Connection pin="SCP_PIN3" siteNumber="2" instrument="SCP_5622_C3_S05" channel="2" />
 		<Connection pin="SDATA" siteNumber="0" instrument="HSD_6571_C1_S02" channel="9" />
 		<Connection pin="SDATA" siteNumber="1,2" instrument="HSD_6571_C1_S02" channel="4" />
 		<Connection pin="VCC1" siteNumber="1,2" instrument="SMU_4147_C2_S10" channel="0" />
