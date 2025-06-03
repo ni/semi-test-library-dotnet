@@ -196,15 +196,15 @@ jobs:
               --arg workItemType "$WORK_ITEM_TYPE" \
               --arg workItemUrl "$WORK_ITEM_URL" \
               --arg issueUrl "$ISSUE_URL" \
-              --arg errorText "Failed to send Teams notification for issue #$ISSUE_NUMBER" \
+              --arg errorText "Unable to fetch the details for issue #$ISSUE_NUMBER" \
               '{
                 "@type": "MessageCard",
                 "@context": "https://schema.org/extensions",
                 "themeColor": "FF0000",
-                "summary": "Error Posting to Teams",
+                "summary": "Unable to fetch Issue Details",
                 "sections": [
                   {
-                    "text": ("<strong>Error Posting Notification to Teams</strong><br><br>"
+                    "text": ("<strong>Unable to fetch Issue Title</strong><br><br>"
                     + "<strong>**Issue URL:**</strong> [View Issue](" + $issueUrl + ")<br>"
                     + "<strong>**Work Item ID:**</strong> " + $workItemId + "<br>"
                     + "<strong>**Work Item Type:**</strong> " + $workItemType + "<br>"
