@@ -3095,17 +3095,41 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.FilterByPin(System.String)">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> and returns a new one with the requested pin.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> and returns a new one with the requested pin.
             </summary>
             <param name="requestedPin">The requested pin.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> object with the requested pin.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.FilterByPin(System.String[])">
             <summary>
-            Filter current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> and returns a new one with requested pins.
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> and returns a new one with requested pins.
             </summary>
             <param name="requestedPins">The requested pins.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> object with requested pins.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.MergePinGroup(System.String[])">
+            <summary>
+            Merges the channels that are part of the connections in specified pin groups.
+            </summary>
+            <param name="mergedChannelsPinGroupNames">Pin Groups that are to be merged.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.MergePinGroup(System.String)">
+            <summary>
+            Merges the channels that are part of the connections in specified pin group into the channel corresponding to the first pin in the pin group.
+            </summary>
+            <param name="mergedChannelsPinGroupName">Pin Group that is to be merged.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UnmergePinGroup(System.String[])">
+            <summary>
+            Unmerges the channels that are part of the connections in specified pin groups.
+            </summary>
+            <param name="mergedChannelsPinGroupNames">Pin Groups that are to be unmerged.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UnmergePinGroup(System.String)">
+            <summary>
+            Unmerges the channels that are part of the connections in specified pin group.
+            </summary>
+            <param name="mergedChannelsPinGroupName">Pin Group that is to be unmerged.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose">
             <summary>
@@ -4328,6 +4352,16 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_NotUsingChannelGroups">
             <summary>
               Looks up a localized string similar to Convert DCPower instruments to use channel groups in the pinmap..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupAlreadyMerged">
+            <summary>
+              Looks up a localized string similar to Unmerge PinGroup &quot;{0}&quot; first, before trying to merge PinGroup &quot;{1}&quot;..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupNotMerged">
+            <summary>
+              Looks up a localized string similar to PinGroup &quot;{0}&quot; is not merged. Unmerge operation is invalid. .
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_InvalidTSMContext">
