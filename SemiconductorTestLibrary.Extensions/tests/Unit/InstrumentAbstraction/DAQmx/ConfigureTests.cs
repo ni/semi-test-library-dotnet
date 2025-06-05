@@ -95,8 +95,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureTiming_GetSampleClockRate_ReturnsCorrectValue()
         {
-            var sessionManager = Initialize("DAQmxTests.pinmap");
-            var tasksBundle = sessionManager.DAQmx(new[] { "VCC1", "VCC2" });
+            var sessionManager = Initialize("DAQmxSharedPin.pinmap");
+            var tasksBundle = sessionManager.DAQmx(new[] { "AI_PIN1", "AI_PIN2" });
             DAQmxTimingSampleClockSettings timingSettings = new DAQmxTimingSampleClockSettings
             {
                 SampleClockRate = 5555,
@@ -109,8 +109,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             foreach (var siteNumber in sampleClockRate.SiteNumbers)
             {
-                Assert.Equal(5555, sampleClockRate.GetValue(siteNumber, "VCC1"), 0);
-                Assert.Equal(5555, sampleClockRate.GetValue(siteNumber, "VCC2"), 0);
+                Assert.Equal(5555, sampleClockRate.GetValue(siteNumber, "AI_PIN1"), 0);
+                Assert.Equal(5555, sampleClockRate.GetValue(siteNumber, "AI_PIN2"), 0);
             }
         }
     }

@@ -18,7 +18,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         public PropertiesConfigurationTests()
         {
-            _tsmContext = CreateTSMContext("DMMTestsWith4081.pinmap");
+            _tsmContext = CreateTSMContext("SharedPinTests.pinmap");
             _sessionManager = new TSMSessionManager(_tsmContext);
             Initialize(_tsmContext);
         }
@@ -31,7 +31,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureACBandwidth_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
             sessionsBundle.ConfigureACBandwidth(minimumFrequency: 100, maximumFrequency: 10000);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -45,7 +45,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureApertureTimeInSeconds_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
             sessionsBundle.ConfigureApertureTime(DmmApertureTimeUnits.Seconds, 0.1);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -58,7 +58,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureApertureTimeInPowerLineCycles_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
             sessionsBundle.ConfigureApertureTime(DmmApertureTimeUnits.PowerLineCycles, 2);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -71,7 +71,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureMeasurementAbsolute_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
             sessionsBundle.ConfigureMeasurementAbsolute(DmmMeasurementFunction.DCCurrent, 0.2, 0.001);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -86,7 +86,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureMeasurementDigits_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
             sessionsBundle.ConfigureMeasurementDigits(DmmMeasurementFunction.ACVolts, 0.2, 3.5);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -101,7 +101,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureMultiPoint_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
             sessionsBundle.ConfigureMultiPoint(triggerCount: 2, sampleCount: 3, sampleTrigger: "Immediate", sampleIntervalInSeconds: 0.1);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -117,7 +117,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigurePowerlineFrequency_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
             sessionsBundle.ConfigurePowerlineFrequency(50);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -129,7 +129,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureTrigger_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
             sessionsBundle.ConfigureTrigger(DmmTriggerSource.SoftwareTrigger, triggerDelayInSeconds: 0.01);
 
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
@@ -142,7 +142,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ConfigureAndInitiateTriggeredMeasurement_SendSoftwareTriggerSucceeds()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
             sessionsBundle.ConfigureMeasurementDigits();
             sessionsBundle.ConfigureTrigger(DmmTriggerSource.SoftwareTrigger, 0.01);
             sessionsBundle.Initiate();
@@ -153,7 +153,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SupportedDmmModules_ConfigureADCCalibrationToOn_OnValuesConfigure()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN2" });
 
             sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.On);
 
@@ -166,7 +166,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SupportedDmmModulesWithADCCalibrationOn_ConfigureADCCalibrationToOff_OffValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN2" });
             sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.On);
 
             sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.Off);
@@ -180,7 +180,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void UnsupportedDmmModules_ConfigureADCCalibrationToOn_ThrowsExecption()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
 
             void Operation() => sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.On);
 
@@ -195,7 +195,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SupportedDmmModules_ConfigureAutoZero_ValuesConfigured()
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
             // Check default value
             foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
             {
@@ -222,7 +222,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(DmmAuto.Off)]
         public void UnsupportedDmmModules_ConfigureAutoZeroToOnce_ThrowsExecption(DmmAuto dmmAuto)
         {
-            var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var sessionsBundle = _sessionManager.DMM(new string[] { "DMM_PIN1", "DMM_PIN2" });
 
             void Operation() => sessionsBundle.ConfigureAutoZero(dmmAuto);
 

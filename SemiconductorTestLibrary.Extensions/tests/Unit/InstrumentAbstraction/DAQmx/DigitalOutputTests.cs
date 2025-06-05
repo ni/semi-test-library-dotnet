@@ -51,10 +51,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(false)]
         public void SinglePerSitePerPinBooleanDigitalSample_WriteSucceeds(bool autoStart)
         {
-            var sessionManager = Initialize();
-            var data = new PinSiteData<bool>(new Dictionary<string, IDictionary<int, bool>> { { "DOPin", new Dictionary<int, bool> { { 0, true }, { 1, false } } } });
+            var sessionManager = Initialize("DAQmxSharedPin.pinmap");
+            var data = new PinSiteData<bool>(new Dictionary<string, IDictionary<int, bool>> { { "DO_PIN1", new Dictionary<int, bool> { { 0, true }, { 1, false } } } });
 
-            var tasksBundle = sessionManager.DAQmx("DOPin");
+            var tasksBundle = sessionManager.DAQmx("DO_PIN1");
             if (!autoStart)
             {
                 tasksBundle.Do(taskInfo => taskInfo.Task.Control(TaskAction.Start));
@@ -67,12 +67,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(false)]
         public void DigitalWaveformSamples_WriteSucceeds(bool autoStart)
         {
-            var sessionManager = Initialize();
+            var sessionManager = Initialize("DAQmxSharedPin.pinmap");
             var site0Data = DigitalWaveform.FromPort(new byte[] { 6 }, mask: 8);
             var site1Data = DigitalWaveform.FromPort(new byte[] { 8 }, mask: 8);
-            var data = new PinSiteData<DigitalWaveform>(new Dictionary<string, IDictionary<int, DigitalWaveform>> { { "DOPin", new Dictionary<int, DigitalWaveform> { { 0, site0Data }, { 1, site1Data } } } });
+            var data = new PinSiteData<DigitalWaveform>(new Dictionary<string, IDictionary<int, DigitalWaveform>> { { "DO_PIN1", new Dictionary<int, DigitalWaveform> { { 0, site0Data }, { 1, site1Data } } } });
 
-            var tasksBundle = sessionManager.DAQmx("DOPin");
+            var tasksBundle = sessionManager.DAQmx("DO_PIN1");
             if (!autoStart)
             {
                 tasksBundle.Do(taskInfo => taskInfo.Task.Control(TaskAction.Start));

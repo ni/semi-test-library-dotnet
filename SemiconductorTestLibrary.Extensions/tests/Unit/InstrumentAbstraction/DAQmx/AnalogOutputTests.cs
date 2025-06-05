@@ -67,10 +67,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(false)]
         public void SingleAnalogSampleWithMissingPerSitePerPinData_WriteSucceeds(bool autoStart)
         {
-            var sessionManager = Initialize();
-            var data = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>> { { "VDD", new Dictionary<int, double> { { 1, 0.8 } } } });
+            var sessionManager = Initialize("DAQmxSharedPin.pinmap");
+            var data = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>> { { "AO_PIN1", new Dictionary<int, double> { { 1, 0.8 } } } });
 
-            var tasksBundle = sessionManager.DAQmx("VDD");
+            var tasksBundle = sessionManager.DAQmx("AO_PIN1");
             if (!autoStart)
             {
                 tasksBundle.Do(taskInfo => taskInfo.Task.Control(TaskAction.Start));
@@ -99,12 +99,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(false)]
         public void AnalogWaveformsSamplesWithMatchingPerSitePerPinData_WriteSucceeds(bool autoStart)
         {
-            var sessionManager = Initialize();
+            var sessionManager = Initialize("DAQmxSharedPin.pinmap");
             var site0Data = AnalogWaveform<double>.FromArray1D(new double[] { 0.6, 0.7 });
             var site1Data = AnalogWaveform<double>.FromArray1D(new double[] { 0.8, 0.9 });
-            var data = new PinSiteData<AnalogWaveform<double>>(new Dictionary<string, IDictionary<int, AnalogWaveform<double>>> { { "VDD", new Dictionary<int, AnalogWaveform<double>> { { 0, site0Data }, { 1, site1Data } } } });
+            var data = new PinSiteData<AnalogWaveform<double>>(new Dictionary<string, IDictionary<int, AnalogWaveform<double>>> { { "AO_PIN1", new Dictionary<int, AnalogWaveform<double>> { { 0, site0Data }, { 1, site1Data } } } });
 
-            var tasksBundle = sessionManager.DAQmx("VDD");
+            var tasksBundle = sessionManager.DAQmx("AO_PIN1");
             if (!autoStart)
             {
                 tasksBundle.Do(taskInfo => taskInfo.Task.Control(TaskAction.Start));

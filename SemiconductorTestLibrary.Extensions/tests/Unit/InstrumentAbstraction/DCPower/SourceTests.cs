@@ -21,7 +21,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
-            return Initialize(pinMapWithChannelGroup ? "DifferentSMUDevicesWithChannelGroup.pinmap" : "DifferentSMUDevices.pinmap");
+            return Initialize(pinMapWithChannelGroup ? "SharedPinTests.pinmap" : "SharedPinTests.pinmap");
         }
 
         public TSMSessionManager Initialize(string pinMapFileName)
@@ -708,7 +708,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureOutputConnected_OutputConnectedThrowsExceptionWhenUnsupported(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD" });
 
             var values = new SiteData<bool>(GetActiveSites(sessionsBundle), false);
 

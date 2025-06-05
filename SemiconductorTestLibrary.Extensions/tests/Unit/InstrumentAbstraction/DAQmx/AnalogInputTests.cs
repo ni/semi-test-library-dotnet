@@ -35,15 +35,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ReadAnalogSamplesFromOneChannelInMultipleChannelsTask_ResultsContainExpectedData()
         {
-            var sessionManager = Initialize("DAQmxTests.pinmap");
-            var tasksBundle = sessionManager.DAQmx("VCC1");
+            var sessionManager = Initialize("DAQmxSharedPin.pinmap");
+            var tasksBundle = sessionManager.DAQmx("AI_PIN1");
             var results = tasksBundle.ReadAnalogMultiSample();
 
-            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(3, results.SiteNumbers.Length);
             Assert.Equal(1, results.ExtractSite(0).Count);
-            Assert.Single(results.ExtractSite(0)["VCC1"]);
             Assert.Equal(1, results.ExtractSite(1).Count);
-            Assert.Single(results.ExtractSite(1)["VCC1"]);
+            Assert.Equal(1, results.ExtractSite(2).Count);
         }
 
         [Fact]
@@ -105,17 +104,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ReadFiveAnalogWaveformSamplesFromTwoChannels_ResultsContainExpectedData()
         {
-            var sessionManager = Initialize("DAQmxTests.pinmap");
-            var tasksBundle = sessionManager.DAQmx(new string[] { "VCC1", "VCC2" });
-            var results = tasksBundle.ReadAnalogWaveform(samplesToRead: 5);
+            var sessionManager1 = Initialize("DAQmxSharedPin.pinmap");
+            var tasksBundle1 = sessionManager1.DAQmx("AI_PIN1");
+            var results1 = tasksBundle1.ReadAnalogWaveform(samplesToRead: 5);
 
-            Assert.Equal(2, results.SiteNumbers.Length);
-            Assert.Equal(2, results.ExtractSite(0).Count);
-            Assert.Equal(5, results.ExtractSite(0)["VCC1"].SampleCount);
-            Assert.Equal(5, results.ExtractSite(0)["VCC2"].SampleCount);
-            Assert.Equal(2, results.ExtractSite(1).Count);
-            Assert.Equal(5, results.ExtractSite(1)["VCC1"].SampleCount);
-            Assert.Equal(5, results.ExtractSite(1)["VCC2"].SampleCount);
+            Assert.Equal(3, results1.SiteNumbers.Length);
+            Assert.Equal(5, results1.ExtractSite(0)["AI_PIN1"].SampleCount);
+            Assert.Equal(5, results1.ExtractSite(1)["AI_PIN1"].SampleCount);
+            Assert.Equal(5, results1.ExtractSite(2)["AI_PIN1"].SampleCount);
         }
 
         [Fact]

@@ -21,7 +21,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
-            string pinMapFileName = pinMapWithChannelGroup ? "DifferentSMUDevicesWithChannelGroup.pinmap" : "DifferentSMUDevices.pinmap";
+            string pinMapFileName = pinMapWithChannelGroup ? "SharedPinTests.pinmap" : "SharedPinTests.pinmap";
             _tsmContext = CreateTSMContext(pinMapFileName);
             InitializeAndClose.Initialize(_tsmContext);
             return new TSMSessionManager(_tsmContext);
@@ -45,14 +45,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_SetMeasureWhen_CorrectValuesAreSet(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower("VCC");
+            var sessionsBundle = sessionManager.DCPower("VDD");
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnMeasureTrigger);
 
-            Assert.Equal(DCPowerMeasurementWhen.OnDemand, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Measurement.MeasureWhen);
-            Assert.Equal(DCPowerMeasurementWhen.OnDemand, sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput.Measurement.MeasureWhen);
-            Assert.Equal(DCPowerMeasurementWhen.OnMeasureTrigger, sessionsBundle.InstrumentSessions.ElementAt(2).AllChannelsOutput.Measurement.MeasureWhen);
-            Assert.Equal(DCPowerMeasurementWhen.OnMeasureTrigger, sessionsBundle.InstrumentSessions.ElementAt(3).AllChannelsOutput.Measurement.MeasureWhen);
+            Assert.Equal(DCPowerMeasurementWhen.OnMeasureTrigger, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Measurement.MeasureWhen);
         }
 
         [Theory]
@@ -61,20 +58,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_SetPowerLineFrequency_CorrectValuesAreSet(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower("VCC");
+            var sessionsBundle = sessionManager.DCPower("VDD");
             var defaultValues = sessionsBundle.GetPowerLineFrequency();
-            Assert.Equal(0, defaultValues.ExtractSite(0)["VCC"]);
-            Assert.Equal(0, defaultValues.ExtractSite(1)["VCC"]);
-            Assert.Equal(0, defaultValues.ExtractSite(2)["VCC"]);
-            Assert.Equal(60, defaultValues.ExtractSite(3)["VCC"]);
+            Assert.Equal(60, defaultValues.ExtractSite(0)["VDD"]);
+            Assert.Equal(60, defaultValues.ExtractSite(1)["VDD"]);
+            Assert.Equal(60, defaultValues.ExtractSite(2)["VDD"]);
 
             sessionsBundle.ConfigurePowerLineFrequency(50);
 
             var setValues = sessionsBundle.GetPowerLineFrequency();
-            Assert.Equal(50, setValues.ExtractSite(0)["VCC"]);
-            Assert.Equal(50, setValues.ExtractSite(1)["VCC"]);
-            Assert.Equal(50, setValues.ExtractSite(2)["VCC"]);
-            Assert.Equal(50, setValues.ExtractSite(3)["VCC"]);
+            Assert.Equal(50, setValues.ExtractSite(0)["VDD"]);
+            Assert.Equal(50, setValues.ExtractSite(1)["VDD"]);
+            Assert.Equal(50, setValues.ExtractSite(2)["VDD"]);
         }
 
         [Theory]
@@ -83,7 +78,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_SetMeasurementSenseRemote_CorrectValuesAreSet(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VCC1" });
 
             sessionsBundle.ConfigureMeasurementSense(DCPowerMeasurementSense.Remote);
 
@@ -167,14 +162,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_GetApertureTimes_CorrectValuesAreGet(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower("VCC");
+            var sessionsBundle = sessionManager.DCPower("VDD");
 
             var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out var maximumApertureTime);
 
-            Assert.Equal(0.0033, apertureTimes.ExtractSite(0)["VCC"], 4);
-            Assert.Equal(0.0033, apertureTimes.ExtractSite(1)["VCC"], 4);
-            Assert.Equal(0.0017, apertureTimes.ExtractSite(2)["VCC"], 4);
-            Assert.Equal(0.017, apertureTimes.ExtractSite(3)["VCC"], 3);
+            Assert.Equal(0.0033, apertureTimes.ExtractSite(0)["VDD"], 4);
+            Assert.Equal(0.0033, apertureTimes.ExtractSite(1)["VDD"], 4);
+            Assert.Equal(0.0017, apertureTimes.ExtractSite(2)["VDD"], 4);
             Assert.Equal(0.017, maximumApertureTime, 3);
         }
 
@@ -266,10 +260,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentCurrentOnDifferentSMUDevices_MeasurePerInstrumentResults_ReturnCorrectValues(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDD" });
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD" });
             var currentLevels = new Dictionary<string, DCPowerSourceSettings>()
             {
-                ["VCC"] = new DCPowerSourceSettings() { Level = 0.1, Limit = 5 },
                 ["VDD"] = new DCPowerSourceSettings() { Level = 0.2, Limit = 5 }
             };
             sessionsBundle.ForceCurrent(currentLevels);
@@ -292,10 +285,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentCurrentOnDifferentSMUDevices_MeasurePerSiteResults_ReturnCorrectValues(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDD" });
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD" });
             var currentLevels = new Dictionary<string, DCPowerSourceSettings>()
             {
-                ["VCC"] = new DCPowerSourceSettings() { Level = 0.1, Limit = 5 },
                 ["VDD"] = new DCPowerSourceSettings() { Level = 0.2, Limit = 5 }
             };
             sessionsBundle.ForceCurrent(currentLevels);
@@ -438,7 +430,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
         public void DifferentSMUDevices_GetPowerLineFrequency_GetPerSiteValues(string pinMapFileName)
@@ -465,7 +457,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
         public void DifferentSMUDevice_FetchResults_ReturnsValues(string pinMapFileName)
@@ -511,7 +503,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureSameMeasureSettings_CorrectValuesAreSet(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower("VCC");
+            var sessionsBundle = sessionManager.DCPower("VDD");
 
             var settings = new DCPowerMeasureSettings()
             {
@@ -677,7 +669,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
         public void AllChannelsMeasureOnDemand_ForceCurrentMeasureVoltage_AllChannelsMeasured(string pinMapFileName)

@@ -41,7 +41,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(DigitalEdgeStartTriggerEdge.Falling)]
         public void SessionsIntialized_ConfigureStartTriggerDigitalEdge_ReturnsCorrectValue(DigitalEdgeStartTriggerEdge digitalEdge)
         {
-            var tasksBundle = Initialize("DAQmxTests.pinmap", "VCC1");
+            var tasksBundle = Initialize("DAQmxSharedPin.pinmap", "AI_PIN1");
             string triggerLine = "PXI_Trig0";
 
             tasksBundle.ConfigureStartTriggerDigitalEdge(triggerLine, digitalEdge);
@@ -58,7 +58,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsIntialized_DisableStartTrigger_ReturnsCorrectValue()
         {
-            var tasksBundle = Initialize("DAQmxTests.pinmap", "VCC1");
+            var tasksBundle = Initialize("DAQmxSharedPin.pinmap", "AI_PIN1");
             string triggerLine = "PXI_Trig0";
 
             tasksBundle.ConfigureStartTriggerDigitalEdge(triggerLine);
@@ -76,7 +76,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsIntialized_ExportStartTrigger_ReturnsCorrectValue()
         {
-            var tasksBundle = Initialize("DAQmxTests.pinmap", "VCC1");
+            var tasksBundle = Initialize("DAQmxSharedPin.pinmap", "AI_PIN1");
             string destinationTriggerLine = "PXI_Trig0";
             // Test Default
             tasksBundle.Do(taskInfo =>
@@ -97,7 +97,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "Not applicable, driver expects lowercase")]
         public void GetFullyQualifiedOutputTerminalsStartTrigger_ReturnsCorrectValue()
         {
-            var tasksBundle = Initialize("DAQmxTests.pinmap", "VCC1");
+            var tasksBundle = Initialize("DAQmxSharedPin.pinmap", "AI_PIN1");
             var signal = ExportSignal.StartTrigger;
             var channelType = ChannelType.AI.ToString().ToLowerInvariant();
 

@@ -13,7 +13,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
     public sealed class DigitalInputTests : IDisposable
     {
-        private readonly ISemiconductorModuleContext _tsmContext;
+        private ISemiconductorModuleContext _tsmContext;
         private readonly TSMSessionManager _sessionManager;
 
         public DigitalInputTests()
@@ -44,27 +44,43 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ReadFiveU32SamplesFromOneChannel_ResultsContainExpectedData()
         {
-            var tasksBundle = _sessionManager.DAQmx("DIPin");
+            InitializeAndClose.ClearDAQmxDITasks(_tsmContext);
+            var tsm = CreateTSMContext("DAQmxSharedPin.pinmap");
+            var sessionManager = new TSMSessionManager(tsm);
+            InitializeAndClose.CreateDAQmxDITasks(tsm);
+            var tasksBundle = sessionManager.DAQmx("DI_PIN1");
             var results = tasksBundle.ReadDigitalMultiSampleU32(samplesToRead: 5);
 
-            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(3, results.SiteNumbers.Length);
             Assert.Equal(1, results.ExtractSite(0).Count);
-            Assert.Equal(5, results.ExtractSite(0)["DIPin"].Length);
+            Assert.Equal(5, results.ExtractSite(0)["DI_PIN1"].Length);
             Assert.Equal(1, results.ExtractSite(1).Count);
-            Assert.Equal(5, results.ExtractSite(1)["DIPin"].Length);
+            Assert.Equal(5, results.ExtractSite(1)["DI_PIN1"].Length);
+            Assert.Equal(5, results.ExtractSite(2)["DI_PIN1"].Length);
+            InitializeAndClose.ClearDAQmxDITasks(tsm);
+            _tsmContext = CreateTSMContext("DAQmxSingleChannelTests.pinmap");
+            InitializeAndClose.CreateDAQmxDITasks(_tsmContext);
         }
 
         [Fact]
         public void ReadDigitalWaveformSamplesFromOneChannel_ResultsContainExpectedData()
         {
-            var tasksBundle = _sessionManager.DAQmx("DIPin");
+            InitializeAndClose.ClearDAQmxDITasks(_tsmContext);
+            var tsm = CreateTSMContext("DAQmxSharedPin.pinmap");
+            var sessionManager = new TSMSessionManager(tsm);
+            InitializeAndClose.CreateDAQmxDITasks(tsm);
+            var tasksBundle = sessionManager.DAQmx("DI_PIN1");
             var results = tasksBundle.ReadDigitalWaveform();
 
-            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(3, results.SiteNumbers.Length);
             Assert.Equal(1, results.ExtractSite(0).Count);
-            Assert.Single(results.ExtractSite(0)["DIPin"].Samples);
+            Assert.Single(results.ExtractSite(0)["DI_PIN1"].Samples);
             Assert.Equal(1, results.ExtractSite(1).Count);
-            Assert.Single(results.ExtractSite(1)["DIPin"].Samples);
+            Assert.Equal(1, results.ExtractSite(2).Count);
+            Assert.Single(results.ExtractSite(1)["DI_PIN1"].Samples);
+            InitializeAndClose.ClearDAQmxDITasks(tsm);
+            _tsmContext = CreateTSMContext("DAQmxSingleChannelTests.pinmap");
+            InitializeAndClose.CreateDAQmxDITasks(_tsmContext);
         }
 
         [Fact]
@@ -83,14 +99,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ReadBooleanSamplesFromOneChannel_ResultsContainExpectedData()
         {
-            var tasksBundle = _sessionManager.DAQmx("DIPin");
+            InitializeAndClose.ClearDAQmxDITasks(_tsmContext);
+            var tsm = CreateTSMContext("DAQmxSharedPin.pinmap");
+            var sessionManager = new TSMSessionManager(tsm);
+            InitializeAndClose.CreateDAQmxDITasks(tsm);
+            var tasksBundle = sessionManager.DAQmx("DI_PIN1");
             var results = tasksBundle.ReadDigitalSingleSample();
 
-            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(3, results.SiteNumbers.Length);
             Assert.Equal(1, results.ExtractSite(0).Count);
-            Assert.True(results.ExtractSite(0).ContainsKey("DIPin"));
+            Assert.True(results.ExtractSite(0).ContainsKey("DI_PIN1"));
             Assert.Equal(1, results.ExtractSite(1).Count);
-            Assert.True(results.ExtractSite(1).ContainsKey("DIPin"));
+            Assert.True(results.ExtractSite(1).ContainsKey("DI_PIN1"));
+            InitializeAndClose.ClearDAQmxDITasks(tsm);
+            _tsmContext = CreateTSMContext("DAQmxSingleChannelTests.pinmap");
+            InitializeAndClose.CreateDAQmxDITasks(_tsmContext);
         }
     }
 }
