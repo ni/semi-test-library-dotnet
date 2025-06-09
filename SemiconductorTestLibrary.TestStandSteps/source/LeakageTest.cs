@@ -102,7 +102,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         {
                             var dcPowerPerPinOrPinGroup = sessionManager.DCPower(dcPowerPins);
                             dcPowerPerPinOrPinGroup.ForceVoltage(voltageLevel, waitForSourceCompletion: true);
-                            dcPowerPerPinOrPinGroup.MeasureAndPublishVoltage("Leakage", out _);
+                            dcPowerPerPinOrPinGroup.MeasureAndPublishCurrent("Leakage", out _);
                             dcPowerPerPinOrPinGroup.ForceVoltage(0, waitForSourceCompletion: true);
                         }
 
@@ -111,7 +111,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         {
                             var digitalPerPinOrPinGroup = sessionManager.Digital(digitalPins);
                             digitalPerPinOrPinGroup.ForceVoltage(voltageLevel, settlingTime: settlingTime);
-                            digitalPerPinOrPinGroup.MeasureAndPublishVoltage("Leakage", out _);
+                            digitalPerPinOrPinGroup.MeasureAndPublishCurrent("Leakage", out _);
                             digitalPerPinOrPinGroup.ForceVoltage(0, settlingTime: settlingTime);
                         }
                     }
