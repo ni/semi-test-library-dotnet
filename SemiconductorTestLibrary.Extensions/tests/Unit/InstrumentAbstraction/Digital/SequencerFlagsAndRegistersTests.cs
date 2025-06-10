@@ -14,14 +14,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     public class SequencerFlagsAndRegistersTests
     {
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_WriteAndReadSequencerFlag_ValuesCorrectlySetAndReadBack(string pinMap, string digitalProject)
         {
             var tsmContext = CreateTSMContext(pinMap, digitalProject);
             var sessionManager = new TSMSessionManager(tsmContext);
             Initialize(tsmContext);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             // Not fully supported in OfflineMode.
             var expectedValues = tsmContext.IsSemiconductorModuleInOfflineMode ? new bool[] { false, false, false, false } : new bool[] { true, false, true, true };
 
@@ -38,14 +38,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_WriteAndReadSequencerRegister_ValuesCorrectlySetAndReadBack(string pinMap, string digitalProject)
         {
             var tsmContext = CreateTSMContext(pinMap, digitalProject);
             var sessionManager = new TSMSessionManager(tsmContext);
             Initialize(tsmContext);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             // Not fully supported in OfflineMode.
             var expectedValues = tsmContext.IsSemiconductorModuleInOfflineMode ? new int[] { 0, 0, 0, 0 } : new int[] { 0x5, 0x6, 0x7, 0x8 };
 

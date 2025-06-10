@@ -32,7 +32,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_BurstPatternSucceeds(string pinMap, string digitalProject)
         {
@@ -43,26 +43,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_BurstPatternAndReturnResults_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             var results = sessionsBundle.BurstPatternAndPublishResults("TX_RF");
 
             Assert.Equal(2, results.Length);
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_BurstPatternAndGetSitePassFail_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             sessionsBundle.BurstPattern("TX_RF");
             var results = sessionsBundle.GetSitePassFail();
 
@@ -70,7 +70,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_BurstPatternAndGetFailCountAndReturnPerSitePerPinResults_Succeeds(string pinMap, string digitalProject)
         {
@@ -90,13 +90,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_BurstLongPatternAndWaitUntilDone_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital("C0");
+            var sessionsBundle = sessionManager.Digital("PA_EN");
             sessionsBundle.Do(sessionInfo =>
             {
                 Assert.True(sessionInfo.Session.PatternControl.IsDone);
@@ -116,7 +116,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory(Skip = "Not supported in offline mode. Should run with actual hardware.")]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_BurstLongPatternAndWaitUntilDone_Timesout(string pinMap, string digitalProject)
         {
@@ -142,7 +142,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_WaitUntilDoneWithInvalidTimeout_ThrowsExeception(string pinMap, string digitalProject)
         {
@@ -159,7 +159,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_WaitUntilDoneSucceeds(string pinMap, string digitalProject)
         {
@@ -170,13 +170,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_BurstLongPatternAndAbort_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital("C0");
+            var sessionsBundle = sessionManager.Digital("PA_EN");
             sessionsBundle.Do(sessionInfo =>
             {
                 Assert.True(sessionInfo.Session.PatternControl.IsDone);
@@ -196,13 +196,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory(Skip = "Not supported in offline mode. Should run with actual hardware.")]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests    .digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_BurstKeepAlivePatternAndAbort_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital("C0");
+            var sessionsBundle = sessionManager.Digital("PA_EN");
             sessionsBundle.Do(sessionInfo =>
             {
                 Assert.False(sessionInfo.Session.PatternControl.IsKeepAliveActive);

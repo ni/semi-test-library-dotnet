@@ -13,7 +13,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     public class FrequencyCounterTests
     {
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_MeasureFrequency_Succeeds(string pinMap, string digitalProject)
         {
@@ -21,7 +21,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = new TSMSessionManager(tsmContext);
             Initialize(tsmContext);
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             var results = sessionsBundle.MeasureFrequency();
 
             Assert.Equal(2, results.SiteNumbers.Length);

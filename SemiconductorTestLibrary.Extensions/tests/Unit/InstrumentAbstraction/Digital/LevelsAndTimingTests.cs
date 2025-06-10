@@ -36,7 +36,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTheSameLevel_ValueCorrectlySet(string pinMap, string digitalProject)
         {
@@ -54,7 +54,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_ConfigurePerSiteLevels_ValueCorrectlySet()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             var levels = new SiteData<double>(new Dictionary<int, double>()
@@ -87,7 +87,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureVoltageLevels_ValueCorrectlySet(string pinMap, string digitalProject)
         {
@@ -107,7 +107,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTerminationMode_ValueCorrectlySet(string pinMap, string digitalProject)
         {
@@ -123,7 +123,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTheSameTimeSetCompareEdgesStrobe_ValueCorrectlySet(string pinMap, string digitalProject)
         {
@@ -230,7 +230,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTimeSetPeriod_ValueCorrectlySet(string pinMap, string digitalProject)
         {
@@ -246,7 +246,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTimeSetDriverEdges_ValueCorrectlySet(string pinMap, string digitalProject)
         {
@@ -290,9 +290,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_MeasureTDROffsets_Succeeds()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             var results = sessionsBundle.MeasureTDROffsets();
 
             Assert.Equal(2, results.PinNames.Length);
@@ -304,9 +304,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void OneDeviceWorksForOnePinOnTwoSites_MeasureTDROffsets_Succeeds()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             var results = sessionsBundle.MeasureTDROffsets();
 
             Assert.Equal(2, results.PinNames.Length);
@@ -318,18 +318,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_ApplyPerSitePerPinTDROffsets_Succeeds()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
             {
-                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                ["PA_EN"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
                 {
                     [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [2] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
                     [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
                 },
                 ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
                 {
+                    [2] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
                     [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
                     [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
                 }
@@ -372,19 +374,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_SavePerSitePerPinTDROffsetsToAndFromFile_Succeeds()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
             {
-                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                ["PA_EN"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
                 {
                     [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [2] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
                     [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8)
                 },
                 ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
                 {
                     [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [2] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
                     [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8)
                 }
             });
@@ -716,7 +720,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTdrEndpointTermination_ValueCorrectlySet(string pinMap, string digitalProject)
         {
@@ -732,12 +736,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SameTimeSetPeriodConfigured_GetTimeSetPeriod_ReturnsCorrectValue(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var pins = new string[] { "C0", "C1" };
+            var pins = new string[] { "PA_EN", "C1" };
             var sessionsBundle = sessionManager.Digital(pins);
             sessionsBundle.ConfigureTimeSetPeriod("TS_SW", 5e-6);
 
@@ -752,8 +756,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparatelyAndDifferentTimeSetPeriodConfigured_GetTimeSetPeriod_ReturnsCorrectValue()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
-            var pins = new string[] { "C0", "C1" };
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+            var pins = new string[] { "PA_EN", "C1" };
             var sessionsBundle = sessionManager.Digital(pins);
             var timeSetPeriod = 5e-6;
             foreach (var session in sessionsBundle.InstrumentSessions)
@@ -794,12 +798,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_GetPerSiteTimeSetCompareEdgesStrobe_ReturnsCorrectValue()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
-            var pins = new string[] { "C0", "C1" };
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+            var pins = new string[] { "PA_EN", "C1" };
             var sessionsBundle = sessionManager.Digital(pins);
             var compareEdges = new SiteData<double>(new Dictionary<int, double>()
             {
                 [0] = 5e-6,
+                [2] = 5e-6,
                 [1] = 8e-6
             });
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges);
@@ -813,12 +818,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", 2)]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj", 2)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", 2)]
         public void SessionsInitialized_GetTimeSetEdgeMultiplier_ReturnsCorrectValue(string pinMap, string digitalProject, int edgeMultiplier)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var pins = new string[] { "C0", "C1" };
+            var pins = new string[] { "PA_EN", "C1" };
             var sessionsBundle = sessionManager.Digital(pins);
             sessionsBundle.Do(sessionInfo =>
             {
@@ -834,12 +839,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", DriveFormat.ReturnToHigh)]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj", DriveFormat.ReturnToHigh)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", DriveFormat.ReturnToHigh)]
         public void SessionsInitialized_GetTimeSetDriveFormat_ReturnsCorrectValue(string pinMap, string digitalProject, DriveFormat driveFormat)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var pins = new string[] { "C0", "C1" };
+            var pins = new string[] { "PA_EN", "C1" };
             var sessionsBundle = sessionManager.Digital(pins);
             sessionsBundle.Do(sessionInfo =>
             {
@@ -872,7 +877,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsInitialized_ApplyLevelsAndTimingWithoutSpecifyingPins_ValueCorrectlySet()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
 
             var sessionsBundle = sessionManager.Digital();
             sessionsBundle.ApplyLevelsAndTiming("Levels_MixedSignal", "Timing_MixedSignal");
@@ -903,8 +908,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         public void SessionsInitializedPerPinPerSiteEdgeMultiplier_GetTimeSetEdgeMultiplier_ReturnsCorrectValue(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
@@ -913,7 +918,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var perPinPerSiteEdgeMultiplier = new PinSiteData<int>(pins, sites, new int[][]
             {
                 // First Pin's Per Site Values (2 sites)
-                new[] { 1, 2 },
+                new[] { 1, 5 },
                 // Second Pin's Per Site Values (2 sites)
                 new[] { 2, 1 },
             });
@@ -939,19 +944,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitializedPerPinPerSiteDriveFormatsSet_GetTimeSetDriveFormat_ReturnsCorrectValue(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var pins = new string[] { "C0", "C1" };
-            var sites = new int[] { 0, 1 };
+            var pins = new string[] { "PA_EN", "C1" };
+            var sites = new int[] { 0, 1, 2 };
             var perPinPerSiteFormats = new PinSiteData<DriveFormat>(pins, sites, new DriveFormat[][]
             {
                 // First Pin's Per Site Values (2 sites)
-                new[] { DriveFormat.ReturnToLow, DriveFormat.ReturnToHigh },
+                new[] { DriveFormat.ReturnToLow, DriveFormat.ReturnToHigh, DriveFormat.ReturnToHigh },
                 // Second Pin's Per Site Values (2 sites)
-                new[] { DriveFormat.SurroundByComplement, DriveFormat.ReturnToLow }
+                new[] { DriveFormat.SurroundByComplement, DriveFormat.ReturnToLow, DriveFormat.ReturnToHigh }
             });
             var timeSet = "TS_SW";
             var sessionsBundle = sessionManager.Digital(pins);
@@ -975,12 +980,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureEdgeWithSingleValue_ValueCorrectlySet(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
 
             sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, 5e-6);
 

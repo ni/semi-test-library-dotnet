@@ -737,7 +737,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureOutputEnabled_OutputEnabled(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD" });
 
             sessionsBundle.ConfigureOutputEnabled(true);
 
@@ -813,7 +813,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_GetSourceDelayInSeconds_GetPerSiteValues(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower("VCC");
+            var sessionsBundle = sessionManager.DCPower("VDD");
             var testValue = 0.001;
             sessionsBundle.ConfigureSourceSettings(
                 new DCPowerSourceSettings()
@@ -880,7 +880,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_SetSameCurrentLimitWithoutCurrentLimitRange_CorrectValuesAreSet(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower("VCC");
+            var sessionsBundle = sessionManager.DCPower("VDD");
 
             sessionsBundle.ConfigureCurrentLimit(0.1);
 
@@ -896,7 +896,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_SetPerPinCurrentLimitWithoutCurrentLimitRange_CorrectValuesAreSet(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDD", "VDET" });
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD" });
 
             sessionsBundle.ConfigureCurrentLimits(new Dictionary<string, double>()
             {
@@ -928,7 +928,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesSetSameCurrentLimit_GetCurrentLimits_GetTheSameValue(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower("VCC");
+            var sessionsBundle = sessionManager.DCPower("VDD");
             sessionsBundle.ConfigureCurrentLimit(0.1);
 
             var values = sessionsBundle.GetCurrentLimits();
@@ -1016,7 +1016,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesAndAllInVoltageMode_CheckVoltageModeAndLevels_ReturnsTrue(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower("VCC");
+            var sessionsBundle = sessionManager.DCPower("VDD");
 
             var result = sessionsBundle.CheckDCVoltageModeAndLevels(out _);
 

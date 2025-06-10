@@ -31,14 +31,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", DigitalEdge.Rising)]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", DigitalEdge.Falling)]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj", DigitalEdge.Rising)]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj", DigitalEdge.Falling)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", DigitalEdge.Rising)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", DigitalEdge.Falling)]
         public void SessionsInitialized_ConfigureConditionalJumpTrigger_ValuesCanBeReadBack(string pinMap, string digitalProject, DigitalEdge digitalEdge)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
 
             sessionsBundle.ConfigureConditionalJumpTriggerDigitalEdge("PXI_Trig0", 0, digitalEdge);
             sessionsBundle.ConfigureConditionalJumpTriggerDigitalEdge("PXI_Trig1", 1, digitalEdge);
@@ -55,12 +55,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureConditionalJumpTriggerSoftwareEdge_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
 
             // Test Software Edge
             sessionsBundle.ConfigureConditionalJumpTriggerSoftwareEdge(0);
@@ -78,12 +78,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_DisableConditionalJumpTriggers_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
 
             // Test None
             sessionsBundle.DisableConditionalJumpTriggers();
@@ -98,14 +98,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", DigitalEdge.Rising)]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", DigitalEdge.Falling)]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj", DigitalEdge.Rising)]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj", DigitalEdge.Falling)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", DigitalEdge.Rising)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", DigitalEdge.Falling)]
         public void SessionsInitialized_ConfigureStartTriggerDigitalEdge_ValuesCanBeReadBack(string pinMap, string digitalProject, DigitalEdge digitalEdge)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
 
             sessionsBundle.ConfigureStartTriggerDigitalEdge("PXI_Trig2", digitalEdge);
 
@@ -116,12 +116,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureStartTriggerSoftwareEdge_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
 
             // Test Software Edge
             sessionsBundle.ConfigureStartTriggerSoftwareEdge();
@@ -133,12 +133,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_DisableStartTrigger_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
 
             // Test None
             sessionsBundle.DisableStartTrigger();
@@ -150,13 +150,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ExportPatternOpcodeEvent_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             var outputTerminal = "PXI_Trig0";
             sessionsBundle.ExportSignal(SignalType.PatternOpcodeEvent, $"patternOpcodeEvent{1}", outputTerminal);
 
@@ -167,13 +167,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ExportConditionalJumpTrigger_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             var outputTerminal = "PXI_Trig1";
             sessionsBundle.ExportSignal(SignalType.ConditionalJumpTrigger, $"conditionalJumpTrigger{2}", outputTerminal);
 
@@ -185,13 +185,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ExportStartTrigger_ValuesCanBeReadBack(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             var outputTerminal = "PXI_Trig2";
             outputTerminal = "PXI_Trig2";
             sessionsBundle.ExportSignal(SignalType.StartTrigger, string.Empty, outputTerminal);
@@ -203,13 +203,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ExportTwoSignalsToTheSameOutputTerminal_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             var outputTerminal = "PXI_Trig2";
             sessionsBundle.ExportSignal(SignalType.ConditionalJumpTrigger, $"conditionalJumpTrigger{0}", outputTerminal);
             sessionsBundle.ExportSignal(SignalType.StartTrigger, string.Empty, outputTerminal);
@@ -222,12 +222,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void StartTriggerExported_DisableStartTrigger_OutputTerminalUntouched(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             var outputTerminal = "PXI_Trig2";
             sessionsBundle.ExportSignal(SignalType.StartTrigger, string.Empty, outputTerminal);
 
@@ -241,12 +241,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureAndDisableStartTriggerSoftwareEdge_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             // Test default property value
             sessionsBundle.Do(sessionInfo =>
             {
@@ -263,12 +263,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureAndDisableConditionalJumpTriggerSoftwareEdge_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             // Test default property value
             sessionsBundle.Do(sessionInfo =>
             {
@@ -285,25 +285,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureStartTriggerSoftwareEdgeAndSendSoftwareEdge_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             sessionsBundle.ConfigureStartTriggerSoftwareEdge();
             sessionsBundle.SendSoftwareEdgeStartTrigger();
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureConditionalJumpTriggerSoftwareEdgeAndSendSoftwareEdge_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
             sessionsBundle.ConfigureConditionalJumpTriggerSoftwareEdge(2);
             sessionsBundle.SendSoftwareEdgeConditionalJumpTrigger(2);
         }

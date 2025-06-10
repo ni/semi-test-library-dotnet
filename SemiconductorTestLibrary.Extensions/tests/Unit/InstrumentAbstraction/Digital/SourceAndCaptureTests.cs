@@ -32,13 +32,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_CreateSerialSourceWaveformWithoutPinSucceeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital("C0");
+            var sessionsBundle = sessionManager.Digital("PA_EN");
             sessionsBundle.CreateSerialSourceWaveform("SourceWaveform", SourceDataMapping.Broadcast, sampleWidth: 8, BitOrder.MostSignificantBitFirst);
         }
 
@@ -54,13 +54,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_CreateSerialCaptureWaveformWithoutPinSucceeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital("C0");
+            var sessionsBundle = sessionManager.Digital("PA_EN");
             sessionsBundle.CreateSerialCaptureWaveform("CaptureWaveform", sampleWidth: 8, BitOrder.MostSignificantBitFirst);
         }
 
@@ -76,13 +76,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_CreateParallelCaptureWaveformWithoutPinSucceeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital("C0");
+            var sessionsBundle = sessionManager.Digital("PA_EN");
             sessionsBundle.CreateParallelCaptureWaveform("CaptureWaveform");
         }
 
@@ -109,15 +109,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", true)]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj", true)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", true)]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", false)]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj", false)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", false)]
         public void SessionsInitialized_WriteSourceWaveformBroadcastSucceeds(string pinMap, string digitalProject, bool expandToMinimumSize)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital("C0");
+            var sessionsBundle = sessionManager.Digital("PA_EN");
             sessionsBundle.CreateSerialSourceWaveform("SourceWaveform", SourceDataMapping.Broadcast, sampleWidth: 8, BitOrder.MostSignificantBitFirst);
             sessionsBundle.WriteSourceWaveformBroadcast("SourceWaveform", new uint[] { 0, 1, 2, 3, 4 }, expandToMinimumSize);
         }
@@ -135,33 +135,34 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", true)]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj", true)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", true)]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", false)]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj", false)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", false)]
         public void SessionsInitialized_WriteSourceWaveformSiteUniqueWithPerSiteWaveformDataSucceeds(string pinMap, string digitalProject, bool expandToMinimumSize)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital("C0");
+            var sessionsBundle = sessionManager.Digital("PA_EN");
             sessionsBundle.CreateSerialSourceWaveform("SourceWaveform", SourceDataMapping.SiteUnique, sampleWidth: 8, BitOrder.MostSignificantBitFirst);
             var waveformData = new SiteData<uint[]>(new Dictionary<int, uint[]>()
             {
                 [0] = new uint[] { 0, 1, 2, 3, 4 },
-                [1] = new uint[] { 5, 6, 7, 8, 9 }
+                [1] = new uint[] { 0, 1, 2, 3, 4 },
+                [2] = new uint[] { 0, 1, 2, 3, 4 },
             });
             sessionsBundle.WriteSourceWaveformSiteUnique("SourceWaveform", waveformData, expandToMinimumSize);
         }
 
         [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("SharedPinTests.pinmap", "SharedPinTests.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_CreateParallelSourceWaveformSiteUniqueSucceeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            sessionsBundle.CreateParallelSourceWaveform(new string[] { "C0", "C1" }, "ParallelSourceWaveform", SourceDataMapping.SiteUnique);
+            var sessionsBundle = sessionManager.Digital(new string[] { "PA_EN", "C1" });
+            sessionsBundle.CreateParallelSourceWaveform(new string[] { "PA_EN", "C1" }, "ParallelSourceWaveform", SourceDataMapping.SiteUnique);
         }
 
         [Theory]
@@ -178,13 +179,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_FetchCaptureWaveform_Succeeds()
         {
-            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
 
-            var sessionsBundle = sessionManager.Digital("C0");
+            var sessionsBundle = sessionManager.Digital("PA_EN");
             sessionsBundle.BurstPattern("CaptureWaveform");
             var results = sessionsBundle.FetchCaptureWaveform("New_Waveform", samplesToRead: 8);
 
-            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(3, results.SiteNumbers.Length);
         }
 
         [Fact(Skip = "Not sure why fetch waveform doesn't return result for site 1.")]

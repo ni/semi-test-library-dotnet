@@ -18,7 +18,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
-            string pinMapFileName = pinMapWithChannelGroup ? "DifferentSMUDevicesWithChannelGroup.pinmap" : "DifferentSMUDevices.pinmap";
+            string pinMapFileName = pinMapWithChannelGroup ? "SharedPinTests.pinmap" : "SharedPinTests.pinmap";
             _tsmContext = CreateTSMContext(pinMapFileName);
             InitializeAndClose.Initialize(_tsmContext);
             return new TSMSessionManager(_tsmContext);
@@ -42,7 +42,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void ConfigureTrigger_PulseTrigger_DigitalEdgeAndDisable(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD" });
             var triggerLine = "PXI_Trig0";
 
             // Setup Source Settings
@@ -84,11 +84,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [InlineData("SMUsSupportingPulsing.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
         public void ConfigureTrigger_PulseTrigger_SoftwarelEdgeAndDisable(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD" });
 
             // Setup Source Settings
             var settings = new DCPowerSourceSettings()
@@ -116,7 +116,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
         public void ConfigureTrigger_StartTrigger_DigitalEdgeAndDisable(string pinMapFileName)
         {
