@@ -545,7 +545,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             for (int i = 0; i < channelCount; i++)
             {
                 string individualChannelString = sessionInfo.AssociatedSitePinList[i].IndividualChannelString;
-                if (session.Outputs[individualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand && !sessionInfo.AssociatedSitePinList[i].SkipOperations)
+                if (session.Outputs[individualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand
+                    && !sessionInfo.AssociatedSitePinList[i].SkipOperations)
                 {
                     onDemandChannelIndexes.Add(i);
                     onDemandChannelStrings.Add(individualChannelString);
@@ -575,6 +576,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     Parallel.For(0, channelCount, channelIndex =>
                     {
                         var sitePinInfo = sessionInfo.AssociatedSitePinList[channelIndex];
+                        if (sitePinInfo.SkipOperations)
+                        {
+                            return; // Skip channels that are marked to skip operations.
+                        }
                         var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
 
                         switch (dcOutput.Measurement.MeasureWhen)
