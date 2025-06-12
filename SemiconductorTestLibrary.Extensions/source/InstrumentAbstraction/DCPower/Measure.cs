@@ -545,7 +545,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             for (int i = 0; i < channelCount; i++)
             {
                 string individualChannelString = sessionInfo.AssociatedSitePinList[i].IndividualChannelString;
-                if (session.Outputs[individualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                if (session.Outputs[individualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand && !sessionInfo.AssociatedSitePinList[i].SkipOperations)
                 {
                     onDemandChannelIndexes.Add(i);
                     onDemandChannelStrings.Add(individualChannelString);
@@ -558,14 +558,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     if (onDemandChannelIndexes.Any())
                     {
                         // Measure all channels that are configured to measure on demand as a single driver call to optimize test time.
-                        var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings.Distinct()));
+                        var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
                         for (int i = 0; i < onDemandChannelIndexes.Count; i++)
                         {
                             int index = onDemandChannelIndexes[i];
                             lock (lockObject)
                             {
-                                voltageMeasurements[index] = measureResult.VoltageMeasurements[sessionInfo.AssociatedSitePinList[index].SkipOperations ? 0 : i];
-                                currentMeasurements[index] = measureResult.CurrentMeasurements[sessionInfo.AssociatedSitePinList[index].SkipOperations ? 0 : i];
+                                voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
+                                currentMeasurements[index] = measureResult.CurrentMeasurements[i];
                             }
                         }
                     }
