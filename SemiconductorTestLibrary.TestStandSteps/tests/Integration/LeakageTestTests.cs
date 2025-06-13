@@ -70,7 +70,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             SetupNIDigitalPatternInstrumentation(tsmContext);
 
-            void ForceDcVoltageMethod() => LeakageTest(
+            void LeakageTestMethod() => LeakageTest(
                tsmContext,
                pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
                voltageLevel: 60,
@@ -78,8 +78,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                apertureTime: 5e-5,
                settlingTime: 5e-5);
 
-            var exception = Assert.Throws<NISemiconductorTestException>(ForceDcVoltageMethod);
-            Assert.Contains("An error occurred while processing site1/PA_EN, site1/C0, site1/C1.", exception.Message);
+            var exception = Assert.Throws<NISemiconductorTestException>(LeakageTestMethod);
+            Assert.Contains("An error occurred while processing site1/PA_EN, site1/C0, site1/C1", exception.Message);
 
             CleanupInstrumentation(tsmContext);
         }
