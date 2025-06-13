@@ -45,7 +45,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedPhrases = new string[] { "An error occurred while processing", "Specified property is not supported by the device or is not applicable to the task." };
 
             var exception = Assert.Throws<NISemiconductorTestException>(() => GenerateSineWave(tasksBundle));
-
             foreach (var expectedPhrase in expectedPhrases)
             {
                 Assert.Contains(expectedPhrase, exception.Message);
