@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
@@ -492,16 +493,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower("VCC");
+            var expectedPhrases = new string[] { "An error occurred while processing", "Function or method not supported." };
 
             sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
             sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1);
 
             void Operation() => sessionsBundle.FetchMeasurement();
 
-            AggregateException aggregateException = Assert.Throws<AggregateException>(Operation);
-            foreach (Exception innerExeption in aggregateException.InnerExceptions)
+            var exception = Assert.Throws<NISemiconductorTestException>(Operation);
+            foreach (var expectedPhrase in expectedPhrases)
             {
-                Assert.Contains("Function or method not supported.", innerExeption.InnerException.Message);
+                Assert.Contains(expectedPhrase, exception.Message);
             }
         }
 
