@@ -1,5 +1,6 @@
 ﻿using System;
 using NationalInstruments.DAQmx;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -41,11 +42,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
             var tasksBundle = sessionManager.DAQmx("VDD");
+            var expectedPhrases = new string[] { "An error occurred while processing", "Specified property is not supported by the device or is not applicable to the task." };
 
-            AggregateException aggregateException = Assert.Throws<AggregateException>(() => GenerateSineWave(tasksBundle));
-            foreach (Exception innerExeption in aggregateException.InnerExceptions)
+            var exception = Assert.Throws<NISemiconductorTestException>(() => GenerateSineWave(tasksBundle));
+
+            foreach (var expectedPhrase in expectedPhrases)
             {
-                Assert.Contains("Specified property is not supported by the device or is not applicable to the task.", innerExeption.InnerException.Message);
+                Assert.Contains(expectedPhrase, exception.Message);
             }
         }
 
