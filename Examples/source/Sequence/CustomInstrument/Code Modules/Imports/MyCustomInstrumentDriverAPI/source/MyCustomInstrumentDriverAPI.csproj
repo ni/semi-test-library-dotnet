@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <OutputPath>..\</OutputPath>
+	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <PlatformTarget>x64</PlatformTarget>
+    <RootNamespace>MyCustomInstrumentDriverAPI</RootNamespace>
+    <AssemblyName>MyCustomInstrumentDriverAPI</AssemblyName>
+    <DocumentationFile>..\</DocumentationFile>
+    <PackageOutputPath>..\</PackageOutputPath>
+    <BaseOutputPath>..\</BaseOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <IsPublishable>False</IsPublishable>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+    <IsPublishable>False</IsPublishable>
+  </PropertyGroup>
+</Project>
