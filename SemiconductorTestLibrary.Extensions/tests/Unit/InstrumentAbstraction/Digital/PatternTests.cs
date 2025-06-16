@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Ivi.Driver;
+using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -147,14 +148,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsInitialized_WaitUntilDoneWithInvalidTimeout_ThrowsExeception(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var expectedPhrases = new string[] { "An error occurred while processing", "ArgumentException" };
 
             var sessionsBundle = sessionManager.Digital("C0");
             void WaitUntilDone() => sessionsBundle.WaitUntilDone(-2);
 
-            AggregateException aggregateException = Assert.Throws<AggregateException>(WaitUntilDone);
-            foreach (Exception innerExeption in aggregateException.InnerExceptions)
+            var exception = Assert.Throws<NISemiconductorTestException>(WaitUntilDone);
+            foreach (var expectedPhrase in expectedPhrases)
             {
-                Assert.IsType<ArgumentException>(innerExeption);
+                Assert.Contains(expectedPhrase, exception.Message);
             }
         }
 
