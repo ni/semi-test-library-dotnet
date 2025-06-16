@@ -79,8 +79,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                settlingTime: 5e-5);
 
             var exception = Assert.Throws<NISemiconductorTestException>(LeakageTestMethod);
+            Assert.Contains("Requested value is not a supported value for this property.", exception.Message);
             Assert.Contains("An error occurred while processing site1/PA_EN, site1/C0, site1/C1", exception.Message);
-
             CleanupInstrumentation(tsmContext);
         }
     }
