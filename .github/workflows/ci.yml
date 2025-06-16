@@ -18,7 +18,6 @@ jobs:
     build:
         name: Call Azure Pipeline
         runs-on: ubuntu-latest
-        environment: gh-action-testing
         steps:
         - uses: actions/checkout@v2        
         - uses: enfa/azure-pipeline-github-action@v1.0.0

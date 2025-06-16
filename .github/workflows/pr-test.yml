@@ -19,6 +19,21 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v2
+
+        - name: Check triggering workflow status
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: |
+            RUN_ID=${{ github.event.workflow_run.id }}
+            REPO=${{ github.repository }}
+            STATUS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/$REPO/actions/runs/$RUN_ID" | jq -r '.conclusion')
+            echo "Triggering workflow conclusion: $STATUS"
+            if [[ "$STATUS" == "failure" || "$STATUS" == "cancelled" ]]; then
+              echo "Triggering workflow failed or was cancelled. Exiting."
+              exit 1
+            fi
+
         - name: Trigger Azure Pipeline for Unit Test
           uses: enfa/azure-pipeline-github-action@v1.0.0
           with:
