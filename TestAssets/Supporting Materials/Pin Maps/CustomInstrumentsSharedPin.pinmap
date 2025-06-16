@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.2">
 	<Instruments>
 		<Instrument name="SMU_4147_C1_S11" instrumentTypeId="SessionPerChannelInst">
@@ -75,15 +75,15 @@
 		</Instrument>
 	</Instruments>
 	<Pins>
-		<DUTPin name="A" />
-		<DUTPin name="B" />
-		<DUTPin name="C" />
-		<DUTPin name="D" />
-		<DUTPin name="E" />
-		<DUTPin name="F" />
-		<DUTPin name="G" />
-		<DUTPin name="H" />
-		<DUTPin name="I" />
+		<DUTPin name="PIN_A" />
+		<DUTPin name="PIN_B" />
+		<DUTPin name="PIN_C" />
+		<DUTPin name="PIN_D" />
+		<DUTPin name="PIN_E" />
+		<DUTPin name="PIN_F" />
+		<DUTPin name="PIN_G" />
+		<DUTPin name="PIN_H" />
+		<DUTPin name="PIN_I" />
 	</Pins>
 	<Sites>
 		<Site siteNumber="0" />
@@ -91,20 +91,20 @@
 		<Site siteNumber="2" />
 	</Sites>
 	<Connections>
-		<Connection pin="A" siteNumber="0,1,2" instrument="SMU_4147_C1_S11" channel="ch0" />
-		<Connection pin="B" siteNumber="0,1" instrument="SMU_4147_C1_S11" channel="ch1" />
-		<Connection pin="B" siteNumber="2" instrument="SMU_4147_C1_S11" channel="ch2" />
-		<Connection pin="C" siteNumber="0,1" instrument="SMU_4147_C2_S10" channel="ch0" />
-		<Connection pin="C" siteNumber="2" instrument="SMU_4147_C1_S11" channel="ch3" />
-		<Connection pin="D" siteNumber="0,1,2" instrument="SMU_4147_C3_S12" channel="ch0" />
-		<Connection pin="E" siteNumber="0,2" instrument="SMU_4147_C3_S12" channel="ch1" />
-		<Connection pin="E" siteNumber="1" instrument="SMU_4147_C3_S12" channel="ch2" />
-		<Connection pin="F" siteNumber="0" instrument="SMU_4147_C4_S18" channel="ch2" />
-		<Connection pin="F" siteNumber="1,2" instrument="SMU_4147_C3_S12" channel="ch4" />
-		<Connection pin="G" siteNumber="0,1,2" instrument="SMU_4163_C4_S03" channel="ch0" />
-		<Connection pin="H" siteNumber="0,1" instrument="SMU_4163_C4_S03" channel="ch1" />
-		<Connection pin="H" siteNumber="2" instrument="SMU_4163_C4_S03" channel="ch4" />
-		<Connection pin="I" siteNumber="0" instrument="SMU_4110_C1_S04" channel="ch0" />
-		<Connection pin="I" siteNumber="1,2" instrument="SMU_4163_C4_S03" channel="ch6" />
+		<Connection pin="PIN_A" siteNumber="0,1,2" instrument="SMU_4147_C1_S11" channel="ch0" />
+		<Connection pin="PIN_B" siteNumber="0,1" instrument="SMU_4147_C1_S11" channel="ch1" />
+		<Connection pin="PIN_B" siteNumber="2" instrument="SMU_4147_C1_S11" channel="ch2" />
+		<Connection pin="PIN_C" siteNumber="0,1" instrument="SMU_4147_C2_S10" channel="ch0" />
+		<Connection pin="PIN_C" siteNumber="2" instrument="SMU_4147_C1_S11" channel="ch3" />
+		<Connection pin="PIN_D" siteNumber="0,1,2" instrument="SMU_4147_C3_S12" channel="ch0" />
+		<Connection pin="PIN_E" siteNumber="0,2" instrument="SMU_4147_C3_S12" channel="ch1" />
+		<Connection pin="PIN_E" siteNumber="1" instrument="SMU_4147_C3_S12" channel="ch2" />
+		<Connection pin="PIN_F" siteNumber="0" instrument="SMU_4147_C4_S18" channel="ch2" />
+		<Connection pin="PIN_F" siteNumber="1,2" instrument="SMU_4147_C3_S12" channel="ch4" />
+		<Connection pin="PIN_G" siteNumber="0,1,2" instrument="SMU_4163_C4_S03" channel="ch0" />
+		<Connection pin="PIN_H" siteNumber="0,1" instrument="SMU_4163_C4_S03" channel="ch1" />
+		<Connection pin="PIN_H" siteNumber="2" instrument="SMU_4163_C4_S03" channel="ch4" />
+		<Connection pin="PIN_I" siteNumber="0" instrument="SMU_4110_C1_S04" channel="ch0" />
+		<Connection pin="PIN_I" siteNumber="1,2" instrument="SMU_4163_C4_S03" channel="ch6" />
 	</Connections>
 </PinMap>
