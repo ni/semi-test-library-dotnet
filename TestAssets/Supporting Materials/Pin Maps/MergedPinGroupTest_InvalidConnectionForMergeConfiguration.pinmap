@@ -34,8 +34,8 @@
 		</PinGroup>
 		<PinGroup name="PinsConnectedToNonConsecutiveChannels">
 			<!--Pins connected to non consecutive channels-->
-			<PinReference pin="VCCPrimary" />
 			<PinReference pin="VDDPrimary" />
+			<PinReference pin="VDDSecondary" />
 		</PinGroup>
 	</PinGroups>
 	<Sites>
@@ -46,10 +46,10 @@
 		<Connection pin="VCCPrimary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="0" />
 		<Connection pin="VCCSecondary" siteNumber="0" instrument="SMU_4147_C2_S10" channel="1" />
 		<Connection pin="VDDPrimary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="2" />
-		<Connection pin="VDDPrimary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="2" />
-		<Connection pin="VDDSecondary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="3" />
-		<Connection pin="VDDSecondary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="3" />
+		<Connection pin="VDDSecondary" siteNumber="0" instrument="SMU_4147_C2_S10" channel="3" />
 		<Connection pin="VCCPrimary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="0" />
-		<Connection pin="VCCSecondary" siteNumber="1" instrument="SMU_4147_C1_S11" channel="1" />
+		<Connection pin="VCCSecondary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="2" />
+		<Connection pin="VDDPrimary" siteNumber="1" instrument="SMU_4147_C1_S11" channel="1" />
+		<Connection pin="VDDSecondary" siteNumber="1" instrument="SMU_4147_C1_S11" channel="3" />
 	</Connections>
 </PinMap>
