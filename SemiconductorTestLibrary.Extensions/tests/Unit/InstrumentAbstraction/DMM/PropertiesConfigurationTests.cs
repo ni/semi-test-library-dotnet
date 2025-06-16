@@ -1,6 +1,7 @@
 ﻿using System;
 using Ivi.Driver;
 using NationalInstruments.ModularInstruments.NIDmm;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -181,14 +182,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void UnsupportedDmmModules_ConfigureADCCalibrationToOn_ThrowsExecption()
         {
             var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var expectedPhrases = new string[] { "An error occurred while processing", "IviCDriverException", "Attribute ID not recognized." };
 
             void Operation() => sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.On);
 
-            var exception = Assert.Throws<AggregateException>(Operation);
-            foreach (var innnerException in exception.InnerExceptions)
+            var exception = Assert.Throws<NISemiconductorTestException>(Operation);
+            foreach (var expectedPhrase in expectedPhrases)
             {
-                Assert.IsType<IviCDriverException>(innnerException);
-                Assert.Contains("Attribute ID not recognized.", innnerException.Message);
+                Assert.Contains(expectedPhrase, exception.Message);
             }
         }
 
@@ -223,15 +224,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void UnsupportedDmmModules_ConfigureAutoZeroToOnce_ThrowsExecption(DmmAuto dmmAuto)
         {
             var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
+            var expectedPhrases = new string[] { "An error occurred while processing", "OutOfRangeException", "Invalid value for parameter or property." };
 
             void Operation() => sessionsBundle.ConfigureAutoZero(dmmAuto);
 
             // Once and Off not supported on 4065.
-            var exception = Assert.Throws<AggregateException>(Operation);
-            foreach (var innnerException in exception.InnerExceptions)
+            var exception = Assert.Throws<NISemiconductorTestException>(Operation);
+            foreach (var expectedPhrase in expectedPhrases)
             {
-                Assert.IsType<OutOfRangeException>(innnerException);
-                Assert.Contains("Invalid value for parameter or property.", innnerException.Message);
+                Assert.Contains(expectedPhrase, exception.Message);
             }
         }
     }
