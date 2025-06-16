@@ -87,20 +87,6 @@
 				<Channel id="ch7" />
 			</ChannelGroup>
 		</Instrument>
-		<Instrument name="SMU_4130_C2_S04" instrumentTypeId="SessionPerChannelGroupInst2">
-			<ChannelGroup id="Grp1">
-				<Channel id="ch0" />
-				<Channel id="ch1" />
-				<Channel id="ch2" />
-				<Channel id="ch3" />
-			</ChannelGroup>
-			<ChannelGroup id="Grp2">
-				<Channel id="ch4" />
-				<Channel id="ch5" />
-				<Channel id="ch6" />
-				<Channel id="ch7" />
-			</ChannelGroup>
-		</Instrument>
 	</Instruments>
 	<Pins>
 		<DUTPin name="A" />
@@ -115,10 +101,6 @@
 		<DUTPin name="J" />
 		<DUTPin name="K" />
 	</Pins>
-	<PinGroups></PinGroups>
-	<Relays></Relays>
-	<RelayGroups></RelayGroups>
-	<RelayConfigurations></RelayConfigurations>
 	<Sites>
 		<Site siteNumber="0" />
 		<Site siteNumber="1" />
