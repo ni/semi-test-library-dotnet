@@ -39,7 +39,9 @@
 		</PinGroup>
 	</PinGroups>
 	<Sites>
+		<!--This site contains the invalid merge connection for scenerio of group having primary and secondary pin connected to different instruments.-->
 		<Site siteNumber="0" />
+		<!--This site contains the invalid merge connection for scenerio of Pins connected to non consecutive channels.-->
 		<Site siteNumber="1" />
 	</Sites>
 	<Connections>
