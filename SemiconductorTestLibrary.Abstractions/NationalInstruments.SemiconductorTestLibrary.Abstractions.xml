@@ -73,19 +73,14 @@
             <param name="exception">The exception to add.</param>
             <param name="sitePinInfo">The site-pin information associated with the exception.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ExceptionCollector.Add(System.Exception,System.Int32)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ExceptionCollector.WrapAndThrowSTLException(System.Exception,System.Int32,System.String,System.String)">
             <summary>
-            Adds an exception to the collector, associating it with a specific site number and optional pin name.
+            Wraps an exception and throws it as a single <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/>, including site-pin context.
             </summary>
-            <param name="exception">The exception to add.</param>
+            <param name="exception">The exception to wrap and throw.</param>
             <param name="siteNumber">The site number associated with the exception.</param>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ExceptionCollector.Add(System.Exception,System.String)">
-            <summary>
-            Adds an exception to the collector, associating it with a specific site number and optional pin name.
-            </summary>
-            <param name="exception">The exception to add.</param>
-            <param name="sitePinString">The site-pin info associated with the exception.</param>
+            <param name="pinName">The pin name associated with the exception.</param>
+            <param name="caseDescription">An optional description of the test case or operation context.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ExceptionCollector.ThrowSTLException">
             <summary>
