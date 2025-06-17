@@ -2486,6 +2486,15 @@
             <param name="channelList">Channel List.</param>
             <returns>A new instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> object.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrumentFactory.ValidateCustomInstruments(System.String[],System.String[],System.String[])">
+            <summary>
+            Validates the custom instruments based on the provided instrument names, channel group IDs, and channel lists associated with the instrument type ID.
+            </summary>
+            <param name="instrumentNames">List of custom instrument names.</param>
+            <param name="channelGroupIds">List of channel group IDs.</param>
+            <param name="channelLists">List of channel lists.</param>
+            <remarks>Implementations should throw an exception if the validation fails, to avoid creating invalid sessions. If no validation is needed, this method can be left empty.</remarks>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.InitializeAndClose">
             <summary>
             Defines <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> sessions initialize and close APIs.
