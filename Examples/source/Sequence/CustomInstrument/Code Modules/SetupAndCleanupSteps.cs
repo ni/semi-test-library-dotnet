@@ -14,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// <summary>
         /// Sample method to perform setup operation. Initializes all custom instruments of specific instrument type.
         /// </summary>
-        /// <param name="tsmContext">TSM Context</param>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         public static void SetupMyCustomInstruments(ISemiconductorModuleContext tsmContext)
         {
             var myCustomInstrumentFactory = new MyCustomInstrumentFactory();
@@ -26,7 +26,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// <summary>
         /// Sample method to perform cleanup operation. Closes all references of custom instruments of specific instrument type.
         /// </summary>
-        /// <param name="tsmContext">TSM Context</param>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         public static void CleanupMyCustomInstruments(ISemiconductorModuleContext tsmContext)
         {
             var myCustomInstrumentFactory = new MyCustomInstrumentFactory();
@@ -39,7 +39,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// <summary>
         /// Sample method to apply device configuration.
         /// </summary>
-        /// <param name="tsmContext">TSM Context.</param>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="InstrumentTypeID">Instrument type Id.</param>
         public static void OptionallyApplyConfigurations(ISemiconductorModuleContext tsmContext, string InstrumentTypeID)
         {
@@ -55,7 +55,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// <summary>
         /// Sample method to clear previously applied device configuration.
         /// </summary>
-        /// <param name="tsmContext">TSM Context.</param>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="InstrumentTypeID">Instrument type Id.</param>
         public static void OptionallyClearConfigurations(ISemiconductorModuleContext tsmContext, string InstrumentTypeID)
         {

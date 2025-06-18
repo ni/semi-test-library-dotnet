@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SemiconductorTestLibrary.Examples.CustomInstrument</name>
+    </assembly>
+    <members>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.TestSteps">
+            <summary>
+            This class contains sample TestStep methods to test DUTs using DriverOperation extension methods.
+            </summary>
+            <remarks>
+            Considering DUT to be some kind of DAC (Digital to Analog Converter). Creating some common TestSteps to perform Static Tests on the DUT.
+            Also, considering CustomInstrument to be some kind of DAQ device, which can source digital signal and measure analog signals.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.TestSteps.FunctionalTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String[],System.Double[],System.String)">
+            <summary>
+            Performs functional test by providing specified digital input signal (Pin wise) and measures analog signal (Pin wise).
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="digitalInputPins">DAC digital input pins.</param>
+            <param name="analogOutputPins">DAC analog output pins.</param>
+            <param name="pinData">Digital input data pinwise.</param>
+            <param name="publishedDataID">Published data ID.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations">
+            <summary>
+            This class contains example methods to perform driver operations using Custom Instrument support provided in STL.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations.DriverOperationWithScalarInputs(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle,System.Double,System.Double)">
+            <summary>
+            Sample method to perform driver operation without a return value.
+            </summary>
+            <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
+            <param name="parameter1">1st parameter.</param>
+            <param name="parameter2">2nd parameter.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations.DriverOperationWithPinSiteDataInput(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double})">
+            <summary>
+            Sample method to perform pin/site specific driver write operation using PinSiteData.
+            </summary>
+            <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
+            <param name="parameter">1st parameter.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations.DriverOperationThatReturnsPinSiteData(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle)">
+            <summary>
+            Sample method to perform driver operation with a return value.
+            </summary>
+            <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
+            <returns>Measured values as PinSiteData.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations.ApplyConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle,System.String)">
+            <summary>
+            Sample method to apply device configuration.
+            </summary>
+            <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
+            <param name="configurationPreset">Configuration preset.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations.ClearConfiguration(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle)">
+            <summary>
+            Sample method to clear previously applied device configuration.
+            </summary>
+            <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument">
+            <summary>
+            Concrete implementation of ICustomInstrument Interface.
+            </summary>
+            <remarks>
+            Users must create separate concrete implementations for different Custom Instrument types.
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.InstrumentDriverSession">
+            <summary>
+            The custom instrument driver object.
+            </summary>
+            <remarks>
+            If the Driver Session is a class object, then create property with datatype same as class object type.
+            If the Driver Session is not a class object, for example, String type or Integer type, then define them as such with a* default data value or make the type nullable.
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.InstrumentName">
+            <summary>
+            Instrument name that matches the one defined in the Pinmap file.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.ChannelGroupId">
+            <summary>
+            Channel information.
+            </summary>
+            <remarks>
+            Optionally, store channel information for later use.
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.ChannelList">
+            <summary>
+            Channel list.
+            </summary>
+            <remarks>
+            Store channel list for later use. This information is needed to perform driver operation on specific channel. 
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.ResourceName">
+            <summary>
+            Resource name which includes instrument name and channel information.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Creates new driver session and stores it in InstrumentDriverSession.
+            </summary>
+            <param name="instrumentName">Instrument Name as defined in the Pin Map</param>
+            <param name="channelGroupId">Channel Group Id as defined in the Pin Map</param>
+            <param name="channelList">Channel List as defined in the Pin Map</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.Close">
+            <summary>
+            Closes the custom instrument session.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.Reset">
+            <summary>
+            Resets the custom instrument.
+            </summary>
+            <remarks>
+            Reset operation is about resetting to a known state, stopping current operation, clear faults and errors, reinitialize properties, etc. Not all instruments have reset API.
+            </remarks>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrumentFactory">
+            <summary>
+            Factory for creating Custom Instrument object.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrumentFactory.InstrumentTypeId">
+            <summary>
+            Use unique instrument type ID for each custom instrument.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrumentFactory.CreateInstrument(System.String,System.String,System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> object based on the instrument definitions found in the pin map matching the InstrumentTypeId property.
+            </summary>
+            <param name="instrumentName">Instrument Name</param>
+            <param name="channelGroupId">Channel Group Id</param>
+            <param name="channelList">Channel List</param>
+            <returns>A new instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> object.</returns>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.SetupAndCleanupSteps">
+            <summary>
+            This class contains sample methods to perform Setup and Cleanup operations using Custom Instrument Support provided in STL.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.SetupAndCleanupSteps.SetupMyCustomInstruments(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
+            <summary>
+            Sample method to perform setup operation. Initializes all custom instruments of specific instrument type.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.SetupAndCleanupSteps.CleanupMyCustomInstruments(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
+            <summary>
+            Sample method to perform cleanup operation. Closes all references of custom instruments of specific instrument type.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.SetupAndCleanupSteps.OptionallyApplyConfigurations(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String)">
+            <summary>
+            Sample method to apply device configuration.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="InstrumentTypeID">Instrument type Id.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.SetupAndCleanupSteps.OptionallyClearConfigurations(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String)">
+            <summary>
+            Sample method to clear previously applied device configuration.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="InstrumentTypeID">Instrument type Id.</param>
+        </member>
+    </members>
+</doc>

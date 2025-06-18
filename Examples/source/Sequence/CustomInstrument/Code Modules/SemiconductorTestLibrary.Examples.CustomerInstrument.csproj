@@ -34,10 +34,9 @@
       <HintPath>Imports\MyCustomInstrumentDriverAPI\MyCustomInstrumentDriverAPI.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
-      <HintPath>C:\Program Files\National Instruments\Shared\NI_SemiconductorTestLibrary\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+      <HintPath>..\..\..\..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">      
-      <HintPath>C:\Program Files\National Instruments\TestStand 2023\API\DotNET\Assemblies\CurrentVersion\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>

@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// <summary>
         /// Performs functional test by providing specified digital input signal (Pin wise) and measures analog signal (Pin wise).
         /// </summary>
-        /// <param name="tsmContext">TSM context.</param>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="digitalInputPins">DAC digital input pins.</param>
         /// <param name="analogOutputPins">DAC analog output pins.</param>
         /// <param name="pinData">Digital input data pinwise.</param>
