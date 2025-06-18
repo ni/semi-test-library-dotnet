@@ -24,5 +24,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         {
             return new MyCustomInstrument(instrumentName, channelGroupId, channelList);
         }
+
+        /// <summary>
+        /// Validates the custom instruments based on the provided instrument names, channel group IDs, and channel lists associated with the instrument type ID.
+        /// </summary>
+        /// <param name="instrumentNames"></param>
+        /// <param name="channelGroupIds"></param>
+        /// <param name="channelLists"></param>
+        /// <Remarks>
+        /// This method is called as part of initialization of custom instruments.
+        /// </Remarks>
+        public void ValidateCustomInstruments(string[] instrumentNames, string[] channelGroupIds, string[] channelLists)
+        {
+            // Validate Custom instruments and raise an exception if validation fails.
+        }
     }
 }

@@ -146,6 +146,17 @@
             <param name="channelList">Channel List</param>
             <returns>A new instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> object.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrumentFactory.ValidateCustomInstruments(System.String[],System.String[],System.String[])">
+            <summary>
+            Validates the custom instruments based on the provided instrument names, channel group IDs, and channel lists associated with the instrument type ID.
+            </summary>
+            <param name="instrumentNames"></param>
+            <param name="channelGroupIds"></param>
+            <param name="channelLists"></param>
+            <Remarks>
+            This method is called as part of initialization of custom instruments.
+            </Remarks>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.SetupAndCleanupSteps">
             <summary>
             This class contains sample methods to perform Setup and Cleanup operations using Custom Instrument Support provided in STL.
