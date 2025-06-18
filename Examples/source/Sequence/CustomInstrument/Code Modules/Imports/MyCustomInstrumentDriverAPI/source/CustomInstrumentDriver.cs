@@ -68,8 +68,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         /// <summary>
         /// Dummy driver method for configure.
         /// </summary>
-        /// <param name="configurationData">Configuration data</param>
-        public void Configure(double configurationData)
+        /// <param name="configurationPreset">Configuration preset</param>
+        public void Configure(string configurationPreset)
         {
             // Driver code.
         }

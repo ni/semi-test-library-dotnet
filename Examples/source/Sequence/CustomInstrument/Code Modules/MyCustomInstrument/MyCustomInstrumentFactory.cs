@@ -14,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         public string InstrumentTypeId => "MyUniqueCustomInstrumentTypeID";
 
         /// <summary>
-        /// Creates a new instance of <see cref="ICustomInstrument"/> object based on the instrument type ID.
+        /// Creates a new instance of <see cref="ICustomInstrument"/> object based on the instrument definitions found in the pin map matching the InstrumentTypeId property.
         /// </summary>
         /// <param name="instrumentName">Instrument Name</param>
         /// <param name="channelGroupId">Channel Group Id</param>

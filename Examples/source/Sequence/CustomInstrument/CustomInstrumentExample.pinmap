@@ -10,7 +10,7 @@
 	</Pins>
 	<PinGroups></PinGroups>
 	<Instruments>
-		<Instrument name="dev1" instrumentTypeId="SessionPerChannelGroupInst">
+		<Instrument name="dev1" instrumentTypeId="MyUniqueCustomInstrumentTypeID">
 			<ChannelGroup id="Grp1">
 				<Channel id="ch0" />
 				<Channel id="ch1" />
@@ -24,7 +24,7 @@
 				<Channel id="ch7" />
 			</ChannelGroup>
 		</Instrument>
-		<Instrument name="dev2" instrumentTypeId="SessionPerChannelGroupInst">
+		<Instrument name="dev2" instrumentTypeId="MyUniqueCustomInstrumentTypeID">
 			<ChannelGroup id="Grp1">
 				<Channel id="ch0" />
 				<Channel id="ch1" />
@@ -38,7 +38,7 @@
 				<Channel id="ch7" />
 			</ChannelGroup>
 		</Instrument>
-		<Instrument name="dev3" instrumentTypeId="Custom Instrument">
+		<Instrument name="dev3" instrumentTypeId="MyUniqueCustomInstrumentTypeID">
 			<ChannelGroup id="Grp1">
 				<Channel id="ch0" />
 				<Channel id="ch1" />

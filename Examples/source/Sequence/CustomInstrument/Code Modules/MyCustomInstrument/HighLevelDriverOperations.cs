@@ -64,23 +64,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         }
 
         /// <summary>
-        /// Sample method to apply device configurations.
+        /// Sample method to apply device configuration.
         /// </summary>
         /// <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
-        /// <param name="configurationData">Configuration Data.</param>
-        public static void ApplyConfigurations(this CustomInstrumentSessionsBundle myCustomInstrumentSessionsBundle, double configurationData)
+        /// <param name="configurationPreset">Configuration preset.</param>
+        public static void ApplyConfiguration(this CustomInstrumentSessionsBundle myCustomInstrumentSessionsBundle, string configurationPreset)
         {
             myCustomInstrumentSessionsBundle.Do(sessionInfo =>
             {
                 var session = sessionInfo.Session as MyCustomInstrument;
                 var driverSession = session.InstrumentDriverSession;
                 // Call driver method to apply device configurations.
-                driverSession.Configure(configurationData); 
+                driverSession.Configure(configurationPreset); 
             });
         }
 
         /// <summary>
-        /// Sample method to clear configurations.
+        /// Sample method to clear previously applied device configuration.
         /// </summary>
         /// <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
         public static void ClearConfiguration(this CustomInstrumentSessionsBundle myCustomInstrumentSessionsBundle)

@@ -37,7 +37,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         }
 
         /// <summary>
-        /// Applies configurations.
+        /// Sample method to apply device configuration.
         /// </summary>
         /// <param name="tsmContext">TSM Context.</param>
         /// <param name="InstrumentTypeID">Instrument type Id.</param>
@@ -48,12 +48,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
             var myCustomInstrumentSessionsBundle = tsmSessionManager.CustomInstrument(InstrumentTypeID, systemPins.Concat(dutPins).ToArray());
 
             // User can do device configuration using Custom Instrument sessions bundle here.
-            double configurationData = 1;
-            myCustomInstrumentSessionsBundle.ApplyConfigurations(configurationData);
+            string configurationPreset = "DeafultConfiguration";
+            myCustomInstrumentSessionsBundle.ApplyConfiguration(configurationPreset);
         }
 
         /// <summary>
-        /// Clears configurations.
+        /// Sample method to clear previously applied device configuration.
         /// </summary>
         /// <param name="tsmContext">TSM Context.</param>
         /// <param name="InstrumentTypeID">Instrument type Id.</param>
