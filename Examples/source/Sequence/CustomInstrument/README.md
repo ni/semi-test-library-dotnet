@@ -1,7 +1,6 @@
 # Custom Instrument Example
 
-Custom Instrument example demonstrates using non-TSM native instruments such as Third-Party Instruments and NI RIO instruments through **Custom Instrument** Support provided in STL.
-This example serves as template code, user can start with this example and replace dummy driver calls with actul calls to their instrument driver. User can also write additional extension methods and TestSteps according to their need.
+This example can also be used as a template starting point for implementing a new Custom Instrument. First remove the dummy driver assembly from the imports directory, replacing it with your actual custom instrument driver assembly. Then replace the dummy driver calls with calls to the actual custom instrument driver, and write additional extension methods and TestSteps as needed
 
 CustomInstrumentExample TestStand sequence contains 3 sample tests to do static validation of DAC (Digital to Analog Converter) DUT by providing different digital inputs and measuring analog outputs.
 Sample Tests:

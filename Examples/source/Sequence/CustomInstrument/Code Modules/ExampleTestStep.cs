@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-using NationalInstruments.SemiconductorTestLibrary.Examples.CustomerInstrument.MyCustomInstrument;
+using NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomerInstrument
+namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
 {
     /// <summary>
     /// This class contains sample TestStep methods to test DUTs using DriverOperation extension methods.
@@ -14,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomerInstrume
     /// Considering DUT to be some kind of DAC (Digital to Analog Converter). Creating some common TestSteps to perform Static Tests on the DUT.
     /// Also, considering CustomInstrument to be some kind of DAQ device, which can source digital signal and measure analog signals.
     /// </remarks>
-    public static partial class CommonSteps
+    public static partial class TestSteps
     {
         /// <summary>
         /// Performs functional test by providing specified digital input signal (Pin wise) and measures analog signal (Pin wise).

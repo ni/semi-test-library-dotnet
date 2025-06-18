@@ -1,7 +1,7 @@
 ﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomerInstrument.MyCustomInstrument
+namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument
 {
     /// <summary>
     /// Factory for creating Custom Instrument object.
