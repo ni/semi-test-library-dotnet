@@ -1,4 +1,5 @@
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
@@ -59,6 +60,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                apertureTime: 5e-5,
                settlingTime: 5e-5);
 
+            CleanupInstrumentation(tsmContext);
+        }
+
+        [Fact]
+        public void Initialize_RunLeakageTestWithHighVoltageLevel_ThrowsNISemiconductorTestException()
+        {
+            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
+            SetupNIDigitalPatternInstrumentation(tsmContext);
+
+            void LeakageTestMethod() => LeakageTest(
+               tsmContext,
+               pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
+               voltageLevel: 60,
+               currentLimit: 0.005,
+               apertureTime: 5e-5,
+               settlingTime: 5e-5);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(LeakageTestMethod);
+            Assert.Contains("Requested value is not a supported value for this property.", exception.Message);
+            Assert.Contains("An error occurred while processing site1/PA_EN, site1/C0, site1/C1", exception.Message);
             CleanupInstrumentation(tsmContext);
         }
     }
