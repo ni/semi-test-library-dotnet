@@ -45,12 +45,15 @@ jobs:
           cat latest_changelog.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      # Create git tag if not already present
+      # Create git tag if not already present, if present use existing tag
       - name: Create Git Tag
         run: |
           VERSION="${{ github.event.inputs.version }}"
           TAG="v$VERSION"
           echo "TAG=$TAG" >> $GITHUB_ENV
+
+          # Ensure all remote tags are available locally, since actions/checkout does not fetch them by default
+          git fetch --tags
 
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "Tag $TAG already exists. Reusing existing tag."
@@ -61,21 +64,22 @@ jobs:
             git push origin "$TAG"
           fi
 
-      # Create release branch from tag (Pipeline will fail if branch already exists)
+      # Create release branch from tag if not already present, if present use existing branch
       - name: Create Release Branch from Tag
         run: |
           VERSION="${{ github.event.inputs.version }}"
           TAG="v$VERSION"
           BRANCH="releases/$VERSION"
-
+      
           if git ls-remote --exit-code --heads origin "$BRANCH"; then
-            echo "::error ::Branch $BRANCH already exists. Failing workflow."
-            exit 1
+            echo "Branch $BRANCH already exists. Reusing existing branch."
+            git fetch origin "$BRANCH"
+            git checkout "$BRANCH"
+          else
+            git fetch origin "refs/tags/$TAG"
+            git checkout -b "$BRANCH" "tags/$TAG"
+            git push origin "$BRANCH"
           fi
-
-          git fetch origin "refs/tags/$TAG"
-          git checkout -b "$BRANCH" "tags/$TAG"
-          git push origin "$BRANCH"
 
       # Trigger Azure DevOps Pipeline
       - name: Trigger Azure DevOps Pipeline
@@ -132,14 +136,14 @@ jobs:
           PROJECT="DevCentral"
           PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
 
-          TIMEOUT=240   # 4 minutes
-          INTERVAL=15   # check every 15 seconds
+          TIMEOUT=1200   # 20 minutes
+          INTERVAL=30    # check every 30 seconds
           ELAPSED=0
           STATUS="inProgress"
 
           while [ "$STATUS" = "inProgress" ] || [ "$STATUS" = "notStarted" ]; do
             if [[ "$ELAPSED" -ge "$TIMEOUT" ]]; then
-              echo "::error ::Timeout reached after 4 minutes while waiting for Azure DevOps pipeline to complete."
+              echo "::error ::Timeout reached after 20 minutes while waiting for Azure DevOps pipeline to complete."
               exit 1
             fi
 
