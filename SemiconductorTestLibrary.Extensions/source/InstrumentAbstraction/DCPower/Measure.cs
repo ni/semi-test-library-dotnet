@@ -51,7 +51,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo));
             });
         }
 
@@ -305,7 +305,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 var results = Fetch(sessionInfo.Session, sitePinInfo.IndividualChannelString, fetchWaveformLength);
-                ApplyOriginalSettings(sessionInfo.Session, sessionInfo.AllChannelsString, originalSettings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                ApplyOriginalSettings(sessionInfo.Session, sessionInfo.AllChannelsString, originalSettings.GetValue(sitePinInfo));
                 return results;
             });
         }

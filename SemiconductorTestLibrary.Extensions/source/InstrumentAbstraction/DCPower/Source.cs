@@ -48,7 +48,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName), sitePinInfo.IndividualChannelString);
+                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo), sitePinInfo.IndividualChannelString);
             });
         }
 
@@ -165,7 +165,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = voltageLevels.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName),
+                    Level = voltageLevels.GetValue(sitePinInfo),
                     Limit = currentLimit,
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
@@ -235,7 +235,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perSitePinPairSettings = settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo);
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
                 sessionInfo.Force(perSitePinPairSettings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
             });
@@ -369,7 +369,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = currentLevels.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName),
+                    Level = currentLevels.GetValue(sitePinInfo),
                     Limit = voltageLimit,
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
@@ -439,7 +439,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perSitePinPairSettings = settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo);
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
                 sessionInfo.Force(perSitePinPairSettings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
             });
@@ -719,7 +719,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Connected = connectOutput.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName);
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Connected = connectOutput.GetValue(pinSiteInfo);
             });
         }
 
@@ -756,7 +756,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Enabled = enableOutput.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName);
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Enabled = enableOutput.GetValue(pinSiteInfo);
             });
         }
 
@@ -791,7 +791,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName));
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.GetValue(pinSiteInfo));
             });
         }
 
