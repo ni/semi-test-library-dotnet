@@ -38,7 +38,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// Channel list.
         /// </summary>
         /// <remarks>
-        /// Store channel list for later use. This information is needed to perform driver operation on specific channel. 
+        /// Store channel list for later use. This information is needed to perform driver operation on specific channel.
         /// </remarks>
         public string ChannelList { get; }
 
