@@ -19,7 +19,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         {
             var myCustomInstrumentFactory = new MyCustomInstrumentFactory();
             InitializeAndClose.Initialize(tsmContext, myCustomInstrumentFactory);
-
             OptionallyApplyConfigurations(tsmContext, myCustomInstrumentFactory.InstrumentTypeId);
         }
 
@@ -29,23 +28,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         public static void CleanupMyCustomInstruments(ISemiconductorModuleContext tsmContext)
         {
-            var myCustomInstrumentFactory = new MyCustomInstrumentFactory();
-            OptionallyClearConfigurations(tsmContext, myCustomInstrumentFactory.InstrumentTypeId);
+            OptionallyClearConfigurations(tsmContext, MyCustomInstrumentFactory.CustomInstrumentTypeID);
 
             // Close all references of custom instruments.
-            InitializeAndClose.Close(tsmContext, myCustomInstrumentFactory.InstrumentTypeId);
+            InitializeAndClose.Close(tsmContext, MyCustomInstrumentFactory.CustomInstrumentTypeID);
         }
 
         /// <summary>
         /// Sample method to apply device configuration.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="InstrumentTypeID">Instrument type Id.</param>
-        public static void OptionallyApplyConfigurations(ISemiconductorModuleContext tsmContext, string InstrumentTypeID)
+        /// <param name="instrumentTypeID">Instrument type Id.</param>
+        public static void OptionallyApplyConfigurations(ISemiconductorModuleContext tsmContext, string instrumentTypeID)
         {
-            tsmContext.GetPins(InstrumentTypeID, out var dutPins, out var systemPins);
-            var tsmSessionManager = new TSMSessionManager(tsmContext);
-            var myCustomInstrumentSessionsBundle = tsmSessionManager.CustomInstrument(InstrumentTypeID, systemPins.Concat(dutPins).ToArray());
+            var myCustomInstrumentSessionsBundle = CreateCustomInstrumentSessionsBundleForAllInstrumentPins(tsmContext, instrumentTypeID);
 
             // User can do device configuration using Custom Instrument sessions bundle here.
             string configurationPreset = "DeafultConfiguration";
@@ -56,16 +52,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// Sample method to clear previously applied device configuration.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="InstrumentTypeID">Instrument type Id.</param>
-        public static void OptionallyClearConfigurations(ISemiconductorModuleContext tsmContext, string InstrumentTypeID)
+        /// <param name="instrumentTypeID">Instrument type Id.</param>
+        public static void OptionallyClearConfigurations(ISemiconductorModuleContext tsmContext, string instrumentTypeID)
         {
-            tsmContext.GetPins(InstrumentTypeID, out var dutPins, out var systemPins);
-            var tsmSessionManager = new TSMSessionManager(tsmContext);
-            var myCustomInstrumentSessionsBundle = tsmSessionManager.CustomInstrument(InstrumentTypeID, systemPins.Concat(dutPins).ToArray());
-
-            // Clears configurations.
+            var myCustomInstrumentSessionsBundle = CreateCustomInstrumentSessionsBundleForAllInstrumentPins(tsmContext, instrumentTypeID);
             myCustomInstrumentSessionsBundle.ClearConfiguration();
         }
+
+        private static CustomInstrumentSessionsBundle CreateCustomInstrumentSessionsBundleForAllInstrumentPins(ISemiconductorModuleContext tsmContext, string instrumentTypeID)
+        {
+            tsmContext.GetPins(instrumentTypeID, out var dutPins, out var systemPins);
+            var tsmSessionManager = new TSMSessionManager(tsmContext);
+            return tsmSessionManager.CustomInstrument(instrumentTypeID, systemPins.Concat(dutPins).ToArray());
+        }
+
     }
-    
 }

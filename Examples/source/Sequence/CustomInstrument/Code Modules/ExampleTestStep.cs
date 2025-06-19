@@ -31,15 +31,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
             var pinSiteData = new PinSiteData<double>(digitalInputPins, sites, pinData);
 
             // Create TSM session manager.
-            var myCustomInstrumentFactory = new MyCustomInstrumentFactory();
             var tsmSessionManager = new TSMSessionManager(tsmContext);
 
             // Create bundle for DUT digital input pins and apply signal using custom instrument.
-            var digitalInputBundle = tsmSessionManager.CustomInstrument(myCustomInstrumentFactory.InstrumentTypeId, digitalInputPins);
+            var digitalInputBundle = tsmSessionManager.CustomInstrument(MyCustomInstrumentFactory.CustomInstrumentTypeID, digitalInputPins);
             digitalInputBundle.DriverOperationWithPinSiteDataInput(pinSiteData);
 
             // Create session bundle for analog output pins and measure signal using custom instrument.
-            var analogOutputBundle = tsmSessionManager.CustomInstrument(myCustomInstrumentFactory.InstrumentTypeId, analogOutputPins);
+            var analogOutputBundle = tsmSessionManager.CustomInstrument(MyCustomInstrumentFactory.CustomInstrumentTypeID, analogOutputPins);
             var measurements = analogOutputBundle.DriverOperationThatReturnsPinSiteData();
 
             // Publish measured data.

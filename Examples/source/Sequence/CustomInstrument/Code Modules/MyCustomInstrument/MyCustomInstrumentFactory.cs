@@ -9,9 +9,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
     public class MyCustomInstrumentFactory : ICustomInstrumentFactory
     {
         /// <summary>
+        /// Unique instrument type ID.
+        /// </summary>
+        public const string CustomInstrumentTypeID = "MyUniqueCustomInstrumentTypeID";
+
+        /// <summary>
         /// Use unique instrument type ID for each custom instrument.
         /// </summary>
-        public string InstrumentTypeId => "MyUniqueCustomInstrumentTypeID";
+        public string InstrumentTypeId => CustomInstrumentTypeID;
 
         /// <summary>
         /// Creates a new instance of <see cref="ICustomInstrument"/> object based on the instrument definitions found in the pin map matching the InstrumentTypeId property.
@@ -28,9 +33,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// <summary>
         /// Validates the custom instruments based on the provided instrument names, channel group IDs, and channel lists associated with the instrument type ID.
         /// </summary>
-        /// <param name="instrumentNames"></param>
-        /// <param name="channelGroupIds"></param>
-        /// <param name="channelLists"></param>
+        /// <param name="instrumentNames">Instrument names</param>
+        /// <param name="channelGroupIds">Channel groupIDs</param>
+        /// <param name="channelLists">Channel lists</param>
         /// <Remarks>
         /// This method is called as part of initialization of custom instruments.
         /// </Remarks>

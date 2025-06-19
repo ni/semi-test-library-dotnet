@@ -98,7 +98,7 @@
             Channel list.
             </summary>
             <remarks>
-            Store channel list for later use. This information is needed to perform driver operation on specific channel. 
+            Store channel list for later use. This information is needed to perform driver operation on specific channel.
             </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.ResourceName">
@@ -132,6 +132,11 @@
             Factory for creating Custom Instrument object.
             </summary>
         </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrumentFactory.CustomInstrumentTypeID">
+            <summary>
+            Unique instrument type ID.
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrumentFactory.InstrumentTypeId">
             <summary>
             Use unique instrument type ID for each custom instrument.
@@ -150,9 +155,9 @@
             <summary>
             Validates the custom instruments based on the provided instrument names, channel group IDs, and channel lists associated with the instrument type ID.
             </summary>
-            <param name="instrumentNames"></param>
-            <param name="channelGroupIds"></param>
-            <param name="channelLists"></param>
+            <param name="instrumentNames">Instrument names</param>
+            <param name="channelGroupIds">Channel groupIDs</param>
+            <param name="channelLists">Channel lists</param>
             <Remarks>
             This method is called as part of initialization of custom instruments.
             </Remarks>
@@ -179,14 +184,14 @@
             Sample method to apply device configuration.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-            <param name="InstrumentTypeID">Instrument type Id.</param>
+            <param name="instrumentTypeID">Instrument type Id.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.SetupAndCleanupSteps.OptionallyClearConfigurations(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String)">
             <summary>
             Sample method to clear previously applied device configuration.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-            <param name="InstrumentTypeID">Instrument type Id.</param>
+            <param name="instrumentTypeID">Instrument type Id.</param>
         </member>
     </members>
 </doc>
