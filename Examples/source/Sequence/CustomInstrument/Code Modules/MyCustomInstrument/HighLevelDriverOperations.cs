@@ -40,7 +40,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
                 var driverSession = session.InstrumentDriverSession;
                 double pinSiteSpecificData = parameter.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
                 string channelString = sitePinInfo.IndividualChannelString;
-
                 // Perform write data operation on the driver session.
                 driverSession.WriteChannelData(channelString, pinSiteSpecificData);
             });
@@ -75,7 +74,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
                 var session = sessionInfo.Session as MyCustomInstrument;
                 var driverSession = session.InstrumentDriverSession;
                 // Call driver method to apply device configurations.
-                driverSession.Configure(configurationPreset); 
+                driverSession.Configure(configurationPreset);
             });
         }
 

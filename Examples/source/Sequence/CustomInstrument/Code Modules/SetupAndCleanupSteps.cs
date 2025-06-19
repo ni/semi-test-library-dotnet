@@ -65,6 +65,5 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
             var tsmSessionManager = new TSMSessionManager(tsmContext);
             return tsmSessionManager.CustomInstrument(instrumentTypeID, systemPins.Concat(dutPins).ToArray());
         }
-
     }
 }
