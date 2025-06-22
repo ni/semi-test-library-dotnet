@@ -1,0 +1,169 @@
+name: Trigger DocFX Release Flow
+
+# Do we want to check which branch we run this workflow on ??
+on:
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        type: choice
+        description: "Run in dry run mode?"
+        options:
+          - 'true'
+          - 'false'
+        default: 'true'
+
+permissions:
+  contents: read       # Required to check out the code and access repo files
+  pages: write         # Required to deploy to GitHub Pages (grants access to Pages API)
+  id-token: write      # Required for OIDC authentication with GitHub Pages (used internally by deploy-pages action)
+
+jobs:
+  trigger-docfx:
+    runs-on: ubuntu-latest
+    environment: gh-action-testing
+
+    ###### Should we use this environment or not? Is there a way to test this? #####
+    # environment:
+    #   name: github-pages
+    #   url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      AZDO_ORG: ni
+      AZDO_PROJECT: DevCentral
+      AZDO_PIPELINE_ID: 27856
+      GITHUB_BRANCH: "${{ github.ref_name }}"
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Asked input for GitHub Branch, but not used it yet have to provide input to Azure Pipeline if needed
+      # Step 2: Trigger the Azure DevOps pipeline
+      - name: Trigger Azure DevOps pipeline
+        id: trigger
+        run: |
+          AZDO_BRANCH="main"
+          echo "Triggering Azure DevOps pipeline..."
+      
+          # NOTE: GitHub input 'branch' is collected but not used yet
+          echo "GitHub branch input (unused for now): $GITHUB_BRANCH"
+      
+          BODY=$(jq -n \
+            --arg ref "refs/heads/$AZDO_BRANCH" \
+            '{
+              resources: {
+                repositories: {
+                  self: {
+                    refName: $ref
+                  }
+                }
+              }
+            }')
+      
+          RESPONSE=$(curl -sS -X POST \
+            -u ":${{ secrets.AZURE_DEVOPS_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "$BODY" \
+            "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/pipelines/$AZDO_PIPELINE_ID/runs?api-version=7.0")
+      
+          echo "Azure DevOps Response:"
+          echo "$RESPONSE" | jq
+      
+          RUN_ID=$(echo "$RESPONSE" | jq -r '.id')
+          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
+            echo "Failed to trigger Azure DevOps pipeline"
+            exit 1
+          fi
+      
+          PIPELINE_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_build/results?buildId=$RUN_ID"
+          echo "Azure DevOps pipeline triggered: $PIPELINE_URL"
+      
+          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+    
+      # Step 3: Wait until the pipeline run completes
+      - name: Wait for Pipeline Completion
+        id: wait
+        run: |
+          RUN_ID="${{ steps.trigger.outputs.run_id }}"
+          TIMEOUT=3600   # fail after 1 hour
+          INTERVAL=60    # checking status every 1 minute
+          ELAPSED=0
+          STATUS="inProgress"
+      
+          echo "Waiting for Azure DevOps pipeline run ID: $RUN_ID"
+      
+          while [[ "$STATUS" == "inProgress" || "$STATUS" == "notStarted" ]]; do
+            if [[ "$ELAPSED" -ge "$TIMEOUT" ]]; then
+              echo "::error ::Timeout reached after 1 hour while waiting for Azure DevOps pipeline to complete."
+              exit 1
+            fi
+      
+            RESPONSE=$(curl -s -u ":${{ secrets.AZURE_DEVOPS_TOKEN }}" \
+              "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/pipelines/$AZDO_PIPELINE_ID/runs/$RUN_ID?api-version=7.0")
+      
+            STATUS=$(echo "$RESPONSE" | jq -r '.state')
+            RESULT=$(echo "$RESPONSE" | jq -r '.result')
+      
+            echo "Current state: $STATUS"
+            sleep $INTERVAL
+            ELAPSED=$((ELAPSED + INTERVAL))
+          done
+      
+          echo "Pipeline completed with result: $RESULT"
+          if [[ "$RESULT" != "succeeded" ]]; then
+            echo "::error ::Azure DevOps pipeline failed with result: $RESULT"
+            exit 1
+          fi
+
+      # Step 4: In dry run mode, provide Artifact Link
+      - name: Output Azure DevOps Artifact Link (Dry Run)
+        if: ${{ inputs.dryRun == 'true' }}
+        run: |
+          RUN_ID=${{ steps.trigger.outputs.run_id }}
+          ARTIFACT_UI_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_build/results?buildId=$RUN_ID&view=artifacts"
+      
+          echo "## Azure DevOps Artifacts (UI)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- [View Artifacts in Azure DevOps UI]($ARTIFACT_UI_URL)" >> $GITHUB_STEP_SUMMARY
+      
+          echo "Artifact UI URL:"
+          echo "$ARTIFACT_UI_URL"
+    
+      # Step 5: Download docfx-site artifact if not in dry run
+      - name: Download docfx-site artifact
+        if: ${{ inputs.dryRun == 'false' }}
+        run: |
+          set -e
+          mkdir site         
+          RUN_ID="${{ steps.trigger.outputs.run_id }}"
+          ARTIFACT_NAME="docfx-site"
+      
+          echo "Fetching docfx-site artifact..."  
+          
+          ARTIFACT_URL=$(curl -sS -u ":${{ secrets.AZURE_DEVOPS_TOKEN }}" \
+            "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/build/builds/$RUN_ID/artifacts?api-version=6.0" |
+            jq -r ".value[] | select(.name==\"$ARTIFACT_NAME\") | .resource.downloadUrl")
+      
+          echo "Download URL: $ARTIFACT_URL"
+      
+          if [ -z "$ARTIFACT_URL" ] || [ "$ARTIFACT_URL" = "null" ]; then
+            echo "Failed to get $ARTIFACT_NAME artifact URL"
+            exit 1
+          fi
+      
+          curl -sSL -u ":${{ secrets.AZURE_DEVOPS_TOKEN }}" "$ARTIFACT_URL" -o site.zip
+          unzip -q site.zip -d temp_site
+          mv temp_site/docfx-site/* site/       
+
+      # Step 6: Upload docfx-site artifact for GitHub Pages deployment
+      - name: Upload Pages Artifact
+        if: ${{ inputs.dryRun == 'false' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'site'  # This is where we unzip docfx-site
+
+      # Step 7: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        if: ${{ inputs.dryRun == 'false' }}
+        id: deployment
+        uses: actions/deploy-pages@v4
