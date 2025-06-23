@@ -42,6 +42,10 @@
 			<PinReference pin="VCC1" />
 			<PinReference pin="VCC2" />
 		</PinGroup>
+		<PinGroup name="MergedPowerPins">
+			<PinReference pin="VCC2" />
+			<PinReference pin="VCC1" />
+		</PinGroup>
 	</PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
