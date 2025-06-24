@@ -23,4 +23,7 @@
     <DebugType>full</DebugType>
     <IsPublishable>False</IsPublishable>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
+  </ItemGroup>
 </Project>

@@ -6,22 +6,21 @@
     <members>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.TestSteps">
             <summary>
-            This class contains sample TestStep methods to test DUTs using DriverOperation extension methods.
+            This class contains sample methods to perform high-level testing of the DUT using the custom instrument support provided by STL.
             </summary>
             <remarks>
-            Considering DUT to be some kind of DAC (Digital to Analog Converter). Creating some common TestSteps to perform Static Tests on the DUT.
-            Also, considering CustomInstrument to be some kind of DAQ device, which can source digital signal and measure analog signals.
+            This hypothetical example considers the Device Under Test (DUT) to be some kind of Digital to Analog Converter (DAC) and the Custom Instrument to be some kind of multifunctional Data Acquisition (DAQ) device capable of sourcing digital signals and acquiring analog signals. The DUT is connected to the Custom Instrument so that it can receive digital signals from the Custom Instrument and output an analog signal back to the Custom Instrument to be acquired.
             </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.TestSteps.FunctionalTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String[],System.Double[],System.String)">
             <summary>
-            Performs functional test by providing specified digital input signal (Pin wise) and measures analog signal (Pin wise).
+            Demonstrates the use of the HighLevelDriverOperations extension methods to perform a hypothetical functional test of the DUT, where the Custom Instrument sends a digital signal, waits for the DUT to settle, and then measures the analog signal returned from the DUT.
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-            <param name="digitalInputPins">DAC digital input pins.</param>
-            <param name="analogOutputPins">DAC analog output pins.</param>
-            <param name="pinData">Digital input data pinwise.</param>
-            <param name="publishedDataID">Published data ID.</param>
+            <param name="digitalInputPins">The DUT's digital input pins.</param>
+            <param name="analogOutputPins">The DUT's analog output pin(s).</param>
+            <param name="pinData">The per-pin digital data to be sent to the DUT.</param>
+            <param name="publishedDataID">The data id to use for publishing the measurement result.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations">
             <summary>
@@ -76,8 +75,9 @@
             The custom instrument driver object.
             </summary>
             <remarks>
-            If the Driver Session is a class object, then create property with datatype same as class object type.
-            If the Driver Session is not a class object, for example, String type or Integer type, then define them as such with a* default data value or make the type nullable.
+            If the Driver Session is a class object, then this property should have a data type matching that class.
+            If the Driver Session is not a class object, for example, String type or Integer type, then define this property with that type.
+            Be sure to update the constructor when changing the type of this property, so that the initial value is set appropriately.
             </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.InstrumentName">
@@ -87,10 +87,10 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.ChannelGroupId">
             <summary>
-            Channel information.
+            Channel group information.
             </summary>
             <remarks>
-            Optionally, store channel information for later use.
+            Optionally, store channel group information for later use.
             </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument.ChannelList">
@@ -132,15 +132,25 @@
             Factory for creating Custom Instrument object.
             </summary>
         </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrumentFactory.CustomInstrumentTypeID">
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrumentFactory.CustomInstrumentTypeId">
             <summary>
-            Unique instrument type ID.
+            The unique instrument type ID associated with a specific custom instrument implementation.
             </summary>
+            <remarks>
+            Use this field to access the instrument type ID string from the class itself.
+            Note that this constant field is not part of the ICustomInstrument interface, but is being implemented here for convenience
+            to allow accessing the instrument type ID string from the class itself, rather than having to create an instance of the MyCustomInstrument to access it via the InstrumentTypeId property.
+            Also, note that this a work around for a known limitation of the C# language, which does not allow an interface to define static properties or constant fields.
+            </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrumentFactory.InstrumentTypeId">
             <summary>
-            Use unique instrument type ID for each custom instrument.
+            The unique instrument type ID associated with the instrument.
             </summary>
+            <remarks>
+            Use this field to access the instrument type ID string from an object instance of this class.
+            Note that this property is required as part of the ICustomInstrument interface as it is used in other places within the underlying custom instrument abstraction.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrumentFactory.CreateInstrument(System.String,System.String,System.String)">
             <summary>
@@ -164,7 +174,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.SetupAndCleanupSteps">
             <summary>
-            This class contains sample methods to perform Setup and Cleanup operations using Custom Instrument Support provided in STL.
+            This class contains sample methods to perform instrument setup and cleanup operations using the custom instrument support provided by STL.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.SetupAndCleanupSteps.SetupMyCustomInstruments(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">

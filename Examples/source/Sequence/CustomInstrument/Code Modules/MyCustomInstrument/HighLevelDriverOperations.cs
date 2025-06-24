@@ -1,5 +1,4 @@
-﻿using MyCompany.MyCustomInstrumentDriverAPI;
-using NationalInstruments.SemiconductorTestLibrary.Common;
+﻿using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
@@ -23,7 +22,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
                 var session = sessionInfo.Session as MyCustomInstrument;
                 var driverSession = session.InstrumentDriverSession;
                 // Perform write data operation on the driver session.
-                driverSession.WriteData(parameter1, parameter2);
+                driverSession.WriteData(parameter1);
             });
         }
 

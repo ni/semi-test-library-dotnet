@@ -2,7 +2,7 @@
 
 This example can also be used as a template starting point for implementing a new Custom Instrument. First remove the dummy driver assembly from the imports directory, replacing it with your actual custom instrument driver assembly. Then replace the dummy driver calls with calls to the actual custom instrument driver, and write additional extension methods and TestSteps as needed
 
-CustomInstrumentExample TestStand sequence contains 3 sample tests to do static validation of DAC (Digital to Analog Converter) DUT by providing different digital inputs and measuring analog outputs.
+The example TestStand sequence contains 3 sample steps to test a hypothetical Device Under Test (DUT) using a custom instrument. The DUT is consisted to be some kind of Digital to Analog Converter (DAC) and the Custom Instrument to be some kind of multi-functional Data Acquisition (DAQ) device capable of sourcing digital signals and acquiring analog signals. The DUT is connected to the CustomInstrument so that it can receive digital signals from the CustomInstrument and output an analog signal back to the CustomInstrument to be acquired."
 Sample Tests:
 1. ZeroScale Test
 1. FullScale Test
@@ -25,5 +25,5 @@ Provide different test inputs on digital pins (A, B, C, D) for e.g  provide {0,1
 - Code Modules/MyCustomInstrument/MyCustomInstrument.cs - Demonstarte writing concreate implementations for ICustomInstrument
 - Code Modules/MyCustomInstrument/MyCustomInstrumentFactory.cs - Demonstarte writing concreate implementations for ICustomInstrumentFactory
 - Code Modules/MyCustomInstrument/HighLevelDriverOperations.cs - Demonstarte writing different extension methods for driver operations. E.g. performing write operations, measure operations, etc.
-- Code Modules/bin/SemiconductorTestLibrary.Examples.CustomerInstrument.dll - CustomInstrumentExample assembly built with above example code.
-- Code Modules/Imports/MyCustomInstrumentDriverAPI - Dummy customer instrument driver API assembly.
+- Code Modules/bin/SemiconductorTestLibrary.Examples.CustomInstrument.dll - CustomInstrumentExample assembly built with above example code.
+- Code Modules/Imports/MyCustomInstrumentDriverAPI - Dummy custom instrument driver API assembly.

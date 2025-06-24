@@ -3,17 +3,17 @@
 namespace MyCompany.MyCustomInstrumentDriverAPI
 {
     /// <summary>
-    /// This is a fake driver class, contains dummy customer driver methods.
+    /// This is a fake driver class containing dummy driver methods. This class would typically be specific to an actual hardware driver for controlling an instrument.
     /// </summary>
     public class CustomInstrumentDriver
     {
         /// <summary>
-        /// Initializes customer driver session.
+        /// Initializes dummy driver session.
         /// </summary>
         /// <param name="resourceName">Resource name.</param>
         public CustomInstrumentDriver(string resourceName)
         {
-            // Initialize customer driver session.
+            // Initialize dummy driver session.
         }
 
         /// <summary>
@@ -35,9 +35,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         /// <summary>
         /// Dummy driver method for write data operation.
         /// </summary>
-        /// <param name="parameter1">Parameter1.</param>
-        /// <param name="parameter2">Parameter2.</param>
-        public void WriteData(double parameter1, double parameter2)
+        /// <param name="data">The data to be written.</param>
+        public void WriteData(double data)
         {
             // Driver code.
         }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument;
@@ -8,24 +9,24 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
 {
     /// <summary>
-    /// This class contains sample TestStep methods to test DUTs using DriverOperation extension methods.
+    /// This class contains sample methods to perform high-level testing of the DUT using the custom instrument support provided by STL.
     /// </summary>
     /// <remarks>
-    /// Considering DUT to be some kind of DAC (Digital to Analog Converter). Creating some common TestSteps to perform Static Tests on the DUT.
-    /// Also, considering CustomInstrument to be some kind of DAQ device, which can source digital signal and measure analog signals.
+    /// This hypothetical example considers the Device Under Test (DUT) to be some kind of Digital to Analog Converter (DAC) and the Custom Instrument to be some kind of multifunctional Data Acquisition (DAQ) device capable of sourcing digital signals and acquiring analog signals. The DUT is connected to the Custom Instrument so that it can receive digital signals from the Custom Instrument and output an analog signal back to the Custom Instrument to be acquired.
     /// </remarks>
     public static partial class TestSteps
     {
         /// <summary>
-        /// Performs functional test by providing specified digital input signal (Pin wise) and measures analog signal (Pin wise).
+        /// Demonstrates the use of the HighLevelDriverOperations extension methods to perform a hypothetical functional test of the DUT, where the Custom Instrument sends a digital signal, waits for the DUT to settle, and then measures the analog signal returned from the DUT.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="digitalInputPins">DAC digital input pins.</param>
-        /// <param name="analogOutputPins">DAC analog output pins.</param>
-        /// <param name="pinData">Digital input data pinwise.</param>
-        /// <param name="publishedDataID">Published data ID.</param>
+        /// <param name="digitalInputPins">The DUT's digital input pins.</param>
+        /// <param name="analogOutputPins">The DUT's analog output pin(s).</param>
+        /// <param name="pinData">The per-pin digital data to be sent to the DUT.</param>
+        /// <param name="publishedDataID">The data id to use for publishing the measurement result.</param>
         public static void FunctionalTest(ISemiconductorModuleContext tsmContext, string[] digitalInputPins, string[] analogOutputPins, double[] pinData, string publishedDataID)
         {
+            double sourceDelay = 2;
             // Generate pinSiteData.
             int[] sites = tsmContext.SiteNumbers.ToArray();
             var pinSiteData = new PinSiteData<double>(digitalInputPins, sites, pinData);
@@ -34,11 +35,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
             var tsmSessionManager = new TSMSessionManager(tsmContext);
 
             // Create bundle for DUT digital input pins and apply signal using custom instrument.
-            var digitalInputBundle = tsmSessionManager.CustomInstrument(MyCustomInstrumentFactory.CustomInstrumentTypeID, digitalInputPins);
+            var digitalInputBundle = tsmSessionManager.CustomInstrument(MyCustomInstrumentFactory.CustomInstrumentTypeId, digitalInputPins);
             digitalInputBundle.DriverOperationWithPinSiteDataInput(pinSiteData);
 
+            // Wait for certain time
+            Utilities.PreciseWait(sourceDelay);
+
             // Create session bundle for analog output pins and measure signal using custom instrument.
-            var analogOutputBundle = tsmSessionManager.CustomInstrument(MyCustomInstrumentFactory.CustomInstrumentTypeID, analogOutputPins);
+            var analogOutputBundle = tsmSessionManager.CustomInstrument(MyCustomInstrumentFactory.CustomInstrumentTypeId, analogOutputPins);
             var measurements = analogOutputBundle.DriverOperationThatReturnsPinSiteData();
 
             // Publish measured data.

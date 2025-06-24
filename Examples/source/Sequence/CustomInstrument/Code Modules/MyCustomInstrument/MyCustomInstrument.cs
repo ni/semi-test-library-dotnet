@@ -1,5 +1,4 @@
 ﻿using MyCompany.MyCustomInstrumentDriverAPI;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument
@@ -16,8 +15,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// The custom instrument driver object.
         /// </summary>
         /// <remarks>
-        /// If the Driver Session is a class object, then create property with datatype same as class object type.
-        /// If the Driver Session is not a class object, for example, String type or Integer type, then define them as such with a* default data value or make the type nullable.
+        /// If the Driver Session is a class object, then this property should have a data type matching that class.
+        /// If the Driver Session is not a class object, for example, String type or Integer type, then define this property with that type.
+        /// Be sure to update the constructor when changing the type of this property, so that the initial value is set appropriately.
         /// </remarks>
         public CustomInstrumentDriver InstrumentDriverSession { get; private set; }
 
@@ -27,10 +27,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         public string InstrumentName { get; }
 
         /// <summary>
-        /// Channel information.
+        /// Channel group information.
         /// </summary>
         /// <remarks>
-        /// Optionally, store channel information for later use.
+        /// Optionally, store channel group information for later use.
         /// </remarks>
         public string ChannelGroupId { get; }
 
@@ -64,7 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
 
             InstrumentDriverSession = new CustomInstrumentDriver(ResourceName);
 
-            // Initialize other data members.
+            // Initialize any additional data members here, as needed.
         }
 
         /// <summary>

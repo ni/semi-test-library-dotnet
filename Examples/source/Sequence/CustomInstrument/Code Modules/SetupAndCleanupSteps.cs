@@ -7,7 +7,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
 {
     /// <summary>
-    /// This class contains sample methods to perform Setup and Cleanup operations using Custom Instrument Support provided in STL.
+    /// This class contains sample methods to perform instrument setup and cleanup operations using the custom instrument support provided by STL.
     /// </summary>
     public static partial class SetupAndCleanupSteps
     {
@@ -28,10 +28,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         public static void CleanupMyCustomInstruments(ISemiconductorModuleContext tsmContext)
         {
-            OptionallyClearConfigurations(tsmContext, MyCustomInstrumentFactory.CustomInstrumentTypeID);
+            OptionallyClearConfigurations(tsmContext, MyCustomInstrumentFactory.CustomInstrumentTypeId);
 
             // Close all references of custom instruments.
-            InitializeAndClose.Close(tsmContext, MyCustomInstrumentFactory.CustomInstrumentTypeID);
+            InitializeAndClose.Close(tsmContext, MyCustomInstrumentFactory.CustomInstrumentTypeId);
         }
 
         /// <summary>
