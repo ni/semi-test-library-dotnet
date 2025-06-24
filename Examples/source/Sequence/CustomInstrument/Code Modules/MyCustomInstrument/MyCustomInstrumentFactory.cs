@@ -1,4 +1,6 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
+﻿using System;
+using System.Linq.Expressions;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument
 {
@@ -17,6 +19,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// Also, note that this a work around for a known limitation of the C# language, which does not allow an interface to define static properties or constant fields.
         /// </remarks>
         public const string CustomInstrumentTypeId = "MyUniqueCustomInstrumentTypeId";
+
+        /// <summary>
+        /// Pinmap type
+        /// </summary>
+        public const string PinmapType = "Session per Channel Group";
 
         /// <summary>
         /// The unique instrument type ID associated with the instrument.
@@ -51,6 +58,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         public void ValidateCustomInstruments(string[] instrumentNames, string[] channelGroupIds, string[] channelLists)
         {
             // Validate Custom instruments and raise an exception if validation fails.
+            switch (PinmapType)
+            {
+                case "Session per Channel":
+                    // ensure all elements in channelGroupId is same as channelLists
+                    for (int i = 0; i < channelGroupIds.Length; i++)
+                    {
+                        if ( channelGroupIds[i] != channelLists[i])
+                        {
+                            throw new InvalidOperationException("Pinamp is not valid");
+                        }
+                    }
+                    break;
+
+                case "Session per Channel Group":
+                    // Add code validate pinmap 
+                    break;
+
+                case "Session per Instrument":
+                    // ensure elements in channelGroupId is same as "allChannels"
+                    foreach (string channelGroupId in channelGroupIds)
+                    {
+                        if (channelGroupId != "allChannels")
+                        {
+                            throw new InvalidOperationException("Pinamp is not valid");
+                        }
+                    }
+                    break;
+
+                default:
+                    // No validation
+                    break;
+            }
         }
     }
 }
