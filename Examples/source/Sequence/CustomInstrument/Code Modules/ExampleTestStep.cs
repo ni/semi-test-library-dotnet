@@ -36,14 +36,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
 
             // Create bundle for DUT digital input pins and apply signal using custom instrument.
             var digitalInputBundle = tsmSessionManager.CustomInstrument(MyCustomInstrumentFactory.CustomInstrumentTypeId, digitalInputPins);
-            digitalInputBundle.DriverOperationWithPinSiteDataInput(pinSiteData);
+            digitalInputBundle.WriteData(pinSiteData);
 
             // Wait for certain time
             Utilities.PreciseWait(sourceDelay);
 
             // Create session bundle for analog output pins and measure signal using custom instrument.
             var analogOutputBundle = tsmSessionManager.CustomInstrument(MyCustomInstrumentFactory.CustomInstrumentTypeId, analogOutputPins);
-            var measurements = analogOutputBundle.DriverOperationThatReturnsPinSiteData();
+            var measurements = analogOutputBundle.MeasureData();
 
             // Publish measured data.
             tsmContext.PublishResults(measurements, publishedDataID);
