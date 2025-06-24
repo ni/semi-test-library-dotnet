@@ -1,6 +1,5 @@
 name: Trigger DocFX Release Flow
 
-# Do we want to check which branch we run this workflow on ??
 on:
   workflow_dispatch:
     inputs:
@@ -25,11 +24,6 @@ jobs:
   trigger-docfx:
     runs-on: ubuntu-latest
     environment: gh-action-testing
-
-    ###### Should we use this environment or not? Is there a way to test this? #####
-    # environment:
-    #   name: github-pages
-    #   url: ${{ steps.deployment.outputs.page_url }}
     env:
       AZDO_ORG: ni
       AZDO_PROJECT: DevCentral
