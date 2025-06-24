@@ -4,6 +4,10 @@ name: Trigger DocFX Release Flow
 on:
   workflow_dispatch:
     inputs:
+      azdoBranch:
+        type: string
+        description: "Target branch to use in Azure DevOps repository for building the DocFX documentation (e.g., main, releases/*)"
+        default: "main"
       dryRun:
         type: choice
         description: "Run in dry run mode?"
@@ -37,19 +41,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Asked input for GitHub Branch, but not used it yet have to provide input to Azure Pipeline if needed
       # Step 2: Trigger the Azure DevOps pipeline
       - name: Trigger Azure DevOps pipeline
         id: trigger
         run: |
-          AZDO_BRANCH="main"
+          AZDO_BRANCH="${{ inputs.azdoBranch }}"
+
           echo "Triggering Azure DevOps pipeline..."
+          echo "GitHub Branch used: $GITHUB_BRANCH"
+          echo "Azure DevOps Branch used: $AZDO_BRANCH"                    
       
-          # NOTE: GitHub input 'branch' is collected but not used yet
-          echo "GitHub branch input (unused for now): $GITHUB_BRANCH"
-      
+          # Passed GitHub Branch as an input to the Azure DevOps pipeline parameter      
           BODY=$(jq -n \
             --arg ref "refs/heads/$AZDO_BRANCH" \
+            --arg ghBranch "$GITHUB_BRANCH" \
             '{
               resources: {
                 repositories: {
@@ -57,6 +62,9 @@ jobs:
                     refName: $ref
                   }
                 }
+              },
+              templateParameters: {
+                githubBranch: $ghBranch
               }
             }')
       
