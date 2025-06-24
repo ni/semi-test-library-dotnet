@@ -1,4 +1,4 @@
-name: Trigger DocFX Release Flow
+name: Update Documentation on GitHub Pages
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ permissions:
   id-token: write      # Required for OIDC authentication with GitHub Pages (used internally by deploy-pages action)
 
 jobs:
-  trigger-docfx:
+  update-gitHub-pages-documentation:
     runs-on: ubuntu-latest
     environment: gh-action-testing
     env:
