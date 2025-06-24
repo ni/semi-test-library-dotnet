@@ -117,9 +117,8 @@ jobs:
             exit 1
           fi
 
-      # Step 4: In dry run mode, provide Artifact Link
+      # Step 4: Provide Artifact Link
       - name: Output Azure DevOps Artifact Link (Dry Run)
-        if: ${{ inputs.dryRun == 'true' }}
         run: |
           RUN_ID=${{ steps.trigger.outputs.run_id }}
           ARTIFACT_UI_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_build/results?buildId=$RUN_ID&view=artifacts"
