@@ -30,6 +30,9 @@
     <None Remove="packages\**" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="MyCustomInstrumentDriverAPI">
       <HintPath>Imports\MyCustomInstrumentDriverAPI\MyCustomInstrumentDriverAPI.dll</HintPath>
     </Reference>

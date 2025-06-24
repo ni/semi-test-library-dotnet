@@ -27,24 +27,23 @@
             This class contains example methods to perform driver operations using Custom Instrument support provided in STL.
             </summary>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations.DriverOperationWithScalarInputs(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle,System.Double,System.Double)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations.WriteData(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle,System.Double)">
             <summary>
-            Sample method to perform driver operation without a return value.
+            Sample method to perform a driver write operation without a return value using a scalar input.
             </summary>
             <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
-            <param name="parameter1">1st parameter.</param>
-            <param name="parameter2">2nd parameter.</param>
+            <param name="data">The data to be written.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations.DriverOperationWithPinSiteDataInput(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double})">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations.WriteData(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{System.Double})">
             <summary>
-            Sample method to perform pin/site specific driver write operation using PinSiteData.
+            Sample method to perform a driver write operation without a return value using PinSiteData. Where the data value may be pin and/or site specific.
             </summary>
             <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
-            <param name="parameter">1st parameter.</param>
+            <param name="data">The data to be written.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations.DriverOperationThatReturnsPinSiteData(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.HighLevelDriverOperations.MeasureData(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionsBundle)">
             <summary>
-            Sample method to perform driver operation with a return value.
+            Sample method to perform a driver read operation with a pin and/or site specific return value.
             </summary>
             <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
             <returns>Measured values as PinSiteData.</returns>
