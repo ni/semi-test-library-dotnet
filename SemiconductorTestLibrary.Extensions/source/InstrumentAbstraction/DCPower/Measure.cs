@@ -628,7 +628,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             else
             {
-                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList)
+                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.GroupBy(sitePin => sitePin.IndividualChannelString).Select(group => group.First()))
                 {
                     sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
                     configure(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString);
