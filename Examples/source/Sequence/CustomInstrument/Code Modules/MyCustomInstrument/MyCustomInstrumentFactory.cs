@@ -56,9 +56,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         {
             // Validate Custom instruments and raise an exception if validation fails.
             string[] uniqueChannelGroupIds = channelGroupIds.Distinct().ToArray();
-            var digitalChannelCount = uniqueChannelGroupIds.Count(s => s == "DigitalPins");
-            var analogChannelCount = uniqueChannelGroupIds.Count(s => s == "AnalogPins");
             var totalGroups = uniqueChannelGroupIds.Length;
+            string analogChannels = channelLists[Array.IndexOf(channelGroupIds, "AnalogInput")];
+            var analogChannelCount = analogChannels.Split(',').Length;
+            string digitalChannels = channelLists[Array.IndexOf(channelGroupIds, "DigitalIO")];
+            var digitalChannelCount = digitalChannels.Split(',').Length;
+
             if (totalGroups != 2 || digitalChannelCount != 8 || analogChannelCount != 4)
             {
                 throw new InvalidOperationException("Pinmap is not valid");
