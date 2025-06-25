@@ -414,10 +414,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do((DigitalSessionInformation sessionInfo, int instrumentIndex) =>
             {
-                for (int pinSetIndex = 0; pinSetIndex < sessionInfo.AssociatedSitePinList.Count; pinSetIndex++)
+                var sitepinList = sessionInfo.AssociatedSitePinList.GroupBy(sitePin => sitePin.IndividualChannelString)
+                .Select(group => group.First())
+                .ToList();
+                for (int pinSetIndex = 0; pinSetIndex < sitepinList.Count; pinSetIndex++)
                 {
                     sessionInfo.Session.PinAndChannelMap
-                        .GetPinSet(sessionInfo.AssociatedSitePinList.ElementAt(pinSetIndex).SitePinString)
+                        .GetPinSet(sitepinList[pinSetIndex].SitePinString)
                         .ApplyTdrOffsets(new IviDriverPrecisionTimeSpan[] { offsets[instrumentIndex][pinSetIndex] });
                 }
             });
