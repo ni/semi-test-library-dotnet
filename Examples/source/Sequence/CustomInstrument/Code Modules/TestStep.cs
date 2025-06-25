@@ -14,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
     /// <remarks>
     /// This hypothetical example considers the Device Under Test (DUT) to be some kind of Digital to Analog Converter (DAC) and the Custom Instrument to be some kind of multifunctional Data Acquisition (DAQ) device capable of sourcing digital signals and acquiring analog signals. The DUT is connected to the Custom Instrument so that it can receive digital signals from the Custom Instrument and output an analog signal back to the Custom Instrument to be acquired.
     /// </remarks>
-    public static partial class TestSteps
+    public static partial class TestStep
     {
         /// <summary>
         /// Demonstrates the use of the HighLevelDriverOperations extension methods to perform a hypothetical functional test of the DUT, where the Custom Instrument sends a digital signal, waits for the DUT to settle, and then measures the analog signal returned from the DUT.
@@ -26,7 +26,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// <param name="publishedDataID">The data id to use for publishing the measurement result.</param>
         public static void FunctionalTest(ISemiconductorModuleContext tsmContext, string[] digitalInputPins, string[] analogOutputPins, double[] pinData, string publishedDataID)
         {
-            double sourceDelay = 2;
+            // The amount of time in seconds to wait for the DUT's output to settle.
+            double settlingTime = 0.2;
+
             // Generate pinSiteData.
             int[] sites = tsmContext.SiteNumbers.ToArray();
             var pinSiteData = new PinSiteData<double>(digitalInputPins, sites, pinData);
@@ -38,8 +40,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
             var digitalInputBundle = tsmSessionManager.CustomInstrument(MyCustomInstrumentFactory.CustomInstrumentTypeId, digitalInputPins);
             digitalInputBundle.WriteData(pinSiteData);
 
-            // Wait for certain time
-            Utilities.PreciseWait(sourceDelay);
+            // Need to wait for the DUT's output to settle before measuring.
+            Utilities.PreciseWait(settlingTime);
 
             // Create session bundle for analog output pins and measure signal using custom instrument.
             var analogOutputBundle = tsmSessionManager.CustomInstrument(MyCustomInstrumentFactory.CustomInstrumentTypeId, analogOutputPins);

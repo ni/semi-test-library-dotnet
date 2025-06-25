@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument
@@ -20,11 +21,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// Also, note that this a work around for a known limitation of the C# language, which does not allow an interface to define static properties or constant fields.
         /// </remarks>
         public const string CustomInstrumentTypeId = "MyUniqueCustomInstrumentTypeId";
-
-        /// <summary>
-        /// Pinmap type
-        /// </summary>
-        public string PinmapType => "Session per Channel Group";
 
         /// <summary>
         /// The unique instrument type ID associated with the instrument.
@@ -59,31 +55,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         public void ValidateCustomInstruments(string[] instrumentNames, string[] channelGroupIds, string[] channelLists)
         {
             // Validate Custom instruments and raise an exception if validation fails.
-            switch (PinmapType)
+            string[] uniqueChannelGroupIds = channelGroupIds.Distinct().ToArray();
+            var digitalChannelCount = uniqueChannelGroupIds.Count(s => s == "DigitalPins");
+            var analogChannelCount = uniqueChannelGroupIds.Count(s => s == "AnalogPins");
+            var totalGroups = uniqueChannelGroupIds.Length;
+            if (totalGroups != 2 || digitalChannelCount != 8 || analogChannelCount != 4)
             {
-                case "Session per Channel":
-                    // ensure all elements in channelGroupId is same as channelLists
-                    if (!channelGroupIds.SequenceEqual(channelLists))
-                    {
-                        throw new InvalidOperationException("Pinmap is not valid");
-                    }
-                    break;
-
-                case "Session per Channel Group":
-                    // Add code validate pinmap 
-                    break;
-
-                case "Session per Instrument":
-                    // ensure elements in channelGroupId is same as "allChannels"
-                    if (channelGroupIds.Any(id => id != "allChannels"))
-                    {
-                        throw new InvalidOperationException("Pinmap is not valid");
-                    }
-                    break;
-
-                default:
-                    // No validation
-                    break;
+                throw new InvalidOperationException("Pinmap is not valid");
             }
         }
     }
