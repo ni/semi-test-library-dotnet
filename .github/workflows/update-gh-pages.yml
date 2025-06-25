@@ -88,7 +88,7 @@ jobs:
         run: |
           RUN_ID="${{ steps.trigger.outputs.run_id }}"
           TIMEOUT=3600   # fail after 1 hour
-          INTERVAL=60    # checking status every 1 minute
+          INTERVAL=120    # checking status every 2 minute
           ELAPSED=0
           STATUS="inProgress"
       
