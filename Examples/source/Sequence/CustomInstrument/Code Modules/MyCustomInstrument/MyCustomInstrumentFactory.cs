@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
@@ -23,7 +24,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// <summary>
         /// Pinmap type
         /// </summary>
-        public const string PinmapType = "Session per Channel Group";
+        public string PinmapType => "Session per Channel Group";
 
         /// <summary>
         /// The unique instrument type ID associated with the instrument.
@@ -62,12 +63,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
             {
                 case "Session per Channel":
                     // ensure all elements in channelGroupId is same as channelLists
-                    for (int i = 0; i < channelGroupIds.Length; i++)
+                    if (!channelGroupIds.SequenceEqual(channelLists))
                     {
-                        if ( channelGroupIds[i] != channelLists[i])
-                        {
-                            throw new InvalidOperationException("Pinamp is not valid");
-                        }
+                        throw new InvalidOperationException("Pinmap is not valid");
                     }
                     break;
 
@@ -77,12 +75,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
 
                 case "Session per Instrument":
                     // ensure elements in channelGroupId is same as "allChannels"
-                    foreach (string channelGroupId in channelGroupIds)
+                    if (channelGroupIds.Any(id => id != "allChannels"))
                     {
-                        if (channelGroupId != "allChannels")
-                        {
-                            throw new InvalidOperationException("Pinamp is not valid");
-                        }
+                        throw new InvalidOperationException("Pinmap is not valid");
                     }
                     break;
 
