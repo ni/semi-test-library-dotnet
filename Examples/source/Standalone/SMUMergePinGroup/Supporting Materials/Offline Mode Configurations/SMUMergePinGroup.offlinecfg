@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SystemConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaVersion="1.0" xmlns="http://www.ni.com/TestStand/SemiconductorModule/SystemConfiguration.xsd">
+  <!-- The following is an example configuration taken from the TSM Accelerometer example. -->
+  <!-- Refer to the Obtaining an Offline Mode System Configuration File (TSM) topic in the TestStand Semiconductor Module user manual for more details -->
+  <PXIChassis Number="1" Model="NI PXIe-1085">
+    <PXI Name="SMU_4147_C1_S05" Model="NI PXIe-4147" Slot="5" />
+  </PXIChassis>
+</SystemConfiguration>
