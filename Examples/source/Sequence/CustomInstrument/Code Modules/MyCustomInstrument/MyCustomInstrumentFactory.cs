@@ -1,7 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument
@@ -51,20 +50,48 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// <param name="channelLists">Channel lists</param>
         /// <Remarks>
         /// This method is called as part of initialization of custom instruments.
+        /// Each instrument should have two ChannelgroupIDs, one group should be for digital channels from dio to dio7 and another group should be for analog channels ai0 to ai3.
         /// </Remarks>
         public void ValidateCustomInstruments(string[] instrumentNames, string[] channelGroupIds, string[] channelLists)
         {
             // Validate Custom instruments and raise an exception if validation fails.
-            string[] uniqueChannelGroupIds = channelGroupIds.Distinct().ToArray();
-            var totalGroups = uniqueChannelGroupIds.Length;
-            string analogChannels = channelLists[Array.IndexOf(channelGroupIds, "AnalogInput")];
-            var analogChannelCount = analogChannels.Split(',').Length;
-            string digitalChannels = channelLists[Array.IndexOf(channelGroupIds, "DigitalIO")];
-            var digitalChannelCount = digitalChannels.Split(',').Length;
+            int expectedGroupCount = 2;
+            List<string> expectedChannelList = new List<string>() { "ai0,ai1,ai2,ai3", "dio0,dio1,dio2,dio3,dio4,dio5,dio6,dio7" };
+            var uniqueInstrumentNames = instrumentNames.Distinct().ToArray();
+            var instrumentCount = uniqueInstrumentNames.Length;
 
-            if (totalGroups != 2 || digitalChannelCount != 8 || analogChannelCount != 4)
+            // Validate separately for each instrument.
+            foreach (string instrumentName in uniqueInstrumentNames)
             {
-                throw new InvalidOperationException("Pinmap is not valid");
+                List<string> groupIds = new List<string>();
+                List<string> channelIds = new List<string>();
+
+                for (int i = 0; i < instrumentNames.Length; i++)
+                {
+                    if ( instrumentName == instrumentNames[i])
+                    {
+                        groupIds.Add(channelGroupIds[i]);
+                        channelIds.Add(channelLists[i]);
+                    }
+                }
+
+                var groupIdCount = groupIds.Count;
+                var uniqueGroupIds = groupIds.Distinct().ToArray();
+                var uniqueGroupIdCount = uniqueGroupIds.Length;
+
+                // Sort channelList.
+                for (int i = 0; i < channelIds.Count; i++)
+                {
+                    var channelArray = channelIds[i].Split(',').Select(s => s.Trim()).ToArray();
+                    Array.Sort(channelArray);
+                    channelIds[i] = string.Join(",", channelArray);
+                }
+                channelIds.Sort();
+
+                if (groupIdCount != expectedGroupCount || uniqueGroupIdCount != expectedGroupCount || !channelIds.SequenceEqual(expectedChannelList))
+                {
+                    throw new InvalidOperationException("Pinmap is not valid");
+                }
             }
         }
     }
