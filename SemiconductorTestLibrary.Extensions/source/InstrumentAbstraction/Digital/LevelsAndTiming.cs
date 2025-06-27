@@ -256,8 +256,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return sessionsBundle.DoAndReturnPerSitePerPinResults((DigitalSessionInformation sessionInfo) =>
             {
                 var period = sessionInfo.Session.Timing.GetTimeSet(timeSet).Period;
-                return Enumerable.Repeat(period, sessionInfo.AssociatedSitePinList.GroupBy(sitePin => sitePin.IndividualChannelString)
-                .Select(group => group.First()).Count()).ToArray();
+                return Enumerable.Repeat(period, sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.SkipOperations != true).Count()).ToArray();
             });
         }
 
@@ -415,8 +414,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do((DigitalSessionInformation sessionInfo, int instrumentIndex) =>
             {
-                var sitepinList = sessionInfo.AssociatedSitePinList.GroupBy(sitePin => sitePin.IndividualChannelString)
-                .Select(group => group.First()).ToList();
+                var sitepinList = sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.SkipOperations != true).ToList();
                 for (int pinSetIndex = 0; pinSetIndex < sitepinList.Count; pinSetIndex++)
                 {
                     sessionInfo.Session.PinAndChannelMap
@@ -524,8 +522,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 for (int instrumentIndex = 0; instrumentIndex < offsets.Length; instrumentIndex++)
                 {
-                    var sitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList.GroupBy(sitePin => sitePin.IndividualChannelString)
-                    .Select(group => group.First()).ToList();
+                    var sitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList.Where(sitePin => sitePin.SkipOperations != true).ToList();
                     for (int channelIndex = 0; channelIndex < sitePinList.Count; channelIndex++)
                     {
                         file.WriteLine($"{sitePinList[channelIndex].SitePinString}:{offsets[instrumentIndex][channelIndex].ToDecimal()}");
@@ -594,8 +591,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             var missingChannels = new List<string>();
             for (int instrumentIndex = 0; instrumentIndex < instrumentCount; instrumentIndex++)
             {
-                var sitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList.GroupBy(sitePin => sitePin.IndividualChannelString)
-                .Select(group => group.First()).ToList();
+                var sitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList.Where(sitePin => sitePin.SkipOperations != true).ToList();
                 offsets[instrumentIndex] = new IviDriverPrecisionTimeSpan[sitePinList.Count];
                 for (int channelIndex = 0; channelIndex < sitePinList.Count; channelIndex++)
                 {
