@@ -536,7 +536,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var session = sessionInfo.Session;
             var lockObject = new object();
 
-            int channelCount = sessionInfo.AssociatedSitePinList.Select(sitePin => sitePin.SkipOperations != true).Count();
+            int channelCount = sessionInfo.AssociatedSitePinList.Select(sitePin => !sitePin.SkipOperations).Count();
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
 
@@ -628,7 +628,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             else
             {
-                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.SkipOperations != true))
+                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations))
                 {
                     sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
                     configure(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString);

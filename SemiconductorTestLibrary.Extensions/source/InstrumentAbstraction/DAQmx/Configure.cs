@@ -130,7 +130,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQ
         {
             return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
             {
-                return Enumerable.Repeat(taskInfo.Task.Timing.SampleClockRate, taskInfo.AssociatedSitePinList.Where(sitePin => sitePin.SkipOperations != true).Count()).ToArray();
+                return Enumerable.Repeat(taskInfo.Task.Timing.SampleClockRate, taskInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).Count()).ToArray();
             });
         }
     }
