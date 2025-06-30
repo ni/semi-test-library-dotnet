@@ -54,43 +54,45 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// </Remarks>
         public void ValidateCustomInstruments(string[] instrumentNames, string[] channelGroupIds, string[] channelLists)
         {
-            // Validate Custom instruments and raise an exception if validation fails.
-            int expectedGroupCount = 2;
-            List<string> expectedChannelList = new List<string>() { "ai0,ai1,ai2,ai3", "dio0,dio1,dio2,dio3,dio4,dio5,dio6,dio7" };
-            var uniqueInstrumentNames = instrumentNames.Distinct().ToArray();
-            var instrumentCount = uniqueInstrumentNames.Length;
+            // Reconstruct the instrumentNames and channelLists inputs into the format of IEnumerable<KeyValuePair<instrumentName, channelNames[]>>.
+            // Each KeyValuePair element corresponds to one channel group.
+            var instruments = instrumentNames.Zip(channelLists, (instrumentName, channelList)
+                => new KeyValuePair<string, string[]>(instrumentName, channelList.Split(',')));
 
-            // Validate separately for each instrument.
-            foreach (string instrumentName in uniqueInstrumentNames)
+            // Group the instruments by name.
+            var instrumentsByName = instruments.GroupBy(instrument => instrument.Key);
+            // Check if all instruments have 2 channel groups.
+            if (instrumentsByName.Any(instrument => instrument.Count() != 2))
             {
-                List<string> groupIds = new List<string>();
-                List<string> channelIds = new List<string>();
+                throw new ArgumentException("Some instrument does not have 2 channel groups.");
+            }
 
-                for (int i = 0; i < instrumentNames.Length; i++)
+            foreach (var instrument in instrumentsByName)
+            {
+                bool hasDigitalChannelsGroup = false;
+                bool hasAnalogChannelsGroup = false;
+                foreach (var channelGroup in instrument)
                 {
-                    if ( instrumentName == instrumentNames[i])
+                    // Generate sorted channelString
+                    var channelArray = channelGroup.Value.Select(s => s.Trim()).ToArray();
+                    Array.Sort(channelArray);
+                    var channelString = string.Join(",", channelArray);
+
+                    // Check if channel string is  digital channel group.
+                    if (channelString == "dio0,dio1,dio2,dio3,dio4,dio5,dio6,dio7")
                     {
-                        groupIds.Add(channelGroupIds[i]);
-                        channelIds.Add(channelLists[i]);
+                        hasDigitalChannelsGroup = true;
+                    }
+                    // Check if channel string is analog channel group.
+                    if (channelString == "ai0,ai1,ai2,ai3")
+                    {
+                        hasAnalogChannelsGroup = true;
                     }
                 }
-
-                var groupIdCount = groupIds.Count;
-                var uniqueGroupIds = groupIds.Distinct().ToArray();
-                var uniqueGroupIdCount = uniqueGroupIds.Length;
-
-                // Sort channelList.
-                for (int i = 0; i < channelIds.Count; i++)
+                // Check if one of the two channel groups of this instrument is digital and the other is analog.
+                if (!hasDigitalChannelsGroup || !hasAnalogChannelsGroup)
                 {
-                    var channelArray = channelIds[i].Split(',').Select(s => s.Trim()).ToArray();
-                    Array.Sort(channelArray);
-                    channelIds[i] = string.Join(",", channelArray);
-                }
-                channelIds.Sort();
-
-                if (groupIdCount != expectedGroupCount || uniqueGroupIdCount != expectedGroupCount || !channelIds.SequenceEqual(expectedChannelList))
-                {
-                    throw new InvalidOperationException("Pinmap is not valid");
+                    throw new ArgumentException($"The {instrument.Key} instrument either does not have a digital channel group or does not have an analog channel group.");
                 }
             }
         }
