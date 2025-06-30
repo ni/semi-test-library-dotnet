@@ -43,6 +43,29 @@
             </summary>
             <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.InvalidCustomInstrumentPinMapDefinitionException">
+            <summary>
+            Define specific exception for Pinmap validation.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.InvalidCustomInstrumentPinMapDefinitionException.#ctor">
+            <summary>
+            Initializes a new instance of the<see cref = "T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.InvalidCustomInstrumentPinMapDefinitionException" /> class.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.InvalidCustomInstrumentPinMapDefinitionException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the<see cref = "T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.InvalidCustomInstrumentPinMapDefinitionException" /> class with an error message.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.InvalidCustomInstrumentPinMapDefinitionException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the<see cref = "T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.InvalidCustomInstrumentPinMapDefinitionException" /> class with an error message and a reference to the inner exception resulting in this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception resulting in the current exception.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument.MyCustomInstrument">
             <summary>
             Concrete implementation of ICustomInstrument Interface.
@@ -151,6 +174,7 @@
             <param name="channelLists">Channel lists</param>
             <Remarks>
             This method is called as part of initialization of custom instruments.
+            Each instrument should have two ChannelgroupIDs, one group should be for digital channels from dio to dio7 and another group should be for analog channels ai0 to ai3.
             </Remarks>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.SetupAndCleanupSteps">

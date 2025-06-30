@@ -64,7 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
             // Check if all instruments have 2 channel groups.
             if (instrumentsByName.Any(instrument => instrument.Count() != 2))
             {
-                throw new ArgumentException("Some instrument does not have 2 channel groups.");
+                throw new InvalidCustomInstrumentPinMapDefinitionException("One or more instrument does not have 2 channel groups.");
             }
 
             foreach (var instrument in instrumentsByName)
@@ -92,7 +92,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
                 // Check if one of the two channel groups of this instrument is digital and the other is analog.
                 if (!hasDigitalChannelsGroup || !hasAnalogChannelsGroup)
                 {
-                    throw new ArgumentException($"The {instrument.Key} instrument either does not have a digital channel group or does not have an analog channel group.");
+                    throw new InvalidCustomInstrumentPinMapDefinitionException($"The {instrument.Key} instrument either does not have a digital channel group or does not have an analog channel group.");
                 }
             }
         }
