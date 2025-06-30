@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4163_C2_S02" numberOfChannels="24">
+			<ChannelGroup name="CommonDCPowerChannelGroup" />
+		</NIDCPowerInstrument>
+	</Instruments>
+	<Pins>
+		<DUTPin name="Vaaa" />
+		<DUTPin name="Vaab" />
+		<DUTPin name="Vaba" />
+		<DUTPin name="Vabb" />
+		<DUTPin name="Vbaa" />
+		<DUTPin name="Vbab" />
+		<DUTPin name="Vbba" />
+		<DUTPin name="Vbbb" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="G1_1mA">
+			<PinReference pin="Vaaa" />
+			<PinReference pin="Vaab" />
+		</PinGroup>
+		<PinGroup name="G2_1mA">
+			<PinReference pin="Vaba" />
+			<PinReference pin="Vabb" />
+		</PinGroup>
+		<PinGroup name="G3_1mA">
+			<PinReference pin="Vbaa" />
+			<PinReference pin="Vbab" />
+		</PinGroup>
+		<PinGroup name="G4_1mA">
+			<PinReference pin="Vbba" />
+			<PinReference pin="Vbbb" />
+		</PinGroup>
+		<PinGroup name="G1_2mA">
+			<PinReference pin="Vaaa" />
+			<PinReference pin="Vaab" />
+			<PinReference pin="Vaba" />
+			<PinReference pin="Vabb" />
+		</PinGroup>
+		<PinGroup name="G2_2mA">
+			<PinReference pin="Vbaa" />
+			<PinReference pin="Vbab" />
+			<PinReference pin="Vbba" />
+			<PinReference pin="Vbbb" />
+		</PinGroup>
+		<PinGroup name="G1_4mA">
+			<PinReference pin="Vaaa" />
+			<PinReference pin="Vaab" />
+			<PinReference pin="Vaba" />
+			<PinReference pin="Vabb" />
+			<PinReference pin="Vbaa" />
+			<PinReference pin="Vbab" />
+			<PinReference pin="Vbba" />
+			<PinReference pin="Vbbb" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+	</Sites>
+	<Connections>
+		<Connection pin="Vaaa" siteNumber="0" instrument="SMU_4163_C2_S02" channel="0" />
+		<Connection pin="Vaaa" siteNumber="1" instrument="SMU_4163_C2_S02" channel="8" />
+		<Connection pin="Vaaa" siteNumber="2" instrument="SMU_4163_C2_S02" channel="16" />
+		<Connection pin="Vaab" siteNumber="0" instrument="SMU_4163_C2_S02" channel="1" />
+		<Connection pin="Vaab" siteNumber="1" instrument="SMU_4163_C2_S02" channel="9" />
+		<Connection pin="Vaab" siteNumber="2" instrument="SMU_4163_C2_S02" channel="17" />
+		<Connection pin="Vaba" siteNumber="0" instrument="SMU_4163_C2_S02" channel="2" />
+		<Connection pin="Vaba" siteNumber="1" instrument="SMU_4163_C2_S02" channel="10" />
+		<Connection pin="Vaba" siteNumber="2" instrument="SMU_4163_C2_S02" channel="18" />
+		<Connection pin="Vabb" siteNumber="0" instrument="SMU_4163_C2_S02" channel="3" />
+		<Connection pin="Vabb" siteNumber="1" instrument="SMU_4163_C2_S02" channel="11" />
+		<Connection pin="Vabb" siteNumber="2" instrument="SMU_4163_C2_S02" channel="19" />
+		<Connection pin="Vbaa" siteNumber="0" instrument="SMU_4163_C2_S02" channel="4" />
+		<Connection pin="Vbaa" siteNumber="1" instrument="SMU_4163_C2_S02" channel="12" />
+		<Connection pin="Vbaa" siteNumber="2" instrument="SMU_4163_C2_S02" channel="20" />
+		<Connection pin="Vbab" siteNumber="0" instrument="SMU_4163_C2_S02" channel="5" />
+		<Connection pin="Vbab" siteNumber="1" instrument="SMU_4163_C2_S02" channel="13" />
+		<Connection pin="Vbab" siteNumber="2" instrument="SMU_4163_C2_S02" channel="21" />
+		<Connection pin="Vbba" siteNumber="0" instrument="SMU_4163_C2_S02" channel="6" />
+		<Connection pin="Vbba" siteNumber="1" instrument="SMU_4163_C2_S02" channel="14" />
+		<Connection pin="Vbba" siteNumber="2" instrument="SMU_4163_C2_S02" channel="22" />
+		<Connection pin="Vbbb" siteNumber="0" instrument="SMU_4163_C2_S02" channel="7" />
+		<Connection pin="Vbbb" siteNumber="1" instrument="SMU_4163_C2_S02" channel="15" />
+		<Connection pin="Vbbb" siteNumber="2" instrument="SMU_4163_C2_S02" channel="23" />
+	</Connections>
+</PinMap>
