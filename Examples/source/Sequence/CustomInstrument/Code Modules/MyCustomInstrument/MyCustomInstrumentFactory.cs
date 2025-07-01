@@ -57,7 +57,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
             // Reconstruct the instrumentNames and channelLists inputs into the format of IEnumerable<KeyValuePair<instrumentName, channelNames[]>>.
             // Each KeyValuePair element corresponds to one channel group.
             var instruments = instrumentNames.Zip(channelLists, (instrumentName, channelList)
-                => new KeyValuePair<string, string[]>(instrumentName, channelList.Split(',')));
+                => new KeyValuePair<string, string>(instrumentName, SortChannels(channelList)));
 
             // Group the instruments by name.
             var instrumentsByName = instruments.GroupBy(instrument => instrument.Key);
@@ -73,18 +73,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
                 bool hasAnalogChannelsGroup = false;
                 foreach (var channelGroup in instrument)
                 {
-                    // Generate sorted channelString
-                    var channelArray = channelGroup.Value.Select(s => s.Trim()).ToArray();
-                    Array.Sort(channelArray);
-                    var channelString = string.Join(",", channelArray);
-
                     // Check if channel string is  digital channel group.
-                    if (channelString == "dio0,dio1,dio2,dio3,dio4,dio5,dio6,dio7")
+                    if (channelGroup.Value == "dio0,dio1,dio2,dio3,dio4,dio5,dio6,dio7")
                     {
                         hasDigitalChannelsGroup = true;
                     }
                     // Check if channel string is analog channel group.
-                    if (channelString == "ai0,ai1,ai2,ai3")
+                    if (channelGroup.Value == "ai0,ai1,ai2,ai3")
                     {
                         hasAnalogChannelsGroup = true;
                     }
@@ -95,6 +90,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
                     throw new InvalidCustomInstrumentPinMapDefinitionException($"The {instrument.Key} instrument either does not have a digital channel group or does not have an analog channel group.");
                 }
             }
+        }
+
+        private string SortChannels(string channelList)
+        {
+            // Generate sorted channelString
+            var channelArray = channelList.Split(',').Select(channel => channel.Trim()).ToArray();
+            Array.Sort(channelArray);
+            return string.Join(",", channelArray);
         }
     }
 }
