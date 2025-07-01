@@ -28,7 +28,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Cascade
         [InlineData("G1_4mA")]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        public void InitializeSMU4147_MergePinGroupForceCurrentMeasureVoltageAndUnMerge(string pinGroup)
+        public void InitializeSMU4147_MergePinGroupForceCurrentMeasureVoltageAndUnMergeSucceeds(string pinGroup)
         {
             var tsmContext = CreateTSMContext("Merged_4147.pinmap");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
@@ -43,7 +43,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Cascade
         [InlineData("G1_4mA")]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        public void InitializeSMU4162_MergePinGroupForceCurrentMeasureVoltageAndUnMerge(string pinGroup)
+        public void InitializeSMU4162_MergePinGroupForceCurrentMeasureVoltageAndUnMergeSucceeds(string pinGroup)
         {
             var tsmContext = CreateTSMContext("Merged_4162.pinmap");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
@@ -56,7 +56,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Cascade
         [MemberData(nameof(GetPinGroupsSMU4163))]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        public void InitializeSMU4163_MergePinGroupForceCurrentMeasureVoltageAndUnMerge(string pinGroup)
+        public void InitializeSMU4163_MergePinGroupForceCurrentMeasureVoltageAndUnMergeSucceeds(string pinGroup)
         {
             var tsmContext = CreateTSMContext("Merged_4163.pinmap");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
