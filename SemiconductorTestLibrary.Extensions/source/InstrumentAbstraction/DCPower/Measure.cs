@@ -536,7 +536,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var session = sessionInfo.Session;
             var lockObject = new object();
 
-            int channelCount = sessionInfo.AssociatedSitePinList.Select(sitePin => !sitePin.SkipOperations).Count();
+            int channelCount = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).Count();
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
 

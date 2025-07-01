@@ -414,11 +414,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             sessionsBundle.Do((DigitalSessionInformation sessionInfo, int instrumentIndex) =>
             {
-                var sitepinList = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
-                for (int pinSetIndex = 0; pinSetIndex < sitepinList.Count; pinSetIndex++)
+                var filteredSitePinList = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+                for (int pinSetIndex = 0; pinSetIndex < filteredSitePinList.Count; pinSetIndex++)
                 {
                     sessionInfo.Session.PinAndChannelMap
-                        .GetPinSet(sitepinList[pinSetIndex].SitePinString)
+                        .GetPinSet(filteredSitePinList[pinSetIndex].SitePinString)
                         .ApplyTdrOffsets(new IviDriverPrecisionTimeSpan[] { offsets[instrumentIndex][pinSetIndex] });
                 }
             });
@@ -522,10 +522,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 for (int instrumentIndex = 0; instrumentIndex < offsets.Length; instrumentIndex++)
                 {
-                    var sitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
-                    for (int channelIndex = 0; channelIndex < sitePinList.Count; channelIndex++)
+                    var filteredSitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+                    for (int channelIndex = 0; channelIndex < filteredSitePinList.Count; channelIndex++)
                     {
-                        file.WriteLine($"{sitePinList[channelIndex].SitePinString}:{offsets[instrumentIndex][channelIndex].ToDecimal()}");
+                        file.WriteLine($"{filteredSitePinList[channelIndex].SitePinString}:{offsets[instrumentIndex][channelIndex].ToDecimal()}");
                     }
                 }
             }
@@ -591,11 +591,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             var missingChannels = new List<string>();
             for (int instrumentIndex = 0; instrumentIndex < instrumentCount; instrumentIndex++)
             {
-                var sitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
-                offsets[instrumentIndex] = new IviDriverPrecisionTimeSpan[sitePinList.Count];
-                for (int channelIndex = 0; channelIndex < sitePinList.Count; channelIndex++)
+                var filteredSitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+                offsets[instrumentIndex] = new IviDriverPrecisionTimeSpan[filteredSitePinList.Count];
+                for (int channelIndex = 0; channelIndex < filteredSitePinList.Count; channelIndex++)
                 {
-                    string sitePinString = sitePinList[channelIndex].SitePinString;
+                    string sitePinString = filteredSitePinList[channelIndex].SitePinString;
                     if (offsetsFromFile.TryGetValue(sitePinString, out var _))
                     {
                         offsets[instrumentIndex][channelIndex] = offsetsFromFile[sitePinString];
