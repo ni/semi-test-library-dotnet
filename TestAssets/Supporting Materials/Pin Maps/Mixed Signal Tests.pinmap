@@ -47,9 +47,6 @@
 			<PinReference pin="VCC2" />
 		</PinGroup>
 	</PinGroups>
-	<Relays></Relays>
-	<RelayGroups></RelayGroups>
-	<RelayConfigurations></RelayConfigurations>
 	<Sites>
 		<Site siteNumber="0" />
 		<Site siteNumber="1" />
