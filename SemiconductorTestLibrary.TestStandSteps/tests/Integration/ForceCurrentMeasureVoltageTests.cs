@@ -149,7 +149,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_MergePinGroupRunForceCurrentMeasureVoltageAndUnmergePinGroup()
+        public void Initialize_MergePinGroupRunForceCurrentMeasureVoltageAndUnmergePinGroupSucceeds()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
