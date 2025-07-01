@@ -64,7 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
             // Check if all instruments have 2 channel groups.
             if (instrumentsByName.Any(instrument => instrument.Count() != 2))
             {
-                throw new InvalidCustomInstrumentPinMapDefinitionException("One or more instrument does not have 2 channel groups.");
+                throw new InvalidCustomInstrumentPinMapDefinitionException("At least one instrument definition in the pin map lacks the required two channel groups: one for analog channels and another for digital channels.");
             }
 
             foreach (var instrument in instrumentsByName)
@@ -84,10 +84,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
                         hasAnalogChannelsGroup = true;
                     }
                 }
-                // Check if one of the two channel groups of this instrument is digital and the other is analog.
-                if (!hasDigitalChannelsGroup || !hasAnalogChannelsGroup)
+
+                if (!hasDigitalChannelsGroup)
                 {
-                    throw new InvalidCustomInstrumentPinMapDefinitionException($"The {instrument.Key} instrument either does not have a digital channel group or does not have an analog channel group.");
+                    throw new InvalidCustomInstrumentPinMapDefinitionException($"The pin map's instrument definition for {instrument.Key} lacks the expected digital channel group. Make sure the digital channel group is properly defined.");
+                }
+                if (!hasAnalogChannelsGroup)
+                {
+                    throw new InvalidCustomInstrumentPinMapDefinitionException($"The pin map's instrument definition for {instrument.Key} lacks the expected analog channel group. Make sure the analog channel group is properly defined.");
                 }
             }
         }
