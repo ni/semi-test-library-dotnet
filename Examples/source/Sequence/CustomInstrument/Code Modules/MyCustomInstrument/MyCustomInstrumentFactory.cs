@@ -54,7 +54,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
         /// </Remarks>
         public void ValidateCustomInstruments(string[] instrumentNames, string[] channelGroupIds, string[] channelLists)
         {
-            // Reconstruct the instrumentNames and channelLists inputs into the format of IEnumerable<KeyValuePair<instrumentName, channelNames[]>>.
+            // Reconstruct the instrumentNames and channelLists inputs into the format of IEnumerable<KeyValuePair<instrumentName, sortedChannelList>>.
             // Each KeyValuePair element corresponds to one channel group.
             var instruments = instrumentNames.Zip(channelLists, (instrumentName, channelList)
                 => new KeyValuePair<string, string>(instrumentName, SortChannels(channelList)));
@@ -73,12 +73,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
                 bool hasAnalogChannelsGroup = false;
                 foreach (var channelGroup in instrument)
                 {
-                    // Check if channel string is  digital channel group.
+                    // Check if it's a valid digital channel group.
                     if (channelGroup.Value == "dio0,dio1,dio2,dio3,dio4,dio5,dio6,dio7")
                     {
                         hasDigitalChannelsGroup = true;
                     }
-                    // Check if channel string is analog channel group.
+                    // Check if it's a valid analog channel group.
                     if (channelGroup.Value == "ai0,ai1,ai2,ai3")
                     {
                         hasAnalogChannelsGroup = true;
@@ -94,7 +94,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
 
         private string SortChannels(string channelList)
         {
-            // Generate sorted channelString
             var channelArray = channelList.Split(',').Select(channel => channel.Trim()).ToArray();
             Array.Sort(channelArray);
             return string.Join(",", channelArray);
