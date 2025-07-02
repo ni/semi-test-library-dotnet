@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.1">
+	<Pins>
+		<DUTPin name="A" />
+		<DUTPin name="B" />
+		<DUTPin name="C" />
+		<DUTPin name="D" />
+		<DUTPin name="E" />
+		<DUTPin name="F" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Instruments>
+		<Instrument name="dev1" instrumentTypeId="MyUniqueCustomInstrumentTypeId">
+			<ChannelGroup id="DigitalIO">
+				<Channel id="dio0" />
+				<Channel id="dio1" />
+				<Channel id="dio2" />
+				<Channel id="dio3" />
+				<Channel id="dio4" />
+				<Channel id="dio5" />
+				<Channel id="dio6" />
+				<Channel id="dio7" />
+			</ChannelGroup>
+			<ChannelGroup id="AnalogInput">
+				<Channel id="ai0" />
+				<Channel id="ai1" />
+				<Channel id="ai2" />
+				<Channel id="ai3" />
+			</ChannelGroup>
+		</Instrument>
+		<Instrument name="dev2" instrumentTypeId="MyUniqueCustomInstrumentTypeId">
+			<ChannelGroup id="DigitalIO">
+				<Channel id="dio0" />
+				<Channel id="dio1" />
+				<Channel id="dio2" />
+				<Channel id="dio3" />
+				<Channel id="dio4" />
+				<Channel id="dio5" />
+				<Channel id="dio6" />
+				<Channel id="dio7" />
+			</ChannelGroup>
+			<ChannelGroup id="AnalogInput">
+				<Channel id="ai0" />
+				<Channel id="ai1" />
+				<Channel id="ai2" />
+				<Channel id="ai3" />
+			</ChannelGroup>
+		</Instrument>
+	</Instruments>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+		<Site siteNumber="3" />
+	</Sites>
+	<Connections>
+		<Connection pin="A" siteNumber="0" instrument="dev1" channel="dio0" />
+		<Connection pin="A" siteNumber="1" instrument="dev1" channel="dio4" />
+		<Connection pin="A" siteNumber="2" instrument="dev2" channel="dio0" />
+		<Connection pin="A" siteNumber="3" instrument="dev2" channel="dio4" />
+		<Connection pin="B" siteNumber="0" instrument="dev1" channel="dio1" />
+		<Connection pin="B" siteNumber="1" instrument="dev1" channel="dio5" />
+		<Connection pin="B" siteNumber="2" instrument="dev2" channel="dio1" />
+		<Connection pin="B" siteNumber="3" instrument="dev2" channel="dio5" />
+		<Connection pin="C" siteNumber="0" instrument="dev1" channel="dio2" />
+		<Connection pin="C" siteNumber="1" instrument="dev1" channel="dio6" />
+		<Connection pin="C" siteNumber="2" instrument="dev2" channel="dio2" />
+		<Connection pin="C" siteNumber="3" instrument="dev2" channel="dio6" />
+		<Connection pin="D" siteNumber="0" instrument="dev1" channel="dio3" />
+		<Connection pin="D" siteNumber="1" instrument="dev1" channel="dio7" />
+		<Connection pin="D" siteNumber="2" instrument="dev2" channel="dio3" />
+		<Connection pin="D" siteNumber="3" instrument="dev2" channel="dio7" />
+		<Connection pin="E" siteNumber="0" instrument="dev1" channel="ai0" />
+		<Connection pin="E" siteNumber="1" instrument="dev1" channel="ai2" />
+		<Connection pin="E" siteNumber="2" instrument="dev2" channel="ai0" />
+		<Connection pin="E" siteNumber="3" instrument="dev2" channel="ai2" />
+		<Connection pin="F" siteNumber="0" instrument="dev1" channel="ai1" />
+		<Connection pin="F" siteNumber="1" instrument="dev1" channel="ai3" />
+		<Connection pin="F" siteNumber="2" instrument="dev2" channel="ai1" />
+		<Connection pin="F" siteNumber="3" instrument="dev2" channel="ai3" />
+	</Connections>
+</PinMap>
