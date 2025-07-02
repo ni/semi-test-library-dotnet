@@ -12,7 +12,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Cascade
 {
     public class MergeTypeCascadeTests
     {
-        public static IEnumerable<object[]> GetPinGroupsSMU4163()
+        public static IEnumerable<object[]> GetPinGroupsOfSMU4163()
         {
             List<string> pinGroupNames = new List<string> { "G1_1mA", "G2_1mA", "G3_1mA", "G4_1mA", "G1_2mA", "G2_2mA", "G1_4mA" };
 
@@ -53,7 +53,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Cascade
         }
 
         [Theory]
-        [MemberData(nameof(GetPinGroupsSMU4163))]
+        [MemberData(nameof(GetPinGroupsOfSMU4163))]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         public void InitializeSMU4163_MergePinGroupForceCurrentMeasureVoltageAndUnMergeSucceeds(string pinGroup)
