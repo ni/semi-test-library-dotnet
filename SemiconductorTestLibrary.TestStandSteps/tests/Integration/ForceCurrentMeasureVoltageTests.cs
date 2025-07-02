@@ -147,5 +147,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             Assert.Contains("Maximum Value: 6", exception.Message);
             CleanupInstrumentation(tsmContext);
         }
+
+        [Fact]
+        public void Initialize_MergePinGroupRunForceCurrentMeasureVoltageAndUnmergePinGroupSucceeds()
+        {
+            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
+
+            var sessionManager = new TSMSessionManager(tsmContext);
+            var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
+            dcPower.MergePinGroup("MergedPowerPins");
+            ForceCurrentMeasureVoltage(
+                tsmContext,
+                pinsOrPinGroups: new[] { "MergedPowerPins" },
+                currentLevel: 0.005,
+                voltageLimit: 3.3,
+                apertureTime: 5e-5,
+                settlingTime: 5e-5);
+            dcPower.UnmergePinGroup("MergedPowerPins");
+            CleanupInstrumentation(tsmContext);
+        }
     }
 }
