@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4162_C1_S16" numberOfChannels="12">
+			<ChannelGroup name="CommonDCPowerChannelGroup" />
+		</NIDCPowerInstrument>
+	</Instruments>
+	<Pins>
+		<DUTPin name="Vaa" />
+		<DUTPin name="Vab" />
+		<DUTPin name="Vba" />
+		<DUTPin name="Vbb" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="G1_2mA">
+			<PinReference pin="Vaa" />
+			<PinReference pin="Vab" />
+		</PinGroup>
+		<PinGroup name="G2_2mA">
+			<PinReference pin="Vba" />
+			<PinReference pin="Vbb" />
+		</PinGroup>
+		<PinGroup name="G1_4mA">
+			<PinReference pin="Vaa" />
+			<PinReference pin="Vab" />
+			<PinReference pin="Vba" />
+			<PinReference pin="Vbb" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+	</Sites>
+	<Connections>
+		<Connection pin="Vaa" siteNumber="0" instrument="SMU_4162_C1_S16" channel="0" />
+		<Connection pin="Vaa" siteNumber="1" instrument="SMU_4162_C1_S16" channel="4" />
+		<Connection pin="Vaa" siteNumber="2" instrument="SMU_4162_C1_S16" channel="8" />
+		<Connection pin="Vab" siteNumber="0" instrument="SMU_4162_C1_S16" channel="1" />
+		<Connection pin="Vab" siteNumber="1" instrument="SMU_4162_C1_S16" channel="5" />
+		<Connection pin="Vab" siteNumber="2" instrument="SMU_4162_C1_S16" channel="9" />
+		<Connection pin="Vba" siteNumber="0" instrument="SMU_4162_C1_S16" channel="2" />
+		<Connection pin="Vba" siteNumber="1" instrument="SMU_4162_C1_S16" channel="6" />
+		<Connection pin="Vba" siteNumber="2" instrument="SMU_4162_C1_S16" channel="10" />
+		<Connection pin="Vbb" siteNumber="0" instrument="SMU_4162_C1_S16" channel="3" />
+		<Connection pin="Vbb" siteNumber="1" instrument="SMU_4162_C1_S16" channel="7" />
+		<Connection pin="Vbb" siteNumber="2" instrument="SMU_4162_C1_S16" channel="11" />
+	</Connections>
+</PinMap>
