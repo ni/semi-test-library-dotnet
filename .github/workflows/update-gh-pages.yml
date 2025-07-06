@@ -5,7 +5,7 @@ on:
     inputs:
       azdoBranch:
         type: string
-        description: "Target Azure DevOps repository branch to use for building the DocFX documentation (e.g., main, releases/*)"
+        description: "Target Azure DevOps repository branch to use for building the docfx documentation (e.g., main, releases/*)"
         default: "main"
       dryRun:
         type: choice
