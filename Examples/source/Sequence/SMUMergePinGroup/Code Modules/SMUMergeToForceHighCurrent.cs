@@ -73,7 +73,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.SMUMergePinGroup
             // Source and/or measure the signals.
             smuBundle.ForceVoltage(voltageLevel, currentLimit, waitForSourceCompletion: true);
             PreciseWait(timeInSeconds: settlingTime);
-            smuBundle.MeasureAndPublishCurrent(publishedDataId: "MergedCurrent");
+            smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current");
             
             // Clean up and restore the state of the instrumentation after finishing the test.
             smuBundle.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
