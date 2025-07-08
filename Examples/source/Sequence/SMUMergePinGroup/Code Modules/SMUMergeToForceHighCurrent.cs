@@ -89,7 +89,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             }
             // Restore the source delay to original value.
             smuBundle.ConfigureSourceDelay(originalSourceDelays);
-            smuBundle.Commit();
+            // smuBundle.Commit();   
         }
     }
 }
