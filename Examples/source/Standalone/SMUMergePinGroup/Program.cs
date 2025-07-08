@@ -1,14 +1,13 @@
 ﻿using System;
-using System.IO;
 using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
-using static NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.StandAloneExampleSupport; 
+using static NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.StandAloneExampleSupport;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.SMUMergePinGroup
+namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.NIDCPower.SMUMergePinGroup
 {
     /// <summary>
     /// Demonstrates the use of MergePinGroup and UnmergePinGroup functions of the
@@ -44,9 +43,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.SMUMe
         private const string Vcc10A = "Vcc10A";  //Name of the pin group to be merged for sourcing 10A
 
         // voltage and current settings for the merge operation
-        private const double currentLevel1 = 5.0;
-        private const double currentLevel2 = 10.0;
-        private const double voltageLimit = 0.4;
+        private const double CurrentLevel1 = 5.0;
+        private const double CurrentLevel2 = 10.0;
+        private const double VoltageLimit = 0.4;
 
         // settling and aperture time used for measurements
         private static readonly double SettlingTime = 0.001;
@@ -64,53 +63,95 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.SMUMe
         /// </summary>
         /// <param name="tsmContext">Teststand Semiconductor module context</param>
         /// <returns>PinSiteData measurement  in double precision </returns>
-        public static void SMUMergeToForceHighCurrent(
-            ISemiconductorModuleContext tsmContext)
+        private static void Main(string[] args)
         {
-            TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
-            DCPowerSessionsBundle smuBundle = sessionManager.DCPower(Vcc5A);
-
-            // Configure the instrumentation connected to the target pins
-            if (!ConnectedRelayConfiguration.IsEmpty())
+            try
             {
-                // Configure the relays required for merging.
-                tsmContext.ApplyRelayConfiguration(ConnectedRelayConfiguration, waitSeconds: SettlingTime);
-            }
-            // Store the current source delay settings as a backup to restore later.
-            PinSiteData<double> originalSourceDelays = smuBundle.GetSourceDelayInSeconds();
+                Console.WriteLine("1. Initializing Semiconductor Module Context");
+                ISemiconductorModuleContext semiconductorContext = CreateStandAloneSemiconductorModuleContext(PinMapFileName);
 
-            // Perform merge operation on the pin group.
-            smuBundle.MergePinGroup(Vcc5A);
-            smuBundle.ConfigureSourceDelay(SettlingTime);
-            if (ApertureTimeConstant != -1)
-            {
-                DCPowerMeasureSettings measureSettings = new DCPowerMeasureSettings()
+                Console.WriteLine("2. Initialize and Configuring Instrument Sessions.");
+                InitializeAndClose.Initialize(semiconductorContext, resetDevice: true);
+
+                Console.WriteLine($"3. Creating Bundle for merge pin group.");
+                TSMSessionManager sessionManager = new TSMSessionManager(semiconductorContext);
+                DCPowerSessionsBundle smuBundle = sessionManager.DCPower(Vcc5A);
+
+                // Configure the instrumentation connected to the target pins
+                if (!ConnectedRelayConfiguration.IsEmpty())
                 {
-                    ApertureTime = ApertureTimeConstant,
-                };
-                smuBundle.ConfigureMeasureSettings(measureSettings);
-            }
-            
-            // Source and/or measure the signals.
-            smuBundle.ForceCurrent(currentLimit, voltageLevel, waitForSourceCompletion: true);
-            PreciseWait(timeInSeconds: SettlingTime);
-            smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current");
-            
-            // Clean up and restore the state of the instrumentation after finishing the test.
-            smuBundle.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
-            smuBundle.PowerDown();
-            PreciseWait(timeInSeconds: SettlingTime);
+                    // Configure the relays required for merging.
+                    semiconductorContext.ApplyRelayConfiguration(ConnectedRelayConfiguration, waitSeconds: SettlingTime);
+                }
+                // Store the current source delay settings as a backup to restore later.
+                PinSiteData<double> originalSourceDelays = smuBundle.GetSourceDelayInSeconds();
 
-            // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
-            smuBundle.UnmergePinGroup(Vcc5A);
-            if (!DisconnectedRelayConfiguration.IsEmpty())
+                // with 4147 hardware, merging is supported for 2 or 4 channels.
+                int MergingChannelCount = 2;
+                string VccI = Vcc5A;
+                double currentLevel = CurrentLevel1;
+
+                // wait for the user to acknowledge Merge operation.
+                Console.WriteLine("Press 4 for four channel merging or any other key for two channel merging");
+                var keyInfo = Console.ReadKey(); // ReadKey returns a ConsoleKeyInfo object
+                switch (keyInfo.Key) // Use the Key property of ConsoleKeyInfo
+                {
+                    case ConsoleKey.D4: // Compare against ConsoleKey enum values
+                        MergingChannelCount = 4;
+                        VccI = Vcc10A;
+                        currentLevel = CurrentLevel2;
+                        break;
+                    default:
+                        break;
+                }
+                Console.WriteLine($"Performing {MergingChannelCount} merging operation");
+                // Perform merge operation on the pin group.
+                smuBundle.MergePinGroup(VccI);
+                smuBundle.ConfigureSourceDelay(SettlingTime);
+                if (ApertureTimeConstant != -1)
+                {
+                    DCPowerMeasureSettings measureSettings = new DCPowerMeasureSettings()
+                    {
+                        ApertureTime = ApertureTimeConstant,
+                    };
+                    smuBundle.ConfigureMeasureSettings(measureSettings);
+                }
+                Console.WriteLine($"Forcing {currentLevel} current with VoltageLimit of {VoltageLimit}");
+                // Source and/or measure the signals.
+                smuBundle.ForceCurrent(currentLevel, VoltageLimit, waitForSourceCompletion: true);
+                PreciseWait(timeInSeconds: SettlingTime);
+                smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current");
+
+                Console.WriteLine($"Powering Down Output to 0 volts");
+                // Clean up and restore the state of the instrumentation after finishing the test.
+                smuBundle.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
+                smuBundle.PowerDown();
+                PreciseWait(timeInSeconds: SettlingTime);
+
+                Console.WriteLine($"Unmerging Channels");
+                // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
+                smuBundle.UnmergePinGroup(VccI);
+                if (!DisconnectedRelayConfiguration.IsEmpty())
+                {
+                    // Configure the relays required for unmerging.
+                    semiconductorContext.ApplyRelayConfiguration(DisconnectedRelayConfiguration, waitSeconds: SettlingTime);
+                }
+                // Restore the source delay to original value.
+                smuBundle.ConfigureSourceDelay(originalSourceDelays);
+                smuBundle.Commit();
+            }
+            // Handle driver-specific exceptions before the general exception handler that follows.
+            // An example of a driver-specific exception is Ivi.Driver.IviCDriverException.
+            catch (Exception ex)
             {
-                // Configure the relays required for unmerging.
-                tsmContext.ApplyRelayConfiguration(DisconnectedRelayConfiguration, waitSeconds: SettlingTime);
+                Console.WriteLine($"An error occurred: {ex}");
+                Console.WriteLine("Please check the settings and configurations.");
             }
-            // Restore the source delay to original value.
-            smuBundle.ConfigureSourceDelay(originalSourceDelays);
+            finally
+            {
+                Console.WriteLine("Program complete. Press any key to close.");
+                Console.ReadKey();
+            }
         }
-
     }
 }

@@ -32,11 +32,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone
         /// for use outside of a TestStand sequence file context.
         /// </summary>
         /// <param name="pinMapFileName">The pin map file name.</param>
-        /// <param name="digitalPatternProjectFileName">The pin map file name.</param>
         /// <returns>The <see cref="ISemiconductorModuleContext"/> object,</returns>
-        public static ISemiconductorModuleContext CreateStandAloneSemiconductorModuleContext(string pinMapFileName, string digitalPatternProjectFileName = null)
+        public static ISemiconductorModuleContext CreateStandAloneSemiconductorModuleContext(string pinMapFileName)
         {
-            return CreateStandAloneSemiconductorModuleContext(pinMapFileName, out _, digitalPatternProjectFileName);
+            return CreateStandAloneSemiconductorModuleContext(pinMapFileName, out _);
         }
 
         /// <inheritdoc cref="CreateTSMContext(string, string)"/>
@@ -45,10 +44,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone
         {
             PublishedDataReaderFactory publishedDataReaderFactory = new PublishedDataReaderFactory();
             string pinMapFilePath = Path.Combine(SupportingMaterialsDirectory, pinMapFileName);
-            string digitalPatternProjectFilePath = string.IsNullOrEmpty(digitalPatternProjectFileName)
-                ? null
-                : Path.Combine(SupportingMaterialsDirectory, digitalPatternProjectFileName);
-            var tsmContext = publishedDataReaderFactory.NewSemiconductorModuleContext(pinMapFilePath, digitalPatternProjectFilePath, specificationsFilePaths: null, out publishedDataReader);
+            var tsmContext = publishedDataReaderFactory.NewSemiconductorModuleContext(pinMapFilePath, out publishedDataReader);
             return SemiconductorModuleContextFactory.ConstructSemiconductorModuleContextForDotNet(tsmContext);
         }
     }
