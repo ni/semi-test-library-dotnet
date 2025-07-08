@@ -5,7 +5,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.SMUMergePinGroup
+namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup
 {
     /// <summary>
     /// This class contains example of how to use the MergePinGroup and UnmergePinGroup functions in the
@@ -29,8 +29,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.SMUMer
         /// </summary>
         /// <param name="tsmContext">Teststand Semiconductor module context</param>
         /// <param name="pinGroup">Name of the pin group to be merged</param>
-        /// <param name="voltageLevel">Voltage level to set output</param>
-        /// <param name="currentLimit">Current limit for output</param>
+        /// <param name="currentLevel">Current level to set output</param>
+        /// <param name="voltageLimit">Voltage limit for output</param>
         /// <param name="settlingTime">Settling time used for measurements</param>
         /// <param name="apertureTime">Aperture time used for measurements</param>
         /// <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel</param>
@@ -39,8 +39,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.SMUMer
         public static void SMUMergeToForceHighCurrent(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
-            double voltageLevel = 3.3,
-            double currentLimit = 0.01,
+            double currentLevel = 5,
+            double voltageLimit = 0.4,
             double settlingTime = 0.001,
             double apertureTime = -1,
             string connectedRelayConfiguration = "",
@@ -71,12 +71,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.SMUMer
             }
             
             // Source and/or measure the signals.
-            smuBundle.ForceVoltage(voltageLevel, currentLimit, waitForSourceCompletion: true);
+            smuBundle.ForceCurrent(currentLevel, voltageLimit, waitForSourceCompletion: true);
             PreciseWait(timeInSeconds: settlingTime);
             smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current");
             
             // Clean up and restore the state of the instrumentation after finishing the test.
-            smuBundle.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
+            smuBundle.ForceCurrent(currentLevel: 0.001, voltageLimit: 0.01);
             smuBundle.PowerDown();
             PreciseWait(timeInSeconds: settlingTime);
 

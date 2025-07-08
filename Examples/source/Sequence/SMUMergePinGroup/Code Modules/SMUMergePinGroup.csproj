@@ -23,7 +23,7 @@
   <ItemGroup>
     <Compile Remove="packages\**" />
     <EmbeddedResource Remove="packages\**" />
-    <None Remove="packages\**" />
+    <None Remove="packages\**" /> 
   </ItemGroup>
   <ItemGroup>
     <Reference Include="NationalInstruments.Common, Version=19.1.40.49152">      
