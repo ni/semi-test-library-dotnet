@@ -89,7 +89,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.SMUMer
             }
             // Restore the source delay to original value.
             smuBundle.ConfigureSourceDelay(originalSourceDelays);
+            smuBundle.Commit();
         }
-
     }
 }
