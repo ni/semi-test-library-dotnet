@@ -32,13 +32,13 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
 	<Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
-	  <HintPath>C:\Program Files\National Instruments\TestStand 2023\Components\StepTypes\NI_SemiconductorTestSteps\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+	  <HintPath>$(TestStand64)\Components\StepTypes\NI_SemiconductorTestSteps\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
 	</Reference>
 	<Reference Include="NationalInstruments.SemiconductorTestLibrary.Extensions">
-	  <HintPath>C:\Program Files\National Instruments\TestStand 2023\Components\StepTypes\NI_SemiconductorTestSteps\NationalInstruments.SemiconductorTestLibrary.Extensions.dll</HintPath>
+	  <HintPath>$(TestStand64)\Components\StepTypes\NI_SemiconductorTestSteps\NationalInstruments.SemiconductorTestLibrary.Extensions.dll</HintPath>
 	</Reference>
 	<Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">      
-      <HintPath>C:\Program Files\National Instruments\TestStand 2023\API\DotNET\Assemblies\CurrentVersion\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
+      <HintPath>$(TestStand64)\API\DotNET\Assemblies\CurrentVersion\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
       <Private>False</Private>
 	  <SpecificVersion>False</SpecificVersion>
 	</Reference>
