@@ -5,7 +5,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.SMUMergePinGroup
+namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.SMUMergePinGroup
 {
     /// <summary>
     /// This class contains example of how to use the MergePinGroup and UnmergePinGroup functions in the
@@ -21,7 +21,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.SMUMergePinGroup
     ///  - Relay configurations to be applied before the merging operation ensures the SMUs channels are connected
     ///  in parallel configuration and disconnect after unmerging.
     /// </remarks>
-    public static partial class ExampleTestSteps
+    public static partial class TestSteps
     {
         /// <summary>
         /// Merges the specified pin group to force high current and measure voltage for pins mapped to DCPower Instruments from same module.
