@@ -48,11 +48,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.NIDCP
         private const double VoltageLimit = 0.4;
 
         // settling and aperture time used for measurements
-        private static readonly double SettlingTime = 0.001;
-        private static readonly double ApertureTimeConstant = -1; // -1 indicates no aperture time is set.
+        private const double SettlingTime = 0.001;
+        private const double ApertureTimeConstant = -1; // -1 indicates no aperture time is set.
 
         // Files to load.
         private const string PinMapFileName = "PinMap.pinmap";
+
         #endregion Settings and Configuration
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "NI1704:Identifiers should be spelled correctly", Justification = "ExampleCode")]
