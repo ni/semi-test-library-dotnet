@@ -24,7 +24,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
     public static partial class TestSteps
     {    
         /// <summary>
-        /// Power downs the bundle and then unmerges the pin group.
+        /// Power down the bundle and then unmerge the pin group.
         /// </summary>
         /// <param name="tsmContext">Teststand Semiconductor module context</param>
         /// <param name="pinGroup">Name of the pin group to be merged</param>
@@ -38,7 +38,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
-            // Powerdown the pins before disconnecting
+            // Power down the pins before disconnecting
             smuBundle.ForceCurrent(currentLevel: 0, voltageLimit: 0.01);
             smuBundle.PowerDown();
             // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
