@@ -55,8 +55,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
                 // Configure the relays required for merging.
                 tsmContext.ApplyRelayConfiguration(connectedRelayConfiguration, waitSeconds: settlingTime);
             }
-            // Store the current source delay settings as a backup to restore later.
-            PinSiteData<double> originalSourceDelays = smuBundle.GetSourceDelayInSeconds();
 
             // Perform merge operation on the pin group.
             smuBundle.MergePinGroup(pinGroup);
@@ -86,10 +84,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             {
                 // Configure the relays required for unmerging.
                 tsmContext.ApplyRelayConfiguration(disconnectedRelayConfiguration, waitSeconds: settlingTime);
-            }
-            // Restore the source delay to original value.
-            smuBundle.ConfigureSourceDelay(originalSourceDelays);
-            // smuBundle.Commit();   
+            } 
         }
     }
 }
