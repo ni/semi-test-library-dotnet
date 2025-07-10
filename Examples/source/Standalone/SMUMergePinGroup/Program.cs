@@ -69,7 +69,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.NIDCP
                 Console.WriteLine("1. Initializing Semiconductor Module Context");
                 ISemiconductorModuleContext semiconductorContext = CreateStandAloneSemiconductorModuleContext(PinMapFileName);
 
-                Console.WriteLine("2. Initialize and Configuring Instrument Sessions.");
+                Console.WriteLine("2. Initialize Instrument Sessions.");
                 InitializeAndClose.Initialize(semiconductorContext, resetDevice: true);
 
                 Applicationlogic(semiconductorContext);
