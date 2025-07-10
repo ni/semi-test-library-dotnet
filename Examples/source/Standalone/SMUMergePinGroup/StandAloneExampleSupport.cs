@@ -6,11 +6,14 @@ using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone
 {
+    /// <summary>  
+    /// Provides support methods for standalone examples in the Semiconductor Test Library.  
+    /// </summary>  
     public static class StandAloneExampleSupport
     {
-        /// <summary>
-        /// The directory path to the executable for the example.
-        /// </summary>
+        /// <summary>  
+        /// Gets the directory path to the executable for the example.  
+        /// </summary>  
         public static string ExecutableDirectory
         {
             get
@@ -20,30 +23,29 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone
                 return Path.GetDirectoryName(assemblyPath);
             }
         }
-        /// <summary>
-        /// The directory path for the supporting source materials, such as the pin map and digital project files.
-        /// This currently assumes the path is one-up from the executable path.
-        /// This may be different when copying/reusing this file for a different project.
-        /// </summary>
-        public static string SupportingMaterialsDirectory => Path.GetDirectoryName(ExecutableDirectory);
 
-        /// <summary>
-        /// Creates a Standalone instance of the ISemiconductorModuleContext,
-        /// for use outside of a TestStand sequence file context.
-        /// </summary>
-        /// <param name="pinMapFileName">The pin map file name.</param>
-        /// <returns>The <see cref="ISemiconductorModuleContext"/> object,</returns>
+        /// <summary>  
+        /// Creates a standalone instance of the ISemiconductorModuleContext,  
+        /// for use outside of a TestStand sequence file context.  
+        /// </summary>  
+        /// <param name="pinMapFileName">The pin map file name.</param>  
+        /// <returns>The <see cref="ISemiconductorModuleContext"/> object.</returns>  
         public static ISemiconductorModuleContext CreateStandAloneSemiconductorModuleContext(string pinMapFileName)
         {
             return CreateStandAloneSemiconductorModuleContext(pinMapFileName, out _);
         }
 
-        /// <inheritdoc cref="CreateTSMContext(string, string)"/>
-        /// <param name="publishedDataReader">The <see cref="IPublishedDataReader"/> object used to query published data.</param>
-        public static ISemiconductorModuleContext CreateStandAloneSemiconductorModuleContext(string pinMapFileName, out IPublishedDataReader publishedDataReader, string digitalPatternProjectFileName = null)
+        /// <summary>  
+        /// Creates a standalone instance of the ISemiconductorModuleContext,  
+        /// for use outside of a TestStand sequence file context.  
+        /// </summary>  
+        /// <param name="pinMapFileName">The pin map file name.</param>  
+        /// <param name="publishedDataReader">The <see cref="IPublishedDataReader"/> object used to query published data.</param>  
+        /// <returns>The <see cref="ISemiconductorModuleContext"/> object.</returns>  
+        public static ISemiconductorModuleContext CreateStandAloneSemiconductorModuleContext(string pinMapFileName, out IPublishedDataReader publishedDataReader)
         {
             PublishedDataReaderFactory publishedDataReaderFactory = new PublishedDataReaderFactory();
-            string pinMapFilePath = Path.Combine(SupportingMaterialsDirectory, pinMapFileName);
+            string pinMapFilePath = Path.Combine(Path.GetDirectoryName(ExecutableDirectory), pinMapFileName);
             var tsmContext = publishedDataReaderFactory.NewSemiconductorModuleContext(pinMapFilePath, out publishedDataReader);
             return SemiconductorModuleContextFactory.ConstructSemiconductorModuleContextForDotNet(tsmContext);
         }
