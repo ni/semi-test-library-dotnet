@@ -11,4 +11,9 @@
     {
         TesterOnly
     }
+
+    public enum TestType
+    {
+        Performance
+    }
 }
