@@ -5,9 +5,9 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
-using static NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.StandAloneExampleSupport;
+using static NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCPower.ExampleSupport;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.NIDCPower.SMUMergePinGroup
+namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCPower.SMUMergePinGroup
 {
     /// <summary>
     /// Demonstrates the use of MergePinGroup and UnmergePinGroup functions of the
@@ -60,7 +60,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.NIDCP
         /// Merges the specified pin group to force high current and measure voltage for pins mapped to DCPower Instruments from same module.
         /// Specifically, this method merges the pin group, forces a voltage level, measures the current, and then unmerges the pin group.
         /// </summary>
-        /// <param name="tsmContext">Teststand Semiconductor module context</param>
+        /// <param name="args">Command line arguments (not used in this example)</param>
         /// <returns>PinSiteData measurement  in double precision </returns>
         private static void Main(string[] args)
         {
@@ -72,9 +72,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.NIDCP
                 Console.WriteLine("2. Initialize Instrument Sessions.");
                 InitializeAndClose.Initialize(semiconductorContext, resetDevice: true);
 
-                Applicationlogic(semiconductorContext);
-                Applicationlogic(semiconductorContext);
-                Applicationlogic(semiconductorContext);
+                Console.WriteLine($"3. Creating Session Manager.");
+                TSMSessionManager sessionManager = new TSMSessionManager(semiconductorContext);
+                
+                if (!ConnectedRelayConfiguration.IsEmpty())
+                {
+                    // Configure the relays required for merging.
+                    semiconductorContext.ApplyRelayConfiguration(ConnectedRelayConfiguration, waitSeconds: SettlingTime);
+                }
+
+                Applicationlogic(sessionManager);
+
+                if (!DisconnectedRelayConfiguration.IsEmpty())
+                {
+                    // Configure the relays required for unmerging.
+                    semiconductorContext.ApplyRelayConfiguration(DisconnectedRelayConfiguration, waitSeconds: SettlingTime);
+                }
 
                 Console.WriteLine("10. Closing Instrument Sessions.");
                 InitializeAndClose.Close(semiconductorContext);
@@ -93,13 +106,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.NIDCP
             }
         }
 
-        private static void Applicationlogic(ISemiconductorModuleContext semiconductorContext)
+        /// <summary>
+        /// Core application logic for merging pin group.
+        /// </summary>
+        /// <param name="sessionManager"></param>
+        private static void Applicationlogic(TSMSessionManager sessionManager)
         {
-
-
-            Console.WriteLine($"3. Creating Bundle for merge pin group.");
-            TSMSessionManager sessionManager = new TSMSessionManager(semiconductorContext);
-
             // In PXIe-4147 hardware, merging is supported for 2 or 4 channels.
             // wait for the user to acknowledge Merge operation.
             Console.WriteLine("Press 4 for four channel merging or any other key for two channel merging");
@@ -113,15 +125,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.NIDCP
             // Create a bundle for the DCPower sessions for the specified pin group.
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(vccI);
 
-            // Configure the instrumentation connected to the target pins
-            if (!ConnectedRelayConfiguration.IsEmpty())
-            {
-                // Configure the relays required for merging.
-                semiconductorContext.ApplyRelayConfiguration(ConnectedRelayConfiguration, waitSeconds: SettlingTime);
-            }
             // Store the current source delay settings as a backup to restore later.
             PinSiteData<double> originalSourceDelays = smuBundle.GetSourceDelayInSeconds();
-
 
             Console.WriteLine($"5. Performing {mergingChannelCount} merging operation");
             smuBundle.MergePinGroup(vccI);
@@ -153,11 +158,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone.NIDCP
             Console.WriteLine($"8. Unmerging Channels");
             // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
             smuBundle.UnmergePinGroup(vccI);
-            if (!DisconnectedRelayConfiguration.IsEmpty())
-            {
-                // Configure the relays required for unmerging.
-                semiconductorContext.ApplyRelayConfiguration(DisconnectedRelayConfiguration, waitSeconds: SettlingTime);
-            }
+           
             // Restore the source delay to original value.
             Console.WriteLine($"9. restoring Source Delay");
             smuBundle.ConfigureSourceDelay(originalSourceDelays);

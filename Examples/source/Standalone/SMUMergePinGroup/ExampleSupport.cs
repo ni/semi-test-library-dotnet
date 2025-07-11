@@ -4,12 +4,12 @@ using System.Reflection;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.StandAlone
+namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCPower
 {
     /// <summary>  
     /// Provides support methods for standalone examples in the Semiconductor Test Library.  
     /// </summary>  
-    public static class StandAloneExampleSupport
+    public static class ExampleSupport
     {
         /// <summary>  
         /// Gets the directory path to the executable for the example.  
