@@ -44,7 +44,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
                 // Configure the relays required for merging.
                 tsmContext.ApplyRelayConfiguration(connectedRelayConfiguration, waitSeconds: settlingTime);
             }
-            // Use the SMU Bundle object to perform merge operation on the pin group.
+
+            // Use the MergePinGroup method on the sessions bundle to perform the merge operation. 
+            // After which, the pins in the pin group will able to operate in unison when performing subsequent operations on the pin group.
             smuBundle.MergePinGroup(pinGroup);
         }
     }
