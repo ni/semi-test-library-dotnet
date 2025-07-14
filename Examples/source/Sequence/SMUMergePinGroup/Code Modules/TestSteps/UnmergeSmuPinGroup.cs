@@ -8,19 +8,19 @@ using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup
 {
     /// <summary>
-    /// This class contains example of how to use the MergePinGroup and UnmergePinGroup functions in the
-    /// Instrument Abstractions from the Semiconductor Test Library. Specifically, how to merge Pin Groups
-    /// for forcing high current and measure voltage for pins mapped to DCPower Instruments from same module.
-    /// Later unmerge the pin group to disconnect the pins and instrumentation after the test is complete.
+    /// This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup 
+    /// DCPower Instrument Abstraction methods from the Semiconductor Test Library.
+    /// These methods can be used to merge DUT pins together to force higher current and measure the voltage.
+    /// These methods are only supported under the following conditions:
+    /// 1. The pin map must define a pin group to contain all the pins that are to be merged together.
+    /// 2. Each pin in the pin group must be mapped to an SMU channels of same module for a given site.
+    /// 3. The SMU module must support the niDCPower Merged Channels feature.
+    /// For example: PXIe-4147, PXIe-4162, and PXIe-4163.
+    /// 4. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
+    /// The example methods of this class demonstrate how relay configurations can be applied 
+    /// to ensures the SMUs channels are physically connected in parallel before the MergePinGroup operation,
+    /// and subsequently disconnected after the UnmergePinGroup operation.
     /// </summary>
-    /// <remarks>
-    /// Note that only few DCPower Instruments support merging feature which includes PXIe-4147, PXIe-4162 and PXIe-4163.
-    /// This also requires the pinmap to define the pingroup to contain all the pins to be merged and each
-    /// pin is mapped to SMU channels of same module.
-    /// This example assumes:
-    ///  - Relay configurations to be applied before the merging operation ensures the SMUs channels are connected
-    ///  in parallel configuration and disconnect after unmerging.
-    /// </remarks>
     public static partial class TestSteps
     {    
         /// <summary>
