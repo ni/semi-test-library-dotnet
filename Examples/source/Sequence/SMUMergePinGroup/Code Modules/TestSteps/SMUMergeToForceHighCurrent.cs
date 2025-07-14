@@ -24,8 +24,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
     public static partial class TestSteps
     {
         /// <summary>
-        /// Merges the specified pin group to force high current and measure voltage for pins mapped to DCPower Instruments from same module.
-        /// Specifically, this method merges the pin group, forces a voltage level, measures the current, and then unmerges the pin group.
+        /// Merges the pins in specified pin group, allowing them to operate in unison to achieve a higher current output.
+        /// Use the connectedRelayConfiguration parameter to specify the appropriate relay configuration
+        /// that will physically connect the pins in the pin group together via external relays on the application load board.
+        /// If the application load board is designed with the target pins permanently connected together,
+        /// do not specify a value for the connectedRelayConfiguration parameter. 
+        /// The settlingTime parameter is only applicable when the connectedRelayConfiguration parameter is used.
         /// </summary>
         /// <param name="tsmContext">Teststand Semiconductor module context</param>
         /// <param name="pinGroup">Name of the pin group to be merged</param>
@@ -70,7 +74,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             
             // Source and/or measure the signals.
             smuBundle.ForceCurrent(currentLevel, voltageLimit, waitForSourceCompletion: true);
-            PreciseWait(timeInSeconds: settlingTime);
             smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current");
             
             // Clean up and restore the state of the instrumentation after finishing the test.

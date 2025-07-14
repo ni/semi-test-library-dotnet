@@ -22,9 +22,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
     /// and subsequently disconnected after the UnmergePinGroup operation.
     /// </summary>
     public static partial class TestSteps
-    {    
+    {
         /// <summary>
-        /// Power down the bundle and then unmerge the pin group.
+        /// Power down the bundle and then unmerges the pins in specified pin group, allowing them to operate independently afterwards.
+        /// Use the disconnectedRelayConfiguration parameter to specify the appropriate relay configuration
+        /// that will physically disconnect the pins in the pin group via external relays on the application load board.
+        /// If the application load board is designed with the target pins permanently connected together,
+        /// do not specify a value for the disconnectedRelayConfiguration parameter. 
+        /// The settlingTime parameter is only applicable when the disconnectedRelayConfiguration parameter is used.
         /// </summary>
         /// <param name="tsmContext">Teststand Semiconductor module context</param>
         /// <param name="pinGroup">Name of the pin group to be merged</param>

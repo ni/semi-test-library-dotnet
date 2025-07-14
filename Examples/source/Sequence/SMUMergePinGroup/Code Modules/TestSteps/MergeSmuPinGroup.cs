@@ -24,7 +24,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
     public static partial class TestSteps
     {
         /// <summary>
-        /// Merges the specified pin group.
+        /// Merges the pins in specified pin group, allowing them to operate in unison to achieve a higher current output.
+        /// Use the connectedRelayConfiguration parameter to specify the appropriate relay configuration
+        /// that will physically connect the pins in the pin group together via external relays on the application load board.
+        /// If the application load board is designed with the target pins permanently connected together,
+        /// do not specify a value for the connectedRelayConfiguration parameter. 
+        /// The settlingTime parameter is only applicable when the connectedRelayConfiguration parameter is used.
         /// </summary>
         /// <param name="tsmContext">Teststand Semiconductor module context</param>
         /// <param name="pinGroup">Name of the pin group to be merged</param>
