@@ -3,6 +3,6 @@
   <!-- The following is an example configuration taken from the TSM Accelerometer example. -->
   <!-- Refer to the Obtaining an Offline Mode System Configuration File (TSM) topic in the TestStand Semiconductor Module user manual for more details -->
   <PXIChassis Number="1" Model="NI PXIe-1085">
-    <PXI Name="SMU_4147_C1_S05" Model="NI PXIe-4147" Slot="5" />
+    <PXI Name="SMU_4147_C1_S04" Model="NI PXIe-4147" Slot="4" />
   </PXIChassis>
 </SystemConfiguration>
