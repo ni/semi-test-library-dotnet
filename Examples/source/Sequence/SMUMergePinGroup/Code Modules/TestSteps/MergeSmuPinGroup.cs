@@ -31,10 +31,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// do not specify a value for the connectedRelayConfiguration parameter. 
         /// The settlingTime parameter is only applicable when the connectedRelayConfiguration parameter is used.
         /// </summary>
-        /// <param name="tsmContext">Teststand Semiconductor module context</param>
-        /// <param name="pinGroup">Name of the pin group to be merged</param>
+        /// <param name="tsmContext">Teststand Semiconductor module context.</param>
+        /// <param name="pinGroup">Name of the pin group to be merged.</param>
         /// <param name="settlingTime">Settling time used for measurements</param>
-        /// <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel</param>
+        /// <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel.</param>
         public static void MergeSmuPinGroup(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,

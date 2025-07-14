@@ -31,15 +31,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// do not specify a value for the connectedRelayConfiguration parameter. 
         /// The settlingTime parameter is only applicable when the connectedRelayConfiguration parameter is used.
         /// </summary>
-        /// <param name="tsmContext">Teststand Semiconductor module context</param>
-        /// <param name="pinGroup">Name of the pin group to be merged</param>
-        /// <param name="currentLevel">Current level to set output</param>
-        /// <param name="voltageLimit">Voltage limit for output</param>
-        /// <param name="settlingTime">Settling time used for measurements</param>
-        /// <param name="apertureTime">Aperture time used for measurements</param>
-        /// <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel</param>
-        /// <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels</param>
-        /// <returns>PinSiteData measurement  in double precision </returns>
+        /// <param name="tsmContext">Teststand Semiconductor module context.</param>
+        /// <param name="pinGroup">Name of the pin group to be merged.</param>
+        /// <param name="currentLevel">Current level to set output.</param>
+        /// <param name="voltageLimit">Voltage limit for output.</param>
+        /// <param name="settlingTime">Settling time used for measurements.</param>
+        /// <param name="apertureTime">Aperture time used for measurements.</param>
+        /// <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel.</param>
+        /// <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels.</param>
         public static void SMUMergeToForceHighCurrent(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,

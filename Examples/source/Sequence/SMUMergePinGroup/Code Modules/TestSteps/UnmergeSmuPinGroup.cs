@@ -31,10 +31,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// do not specify a value for the disconnectedRelayConfiguration parameter. 
         /// The settlingTime parameter is only applicable when the disconnectedRelayConfiguration parameter is used.
         /// </summary>
-        /// <param name="tsmContext">Teststand Semiconductor module context</param>
-        /// <param name="pinGroup">Name of the pin group to be merged</param>
-        /// <param name="settlingTime">Settling time used for measurements</param>
-        /// <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels</param>
+        /// <param name="tsmContext">Teststand Semiconductor module context.</param>
+        /// <param name="pinGroup">Name of the pin group to be merged.</param>
+        /// <param name="settlingTime">Settling time used for measurements.</param>
+        /// <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels.</param>
         public static void PowerDownAndUnmergeSmuPinGroup(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
