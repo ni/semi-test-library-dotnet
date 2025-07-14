@@ -39,7 +39,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// <param name="apertureTime">Aperture time used for measurements.</param>
         /// <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel.</param>
         /// <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels.</param>
-        public static void SMUMergeToForceHighCurrent(
+        public static void MergePinsFIMVThenUnmerge(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
             double currentLevel = 5,
@@ -73,7 +73,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             
             // Source and/or measure the signals.
             smuBundle.ForceCurrent(currentLevel, voltageLimit, waitForSourceCompletion: true);
-            smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current");
+            smuBundle.MeasureAndPublishVoltage(publishedDataId: "Voltage");
             
             // Clean up and restore the state of the instrumentation after finishing the test.
             smuBundle.ForceCurrent(currentLevel: 0.001, voltageLimit: 0.01);
