@@ -62,7 +62,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
         /// </summary>
         /// <param name="args">Command line arguments (not used in this example)</param>
         /// <returns>PinSiteData measurement  in double precision </returns>
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
             try
             {
