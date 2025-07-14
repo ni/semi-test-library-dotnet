@@ -114,7 +114,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
         {
             // In PXIe-4147 hardware, merging is supported for 2 or 4 channels.
             // wait for the user to acknowledge Merge operation.
-            Console.WriteLine("Press 4 for four channel merging or any other key for two channel merging");
+            Console.WriteLine("4. Press 4 for four channel merging or any other key for two channel merging");
             var keyInfo = Console.ReadKey(); // ReadKey returns a ConsoleKeyInfo object
             int mergingChannelCount = (keyInfo.Key == ConsoleKey.NumPad4) || (keyInfo.Key == ConsoleKey.D4) ? 4 : 2;
             string vccI = mergingChannelCount == 4 ? Vcc10A : Vcc5A;
