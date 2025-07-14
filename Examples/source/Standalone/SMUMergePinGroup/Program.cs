@@ -89,7 +89,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
                     semiconductorContext.ApplyRelayConfiguration(DisconnectedRelayConfiguration, waitSeconds: SettlingTime);
                 }
 
-                Console.WriteLine("10. Closing Instrument Sessions.");
+                Console.WriteLine("9. Closing Instrument Sessions.");
                 InitializeAndClose.Close(semiconductorContext);
             }
             // Handle driver-specific exceptions before the general exception handler that follows.
@@ -125,9 +125,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
             // Create a bundle for the DCPower sessions for the specified pin group.
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(vccI);
 
-            // Store the current source delay settings as a backup to restore later.
-            PinSiteData<double> originalSourceDelays = smuBundle.GetSourceDelayInSeconds();
-
             Console.WriteLine($"5. Performing {mergingChannelCount} merging operation");
             smuBundle.MergePinGroup(vccI);
             smuBundle.ConfigureSourceDelay(SettlingTime);
@@ -158,11 +155,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
             Console.WriteLine($"8. Unmerging Channels");
             // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
             smuBundle.UnmergePinGroup(vccI);
-           
-            // Restore the source delay to original value.
-            Console.WriteLine($"9. restoring Source Delay");
-            smuBundle.ConfigureSourceDelay(originalSourceDelays);
-            smuBundle.Commit();
+
         }
     }
 }
