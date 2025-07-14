@@ -60,7 +60,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
         /// Merges the specified pin group to force high current and measure voltage for pins mapped to DCPower Instruments from same module.
         /// Specifically, this method merges the pin group, forces a voltage level, measures the current, and then unmerges the pin group.
         /// </summary>
-        /// <param name="args">Command line arguments (not used in this example)</param>
+        /// <param name="args">Command line arguments (not used in this example).</param>
         public static void Main(string[] args)
         {
             try
@@ -108,7 +108,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
         /// <summary>
         /// Core application logic for merging pin group.
         /// </summary>
-        /// <param name="sessionManager"></param>
+        /// <param name="sessionManager">SessionManager for creating the DCPower bundle.</param>
         private static void ApplicationLogic(TSMSessionManager sessionManager)
         {
             // In PXIe-4147 hardware, merging is supported for 2 or 4 channels.
