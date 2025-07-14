@@ -61,7 +61,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
         /// Specifically, this method merges the pin group, forces a voltage level, measures the current, and then unmerges the pin group.
         /// </summary>
         /// <param name="args">Command line arguments (not used in this example)</param>
-        /// <returns>PinSiteData measurement  in double precision </returns>
         public static void Main(string[] args)
         {
             try
@@ -81,7 +80,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
                     semiconductorContext.ApplyRelayConfiguration(ConnectedRelayConfiguration, waitSeconds: SettlingTime);
                 }
 
-                Applicationlogic(sessionManager);
+                ApplicationLogic(sessionManager);
 
                 if (!DisconnectedRelayConfiguration.IsEmpty())
                 {
@@ -110,7 +109,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
         /// Core application logic for merging pin group.
         /// </summary>
         /// <param name="sessionManager"></param>
-        private static void Applicationlogic(TSMSessionManager sessionManager)
+        private static void ApplicationLogic(TSMSessionManager sessionManager)
         {
             // In PXIe-4147 hardware, merging is supported for 2 or 4 channels.
             // wait for the user to acknowledge Merge operation.
