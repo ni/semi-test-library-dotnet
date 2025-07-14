@@ -30,7 +30,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// <param name="pinGroup">Name of the pin group to be merged</param>
         /// <param name="settlingTime">Settling time used for measurements</param>
         /// <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels</param>
-        public static void PowerdownAndUnmergeSmuPinGroup(
+        public static void PowerDownAndUnmergeSmuPinGroup(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
             double settlingTime = 0.001,
