@@ -141,8 +141,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
             smuBundle.ForceCurrent(currentLevel, VoltageLimit, waitForSourceCompletion: true);
             PreciseWait(timeInSeconds: SettlingTime);
 
-            double[][] currentOut;
-            smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current", out currentOut);
+            smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current", out var currentOut);
             PreciseWait(1.0);
             Console.WriteLine($"Measured Current: {currentOut[0][0]} A");
 
