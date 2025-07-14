@@ -141,10 +141,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
             smuBundle.ForceCurrent(currentLevel, VoltageLimit, waitForSourceCompletion: true);
             PreciseWait(timeInSeconds: SettlingTime);
 
-            double[][] currentout;
-            smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current", out currentout);
+            double[][] currentOut;
+            smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current", out currentOut);
             PreciseWait(1.0);
-            Console.WriteLine($"Measured Current: {currentout[0][0]} A");
+            Console.WriteLine($"Measured Current: {currentOut[0][0]} A");
 
             Console.WriteLine($"7. Powering Down Output");
             // Clean up and restore the state of the instrumentation after finishing the test.
