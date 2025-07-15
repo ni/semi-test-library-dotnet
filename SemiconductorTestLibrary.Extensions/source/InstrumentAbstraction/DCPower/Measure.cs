@@ -51,7 +51,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo));
             });
         }
 
@@ -305,7 +305,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 var results = Fetch(sessionInfo.Session, sitePinInfo.IndividualChannelString, fetchWaveformLength);
-                ApplyOriginalSettings(sessionInfo.Session, sessionInfo.AllChannelsString, originalSettings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                ApplyOriginalSettings(sessionInfo.Session, sessionInfo.AllChannelsString, originalSettings.GetValue(sitePinInfo));
                 return results;
             });
         }
@@ -536,7 +536,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var session = sessionInfo.Session;
             var lockObject = new object();
 
-            int channelCount = sessionInfo.AssociatedSitePinList.Count;
+            int channelCount = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).Count();
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
 
@@ -628,7 +628,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             else
             {
-                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList)
+                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations))
                 {
                     sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
                     configure(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString);
