@@ -5,60 +5,63 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 {
     internal static class Utilities
     {
-        private static readonly Dictionary<TriggerType, IList<string>> _triggerTypeToModelStringMap = new Dictionary<TriggerType, IList<string>>
+        private static readonly Dictionary<TriggerType, IList<string>> _triggerTypeToUnsupportedModelStringMap = new Dictionary<TriggerType, IList<string>>
         {
             {
                 TriggerType.MeasureTrigger, new List<string>
                 {
-                    DCPowerModelStrings.PXIe_4112,
-                    DCPowerModelStrings.PXIe_4113,
-                    DCPowerModelStrings.PXIe_4135,
-                    DCPowerModelStrings.PXIe_4137,
-                    DCPowerModelStrings.PXIe_4139,
-                    DCPowerModelStrings.PXIe_4141,
-                    DCPowerModelStrings.PXIe_4143,
-                    DCPowerModelStrings.PXIe_4145,
-                    DCPowerModelStrings.PXIe_4147,
-                    DCPowerModelStrings.PXIe_4154,
-                    DCPowerModelStrings.PXIe_4162,
-                    DCPowerModelStrings.PXIe_4163,
-                    DCPowerModelStrings.PXIe_4190
+                    DCPowerModelStrings.PXI_4110,
+                    DCPowerModelStrings.PXI_4130
                 }
             },
             {
                 TriggerType.PulseTrigger, new List<string>
                 {
-                    DCPowerModelStrings.PXIe_4135,
-                    DCPowerModelStrings.PXIe_4137,
-                    DCPowerModelStrings.PXIe_4139
+                    DCPowerModelStrings.PXI_4110,
+                    DCPowerModelStrings.PXIe_4112,
+                    DCPowerModelStrings.PXIe_4113,
+                    DCPowerModelStrings.PXIe_4113,
+                    DCPowerModelStrings.PXIe_4141,
+                    DCPowerModelStrings.PXIe_4143,
+                    DCPowerModelStrings.PXIe_4145,
+                    DCPowerModelStrings.PXIe_4147,
+                    DCPowerModelStrings.PXIe_4154,
+                    DCPowerModelStrings.PXIe_4162,
+                    DCPowerModelStrings.PXIe_4163,
+                    DCPowerModelStrings.PXIe_4190
                 }
             },
             {
                 TriggerType.SequenceAdvanceTrigger, new List<string>
                 {
-                    DCPowerModelStrings.PXIe_4112,
-                    DCPowerModelStrings.PXIe_4113,
-                    DCPowerModelStrings.PXIe_4135,
-                    DCPowerModelStrings.PXIe_4137,
-                    DCPowerModelStrings.PXIe_4139,
-                    DCPowerModelStrings.PXIe_4141,
-                    DCPowerModelStrings.PXIe_4143,
-                    DCPowerModelStrings.PXIe_4145,
-                    DCPowerModelStrings.PXIe_4147,
-                    DCPowerModelStrings.PXIe_4154,
-                    DCPowerModelStrings.PXIe_4162,
-                    DCPowerModelStrings.PXIe_4163,
-                    DCPowerModelStrings.PXIe_4190
+                    DCPowerModelStrings.PXI_4110,
+                    DCPowerModelStrings.PXI_4130
                 }
             },
             {
                 TriggerType.SourceTrigger, new List<string>
                 {
+                    DCPowerModelStrings.PXI_4110,
+                    DCPowerModelStrings.PXI_4130
+                }
+            },
+            {
+                TriggerType.StartTrigger, new List<string>
+                {
+                    DCPowerModelStrings.PXI_4110,
+                    DCPowerModelStrings.PXI_4130,
+                    DCPowerModelStrings.PXIe_4145
+                }
+            },
+            {
+                TriggerType.ShutdownTrigger, new List<string>
+                {
+                    DCPowerModelStrings.PXI_4110,
                     DCPowerModelStrings.PXIe_4112,
                     DCPowerModelStrings.PXIe_4113,
+                    DCPowerModelStrings.PXI_4130,
                     DCPowerModelStrings.PXIe_4135,
                     DCPowerModelStrings.PXIe_4137,
-                    DCPowerModelStrings.PXIe_4139,
                     DCPowerModelStrings.PXIe_4141,
                     DCPowerModelStrings.PXIe_4143,
                     DCPowerModelStrings.PXIe_4145,
@@ -67,29 +70,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     DCPowerModelStrings.PXIe_4162,
                     DCPowerModelStrings.PXIe_4163,
                     DCPowerModelStrings.PXIe_4190
-                }
-            },
-            {
-                TriggerType.StartTrigger, new List<string>
-                {
-                    DCPowerModelStrings.PXIe_4112,
-                    DCPowerModelStrings.PXIe_4113,
-                    DCPowerModelStrings.PXIe_4135,
-                    DCPowerModelStrings.PXIe_4137,
-                    DCPowerModelStrings.PXIe_4139,
-                    DCPowerModelStrings.PXIe_4141,
-                    DCPowerModelStrings.PXIe_4143,
-                    DCPowerModelStrings.PXIe_4147,
-                    DCPowerModelStrings.PXIe_4154,
-                    DCPowerModelStrings.PXIe_4162,
-                    DCPowerModelStrings.PXIe_4163,
-                    DCPowerModelStrings.PXIe_4190
-                }
-            },
-            {
-                TriggerType.ShutdownTrigger, new List<string>
-                {
-                    DCPowerModelStrings.PXIe_4139
                 }
             }
         };
@@ -101,18 +81,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         public static bool IsTriggerTypeSupported(string modelString, TriggerType triggerType)
         {
-            if (_triggerTypeToModelStringMap.ContainsKey(triggerType))
+            if (_triggerTypeToUnsupportedModelStringMap.ContainsKey(triggerType))
             {
-                return _triggerTypeToModelStringMap[triggerType].Contains(modelString);
+                return !_triggerTypeToUnsupportedModelStringMap[triggerType].Contains(modelString);
             }
             return false;
         }
 
-        public static string[] GetSupportedModelString(TriggerType triggerType)
+        public static string[] GetUnSupportedModelStrings(TriggerType triggerType)
         {
-            if (_triggerTypeToModelStringMap.ContainsKey(triggerType))
+            if (_triggerTypeToUnsupportedModelStringMap.ContainsKey(triggerType))
             {
-                return _triggerTypeToModelStringMap[triggerType].ToArray();
+                return _triggerTypeToUnsupportedModelStringMap[triggerType].ToArray();
             }
             return new string[] { };
         }
