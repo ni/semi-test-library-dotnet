@@ -2,6 +2,7 @@
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -214,12 +215,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                if (pinSiteInfo.ModelString != DCPowerModelStrings.PXI_4110)
+                sessionInfo.AllChannelsOutput.Control.Abort();
+                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.PulseTrigger))
                 {
-                    sessionInfo.AllChannelsOutput.Control.Abort();
                     sessionInfo.AllChannelsOutput.Triggers.PulseTrigger.Type = DCPowerPulseTriggerType.None;
+                }
+                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.SequenceAdvanceTrigger))
+                {
                     sessionInfo.AllChannelsOutput.Triggers.SequenceAdvanceTrigger.Type = DCPowerSequenceAdvanceTriggerType.None;
+                }
+                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.SourceTrigger))
+                {
                     sessionInfo.AllChannelsOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.None;
+                }
+                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.StartTrigger))
+                {
                     sessionInfo.AllChannelsOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.None;
                 }
             });
