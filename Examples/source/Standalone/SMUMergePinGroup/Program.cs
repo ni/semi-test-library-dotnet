@@ -64,7 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
         {
             try
             {
-                Console.WriteLine("1. Initializing Semiconductor Module Context");
+                Console.WriteLine("1. Initialize Semiconductor Module Context");
                 ISemiconductorModuleContext semiconductorContext = CreateStandAloneSemiconductorModuleContext(PinMapFileName);
 
                 Console.WriteLine("2. Initialize Instrument Sessions.");
@@ -112,7 +112,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
         {
             // In PXIe-4147 hardware, merging is supported for 2 or 4 channels.
             // wait for the user to acknowledge Merge operation.
-            Console.WriteLine("4. Press 4 for four channel merging or any other key for two channel merging");
+            Console.WriteLine("4. Please press number `4` for four channel merging or any other key for two channel merging");
             var keyInfo = Console.ReadKey(); // ReadKey returns a ConsoleKeyInfo object
             int mergingChannelCount = keyInfo.Key == ConsoleKey.NumPad4 || keyInfo.Key == ConsoleKey.D4 ? 4 : 2;
             string vccI = mergingChannelCount == 4 ? Vcc10A : Vcc5A;
@@ -123,7 +123,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
             // Create a bundle for the DCPower sessions for the specified pin group.
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(vccI);
 
-            Console.WriteLine($"5. Performing {mergingChannelCount} merging operation");
+            Console.WriteLine($"5. Performing {mergingChannelCount} channel merging operation");
             smuBundle.MergePinGroup(vccI);
             smuBundle.ConfigureSourceDelay(SettlingTime);
             if (ApertureTimeConstant != -1)
