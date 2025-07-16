@@ -65,7 +65,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
             try
             {
                 Console.WriteLine("1. Initializing Semiconductor Module Context.");
-                ISemiconductorModuleContext semiconductorContext = CreateStandAloneSemiconductorModuleContext(PinMapFileName);
+                ISemiconductorModuleContext semiconductorContext = CreateStandaloneSemiconductorModuleContext(PinMapFileName);
 
                 Console.WriteLine("2. Initializing Instrument Sessions.");
                 InitializeAndClose.Initialize(semiconductorContext, resetDevice: true);
@@ -135,7 +135,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
                 smuBundle.ConfigureMeasureSettings(measureSettings);
             }
 
-            Console.WriteLine($"6. Forcing {currentLevel} Amps of current with {VoltageLimit} VoltageLimit for 1 second.");
+            Console.WriteLine($"6. Forcing {currentLevel} Amps of current with {VoltageLimit} voltage limit for 1 second.");
             smuBundle.ForceCurrent(currentLevel, VoltageLimit, waitForSourceCompletion: true);
             PreciseWait(timeInSeconds: SettlingTime);
 
@@ -143,13 +143,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
             PreciseWait(1.0);
             Console.WriteLine($"Measured Current: {currentOut[0][0]} A.");
 
-            Console.WriteLine($"7. Powering Down Output.");
+            Console.WriteLine($"7. Powering down output.");
             // Clean up and restore the state of the instrumentation after finishing the test.
             smuBundle.ForceCurrent(10e-3, waitForSourceCompletion: true);
             smuBundle.PowerDown();
             PreciseWait(timeInSeconds: SettlingTime);
 
-            Console.WriteLine($"8. Unmerging Channels.");
+            Console.WriteLine($"8. Unmerging channels.");
             // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
             smuBundle.UnmergePinGroup(vccI);
 
