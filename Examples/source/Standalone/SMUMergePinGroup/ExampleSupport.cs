@@ -30,7 +30,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
         /// </summary>  
         /// <param name="pinMapFileName">The pin map file name.</param>  
         /// <returns>The <see cref="ISemiconductorModuleContext"/> object.</returns>  
-        public static ISemiconductorModuleContext CreateStandAloneSemiconductorModuleContext(string pinMapFileName)
+        public static ISemiconductorModuleContext CreateStandaloneSemiconductorModuleContext(string pinMapFileName)
         {
             return CreateStandAloneSemiconductorModuleContext(pinMapFileName, out _);
         }
