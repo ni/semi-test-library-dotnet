@@ -64,10 +64,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
         {
             try
             {
-                Console.WriteLine("1. Initialize Semiconductor Module Context");
+                Console.WriteLine("1. Initializing Semiconductor Module Context.");
                 ISemiconductorModuleContext semiconductorContext = CreateStandAloneSemiconductorModuleContext(PinMapFileName);
 
-                Console.WriteLine("2. Initialize Instrument Sessions.");
+                Console.WriteLine("2. Initializing Instrument Sessions.");
                 InitializeAndClose.Initialize(semiconductorContext, resetDevice: true);
 
                 Console.WriteLine($"3. Creating Session Manager.");
@@ -112,7 +112,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
         {
             // In PXIe-4147 hardware, merging is supported for 2 or 4 channels.
             // wait for the user to acknowledge Merge operation.
-            Console.WriteLine("4. Please press number `4` for four channel merging or any other key for two channel merging");
+            Console.WriteLine("4. Please press number `4` for four channel merging or any other key for two channel merging.");
             var keyInfo = Console.ReadKey(); // ReadKey returns a ConsoleKeyInfo object
             int mergingChannelCount = keyInfo.Key == ConsoleKey.NumPad4 || keyInfo.Key == ConsoleKey.D4 ? 4 : 2;
             string vccI = mergingChannelCount == 4 ? Vcc10A : Vcc5A;
@@ -123,7 +123,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
             // Create a bundle for the DCPower sessions for the specified pin group.
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(vccI);
 
-            Console.WriteLine($"5. Performing {mergingChannelCount} channel merging operation");
+            Console.WriteLine($"5. Performing {mergingChannelCount} channel merging operation.");
             smuBundle.MergePinGroup(vccI);
             smuBundle.ConfigureSourceDelay(SettlingTime);
             if (ApertureTimeConstant != -1)
@@ -135,21 +135,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
                 smuBundle.ConfigureMeasureSettings(measureSettings);
             }
 
-            Console.WriteLine($"6. Forcing {currentLevel} Amps of current with {VoltageLimit} VoltageLimit for 1 sec");
+            Console.WriteLine($"6. Forcing {currentLevel} Amps of current with {VoltageLimit} VoltageLimit for 1 second.");
             smuBundle.ForceCurrent(currentLevel, VoltageLimit, waitForSourceCompletion: true);
             PreciseWait(timeInSeconds: SettlingTime);
 
             smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current", out var currentOut);
             PreciseWait(1.0);
-            Console.WriteLine($"Measured Current: {currentOut[0][0]} A");
+            Console.WriteLine($"Measured Current: {currentOut[0][0]} A.");
 
-            Console.WriteLine($"7. Powering Down Output");
+            Console.WriteLine($"7. Powering Down Output.");
             // Clean up and restore the state of the instrumentation after finishing the test.
             smuBundle.ForceCurrent(10e-3, waitForSourceCompletion: true);
             smuBundle.PowerDown();
             PreciseWait(timeInSeconds: SettlingTime);
 
-            Console.WriteLine($"8. Unmerging Channels");
+            Console.WriteLine($"8. Unmerging Channels.");
             // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
             smuBundle.UnmergePinGroup(vccI);
 
