@@ -33,11 +33,11 @@
     </Reference>
     <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
       <HintPath>$(TestStand64)\Components\StepTypes\NI_SemiconductorTestSteps\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
-		<SpecificVersion>False</SpecificVersion>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NationalInstruments.SemiconductorTestLibrary.Extensions">
       <HintPath>$(TestStand64)\Components\StepTypes\NI_SemiconductorTestSteps\NationalInstruments.SemiconductorTestLibrary.Extensions.dll</HintPath>
-		<SpecificVersion>False</SpecificVersion>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <HintPath>$(TestStand64)\API\DotNET\Assemblies\CurrentVersion\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
