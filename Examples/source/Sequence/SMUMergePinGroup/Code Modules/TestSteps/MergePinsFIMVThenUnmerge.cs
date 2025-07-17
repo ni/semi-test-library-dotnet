@@ -51,10 +51,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
 
-            // Configure the instrumentation connected to the target pins.
+            // Configure the appropriate relays required to physically connect the pins externally.
             if (!connectedRelayConfiguration.IsEmpty())
             {
-                // Configure the relays required for merging.
                 tsmContext.ApplyRelayConfiguration(connectedRelayConfiguration, waitSeconds: settlingTime);
             }
 

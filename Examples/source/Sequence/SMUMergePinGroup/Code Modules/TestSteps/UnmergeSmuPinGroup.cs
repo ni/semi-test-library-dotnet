@@ -44,11 +44,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             // Power down the pins before disconnecting
             smuBundle.ForceCurrent(currentLevel: 0, voltageLimit: 0.01);
             smuBundle.PowerDown();
-            // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
+            //Configure the appropriate relays required to physically disconnect the pins externally.
             smuBundle.UnmergePinGroup(pinGroup);
             if (!disconnectedRelayConfiguration.IsEmpty())
             {
-                // Configure the relays required for unmerging.
                 tsmContext.ApplyRelayConfiguration(disconnectedRelayConfiguration, waitSeconds: settlingTime);
             }
         }
