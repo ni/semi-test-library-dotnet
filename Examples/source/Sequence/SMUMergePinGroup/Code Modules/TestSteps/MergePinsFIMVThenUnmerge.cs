@@ -1,7 +1,8 @@
-﻿using NationalInstruments.Restricted;
+﻿
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using System;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup
@@ -52,7 +53,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
 
             // Configure the appropriate relays required to physically connect the pins externally.
-            if (!connectedRelayConfiguration.IsEmpty())
+            if (!String.IsNullOrEmpty(connectedRelayConfiguration))
             {
                 tsmContext.ApplyRelayConfiguration(connectedRelayConfiguration, waitSeconds: settlingTime);
             }
@@ -81,7 +82,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
 
             // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
             smuBundle.UnmergePinGroup(pinGroup);
-            if (!disconnectedRelayConfiguration.IsEmpty())
+            if (!String.IsNullOrEmpty(disconnectedRelayConfiguration))
             {
                 // Configure the relays required for unmerging.
                 tsmContext.ApplyRelayConfiguration(disconnectedRelayConfiguration, waitSeconds: settlingTime);

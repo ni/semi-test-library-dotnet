@@ -1,4 +1,4 @@
-﻿using NationalInstruments.Restricted;
+﻿
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -48,7 +48,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             }
 
             // Use the MergePinGroup method on the sessions bundle to perform the merge operation. 
-            // After which, the pins in the pin group will able to operate in unison when performing subsequent operations on the pin group.
+            // After which, the pins in the pin group will able to operate in unison when performing subsequent operations on the pin group,
+            // whether in this or a proceeding code module.
             smuBundle.MergePinGroup(pinGroup);
         }
     }
