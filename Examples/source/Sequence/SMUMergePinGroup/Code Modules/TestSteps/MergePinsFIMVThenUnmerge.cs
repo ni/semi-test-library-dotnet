@@ -1,5 +1,4 @@
 ﻿using NationalInstruments.Restricted;
-using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -31,7 +30,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// do not specify a value for the connectedRelayConfiguration parameter. 
         /// The settlingTime parameter is only applicable when the connectedRelayConfiguration parameter is used.
         /// </summary>
-        /// <param name="tsmContext">Teststand Semiconductor module context.</param>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinGroup">Name of the pin group to be merged.</param>
         /// <param name="currentLevel">Current level to set output.</param>
         /// <param name="voltageLimit">Voltage limit for output.</param>
@@ -52,7 +51,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
 
-            // Configure the instrumentation connected to the target pins
+            // Configure the instrumentation connected to the target pins.
             if (!connectedRelayConfiguration.IsEmpty())
             {
                 // Configure the relays required for merging.

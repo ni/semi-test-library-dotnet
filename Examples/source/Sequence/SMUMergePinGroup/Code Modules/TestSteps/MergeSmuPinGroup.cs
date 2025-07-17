@@ -1,9 +1,7 @@
 ﻿using NationalInstruments.Restricted;
-using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup
 {
@@ -31,15 +29,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// do not specify a value for the connectedRelayConfiguration parameter. 
         /// The settlingTime parameter is only applicable when the connectedRelayConfiguration parameter is used.
         /// </summary>
-        /// <param name="tsmContext">Teststand Semiconductor module context.</param>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinGroup">Name of the pin group to be merged.</param>
-        /// <param name="settlingTime">Settling time used for measurements.</param>
         /// <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel.</param>
+        /// <param name="settlingTime">Settling time required for the relay configuration to be connected.</param>
         public static void MergeSmuPinGroup(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
-            double settlingTime = 0.001,
-            string connectedRelayConfiguration = "")
+            string connectedRelayConfiguration = "",
+            double settlingTime = 0.001)
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
