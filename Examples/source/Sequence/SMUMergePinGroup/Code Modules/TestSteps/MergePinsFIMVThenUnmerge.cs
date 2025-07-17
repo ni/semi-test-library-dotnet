@@ -9,7 +9,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
     /// <summary>
     /// This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup 
     /// DCPower Instrument Abstraction methods from the Semiconductor Test Library.
-    /// These methods can be used to merge DUT pins together to force higher current and measure the voltage.
+    /// These methods can be used to merge DUT pins together to output higher current.
     /// These methods are only supported under the following conditions:
     /// 1. The pin map must define a pin group to contain all the pins that are to be merged together.
     /// 2. Each pin in the pin group must be mapped to an SMU channels of same module for a given site.
