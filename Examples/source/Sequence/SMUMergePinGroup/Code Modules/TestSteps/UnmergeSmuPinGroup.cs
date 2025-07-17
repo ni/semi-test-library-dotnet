@@ -31,13 +31,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinGroup">Name of the pin group to be merged.</param>
-        /// <param name="settlingTime">Settling time used for measurements.</param>
         /// <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels.</param>
+        /// <param name="settlingTime">Settling time used for measurements.</param>
         public static void PowerDownAndUnmergeSmuPinGroup(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
-            double settlingTime = 0.001,
-            string disconnectedRelayConfiguration = "")
+            string disconnectedRelayConfiguration = "",
+            double settlingTime = 0.001)
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);

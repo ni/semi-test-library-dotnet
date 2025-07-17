@@ -57,7 +57,7 @@
             do not specify a value for the connectedRelayConfiguration parameter. 
             The settlingTime parameter is only applicable when the connectedRelayConfiguration parameter is used.
             </summary>
-            <param name="tsmContext">Teststand Semiconductor module context.</param>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="pinGroup">Name of the pin group to be merged.</param>
             <param name="currentLevel">Current level to set output.</param>
             <param name="voltageLimit">Voltage limit for output.</param>
@@ -66,7 +66,7 @@
             <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel.</param>
             <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup.TestSteps.MergeSmuPinGroup(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Double,System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup.TestSteps.MergeSmuPinGroup(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.String,System.Double)">
             <summary>
             Merges the pins in specified pin group, allowing them to operate in unison to achieve a higher current output.
             Use the connectedRelayConfiguration parameter to specify the appropriate relay configuration
@@ -75,12 +75,12 @@
             do not specify a value for the connectedRelayConfiguration parameter. 
             The settlingTime parameter is only applicable when the connectedRelayConfiguration parameter is used.
             </summary>
-            <param name="tsmContext">Teststand Semiconductor module context.</param>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="pinGroup">Name of the pin group to be merged.</param>
-            <param name="settlingTime">Settling time used for measurements.</param>
             <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel.</param>
+            <param name="settlingTime">Settling time required for the relay configuration to be connected.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup.TestSteps.PowerDownAndUnmergeSmuPinGroup(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Double,System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup.TestSteps.PowerDownAndUnmergeSmuPinGroup(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.String,System.Double)">
             <summary>
             Power down the bundle and then unmerges the pins in specified pin group, allowing them to operate independently afterwards.
             Use the disconnectedRelayConfiguration parameter to specify the appropriate relay configuration
@@ -89,7 +89,7 @@
             do not specify a value for the disconnectedRelayConfiguration parameter. 
             The settlingTime parameter is only applicable when the disconnectedRelayConfiguration parameter is used.
             </summary>
-            <param name="tsmContext">Teststand Semiconductor module context.</param>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="pinGroup">Name of the pin group to be merged.</param>
             <param name="settlingTime">Settling time used for measurements.</param>
             <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels.</param>
