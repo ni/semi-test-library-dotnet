@@ -1,8 +1,7 @@
-﻿
+﻿using System;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using System;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup
 {
