@@ -1,5 +1,4 @@
-﻿using System;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
@@ -41,12 +40,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
+
             // Power down the pins before disconnecting
             smuBundle.ForceCurrent(currentLevel: 0, voltageLimit: 0.01);
             smuBundle.PowerDown();
-            //Configure the appropriate relays required to physically disconnect the pins externally.
+
+            // Configure the appropriate relays required to physically disconnect the pins externally.
             smuBundle.UnmergePinGroup(pinGroup);
-            if (!String.IsNullOrEmpty(disconnectedRelayConfiguration))
+            if (!string.IsNullOrEmpty(disconnectedRelayConfiguration))
             {
                 tsmContext.ApplyRelayConfiguration(disconnectedRelayConfiguration, waitSeconds: settlingTime);
             }

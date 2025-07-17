@@ -1,5 +1,4 @@
-﻿using System;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
@@ -41,8 +40,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
+
             // Configure the appropriate relays required to physically connect the pins externally.
-            if (!String.IsNullOrEmpty(connectedRelayConfiguration))
+            if (!string.IsNullOrEmpty(connectedRelayConfiguration))
             {
                 tsmContext.ApplyRelayConfiguration(connectedRelayConfiguration, waitSeconds: settlingTime);
             }

@@ -1,5 +1,4 @@
-﻿using System;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
@@ -52,7 +51,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
 
             // Configure the appropriate relays required to physically connect the pins externally.
-            if (!String.IsNullOrEmpty(connectedRelayConfiguration))
+            if (!string.IsNullOrEmpty(connectedRelayConfiguration))
             {
                 tsmContext.ApplyRelayConfiguration(connectedRelayConfiguration, waitSeconds: settlingTime);
             }
@@ -68,7 +67,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
                 };
                 smuBundle.ConfigureMeasureSettings(measureSettings);
             }
-            
+
             // Source and/or measure the signals.
             smuBundle.ForceCurrent(currentLevel, voltageLimit, waitForSourceCompletion: true);
             smuBundle.MeasureAndPublishVoltage(publishedDataId: "Voltage");
@@ -79,13 +78,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             smuBundle.PowerDown();
             PreciseWait(timeInSeconds: settlingTime);
 
-            // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
+            // Configure the appropriate relays required to physically disconnect the pins externally.
             smuBundle.UnmergePinGroup(pinGroup);
-            if (!String.IsNullOrEmpty(disconnectedRelayConfiguration))
+            if (!string.IsNullOrEmpty(disconnectedRelayConfiguration))
             {
-                // Configure the relays required for unmerging.
                 tsmContext.ApplyRelayConfiguration(disconnectedRelayConfiguration, waitSeconds: settlingTime);
-            } 
+            }
         }
     }
 }
