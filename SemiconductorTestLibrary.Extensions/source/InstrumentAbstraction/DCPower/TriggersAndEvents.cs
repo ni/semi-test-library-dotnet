@@ -265,7 +265,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
                 GetUnSupportedModelStrings(TriggerType.MeasureTrigger),
                 output => output.Triggers.MeasureTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge));
         }
@@ -285,7 +284,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
                 GetUnSupportedModelStrings(TriggerType.MeasureTrigger),
                 output => output.Triggers.MeasureTrigger.ConfigureSoftwareEdgeTrigger());
         }
