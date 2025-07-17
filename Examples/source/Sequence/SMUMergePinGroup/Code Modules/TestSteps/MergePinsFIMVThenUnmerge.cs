@@ -36,7 +36,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// <param name="voltageLimit">Voltage limit for output.</param>
         /// <param name="settlingTime">Settling time used for measurements.</param>
         /// <param name="apertureTime">Aperture time used for measurements.</param>
-        /// <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel.</param>
+        /// <param name="connectedRelayConfiguration">Relay configuration that physically connects all the channels in parallel on the application load board, if required.</param>
         /// <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels.</param>
         public static void MergePinsFIMVThenUnmerge(
             ISemiconductorModuleContext tsmContext,

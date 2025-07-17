@@ -31,7 +31,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinGroup">Name of the pin group to be merged.</param>
-        /// <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel.</param>
+        /// <param name="connectedRelayConfiguration">Relay configuration that physically connects all the channels in parallel on the application load board, if required.</param>
         /// <param name="settlingTime">Settling time required for the relay configuration to be connected.</param>
         public static void MergeSmuPinGroup(
             ISemiconductorModuleContext tsmContext,
