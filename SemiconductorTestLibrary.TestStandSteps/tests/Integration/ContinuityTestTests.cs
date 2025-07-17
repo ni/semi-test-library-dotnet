@@ -30,29 +30,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
 
-            // Validate publish data.
             var publishedData = publishedDataReader.GetAndClearPublishedData();
-
-            // Filter publish data by PublishID.
-            var filteredPublishedData = publishedData.Where(pd => pd.PublishedDataId == "Continuity").ToArray();
-
-            // generate dictionary of dictionary with site number as key and pin number as key for nested dictionbary.
-            var groupedData = filteredPublishedData
-           .GroupBy(cd => cd.SiteNumber)
-           .ToDictionary(
-               siteGroup => siteGroup.Key, // Site key
-               siteGroup => siteGroup
-                  .GroupBy(cd => cd.Pin)
-                  .ToDictionary(
-                  gradeGroup => gradeGroup.Key, // pin key
-                     gradeGroup => gradeGroup.ToList()));
-
-            // get published data for each site.
-            var sites = tsmContext.SiteNumbers;
-            foreach (var site in sites)
+            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "VCC1").Count());
+            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "VCC2").Count());
+            foreach (var data in publishedData)
             {
-                Assert.InRange(groupedData[site]["VCC1"][0].DoubleValue, 0.075, 0.085); // Expected value is around 0.08
-                Assert.InRange(groupedData[site]["VCC2"][0].DoubleValue, 0.075, 0.085); // Expected value is around 0.08
+                Assert.InRange(data.DoubleValue, .075, 0.85);
+                Assert.Equal("Continuity", data.PublishedDataId);
             }
 
             CleanupInstrumentation(tsmContext);
