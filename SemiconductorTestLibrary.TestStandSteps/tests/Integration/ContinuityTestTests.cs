@@ -38,7 +38,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.InRange(data.DoubleValue, .075, 0.85);
                 Assert.Equal("Continuity", data.PublishedDataId);
             }
-
             CleanupInstrumentation(tsmContext);
         }
     }
