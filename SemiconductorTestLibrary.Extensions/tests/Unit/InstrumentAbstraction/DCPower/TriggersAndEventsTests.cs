@@ -396,6 +396,61 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             // });
         }
 
+        [Fact]
+        public void PinMapWithMultipleSMUDevices_ConfigureMeasureTrigger_DoesNotThrowExceptionOnClearTrigger()
+        {
+            var sessionManager = Initialize("MultipleSMUDevices.pinmap");
+
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDD", "VDET", "VEE" });
+            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
+
+            sessionsBundle.ClearTriggers();
+        }
+
+        [Fact]
+        public void PinMapWithMultipleSMUDevices_ConfigurePulseTrigger_DoesNotThrowExceptionOnClearTrigger()
+        {
+            var sessionManager = Initialize("MultipleSMUDevices.pinmap");
+
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDD", "VDET", "VEE" });
+            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.PulseTrigger);
+
+            sessionsBundle.ClearTriggers();
+        }
+
+        [Fact]
+        public void PinMapWithMultipleSMUDevices_ConfigureSequenceAdvanceTrigger_DoesNotThrowExceptionOnClearTrigger()
+        {
+            var sessionManager = Initialize("MultipleSMUDevices.pinmap");
+
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDD", "VDET", "VEE" });
+            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SequenceAdvanceTrigger);
+
+            sessionsBundle.ClearTriggers();
+        }
+
+        [Fact]
+        public void PinMapWithMultipleSMUDevices_ConfigureSourceTrigger_DoesNotThrowExceptionOnClearTrigger()
+        {
+            var sessionManager = Initialize("MultipleSMUDevices.pinmap");
+
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDD", "VDET", "VEE" });
+            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
+
+            sessionsBundle.ClearTriggers();
+        }
+
+        [Fact]
+        public void PinMapWithMultipleSMUDevices_ConfigureStartTrigger_DoesNotThrowExceptionOnClearTrigger()
+        {
+            var sessionManager = Initialize("MultipleSMUDevices.pinmap");
+
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDD", "VDET", "VEE" });
+            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.StartTrigger);
+
+            sessionsBundle.ClearTriggers();
+        }
+
         private void AssertPulseTriggerSettings(DCPowerSessionInformation sessionInfo, string channelString, DCPowerPulseTriggerType expectedType, string expectedInputTerminal = "", DCPowerTriggerEdge expectedEdge = DCPowerTriggerEdge.Rising)
         {
             Assert.Equal(expectedType, sessionInfo.Session.Outputs[channelString].Triggers.PulseTrigger.Type);

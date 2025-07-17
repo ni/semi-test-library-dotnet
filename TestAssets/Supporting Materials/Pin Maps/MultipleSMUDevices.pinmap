@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4110_C1_S04" numberOfChannels="2">
+			<ChannelGroup name="DCPowerChannelGroup_4110_0" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4110_1" channels="1" />
+		</NIDCPowerInstrument>
+      <NIDCPowerInstrument name="SMU_4112_C4_S04" numberOfChannels="2">
+         <ChannelGroup name="DCPowerChannelGroup_4112_0" channels="0" />
+         <ChannelGroup name="DCPowerChannelGroup_4112_1" channels="1" />
+		</NIDCPowerInstrument>
+
+      <NIDCPowerInstrument name="SMU_4113_C7_S02" numberOfChannels="2">
+         <ChannelGroup name="DCPowerChannelGroup_4113_0" channels="0" />
+         <ChannelGroup name="DCPowerChannelGroup_4113_1" channels="1" />
+		</NIDCPowerInstrument>
+      
+		<NIDCPowerInstrument name="SMU_4130_C2_S04" numberOfChannels="2">
+			<ChannelGroup name="DCPowerChannelGroup_4130_0" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4130_1" channels="1" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4135_C7_S03" numberOfChannels="2">
+			<ChannelGroup name="DCPowerChannelGroup_4135_0" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4135_1" channels="1" />
+		</NIDCPowerInstrument>
+      <NIDCPowerInstrument name="SMU_4137_C5_S02" numberOfChannels="2">
+         <ChannelGroup name="DCPowerChannelGroup_4137_0" channels="0" />
+         <ChannelGroup name="DCPowerChannelGroup_4137_1" channels="1" />
+		</NIDCPowerInstrument>
+      <NIDCPowerInstrument name="SMU_4139_C5_S17" numberOfChannels="2">
+         <ChannelGroup name="DCPowerChannelGroup_4139_0" channels="0" />
+         <ChannelGroup name="DCPowerChannelGroup_4139_1" channels="1" />
+		</NIDCPowerInstrument>
+      
+      
+      <NIDCPowerInstrument name="SMU_4141_C7_S04" numberOfChannels="2">
+         <ChannelGroup name="DCPowerChannelGroup_4141_0" channels="0" />
+         <ChannelGroup name="DCPowerChannelGroup_4141_1" channels="1" />
+		</NIDCPowerInstrument>
+      <NIDCPowerInstrument name="SMU_4143_C7_S05" numberOfChannels="2">
+         <ChannelGroup name="DCPowerChannelGroup_4143_0" channels="0" />
+         <ChannelGroup name="DCPowerChannelGroup_4143_1" channels="1" />
+		</NIDCPowerInstrument>
+      <NIDCPowerInstrument name="SMU_4145_C7_S06" numberOfChannels="2">
+         <ChannelGroup name="DCPowerChannelGroup_4145_0" channels="0" />
+         <ChannelGroup name="DCPowerChannelGroup_4145_1" channels="1" />
+		</NIDCPowerInstrument>
+      
+		<NIDCPowerInstrument name="SMU_4147_C1_S11" numberOfChannels="2">
+			<ChannelGroup name="DCPowerChannelGroup_4147_0" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4147_1" channels="1" />
+		</NIDCPowerInstrument>
+      
+		<NIDCPowerInstrument name="SMU_4154_C3_S04" numberOfChannels="2">
+			<ChannelGroup name="DCPowerChannelGroup_4154_0" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4154_1" channels="1" />
+		</NIDCPowerInstrument>
+      
+		<NIDCPowerInstrument name="SMU_4162_C5_S10" numberOfChannels="2">
+			<ChannelGroup name="DCPowerChannelGroup_4162_0" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4162_1" channels="1" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4163_C5_S13" numberOfChannels="2">
+			<ChannelGroup name="DCPowerChannelGroup_4163_0" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4163_1" channels="1" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4190_C7_S07" numberOfChannels="2">
+			<ChannelGroup name="DCPowerChannelGroup_4190_0" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4190_1" channels="1" />
+		</NIDCPowerInstrument>
+
+      
+	</Instruments>
+	<Pins>
+		<DUTPin name="VCC" />
+		<DUTPin name="VDD" />
+		<DUTPin name="VDET" />
+      <DUTPin name="VEE" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+		<Site siteNumber="3" />
+	</Sites>
+	<Connections>
+		<Connection pin="VCC" siteNumber="0" instrument="SMU_4110_C1_S04" channel="0" />
+		<Connection pin="VCC" siteNumber="1" instrument="SMU_4112_C4_S04" channel="0" />
+		<Connection pin="VCC" siteNumber="2" instrument="SMU_4113_C7_S02" channel="0" />
+		<Connection pin="VCC" siteNumber="3" instrument="SMU_4130_C2_S04" channel="0" />
+		<Connection pin="VDD" siteNumber="0" instrument="SMU_4135_C7_S03" channel="0" />
+		<Connection pin="VDD" siteNumber="1" instrument="SMU_4137_C5_S02" channel="0" />
+		<Connection pin="VDD" siteNumber="2" instrument="SMU_4139_C5_S17" channel="0" />
+		<Connection pin="VDD" siteNumber="3" instrument="SMU_4141_C7_S04" channel="0" />
+		<Connection pin="VDET" siteNumber="0" instrument="SMU_4143_C7_S05" channel="0" />
+		<Connection pin="VDET" siteNumber="1" instrument="SMU_4145_C7_S06" channel="0" />
+		<Connection pin="VDET" siteNumber="2" instrument="SMU_4147_C1_S11" channel="0" />
+		<Connection pin="VDET" siteNumber="3" instrument="SMU_4154_C3_S04" channel="0" />
+      <Connection pin="VEE" siteNumber="0" instrument="SMU_4162_C5_S10" channel="0" />
+      <Connection pin="VEE" siteNumber="1" instrument="SMU_4163_C5_S13" channel="0" />
+      <Connection pin="VEE" siteNumber="2" instrument="SMU_4190_C7_S07" channel="0" />
+      <Connection pin="VEE" siteNumber="3" instrument="SMU_4130_C2_S04" channel="1" />
+	</Connections>
+</PinMap>

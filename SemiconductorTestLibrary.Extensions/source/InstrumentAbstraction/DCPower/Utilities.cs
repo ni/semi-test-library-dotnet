@@ -20,7 +20,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     DCPowerModelStrings.PXI_4110,
                     DCPowerModelStrings.PXIe_4112,
                     DCPowerModelStrings.PXIe_4113,
-                    DCPowerModelStrings.PXIe_4113,
+                    DCPowerModelStrings.PXI_4130,
                     DCPowerModelStrings.PXIe_4141,
                     DCPowerModelStrings.PXIe_4143,
                     DCPowerModelStrings.PXIe_4145,
