@@ -488,7 +488,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Why earlier here was PXIe_4154 in unsupported model strings? As per NI documentation, PXIe_4154 supports SourceTrigger.
                 GetUnSupportedModelStrings(TriggerType.SourceTrigger),
                 output => output.Triggers.SourceTrigger.Disable());
         }
