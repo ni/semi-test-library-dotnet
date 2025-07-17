@@ -8,7 +8,7 @@
             <summary>
             This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup 
             DCPower Instrument Abstraction methods from the Semiconductor Test Library.
-            These methods can be used to merge DUT pins together to force higher current and measure the voltage.
+            These methods can be used to merge DUT pins together to output higher current.
             These methods are only supported under the following conditions:
             1. The pin map must define a pin group to contain all the pins that are to be merged together.
             2. Each pin in the pin group must be mapped to an SMU channels of same module for a given site.
@@ -22,7 +22,7 @@
             <summary>
             This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup 
             DCPower Instrument Abstraction methods from the Semiconductor Test Library.
-            These methods can be used to merge DUT pins together to force higher current and measure the voltage.
+            These methods can be used to merge DUT pins together to output higher current.
             These methods are only supported under the following conditions:
             1. The pin map must define a pin group to contain all the pins that are to be merged together.
             2. Each pin in the pin group must be mapped to an SMU channels of same module for a given site.
@@ -36,7 +36,7 @@
             <summary>
             This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup 
             DCPower Instrument Abstraction methods from the Semiconductor Test Library.
-            These methods can be used to merge DUT pins together to force higher current and measure the voltage.
+            These methods can be used to merge DUT pins together to output higher current.
             These methods are only supported under the following conditions:
             1. The pin map must define a pin group to contain all the pins that are to be merged together.
             2. Each pin in the pin group must be mapped to an SMU channels of same module for a given site.
@@ -63,7 +63,7 @@
             <param name="voltageLimit">Voltage limit for output.</param>
             <param name="settlingTime">Settling time used for measurements.</param>
             <param name="apertureTime">Aperture time used for measurements.</param>
-            <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel.</param>
+            <param name="connectedRelayConfiguration">Relay configuration that physically connects all the channels in parallel on the application load board, if required.</param>
             <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup.TestSteps.MergeSmuPinGroup(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.String,System.Double)">
@@ -77,7 +77,7 @@
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="pinGroup">Name of the pin group to be merged.</param>
-            <param name="connectedRelayConfiguration">Relay configuration that connects all the channels in parallel.</param>
+            <param name="connectedRelayConfiguration">Relay configuration that physically connects all the channels in parallel on the application load board, if required.</param>
             <param name="settlingTime">Settling time required for the relay configuration to be connected.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup.TestSteps.PowerDownAndUnmergeSmuPinGroup(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.String,System.Double)">
@@ -91,8 +91,8 @@
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="pinGroup">Name of the pin group to be merged.</param>
-            <param name="settlingTime">Settling time used for measurements.</param>
             <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels.</param>
+            <param name="settlingTime">Settling time used for measurements.</param>
         </member>
     </members>
 </doc>
