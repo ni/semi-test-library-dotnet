@@ -99,7 +99,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         [Fact]
         public void Initialize_RunLeakageTestWithHighVoltageLevel_ThrowsNISemiconductorTestException()
         {
-            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
+            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             SetupNIDigitalPatternInstrumentation(tsmContext);
 

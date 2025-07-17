@@ -44,7 +44,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "PA_EN").Count());
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C0").Count());
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C1").Count());
-
             foreach (var data in publishedData)
             {
                 Assert.InRange(data.DoubleValue, 0, 0.05);
@@ -84,7 +83,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "PA_EN").Count());
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C0").Count());
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C1").Count());
-
             foreach (var data in publishedData)
             {
                 Assert.InRange(data.DoubleValue, 0, 0.05);
@@ -124,7 +122,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "PA_EN").Count());
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C0").Count());
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C1").Count());
-
             foreach (var data in publishedData)
             {
                 Assert.InRange(data.DoubleValue, 0, 0.05);
@@ -165,7 +162,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "PA_EN").Count());
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C0").Count());
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C1").Count());
-
             foreach (var data in publishedData)
             {
                 Assert.InRange(data.DoubleValue, 0, 0.05);
