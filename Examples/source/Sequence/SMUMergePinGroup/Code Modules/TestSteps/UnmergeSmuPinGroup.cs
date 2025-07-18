@@ -42,7 +42,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
 
             // Power down the pins before disconnecting
-            smuBundle.ForceCurrent(currentLevel: 0, voltageLimit: 0.01);
+            smuBundle.ForceVoltage(voltageLevel: 0, currentLimit: 0.01);
             smuBundle.PowerDown();
 
             // Configure the appropriate relays required to physically disconnect the pins externally.

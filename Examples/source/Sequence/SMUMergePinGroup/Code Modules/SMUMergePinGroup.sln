@@ -5,8 +5,6 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMUMergePinGroup", "SMUMergePinGroup.csproj", "{05C7D171-04EC-47BF-B5BC-1A4F2AD9A100}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemiconductorTestLibrary.Extensions", "..\..\..\..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj", "{8221C510-0DA1-E8AE-C0C6-C851B24DC759}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{05C7D171-04EC-47BF-B5BC-1A4F2AD9A100}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05C7D171-04EC-47BF-B5BC-1A4F2AD9A100}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05C7D171-04EC-47BF-B5BC-1A4F2AD9A100}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8221C510-0DA1-E8AE-C0C6-C851B24DC759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8221C510-0DA1-E8AE-C0C6-C851B24DC759}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8221C510-0DA1-E8AE-C0C6-C851B24DC759}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8221C510-0DA1-E8AE-C0C6-C851B24DC759}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
