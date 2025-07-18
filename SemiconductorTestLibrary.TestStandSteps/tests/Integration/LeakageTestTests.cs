@@ -12,7 +12,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class LeakageTestTests
     {
         [Fact]
-        public void Initialize_RunLeakageTestWithPositiveLevel_Succeeds()
+        public void Initialize_RunLeakageTestWithPositiveLevel_ValidatePublishedData()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
@@ -40,7 +40,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_RunLeakageTestWithNegativeLevel_Succeeds()
+        public void Initialize_RunLeakageTestWithNegativeLevel_ValidatePublishedData()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
@@ -68,7 +68,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_RunLeakageTestWithDigitalPinsOnly_Succeeds()
+        public void Initialize_RunLeakageTestWithDigitalPinsOnly_ValidatePublishedData()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDigitalPatternInstrumentation(tsmContext);

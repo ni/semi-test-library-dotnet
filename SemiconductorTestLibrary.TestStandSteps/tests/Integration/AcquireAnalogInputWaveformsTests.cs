@@ -10,7 +10,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class AcquireAnalogInputWaveformsTests
     {
         [Fact]
-        public void Initialize_RunDAQmxTestAcquireAnalogInputWaveforms_Succeeds()
+        public void InitializeDAQmxAIVoltageTask_RunDAQmxTestAcquireAnalogInputWaveforms_ValidatePublishedData()
         {
             var tsmContext = CreateTSMContext("DAQmxTests.pinmap", out var publishedDataReader);
             SetupNIDAQmxAIVoltageTask(tsmContext);
