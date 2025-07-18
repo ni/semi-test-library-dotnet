@@ -1,6 +1,9 @@
-﻿using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using System.Linq;
+using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
+using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
@@ -13,9 +16,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class ForceCurrentMeasureVoltageTests
     {
         [Fact]
-        public void Initialize_RunForceCurrentMeasureVoltageWithPositiveInRangeVoltageLimit_VoltageLimitsCorrectlySet()
+        public void Initialize_RunForceCurrentMeasureVoltageWithPositiveInRangeVoltageLimit_VoltageLimitsCorrectlySetAndValidatePublishedData()
         {
-            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             SetupNIDigitalPatternInstrumentation(tsmContext);
 
@@ -38,13 +41,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-2, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow);
                 Assert.Equal(3.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
+            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
         [Fact]
-        public void Initialize_RunForceCurrentMeasureVoltageWithPositiveOutRangeVoltageLimit_VoltageLimitsCorrectlySet()
+        public void Initialize_RunForceCurrentMeasureVoltageWithPositiveOutRangeVoltageLimit_VoltageLimitsCorrectlySetAndValidatePublishedData()
         {
-            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             SetupNIDigitalPatternInstrumentation(tsmContext);
 
@@ -67,13 +71,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow, 1);
                 Assert.Equal(1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
+            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
         [Fact]
-        public void Initialize_RunForceCurrentMeasureVoltageWithNegativeInRangeVoltageLimit_VoltageLimitsCorrectlySet()
+        public void Initialize_RunForceCurrentMeasureVoltageWithNegativeInRangeVoltageLimit_VoltageLimitsCorrectlySetAndValidatePublishedData()
         {
-            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             SetupNIDigitalPatternInstrumentation(tsmContext);
 
@@ -96,13 +101,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow, 1);
                 Assert.Equal(1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
+            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
         [Fact]
-        public void Initialize_RunForceCurrentMeasureVoltageWithNegativeOutRangeVoltageLimit_VoltageLimitsCorrectlySet()
+        public void Initialize_RunForceCurrentMeasureVoltageWithNegativeOutRangeVoltageLimit_VoltageLimitsCorrectlySetAndValidatePublishedData()
         {
-            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             SetupNIDigitalPatternInstrumentation(tsmContext);
 
@@ -125,6 +131,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-2, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow);
                 Assert.Equal(3.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
+            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -166,6 +173,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 settlingTime: 5e-5);
             dcPower.UnmergePinGroup("MergedPowerPins");
             CleanupInstrumentation(tsmContext);
+        }
+
+        private void AssertPublishedData(int siteCount, IPublishedDataReader publishedDataReader)
+        {
+            var publishedData = publishedDataReader.GetAndClearPublishedData();
+            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "VCC1").Count());
+            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "PA_EN").Count());
+            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "C0").Count());
+            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "C1").Count());
+            foreach (var data in publishedData)
+            {
+                Assert.InRange(data.DoubleValue, 0, 0.05);
+                Assert.Equal("Voltage", data.PublishedDataId);
+            }
         }
     }
 }
