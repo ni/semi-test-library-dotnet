@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -214,12 +214,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                if (pinSiteInfo.ModelString != DCPowerModelStrings.PXI_4110)
+                sessionInfo.AllChannelsOutput.Control.Abort();
+                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.PulseTrigger))
                 {
-                    sessionInfo.AllChannelsOutput.Control.Abort();
                     sessionInfo.AllChannelsOutput.Triggers.PulseTrigger.Type = DCPowerPulseTriggerType.None;
+                }
+                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.SequenceAdvanceTrigger))
+                {
                     sessionInfo.AllChannelsOutput.Triggers.SequenceAdvanceTrigger.Type = DCPowerSequenceAdvanceTriggerType.None;
+                }
+                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.SourceTrigger))
+                {
                     sessionInfo.AllChannelsOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.None;
+                }
+                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.StartTrigger))
+                {
                     sessionInfo.AllChannelsOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.None;
                 }
             });
@@ -255,8 +264,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.MeasureTrigger,
                 output => output.Triggers.MeasureTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge));
         }
 
@@ -275,8 +283,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.MeasureTrigger,
                 output => output.Triggers.MeasureTrigger.ConfigureSoftwareEdgeTrigger());
         }
 
@@ -306,8 +313,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.PulseTrigger,
                 output => output.Triggers.PulseTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge));
         }
 
@@ -326,8 +332,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.PulseTrigger,
                 output => output.Triggers.PulseTrigger.ConfigureSoftwareEdgeTrigger());
         }
 
@@ -346,8 +351,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { DCPowerModelStrings.PXIe_4147 },
+                TriggerType.PulseTrigger,
                 output => output.Triggers.PulseTrigger.Disable());
         }
 
@@ -377,8 +381,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.SequenceAdvanceTrigger,
                 output => output.Triggers.SequenceAdvanceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge));
         }
 
@@ -397,8 +400,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.SequenceAdvanceTrigger,
                 output => output.Triggers.SequenceAdvanceTrigger.ConfigureSoftwareEdgeTrigger());
         }
 
@@ -417,8 +419,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.SequenceAdvanceTrigger,
                 output => output.Triggers.SequenceAdvanceTrigger.Disable());
         }
 
@@ -448,8 +449,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.SourceTrigger,
                 output => output.Triggers.SourceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge));
         }
 
@@ -468,8 +468,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.SourceTrigger,
                 output => output.Triggers.SourceTrigger.ConfigureSoftwareEdgeTrigger());
         }
 
@@ -488,8 +487,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { DCPowerModelStrings.PXI_4110, DCPowerModelStrings.PXI_4130, DCPowerModelStrings.PXIe_4154 },
+                TriggerType.SourceTrigger,
                 output => output.Triggers.SourceTrigger.Disable());
         }
 
@@ -519,8 +517,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.StartTrigger,
                 output => output.Triggers.StartTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge));
         }
 
@@ -539,8 +536,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.StartTrigger,
                 output => output.Triggers.StartTrigger.ConfigureSoftwareEdgeTrigger());
         }
 
@@ -559,15 +555,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                // Might want to move this out of this method and into to a readonly dictionary of some kind in the future.
-                new string[] { }, // Placeholder for now, use DCPowerModelStrings
+                TriggerType.StartTrigger,
                 output => output.Triggers.StartTrigger.Disable());
         }
 
-        private static void DoForSupportedModels(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, string[] unsupportedModelStrings, Action<DCPowerOutput> action)
+        private static void DoForSupportedModels(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, TriggerType triggerType, Action<DCPowerOutput> action)
         {
             string channelStringToUse = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsString : channelString;
-            if (!unsupportedModelStrings.Contains(modelString))
+            if (IsTriggerTypeSupported(modelString, triggerType))
             {
                 action(sessionInfo.Session.Outputs[channelStringToUse]);
             }
