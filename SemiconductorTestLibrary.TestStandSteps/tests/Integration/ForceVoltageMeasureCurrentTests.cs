@@ -11,7 +11,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class ForceVolategMeasureCurrentTests
     {
         [Fact]
-        public void Initialize_RunForceVolatgeMeasureCurrentWithPositiveTest()
+        public void Initialize_RunForceVolatgeMeasureCurrentWithPositiveTest_Succeeds()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);

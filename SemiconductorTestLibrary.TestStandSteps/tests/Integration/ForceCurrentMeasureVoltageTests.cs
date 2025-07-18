@@ -2,6 +2,8 @@
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
+using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
@@ -39,16 +41,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-2, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow);
                 Assert.Equal(3.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
-            var publishedData = publishedDataReader.GetAndClearPublishedData();
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "VCC1").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "PA_EN").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C0").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C1").Count());
-            foreach (var data in publishedData)
-            {
-                Assert.InRange(data.DoubleValue, 0, 0.05);
-                Assert.Equal("Voltage", data.PublishedDataId);
-            }
+            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -78,16 +71,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow, 1);
                 Assert.Equal(1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
-            var publishedData = publishedDataReader.GetAndClearPublishedData();
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "VCC1").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "PA_EN").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C0").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C1").Count());
-            foreach (var data in publishedData)
-            {
-                Assert.InRange(data.DoubleValue, 0, 0.05);
-                Assert.Equal("Voltage", data.PublishedDataId);
-            }
+            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -117,17 +101,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow, 1);
                 Assert.Equal(1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
-            var publishedData = publishedDataReader.GetAndClearPublishedData();
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "VCC1").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "PA_EN").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C0").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C1").Count());
-            foreach (var data in publishedData)
-            {
-                Assert.InRange(data.DoubleValue, 0, 0.05);
-                Assert.Equal("Voltage", data.PublishedDataId);
-            }
-            CleanupInstrumentation(tsmContext);
+            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -157,16 +131,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-2, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow);
                 Assert.Equal(3.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
-            var publishedData = publishedDataReader.GetAndClearPublishedData();
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "VCC1").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "PA_EN").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C0").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C1").Count());
-            foreach (var data in publishedData)
-            {
-                Assert.InRange(data.DoubleValue, 0, 0.05);
-                Assert.Equal("Voltage", data.PublishedDataId);
-            }
+            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -208,6 +173,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 settlingTime: 5e-5);
             dcPower.UnmergePinGroup("MergedPowerPins");
             CleanupInstrumentation(tsmContext);
+        }
+
+        private void AssertPublishedData(int siteCount, IPublishedDataReader publishedDataReader)
+        {
+            var publishedData = publishedDataReader.GetAndClearPublishedData();
+            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "VCC1").Count());
+            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "PA_EN").Count());
+            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "C0").Count());
+            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "C1").Count());
+            foreach (var data in publishedData)
+            {
+                Assert.InRange(data.DoubleValue, 0, 0.05);
+                Assert.Equal("Voltage", data.PublishedDataId);
+            }
         }
     }
 }

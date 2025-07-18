@@ -10,7 +10,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class BurstPatternTests
     {
         [Fact]
-        public void BurstPatternTest()
+        public void Initialize_RunBurstPatternTest_Succeeds()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDigitalPatternInstrumentation(tsmContext);
