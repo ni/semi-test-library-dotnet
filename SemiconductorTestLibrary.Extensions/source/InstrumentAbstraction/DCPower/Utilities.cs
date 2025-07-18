@@ -87,14 +87,5 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             return false;
         }
-
-        public static string[] GetUnSupportedModelStrings(TriggerType triggerType)
-        {
-            if (_triggerTypeToUnsupportedModelStringMap.ContainsKey(triggerType))
-            {
-                return _triggerTypeToUnsupportedModelStringMap[triggerType].ToArray();
-            }
-            return new string[] { };
-        }
     }
 }

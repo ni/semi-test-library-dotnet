@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
@@ -265,7 +264,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.MeasureTrigger),
+                TriggerType.MeasureTrigger,
                 output => output.Triggers.MeasureTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge));
         }
 
@@ -284,7 +283,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.MeasureTrigger),
+                TriggerType.MeasureTrigger,
                 output => output.Triggers.MeasureTrigger.ConfigureSoftwareEdgeTrigger());
         }
 
@@ -314,7 +313,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.PulseTrigger),
+                TriggerType.PulseTrigger,
                 output => output.Triggers.PulseTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge));
         }
 
@@ -333,7 +332,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.PulseTrigger),
+                TriggerType.PulseTrigger,
                 output => output.Triggers.PulseTrigger.ConfigureSoftwareEdgeTrigger());
         }
 
@@ -352,7 +351,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.PulseTrigger),
+                TriggerType.PulseTrigger,
                 output => output.Triggers.PulseTrigger.Disable());
         }
 
@@ -382,7 +381,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.SequenceAdvanceTrigger),
+                TriggerType.SequenceAdvanceTrigger,
                 output => output.Triggers.SequenceAdvanceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge));
         }
 
@@ -401,7 +400,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.SequenceAdvanceTrigger),
+                TriggerType.SequenceAdvanceTrigger,
                 output => output.Triggers.SequenceAdvanceTrigger.ConfigureSoftwareEdgeTrigger());
         }
 
@@ -420,7 +419,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.SequenceAdvanceTrigger),
+                TriggerType.SequenceAdvanceTrigger,
                 output => output.Triggers.SequenceAdvanceTrigger.Disable());
         }
 
@@ -450,7 +449,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.SourceTrigger),
+                TriggerType.SourceTrigger,
                 output => output.Triggers.SourceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge));
         }
 
@@ -469,7 +468,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.SourceTrigger),
+                TriggerType.SourceTrigger,
                 output => output.Triggers.SourceTrigger.ConfigureSoftwareEdgeTrigger());
         }
 
@@ -488,7 +487,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.SourceTrigger),
+                TriggerType.SourceTrigger,
                 output => output.Triggers.SourceTrigger.Disable());
         }
 
@@ -518,7 +517,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.StartTrigger),
+                TriggerType.StartTrigger,
                 output => output.Triggers.StartTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge));
         }
 
@@ -537,7 +536,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.StartTrigger),
+                TriggerType.StartTrigger,
                 output => output.Triggers.StartTrigger.ConfigureSoftwareEdgeTrigger());
         }
 
@@ -556,14 +555,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.DoForSupportedModels(
                 channelString,
                 modelString,
-                GetUnSupportedModelStrings(TriggerType.StartTrigger),
+                TriggerType.StartTrigger,
                 output => output.Triggers.StartTrigger.Disable());
         }
 
-        private static void DoForSupportedModels(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, string[] unsupportedModelStrings, Action<DCPowerOutput> action)
+        private static void DoForSupportedModels(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, TriggerType triggerType, Action<DCPowerOutput> action)
         {
             string channelStringToUse = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsString : channelString;
-            if (!unsupportedModelStrings.Contains(modelString))
+            if (IsTriggerTypeSupported(modelString, triggerType))
             {
                 action(sessionInfo.Session.Outputs[channelStringToUse]);
             }
