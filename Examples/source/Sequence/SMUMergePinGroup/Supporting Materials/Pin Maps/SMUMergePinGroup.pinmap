@@ -12,11 +12,11 @@
 		<DUTPin name="VccSecondary3" />
 	</Pins>
 	<PinGroups>
-		<PinGroup name="Vcc5A">
+		<PinGroup name="Vcc2ch">
 			<PinReference pin="VccPrimary" />
 			<PinReference pin="VccSecondary1" />
 		</PinGroup>
-		<PinGroup name="Vcc10A">
+		<PinGroup name="Vcc4ch">
 			<PinReference pin="VccPrimary" />
 			<PinReference pin="VccSecondary1" />
 			<PinReference pin="VccSecondary2" />

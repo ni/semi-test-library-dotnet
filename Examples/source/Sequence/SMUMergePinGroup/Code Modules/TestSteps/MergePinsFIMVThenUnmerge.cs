@@ -71,7 +71,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             // Source and/or measure the signals.
             smuBundle.ForceCurrent(currentLevel, voltageLimit, waitForSourceCompletion: true);
             smuBundle.MeasureAndPublishVoltage(publishedDataId: "Voltage");
-            smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current");
 
             // Clean up and restore the state of the instrumentation after finishing the test.
             smuBundle.ForceCurrent(currentLevel: 0.001, voltageLimit: 0.01);
