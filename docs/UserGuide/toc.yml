@@ -51,6 +51,8 @@
   href: advanced/CustomizingTestStandSteps.md
 - name: Using Measurement Studio Analysis Library with PinSiteData
   href: advanced/UsingMeasurementStudioAnalysisLibraryWithPinSiteData.md
+- name: Best Practices for writing Extension Methods in STL
+  href: advanced/BestPracticesForWritingExtensionMethodsInSTL.md
 
 - name: TestStand Steps
 - name: Using TestStand Steps
