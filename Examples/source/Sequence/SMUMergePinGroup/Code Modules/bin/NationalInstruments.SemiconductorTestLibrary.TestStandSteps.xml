@@ -1,0 +1,459 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NationalInstruments.SemiconductorTestLibrary.TestStandSteps</name>
+    </assembly>
+    <members>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps">
+            <summary>
+            Defines entry points for semiconductor common steps.
+            </summary>
+            <summary>
+            This file contains shared methods and other definitions used by multiple TestStand steps.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.AcquireAnalogInputWaveforms(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Int32)">
+            <summary>
+            Acquires an analog waveform for each of the specified pins and pin groups. This step performs a simple acquisition of an analog signal,
+            computes the minimums and maximums of the acquired waveforms, and then publishes the results.
+            Only pins mapped to an analog input channel of a NI-DAQmx instrument are supported.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="pinsOrPinGroups">The pins or pin groups.</param>
+            <param name="samplesPerChannel">The number of samples to read on each NI-DAQmx analog input channel.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.BurstPattern(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.String)">
+            <summary>
+            Bursts a pattern and publishes the pass/fail results as well as the fail count.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="pinsOrPinGroups">The pins or pin groups.</param>
+            <param name="patternName">The name of the pattern to burst.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ContinuityTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double[],System.String[],System.Double[],System.Double[],System.Double[],System.Double,System.Double)">
+            <summary>
+            Performs a basic continuity test. It serially checks either upper or lower protection diodes DUT pins,
+            regardless of if they are mapped to digital or SMU instruments. The test will first set 0V on all the pins
+            and then source a small amount of current on the targeted continuity pins to validate the voltage drop
+            across the protection diode. After current is applied, the targeted pin(s) will be forced back to 0V
+            before continuing on to the next pin.
+            Note that each continuity pin will be tested one pin at a time.
+            Pins mapped to either an NI SMU or NI PPMU(s) instrument channel are supported.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="supplyPinsOrPinGroups">The supply pins or pin groups.</param>
+            <param name="currentLimitsPerSupplyPinOrPinGroup">The current limits for every supply pin or pin group, in amperes.</param>
+            <param name="continuityPinsOrPinGroups">The continuity pins or pin groups.</param>
+            <param name="currentLevelPerContinuityPinOrPinGroup">The current levels for every continuity pin or pin group, in amperes.</param>
+            <param name="voltageLimitHighPerContinuityPinOrPinGroup">The voltage limit high for every continuity pin or pin group, in volts.</param>
+            <param name="voltageLimitLowPerContinuityPinOrPinGroup">The voltage limit low for every continuity pin or pin group, in volts.</param>
+            <param name="apertureTime">The measurement aperture time in seconds.</param>
+            <param name="settlingTime">The amount of time to wait before measuring the voltage, in seconds.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerDown(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Boolean,System.Boolean)">
+            <summary>
+            Forces DC voltage to Zero on the specified DUT supply pins. If the <paramref name="powerDownSuppliesSerially"/> Boolean is set to True,
+            the DUT supplies will be powered down sequentially in the order provided, and the <paramref name="settlingTime"/> input will be used after power down each pin.
+            If <paramref name="forceLowestCurrentLimit"/> is set to false, the <paramref name="dutSupplyPinsOrPinGroups"/> will be configured to force 0V
+            at the currently programmed current limit and range, which may not be desirable. Otherwise, it will default to true,
+            which will ensure the pins are configured to force 0V at the lowest possible current limit to mimic high-impedance.
+            The actual current limit selected is dependent on the mapped hardware channel.
+            Both DCPower and Digital PPMU pins are supported.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="dutSupplyPinsOrPinGroups">The DUT supply pins or pin groups.</param>
+            <param name="settlingTime">The amount of time to wait before continuing, in seconds.</param>
+            <param name="powerDownSuppliesSerially">Whether to power down DUT supplies sequentially.</param>
+            <param name="forceLowestCurrentLimit">Whether to force lowest current limit (100nA) for safety considerations.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.DutPowerUp(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double[],System.Double[],System.Double,System.Boolean)">
+            <summary>
+            Forces DC voltage on the specified DUT supply pins. Must provide voltages and current limit values for each of the DUT supply pins.
+            If the <paramref name="powerUpSuppliesSerially"/> Boolean is set to True, the DUT supplies will be powered up sequentially in the order provided,
+            and the <paramref name="settlingTime"/> input will be used after power up each pin. Both DCPower and Digital PPMU pins are supported.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="dutSupplyPinsOrPinGroups">The DUT supply pins or pin groups.</param>
+            <param name="perSupplyPinOrPinGroupVoltages">The DC voltage level to force on each DUT supply pin or pin group, in volts.</param>
+            <param name="perSupplyPinOrPinGroupCurrentLimits">The current limit for each DUT supply pin or pin group, in amperes.</param>
+            <param name="settlingTime">The amount of time to wait before continuing, in seconds.</param>
+            <param name="powerUpSuppliesSerially">Whether to power up DUT supplies sequentially.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceCurrentMeasureVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Forces the specified DC current on all pins and/or pin groups specified, waits the specified amount of settling time,
+            and then measures the voltage on those pins and publishes the results to TestStand.
+            Note that the voltage measurements are published separately for each pin, regardless of if a pin group is provided, using the following Published Data Id: Voltage.
+            Both DCPower and Digital PPMU pins are supported.
+            Both the settlingTime and apertureTime inputs are expected to be provided in Seconds.
+            By default the apertureTime input is set to -1, which will cause this input to be ignored
+            and the device will use any pre-configured aperture time set by a proceeding set, such as the Setup NI-DCPower Instrumentation step.
+            The absolute value of voltage limit will be applied symmetrically (i.e if voltageLimit = 1, the output voltage will be limited between -1V and +1V).
+            An exception will be thrown if the specified limit value is outside the high-end of the voltage limit range for any of the mapped instruments.
+            For Digital PPMU pins, since the voltage range of the digital pattern instruments is typically not symmetrically (i.e. -2V to 6V),
+            the low-end of the applied voltage limit will be coerced to within range (i.e if voltageLimit = 3, the output voltage will be limited between -2V and +3V).
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="pinsOrPinGroups">The pins or pin groups to force DC voltage on.</param>
+            <param name="currentLevel">The DC current level to force, in amperes.</param>
+            <param name="voltageLimit">The voltage limit in volts.</param>
+            <param name="apertureTime">The measurement aperture time in seconds.</param>
+            <param name="settlingTime">The amount of time to wait before continuing, in seconds.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double)">
+            <summary>
+            Forces the specified DC current on all pins and/or pin groups specified. Both DCPower and Digital PPMU pins are supported.
+            If a value is provided to the settlingTimeInSeconds input, the method will wait the specified amount of settling time before continuing.
+            The absolute value of voltage limit will be applied symmetrically (i.e if voltageLimit = 1, the output voltage will be limited between -1V and +1V).
+            An exception will be thrown if the specified limit value is outside the high-end of the voltage limit range for any of the mapped instruments.
+            For Digital PPMU pins, since the voltage range of the digital pattern instruments is typically not symmetrically (i.e. -2V to 6V),
+            the low-end of the applied voltage limit will be coerced to within range (i.e if voltageLimit = 3, the output voltage will be limited between -2V and +3V).
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="pinsOrPinGroups">The pins or pin groups to force DC voltage on.</param>
+            <param name="currentLevel">The DC current level to force, in amperes.</param>
+            <param name="voltageLimit">The voltage limit in volts.</param>
+            <param name="settlingTime">The amount of time to wait before continuing, in seconds.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceDcVoltage(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double)">
+            <summary>
+            Forces the specified DC voltage on all pins and/or pin groups specified. Both DCPower and Digital PPMU pins are supported.
+            If a value is provided to the settlingTimeInSeconds input, the method will wait the specified amount of settling time before continuing.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="pinsOrPinGroups">The pins or pin groups to force DC voltage on.</param>
+            <param name="voltageLevel">The DC voltage level to force, in volts.</param>
+            <param name="currentLimit">The current limit in amperes.</param>
+            <param name="settlingTime">The amount of time to wait before continuing, in seconds.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.ForceVoltageMeasureCurrent(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Forces the specified DC voltage on all pins and/or pin groups specified, waits the specified amount of settling time,
+            and then measures the current on those pins and publishes the results to TestStand. Both DCPower and Digital PPMU pins are supported.
+            Both the <paramref name="settlingTime"/> and <paramref name="apertureTime"/> inputs are expected to be provided in Seconds.
+            By default the <paramref name="apertureTime"/> input is set to -1, which will cause this input to be ignored
+            and the device will use any pre-configured aperture time set by a proceeding set, such as the Setup NI-DCPower Instrumentation step.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="pinsOrPinGroups">The pins or pin groups to force DC voltage on.</param>
+            <param name="voltageLevel">The DC voltage level to force, in volts.</param>
+            <param name="currentLimit">The current limit in amperes.</param>
+            <param name="apertureTime">The measurement aperture time in seconds.</param>
+            <param name="settlingTime">The amount of time to wait before continuing, in seconds.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps.LeakageTest(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String[],System.Double,System.Double,System.Double,System.Double,System.Boolean)">
+            <summary>
+            Performs a single leakage measurement using the following test method:
+            1. The test first configures the instruments connected to the specified pins and ensures they are forcing 0V.
+            2. The specified voltage is then forced on each pin.
+            3. After the specified settling time, the current is measured on each pin.
+            4. Each pin is then configured back to forcing 0V.
+            5. Finally, the output on each pin is disabled.
+            Pins mapped to either an NI SMU or NI PPMU(s) instrument channel are supported.
+            By default, steps 2-4 are preformed in parallel, across all pins simultaneously.
+            When the serialOperationEnabled Boolean input parameter is set to true, steps 2-4 are preformed serially, for each pin or pin group, one at a time.
+            Pins within pin groups are always operated on in parallel.
+            The following Published Data Id is used for test results on a per-pin basis: Leakage.
+            Note that the leakage current measurements are published separately for each pin, regardless of if a pin group is provided.
+            Each test evaluation defined in the Test tab of the calling TestStand step must specify a pin.
+            To perform the leakage test on some DUT pins in parallel but not others, use the serialOperationEnabled Boolean input parameter and define separate pin groups (i.e. LeakageOddPins and LeakageEvenPins).
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="pinsOrPinGroups">The pins or pin groups.</param>
+            <param name="voltageLevel">The DC voltage level to force, in Volts.</param>
+            <param name="currentLimit">The current limit in Amperes.</param>
+            <param name="apertureTime">The measurement aperture time in seconds.</param>
+            <param name="settlingTime">The amount of time to wait before measuring the current, in seconds.</param>
+            <param name="serialOperationEnabled">Whether to enforce testing sequentially across pins or pin groups.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps">
+            <summary>
+            Defines entry points for semiconductor setup and cleanup steps.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)">
+            <summary>
+            Closes any open instrument sessions associated with the pin map.
+            If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset before closing the session (default = False).
+            The sessions will always be closed in parallel.
+            By default, the <paramref name="instrumentType"/> input is set to All, which closes sessions for all instrument types in parallel.
+            This can be configured to target a specific instrument type, which can be useful for debugging purposes
+            and/or if there is a need to ensure sessions are closed sequentially (requiring multiple instances of this step).
+            Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDAQmx, niDMM, niScope, niFGen, and niSync.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="resetDevice">Whether to reset device during initialization.</param>
+            <param name="instrumentType">The type of instrument to close.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.ResetInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)">
+            <summary>
+            Resets the instrument sessions for the specified <paramref name="instrumentType"/> associated with the pin map
+            by invoking the Reset() method of the supported instrument driver.
+            By default, the <paramref name="instrumentType"/> input is set to All, which targets all supported instrument types in parallel.
+            This can be configured to target a specific instrument type, which can be useful for debugging purposes
+            and/or if there is a need to ensure instruments are reset individually or sequentially (requiring multiple instances of this step).
+            Note that the following types are supported: niDCPower, niDigitalPattern, niRelayDriver, niDMM, niScope, niFGen, and niSync.
+            For instrumentation that also have the ResetDevice() method (hard reset), this can optionally be invoked instead of the Reset() method (soft-reset)
+            if the <paramref name="resetDevice"/> input is set True (default = False): niDCPower, niDigitalPattern, niScope, and niFGen.
+            Refer to the individual instrument driver documentation for more details.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="resetDevice">Whether to perform a hard reset on the device.</param>
+            <param name="instrumentType">The type of instrument to reset.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxAIVoltageTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Double,System.Double,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)">
+            <summary>
+            Initializes an NI DAQmx Analog Input Task associated with the pin map.
+            The value of <paramref name="taskType"/> string must match that of the DAQmx task definition within the pin map (default ="AI").
+            Note that the task will only be configured upon exiting this step, it will not be running.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="taskType">The NI DAQmx task type.</param>
+            <param name="maxiumValue">The maximum voltage value.</param>
+            <param name="minimumValue">The minimum voltage value.</param>
+            <param name="inputTerminalConfiguration">The terminal configuration of the analog input channel.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxAOFGenVoltageTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.DAQmx.AOFunctionGenerationType,System.Double,System.Double,System.Double,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)">
+            <summary>
+            Initializes an NI DAQmx Analog Output Function Generation Task associated with the pin map.
+            The value of <paramref name="taskType"/> string must match that of the DAQmx task definition within the pin map (default ="AOFuncGen").
+            Note that the task will only be configured upon exiting this step, it will not be running.
+            This type of task is only supported by certain NI DAQmx hardware, such as the 4468.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="taskType">The NI DAQmx task type.</param>
+            <param name="waveformType">The kind of waveform to generate.</param>
+            <param name="frequency">The frequency value.</param>
+            <param name="amplitude">The amplitude value.</param>
+            <param name="offset">The offset value.</param>
+            <param name="outputTerminalConfiguration">The terminal configuration of the analog output channel.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxAOVoltageTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.Double,System.Double,NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.DAQmxTerminalConfiguration)">
+            <summary>
+            Initializes an NI DAQmx Analog Output Task associated with the pin map.
+            The value of <paramref name="taskType"/> string must match that of the DAQmx task definition within the pin map (default ="AO").
+            Note that the task will only be configured upon exiting this step, it will not be running.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="taskType">The NI DAQmx task type.</param>
+            <param name="maxiumValue">The maximum voltage value.</param>
+            <param name="minimumValue">The minimum voltage value.</param>
+            <param name="outputTerminalConfiguration">The terminal configuration of the analog output channel.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxDITask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.DAQmx.ChannelLineGrouping)">
+            <summary>
+            Initializes an NI DAQmx Digital Input Task associated with the pin map.
+            The value of <paramref name="taskType"/> string must match that of the DAQmx task definition within the pin map (default ="DI").
+            Note that the task will only be configured upon exiting this step, it will not be running.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="taskType">The NI DAQmx task type.</param>
+            <param name="channelLineGrouping">How digital lines are grouped.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDAQmxDOTask(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,NationalInstruments.DAQmx.ChannelLineGrouping)">
+            <summary>
+            Initializes an NI DAQmx Digital Output Task associated with the pin map.
+            The value of <paramref name="taskType"/> string must match that of the DAQmx task definition within the pin map (default ="DO").
+            Note that the task will only be configured upon exiting this step, it will not be running.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="taskType">The NI DAQmx task type.</param>
+            <param name="channelLineGrouping">How digital lines are grouped.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDCPowerInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,System.Double,NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasureApertureTimeUnits,NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasurementWhen,NationalInstruments.ModularInstruments.NIDCPower.DCPowerMeasurementSense,System.Double,System.Double)">
+            <summary>
+            Initializes the NI DCPower instrument sessions associated with the pin map.
+            If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset as the session is initialized (default = False).
+            If the <paramref name="sourceDelay"/> is set to -1 the method will not set the source delay property, and will assume the initialized default value from the driver,
+            which is expected to be the inverse of the power line frequency.
+            If the <paramref name="powerLineFrequency"/> is set to -1, the method will attempt to automatically determine the power line frequency
+            and set the power line frequency property for the respective driver sessions.
+            If the power line frequency cannot be determined, the property will not be set and the driver will use the default value of this property (60 Hz).
+            This is currently only supported by systems that use a PXIe-109x chassis or newer.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="resetDevice">Whether to reset device during initialization.</param>
+            <param name="apertureTime">The aperture time.</param>
+            <param name="apertureTimeUnits">The aperture time units.</param>
+            <param name="measureWhen">When to do measurement.</param>
+            <param name="measurementSense">The measurement sense to use.</param>
+            <param name="sourceDelay">The source delay in seconds.</param>
+            <param name="powerLineFrequency">The power line frequency.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDigitalPatternInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,System.String,System.String,System.Boolean)">
+            <summary>
+            Initializes an NI Digital Pattern instrument sessions associated with the pin map.
+            It loads in all digital project files associated with the digital project configured for the test program,
+            this includes the: pin map, specifications, patterns, source waveforms, capture waveforms, timing sheets, and levels sheets.
+            No sheets will be applied during this setup step unless specified by the <paramref name="levelsSheetToApply"/> and/or <paramref name="timingSheetToApply"/> inputs.
+            Otherwise, the program will not assume to know loaded sheet to apply and will expect that the users program will apply the appropriate sheet(s) within a proceeding step.
+            If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset as the session is initialized (default = False).
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="resetDevice">Whether to reset device during initialization.</param>
+            <param name="levelsSheetToApply">The name of the levels sheet to apply.</param>
+            <param name="timingSheetToApply">The name of the timing sheet to apply.</param>
+            <param name="applySourceWaveformData">Whether to apply the data in waveform files to source waveforms.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIDMMInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,NationalInstruments.ModularInstruments.NIDmm.DmmApertureTimeUnits,System.Double,System.Double,System.Double,System.Nullable{NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings})">
+            <summary>
+            Initializes NI DMM instrument sessions associated with the pin map.
+            If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset as the session is initialized (default = False).
+            If the <paramref name="powerLineFrequency"/> is set to -1, the method will attempt to automatically determine the power line frequency
+            and set the power line frequency property for the respective driver sessions.
+            If the power line frequency cannot be determined, the property will not be set and the driver will use the default value of this property (60Hz).
+            This is currently only supported by systems that use a PXIe-109x chassis or newer.
+            If the <paramref name="initialMeasurmentSettings"/> is specified, all DMM sessions will be configured to the specified measurement function (not configured by default).
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="resetDevice">Whether to reset device during initialization.</param>
+            <param name="apertureTimeUnits">The aperture time units.</param>
+            <param name="apertureTime">The aperture time.</param>
+            <param name="settleTime">The settle time.</param>
+            <param name="powerLineFrequency">The power line frequency.</param>
+            <param name="initialMeasurmentSettings">The initial measurement settings.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIFGenInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
+            <summary>
+            Initializes NI FGEN instrument sessions associated with the pin map.
+            If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset as the session is initialized (default = False).
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="resetDevice">Whether to reset device during initialization.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIRelayModules(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean,System.String)">
+            <summary>
+            Initializes NI Switch instrument sessions and NI DAQmx tasks associated with relay modules within the pin map.
+            If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset as the session is initialized (default = False).
+            If the <paramref name="initialRelayConfigurationToApply"/> input is provided, the step will apply the specified relay configuration.
+            Note that the relay configuration must be defined within the pin map, otherwise the step will throw an exception.
+            Supported devices: PXI-2567 and PXIe-6368.
+            This method expects each NI DAQmx task associated with relays in the pin map to have the Task Type set to "DAQmxRelay".
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="resetDevice">Whether to reset device during initialization.</param>
+            <param name="initialRelayConfigurationToApply">The initial relay configuration to apply.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNIScopeInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
+            <summary>
+            Initializes NI Scope instrument sessions associated with the pin map.
+            If the <paramref name="resetDevice"/> input is set to True, then the instrument
+            will be reset as the session is initialized (default = False).
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="resetDevice">Whether to reset device during initialization.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps.SetupNISyncInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
+            <summary>
+            Initializes the NI Sync instrument sessions associated with the pin map.
+            If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset as the session is initialized (default = False).
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="resetDevice">Whether to reset device during initialization.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.ResourceStrings">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.ResourceStrings.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.ResourceStrings.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.ResourceStrings.Cleanup_InvalidInstrumentType">
+            <summary>
+              Looks up a localized string similar to Instrument type {0} is not supported..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.ResourceStrings.Parameter_ArraySizeMismatch">
+            <summary>
+              Looks up a localized string similar to Arrays {0} must have the same number of elements..
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings">
+            <summary>
+            Defines DMM measurement settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.MeasurementFunction">
+            <summary>
+            The measurement function.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.Range">
+            <summary>
+            The measurement range.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.ResolutionDigits">
+            <summary>
+            The resolution in digits.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings.#ctor(NationalInstruments.ModularInstruments.NIDmm.DmmMeasurementFunction,System.Double,System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.DMMMeasurementSettings"/> struct.
+            </summary>
+            <param name="measurementFunction">The measurement function.</param>
+            <param name="range">The measurement range.</param>
+            <param name="resolutionDigits">The resolution in digits.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType">
+            <summary>
+            Defines NI instrument types the NI Semiconductor Test Library supports.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.All">
+            <summary>
+            All NI instruments.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDCPower">
+            <summary>
+            An NI-DCPower instrument.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDigitalPattern">
+            <summary>
+            An NI-Digital Pattern instrument.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIRelayDriver">
+            <summary>
+            A relay driver module (NI-SWITCH instrument).
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDAQmx">
+            <summary>
+            An NI-DAQmx task.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIDMM">
+            <summary>
+            An NI-DMM instrument.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIFGen">
+            <summary>
+            An NI-FGEN instrument.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NIScope">
+            <summary>
+            An NI-SCOPE instrument.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType.NISync">
+            <summary>
+            An NI-Sync instrument.
+            </summary>
+        </member>
+    </members>
+</doc>
