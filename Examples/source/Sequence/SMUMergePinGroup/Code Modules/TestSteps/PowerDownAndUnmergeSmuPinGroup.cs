@@ -45,8 +45,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             smuBundle.ForceVoltage(voltageLevel: 0, currentLimit: 0.01);
             smuBundle.PowerDown();
 
-            // Configure the appropriate relays required to physically disconnect the pins externally.
             smuBundle.UnmergePinGroup(pinGroup);
+
+            // Configure the appropriate relays required to physically disconnect the pins externally.
             if (!string.IsNullOrEmpty(disconnectedRelayConfiguration))
             {
                 tsmContext.ApplyRelayConfiguration(disconnectedRelayConfiguration, waitSeconds: settlingTime);
