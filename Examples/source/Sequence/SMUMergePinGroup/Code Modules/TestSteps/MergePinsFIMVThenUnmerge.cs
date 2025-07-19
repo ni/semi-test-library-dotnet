@@ -23,11 +23,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
     {
         /// <summary>
         /// Merges the pins in specified pin group, allowing them to operate in unison to achieve a higher current output.
-        /// Use the connectedRelayConfiguration parameter to specify the appropriate relay configuration
-        /// that will physically connect the pins in the pin group together via external relays on the application load board.
+        /// Then, high current is forced on the merged pin group and a voltage measurement is published.
+        /// Finally, the merged pin group is powered down and unmerged.
+        /// Use the connectedRelayConfiguration and disconnectedRelayConfiguration parameters to specify the appropriate relay configurations
+        /// that will physically connect/disconnect the pins in the pin group via external relays on the application load board.
         /// If the application load board is designed with the target pins permanently connected together,
-        /// do not specify a value for the connectedRelayConfiguration parameter. 
-        /// The settlingTime parameter is only applicable when the connectedRelayConfiguration parameter is used.
+        /// do not specify a value for the connectedRelayConfiguration/disconnectedRelayConfiguration parameters.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinGroup">Name of the pin group to be merged.</param>
