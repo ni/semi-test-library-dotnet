@@ -21,7 +21,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
     public static partial class TestSteps
     {
         /// <summary>
-        /// Power down the bundle and then unmerges the pins in specified pin group, allowing them to operate independently afterwards.
+        /// Powers down the merged pin group and then unmerges the pins, allowing each pins to operate independently afterwards.
         /// Use the disconnectedRelayConfiguration parameter to specify the appropriate relay configuration
         /// that will physically disconnect the pins in the pin group via external relays on the application load board.
         /// If the application load board is designed with the target pins permanently connected together,
