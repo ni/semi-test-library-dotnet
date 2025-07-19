@@ -30,8 +30,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinGroup">Name of the pin group to be merged.</param>
-        /// <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels.</param>
-        /// <param name="settlingTime">Settling time used for measurements.</param>
+        /// <param name="disconnectedRelayConfiguration">Relay configuration that physically disconnects the channels on the application load board, if required.</param>
+        /// <param name="settlingTime">Settling time required for the relay configuration to be connected.</param>
         public static void PowerDownAndUnmergeSmuPinGroup(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,

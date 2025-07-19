@@ -33,10 +33,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// <param name="pinGroup">Name of the pin group to be merged.</param>
         /// <param name="currentLevel">Current level to set output.</param>
         /// <param name="voltageLimit">Voltage limit for output.</param>
-        /// <param name="settlingTime">Settling time used for measurements.</param>
+        /// <param name="settlingTime">Settling time used for measurements and for the relay configuration to be connected (if applicable).</param>
         /// <param name="apertureTime">Aperture time used for measurements.</param>
         /// <param name="connectedRelayConfiguration">Relay configuration that physically connects all the channels in parallel on the application load board, if required.</param>
-        /// <param name="disconnectedRelayConfiguration">Relay configuration that disconnects all the channels.</param>
+        /// <param name="disconnectedRelayConfiguration">Relay configuration that physically disconnects the channels on the application load board, if required.</param>
         public static void MergePinsFIMVThenUnmerge(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
