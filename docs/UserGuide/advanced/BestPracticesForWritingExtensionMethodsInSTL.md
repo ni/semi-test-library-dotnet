@@ -190,6 +190,7 @@ Ensure proper error handling is in place. This could include validating input pa
 |  **Naming a method** | Use a descriptive name that reflects the channel-specific operation. | Use a descriptive name that reflects the session-specific operation. | Use a descriptive name that reflects the module-specific operation. |
 |  **Example** | [GetTimeSetEdge](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs#L315) | [GetTimeSetPeriod](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs#L254)| [ReadSequencerFlag](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SequencerFlagsAndRegisters.cs#L20) |
 
+> [!NOTE]
 > While choosing the *return type*, refer the [key considerations](#choosing-parameter-and-return-types).
 
 ### **Choosing Parameter and Return Types**
