@@ -158,7 +158,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
 
             Console.WriteLine($"8. Unmerging channels.");
 
-            // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnection of the relays can be performed.
+            // Use the SMU Bundle object to perform unmerge operation on the pin group.
             smuBundle.UnmergePinGroup(vccI);
         }
     }
