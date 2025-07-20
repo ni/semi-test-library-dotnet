@@ -17,15 +17,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
     /// Using this example:
     /// 1. Expand the Settings and Configuration region and familiarize yourself with the settings.
     /// 2. Ensure the resource names within the PinMap.pinmap file match the resource name of the NI-DCPower Instrument in your system.
-    ///    The default value for the resource name is "SMU_4147_C1_S05".
-    /// 3. Note that only few DCPower Instruments support merging feature which includes PXIe-4147, PXIe-4162 and PXIe-4163.
-    /// This also requires the pinmap to define the pingroup to contain all the pins to be merged and each
-    /// pin is mapped to SMU channels of same module.
-    /// This example assumes:
-    ///  - Relay configurations to be applied before the merging operation ensures the SMUs channels are connected
-    ///  in parallel configuration and disconnect after unmerging.
-    ///  - The relay operations are skipped and they are provided as code template purpose only.
-    /// 4. Build and run the example.
+    ///    The default value for the resource name is "SMU_4147_C1_S04".
+    /// 3.  The pin map must define a pin group to contain all the pins that are to be merged together.
+    /// 4. Each pin in the pin group must be mapped to an SMU channels of same module for a given site.
+    /// 5.The SMU module must support the niDCPower Merged Channels feature.
+    /// For example: PXIe-4147, PXIe-4162, and PXIe-4163.
+    /// 6. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
+    /// The example methods of this class demonstrate how relay configurations can be applied
+    /// to ensures the SMUs channels are physically connected in parallel before the MergePinGroup operation,
+    /// and subsequently disconnected after the UnmergePinGroup operation.
+    /// 7. Build and run the example.
     /// </remarks>
     public sealed class Program
     {
@@ -55,8 +56,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         #endregion Settings and Configuration
 
         /// <summary>
-        /// Merges the specified pin group to force high current and measure voltage for pins mapped to DCPower Instruments from same module.
-        /// Specifically, this method merges the pin group, forces a voltage level, measures the current, and then unmerges the pin group.
+        /// Merges the pins in specified pin group, allowing them to operate in unison to achieve a higher current output.
+        /// Then, high current is forced on the merged pin group and a voltage measurement is published.
+        /// Finally, the merged pin group is powered down and unmerged.
+        /// Use the connectedRelayConfiguration and disconnectedRelayConfiguration parameters to specify the appropriate relay configurations
+        /// that will physically connect/disconnect the pins in the pin group via external relays on the application load board.
+        /// If the application load board is designed with the target pins permanently connected together,
+        /// do not specify a value for the connectedRelayConfiguration/disconnectedRelayConfiguration parameters.
         /// </summary>
         /// <param name="args">Command line arguments (not used in this example).</param>
         public static void Main(string[] args)
@@ -72,17 +78,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
                 Console.WriteLine($"3. Creating Session Manager.");
                 TSMSessionManager sessionManager = new TSMSessionManager(semiconductorContext);
 
+                // Configure the appropriate relays required to physically connect the pins externally.
                 if (!string.IsNullOrEmpty(ConnectedRelayConfiguration))
                 {
-                    // Configure the relays required for merging.
                     semiconductorContext.ApplyRelayConfiguration(ConnectedRelayConfiguration, waitSeconds: SettlingTime);
                 }
 
                 ApplicationLogic(sessionManager);
 
+                // Configure the appropriate relays required to physically disconnect the pins externally.
                 if (!string.IsNullOrEmpty(DisconnectedRelayConfiguration))
                 {
-                    // Configure the relays required for unmerging.
                     semiconductorContext.ApplyRelayConfiguration(DisconnectedRelayConfiguration, waitSeconds: SettlingTime);
                 }
 
@@ -105,7 +111,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         }
 
         /// <summary>
-        /// Core application logic for merging pin group.
+        /// Core application logic for merging pin group, Forcing Current and unmerging pin group happens here.
         /// </summary>
         /// <param name="sessionManager">SessionManager for creating the DCPower bundle.</param>
         private static void ApplicationLogic(TSMSessionManager sessionManager)
@@ -152,7 +158,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
 
             Console.WriteLine($"8. Unmerging channels.");
 
-            // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
+            // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnection of the relays can be performed.
             smuBundle.UnmergePinGroup(vccI);
         }
     }
