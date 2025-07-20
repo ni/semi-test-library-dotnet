@@ -1,12 +1,12 @@
 ﻿using System;
-using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
-using static NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCPower.ExampleSupport;
+using static NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.ExampleSupport;
+using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCPower.SMUMergePinGroup
+namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup
 {
     /// <summary>
     /// Demonstrates the use of MergePinGroup and UnmergePinGroup functions of the
@@ -32,14 +32,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
     {
         #region Settings and Configuration
 
-        //Relay configuration that connects all the channels in parallel
+        // Relay configuration that connects all the channels in parallel
         private const string ConnectedRelayConfiguration = "";
-        //Relay configuration that disconnects all the channels
+        // Relay configuration that disconnects all the channels
         private const string DisconnectedRelayConfiguration = "";
 
         // PinGroups for merging.
-        private const string Vcc5A = "Vcc5A";  //Name of the pin group to be merged for sourcing 5A
-        private const string Vcc10A = "Vcc10A";  //Name of the pin group to be merged for sourcing 10A
+        private const string Vcc2ch = "Vcc2ch";  //Name of the pin group to be merged for sourcing 5A
+        private const string Vcc4ch = "Vcc4ch";  //Name of the pin group to be merged for sourcing 10A
 
         // voltage and current settings for the merge operation
         private const double CurrentLevel1 = 5.0;
@@ -72,8 +72,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
 
                 Console.WriteLine($"3. Creating Session Manager.");
                 TSMSessionManager sessionManager = new TSMSessionManager(semiconductorContext);
-                
-                if (!ConnectedRelayConfiguration.IsEmpty())
+
+                if (!string.IsNullOrEmpty(ConnectedRelayConfiguration))
                 {
                     // Configure the relays required for merging.
                     semiconductorContext.ApplyRelayConfiguration(ConnectedRelayConfiguration, waitSeconds: SettlingTime);
@@ -81,7 +81,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
 
                 ApplicationLogic(sessionManager);
 
-                if (!DisconnectedRelayConfiguration.IsEmpty())
+                if (!string.IsNullOrEmpty(DisconnectedRelayConfiguration))
                 {
                     // Configure the relays required for unmerging.
                     semiconductorContext.ApplyRelayConfiguration(DisconnectedRelayConfiguration, waitSeconds: SettlingTime);
@@ -90,6 +90,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
                 Console.WriteLine("9. Closing Instrument Sessions.");
                 InitializeAndClose.Close(semiconductorContext);
             }
+
             // Handle driver-specific exceptions before the general exception handler that follows.
             // An example of a driver-specific exception is Ivi.Driver.IviCDriverException.
             catch (Exception ex)
@@ -115,7 +116,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
             Console.WriteLine("4. Please press number `4` for four channel merging or any other key for two channel merging.");
             var keyInfo = Console.ReadKey(); // ReadKey returns a ConsoleKeyInfo object
             int mergingChannelCount = keyInfo.Key == ConsoleKey.NumPad4 || keyInfo.Key == ConsoleKey.D4 ? 4 : 2;
-            string vccI = mergingChannelCount == 4 ? Vcc10A : Vcc5A;
+            string vccI = mergingChannelCount == 4 ? Vcc4ch : Vcc2ch;
             double currentLevel = mergingChannelCount == 4 ? CurrentLevel2 : CurrentLevel1;
 
             Console.WriteLine("");
@@ -144,15 +145,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.Standalone.NIDCP
             Console.WriteLine($"Measured Current: {currentOut[0][0]} A.");
 
             Console.WriteLine($"7. Powering down output.");
+
             // Clean up and restore the state of the instrumentation after finishing the test.
             smuBundle.ForceCurrent(10e-3, waitForSourceCompletion: true);
             smuBundle.PowerDown();
             PreciseWait(timeInSeconds: SettlingTime);
 
             Console.WriteLine($"8. Unmerging channels.");
+
             // Use the SMU Bundle object to perform unmerge operation on the pin group and disconnect the relays.
             smuBundle.UnmergePinGroup(vccI);
-
         }
     }
 }
