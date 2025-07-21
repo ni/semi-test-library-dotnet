@@ -75,7 +75,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_RunForceCurrentMeasureVoltageWithNegativeInRangeVoltageLimit_VoltageLimitsCorrectlySetAndValidatePublishedData()
+        public void Initialize_RunForceCurrentMeasureVoltageWithNegativeInRangeVoltageLimit_VoltageLimitsCorrectlySetAndAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
@@ -155,9 +155,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_MergePinGroupRunForceCurrentMeasureVoltageAndUnmergePinGroupSucceeds()
+        public void Initialize_MergePinGroupRunForceCurrentMeasureVoltageAndUnmergePinGroup_CorrectDataPublished()
         {
-            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
 
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -171,6 +171,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
             dcPower.UnmergePinGroup("MergedPowerPins");
+
+            var publishedData = publishedDataReader.GetAndClearPublishedData();
+            string[] primaryPin = { "VCC1" };
+            AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, primaryPin, publishedData);
+            // limits are based on the expected value returned by the driver when in Offline Mode.
+            AssertPublishedDataValueInRange(publishedData, 0, 0.05);
+            AssertPublishedDataId("Voltage", publishedData);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -179,6 +186,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             var publishedData = publishedDataReader.GetAndClearPublishedData();
             string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
             AssertPublishedDataCountPerPins(siteCount, allPins, publishedData);
+            // limits are based on the expected value returned by the driver when in Offline Mode.
             AssertPublishedDataValueInRange(publishedData, 0, 0.05);
             AssertPublishedDataId("Voltage", publishedData);
         }

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;

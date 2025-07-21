@@ -15,7 +15,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDigitalPatternInstrumentation(tsmContext);
-            string[] digitalPins = { "PA_EN", "C0", "C1" };
+            string[] digitalPins = new string[] { "PA_EN", "C0", "C1" };
 
             BurstPattern(
                 tsmContext,
@@ -30,7 +30,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             {
                 Assert.True(data.BooleanValue);
             }
-            // Validate published data on each pins
+            // Validate published data on each pins, comparision values are set based on the expected value returned by the driver when in Offline Mode.
             var publishedDataForPins = publishedData.Where(d => d.PublishedDataId == "Pattern Fail Count").ToArray();
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, digitalPins, publishedDataForPins);
             AssertPublishedDataValue(0, publishedDataForPins);

@@ -1,9 +1,9 @@
 ﻿using System.Linq;
+using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
-using Xunit;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {

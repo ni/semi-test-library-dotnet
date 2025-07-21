@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
