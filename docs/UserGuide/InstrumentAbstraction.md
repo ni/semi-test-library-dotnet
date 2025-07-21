@@ -128,3 +128,27 @@ sdo.WriteStatic(PinState._1);
 > Assembly: `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll`
 >
 > Refer to the API Reference for more details regarding the `TSMSessionManager` class.
+
+## Shared Pins
+
+The Semiconductor Test Library supports shared pins, where multiple sites or pins are mapped to the same instrument channel. The library maintains the mapping in such a way that, each instrument channel is mapped with all its associated site-pin pairs. The first site mapped to the channel is considered to be the primary site, while the rest are treated as secondary sites. Any operation performed on shared pins is applied only to the primary site whereas, secondary sites are skipped to avoid redundant execution.
+
+This behavior of skipping operations on secondary sites is built into the methods in `ParallelExecution` that involve site-pin information. `SitePinInfo` contains a public property called `SkipOperations`, which indicates whether an operation should be executed or skipped for a particular site. If the site is primary or non-shared, the property is set to `false`, if the site is secondary, it is set to `true`. When methods in the `ParallelExecution` that involve site-pin information, they automatically check the associated site-pins and ensure that operations are performed only on the primary sites. When a value is read back from the driver, it is retrieved only for the primary site and then applied to all secondary sites.
+
+The following code module explains how the `SkipOperations` can be used to ignore the operations on the secondary site,
+
+```cs
+public static PinSiteData<double> GetSampleClockRate(this DAQmxTasksBundle tasksBundle)
+{
+    return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
+    {
+        return Enumerable.Repeat(
+            taskInfo.Task.Timing.SampleClockRate,
+            taskInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).Count()
+        ).ToArray();
+    });
+}
+```
+
+**Related information**:
+- [Shared Pins](https://www.ni.com/docs/en-US/bundle/pxie-6570/page/shared-pins.html)
