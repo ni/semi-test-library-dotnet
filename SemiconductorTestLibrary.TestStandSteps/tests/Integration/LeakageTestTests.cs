@@ -67,7 +67,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             var publishedData = publishedDataReader.GetAndClearPublishedData();
             string[] digitalPins = new string[] { "PA_EN", "C0", "C1" };
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, digitalPins, publishedData);
-            // Compare values are based on the expected value returned by the driver when in Offline Mode.
+            // expected value returned by the driver is '0' when in Offline Mode.
             AssertPublishedDataValue(0, publishedData);
             CleanupInstrumentation(tsmContext);
         }
