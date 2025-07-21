@@ -69,6 +69,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, digitalPins, publishedData);
             // expected value returned by the driver is '0' when in Offline Mode.
             AssertPublishedDataValue(0, publishedData);
+            AssertPublishedDataId("Leakage", publishedData);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -100,7 +101,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             AssertPublishedDataCountPerPins(siteCount, allPins, publishedData);
             // limits are based on the expected value returned by the driver when in Offline Mode.
             AssertPublishedDataValueInRange(publishedData, 0, 0.05);
-            AssertPublishedDataId("Voltage", publishedData);
+            AssertPublishedDataId("Leakage", publishedData);
         }
     }
 }
