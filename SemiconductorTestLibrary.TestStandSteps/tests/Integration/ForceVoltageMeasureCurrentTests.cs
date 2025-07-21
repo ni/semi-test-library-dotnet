@@ -4,6 +4,7 @@ using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
@@ -11,7 +12,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class ForceVolategMeasureCurrentTests
     {
         [Fact]
-        public void Initialize_RunForceVolatgeMeasureCurrentWithPositiveTest_ValidatePublishedData()
+        public void Initialize_RunForceVolatgeMeasureCurrentWithPositiveTest_CorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
@@ -25,15 +26,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 apertureTime: 5e-5);
 
             var publishedData = publishedDataReader.GetAndClearPublishedData();
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "VCC1").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "PA_EN").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C0").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C1").Count());
-            foreach (var data in publishedData)
-            {
-                Assert.InRange(data.DoubleValue, 0, 0.001);
-                Assert.Equal("Current", data.PublishedDataId);
-            }
+            string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
+            AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, allPins, publishedData);
+            // imits are set based on the expected value returned by the driver when in Offline Mode
+            AssertPublishedDataValueInRange(publishedData, 0, 0.001);
+            AssertPublishedDataId("Current", publishedData);
             CleanupInstrumentation(tsmContext);
         }
     }

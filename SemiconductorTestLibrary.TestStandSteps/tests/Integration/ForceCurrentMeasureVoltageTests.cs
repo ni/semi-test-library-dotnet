@@ -1,14 +1,13 @@
-﻿using System.Linq;
-using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
-using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
@@ -16,7 +15,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class ForceCurrentMeasureVoltageTests
     {
         [Fact]
-        public void Initialize_RunForceCurrentMeasureVoltageWithPositiveInRangeVoltageLimit_VoltageLimitsCorrectlySetAndValidatePublishedData()
+        public void Initialize_RunForceCurrentMeasureVoltageWithPositiveInRangeVoltageLimit_VoltageLimitsCorrectlySetAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
@@ -46,7 +45,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_RunForceCurrentMeasureVoltageWithPositiveOutRangeVoltageLimit_VoltageLimitsCorrectlySetAndValidatePublishedData()
+        public void Initialize_RunForceCurrentMeasureVoltageWithPositiveOutRangeVoltageLimit_VoltageLimitsCorrectlySetAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
@@ -106,7 +105,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_RunForceCurrentMeasureVoltageWithNegativeOutRangeVoltageLimit_VoltageLimitsCorrectlySetAndValidatePublishedData()
+        public void Initialize_RunForceCurrentMeasureVoltageWithNegativeOutRangeVoltageLimit_VoltageLimitsCorrectlySetAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
@@ -178,15 +177,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         private void AssertPublishedData(int siteCount, IPublishedDataReader publishedDataReader)
         {
             var publishedData = publishedDataReader.GetAndClearPublishedData();
-            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "VCC1").Count());
-            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "PA_EN").Count());
-            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "C0").Count());
-            Assert.Equal(siteCount, publishedData.Where(d => d.Pin == "C1").Count());
-            foreach (var data in publishedData)
-            {
-                Assert.InRange(data.DoubleValue, 0, 0.05);
-                Assert.Equal("Voltage", data.PublishedDataId);
-            }
+            string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
+            AssertPublishedDataCountPerPins(siteCount, allPins, publishedData);
+            AssertPublishedDataValueInRange(publishedData, 0, 0.05);
+            AssertPublishedDataId("Voltage", publishedData);
         }
     }
 }

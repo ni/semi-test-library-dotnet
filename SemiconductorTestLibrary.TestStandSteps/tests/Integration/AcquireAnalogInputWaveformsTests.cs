@@ -1,8 +1,9 @@
 ﻿using System.Linq;
-using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
+using Xunit;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
@@ -10,7 +11,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class AcquireAnalogInputWaveformsTests
     {
         [Fact]
-        public void InitializeDAQmxAIVoltageTask_RunDAQmxTestAcquireAnalogInputWaveforms_ValidatePublishedData()
+        public void InitializeDAQmxAIVoltageTask_RunDAQmxTestAcquireAnalogInputWaveforms_CorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("DAQmxTests.pinmap", out var publishedDataReader);
             SetupNIDAQmxAIVoltageTask(tsmContext);
@@ -20,25 +21,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 pinsOrPinGroups: new[] { "AllAIPins" });
 
             var publishedData = publishedDataReader.GetAndClearPublishedData();
-            // Validate Maximum Value
-            var publishedDataMaximum = publishedData.Where(d => d.PublishedDataId == "Maximum");
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedDataMaximum.Where(d => d.Pin == "VCC1").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedDataMaximum.Where(d => d.Pin == "VCC2").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedDataMaximum.Where(d => d.Pin == "VDET").Count());
-            foreach (var data in publishedDataMaximum)
-            {
-                Assert.InRange(data.DoubleValue, 9, 10);
-            }
-            // Validate Minimum Value
-            var publishedDataMinimum = publishedData.Where(d => d.PublishedDataId == "Minimum");
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedDataMinimum.Where(d => d.Pin == "VCC1").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedDataMinimum.Where(d => d.Pin == "VCC2").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedDataMinimum.Where(d => d.Pin == "VDET").Count());
-            foreach (var data in publishedDataMinimum)
-            {
-                Assert.InRange(data.DoubleValue, -10, -9);
-            }
-            CleanupInstrumentation(tsmContext);
+            string[] analogInputPins = new[] { "VCC1", "VCC2", "VDET" };
+            // Validate Maximum Value, limits are based on the expected value returned by the driver when in Offline Mode.
+            var publishedDataMaximum = publishedData.Where(d => d.PublishedDataId == "Maximum").ToArray();
+            AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, analogInputPins, publishedDataMaximum);
+            AssertPublishedDataValueInRange(publishedDataMaximum, 9, 10);
+            // Validate Minimum Value, limits are based on the expected value returned by the driver when in Offline Mode.
+            var publishedDataMinimum = publishedData.Where(d => d.PublishedDataId == "Minimum").ToArray();
+            AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, analogInputPins, publishedDataMaximum);
+            AssertPublishedDataValueInRange(publishedDataMinimum, -10, -9);
         }
     }
 }

@@ -3,6 +3,7 @@ using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
@@ -10,18 +11,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class BurstPatternTests
     {
         [Fact]
-        public void InitializeNIDigital_RunBurstPatternTest_ValidatePublishedData()
+        public void InitializeNIDigital_RunBurstPatternTest_CorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDigitalPatternInstrumentation(tsmContext);
+            string[] digitalPins = { "PA_EN", "C0", "C1" };
 
             BurstPattern(
                 tsmContext,
-                pinsOrPinGroups: new[] { "PA_EN", "C0", "C1" },
+                pinsOrPinGroups: digitalPins,
                 patternName: "TX_RF");
 
             var publishedData = publishedDataReader.GetAndClearPublishedData();
-            // Validate busrt operation
+            // Validate burst operation
             var publishedDataForBurst = publishedData.Where(d => d.PublishedDataId == "Pattern Pass/Fail Result");
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedDataForBurst.Count());
             foreach (var data in publishedDataForBurst)
@@ -29,14 +31,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.True(data.BooleanValue);
             }
             // Validate published data on each pins
-            var publishedDataForPins = publishedData.Where(d => d.PublishedDataId == "Pattern Fail Count");
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "PA_EN").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C0").Count());
-            Assert.Equal(tsmContext.SiteNumbers.Count, publishedData.Where(d => d.Pin == "C1").Count());
-            foreach (var data in publishedDataForPins)
-            {
-                Assert.InRange(data.DoubleValue, 0, 1);
-            }
+            var publishedDataForPins = publishedData.Where(d => d.PublishedDataId == "Pattern Fail Count").ToArray();
+            AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, digitalPins, publishedDataForPins);
+            AssertPublishedDataValue(0, publishedDataForPins);
             CleanupInstrumentation(tsmContext);
         }
     }
