@@ -103,7 +103,7 @@ Each extension should have associated unit tests to ensure it works as expected.
 > [!NOTE]
 > Contributors should write tests using simulated hardware that can be run in offline mode only. If a test requires actual hardware to run, please reach out to NI for further discussion before proceeding.
 > 
-> TODO: The path for supporting this may change in the future to GitHub Issues.
+> If support is needed, contributors are encouraged to [open a new issue](https://github.com/ni/semi-test-library-dotnet/issues/new?template=support_request.md) using the *Contributor Support* template.
 
 ### **General Practices for Writing Tests**
 When writing unit tests, it's important to maintain clarity, readability, and consistency. Below are essential guidelines:
@@ -190,7 +190,6 @@ When invoking `Do` and `DoAndReturnXXXResults` methods, provide the `caseDescrip
 |  **Naming a method** | Use a descriptive name that reflects the channel-specific operation. | Use a descriptive name that reflects the session-specific operation. | Use a descriptive name that reflects the module-specific operation. |
 |  **Example** | [GetTimeSetEdge](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs#L315) | [GetTimeSetPeriod](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs#L254)| [ReadSequencerFlag](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SequencerFlagsAndRegisters.cs#L20) |
 
-> [!NOTE]
 > While choosing the *return type*, refer the [key considerations](#choosing-parameter-and-return-types).
 
 ### **Choosing Parameter and Return Types**
