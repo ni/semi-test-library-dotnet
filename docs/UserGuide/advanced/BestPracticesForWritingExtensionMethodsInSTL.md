@@ -179,7 +179,7 @@ Based on the platform, add Trait attribute followed by the Tester's Name.
 ### **Error Handling and Validation**
 Ensure proper error handling is in place. This could include validating input parameters, checking communication status with the instrument, and providing useful error messages if the operation fails.
 
-> TODO: Details about error handling will be added once the [Improve Error Handling](https://ni.visualstudio.com/DevCentral/_workitems/edit/2705957) feature is implemented.
+When invoking `Do` and `DoAndReturnXXXResults` methods, provide the `caseDescription` parameter to add meaningful context to low-level error messages, making it easier for users to understand and troubleshoot issues.
 
 **Example**: This [example](https://github.com/ni/semi-test-library-dotnet/blob/12282644789e1f03018b6e3e024829d405ddad1d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Utilities.cs#L18) method is used in DAQmx Digital Input and Analog Input functions for validating the task type and throw error accordingly.
 
