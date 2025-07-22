@@ -26,10 +26,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             // Validate burst operation, expected value returned by the driver is True when in Offline Mode
             var publishedDataForBurst = publishedData.Where(d => d.PublishedDataId == "Pattern Pass/Fail Result");
             Assert.Equal(tsmContext.SiteNumbers.Count, publishedDataForBurst.Count());
-            foreach (var data in publishedDataForBurst)
-            {
-                Assert.True(data.BooleanValue);
-            }
+            AssertPublishedDataValue(true, publishedData);
             // Validate published data on each pins, expected value returned by the driver is '0' when in Offline Mode.
             var publishedDataForPins = publishedData.Where(d => d.PublishedDataId == "Pattern Fail Count").ToArray();
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, digitalPins, publishedDataForPins);

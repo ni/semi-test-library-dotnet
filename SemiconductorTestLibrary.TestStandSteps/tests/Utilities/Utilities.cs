@@ -13,6 +13,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
                 Assert.Equal(expectedCount, publishedData.Where(d => d.Pin == pinName).Count());
             }
         }
+
         internal static void AssertPublishedDataValueInRange(IPublishedData[] publishedData, double low, double high)
         {
             foreach (var data in publishedData)
@@ -21,11 +22,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
             }
         }
 
-        internal static void AssertPublishedDataValue(double value, IPublishedData[] publishedData)
+        internal static void AssertPublishedDataValue(double expectedValue, IPublishedData[] publishedData)
         {
             foreach (var data in publishedData)
             {
-                Assert.Equal(value, data.DoubleValue);
+                Assert.Equal(expectedValue, data.DoubleValue);
+            }
+        }
+
+        internal static void AssertPublishedDataValue(bool expectedValue, IPublishedData[] publishedData)
+        {
+            foreach (var data in publishedData)
+            {
+                Assert.Equal(expectedValue, data.BooleanValue);
             }
         }
 
