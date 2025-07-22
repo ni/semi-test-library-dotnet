@@ -40,7 +40,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-2, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow);
                 Assert.Equal(3.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
-            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
+            string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
+            AssertPublishedData(tsmContext.SiteNumbers.Count, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -70,7 +71,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow, 1);
                 Assert.Equal(1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
-            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
+            string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
+            AssertPublishedData(tsmContext.SiteNumbers.Count, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -100,7 +102,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow, 1);
                 Assert.Equal(1.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
-            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
+            string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
+            AssertPublishedData(tsmContext.SiteNumbers.Count, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -130,7 +133,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 Assert.Equal(-2, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitLow);
                 Assert.Equal(3.3, sessionInfo.PinSet.Ppmu.DCCurrent.VoltageLimitHigh, 1);
             });
-            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
+            string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
+            AssertPublishedData(tsmContext.SiteNumbers.Count, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -172,19 +176,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 settlingTime: 5e-5);
             dcPower.UnmergePinGroup("MergedPowerPins");
 
-            var publishedData = publishedDataReader.GetAndClearPublishedData();
-            string[] primaryPin = { "VCC1" };
-            AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, primaryPin, publishedData);
-            // limits are based on the expected value returned by the driver when in Offline Mode.
-            AssertPublishedDataValueInRange(publishedData, 0, 0.05);
-            AssertPublishedDataId("Voltage", publishedData);
+            string[] allPins = { "VCC1" };
+            AssertPublishedData(tsmContext.SiteNumbers.Count, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
-        private void AssertPublishedData(int siteCount, IPublishedDataReader publishedDataReader)
+        private void AssertPublishedData(int siteCount, string[] allPins, IPublishedDataReader publishedDataReader)
         {
             var publishedData = publishedDataReader.GetAndClearPublishedData();
-            string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
             AssertPublishedDataCountPerPins(siteCount, allPins, publishedData);
             // limits are based on the expected value returned by the driver when in Offline Mode.
             AssertPublishedDataValueInRange(publishedData, 0, 0.05);

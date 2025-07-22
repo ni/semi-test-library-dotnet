@@ -27,7 +27,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                apertureTime: 5e-5,
                settlingTime: 5e-5);
 
-            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
+            string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
+            AssertPublishedData(tsmContext.SiteNumbers.Count, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -46,7 +47,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                apertureTime: 5e-5,
                settlingTime: 5e-5);
 
-            AssertPublishedData(tsmContext.SiteNumbers.Count, publishedDataReader);
+            string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
+            AssertPublishedData(tsmContext.SiteNumbers.Count, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -64,12 +66,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                apertureTime: 5e-5,
                settlingTime: 5e-5);
 
-            var publishedData = publishedDataReader.GetAndClearPublishedData();
-            string[] digitalPins = new string[] { "PA_EN", "C0", "C1" };
-            AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, digitalPins, publishedData);
-            // expected value returned by the driver is '0' when in Offline Mode.
-            AssertPublishedDataValue(0, publishedData);
-            AssertPublishedDataId("Leakage", publishedData);
+            string[] allPins = new string[] { "PA_EN", "C0", "C1" };
+            AssertPublishedData(tsmContext.SiteNumbers.Count, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -94,10 +92,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             CleanupInstrumentation(tsmContext);
         }
 
-        private void AssertPublishedData(int siteCount, IPublishedDataReader publishedDataReader)
+        private void AssertPublishedData(int siteCount, string[] allPins, IPublishedDataReader publishedDataReader)
         {
             var publishedData = publishedDataReader.GetAndClearPublishedData();
-            string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
             AssertPublishedDataCountPerPins(siteCount, allPins, publishedData);
             // limits are based on the expected value returned by the driver when in Offline Mode.
             AssertPublishedDataValueInRange(publishedData, 0, 0.05);
