@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
@@ -214,20 +215,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                sessionInfo.AllChannelsOutput.Control.Abort();
-                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.PulseTrigger))
+                IList<TriggerType> triggerTypesSupported = GetSupportedTriggerTypes(pinSiteInfo.ModelString);
+                if (triggerTypesSupported.Count > 0)
+                {
+                    sessionInfo.AllChannelsOutput.Control.Abort();
+                }
+                if (triggerTypesSupported.Contains(TriggerType.PulseTrigger))
                 {
                     sessionInfo.AllChannelsOutput.Triggers.PulseTrigger.Type = DCPowerPulseTriggerType.None;
                 }
-                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.SequenceAdvanceTrigger))
+                if (triggerTypesSupported.Contains(TriggerType.SequenceAdvanceTrigger))
                 {
                     sessionInfo.AllChannelsOutput.Triggers.SequenceAdvanceTrigger.Type = DCPowerSequenceAdvanceTriggerType.None;
                 }
-                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.SourceTrigger))
+                if (triggerTypesSupported.Contains(TriggerType.SourceTrigger))
                 {
                     sessionInfo.AllChannelsOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.None;
                 }
-                if (IsTriggerTypeSupported(pinSiteInfo.ModelString, TriggerType.StartTrigger))
+                if (triggerTypesSupported.Contains(TriggerType.StartTrigger))
                 {
                     sessionInfo.AllChannelsOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.None;
                 }

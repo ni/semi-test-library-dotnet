@@ -85,7 +85,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 return !_triggerTypeToUnsupportedModelStringMap[triggerType].Contains(modelString);
             }
-            return false;
+            // If something is not present in unsupported model strings list, then assume its supported.
+            return true;
+        }
+
+        public static IList<TriggerType> GetSupportedTriggerTypes(string modelString)
+        {
+            IList<TriggerType> triggerTypesSupported = new List<TriggerType>();
+            foreach (TriggerType triggerType in _triggerTypeToUnsupportedModelStringMap.Keys)
+            {
+                if (!_triggerTypeToUnsupportedModelStringMap[triggerType].Contains(modelString))
+                {
+                    triggerTypesSupported.Add(triggerType);
+                }
+            }
+            return triggerTypesSupported;
         }
     }
 }
