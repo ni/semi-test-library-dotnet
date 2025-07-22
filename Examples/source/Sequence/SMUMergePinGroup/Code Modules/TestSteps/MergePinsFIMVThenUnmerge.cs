@@ -6,8 +6,7 @@ using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup
 {
     /// <summary>
-    /// This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup 
-    /// DCPower Instrument Abstraction methods from the Semiconductor Test Library.
+    /// This class provides example methods to demonstrate how to use the MergePinGroup and      /// DCPower Instrument Abstraction methods from the Semiconductor Test Library.
     /// These methods can be used to merge DUT pins together to output higher current.
     /// These methods are only supported under the following conditions:
     /// 1. The pin map must define a pin group to contain all the pins that are to be merged together.
@@ -15,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
     /// 3. The SMU module must support the niDCPower Merged Channels feature.
     /// For example: PXIe-4147, PXIe-4162, and PXIe-4163.
     /// 4. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
-    /// The example methods of this class demonstrate how relay configurations can be applied 
+    /// The example methods of this class demonstrate how relay configurations can be applied
     /// to ensures the SMUs channels are physically connected in parallel before the MergePinGroup operation,
     /// and subsequently disconnected after the UnmergePinGroup operation.
     /// </summary>
