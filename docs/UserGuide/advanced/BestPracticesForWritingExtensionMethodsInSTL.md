@@ -1,5 +1,7 @@
 # **Best Practices for Writing Extension Methods in STL**
 
+[TOC]
+
 Extension methods collectively provide a comprehensive framework for additional capabilities built on top of the core abstractions provided by the Semiconductor Test Library, such as adding instrument-specific functionality for configuring, controlling, and measuring. They simplify the complexity of instrument communication, offering a smooth interface that makes it easier to perform tests. 
 The extension methods act as a bridge between low-level instrument control and high-level test program development. It allows the Semiconductor Test Library to include predefined methods for supporting various instrument types and capabilities while also enabling users to create their own extension methods for their specific needs, without the constraints of inheritance or direct dependency.
 
