@@ -27,7 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
-    <ProjectReference Include="..\..\..\..\..\SemiconductorTestLibrary.TestStandSteps\source\SemiconductorTestLibrary.TestStandSteps.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="NationalInstruments.Common, Version=19.1.40.49152">
@@ -37,6 +36,9 @@
     </Reference>
     <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
       <HintPath>..\..\..\..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.SemiconductorTestLibrary.TestStandSteps">
+      <HintPath>..\..\..\..\..\SemiconductorTestLibrary.TestStandSteps\source\net48\NationalInstruments.SemiconductorTestLibrary.TestStandSteps.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <Private>False</Private>
