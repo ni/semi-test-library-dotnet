@@ -1,5 +1,6 @@
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
@@ -28,7 +29,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                settlingTime: 5e-5);
 
             string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
-            AssertPublishedData(tsmContext.SiteNumbers.Count, allPins, publishedDataReader);
+            AssertPublishedData(tsmContext, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -48,7 +49,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                settlingTime: 5e-5);
 
             string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
-            AssertPublishedData(tsmContext.SiteNumbers.Count, allPins, publishedDataReader);
+            AssertPublishedData(tsmContext, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -67,7 +68,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                settlingTime: 5e-5);
 
             string[] allPins = new string[] { "PA_EN", "C0", "C1" };
-            AssertPublishedData(tsmContext.SiteNumbers.Count, allPins, publishedDataReader);
+            AssertPublishedData(tsmContext, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -92,10 +93,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             CleanupInstrumentation(tsmContext);
         }
 
-        private void AssertPublishedData(int siteCount, string[] allPins, IPublishedDataReader publishedDataReader)
+        private void AssertPublishedData(ISemiconductorModuleContext tsmContext, string[] allPins, IPublishedDataReader publishedDataReader)
         {
             var publishedData = publishedDataReader.GetAndClearPublishedData();
-            AssertPublishedDataCountPerPins(siteCount, allPins, publishedData);
+            AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, allPins, publishedData);
             // limits are based on the expected value returned by the driver when in Offline Mode.
             AssertPublishedDataValueInRange(publishedData, 0, 0.05);
             AssertPublishedDataId("Leakage", publishedData);
