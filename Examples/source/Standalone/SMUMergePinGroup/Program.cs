@@ -38,7 +38,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         private const string DisconnectedRelayConfiguration = "";
 
         // PinGroups for merging.
-        private const string Vcc2ch = "Vcc2ch";  //Name of the pin group to be merged for sourcing 5A
+        private const string Vcc2ch = "Vcc2ch0";  //Name of the pin group to be merged for sourcing 5A
         private const string Vcc4ch = "Vcc4ch";  //Name of the pin group to be merged for sourcing 10A
 
         // voltage and current settings for the merge operation
@@ -51,7 +51,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         private const double ApertureTimeConstant = 0.01; // -1 indicates no aperture time is set.
 
         // Files to load.
-        private const string PinMapFileName = "PinMap.pinmap";
+        private const string PinMapFileName = "STLExample.MergePinGroup.pinmap";
 
         #endregion Settings and Configuration
 

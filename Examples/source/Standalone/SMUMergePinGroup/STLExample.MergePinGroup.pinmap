@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4147_C1_S04" numberOfChannels="4">
+			<ChannelGroup name="CommonDCPowerChannelGroup" />
+		</NIDCPowerInstrument>
+	</Instruments>
+	<Pins>
+		<DUTPin name="Vcc0" />
+		<DUTPin name="Vcc1" />
+		<DUTPin name="Vcc2" />
+		<DUTPin name="Vcc3" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="Vcc2ch0">
+			<PinReference pin="Vcc0" />
+			<PinReference pin="Vcc1" />
+		</PinGroup>
+		<PinGroup name="Vcc2ch2">
+			<PinReference pin="Vcc2" />
+			<PinReference pin="Vcc3" />
+		</PinGroup>
+		<PinGroup name="Vcc4ch">
+			<PinReference pin="Vcc0" />
+			<PinReference pin="Vcc1" />
+			<PinReference pin="Vcc2" />
+			<PinReference pin="Vcc3" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+	</Sites>
+	<Connections>
+		<Connection pin="Vcc0" siteNumber="0" instrument="SMU_4147_C1_S04" channel="0" />
+		<Connection pin="Vcc1" siteNumber="0" instrument="SMU_4147_C1_S04" channel="1" />
+		<Connection pin="Vcc2" siteNumber="0" instrument="SMU_4147_C1_S04" channel="2" />
+		<Connection pin="Vcc3" siteNumber="0" instrument="SMU_4147_C1_S04" channel="3" />
+	</Connections>
+</PinMap>
