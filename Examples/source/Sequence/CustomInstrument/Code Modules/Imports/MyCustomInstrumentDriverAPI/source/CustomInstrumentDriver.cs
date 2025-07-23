@@ -1,10 +1,13 @@
-﻿namespace MyCompany.MyCustomInstrumentDriverAPI
+﻿using System.Linq;
+
+namespace MyCompany.MyCustomInstrumentDriverAPI
 {
     /// <summary>
     /// This is a fake driver class containing dummy driver methods. This class would typically be specific to an actual hardware driver for controlling an instrument.
     /// </summary>
     public class CustomInstrumentDriver
     {
+        private string InstrumentName;
         /// <summary>
         /// Initializes dummy driver session.
         /// </summary>
@@ -12,6 +15,7 @@
         public CustomInstrumentDriver(string resourceName)
         {
             // Initialize dummy driver session.
+            InstrumentName = resourceName.Split('/').First();
         }
 
         /// <summary>
@@ -48,7 +52,7 @@
         {
             // Driver code.
             // For simulation
-            Simulation.WriteDigitalChannelData(channelString, pinSiteSpecificData);
+            Simulation.WriteDigitalChannelData(InstrumentName, channelString, pinSiteSpecificData);
         }
 
         /// <summary>
@@ -60,7 +64,7 @@
         {
             // Driver code.
 			// For simulation
-            return Simulation.ReadAnalogChannel(channelString);
+            return Simulation.ReadAnalogChannel(InstrumentName, channelString);
         }
 
         /// <summary>

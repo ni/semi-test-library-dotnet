@@ -4,17 +4,65 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
 {
     internal static class Simulation
     {
-        private static readonly Dictionary<string, double> digitalInputChannel = new Dictionary<string, double>
+        private static readonly Dictionary<string, Dictionary<string, double>> digitalInputChannel = new Dictionary<string, Dictionary<string, double>>
+        {
             {
-                { "dio0", 0 },
-                { "dio1", 0 },
-                { "dio2", 0 },
-                { "dio3", 0 },
-                { "dio4", 0 },
-                { "dio5", 0 },
-                { "dio6", 0 },
-                { "dio7", 0 }
-            };
+                "dio0", new Dictionary<string, double>
+                {
+                    { "dev1", 0 },
+                    { "dev2", 0 }
+                }
+            },
+            {
+                "dio1", new Dictionary<string, double>
+                {
+                    { "dev1", 0 },
+                    { "dev2", 0 }
+                }
+            },
+            {
+                "dio2", new Dictionary<string, double>
+                {
+                    { "dev1", 0 },
+                    { "dev2", 0 }
+                }
+            },
+            {
+                "dio3", new Dictionary<string, double>
+                {
+                    { "dev1", 0 },
+                    { "dev2", 0 }
+                }
+            },
+            {
+                "dio4", new Dictionary<string, double>
+                {
+                    { "dev1", 0 },
+                    { "dev2", 0 }
+                }
+            },
+            {
+                "dio5", new Dictionary<string, double>
+                {
+                    { "dev1", 0 },
+                    { "dev2", 0 }
+                }
+            },
+            {
+                "dio6", new Dictionary<string, double>
+                {
+                    { "dev1", 0 },
+                    { "dev2", 0 }
+                }
+            },
+            {
+                "dio7", new Dictionary<string, double>
+                {
+                    { "dev1", 0 },
+                    { "dev2", 0 }
+                }
+            },
+        };
         private static readonly Dictionary<string, List<string>> analogOutputChannels = analogOutputChannels = new Dictionary<string, List<string>>
             {
                 { "ai0", new List<string> { "dio0", "dio1" } },
@@ -23,14 +71,14 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
                 { "ai3", new List<string> { "dio6", "dio7" } }
             };
 
-        internal static void WriteDigitalChannelData(string channelName, double data)
+        internal static void WriteDigitalChannelData(string instrumentName, string channelName, double data)
         {
-            digitalInputChannel[channelName] = data;
+            digitalInputChannel[channelName][instrumentName] = data;
         }
 
-        internal static double ReadAnalogChannel(string channelName)
+        internal static double ReadAnalogChannel(string instrumentName, string channelName)
         {
-            return (2 * digitalInputChannel[analogOutputChannels[channelName][1]] + digitalInputChannel[analogOutputChannels[channelName][0]]) * 5/3;
+            return (2 * digitalInputChannel[analogOutputChannels[channelName][1]][instrumentName] + digitalInputChannel[analogOutputChannels[channelName][0]][instrumentName]) * 5/3;
         }
     }
 }
