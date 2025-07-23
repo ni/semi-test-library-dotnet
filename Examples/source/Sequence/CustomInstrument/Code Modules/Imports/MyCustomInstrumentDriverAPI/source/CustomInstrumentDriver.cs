@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MyCompany.MyCustomInstrumentDriverAPI
+﻿namespace MyCompany.MyCustomInstrumentDriverAPI
 {
     /// <summary>
     /// This is a fake driver class containing dummy driver methods. This class would typically be specific to an actual hardware driver for controlling an instrument.
@@ -49,6 +47,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public void WriteChannelData(string channelString, double pinSiteSpecificData)
         {
             // Driver code.
+            // For simulation
+            Simulation.WriteDigitalChannelData(channelString, pinSiteSpecificData);
         }
 
         /// <summary>
@@ -59,9 +59,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public double MeasureData(string channelString)
         {
             // Driver code.
-            Random rand = new Random();
-            double data = rand.Next(0, 5);
-            return data;
+			// For simulation
+            return Simulation.ReadAnalogChannel(channelString);
         }
 
         /// <summary>
