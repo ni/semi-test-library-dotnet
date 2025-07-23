@@ -1,4 +1,5 @@
 ﻿using System;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -73,7 +74,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
                 ISemiconductorModuleContext semiconductorContext = CreateStandaloneSemiconductorModuleContext(PinMapFileName);
 
                 Console.WriteLine("2. Initializing Instrument Sessions.");
-                InitializeAndClose.Initialize(semiconductorContext, resetDevice: true);
+                InitializeAndClose.Initialize(semiconductorContext);
 
                 Console.WriteLine($"3. Creating Session Manager.");
                 TSMSessionManager sessionManager = new TSMSessionManager(semiconductorContext);
@@ -128,8 +129,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
 
             // Create a bundle for the DCPower sessions for the specified pin group.
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(vccI);
+            PinSiteData<double> originalSourceDelay = smuBundle.GetSourceDelayInSeconds();
 
             Console.WriteLine($"5. Performing {mergingChannelCount} channel merging operation.");
+            // Abort any previous single channel operations before merging the pin group.
+            smuBundle.Abort();
             smuBundle.MergePinGroup(vccI);
             smuBundle.ConfigureSourceDelay(SettlingTime);
             if (ApertureTimeConstant != -1)
@@ -160,6 +164,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
 
             // Use the SMU Bundle object to perform unmerge operation on the pin group.
             smuBundle.UnmergePinGroup(vccI);
+            smuBundle.Abort();
+            smuBundle.ConfigureSourceDelay(originalSourceDelay);
+            smuBundle.Commit();
         }
     }
 }
