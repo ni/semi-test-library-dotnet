@@ -71,7 +71,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
             try
             {
                 Console.WriteLine("1. Initializing Semiconductor Module Context.");
-                ISemiconductorModuleContext semiconductorContext = CreateStandaloneSemiconductorModuleContext(PinMapFileName);
+                ISemiconductorModuleContext semiconductorContext = CreateStandaloneTSMContext(PinMapFileName);
 
                 Console.WriteLine("2. Initializing Instrument Sessions.");
                 InitializeAndClose.Initialize(semiconductorContext);

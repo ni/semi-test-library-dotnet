@@ -30,9 +30,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower
         /// </summary>
         /// <param name="pinMapFileName">The pin map file name.</param>
         /// <returns>The <see cref="ISemiconductorModuleContext"/> object.</returns>
-        public static ISemiconductorModuleContext CreateStandaloneSemiconductorModuleContext(string pinMapFileName)
+        public static ISemiconductorModuleContext CreateStandaloneTSMContext(string pinMapFileName)
         {
-            return CreateStandaloneSemiconductorModuleContext(pinMapFileName, out _);
+            return CreateTSMContext(pinMapFileName, out _);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower
         /// <param name="pinMapFileName">The pin map file name.</param>
         /// <param name="publishedDataReader">The <see cref="IPublishedDataReader"/> object used to query published data.</param>
         /// <returns>The <see cref="ISemiconductorModuleContext"/> object.</returns>
-        public static ISemiconductorModuleContext CreateStandaloneSemiconductorModuleContext(string pinMapFileName, out IPublishedDataReader publishedDataReader)
+        public static ISemiconductorModuleContext CreateTSMContext(string pinMapFileName, out IPublishedDataReader publishedDataReader)
         {
             PublishedDataReaderFactory publishedDataReaderFactory = new PublishedDataReaderFactory();
             string pinMapFilePath = Path.Combine(Path.GetDirectoryName(ExecutableDirectory), pinMapFileName);
