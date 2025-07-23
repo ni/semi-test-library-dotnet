@@ -38,6 +38,3 @@ throw new NISemiconductorTestException("Operation failed", innerException);
 // Exception with error code and inner exception (used internally)
 throw new NISemiconductorTestException(errorCode, innerException);
 ```
-
-**Related information**:
-- [NI Error Codes and Solutions](https://www.ni.com/docs/en-US/bundle/ni-error-codes/page/ni-error-codes.html)
