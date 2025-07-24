@@ -54,7 +54,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         /// Dummy driver method for write channel data operation.
         /// </summary>
         /// <param name="channelString">Channel name.</param>
-        /// <param name="pinSiteSpecificData">Data sepcific to pin/site.</param>
+        /// <param name="pinSiteSpecificData">Data specific to pin/site.</param>
         public void WriteChannelData(string channelString, double pinSiteSpecificData)
         {
             // Driver code.
