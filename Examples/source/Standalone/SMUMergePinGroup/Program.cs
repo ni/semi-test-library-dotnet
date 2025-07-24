@@ -4,9 +4,9 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
-using static NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.ExampleSupport;
+using static NationalInstruments.Examples.SemiconductorTestLibrary.ExampleSupport;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 {
     /// <summary>
     /// Demonstrates the use of MergePinGroup and UnmergePinGroup functions of the

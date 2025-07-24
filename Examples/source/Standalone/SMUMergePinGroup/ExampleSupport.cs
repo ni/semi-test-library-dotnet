@@ -4,7 +4,7 @@ using System.Reflection;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower
+namespace NationalInstruments.Examples.SemiconductorTestLibrary
 {
     /// <summary>
     /// Provides support methods for standalone examples in the Semiconductor Test Library.
