@@ -15,7 +15,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
             }
         }
 
-        internal static void ClearInstruments(string instrumentName)
+        internal static void ClearInstrument(string instrumentName)
         {
             SimulatedInstruments.Remove(instrumentName);
         }

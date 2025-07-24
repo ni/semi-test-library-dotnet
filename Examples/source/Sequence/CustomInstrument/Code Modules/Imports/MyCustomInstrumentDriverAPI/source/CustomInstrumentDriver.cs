@@ -26,7 +26,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         {
             // Driver code.
             // For simulation.
-            Simulation.ClearInstruments(InstrumentName);
+            Simulation.ClearInstrument(InstrumentName);
         }
 
         /// <summary>
