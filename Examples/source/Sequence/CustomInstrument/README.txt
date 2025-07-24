@@ -1,4 +1,3 @@
-Markdown
 # Custom Instrument Example
 The example TestStand sequence contains 3 sample steps to test a hypothetical Device Under Test (DUT) using a custom instrument.
 The DUT is considered to be some kind of Digital to Analog Converter (DAC) and the Custom Instrument to be some kind of multi-functional Data Acquisition (DAQ) device capable of sourcing digital signals and acquiring analog signals.
