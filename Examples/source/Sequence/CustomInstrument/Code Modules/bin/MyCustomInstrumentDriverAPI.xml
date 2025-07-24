@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyCustomInstrumentDriverAPI</name>
+    </assembly>
+    <members>
+        <member name="T:MyCompany.MyCustomInstrumentDriverAPI.CustomInstrumentDriver">
+            <summary>
+            This is a fake driver class containing dummy driver methods. This class would typically be specific to an actual hardware driver for controlling an instrument.
+            </summary>
+        </member>
+        <member name="M:MyCompany.MyCustomInstrumentDriverAPI.CustomInstrumentDriver.#ctor(System.String)">
+            <summary>
+            Initializes dummy driver session.
+            </summary>
+            <param name="resourceName">Resource name.</param>
+        </member>
+        <member name="M:MyCompany.MyCustomInstrumentDriverAPI.CustomInstrumentDriver.Close">
+            <summary>
+            Dummy driver method for close session.
+            </summary>
+        </member>
+        <member name="M:MyCompany.MyCustomInstrumentDriverAPI.CustomInstrumentDriver.Reset">
+            <summary>
+            Dummy driver method for reset session.
+            </summary>
+        </member>
+        <member name="M:MyCompany.MyCustomInstrumentDriverAPI.CustomInstrumentDriver.WriteData(System.Double)">
+            <summary>
+            Dummy driver method for write data operation.
+            </summary>
+            <param name="data">The data to be written.</param>
+        </member>
+        <member name="M:MyCompany.MyCustomInstrumentDriverAPI.CustomInstrumentDriver.WriteChannelData(System.String,System.Double)">
+            <summary>
+            Dummy driver method for write channel data operation.
+            </summary>
+            <param name="channelString">Channel name.</param>
+            <param name="pinSiteSpecificData">Data sepcific to pin/site.</param>
+        </member>
+        <member name="M:MyCompany.MyCustomInstrumentDriverAPI.CustomInstrumentDriver.MeasureData(System.String)">
+            <summary>
+            Dummy driver method for measure data operation.
+            </summary>
+            <param name="channelString">Channel string.</param>
+            <returns>Measured data.</returns>
+        </member>
+        <member name="M:MyCompany.MyCustomInstrumentDriverAPI.CustomInstrumentDriver.Configure(System.String)">
+            <summary>
+            Dummy driver method for configure.
+            </summary>
+            <param name="configurationPreset">Configuration preset</param>
+        </member>
+        <member name="M:MyCompany.MyCustomInstrumentDriverAPI.CustomInstrumentDriver.ResetConfiguration">
+            <summary>
+            Dummy driver method for reset configuration.
+            </summary>
+        </member>
+    </members>
+</doc>

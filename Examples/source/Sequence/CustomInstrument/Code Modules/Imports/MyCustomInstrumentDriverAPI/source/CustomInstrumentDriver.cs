@@ -16,6 +16,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         {
             // Initialize dummy driver session.
             InstrumentName = resourceName.Split('/').First();
+            Simulation.InitInstrument(InstrumentName);
         }
 
         /// <summary>
