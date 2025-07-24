@@ -35,28 +35,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="triggerType">The type of the trigger.</param>
         public static void SendSoftwareEdgeTrigger(this DCPowerSessionsBundle sessionsBundle, TriggerType triggerType)
         {
-            sessionsBundle.Do(sessionInfo =>
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 switch (triggerType)
                 {
                     case TriggerType.MeasureTrigger:
-                        sessionInfo.AllChannelsOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
+                        sessionInfo.DoForSupportedModels(pinSiteInfo.IndividualChannelString, pinSiteInfo.ModelString, TriggerType.MeasureTrigger, output => output.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger());
                         break;
 
                     case TriggerType.PulseTrigger:
-                        sessionInfo.AllChannelsOutput.Triggers.PulseTrigger.SendSoftwareEdgeTrigger();
+                        sessionInfo.DoForSupportedModels(pinSiteInfo.IndividualChannelString, pinSiteInfo.ModelString, TriggerType.PulseTrigger, output => output.Triggers.PulseTrigger.SendSoftwareEdgeTrigger());
                         break;
 
                     case TriggerType.SequenceAdvanceTrigger:
-                        sessionInfo.AllChannelsOutput.Triggers.SequenceAdvanceTrigger.SendSoftwareEdgeTrigger();
+                        sessionInfo.DoForSupportedModels(pinSiteInfo.IndividualChannelString, pinSiteInfo.ModelString, TriggerType.SequenceAdvanceTrigger, output => output.Triggers.SequenceAdvanceTrigger.SendSoftwareEdgeTrigger());
                         break;
 
                     case TriggerType.SourceTrigger:
-                        sessionInfo.AllChannelsOutput.Triggers.SourceTrigger.SendSoftwareEdgeTrigger();
+                        sessionInfo.DoForSupportedModels(pinSiteInfo.IndividualChannelString, pinSiteInfo.ModelString, TriggerType.SourceTrigger, output => output.Triggers.SourceTrigger.SendSoftwareEdgeTrigger());
                         break;
 
                     case TriggerType.StartTrigger:
-                        sessionInfo.AllChannelsOutput.Triggers.StartTrigger.SendSoftwareEdgeTrigger();
+                        sessionInfo.DoForSupportedModels(pinSiteInfo.IndividualChannelString, pinSiteInfo.ModelString, TriggerType.StartTrigger, output => output.Triggers.StartTrigger.SendSoftwareEdgeTrigger());
                         break;
 
                     default:
@@ -216,26 +216,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                var triggerTypeUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
+                var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
                 var triggerTypesToDealWith = new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger };
-                if (triggerTypesToDealWith.Except(triggerTypeUnsupported).Any())
+                if (triggerTypesToDealWith.Except(triggerTypesUnsupported).Any())
                 {
-                    sessionInfo.AllChannelsOutput.Control.Abort();
-                    if (!triggerTypeUnsupported.Contains(TriggerType.PulseTrigger))
+                    sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                    if (!triggerTypesUnsupported.Contains(TriggerType.PulseTrigger))
                     {
-                        sessionInfo.AllChannelsOutput.Triggers.PulseTrigger.Type = DCPowerPulseTriggerType.None;
+                        sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Triggers.PulseTrigger.Type = DCPowerPulseTriggerType.None;
                     }
-                    if (!triggerTypeUnsupported.Contains(TriggerType.SequenceAdvanceTrigger))
+                    if (!triggerTypesUnsupported.Contains(TriggerType.SequenceAdvanceTrigger))
                     {
-                        sessionInfo.AllChannelsOutput.Triggers.SequenceAdvanceTrigger.Type = DCPowerSequenceAdvanceTriggerType.None;
+                        sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Triggers.SequenceAdvanceTrigger.Type = DCPowerSequenceAdvanceTriggerType.None;
                     }
-                    if (!triggerTypeUnsupported.Contains(TriggerType.SourceTrigger))
+                    if (!triggerTypesUnsupported.Contains(TriggerType.SourceTrigger))
                     {
-                        sessionInfo.AllChannelsOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.None;
+                        sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.None;
                     }
-                    if (!triggerTypeUnsupported.Contains(TriggerType.StartTrigger))
+                    if (!triggerTypesUnsupported.Contains(TriggerType.StartTrigger))
                     {
-                        sessionInfo.AllChannelsOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.None;
+                        sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Triggers.StartTrigger.Type = DCPowerStartTriggerType.None;
                     }
                 }
             });
