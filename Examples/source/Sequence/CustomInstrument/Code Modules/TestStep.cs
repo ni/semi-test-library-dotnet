@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.MyCustomInstrument;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-using NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 {
     /// <summary>
     /// This class contains sample methods to perform high-level testing of the DUT using the custom instrument support provided by STL.
