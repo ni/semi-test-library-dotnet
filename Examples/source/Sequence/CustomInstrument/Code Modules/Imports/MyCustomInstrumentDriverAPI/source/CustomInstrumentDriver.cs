@@ -25,6 +25,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public void Close()
         {
             // Driver code.
+            // For simulation.
+            Simulation.ClearInstruments(InstrumentName);
         }
 
         /// <summary>
@@ -33,6 +35,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public void Reset()
         {
             // Driver code.
+            // For simulation.
+            Simulation.ResetInstrument(InstrumentName);
         }
 
         /// <summary>
@@ -42,6 +46,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public void WriteData(double data)
         {
             // Driver code.
+            // For simulation.
+            Simulation.WriteDigitalData(InstrumentName, data);
         }
 
         /// <summary>
@@ -52,7 +58,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public void WriteChannelData(string channelString, double pinSiteSpecificData)
         {
             // Driver code.
-            // For simulation
+            // For simulation.
             Simulation.WriteDigitalChannelData(InstrumentName, channelString, pinSiteSpecificData);
         }
 
@@ -64,7 +70,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public double MeasureData(string channelString)
         {
             // Driver code.
-			// For simulation
+            // For simulation.
             return Simulation.ReadAnalogChannel(InstrumentName, channelString);
         }
 

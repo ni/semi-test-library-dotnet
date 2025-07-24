@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace MyCompany.MyCustomInstrumentDriverAPI
 {
@@ -12,18 +13,26 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
             {
                 SimulatedInstruments.Add(instrumentName, new SimulatedInstrument(instrumentName));
             }
-            
-            
         }
 
-        internal static void ClearInstruments()
+        internal static void ClearInstruments(string instrumentName)
         {
-            SimulatedInstruments = new Dictionary<string, SimulatedInstrument>();
+            SimulatedInstruments.Remove(instrumentName);
         }
 
         internal static void WriteDigitalChannelData(string instrumentName, string channelName, double data)
         {
             SimulatedInstruments[instrumentName].DigitalInputChannelData[channelName] = data;
+        }
+
+        internal static void WriteDigitalData(string instrumentName, double data)
+        {
+            SimulatedInstruments[instrumentName].DigitalInputChannelData.Select(chVal => data);
+        }
+
+        internal static void ResetInstrument(string instrumentName)
+        {
+            SimulatedInstruments[instrumentName].DigitalInputChannelData.Select(chVal => 0);
         }
 
         internal static double ReadAnalogChannel(string instrumentName, string channelName)
