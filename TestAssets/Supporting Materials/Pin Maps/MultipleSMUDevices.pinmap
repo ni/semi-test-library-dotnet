@@ -2,50 +2,50 @@
 <PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
 		<NIDCPowerInstrument name="SMU_4110_C1_S04" numberOfChannels="3">
-			<ChannelGroup name="DCPowerChannelGroup_4110" channels="0, 1, 2" />
+			<ChannelGroup name="DCPowerChannelGroup_4110" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4112_C4_S04" numberOfChannels="2">
-			<ChannelGroup name="DCPowerChannelGroup_4112" channels="0, 1" />
+			<ChannelGroup name="DCPowerChannelGroup_4112" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4113_C7_S02" numberOfChannels="2">
-			<ChannelGroup name="DCPowerChannelGroup_4113" channels="0, 1" />
+			<ChannelGroup name="DCPowerChannelGroup_4113" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4130_C2_S04" numberOfChannels="2">
 			<ChannelGroup name="DCPowerChannelGroup_4130_0" channels="0" />
 			<ChannelGroup name="DCPowerChannelGroup_4130_0" channels="1" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4135_C7_S03" numberOfChannels="1">
-			<ChannelGroup name="DCPowerChannelGroup_4135" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4135" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4137_C5_S02" numberOfChannels="1">
-			<ChannelGroup name="DCPowerChannelGroup_4137" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4137" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4139_C5_S17" numberOfChannels="1">
-			<ChannelGroup name="DCPowerChannelGroup_4139" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4139" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4141_C7_S04" numberOfChannels="4">
-			<ChannelGroup name="DCPowerChannelGroup_4141" channels="0, 1, 2, 3" />
+			<ChannelGroup name="DCPowerChannelGroup_4141" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4143_C7_S05" numberOfChannels="4">
-			<ChannelGroup name="DCPowerChannelGroup_4143" channels="0, 1, 2, 3" />
+			<ChannelGroup name="DCPowerChannelGroup_4143" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4145_C7_S06" numberOfChannels="4">
-			<ChannelGroup name="DCPowerChannelGroup_4145" channels="0, 1, 2, 3" />
+			<ChannelGroup name="DCPowerChannelGroup_4145" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4147_C1_S11" numberOfChannels="4">
-			<ChannelGroup name="DCPowerChannelGroup_4147" channels="0, 1, 2, 3" />
+			<ChannelGroup name="DCPowerChannelGroup_4147" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4154_C3_S04" numberOfChannels="2">
-			<ChannelGroup name="DCPowerChannelGroup_4154" channels="0, 1" />
+			<ChannelGroup name="DCPowerChannelGroup_4154" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4162_C5_S10" numberOfChannels="12">
-			<ChannelGroup name="DCPowerChannelGroup_4162" channels="0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11" />
+			<ChannelGroup name="DCPowerChannelGroup_4162" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4163_C5_S13" numberOfChannels="24">
-			<ChannelGroup name="DCPowerChannelGroup_4163" channels="0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23" />
+			<ChannelGroup name="DCPowerChannelGroup_4163" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4190_C7_S07" numberOfChannels="1">
-			<ChannelGroup name="DCPowerChannelGroup_4190" channels="0" />
+			<ChannelGroup name="DCPowerChannelGroup_4190" />
 		</NIDCPowerInstrument>
 	</Instruments>
 	<Pins>

@@ -89,17 +89,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return true;
         }
 
-        public static IList<TriggerType> GetSupportedTriggerTypes(string modelString)
+        public static IList<TriggerType> GetUnsupportedTriggerTypes(string modelString)
         {
-            IList<TriggerType> triggerTypesSupported = new List<TriggerType>();
+            IList<TriggerType> unsupportedTriggerTypes = new List<TriggerType>();
             foreach (TriggerType triggerType in _triggerTypeToUnsupportedModelStringMap.Keys)
             {
-                if (!_triggerTypeToUnsupportedModelStringMap[triggerType].Contains(modelString))
+                if (_triggerTypeToUnsupportedModelStringMap[triggerType].Contains(modelString))
                 {
-                    triggerTypesSupported.Add(triggerType);
+                    unsupportedTriggerTypes.Add(triggerType);
                 }
             }
-            return triggerTypesSupported;
+            return unsupportedTriggerTypes;
         }
     }
 }

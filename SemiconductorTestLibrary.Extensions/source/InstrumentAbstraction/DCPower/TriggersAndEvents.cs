@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
@@ -215,26 +216,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                IList<TriggerType> triggerTypesSupported = GetSupportedTriggerTypes(pinSiteInfo.ModelString);
-                if (triggerTypesSupported.Count > 0)
+                var triggerTypeUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
+                var triggerTypesToDealWith = new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger };
+                if (triggerTypesToDealWith.Except(triggerTypeUnsupported).Any())
                 {
                     sessionInfo.AllChannelsOutput.Control.Abort();
-                }
-                if (triggerTypesSupported.Contains(TriggerType.PulseTrigger))
-                {
-                    sessionInfo.AllChannelsOutput.Triggers.PulseTrigger.Type = DCPowerPulseTriggerType.None;
-                }
-                if (triggerTypesSupported.Contains(TriggerType.SequenceAdvanceTrigger))
-                {
-                    sessionInfo.AllChannelsOutput.Triggers.SequenceAdvanceTrigger.Type = DCPowerSequenceAdvanceTriggerType.None;
-                }
-                if (triggerTypesSupported.Contains(TriggerType.SourceTrigger))
-                {
-                    sessionInfo.AllChannelsOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.None;
-                }
-                if (triggerTypesSupported.Contains(TriggerType.StartTrigger))
-                {
-                    sessionInfo.AllChannelsOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.None;
+                    if (!triggerTypeUnsupported.Contains(TriggerType.PulseTrigger))
+                    {
+                        sessionInfo.AllChannelsOutput.Triggers.PulseTrigger.Type = DCPowerPulseTriggerType.None;
+                    }
+                    if (!triggerTypeUnsupported.Contains(TriggerType.SequenceAdvanceTrigger))
+                    {
+                        sessionInfo.AllChannelsOutput.Triggers.SequenceAdvanceTrigger.Type = DCPowerSequenceAdvanceTriggerType.None;
+                    }
+                    if (!triggerTypeUnsupported.Contains(TriggerType.SourceTrigger))
+                    {
+                        sessionInfo.AllChannelsOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.None;
+                    }
+                    if (!triggerTypeUnsupported.Contains(TriggerType.StartTrigger))
+                    {
+                        sessionInfo.AllChannelsOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.None;
+                    }
                 }
             });
         }
