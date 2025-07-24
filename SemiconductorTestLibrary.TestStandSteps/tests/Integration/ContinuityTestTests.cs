@@ -31,7 +31,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 
             var publishedData = publishedDataReader.GetAndClearPublishedData();
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, continuityPins, publishedData);
-            // limits are set based on the expected value returned by the driver when in Offline Mode.
+            // Limits are set based on the expected value returned by the driver when in Offline Mode.
             AssertPublishedDataValueInRange(publishedData, 0.075, 0.085);
             AssertPublishedDataId("Continuity", publishedData);
             CleanupInstrumentation(tsmContext);
