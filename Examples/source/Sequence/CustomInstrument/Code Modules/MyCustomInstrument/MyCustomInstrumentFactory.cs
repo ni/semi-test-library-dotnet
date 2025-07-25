@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.MyCustomInstrument
 {
     /// <summary>
     /// Factory for creating Custom Instrument object.
