@@ -1,5 +1,4 @@
-
-# MergePinGroup Sequence Example:
+# SMUMergePinGroup Sequence Example:
 
 This example demonstrates how to use the Merge Pin Group feature of the Semiconductor Test Library.
  
@@ -8,7 +7,7 @@ There are two scenarios demonstrated by this example:
 
 ### - Case A: Merging Pin Group with 4 channels.
 
-This is achieved by the pingroup "Vcc4ch" defined in the pinmap file. This pingroup pins maps to all four channels of PXIe-4147 module. First pin must map to channel 0. This group name is passed as parameter to the function `MergePinsFIMVThenUnmerge`. 
+Within the accompanying pin map file, there is one pin group named "Vcc4ch". The pins in this pin group map to four channels of a four channel PXIe-4147 module. Note that the first pin in the pin group is considered the primary channel when performing the merge operation, in this case channel 0. The pin group name is then passed as parameter to the same `MergePinsFIMVThenUnmerge` method as before, but by the MergeAndFIMV - 4 Channels step in the MainSequence of the sequence file.
 
 ### - Case B: Merging Pin Group with 2 channels.
 
@@ -17,8 +16,8 @@ Within the accompanying pin map file, there are two pin groups named "Vcc2ch0" a
 
 ## 2. Merging and Unmerging Pin Groups at the Sequence level.
 ### We have created dedicated steps just for the following operations:
-- `Merge`
-- `Powerdown and unmerge`
+- `SMUMergePinGroup`
+- `SMUPowerDownAndUnmergePinGroup`
 
 These two functions are called before and after the standard shipping step `Force Voltage Measure Current (FVMI)`. It uses the same pin group name "Vcc4ch". This way standard steps can benefit from the merging. 
 
