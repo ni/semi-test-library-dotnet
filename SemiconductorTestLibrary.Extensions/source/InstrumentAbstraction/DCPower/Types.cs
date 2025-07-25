@@ -250,7 +250,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// The start trigger.
         /// </summary>
-        StartTrigger
+        StartTrigger,
+
+        /// <summary>
+        /// The shutdown trigger.
+        /// </summary>
+        ShutdownTrigger
     }
 
     /// <summary>
