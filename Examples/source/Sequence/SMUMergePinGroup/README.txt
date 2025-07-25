@@ -26,8 +26,7 @@ These two functions are called before and after the standard shipping step `Forc
 1. If you want to use the example you must have the following software installed:
    - STS Software 24.5.0 or later
 2. To run the test program you must also have:
-   - A NI-DCPower instrument named SMU_4143_C1_S04 as defined in MAX.
-   - A PXI-2567 relay driver module named RELAY_2567_C1_S09, as defined in MAX.
+   - A NI-DCPower instrument named SMU_4147_C1_S04 as defined in MAX.
    - TestStand configured to use the Batch process model.
 
 > **NOTE** \
@@ -36,7 +35,7 @@ These two functions are called before and after the standard shipping step `Forc
 >
 > Complete the following steps to simulate the instruments in Offline Mode:
 > 1. Click the Enable Offline Mode button  on the TSM toolbar. To run the test program, click the Start/Resume Lot button on the TSM toolbar.
-> 2. Launch the Test Program Editor and select the Offline Mode panel to view the path to the Offline Mode system configuration file TSM uses to create simulated instruments for Accelerometer.seq.
+> 2. Launch the Test Program Editor and select the Offline Mode panel to view the path to the Offline Mode system configuration file TSM uses to create simulated instruments for STLExample.SMUMergePinGroup.seq.
 > 3. Click the Disable Offline Mode button to return to the default TSM behavior.
 
 
@@ -44,7 +43,7 @@ These two functions are called before and after the standard shipping step `Forc
 
 Complete the steps in the following sections to learn about the test program components. You can also run this example in offline mode to see it in action.
 
-1. Select **Semiconductor Module » Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the Accelerometer pin map file in the Pin Map Editor.
+1. Select **Semiconductor Module » Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the STLExample.MergePinGroup.pinmap file in the Pin Map Editor.
 The pin map file defines the following information:
    - One NI-DCPower instruments named `SMU_4143_C1_S06` and `SMU_4143_C1_S07`.
    - Ten DUT pins named `Vcc`, `Gnd`, `SCLK`, `MOSI`, `MISO`, `CS`, `RST`, `MODE`, `Vref_DIO`, and `Vref_OScope`. The `Vref_DIO` and `Vref_OScope` pins are virtual pins that refer to a single `Vref` DUT pin and are used to connect the pin to two different types of instruments, NI-Digital Pattern and NI-SCOPE.
