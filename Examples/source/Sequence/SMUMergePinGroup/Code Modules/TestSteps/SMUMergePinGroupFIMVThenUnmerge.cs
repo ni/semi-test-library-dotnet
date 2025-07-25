@@ -3,7 +3,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 {
     /// <summary>
     /// This class provides example methods to demonstrate how to use the MergePinGroup and      /// DCPower Instrument Abstraction methods from the Semiconductor Test Library.
@@ -37,7 +37,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// <param name="apertureTime">Aperture time used for measurements.</param>
         /// <param name="connectedRelayConfiguration">Relay configuration that physically connects all the channels in parallel on the application load board, if required.</param>
         /// <param name="disconnectedRelayConfiguration">Relay configuration that physically disconnects the channels on the application load board, if required.</param>
-        public static void MergePinsFIMVThenUnmerge(
+        public static void SMUMergePinsFIMVThenUnmerge(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
             double currentLevel = 5,

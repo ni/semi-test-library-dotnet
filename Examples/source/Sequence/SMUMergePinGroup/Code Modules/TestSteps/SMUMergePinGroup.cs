@@ -2,7 +2,7 @@
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 {
     /// <summary>
     /// This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup 
@@ -32,7 +32,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// <param name="pinGroup">Name of the pin group to be merged.</param>
         /// <param name="connectedRelayConfiguration">Relay configuration that physically connects all the channels in parallel on the application load board, if required.</param>
         /// <param name="settlingTime">Settling time required for the relay configuration to be connected.</param>
-        public static void MergeSmuPinGroup(
+        public static void SMUMergePinGroup(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
             string connectedRelayConfiguration = "",

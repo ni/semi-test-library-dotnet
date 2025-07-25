@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemiconductorTestLibrary.Extensions", "..\..\..\..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj", "{8221C510-0DA1-E8AE-C0C6-C851B24DC759}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STLExample.MergePinGroup", "STLExample.MergePinGroup.csproj", "{BFCA6477-9330-3675-7731-80C2C02E3F70}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STLExample.SMUMergePinGroup", "STLExample.SMUMergePinGroup.csproj", "{BFCA6477-9330-3675-7731-80C2C02E3F70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,7 +2,7 @@
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergePinGroup
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 {
     /// <summary>
     /// This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup 
@@ -25,14 +25,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.Examples.NIDCPower.MergeP
         /// Use the disconnectedRelayConfiguration parameter to specify the appropriate relay configuration
         /// that will physically disconnect the pins in the pin group via external relays on the application load board.
         /// If the application load board is designed with the target pins permanently connected together,
-        /// do not specify a value for the disconnectedRelayConfiguration parameter. 
+        /// do not specify a value for the disconnectedRelayConfiguration parameter.
         /// The settlingTime parameter is only applicable when the disconnectedRelayConfiguration parameter is used.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinGroup">Name of the pin group to be merged.</param>
         /// <param name="disconnectedRelayConfiguration">Relay configuration that physically disconnects the channels on the application load board, if required.</param>
         /// <param name="settlingTime">Settling time required for the relay configuration to be connected.</param>
-        public static void PowerDownAndUnmergeSmuPinGroup(
+        public static void SMUPowerDownAndUnmergePinGroup(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
             string disconnectedRelayConfiguration = "",
