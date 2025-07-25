@@ -20,7 +20,7 @@
 			<PinReference pin="Vcc2" />
 			<PinReference pin="Vcc3" />
 		</PinGroup>
-		<PinGroup name="Vcc4ch">
+		<PinGroup name="Vcc4ch0">
 			<PinReference pin="Vcc0" />
 			<PinReference pin="Vcc1" />
 			<PinReference pin="Vcc2" />

@@ -45,40 +45,24 @@ Complete the steps in the following sections to learn about the test program com
 
 1. Select **Semiconductor Module » Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the STLExample.MergePinGroup.pinmap file in the Pin Map Editor.
 The pin map file defines the following information:
-   - One NI-DCPower instruments named `SMU_4143_C1_S06` and `SMU_4143_C1_S07`.
-   - Ten DUT pins named `Vcc`, `Gnd`, `SCLK`, `MOSI`, `MISO`, `CS`, `RST`, `MODE`, `Vref_DIO`, and `Vref_OScope`. The `Vref_DIO` and `Vref_OScope` pins are virtual pins that refer to a single `Vref` DUT pin and are used to connect the pin to two different types of instruments, NI-Digital Pattern and NI-SCOPE.
-   - One relay named `SCOPE_ENABLE_RELAY `per site. The test program uses the `SCOPE_ENABLE_RELAY` relay to control a physical relay that connects the `Vref` DUT pin to the NI-Digital Pattern instrument or to the NI-SCOPE instrument.
-   - One relay named `NOISE_ENABLE_RELAY` per site. The test program uses the `NOISE_ENABLE_RELAY` relay to control a physical relay that connects the `Vref` DUT pin to a noise source, rather than to the NI-Digital Pattern or NI-SCOPE instruments.
-   - Three pin groups named `SPI_Port`, `Digital`, and `AllDUTPins`.
-   - One system relay named `POWER_RELAY. The test program uses the `POWER_RELAY` relay to control a physical relay that controls a power source.
-   - Four sites on the tester.
+   - One NI-DCPower instrument named `SMU_4147_C1_S04`.
+   - Four DUT pins named `Vcc0`, `Vcc1`, `Vcc2` and `Vcc3`. 
+   - Three pin groups named `Vcc2ch0`, `Vcc2ch2`, and `Vcc4ch0`.
+   - One site on the tester.
    - A series of connections for each site, in which each connection specifies a DUT pin, a site number, an instrument, and an instrument channel.
-   - Site relay connections that specify to which control line of a relay driver module the `SCOPE_ENABLE_RELAY` relay is connected for a given site.
-   - Site relay connections that specify to which control line of a relay driver module the `NOISE_ENABLE_RELAY` relay is connected for a given site.
-   - A system relay connection that specifies whether the power source connected to the `POWER_RELAY` relay is enabled.
 2. Complete the following steps to review the Test Program Configurations that this test program uses.
-   1. Select **Semiconductor Module » Edit Test Program: Accelerometer.seq** or click the **Edit Test Program: Accelerometer.seq** button on the TSM toolbar.
+   1. Select **Semiconductor Module » Edit Test Program: SMUMergePinGroup.seq** or click the **Edit Test Program: SMUMergePinGroup.seq** button on the TSM toolbar.
    2. Select the Configuration Definition panel.
-   3. This test program specifies two test conditions that each test program configuration must define:
-       - `TestFlowId`—Defines an identifying name for the test flow.
-       - `TestTemperature`—Defines the temperature at which to perform the tests.
-   4. Select each of the individual Configuration panels to review the values each test program configuration gives to the specified test conditions.
-3. Use the TestStand Sequence Editor to review the bin definitions file associated with the test program. Select **Semiconductor Module » Edit Bin Definitions File** or click the **Edit Bin Definitions File** button on the TSM toolbar. 
-   - The bin definitions file defines software bins that the test program uses and the hardware bins associated with the software bins.
-4. Complete the following steps to review the `MainSequence`, `ProcessSetup`, and `ProcessCleanup` sequences that this test program uses.
+3. Complete the following steps to review the `MainSequence`, `ProcessSetup`, and `ProcessCleanup` sequences that this test program uses.
    1. On the `Sequences` pane, select the MainSequence sequence and review the objectives each step performs and optionally review the LabVIEW code associated with each step:
-      - In the Setup section, if the current test program configuration uses the Hot test temperature setting, the test program waits until the temperature controller reaches the specified temperature.
-      - To prepare for digital tests, the test program configures the relay for the `Vref` pin to the Digital Pattern instrument.
-      - The test program tests continuity, leakage, and idle power consumption on all digital pins.
-      - The test program resets the DUT in preparation for SPI port communication.
-      - The test program enables test mode on the DUT using the SPI port.
-      - The test program checks the part number of the DUT by reading a register through the SPI port.
-      - If the current TestFlowId is set to `Quality` the test program checks the part number at different Vcc levels.
-      - To prepare for analog tests, the test program configures the relay for the `Vref` pin to the NI-SCOPE instrument.
-      - The test program checks the minimum, maximum, and RMS voltage value on the Vref and uses the value to trim each DUT.
-      - The test program sets and verifies the Vref register on the DUT based on the previous Vref measurement.
-      - In the Cleanup section, the test program turns off all instrument output to the DUT in preparation for physical binning by the handler.
-   2. On the `Sequences` pane, select the `ProcessSetup` sequence. TestStand calls this sequence once before starting testing. The steps in this sequence initialize the instruments and store the instrument sessions in the SemiconductorModuleContext. There are other steps in this sequence to configure a temperature controller, and to toggle the power source.
+      - In the Setup & Cleanup section, there are no steps.
+      - In the Main section, the test program Performs 
+         - Four channel merging for 10A & unmerging at code level.
+         - Two channel merging for 5A & unmerging at code level.
+         - Step level four channel merging.
+         - calling shipping step FVMI, with current limit of 12A.
+         - Step level unmerging of pingroup.
+   2. On the `Sequences` pane, select the `ProcessSetup` sequence. TestStand calls this sequence once before starting testing. The steps in this sequence initialize the instruments and store the instrument sessions in the SemiconductorModuleContext.
    3. On the `Sequences` pane, select the `ProcessCleanup` sequence. TestStand calls this sequence once after testing completes. The steps in this sequence close and reset the instruments.
 
 5. You must meet all the [Prerequisites](#prerequisites) to run the test program. To run the test program, click the **Start/Resume Lot** button on the TSM toolbar.
