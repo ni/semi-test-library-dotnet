@@ -5,7 +5,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 {
     /// <summary>
-    /// This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup 
+    /// This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup
     /// DCPower Instrument Abstraction methods from the Semiconductor Test Library.
     /// These methods can be used to merge DUT pins together to output higher current.
     /// These methods are only supported under the following conditions:

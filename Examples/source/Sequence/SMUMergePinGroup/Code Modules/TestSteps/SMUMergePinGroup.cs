@@ -25,7 +25,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
         /// Use the connectedRelayConfiguration parameter to specify the appropriate relay configuration
         /// that will physically connect the pins in the pin group together via external relays on the application load board.
         /// If the application load board is designed with the target pins permanently connected together,
-        /// do not specify a value for the connectedRelayConfiguration parameter. 
+        /// do not specify a value for the connectedRelayConfiguration parameter.
         /// The settlingTime parameter is only applicable when the connectedRelayConfiguration parameter is used.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
