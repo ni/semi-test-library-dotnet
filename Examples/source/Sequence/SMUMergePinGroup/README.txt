@@ -29,7 +29,7 @@ These two functions are called before and after the standard shipping step `Forc
    - A NI-DCPower instrument named SMU_4147_C1_S04 as defined in MAX.
    - TestStand configured to use the Batch process model.
 
-> **NOTE** \
+> **NOTE**
 > You can view the test program in the TestStand Sequence Editor and code modules in a C# source code editor without meeting the #2 requirement.
 > To run the example you must have the required instruments physically installed in your system, or simulated using Offline Mode. 
 >
