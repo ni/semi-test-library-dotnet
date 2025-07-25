@@ -9,8 +9,8 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <PlatformTarget>x64</PlatformTarget>
-    <RootNamespace>SemiconductorTestLibrary.Examples.CustomInstrument</RootNamespace>
-    <AssemblyName>SemiconductorTestLibrary.Examples.CustomInstrument</AssemblyName>
+    <RootNamespace>NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument</RootNamespace>
+    <AssemblyName>NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument</AssemblyName>
     <BaseOutputPath>bin\</BaseOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
