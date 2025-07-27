@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
@@ -76,9 +77,16 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 
                 Console.WriteLine("2. Initializing Instrument Sessions.");
                 InitializeAndClose.Initialize(semiconductorContext);
+                semiconductorContext.GetPins(InstrumentTypeIdConstants.NIDCPower, out var dutPins, out var systemPins);
 
-                Console.WriteLine($"3. Creating Session Manager.");
+                Console.WriteLine($"3. Creating Session Manager and DCPowerSessionsBundle objects.");
                 TSMSessionManager sessionManager = new TSMSessionManager(semiconductorContext);
+
+                // Create a bundle of DCPower sessions containing all pins from the pinmap file.
+                var dcPower = sessionManager.DCPower(dutPins.Concat(systemPins).ToArray());
+
+                // Abort to make all the sessions as idle state to begin.
+                dcPower.Abort();
 
                 // Configure the appropriate relays required to physically connect the pins externally.
                 if (!string.IsNullOrEmpty(ConnectedRelayConfiguration))
@@ -133,9 +141,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             PinSiteData<double> originalSourceDelay = smuBundle.GetSourceDelayInSeconds();
 
             Console.WriteLine($"5. Performing {mergingChannelCount} channel merging operation.");
-
-            // Abort any previous single channel operations before merging the pin group.
-            smuBundle.Abort();
             smuBundle.MergePinGroup(vccI);
             smuBundle.ConfigureSourceDelay(SettlingTime);
             if (ApertureTimeConstant != -1)
