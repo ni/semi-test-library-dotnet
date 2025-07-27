@@ -79,11 +79,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
                 InitializeAndClose.Initialize(semiconductorContext);
                 semiconductorContext.GetPins(InstrumentTypeIdConstants.NIDCPower, out var dutPins, out var systemPins);
 
-                Console.WriteLine($"3. Creating Session Manager and DCPowerSessionsBundle objects.");
+                Console.WriteLine($"3. Creating TSMSessionManager and DCPowerSessionsBundle objects.");
                 TSMSessionManager sessionManager = new TSMSessionManager(semiconductorContext);
 
                 // Create a bundle of DCPower sessions containing all pins from the pinmap file.
-                var dcPower = sessionManager.DCPower(dutPins.Concat(systemPins).ToArray());
+                DCPowerSessionsBundle dcPower = sessionManager.DCPower(dutPins.Concat(systemPins).ToArray());
 
                 // Abort to make all the sessions as idle state to begin.
                 dcPower.Abort();
