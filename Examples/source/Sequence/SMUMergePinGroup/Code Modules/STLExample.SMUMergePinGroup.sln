@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemiconductorTestLibrary.Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STLExample.SMUMergePinGroup", "STLExample.SMUMergePinGroup.csproj", "{BFCA6477-9330-3675-7731-80C2C02E3F70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemiconductorTestLibrary.TestStandSteps", "..\..\..\..\..\SemiconductorTestLibrary.TestStandSteps\source\SemiconductorTestLibrary.TestStandSteps.csproj", "{3E8DAC55-D465-5D84-0B59-3B1F29AEB98F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BFCA6477-9330-3675-7731-80C2C02E3F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFCA6477-9330-3675-7731-80C2C02E3F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFCA6477-9330-3675-7731-80C2C02E3F70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E8DAC55-D465-5D84-0B59-3B1F29AEB98F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E8DAC55-D465-5D84-0B59-3B1F29AEB98F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E8DAC55-D465-5D84-0B59-3B1F29AEB98F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E8DAC55-D465-5D84-0B59-3B1F29AEB98F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

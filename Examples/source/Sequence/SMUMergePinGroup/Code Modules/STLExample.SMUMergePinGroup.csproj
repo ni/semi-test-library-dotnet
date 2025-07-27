@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
+    <ProjectReference Include="..\..\..\..\..\SemiconductorTestLibrary.TestStandSteps\source\SemiconductorTestLibrary.TestStandSteps.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="NationalInstruments.Common, Version=19.1.40.49152">
