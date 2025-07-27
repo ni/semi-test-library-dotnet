@@ -2,9 +2,9 @@
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <OutputPath>bin</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
     <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
