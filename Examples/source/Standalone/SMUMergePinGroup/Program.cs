@@ -3,8 +3,8 @@ using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.Examples.SemiconductorTestLibrary.ExampleSupport;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 {
