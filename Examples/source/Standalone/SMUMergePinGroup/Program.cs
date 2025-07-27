@@ -35,6 +35,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 
         // Relay configuration that connects all the channels in parallel
         private const string ConnectedRelayConfiguration = "";
+
         // Relay configuration that disconnects all the channels
         private const string DisconnectedRelayConfiguration = "";
 
@@ -132,6 +133,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             PinSiteData<double> originalSourceDelay = smuBundle.GetSourceDelayInSeconds();
 
             Console.WriteLine($"5. Performing {mergingChannelCount} channel merging operation.");
+
             // Abort any previous single channel operations before merging the pin group.
             smuBundle.Abort();
             smuBundle.MergePinGroup(vccI);
@@ -164,7 +166,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 
             // Use the SMU Bundle object to perform unmerge operation on the pin group.
             smuBundle.UnmergePinGroup(vccI);
-            smuBundle.Abort();
             smuBundle.ConfigureSourceDelay(originalSourceDelay);
             smuBundle.Commit();
         }
