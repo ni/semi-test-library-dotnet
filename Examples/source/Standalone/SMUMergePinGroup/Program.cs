@@ -39,8 +39,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
         private const string DisconnectedRelayConfiguration = "";
 
         // PinGroups for merging.
-        private const string Vcc2ch = "Vcc2ch0";  //Name of the pin group to be merged for sourcing 5A
-        private const string Vcc4ch = "Vcc4ch0";  //Name of the pin group to be merged for sourcing 10A
+        private const string Vcc2ch = "Vcc2ch0";  // Name of the pin group to be merged for sourcing 5A
+        private const string Vcc4ch = "Vcc4ch0";  // Name of the pin group to be merged for sourcing 10A
 
         // voltage and current settings for the merge operation
         private const double CurrentLevel1 = 5.0;
