@@ -80,7 +80,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 
             // Configure the appropriate relays required to physically disconnect the pins externally.
             smuBundle.UnmergePinGroup(pinGroup);
-            if (!string.IsNullOrEmpty(disconnectedRelayConfiguration))
+            if (tsmContext != null && !string.IsNullOrEmpty(disconnectedRelayConfiguration))
             {
                 tsmContext.ApplyRelayConfiguration(disconnectedRelayConfiguration, waitSeconds: settlingTime);
             }
