@@ -5,7 +5,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 {
     /// <summary>
-    /// This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup 
+    /// This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup
     /// DCPower Instrument Abstraction methods from the Semiconductor Test Library.
     /// These methods can be used to merge DUT pins together to output higher current.
     /// These methods are only supported under the following conditions:
@@ -14,7 +14,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
     /// 3. The SMU module must support the niDCPower Merged Channels feature.
     /// For example: PXIe-4147, PXIe-4162, and PXIe-4163.
     /// 4. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
-    /// The example methods of this class demonstrate how relay configurations can be applied 
+    /// The example methods of this class demonstrate how relay configurations can be applied
     /// to ensures the SMUs channels are physically connected in parallel before the MergePinGroup operation,
     /// and subsequently disconnected after the UnmergePinGroup operation.
     /// </summary>
@@ -42,12 +42,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
 
             // Configure the appropriate relays required to physically connect the pins externally.
-            if (!string.IsNullOrEmpty(connectedRelayConfiguration))
+            if (tsmContext != null && !string.IsNullOrEmpty(connectedRelayConfiguration))
             {
                 tsmContext.ApplyRelayConfiguration(connectedRelayConfiguration, waitSeconds: settlingTime);
             }
 
-            // Use the MergePinGroup method on the sessions bundle to perform the merge operation. 
+            // Use the MergePinGroup method on the sessions bundle to perform the merge operation.
             // After which, the pins in the pin group will able to operate in unison when performing subsequent operations on the pin group,
             // whether in this or a proceeding code module.
             smuBundle.MergePinGroup(pinGroup);
