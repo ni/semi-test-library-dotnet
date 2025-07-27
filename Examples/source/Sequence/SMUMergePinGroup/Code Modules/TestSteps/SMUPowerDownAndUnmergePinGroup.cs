@@ -14,7 +14,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
     /// 3. The SMU module must support the niDCPower Merged Channels feature.
     /// For example: PXIe-4147, PXIe-4162, and PXIe-4163.
     /// 4. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
-    /// The example methods of this class demonstrate how relay configurations can be applied 
+    /// The example methods of this class demonstrate how relay configurations can be applied
     /// to ensures the SMUs channels are physically connected in parallel before the MergePinGroup operation,
     /// and subsequently disconnected after the UnmergePinGroup operation.
     /// </summary>
@@ -48,7 +48,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             smuBundle.UnmergePinGroup(pinGroup);
 
             // Configure the appropriate relays required to physically disconnect the pins externally.
-            if (!string.IsNullOrEmpty(disconnectedRelayConfiguration))
+            if (tsmContext != null && !string.IsNullOrEmpty(disconnectedRelayConfiguration))
             {
                 tsmContext.ApplyRelayConfiguration(disconnectedRelayConfiguration, waitSeconds: settlingTime);
             }
