@@ -125,7 +125,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             string vccI = mergingChannelCount == 4 ? Vcc4ch : Vcc2ch;
             double currentLevel = mergingChannelCount == 4 ? CurrentLevel2 : CurrentLevel1;
 
-            Console.WriteLine("");
+            Console.WriteLine(string.Empty);
 
             // Create a bundle for the DCPower sessions for the specified pin group.
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(vccI);
