@@ -117,11 +117,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Hence, need the ability to check the operation against each channel when configuring triggers.
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.ConfigurePulseTriggerDisable(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
-                sessionInfo.ConfigureSequenceAdvanceTriggerDisable(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
-                sessionInfo.ConfigureSourceTriggerDisable(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
-                sessionInfo.ConfigureStartTriggerDisable(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
+                var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
+                var triggerTypesToDisable = new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger };
+                if (triggerTypesToDisable.Except(triggerTypesUnsupported).Any())
+                {
+                    sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                    sessionInfo.ConfigurePulseTriggerDisable(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
+                    sessionInfo.ConfigureSequenceAdvanceTriggerDisable(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
+                    sessionInfo.ConfigureSourceTriggerDisable(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
+                    sessionInfo.ConfigureStartTriggerDisable(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
+                }
             });
         }
 
@@ -148,26 +153,31 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Hence, need the ability to check the operation against each channel when configuring triggers.
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
-                switch (triggerType)
+                var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
+                var triggerTypesToConfigure = new List<TriggerType>() { TriggerType.MeasureTrigger, TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger };
+                if (triggerTypesToConfigure.Except(triggerTypesUnsupported).Any())
                 {
-                    case TriggerType.MeasureTrigger:
-                        sessionInfo.ConfigureMeasureTriggerDigitalEdge(tiggerTerminal, pinSiteInfo.ModelString, triggerEdge, pinSiteInfo.IndividualChannelString);
-                        break;
-                    case TriggerType.PulseTrigger:
-                        sessionInfo.ConfigurePulseTriggerDigitalEdge(tiggerTerminal, pinSiteInfo.ModelString, triggerEdge, pinSiteInfo.IndividualChannelString);
-                        break;
-                    case TriggerType.SequenceAdvanceTrigger:
-                        sessionInfo.ConfigureSequenceAdvanceTriggerDigitalEdge(tiggerTerminal, pinSiteInfo.ModelString, triggerEdge, pinSiteInfo.IndividualChannelString);
-                        break;
-                    case TriggerType.SourceTrigger:
-                        sessionInfo.ConfigureSourceTriggerDigitalEdge(tiggerTerminal, pinSiteInfo.ModelString, triggerEdge, pinSiteInfo.IndividualChannelString);
-                        break;
-                    case TriggerType.StartTrigger:
-                        sessionInfo.ConfigureStartTriggerDigitalEdge(tiggerTerminal, pinSiteInfo.ModelString, triggerEdge, pinSiteInfo.IndividualChannelString);
-                        break;
-                    default:
-                        break;
+                    sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                    switch (triggerType)
+                    {
+                        case TriggerType.MeasureTrigger:
+                            sessionInfo.ConfigureMeasureTriggerDigitalEdge(tiggerTerminal, pinSiteInfo.ModelString, triggerEdge, pinSiteInfo.IndividualChannelString);
+                            break;
+                        case TriggerType.PulseTrigger:
+                            sessionInfo.ConfigurePulseTriggerDigitalEdge(tiggerTerminal, pinSiteInfo.ModelString, triggerEdge, pinSiteInfo.IndividualChannelString);
+                            break;
+                        case TriggerType.SequenceAdvanceTrigger:
+                            sessionInfo.ConfigureSequenceAdvanceTriggerDigitalEdge(tiggerTerminal, pinSiteInfo.ModelString, triggerEdge, pinSiteInfo.IndividualChannelString);
+                            break;
+                        case TriggerType.SourceTrigger:
+                            sessionInfo.ConfigureSourceTriggerDigitalEdge(tiggerTerminal, pinSiteInfo.ModelString, triggerEdge, pinSiteInfo.IndividualChannelString);
+                            break;
+                        case TriggerType.StartTrigger:
+                            sessionInfo.ConfigureStartTriggerDigitalEdge(tiggerTerminal, pinSiteInfo.ModelString, triggerEdge, pinSiteInfo.IndividualChannelString);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             });
         }
@@ -184,26 +194,31 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Hence, need the ability to check the operation against each channel when configuring triggers.
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
-                switch (triggerType)
+                var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
+                var triggerTypesToConfigure = new List<TriggerType>() { TriggerType.MeasureTrigger, TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger };
+                if (triggerTypesToConfigure.Except(triggerTypesUnsupported).Any())
                 {
-                    case TriggerType.MeasureTrigger:
-                        sessionInfo.ConfigureMeasureTriggerSoftwareEdge(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
-                        break;
-                    case TriggerType.PulseTrigger:
-                        sessionInfo.ConfigurePulseTriggerSoftwareEdge(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
-                        break;
-                    case TriggerType.SequenceAdvanceTrigger:
-                        sessionInfo.ConfigureSequenceAdvanceTriggerSoftwareEdge(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
-                        break;
-                    case TriggerType.SourceTrigger:
-                        sessionInfo.ConfigureSourceTriggerSoftwareEdge(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
-                        break;
-                    case TriggerType.StartTrigger:
-                        sessionInfo.ConfigureStartTriggerSoftwareEdge(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
-                        break;
-                    default:
-                        break;
+                    sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                    switch (triggerType)
+                    {
+                        case TriggerType.MeasureTrigger:
+                            sessionInfo.ConfigureMeasureTriggerSoftwareEdge(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
+                            break;
+                        case TriggerType.PulseTrigger:
+                            sessionInfo.ConfigurePulseTriggerSoftwareEdge(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
+                            break;
+                        case TriggerType.SequenceAdvanceTrigger:
+                            sessionInfo.ConfigureSequenceAdvanceTriggerSoftwareEdge(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
+                            break;
+                        case TriggerType.SourceTrigger:
+                            sessionInfo.ConfigureSourceTriggerSoftwareEdge(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
+                            break;
+                        case TriggerType.StartTrigger:
+                            sessionInfo.ConfigureStartTriggerSoftwareEdge(pinSiteInfo.ModelString, pinSiteInfo.IndividualChannelString);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             });
         }
@@ -217,8 +232,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
-                var triggerTypesToDealWith = new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger };
-                if (triggerTypesToDealWith.Except(triggerTypesUnsupported).Any())
+                var triggerTypesToClear = new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger };
+                if (triggerTypesToClear.Except(triggerTypesUnsupported).Any())
                 {
                     sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                     if (!triggerTypesUnsupported.Contains(TriggerType.PulseTrigger))

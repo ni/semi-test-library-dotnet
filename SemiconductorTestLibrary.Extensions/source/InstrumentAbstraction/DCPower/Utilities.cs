@@ -85,7 +85,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 return !_triggerTypeToUnsupportedModelStringMap[triggerType].Contains(modelString);
             }
-            // If something is not present in unsupported model strings list, then assume its supported.
+            // If something is not present in unsupported model strings list, then assume it's supported.
             return true;
         }
 
