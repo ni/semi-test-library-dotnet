@@ -5,42 +5,48 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
 {
     internal static class Simulation
     {
-        private static Dictionary<string, SimulatedInstrument> SimulatedInstruments = new Dictionary<string, SimulatedInstrument>();
+        private static Dictionary<string, SimulatedInstrument> _simulatedInstruments = new Dictionary<string, SimulatedInstrument>();
 
         internal static void InitInstrument(string instrumentName)
         {
-            if (!SimulatedInstruments.ContainsKey(instrumentName))
+            if (!_simulatedInstruments.ContainsKey(instrumentName))
             {
-                SimulatedInstruments.Add(instrumentName, new SimulatedInstrument(instrumentName));
+                _simulatedInstruments.Add(instrumentName, new SimulatedInstrument(instrumentName));
             }
         }
 
         internal static void ClearInstrument(string instrumentName)
         {
-            SimulatedInstruments.Remove(instrumentName);
+            _simulatedInstruments.Remove(instrumentName);
         }
 
         internal static void WriteDigitalChannelData(string instrumentName, string channelName, double data)
         {
-            SimulatedInstruments[instrumentName].DigitalInputChannelData[channelName] = data;
+            _simulatedInstruments[instrumentName].DigitalInputChannelData[channelName] = data;
         }
 
         internal static void WriteDigitalData(string instrumentName, double data)
         {
-            SimulatedInstruments[instrumentName].DigitalInputChannelData.Select(chVal => data);
+            foreach (var channelName in _simulatedInstruments[instrumentName].DigitalInputChannelData.Keys)
+            {
+                _simulatedInstruments[instrumentName].DigitalInputChannelData[channelName] = data;
+            }
         }
 
         internal static void ResetInstrument(string instrumentName)
         {
-            SimulatedInstruments[instrumentName].DigitalInputChannelData.Select(chVal => 0);
+            foreach (var channelName in _simulatedInstruments[instrumentName].DigitalInputChannelData.Keys)
+            {
+                _simulatedInstruments[instrumentName].DigitalInputChannelData[channelName] = 0;
+            }
         }
 
         internal static double ReadAnalogChannel(string instrumentName, string channelName)
         {
-            var digitalCh1 = SimulatedInstruments[instrumentName].AnalogOutputChannelsToDigitalLookUp[channelName][0];
-            var digitalCh2 = SimulatedInstruments[instrumentName].AnalogOutputChannelsToDigitalLookUp[channelName][1];
-            var digitalVal1 = SimulatedInstruments[instrumentName].DigitalInputChannelData[digitalCh1];
-            var digitalVal2 = SimulatedInstruments[instrumentName].DigitalInputChannelData[digitalCh2];
+            var digitalCh1 = _simulatedInstruments[instrumentName].AnalogOutputChannelsToDigitalLookUp[channelName][0];
+            var digitalCh2 = _simulatedInstruments[instrumentName].AnalogOutputChannelsToDigitalLookUp[channelName][1];
+            var digitalVal1 = _simulatedInstruments[instrumentName].DigitalInputChannelData[digitalCh1];
+            var digitalVal2 = _simulatedInstruments[instrumentName].DigitalInputChannelData[digitalCh2];
 
             return (2 * digitalVal2 + digitalVal1) * 5 / 3;
         }
