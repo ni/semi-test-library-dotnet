@@ -10,7 +10,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <PlatformTarget>x64</PlatformTarget>
     <RootNamespace>NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument</RootNamespace>
-    <AssemblyName>NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument</AssemblyName>
+    <AssemblyName>STLExample.CustomInstrument</AssemblyName>
     <BaseOutputPath>bin\</BaseOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

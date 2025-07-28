@@ -7,7 +7,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
     /// </summary>
     public class CustomInstrumentDriver
     {
-        private string InstrumentName;
+        private string _instrumentName;
+
         /// <summary>
         /// Initializes dummy driver session.
         /// </summary>
@@ -15,8 +16,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public CustomInstrumentDriver(string resourceName)
         {
             // Initialize dummy driver session.
-            InstrumentName = resourceName.Split('/').First();
-            Simulation.InitInstrument(InstrumentName);
+            _instrumentName = resourceName.Split('/').First();
+            Simulation.InitInstrument(_instrumentName);
         }
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         {
             // Driver code.
             // For simulation.
-            Simulation.ClearInstrument(InstrumentName);
+            Simulation.ClearInstrument(_instrumentName);
         }
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         {
             // Driver code.
             // For simulation.
-            Simulation.ResetInstrument(InstrumentName);
+            Simulation.ResetInstrument(_instrumentName);
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         {
             // Driver code.
             // For simulation.
-            Simulation.WriteDigitalData(InstrumentName, data);
+            Simulation.WriteDigitalData(_instrumentName, data);
         }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         {
             // Driver code.
             // For simulation.
-            Simulation.WriteDigitalChannelData(InstrumentName, channelString, pinSiteSpecificData);
+            Simulation.WriteDigitalChannelData(_instrumentName, channelString, pinSiteSpecificData);
         }
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         {
             // Driver code.
             // For simulation.
-            return Simulation.ReadAnalogChannel(InstrumentName, channelString);
+            return Simulation.ReadAnalogChannel(_instrumentName, channelString);
         }
 
         /// <summary>
