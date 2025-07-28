@@ -27,7 +27,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
 
         internal static void WriteDigitalData(string instrumentName, double data)
         {
-            foreach (var channelName in _simulatedInstruments[instrumentName].DigitalInputChannelData.Keys)
+            foreach (var channelName in _simulatedInstruments[instrumentName].DigitalInputChannelData.Keys.ToList())
             {
                 _simulatedInstruments[instrumentName].DigitalInputChannelData[channelName] = data;
             }
@@ -35,7 +35,7 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
 
         internal static void ResetInstrument(string instrumentName)
         {
-            foreach (var channelName in _simulatedInstruments[instrumentName].DigitalInputChannelData.Keys)
+            foreach (var channelName in _simulatedInstruments[instrumentName].DigitalInputChannelData.Keys.ToList())
             {
                 _simulatedInstruments[instrumentName].DigitalInputChannelData[channelName] = 0;
             }
