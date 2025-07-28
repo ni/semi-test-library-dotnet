@@ -157,13 +157,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             PreciseWait(timeInSeconds: SettlingTime);
 
             smuBundle.MeasureAndPublishCurrent(publishedDataId: "Current", out var currentOut);
-            PreciseWait(1.0);
             Console.WriteLine($"Measured Current: {currentOut[0][0]} A.");
 
             Console.WriteLine($"7. Powering down output.");
 
             // Clean up and restore the state of the instrumentation after finishing the test.
-            smuBundle.ForceCurrent(10e-3, waitForSourceCompletion: true);
+            smuBundle.ForceCurrent(0.01, waitForSourceCompletion: true);
             smuBundle.PowerDown();
             PreciseWait(timeInSeconds: SettlingTime);
 
