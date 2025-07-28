@@ -32,48 +32,22 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             double settlingTime = 0,
             double apertureTime = -1)
         {
-            try
-            {
-                var sessionManager = new TSMSessionManager(tsmContext);
-                InvokeInParallel(
-                    () =>
-                    {
-                        var dcPowerPinsOrPinGroups = tsmContext.FilterPinsByInstrumentType(pinsOrPinGroups, InstrumentTypeIdConstants.NIDCPower);
-                        if (dcPowerPinsOrPinGroups.Any())
-                        {
-                            var dcPower = sessionManager.DCPower(dcPowerPinsOrPinGroups);
-                            var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
-                            dcPower.ConfigureSourceDelay(settlingTime);
-                            if (apertureTime != -1)
-                            {
-                                dcPower.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = apertureTime });
-                            }
+            var sessionManager = new TSMSessionManager(tsmContext);
 
-                            dcPower.ForceVoltage(voltageLevel, currentLimit, waitForSourceCompletion: true);
-                            dcPower.MeasureAndPublishCurrent("Current", out _);
-                            dcPower.ConfigureSourceDelay(originalSourceDelays);
-                        }
-                    },
-                    () =>
-                    {
-                        var digitalPinsOrPinGroups = tsmContext.FilterPinsByInstrumentType(pinsOrPinGroups, InstrumentTypeIdConstants.NIDigitalPattern);
-                        if (digitalPinsOrPinGroups.Any())
-                        {
-                            var digital = sessionManager.Digital(digitalPinsOrPinGroups);
-                            if (apertureTime != -1)
-                            {
-                                digital.ConfigureApertureTime(apertureTime);
-                            }
-
-                            digital.ForceVoltage(voltageLevel, currentLimit);
-                            PreciseWait(settlingTime);
-                            digital.MeasureAndPublishCurrent("Current", out _);
-                        }
-                    });
-            }
-            catch (Exception e)
+            var dcPowerPinsOrPinGroups = tsmContext.FilterPinsByInstrumentType(pinsOrPinGroups, InstrumentTypeIdConstants.NIDCPower);
+            if (dcPowerPinsOrPinGroups.Any())
             {
-                NISemiconductorTestException.Throw(e);
+                var dcPower = sessionManager.DCPower(dcPowerPinsOrPinGroups);
+                var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
+                dcPower.ConfigureSourceDelay(settlingTime);
+                if (apertureTime != -1)
+                {
+                    dcPower.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = apertureTime });
+                }
+
+                dcPower.ForceVoltage(voltageLevel, currentLimit, waitForSourceCompletion: true);
+                dcPower.MeasureAndPublishCurrent("Current", out _);
+                dcPower.ConfigureSourceDelay(originalSourceDelays);
             }
         }
     }
