@@ -10,7 +10,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <PlatformTarget>x64</PlatformTarget>
     <RootNamespace>NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup</RootNamespace>
-    <AssemblyName>NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup</AssemblyName>
+    <AssemblyName>STLExample.SMUMergePinGroup</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>full</DebugType>
