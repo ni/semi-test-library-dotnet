@@ -1,11 +1,7 @@
-﻿using System;
-using System.Linq;
-using NationalInstruments.SemiconductorTestLibrary.Common;
+﻿using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 {
