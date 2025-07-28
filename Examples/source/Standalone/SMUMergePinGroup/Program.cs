@@ -51,7 +51,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 
         // settling and aperture time used for measurements
         private const double SettlingTime = 0.001;
-        private const double ApertureTimeConstant = 0.01; // -1 indicates no aperture time is set.
+        private const double ApertureTimeConstant = 0.01;
 
         // Files to load.
         private const string PinMapFileName = "STLExample.SMUMergePinGroup.pinmap";
