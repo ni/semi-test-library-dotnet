@@ -79,16 +79,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return string.Join(",", channelString.Split(',').Where(s => !s.Contains($"/{channelToExclude}")));
         }
 
-        public static bool IsTriggerTypeSupported(string modelString, TriggerType triggerType)
-        {
-            if (_triggerTypeToUnsupportedModelStringMap.ContainsKey(triggerType))
-            {
-                return !_triggerTypeToUnsupportedModelStringMap[triggerType].Contains(modelString);
-            }
-            // If something is not present in unsupported model strings list, then assume it's supported.
-            return true;
-        }
-
         public static IEnumerable<TriggerType> GetUnsupportedTriggerTypes(string modelString)
         {
             foreach (TriggerType triggerType in _triggerTypeToUnsupportedModelStringMap.Keys)

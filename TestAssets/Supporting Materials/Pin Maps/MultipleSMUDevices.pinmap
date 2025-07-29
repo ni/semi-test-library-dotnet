@@ -11,8 +11,7 @@
 			<ChannelGroup name="DCPowerChannelGroup_4113" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4130_C2_S04" numberOfChannels="2">
-			<ChannelGroup name="DCPowerChannelGroup_4130_0" channels="0" />
-			<ChannelGroup name="DCPowerChannelGroup_4130_0" channels="1" />
+			<ChannelGroup name="DCPowerChannelGroup_4130" />
 		</NIDCPowerInstrument>
 		<NIDCPowerInstrument name="SMU_4135_C7_S03" numberOfChannels="1">
 			<ChannelGroup name="DCPowerChannelGroup_4135" />
