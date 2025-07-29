@@ -148,7 +148,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
                 smuBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = ApertureTimeConstant });
             }
 
-            Console.WriteLine($"6. Forcing {currentLevel} Amps of current with {VoltageLimit} voltage limit for 1 second.");
+            Console.WriteLine($"6. Forcing {currentLevel} Amps of current with {VoltageLimit} voltage limit.");
             smuBundle.ForceCurrent(currentLevel, VoltageLimit, waitForSourceCompletion: true);
             PreciseWait(timeInSeconds: SettlingTime);
 
