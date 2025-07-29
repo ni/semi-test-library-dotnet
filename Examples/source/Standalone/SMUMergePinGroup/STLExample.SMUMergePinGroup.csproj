@@ -42,7 +42,7 @@
     </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces">
       <SpecificVersion>False</SpecificVersion>
-      </Reference>
+    </Reference>
     <Reference Include="StandaloneSemiconductorModuleContext">
       <HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
     </Reference>
