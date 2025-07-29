@@ -145,11 +145,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             smuBundle.ConfigureSourceDelay(SettlingTime);
             if (ApertureTimeConstant != -1)
             {
-                DCPowerMeasureSettings measureSettings = new DCPowerMeasureSettings()
-                {
-                    ApertureTime = ApertureTimeConstant,
-                };
-                smuBundle.ConfigureMeasureSettings(measureSettings);
+                smuBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = ApertureTimeConstant });
             }
 
             Console.WriteLine($"6. Forcing {currentLevel} Amps of current with {VoltageLimit} voltage limit for 1 second.");
@@ -162,7 +158,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             Console.WriteLine($"7. Powering down output.");
 
             // Clean up and restore the state of the instrumentation after finishing the test.
-            smuBundle.ForceCurrent(0.01, waitForSourceCompletion: true);
+            smuBundle.ForceCurrent(0.001, waitForSourceCompletion: true);
             smuBundle.PowerDown();
             PreciseWait(timeInSeconds: SettlingTime);
 
