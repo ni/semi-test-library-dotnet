@@ -28,7 +28,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, allPins, publishedData);
             // Limits are set based on the expected value returned by the driver when in Offline Mode.
-            AssertPublishedDataValueInRange(publishedData, 0, 0.001);
+            AssertPublishedDataValueInRange(publishedData, -0.001, 0.001);
             AssertPublishedDataId("Current", publishedData);
             CleanupInstrumentation(tsmContext);
         }

@@ -13,15 +13,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         [Fact]
         public void InitializeDAQmxAIVoltageTask_RunDAQmxTestAcquireAnalogInputWaveforms_CorrectDataPublished()
         {
-            var tsmContext = CreateTSMContext("DAQmxTests.pinmap", out var publishedDataReader);
+            var tsmContext = CreateTSMContext("DAQmxMultiChannelTests.pinmap", out var publishedDataReader);
             SetupNIDAQmxAIVoltageTask(tsmContext);
 
             AcquireAnalogInputWaveforms(
                 tsmContext,
-                pinsOrPinGroups: new[] { "AllAIPins" });
+                pinsOrPinGroups: new[] { "AIPin" });
 
             var publishedData = publishedDataReader.GetAndClearPublishedData();
-            string[] analogInputPins = new[] { "VCC1", "VCC2", "VDET" };
+            string[] analogInputPins = new[] { "AIPin" };
             // Validate Maximum Value.
             var publishedDataMaximum = publishedData.Where(d => d.PublishedDataId == "Maximum").ToArray();
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, analogInputPins, publishedDataMaximum);

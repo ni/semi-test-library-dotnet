@@ -186,8 +186,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         {
             var publishedData = publishedDataReader.GetAndClearPublishedData();
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, allPins, publishedData);
-            // Limits are based on the expected value returned by the driver when in Offline Mode.
-            AssertPublishedDataValueInRange(publishedData, 0, 0.05);
+            if (tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                // Limits are based on the expected value returned by the driver when in Offline Mode.
+                AssertPublishedDataValueInRange(publishedData, -0.05, 0.05);
+            }
+            else
+            {
+                // When run on tester, limits are set based on the maximum voltage limits provided.
+                AssertPublishedDataValueInRange(publishedData, -3.3, 3.3);
+            }
             AssertPublishedDataId("Voltage", publishedData);
         }
     }

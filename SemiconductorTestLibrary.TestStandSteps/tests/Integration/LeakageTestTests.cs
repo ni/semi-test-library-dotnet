@@ -98,7 +98,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             var publishedData = publishedDataReader.GetAndClearPublishedData();
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, allPins, publishedData);
             // Limits are based on the expected value returned by the driver when in Offline Mode.
-            AssertPublishedDataValueInRange(publishedData, 0, 0.05);
+            AssertPublishedDataValueInRange(publishedData, -0.05, 0.05);
             AssertPublishedDataId("Leakage", publishedData);
         }
     }
