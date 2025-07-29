@@ -13,7 +13,7 @@ Within the accompanying pin map file, there is one pin group named "Vcc4ch". The
 
 Within the accompanying pin map file, there are two pin groups named "Vcc2ch0" and"Vcc2ch2", respectively. The pins in this pin group map to two channels of a four channel PXIe-4147 module. Note that the first pin in the pin group is considered the primary channel when performing the merge operation, in this case channel 0 and channel 2 respectively. The pin group name is then passed as parameter to the same `MergePinsFIMVThenUnmerge` method as before, but by the MergeAndFIMV - 2 Channels step in the MainSequence of the sequence file.
 
-## 2. Merging and Unmerging Pin Groups at the Sequence level.
+## 2. Merging and Unmerging Pin Groups at the Sequence level
 
 There are dedicated steps for each of the following operations:
 - `SMUMergePinGroup`
