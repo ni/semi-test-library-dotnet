@@ -25,13 +25,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             // Validate Maximum Value.
             var publishedDataMaximum = publishedData.Where(d => d.PublishedDataId == "Maximum").ToArray();
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, analogInputPins, publishedDataMaximum);
-            // Limits are based on the expected value returned by the driver when in Offline Mode.
-            AssertPublishedDataValueInRange(publishedDataMaximum, 9, 10);
+            if (tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                // Limits are based on the expected value returned by the driver when in Offline Mode.
+                AssertPublishedDataValueInRange(publishedDataMaximum, 9, 10);
+            }
+            else
+            {
+                // When run on tester, limits are set based on the maximum voltage limits provided.
+                AssertPublishedDataValueInRange(publishedDataMaximum, 0, 0.001);
+            }
             // Validate Minimum Value.
             var publishedDataMinimum = publishedData.Where(d => d.PublishedDataId == "Minimum").ToArray();
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, analogInputPins, publishedDataMaximum);
-            // Limits are based on the expected value returned by the driver when in Offline Mode.
-            AssertPublishedDataValueInRange(publishedDataMinimum, -10, -9);
+            if (tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                // Limits are based on the expected value returned by the driver when in Offline Mode.
+                AssertPublishedDataValueInRange(publishedDataMinimum, -10, -9);
+            }
+            else
+            {
+                // When run on tester, limits are set based on the maximum voltage limits provided.
+                AssertPublishedDataValueInRange(publishedDataMinimum, -0.001, 0);
+            }
         }
     }
 }
