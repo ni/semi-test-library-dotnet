@@ -52,7 +52,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
 
             // Configure the appropriate relays required to physically connect the pins externally.
-            if (tsmContext != null && !string.IsNullOrEmpty(connectedRelayConfiguration))
+            if (!string.IsNullOrEmpty(connectedRelayConfiguration))
             {
                 tsmContext.ApplyRelayConfiguration(connectedRelayConfiguration, waitSeconds: settlingTime);
             }
@@ -80,7 +80,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
 
             // Configure the appropriate relays required to physically disconnect the pins externally.
             smuBundle.UnmergePinGroup(pinGroup);
-            if (tsmContext != null && !string.IsNullOrEmpty(disconnectedRelayConfiguration))
+            if (!string.IsNullOrEmpty(disconnectedRelayConfiguration))
             {
                 tsmContext.ApplyRelayConfiguration(disconnectedRelayConfiguration, waitSeconds: settlingTime);
             }

@@ -42,7 +42,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
 
             // Configure the appropriate relays required to physically connect the pins externally.
-            if (tsmContext != null && !string.IsNullOrEmpty(connectedRelayConfiguration))
+            if (!string.IsNullOrEmpty(connectedRelayConfiguration))
             {
                 tsmContext.ApplyRelayConfiguration(connectedRelayConfiguration, waitSeconds: settlingTime);
             }
