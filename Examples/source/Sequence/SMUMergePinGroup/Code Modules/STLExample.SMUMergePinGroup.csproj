@@ -29,8 +29,7 @@
     <ProjectReference Include="..\..\..\..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="NationalInstruments.Common, Version=19.1.40.49152">
-      <HintPath>C:\Program Files (x86)\National Instruments\Measurement Studio\DotNET\v4.0\AnyCPU\NationalInstruments.Common 19.1.40\NationalInstruments.Common.dll</HintPath>
+    <Reference Include="NationalInstruments.Common">
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
