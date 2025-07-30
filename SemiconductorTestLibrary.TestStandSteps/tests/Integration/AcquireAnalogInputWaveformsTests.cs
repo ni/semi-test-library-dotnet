@@ -8,6 +8,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilit
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
     public class AcquireAnalogInputWaveformsTests
     {
         [Fact]
