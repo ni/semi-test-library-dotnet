@@ -1,7 +1,7 @@
 ﻿using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnipets.DataAbstraction
 {
     /// <summary>
     /// This class contains examples of how to use the Data Abstraction extensions from the Semiconductor Test Library.

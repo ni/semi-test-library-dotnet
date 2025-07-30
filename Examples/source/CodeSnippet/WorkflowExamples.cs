@@ -7,7 +7,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnipets
 {
     /// <summary>
     /// This class contains examples of how to use the Semiconductor Test Library to write test methods.

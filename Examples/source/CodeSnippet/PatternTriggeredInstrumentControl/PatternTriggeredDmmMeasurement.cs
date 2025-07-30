@@ -12,7 +12,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using NationalInstruments.Visa;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnipets
 {
     /// <summary>
     /// This class contains examples of how to use the Semiconductor Test Library to write test methods.

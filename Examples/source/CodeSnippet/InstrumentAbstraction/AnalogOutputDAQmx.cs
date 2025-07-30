@@ -6,7 +6,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.InstrumentAbstraction
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnipets.InstrumentAbstraction
 {
     /// <summary>
     /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
