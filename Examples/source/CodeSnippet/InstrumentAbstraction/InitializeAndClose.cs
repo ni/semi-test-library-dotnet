@@ -1,5 +1,4 @@
 ﻿using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using NationalInstruments.SemiconductorTestLibrary
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnipets
 {
@@ -16,52 +15,52 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnipets
     {
         internal static void InitializingInstrumentSessions(ISemiconductorModuleContext tsmContext)
         {
-            SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Fgen.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Relay.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose.Initialize(tsmContext, resetDevice: true);
         }
 
         internal static void CreatingDAQmxTasks(ISemiconductorModuleContext tsmContext)
         {
-            SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxAIVoltageTasks(tsmContext);
-            SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxAOFunctionGenerationTasks(tsmContext);
-            SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxAOVoltageTasks(tsmContext);
-            SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxDITasks(tsmContext);
-            SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxDOTasks(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxAIVoltageTasks(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxAOFunctionGenerationTasks(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxAOVoltageTasks(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxDITasks(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.CreateDAQmxDOTasks(tsmContext);
         }
 
         internal static void ResettingInstrumentSessions(ISemiconductorModuleContext tsmContext)
         {
-            SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.Reset(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Reset(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose.Reset(tsmContext);
-            SemiconductorTestLibrary.InstrumentAbstraction.Fgen.InitializeAndClose.Reset(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Relay.InitializeAndClose.Reset(tsmContext);
-            SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose.Reset(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose.Reset(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.Reset(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Reset(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose.Reset(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.InitializeAndClose.Reset(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.InitializeAndClose.Reset(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose.Reset(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose.Reset(tsmContext);
         }
 
         internal static void ClosingInstrumentsSessions(ISemiconductorModuleContext tsmContext)
         {
-            SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.Close(tsmContext, reset: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Close(tsmContext, reset: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose.Close(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Fgen.InitializeAndClose.Close(tsmContext, reset: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Relay.InitializeAndClose.Close(tsmContext, resetDevice: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose.Close(tsmContext, reset: true);
-            SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose.Close(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.Close(tsmContext, reset: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Close(tsmContext, reset: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.InitializeAndClose.Close(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.InitializeAndClose.Close(tsmContext, reset: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Relay.InitializeAndClose.Close(tsmContext, resetDevice: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose.Close(tsmContext, reset: true);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.InitializeAndClose.Close(tsmContext, resetDevice: true);
         }
         internal static void ClearingDAQmxTasks(ISemiconductorModuleContext tsmContext)
         {
-            SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.ClearDAQmxAIVoltageTasks(tsmContext);
-            SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.ClearDAQmxAOFunctionGenerationTasks(tsmContext);
-            SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.ClearDAQmxAOVoltageTasks(tsmContext);
-            SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.ClearDAQmxDITasks(tsmContext);
-            SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.ClearDAQmxDOTasks(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.ClearDAQmxAIVoltageTasks(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.ClearDAQmxAOFunctionGenerationTasks(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.ClearDAQmxAOVoltageTasks(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.ClearDAQmxDITasks(tsmContext);
+            NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx.InitializeAndClose.ClearDAQmxDOTasks(tsmContext);
         }
     }
 }
