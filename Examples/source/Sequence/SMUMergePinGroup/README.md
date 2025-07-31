@@ -32,20 +32,21 @@ These two functions are called before and after the standard shipping step `Forc
    - TestStand configured to use the Batch process model.
 
 > **NOTE**
-> You can view the test program in the TestStand Sequence Editor and code modules in a C# source code editor without meeting the #2 requirement.
-> To run the example you must have the required instruments physically installed in your system, or simulated using Offline Mode.
+>
+> You can view the example sequence file in the TestStand Sequence Editor and C# code source files in Visual Studio or any text editor without meeting the #2 requirement.
+> To run the example though, you must have the required instruments physically installed in your system or simulated using Offline Mode.
 >
 > Complete the following steps to simulate the instruments in Offline Mode:
 >
-> 1. Click the Enable Offline Mode button  on the TSM toolbar. To run the test program, click the Start/Resume Lot button on the TSM toolbar.
-> 2. Launch the Test Program Editor and select the Offline Mode panel to view the path to the Offline Mode system configuration file TSM uses to create simulated instruments for STLExample.SMUMergePinGroup.seq.
+> 1. Open the sequence file (.seq) in the TestStand Sequence Editor.
+> 2. Click the Enable Offline Mode button on the TSM toolbar. To run the test sequence, click the Start/Resume Lot button on the TSM toolbar.
 > 3. Click the Disable Offline Mode button to return to the default TSM behavior.
 
 ## Using the Example
 
 Complete the steps in the following sections to learn about the test program components. You can also run this example in offline mode to see it in action.
 
-1. Select **Semiconductor Module » Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the STLExample.MergePinGroup.pinmap file in the Pin Map Editor.
+1. Select **Semiconductor Module -> Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the STLExample.MergePinGroup.pinmap file in the Pin Map Editor.
 The pin map file defines the following information:
    - One NI-DCPower instrument named `SMU_4147_C1_S04`.
    - Four DUT pins named `Vcc0`, `Vcc1`, `Vcc2` and `Vcc3`.
@@ -53,12 +54,12 @@ The pin map file defines the following information:
    - One site on the tester.
    - A series of connections for each site, in which each connection specifies a DUT pin, a site number, an instrument, and an instrument channel.
 2. Complete the following steps to review the Test Program Configurations that this test program uses.
-   1. Select **Semiconductor Module » Edit Test Program: SMUMergePinGroup.seq** or click the **Edit Test Program: SMUMergePinGroup.seq** button on the TSM toolbar.
+   1. Select **Semiconductor Module -> Edit Test Program: SMUMergePinGroup.seq** or click the **Edit Test Program: SMUMergePinGroup.seq** button on the TSM toolbar.
    2. Select the Configuration Definition panel.
 3. Complete the following steps to review the `MainSequence`, `ProcessSetup`, and `ProcessCleanup` sequences that this test program uses.
-   1. On the `Sequences` pane, select the MainSequence sequence and review the objectives each step performs and optionally review the LabVIEW code associated with each step:
-      - In the Setup & Cleanup section, there are no steps.
-      - In the Main section, the test program Performs
+   1. On the `Sequences` pane, select the MainSequence sequence and review the objectives each step performs and optionally review the C#/.NET code associated with each step:
+      - In the Setup & Cleanup step group, there are no steps.
+      - In the Main step group, the example demonstrates:
          - Four channel merging for 10A & unmerging at code level.
          - Two channel merging for 5A & unmerging at code level.
          - Step level four channel merging.
