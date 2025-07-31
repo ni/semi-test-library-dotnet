@@ -1,9 +1,9 @@
 # **Best Practices for Writing Extension Methods in STL**
 
 Extension methods collectively provide a comprehensive framework for additional capabilities built on top of the core abstractions provided by the Semiconductor Test Library, such as adding instrument-specific functionality for configuring, controlling, and measuring. They simplify the complexity of instrument communication, offering a smooth interface that makes it easier to perform tests. 
-The extension methods act as a bridge between low-level instrument control and high-level test program development. It allows the Semiconductor Test Library to include predefined methods for supporting various instrument types and capabilities while also enabling users to create their own extension methods for their specific needs, without the constraints of inheritance or direct dependency.
+The extension methods act as a bridge between low-level instrument control and high-level test program development. Extension methods allow the Semiconductor Test Library to include predefined methods for supporting various instrument types and capabilities while also enabling users to create their own extension methods for their specific needs, without the constraints of inheritance or direct dependency.
 
-The information on this page will provide guidance on writing an extension method in alignment with the established practices of the Semiconductor Test Library, helping ensure it meets the required standards
+This page provides guidance on writing an extension method in alignment with the established practices of the Semiconductor Test Library, to ensure it meets the required standards.
 
 ## **Type of Extension Methods**
 This section explains the different scenarios that are likely to be encountered when writing extension methods to add instrument specific capabilities, such as configuration, control, and measurement. It also discusses when and how to implement an effective extension method for each scenario.
@@ -16,15 +16,15 @@ These methods configure an instrument’s state or settings (e.g., voltage setti
 1. **Parameters**: 
     - The first parameter should include the `this` keyword followed by the concrete type being extended.
         - For Instrument Abstraction extensions the concrete type will be the one implementing `ISessionsBundle`. For example, [DCPowerSessionsBundle](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L26C52-L26C93)
-    - The remaining parameters should be necessary for configuring the instrument's state or settings.
-    - Choose the parameter type based on the requirement (e.g., Scalar, SiteData, or PinSiteData). Refer to the [key considerations](#choosing-parameter-and-return-types) for detailed information on choosing parameter.
+    - The user should provide the mandatory parameters required by the driver to execute the function successfully.
+    - Choose the parameter type based on the requirement (e.g., Scalar, SiteData, or PinSiteData). Refer to the [key considerations](#choosing-parameter-and-return-types) for detailed information.
 2. **Method Functionality**: 
     - Perform any calculations if applicable and use the appropriate instrument commands to set/configure the values.
     - Handle any exceptions or errors gracefully, providing meaningful error messages if the operation fails.
 3. **Return Type**: 
     - The method should not return any value and should have a return type of `void`.
 ### Get Methods
-These methods are used to get/retrieve properties, data or states from an instrument (e.g., read the current, get voltage). To create a new Get Method while adhering to best practices, follow these steps:
+These methods are used to retrieve properties, data or states from an instrument (e.g., read the current, get voltage). To create a new Get Method while adhering to best practices, follow these steps:
 #### **Method Definition**:
 1. **Method Name**: 
     - Use a clear and descriptive name that reflects the method's functionality.
@@ -38,7 +38,7 @@ These methods are used to get/retrieve properties, data or states from an instru
     - Use appropriate instrument commands to retrieve the required values.
     - Handle any exceptions or errors gracefully, providing meaningful error messages if the operation fails.
 ### High-Level Functions
-- These methods are intended to simplify complex tasks that typically require multiple driver calls or other operations to perform by encapsulating them into a single method.
+- These methods are intended to simplify complex tasks that typically require multiple driver calls or other operations by encapsulating them into a single method.
 #### **Method Definition**:
 1. **Method Name**: 
     - Name the method based on the specific functionality the higher-level method is intended to perform. Eg, [PowerDown](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L579).
@@ -54,7 +54,7 @@ These methods are used to get/retrieve properties, data or states from an instru
 ## **Do And DoAndReturnXXXResults Methods**
 - To invoke a low-level driver API call, use the Do methods in the ParallelExecution class within the NationalInstruments.SemiconductorTestLibrary.Common namespace.
 - These methods are used inside the extension methods to perform low-level driver operations on the session bundle and its associated sessions. These methods help in executing actions and retrieving results in different formats. 
-- These methods are STL provided parallel execution utilities that makes the creation of extension methods simpler.
+- These methods are STL-provided parallel execution utilities that makes the creation of extension methods simpler.
 ### **Do Methods**
 1. ***Do<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Action<TSessionInformation> action)***
     - Use this method when you need to perform an operation on all the sessions in parallel with the same inputs.
@@ -169,9 +169,9 @@ Based on the platform, add Trait attribute followed by the Tester's Name.
 
 ## **General Considerations for All Extension Method**
 ### **Reusability and Modularity**
-* When adding multiple high-level extension methods for a certain instrument and identity that there is repeated code that is common and could be reused between methods, extract that code into a separate method and refactor your methods to use it.
+* When adding multiple high-level extension methods for a certain instrument with common, repeated code that can be reused between methods, extract that code into a separate method and refactor your methods to use it.
 - :heavy_check_mark: **Do**
-    - If all of your methods you are working on are part of the same .cs file, then place the new method within that same .cs file and mark it as a `private` method.
+    - If all of your methods are part of the same .cs file, then place the new method within that same .cs file and mark it as a `private` method.
     - If your methods are spread across multiple .cs files, then add the new method to an `internal static class Utilities` class within the namespace for the instrument type being worked on, and mark it as an `internal` method. If no such Class exists, create it (e.g. [ExcludeSpecificChannel](https://github.com/ni/semi-test-library-dotnet/blob/12282644789e1f03018b6e3e024829d405ddad1d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Utilities.cs#L7))
 - :x: **Don't**
     - Never refactor existing methods to use the new method. Only focus on the methods being added.
@@ -244,5 +244,5 @@ Some instruments may require additional considerations or have unique limitation
 - In Digital, it is crucial to ensure the site details before proceeding with the development because site-specific operations can significantly impact the accuracy and reliability of the results.
 #### **DAQmx**
 - Configure DAQmx sessions with homogeneous pin types. Avoid mixing analog and digital pin configurations within a single session. For example, when initializing an Analog Input (AI) session, include only pins designated for AI.
-- Try not to access digital extension methods when working with analog methods, and vice-versa. Maintain clear separation between analog and digital operations.
-- While accessing the read methods, note that the readings change smoothly over time, not instantly. For example, if an Analog Output (AO) is set to write 5V, the corresponding Analog Input (AI) read will show the voltage ramping towards 5V, rather than an immediate 5V reading.
+- Avoid combining digital extension methods and analog methods. Maintain clear separation between analog and digital operations.
+- While accessing the read methods, note that the readings change smoothly over time, not instantly. For example, if an Analog Output (AO) is set to write 5 V, the corresponding Analog Input (AI) read will show the voltage ramping towards 5 V, rather than an immediate 5 V reading.
