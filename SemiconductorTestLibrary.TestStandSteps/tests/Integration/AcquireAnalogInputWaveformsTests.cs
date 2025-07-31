@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
