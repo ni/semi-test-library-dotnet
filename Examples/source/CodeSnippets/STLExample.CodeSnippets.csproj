@@ -9,7 +9,7 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <PlatformTarget>x64</PlatformTarget>
     <RootNamespace>NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets</RootNamespace>
-    <AssemblyName>NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets</AssemblyName>
+    <AssemblyName>STLExample.CodeSnippets</AssemblyName>
 	<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
