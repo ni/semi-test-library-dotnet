@@ -55,8 +55,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj" />
-		<ProjectReference Include="..\source\CodeSnippet\SemiconductorTestLibrary.Examples.CodeSnippet.csproj" />
 		<ProjectReference Include="..\..\SemiconductorTestLibrary.TestStandSteps\source\SemiconductorTestLibrary.TestStandSteps.csproj" />
+		<ProjectReference Include="..\source\CodeSnippet\STLExample.CodeSnippets.csproj" />
 
 	</ItemGroup>
 </Project>
