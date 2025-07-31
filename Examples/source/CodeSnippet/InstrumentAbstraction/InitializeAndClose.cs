@@ -1,6 +1,6 @@
 ﻿using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnipets
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets
 {
     /// <summary>
     /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
