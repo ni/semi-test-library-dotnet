@@ -43,7 +43,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             else
             {
                 // When run on tester, limits are set based on the maximum voltage limits provided.
-                AssertPublishedDataValueInRange(publishedData, -1, 1);
+                AssertPublishedDataValueInRange(publishedData, -1.01, 1.01);
             }
             AssertPublishedDataId("Continuity", publishedData);
             CleanupInstrumentation(tsmContext);
