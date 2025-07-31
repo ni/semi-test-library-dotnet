@@ -27,7 +27,7 @@ These two functions are called before and after the standard shipping step `Forc
 
 1. If you want to use the example you must have the following software installed:
    - STS Software 24.5.0 or later
-2. To run the test program you must also have:
+2. To run the example you must also have:
    - A NI-DCPower instrument named SMU_4147_C1_S04 as defined in MAX.
    - TestStand configured to use the Batch process model.
 
