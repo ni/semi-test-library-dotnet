@@ -396,7 +396,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             // });
         }
 
-        [Theory]
+        [Theory(Skip = "Should only be run in offline mode")]
         [InlineData(TriggerType.MeasureTrigger)]
         [InlineData(TriggerType.PulseTrigger)]
         [InlineData(TriggerType.SequenceAdvanceTrigger)]
@@ -413,7 +413,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.DisableTriggers();
         }
 
-        [Theory]
+        [Theory(Skip = "Should only be run in offline mode")]
         [InlineData(TriggerType.MeasureTrigger)]
         [InlineData(TriggerType.PulseTrigger)]
         [InlineData(TriggerType.SequenceAdvanceTrigger)]
@@ -431,7 +431,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.DisableTriggers();
         }
 
-        [Theory]
+        [Theory(Skip = "Should only be run in offline mode")]
         [InlineData(TriggerType.MeasureTrigger)]
         [InlineData(TriggerType.PulseTrigger)]
         [InlineData(TriggerType.SequenceAdvanceTrigger)]
