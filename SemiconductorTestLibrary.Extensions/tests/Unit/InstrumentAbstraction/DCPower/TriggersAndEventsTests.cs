@@ -11,7 +11,6 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
 {
     [Collection("NonParallelizable")]
-    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
     public sealed class TriggerAndEventsTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
@@ -116,6 +115,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
         public void ConfigureTrigger_StartTrigger_DigitalEdgeAndDisable(string pinMapFileName)
@@ -163,6 +163,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
         public void ConfigureTrigger_SequenceAdvanceTrigger_SoftwarelEdgeAndDisable(string pinMapFileName)
@@ -197,6 +198,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
         public void ConfigureTrigger_SequenceAdvanceTrigger_DigitalEdgeAndDisable(string pinMapFileName)
@@ -244,6 +246,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
         public void ConfigureTrigger_StartTrigger_SoftwarelEdgeAndDisable(string pinMapFileName)
@@ -278,6 +281,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
         public void ConfigureTrigger_SourceTrigger_DigitalEdgeAndDisable(string pinMapFileName)
@@ -325,6 +329,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
         public void ConfigureTrigger_SourceTrigger_SoftwarelEdgeAndDisable(string pinMapFileName)
@@ -362,6 +367,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         public void ConfigureTrigger_MeasureTrigger(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
