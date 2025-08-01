@@ -1,5 +1,6 @@
 ﻿using System;
 using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
@@ -9,6 +10,9 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilit
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
     public class ContinuityTestTests
     {
         [Fact]
@@ -31,8 +35,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 
             var publishedData = publishedDataReader.GetAndClearPublishedData();
             AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, continuityPins, publishedData);
-            // Limits are set based on the expected value returned by the driver when in Offline Mode.
-            AssertPublishedDataValueInRange(publishedData, 0.075, 0.085);
+            if (tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                // Limits are based on the expected value returned by the driver when in Offline Mode.
+                AssertPublishedDataValueInRange(publishedData, -0.1, 0.1);
+            }
+            else
+            {
+                // When run on tester, limits are set based on the maximum voltage limits provided.
+                AssertPublishedDataValueInRange(publishedData, -1.01, 1.01);
+            }
             AssertPublishedDataId("Continuity", publishedData);
             CleanupInstrumentation(tsmContext);
         }
