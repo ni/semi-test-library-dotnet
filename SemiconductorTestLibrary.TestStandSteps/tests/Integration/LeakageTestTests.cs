@@ -89,7 +89,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 
             var exception = Assert.Throws<NISemiconductorTestException>(LeakageTestMethod);
             Assert.Contains("Requested value is not a supported value for this property.", exception.Message);
-            Assert.Contains("An error occurred while processing site1/PA_EN, site1/C0, site1/C1", exception.Message);
+            Assert.Contains("While processing following pins/sites:", exception.Message);
+            Assert.Contains("site1/PA_EN", exception.Message);
+            Assert.Contains("site1/C0", exception.Message);
+            Assert.Contains("site1/C1", exception.Message);
             CleanupInstrumentation(tsmContext);
         }
 

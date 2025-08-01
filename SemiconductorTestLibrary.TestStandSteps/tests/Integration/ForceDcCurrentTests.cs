@@ -138,7 +138,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 settlingTime: 5e-5);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceDcCurrentMethod);
-            Assert.Contains("An error occurred while processing site1/PA_EN, site1/C0, site1/C1", exception.Message);
+            Assert.Contains("While processing following pins/sites:", exception.Message);
+            Assert.Contains("site1/PA_EN", exception.Message);
+            Assert.Contains("site1/C0", exception.Message);
+            Assert.Contains("site1/C1", exception.Message);
             Assert.Contains("Maximum Value: 6", exception.Message);
             CleanupInstrumentation(tsmContext);
         }
