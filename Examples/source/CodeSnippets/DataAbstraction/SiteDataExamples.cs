@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.DataAbstraction
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.DataAbstraction
 {
     /// <summary>
     /// This class contains examples of how to use the Data Abstraction extensions from the Semiconductor Test Library.

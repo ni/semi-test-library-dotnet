@@ -4,6 +4,7 @@
 	<PXIChassis Number="1" Model="NI PXIe-1095">
 		<PXI Name="HSD_6571_C1_S02" Model="NI PXIe-6571" Slot="2" NeedsIvi="false" />
 		<PXI Name="DAQ_6363_C1_S08" Model="NI PXIe-6363" Slot="8" NeedsIvi="false" />
+		<PXI Name="DAQ_4468_C1_S03" Model="NI PXIe-4468" Slot="3" NeedsIvi="false" />
 		<PXI Name="SYNC_6674T_C1_S10" Model="NI PXIe-6674T" Slot="10" NeedsIvi="false" />
 		<PXI Name="SMU_4147_C1_S11" Model="NI PXIe-4147" Slot="11" NeedsIvi="false" />
 		<PXI Name="SMU_4110_C1_S04" Model="NI PXI-4110" Slot="4" NeedsIvi="false" />
