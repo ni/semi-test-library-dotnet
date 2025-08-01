@@ -182,7 +182,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void UnsupportedDmmModules_ConfigureADCCalibrationToOn_ThrowsExecption()
         {
             var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
-            var expectedPhrases = new string[] { "An error occurred while processing", "IviCDriverException", "Attribute ID not recognized." };
+            var expectedPhrases = new string[] { "While processing following pins/sites:", "IviCDriverException", "Attribute ID not recognized." };
 
             void Operation() => sessionsBundle.ConfigureADCCalibration(DmmAdcCalibration.On);
 
@@ -224,7 +224,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void UnsupportedDmmModules_ConfigureAutoZeroToOnce_ThrowsExecption(DmmAuto dmmAuto)
         {
             var sessionsBundle = _sessionManager.DMM(new string[] { "DUTPin_4065", "SystemPin_4070", "DUTPin_4081", "SystemPin_4081" });
-            var expectedPhrases = new string[] { "An error occurred while processing", "OutOfRangeException", "Invalid value for parameter or property." };
+            var expectedPhrases = new string[] { "While processing following pins/sites:", "OutOfRangeException", "Invalid value for parameter or property." };
 
             void Operation() => sessionsBundle.ConfigureAutoZero(dmmAuto);
 
