@@ -215,7 +215,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         private void AssertFilteredSample(double filteredSample, DAQmxTasksBundle inputTasksBundle, double lowerLimit, double upperLimit)
         {
-            var availableChannels = "DAQ_4468_C2_S13/ai0, DAQ_4468_C2_S13/ai1";
+            var availableChannels = "DAQ_6368_C1_S09/ai0, DAQ_6368_C1_S09/ai1";
 
             Assert.True(filteredSample > lowerLimit && filteredSample < upperLimit);
             inputTasksBundle.Do(taskInfo =>
