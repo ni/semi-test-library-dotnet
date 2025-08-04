@@ -42,7 +42,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
 
             // Power down the pins before disconnecting
-            smuBundle.ForceVoltage(voltageLevel: 0, currentLimit: 0.01);
+            smuBundle.ForceVoltage(voltageLevel: 0, currentLimit: 0.001);
             smuBundle.PowerDown();
 
             smuBundle.UnmergePinGroup(pinGroup);

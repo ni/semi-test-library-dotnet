@@ -74,7 +74,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             smuBundle.MeasureAndPublishVoltage(publishedDataId: "Voltage");
 
             // Clean up and restore the state of the instrumentation after finishing the test.
-            smuBundle.ForceCurrent(currentLevel: 0.001, voltageLimit: 0.01);
+            smuBundle.ForceCurrent(currentLevel: 0.001, voltageLimit: 0.240);
             smuBundle.PowerDown();
             PreciseWait(timeInSeconds: settlingTime);
 
