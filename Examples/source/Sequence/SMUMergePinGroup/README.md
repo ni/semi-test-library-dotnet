@@ -21,7 +21,15 @@ There are dedicated steps for each of the following operations:
 - `SMUMergePinGroup`
 - `SMUPowerDownAndUnmergePinGroup`
 
-These two functions are called before and after the standard shipping step `Force Voltage Measure Current (FVMI)`. It uses the same pin group name "Vcc4ch0". This way standard steps can benefit from the merging.
+These two functions are called at different places to perform merging dynamically (case C) or statically (case D).
+
+### Case C: Merging Pin Group before standard shipping Step
+
+ The two functions are called before and after the standard shipping step `Force Voltage Measure Current (FVMI)`. It uses the same pin group name "Vcc4ch0". This way standard steps can benefit from the merging. This is dynamic merging.
+
+### Case D: Merging Pin Group at process level
+
+The same two functions are called before and after the `MainSequence` i.e. in `ProcessSetup` and `ProcessCleanup` sequences. It uses a different pin group name "Vref4ch0". This way all steps in `MainSequence` can benefit from the merging. This is static Merging.
 
 ### Prerequisites
 
