@@ -41,8 +41,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
         public static void SMUMergePinsFIMVThenUnmerge(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
-            double currentLevel = 5,
-            double voltageLimit = 0.4,
+            double currentLevel = 0.1,
+            double voltageLimit = 0.24,
             double settlingTime = 0.001,
             double apertureTime = -1,
             string connectedRelayConfiguration = "",
