@@ -65,11 +65,18 @@ The pin map file defines the following information:
    1. On the `Sequences` pane, select the MainSequence sequence and review the objectives each step performs and optionally review the C#/.NET code associated with each step:
       - In the Setup & Cleanup step group, there are no steps.
       - In the Main step group, the example demonstrates:
-         - Four channel merging for 10A & unmerging at code level.
-         - Two channel merging for 5A & unmerging at code level.
-         - Step level four channel merging.
-         - calling shipping step FVMI, with current limit of 12A.
+         - Four channel merging for `Vcc4ch0` pingroup & unmerging at code level.
+         - Two channel merging for `Vcc2ch0` & unmerging at code level.
+         - Step level four channel merging of pin group `Vcc4ch0`.
+         - calling shipping step FVMI on the pingroup `Vcc4ch0`.
          - Step level unmerging of pingroup.
-   2. On the `Sequences` pane, select the `ProcessSetup` sequence. TestStand calls this sequence once before starting testing. The steps in this sequence initialize the instruments and store the instrument sessions in the SemiconductorModuleContext.
-   3. On the `Sequences` pane, select the `ProcessCleanup` sequence. TestStand calls this sequence once after testing completes. The steps in this sequence close and reset the instruments.
+         - calling shipping step FVMI on the pingroup  `Vref4ch0`.
+   2. On the `Sequences` pane, select the `ProcessSetup` sequence. TestStand calls this sequence once before starting testing.
+      - Steps in the Setup step group initialize instruments and store the instrument sessions in the SemiconductorModuleContext.
+      - In the Main step group, the example demonstrates:
+         - Step level four channel merging of pin group `Vref4ch0`.
+   3. On the `Sequences` pane, select the `ProcessCleanup` sequence. TestStand calls this sequence once after testing completes.
+      - In the Main step group, the example demonstrates:
+         - Step level four channel unmerging of pin group `Vref4ch0`.
+      - Steps in the Cleanup step group close and reset the instruments.
 3. You must meet all the [Prerequisites](#prerequisites) to run the test program. To run the test program, click the **Start/Resume Lot** button on the TSM toolbar.
