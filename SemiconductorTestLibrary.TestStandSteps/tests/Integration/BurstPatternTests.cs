@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
@@ -8,6 +9,9 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilit
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
     public class BurstPatternTests
     {
         [Fact]
