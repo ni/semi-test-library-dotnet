@@ -52,7 +52,7 @@ The same two functions are called in `ProcessSetup` and `ProcessCleanup` sequenc
 
 ## Using the Example
 
-Complete the steps in the following sections to learn about the test program components. You can also run this example in offline mode to see it in action.
+Change to simply "Complete the following steps to use this example". You can also run this example in offline mode to see it in action.
 
 1. Select **Semiconductor Module -> Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the STLExample.MergePinGroup.pinmap file in the Pin Map Editor.
 The pin map file defines the following information:
@@ -72,5 +72,4 @@ The pin map file defines the following information:
          - Step level unmerging of pingroup.
    2. On the `Sequences` pane, select the `ProcessSetup` sequence. TestStand calls this sequence once before starting testing. The steps in this sequence initialize the instruments and store the instrument sessions in the SemiconductorModuleContext.
    3. On the `Sequences` pane, select the `ProcessCleanup` sequence. TestStand calls this sequence once after testing completes. The steps in this sequence close and reset the instruments.
-
 3. You must meet all the [Prerequisites](#prerequisites) to run the test program. To run the test program, click the **Start/Resume Lot** button on the TSM toolbar.
