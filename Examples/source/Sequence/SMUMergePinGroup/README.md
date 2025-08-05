@@ -52,7 +52,7 @@ The same two functions are called in `ProcessSetup` and `ProcessCleanup` sequenc
 
 ## Using the Example
 
-Change to simply "Complete the following steps to use this example". You can also run this example in offline mode to see it in action.
+Complete the following steps to use this example. You can also run this example in offline mode to see it in action.
 
 1. Select **Semiconductor Module -> Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the STLExample.MergePinGroup.pinmap file in the Pin Map Editor.
 The pin map file defines the following information:
