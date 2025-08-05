@@ -8,11 +8,11 @@ There are two scenarios demonstrated by this example:
 
 ### Case A: Merging Pin Group with 4 channels
 
-Within the accompanying pin map file, there is one pin group named "Vcc4ch". The pins in this pin group map to four channels of a `twenty-four` channel PXIe-4163 module. Note that the first pin in the pin group is considered the primary channel when performing the merge operation, in this case channel 0 for site 0 and channel 8 for site 1. The pin group name is then passed as parameter to the `MergePinsFIMVThenUnmerge` method by the MergeAndFIMV - 4 Channels step in the MainSequence of the sequence file.
+Within the accompanying pin map file, there is one pin group named "Vcc4ch". The pins in this pin group map to four channels of a twenty-four channel PXIe-4163 module. Note that the first pin in the pin group is considered the primary channel when performing the merge operation, in this case channel 0 for site 0 and channel 8 for site 1. The pin group name is then passed as parameter to the `MergePinsFIMVThenUnmerge` method by the MergeAndFIMV - 4 Channels step in the MainSequence of the sequence file.
 
 ### Case B: Merging Pin Group with 2 channels
 
-Within the accompanying pin map file, there is one pin group named "Vcc2ch". The pins in this pin group map to two channels of a `twenty-four` channel PXIe-4163 module. Note that the first pin in each of these pin groups is considered the primary channel when performing the merge operation, in this case channels 0 for site 0 and channels 8 for site 1 respectively. The pin group name is then passed as parameter to the same `MergePinsFIMVThenUnmerge` method as before, but by the MergeAndFIMV - 2 Channels step in the MainSequence of the sequence file.
+Within the accompanying pin map file, there is one pin group named "Vcc2ch". The pins in this pin group map to two channels of a twenty-four channel PXIe-4163 module. Note that the first pin in each of these pin groups is considered the primary channel when performing the merge operation, in this case channels 0 for site 0 and channels 8 for site 1 respectively. The pin group name is then passed as parameter to the same `MergePinsFIMVThenUnmerge` method as before, but by the MergeAndFIMV - 2 Channels step in the MainSequence of the sequence file.
 
 ## 2. Merging and Unmerging Pin Groups at the Sequence level
 
