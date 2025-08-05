@@ -20,21 +20,17 @@
 		<SystemPin name="Vref7" />
 	</Pins>
 	<PinGroups>
-		<PinGroup name="Vcc2ch0">
+		<PinGroup name="Vcc2ch">
 			<PinReference pin="Vcc0" />
 			<PinReference pin="Vcc1" />
 		</PinGroup>
-		<PinGroup name="Vcc2ch2">
-			<PinReference pin="Vcc2" />
-			<PinReference pin="Vcc3" />
-		</PinGroup>
-		<PinGroup name="Vcc4ch0">
+		<PinGroup name="Vcc4ch">
 			<PinReference pin="Vcc0" />
 			<PinReference pin="Vcc1" />
 			<PinReference pin="Vcc2" />
 			<PinReference pin="Vcc3" />
 		</PinGroup>
-		<PinGroup name="Vref8ch0">
+		<PinGroup name="Vref8ch">
 			<PinReference pin="Vref0" />
 			<PinReference pin="Vref1" />
 			<PinReference pin="Vref2" />
