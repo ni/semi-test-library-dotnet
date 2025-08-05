@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
-		<NIDCPowerInstrument name="SMU_4147_C1_S04" numberOfChannels="4">
+		<NIDCPowerInstrument name="SMU_4147_C1_S18" numberOfChannels="4">
 			<ChannelGroup name="CommonDCPowerChannelGroup" />
 		</NIDCPowerInstrument>
 	</Instruments>
@@ -31,9 +31,9 @@
 		<Site siteNumber="0" />
 	</Sites>
 	<Connections>
-		<Connection pin="Vcc0" siteNumber="0" instrument="SMU_4147_C1_S04" channel="0" />
-		<Connection pin="Vcc1" siteNumber="0" instrument="SMU_4147_C1_S04" channel="1" />
-		<Connection pin="Vcc2" siteNumber="0" instrument="SMU_4147_C1_S04" channel="2" />
-		<Connection pin="Vcc3" siteNumber="0" instrument="SMU_4147_C1_S04" channel="3" />
+		<Connection pin="Vcc0" siteNumber="0" instrument="SMU_4147_C1_S18" channel="0" />
+		<Connection pin="Vcc1" siteNumber="0" instrument="SMU_4147_C1_S18" channel="1" />
+		<Connection pin="Vcc2" siteNumber="0" instrument="SMU_4147_C1_S18" channel="2" />
+		<Connection pin="Vcc3" siteNumber="0" instrument="SMU_4147_C1_S18" channel="3" />
 	</Connections>
 </PinMap>
