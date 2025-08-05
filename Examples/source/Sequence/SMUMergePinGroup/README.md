@@ -25,11 +25,11 @@ These two functions are called at different places within the test program to ei
 
 ### Case C: Merging Pin Group Dynamically at the Sequence Level
 
-The two functions are called before and after the step `Force Voltage Measure Current (FVMI)`. It uses the same pin group name "Vcc4ch0". This is considered dynamic merge as the merging operation is performed only for certain steps within MainSequence, where the pins in pin group can be individually utilized for other steps in MainSequence.
+The two functions are called before and after the step `Force Voltage Measure Current (FVMI)`. It uses the same pin group name "Vcc4ch". This is considered a dynamic merge as the merging operation is performed only for certain steps within MainSequence, where the pins in pin group can be individually utilized for other steps in MainSequence.
 
 ### Case D: Merging Pin Group Statically at the Sequence Level
 
-The same two functions are called in `ProcessSetup` and `ProcessCleanup` sequences, respectively, but target a different pin group name "Vref8ch0". This demonstrates when the pins of the pin group are aways configured to be merged together throughout testing, thus they only need to be merged once at the very beginning of the test program and unmerged at the very end of test program. This is considered a static merge as the merging operation is performed only once and remain merged throughout testing.
+The same two functions are called in `ProcessSetup` and `ProcessCleanup` sequences, respectively, but target a different pin group name "Vref8ch". This demonstrates when the pins of the pin group are aways configured to be merged together throughout testing, thus they only need to be merged once at the very beginning of the test program and unmerged at the very end of test program. This is considered a static merge as the merging operation is performed only once and remain merged throughout testing.
 
 ### Prerequisites
 
@@ -66,12 +66,12 @@ The pin map file defines the following information:
    1. On the `Sequences` pane, select the MainSequence sequence and review the objectives each step performs and optionally review the C#/.NET code associated with each step:
       - In the Setup & Cleanup step group, there are no steps.
       - In the Main step group, the example demonstrates:
-         - Four channel merging for `Vcc4ch` pingroup & unmerging at code level.
-         - Two channel merging for `Vcc2ch` & unmerging at code level.
-         - Step level four channel merging of pin group `Vcc4ch`.
-         - calling shipping step FVMI on the pingroup `Vcc4ch`.
-         - Step level unmerging of pingroup.
-         - calling shipping step FVMI on the pingroup  `Vref8ch`.
+         - Merging & unmerging at code level for the `Vcc4ch` pin group.
+         - Merging & unmerging at code level for the `Vcc2ch` pin group.
+         - Merging at the sequence level for the `Vcc4ch` pin group..
+         - Performing a Force Voltage and Measure Current (FVMI) operation on the merged `Vcc4ch` pin group.
+         - Unmerging at the sequence level for the `Vcc4ch` pin group..
+         - Performing a Force Voltage and Measure Current (FVMI) operation on the merged `Vref8ch` pin group.
    2. On the `Sequences` pane, select the `ProcessSetup` sequence. TestStand calls this sequence once before starting testing.
       - Steps in the Setup step group initialize instruments and store the instrument sessions in the SemiconductorModuleContext.
       - In the Main step group, the example demonstrates:
