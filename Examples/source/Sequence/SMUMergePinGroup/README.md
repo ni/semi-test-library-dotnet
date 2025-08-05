@@ -8,11 +8,11 @@ There are two scenarios demonstrated by this example:
 
 ### Case A: Merging Pin Group with 4 channels
 
-Within the accompanying pin map file, there is one pin group named "Vcc4ch0". The pins in this pin group map to four channels of a four channel PXIe-4147 module. Note that the first pin in the pin group is considered the primary channel when performing the merge operation, in this case channel 0. The pin group name is then passed as parameter to the `MergePinsFIMVThenUnmerge` method by the MergeAndFIMV - 4 Channels step in the MainSequence of the sequence file.
+Within the accompanying pin map file, there is one pin group named "Vcc4ch0". The pins in this pin group map to four channels of a four channel PXIe-4163 module. Note that the first pin in the pin group is considered the primary channel when performing the merge operation, in this case channel 0 for site 0 and channel 8 for site 1. The pin group name is then passed as parameter to the `MergePinsFIMVThenUnmerge` method by the MergeAndFIMV - 4 Channels step in the MainSequence of the sequence file.
 
 ### Case B: Merging Pin Group with 2 channels
 
-Within the accompanying pin map file, there are two pin groups named "Vcc2ch0" and"Vcc2ch2", respectively. The pins in each of these pin groups map to two channels of a four channel PXIe-4147 module. Note that the first pin in each of these pin groups is considered the primary channel when performing the merge operation, in this case channel 0 and channel 2 respectively. The pin group name is then passed as parameter to the same `MergePinsFIMVThenUnmerge` method as before, but by the MergeAndFIMV - 2 Channels step in the MainSequence of the sequence file.
+Within the accompanying pin map file, there are two pin groups named "Vcc2ch0" and"Vcc2ch2", respectively. The pins in each of these pin groups map to two channels of a four channel PXIe-4163 module. Note that the first pin in each of these pin groups is considered the primary channel when performing the merge operation, in this case channels 0 & 2 for site 0 and channels 8 & 10 for site 1 respectively. The pin group name is then passed as parameter to the same `MergePinsFIMVThenUnmerge` method as before, but by the MergeAndFIMV - 2 Channels step in the MainSequence of the sequence file.
 
 ## 2. Merging and Unmerging Pin Groups at the Sequence level
 
@@ -29,7 +29,7 @@ The two functions are called before and after the step `Force Voltage Measure Cu
 
 ### Case D: Merging Pin Group Statically at the Sequence Level
 
-The same two functions are called in `ProcessSetup` and `ProcessCleanup` sequences, respectively, but target a different pin group name "Vref4ch0". This demonstrates when the pins of the pin group are aways configured to be merged together throughout testing, thus they only need to be merged once at the very beginning of the test program and unmerged at the very end of test program. This is considered a static merge as the merging operation is performed only once and remain merged throughout testing.
+The same two functions are called in `ProcessSetup` and `ProcessCleanup` sequences, respectively, but target a different pin group name "Vref8ch0". This demonstrates when the pins of the pin group are aways configured to be merged together throughout testing, thus they only need to be merged once at the very beginning of the test program and unmerged at the very end of test program. This is considered a static merge as the merging operation is performed only once and remain merged throughout testing.
 
 ### Prerequisites
 
@@ -57,9 +57,10 @@ Complete the following steps to use this example. You can also run this example 
 1. Select **Semiconductor Module -> Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the STLExample.MergePinGroup.pinmap file in the Pin Map Editor.
 The pin map file defines the following information:
    - One NI-DCPower instrument named `SMU_4163_C1_S04`.
-   - Eight DUT pins named `Vref0`, `Vref1`, `Vref2`, `Vref3`, `Vcc0`, `Vcc1`, `Vcc2` and `Vcc3`.
-   - Four pin groups named `Vcc2ch0`, `Vcc2ch2`, `Vcc4ch0` and `Vref4ch0`.
-   - Three sites on the tester.
+   - Four DUT pins named `Vcc0`, `Vcc1`, `Vcc2` and `Vcc3`.
+   - Eight System pins named `Vref0`, `Vref1`, `Vref2`, `Vref3`, `Vref4`, `Vref5`, `Vref6` and `Vref7`.
+   - Four pin groups named `Vcc2ch0`, `Vcc2ch2`, `Vcc4ch0` and `Vref8ch0`.
+   - Two sites on the tester.
    - A series of connections for each site, in which each connection specifies a DUT pin, a site number, an instrument, and an instrument channel.
 2. Complete the following steps to review the `MainSequence`, `ProcessSetup`, and `ProcessCleanup` sequences that this test program uses.
    1. On the `Sequences` pane, select the MainSequence sequence and review the objectives each step performs and optionally review the C#/.NET code associated with each step:
@@ -70,13 +71,13 @@ The pin map file defines the following information:
          - Step level four channel merging of pin group `Vcc4ch0`.
          - calling shipping step FVMI on the pingroup `Vcc4ch0`.
          - Step level unmerging of pingroup.
-         - calling shipping step FVMI on the pingroup  `Vref4ch0`.
+         - calling shipping step FVMI on the pingroup  `Vref8ch0`.
    2. On the `Sequences` pane, select the `ProcessSetup` sequence. TestStand calls this sequence once before starting testing.
       - Steps in the Setup step group initialize instruments and store the instrument sessions in the SemiconductorModuleContext.
       - In the Main step group, the example demonstrates:
-         - Step level four channel merging of pin group `Vref4ch0`.
+         - Step level four channel merging of pin group `Vref8ch0`.
    3. On the `Sequences` pane, select the `ProcessCleanup` sequence. TestStand calls this sequence once after testing completes.
       - In the Main step group, the example demonstrates:
-         - Step level four channel unmerging of pin group `Vref4ch0`.
+         - Step level four channel unmerging of pin group `Vref8ch0`.
       - Steps in the Cleanup step group close and reset the instruments.
 3. You must meet all the [Prerequisites](#prerequisites) to run the test program. To run the test program, click the **Start/Resume Lot** button on the TSM toolbar.
