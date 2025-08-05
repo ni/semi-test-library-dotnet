@@ -12,9 +12,9 @@ The `NISemiconductorTestException` is the primary exception thrown by the Semico
 
 ### Exception Wrapping Behavior
 
-•	If the original exception is an `AggregateException`, the `NISemiconductorTestException` flattens it and uses the first inner exception.
-•	The error code (*HResult*) is extracted from the original exception, or parsed from the exception message if available.
-•	The original exception is set as the inner exception, preserving the full stack trace and context.
+- If the original exception is an `AggregateException`, the `NISemiconductorTestException` flattens it and uses the first inner exception.
+- The error code (*HResult*) is extracted from the original exception, or parsed from the exception message if available.
+- The original exception is set as the inner exception, preserving the full stack trace and context.
 
 ### Exception Details
 
