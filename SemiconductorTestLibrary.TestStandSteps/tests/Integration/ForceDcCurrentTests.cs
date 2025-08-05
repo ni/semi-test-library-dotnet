@@ -1,6 +1,7 @@
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
@@ -10,6 +11,9 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
     public class ForceDcCurrentTests
     {
         [Fact]
