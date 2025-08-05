@@ -6,14 +6,18 @@
 		</NIDCPowerInstrument>
 	</Instruments>
 	<Pins>
-		<DUTPin name="Vref0" />
-		<DUTPin name="Vref1" />
-		<DUTPin name="Vref2" />
-		<DUTPin name="Vref3" />
 		<DUTPin name="Vcc0" />
 		<DUTPin name="Vcc1" />
 		<DUTPin name="Vcc2" />
 		<DUTPin name="Vcc3" />
+		<SystemPin name="Vref0" />
+		<SystemPin name="Vref1" />
+		<SystemPin name="Vref2" />
+		<SystemPin name="Vref3" />
+		<SystemPin name="Vref4" />
+		<SystemPin name="Vref5" />
+		<SystemPin name="Vref6" />
+		<SystemPin name="Vref7" />
 	</Pins>
 	<PinGroups>
 		<PinGroup name="Vcc2ch0">
@@ -30,42 +34,37 @@
 			<PinReference pin="Vcc2" />
 			<PinReference pin="Vcc3" />
 		</PinGroup>
-		<PinGroup name="Vref4ch0">
+		<PinGroup name="Vref8ch0">
 			<PinReference pin="Vref0" />
 			<PinReference pin="Vref1" />
 			<PinReference pin="Vref2" />
 			<PinReference pin="Vref3" />
+			<PinReference pin="Vref4" />
+			<PinReference pin="Vref5" />
+			<PinReference pin="Vref6" />
+			<PinReference pin="Vref7" />
 		</PinGroup>
 	</PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
 		<Site siteNumber="1" />
-		<Site siteNumber="2" />
 	</Sites>
 	<Connections>
-		<Connection pin="Vref0" siteNumber="0" instrument="SMU_4163_C1_S04" channel="0" />
-		<Connection pin="Vref0" siteNumber="1" instrument="SMU_4163_C1_S04" channel="8" />
-		<Connection pin="Vref0" siteNumber="2" instrument="SMU_4163_C1_S04" channel="16" />
-		<Connection pin="Vref1" siteNumber="0" instrument="SMU_4163_C1_S04" channel="1" />
-		<Connection pin="Vref1" siteNumber="1" instrument="SMU_4163_C1_S04" channel="9" />
-		<Connection pin="Vref1" siteNumber="2" instrument="SMU_4163_C1_S04" channel="17" />
-		<Connection pin="Vref2" siteNumber="0" instrument="SMU_4163_C1_S04" channel="2" />
-		<Connection pin="Vref2" siteNumber="1" instrument="SMU_4163_C1_S04" channel="10" />
-		<Connection pin="Vref2" siteNumber="2" instrument="SMU_4163_C1_S04" channel="18" />
-		<Connection pin="Vref3" siteNumber="0" instrument="SMU_4163_C1_S04" channel="3" />
-		<Connection pin="Vref3" siteNumber="1" instrument="SMU_4163_C1_S04" channel="11" />
-		<Connection pin="Vref3" siteNumber="2" instrument="SMU_4163_C1_S04" channel="19" />
-		<Connection pin="Vcc0" siteNumber="0" instrument="SMU_4163_C1_S04" channel="4" />
-		<Connection pin="Vcc0" siteNumber="1" instrument="SMU_4163_C1_S04" channel="12" />
-		<Connection pin="Vcc0" siteNumber="2" instrument="SMU_4163_C1_S04" channel="20" />
-		<Connection pin="Vcc1" siteNumber="0" instrument="SMU_4163_C1_S04" channel="5" />
-		<Connection pin="Vcc1" siteNumber="1" instrument="SMU_4163_C1_S04" channel="13" />
-		<Connection pin="Vcc1" siteNumber="2" instrument="SMU_4163_C1_S04" channel="21" />
-		<Connection pin="Vcc2" siteNumber="0" instrument="SMU_4163_C1_S04" channel="6" />
-		<Connection pin="Vcc2" siteNumber="1" instrument="SMU_4163_C1_S04" channel="14" />
-		<Connection pin="Vcc2" siteNumber="2" instrument="SMU_4163_C1_S04" channel="22" />
-		<Connection pin="Vcc3" siteNumber="0" instrument="SMU_4163_C1_S04" channel="7" />
-		<Connection pin="Vcc3" siteNumber="1" instrument="SMU_4163_C1_S04" channel="15" />
-		<Connection pin="Vcc3" siteNumber="2" instrument="SMU_4163_C1_S04" channel="23" />
+		<Connection pin="Vcc0" siteNumber="0" instrument="SMU_4163_C1_S04" channel="0" />
+		<Connection pin="Vcc1" siteNumber="0" instrument="SMU_4163_C1_S04" channel="1" />
+		<Connection pin="Vcc2" siteNumber="0" instrument="SMU_4163_C1_S04" channel="2" />
+		<Connection pin="Vcc3" siteNumber="0" instrument="SMU_4163_C1_S04" channel="3" />
+		<Connection pin="Vcc0" siteNumber="1" instrument="SMU_4163_C1_S04" channel="8" />
+		<Connection pin="Vcc1" siteNumber="1" instrument="SMU_4163_C1_S04" channel="9" />
+		<Connection pin="Vcc2" siteNumber="1" instrument="SMU_4163_C1_S04" channel="10" />
+		<Connection pin="Vcc3" siteNumber="1" instrument="SMU_4163_C1_S04" channel="11" />
+		<SystemConnection pin="Vref0" instrument="SMU_4163_C1_S04" channel="16" />
+		<SystemConnection pin="Vref1" instrument="SMU_4163_C1_S04" channel="17" />
+		<SystemConnection pin="Vref2" instrument="SMU_4163_C1_S04" channel="18" />
+		<SystemConnection pin="Vref3" instrument="SMU_4163_C1_S04" channel="19" />
+		<SystemConnection pin="Vref4" instrument="SMU_4163_C1_S04" channel="20" />
+		<SystemConnection pin="Vref5" instrument="SMU_4163_C1_S04" channel="21" />
+		<SystemConnection pin="Vref6" instrument="SMU_4163_C1_S04" channel="22" />
+		<SystemConnection pin="Vref7" instrument="SMU_4163_C1_S04" channel="23" />
 	</Connections>
 </PinMap>
