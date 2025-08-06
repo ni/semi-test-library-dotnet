@@ -62,11 +62,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUMergePinGroup
             smuBundle.ConfigureSourceDelay(settlingTime);
             if (apertureTime != -1)
             {
-                DCPowerMeasureSettings measureSettings = new DCPowerMeasureSettings()
-                {
-                    ApertureTime = apertureTime,
-                };
-                smuBundle.ConfigureMeasureSettings(measureSettings);
+                smuBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = apertureTime });
             }
 
             // Source and/or measure the signals.
