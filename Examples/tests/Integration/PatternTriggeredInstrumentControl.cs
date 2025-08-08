@@ -1,6 +1,6 @@
 using NationalInstruments.ModularInstruments.NIDCPower;
 using Xunit;
-using static NationalInstruments.SemiconductorTestLibrary.Examples.PatternTriggeredInstrumentControl;
+using static NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.PatternTriggeredInstrumentControl;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 

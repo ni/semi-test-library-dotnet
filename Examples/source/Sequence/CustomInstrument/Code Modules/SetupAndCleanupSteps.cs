@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument;
+using NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.MyCustomInstrument;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 {
     /// <summary>
     /// This class contains sample methods to perform instrument setup and cleanup operations using the custom instrument support provided by STL.
