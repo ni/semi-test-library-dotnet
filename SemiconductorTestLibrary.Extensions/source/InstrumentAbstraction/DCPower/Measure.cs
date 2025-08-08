@@ -535,24 +535,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var session = sessionInfo.Session;
             var lockObject = new object();
-
             int channelCount = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).Count();
+            List<SitePinInfo> instrumentList = sessionInfo.AssociatedSitePinList
+                .Where(sitePin => !sitePin.SkipOperations)
+                .ToList();
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
-
             IList<int> onDemandChannelIndexes = new List<int>();
             IList<string> onDemandChannelStrings = new List<string>();
-            for (int i = 0; i < channelCount; i++)
+            for (int i = 0; i < instrumentList.Count; i++)
             {
-                string individualChannelString = sessionInfo.AssociatedSitePinList[i].IndividualChannelString;
+                string individualChannelString = instrumentList[i].IndividualChannelString;
                 if (session.Outputs[individualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand
-                    && !sessionInfo.AssociatedSitePinList[i].SkipOperations)
+                    && !instrumentList[i].SkipOperations)
                 {
                     onDemandChannelIndexes.Add(i);
                     onDemandChannelStrings.Add(individualChannelString);
                 }
             }
-
             InvokeInParallel(
                 () =>
                 {
@@ -581,7 +581,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                             return; // Skip channels that are marked to skip operations.
                         }
                         var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
-
                         switch (dcOutput.Measurement.MeasureWhen)
                         {
                             case DCPowerMeasurementWhen.OnMeasureTrigger:
@@ -593,7 +592,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                                 session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), dcOutput.Measurement.FetchBacklog);
                                 dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
                                 goto case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
-
                             case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
                                 if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
                                 {
@@ -606,7 +604,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                                     currentMeasurements[channelIndex] = fetchResult.CurrentMeasurements[0];
                                 }
                                 break;
-
                             default:
                                 break;
                         }
