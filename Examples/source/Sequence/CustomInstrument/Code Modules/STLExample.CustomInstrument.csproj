@@ -39,7 +39,7 @@
     <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
       <HintPath>..\..\..\..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">      
+    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
