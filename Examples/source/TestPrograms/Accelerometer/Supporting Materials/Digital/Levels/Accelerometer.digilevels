@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PinLevelsFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.0" xmlns="http://www.ni.com/Semiconductor/PinLevels">
+  <PinLevelsSheet>
+    <DigitalPinLevelSets>
+      <DigitalPinLevelSet pin="CS">
+        <Vil>DC.Vil</Vil>
+        <Vih>DC.Vih</Vih>
+        <Vol>DC.Vol</Vol>
+        <Voh>DC.Voh</Voh>
+        <TerminationMode>HighZ</TerminationMode>
+        <Comment>Chip Select</Comment>
+      </DigitalPinLevelSet>
+      <DigitalPinLevelSet pin="SCLK">
+        <Vil>DC.Vil</Vil>
+        <Vih>DC.Vih</Vih>
+        <Vol>DC.Vol</Vol>
+        <Voh>DC.Voh</Voh>
+        <TerminationMode>HighZ</TerminationMode>
+        <Comment>Clock</Comment>
+      </DigitalPinLevelSet>
+      <DigitalPinLevelSet pin="MOSI">
+        <Vil>DC.Vil</Vil>
+        <Vih>DC.Vih</Vih>
+        <Vol>DC.Vol</Vol>
+        <Voh>DC.Voh</Voh>
+        <TerminationMode>HighZ</TerminationMode>
+        <Comment>Data to DUT</Comment>
+      </DigitalPinLevelSet>
+      <DigitalPinLevelSet pin="MISO">
+        <Vil>DC.Vil</Vil>
+        <Vih>DC.Vih</Vih>
+        <Vol>DC.Vol</Vol>
+        <Voh>DC.Voh</Voh>
+        <TerminationMode>HighZ</TerminationMode>
+        <Comment>Data from DUT</Comment>
+      </DigitalPinLevelSet>
+    </DigitalPinLevelSets>
+  </PinLevelsSheet>
+</PinLevelsFile>
