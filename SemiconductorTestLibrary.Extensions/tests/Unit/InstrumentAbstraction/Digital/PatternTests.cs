@@ -148,7 +148,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsInitialized_WaitUntilDoneWithInvalidTimeout_ThrowsExeception(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-            var expectedPhrases = new string[] { "An error occurred while processing", "ArgumentException" };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "ArgumentException" };
 
             var sessionsBundle = sessionManager.Digital("C0");
             void WaitUntilDone() => sessionsBundle.WaitUntilDone(-2);
