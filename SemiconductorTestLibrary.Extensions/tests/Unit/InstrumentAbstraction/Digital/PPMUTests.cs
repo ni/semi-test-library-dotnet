@@ -664,7 +664,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject, out var publishDatReader);
             var pins = new string[] { "C0", "C1" };
             var sessionsBundle = sessionManager.Digital(pins);
-            var expectedPhrases = new string[] { "While processing following pins/sites:", "InvalidOperationException", "PPMU cannot measure current on a channel that is not sourcing voltage or current." };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "InvalidOperationException", "PPMU cannot measure current on a channel that is not sourcing voltage or current." };
 
             void MeasureAndPublishCurrent() => sessionsBundle.MeasureAndPublishCurrent("CurrentMeasurments");
 
@@ -703,7 +703,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject, out var publishDatReader);
             var pins = new string[] { "C0", "C1" };
             var sessionsBundle = sessionManager.Digital(pins);
-            var expectedPhrases = new string[] { "While processing following pins/sites:", "InvalidOperationException", "PPMU cannot measure current on a channel that is not sourcing voltage or current." };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "InvalidOperationException", "PPMU cannot measure current on a channel that is not sourcing voltage or current." };
 
             void MeasureCurrent() => sessionsBundle.MeasureCurrent();
 

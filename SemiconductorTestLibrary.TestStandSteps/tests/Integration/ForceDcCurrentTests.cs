@@ -142,7 +142,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 settlingTime: 5e-5);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceDcCurrentMethod);
-            Assert.Contains("While processing following pins/sites:", exception.Message);
+            Assert.Contains("An exception occurred while processing pins/sites:", exception.Message);
             Assert.Contains("site1/PA_EN", exception.Message);
             Assert.Contains("site1/C0", exception.Message);
             Assert.Contains("site1/C1", exception.Message);

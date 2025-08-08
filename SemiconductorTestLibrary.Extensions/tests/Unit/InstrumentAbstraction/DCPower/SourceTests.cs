@@ -709,7 +709,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
-            var expectedPhrases = new string[] { "While processing following pins/sites:", "Invalid value for parameter or property." };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "Invalid value for parameter or property." };
 
             var values = new SiteData<bool>(GetActiveSites(sessionsBundle), false);
 
