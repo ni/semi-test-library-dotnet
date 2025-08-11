@@ -535,24 +535,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var session = sessionInfo.Session;
             var lockObject = new object();
-            int channelCount = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).Count();
-            List<SitePinInfo> instrumentList = sessionInfo.AssociatedSitePinList
-                .Where(sitePin => !sitePin.SkipOperations)
-                .ToList();
+            List<SitePinInfo> primarySitePinInfoList = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+            int channelCount = primarySitePinInfoList.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
             IList<int> onDemandChannelIndexes = new List<int>();
             IList<string> onDemandChannelStrings = new List<string>();
-            for (int i = 0; i < instrumentList.Count; i++)
-            {
-                string individualChannelString = instrumentList[i].IndividualChannelString;
-                if (session.Outputs[individualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand
-                    && !instrumentList[i].SkipOperations)
-                {
-                    onDemandChannelIndexes.Add(i);
-                    onDemandChannelStrings.Add(individualChannelString);
-                }
-            }
+
+            var onDemandChannels = primarySitePinInfoList
+                .Select((sitePin, index) => new { sitePin, index })
+                .Where(x => session.Outputs[x.sitePin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                .ToList();
+            onDemandChannelIndexes = onDemandChannels.Select(x => x.index).ToList();
+            onDemandChannelStrings = onDemandChannels.Select(x => x.sitePin.IndividualChannelString).ToList();
+
             InvokeInParallel(
                 () =>
                 {
@@ -575,11 +571,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     Parallel.For(0, channelCount, channelIndex =>
                     {
-                        var sitePinInfo = sessionInfo.AssociatedSitePinList[channelIndex];
-                        if (sitePinInfo.SkipOperations)
-                        {
-                            return; // Skip channels that are marked to skip operations.
-                        }
+                        var sitePinInfo = primarySitePinInfoList[channelIndex];
                         var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
                         switch (dcOutput.Measurement.MeasureWhen)
                         {
