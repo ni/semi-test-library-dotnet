@@ -1,6 +1,7 @@
 
 # Changelog
 
+- [25.5.0 - TBD](#2550---TBD)
 - [25.0.0 - 2025-04-11](#2500---2025-04-11)
 - [24.5.1 - 2024-10-31](#2451---2024-10-31)
 - [24.5.0 - 2024-08-16](#2450---2024-08-16)
@@ -8,6 +9,41 @@
 All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## 25.5.0 - TBD
+
+- ### Added
+
+  - **Data Abstraction**
+
+  - **Instrument Abstraction**
+    - New `MergePinGroup` and `UnmergePinGroup` overloaded methods added for merging and unmerging channels in pin groups:
+      - `MergePinGroup(string[] mergedChannelsPinGroupNames)`  merges channels for each specified pin group. Each pin group is merged into the channel corresponding to its first pin.
+      - `MergePinGroup(string mergedChannelsPinGroupName)`  merges channels in the specified pin group into the channel corresponding to its first pin.
+      - `UnmergePinGroup(string[] mergedChannelsPinGroupNames)`  unmerges channels for each specified pin group.
+      - `UnmergePinGroup(string mergedChannelsPinGroupName)`  unmerges channels in the specified pin group.
+    - New `GenerateInstrumentChannelToSitePinDictionary` method added that is used to generate a dictionary that takes a pinset string and returns the list of associated site-pin pair information.
+  
+  - **Common**
+    - New class `ExceptionCollector` added that collects multiple exceptions during driver operations and throws them as a single `NISemiconductorTestException`, preserving site-pin context.
+      - `Add<TSessionInformation>(Exception exception, TSessionInformation sessionInfo, string caseDescription = null)` adds an exception along with session information to provide site-pin context.
+      - `Add(Exception exception, SitePinInfo sitePinInfo, string caseDescription = null)` adds an exception associated with a specific `SitePinInfo`.
+      - `WrapAndThrowSTLException()` wraps a single exception and throws it as a `NISemiconductorTestException`, including site-pin context.
+      - `ThrowSTLException()` throws all collected exceptions as a single `NISemiconductorTestException`.
+    - New `CloneSitePinInfo` method added that creates a shallow copy of the current `SitePinInfo` instance and returns it as a new object.
+    - New property `SkipOperations` added that returns `true` if operations should be skipped for the current site-pin pair, based on shared or cascading channel context.
+
+  - **NuGet Package**
+
+- ### Changed
+
+  - **Data Abstraction**
+
+  - **Instrument Abstraction**
+
+  - **TestStandSteps**
+
+  - **Documentation & Examples**
 
 ## 25.0.0 - 2025-04-11
 
