@@ -573,6 +573,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     {
                         var sitePinInfo = primarySitePinInfoList[channelIndex];
                         var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
+
                         switch (dcOutput.Measurement.MeasureWhen)
                         {
                             case DCPowerMeasurementWhen.OnMeasureTrigger:
@@ -584,6 +585,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                                 session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), dcOutput.Measurement.FetchBacklog);
                                 dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
                                 goto case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+
                             case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
                                 if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
                                 {
@@ -596,6 +598,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                                     currentMeasurements[channelIndex] = fetchResult.CurrentMeasurements[0];
                                 }
                                 break;
+
                             default:
                                 break;
                         }
