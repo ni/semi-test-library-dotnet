@@ -22,6 +22,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `MergePinGroup(string mergedChannelsPinGroupName)`  merges channels in the specified pin group into the channel corresponding to its first pin.
       - `UnmergePinGroup(string[] mergedChannelsPinGroupNames)`  unmerges channels for each specified pin group.
       - `UnmergePinGroup(string mergedChannelsPinGroupName)`  unmerges channels in the specified pin group.
+    - New instrument support added for Custom and third-party instruments, including overload methods in `TSMSessionManager` to create a `SessionsBundle` for CustomInstrument.
+      - Added `CustomInstrumentSessionInformation` class with `AssociatedSitePinList` and Session properties, two constructor overloads, and a `GenerateInstrumentNameToChannelSitePinDictionary` static method.
+      - Added `CustomInstrumentSessionsBundle` class with `TSMContext`, `InstrumentSessions`, and `AggregateSitePinList` properties, a constructor, and `FilterByPin` and `FilterBySite` methods (each with one overload).
+      - Added `ICustomInstrument` interface with `InstrumentName` property and `Close()` and `Reset()` methods.
+      - Added `ICustomInstrumentFactory` interface with `InstrumentTypeID` property, and `CreateInstrument()` and `ValidateCustomInstruments()` methods.
+      - Added `InitializeAndClose` class with `Initialize()`, `Close()`, and `Reset()` methods.
     - New `GenerateInstrumentChannelToSitePinDictionary` method added that is used to generate a dictionary that takes a pinset string and returns the list of associated site-pin pair information.
   
   - **Common**
