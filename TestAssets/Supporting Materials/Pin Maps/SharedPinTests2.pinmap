@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4147_C2_S10" numberOfChannels="4">
+			<ChannelGroup name="SMU_4147_C2_S10_CH0" channels="0" />
+			<ChannelGroup name="SMU_4147_C2_S10_CH1" channels="1" />
+			<ChannelGroup name="SMU_4147_C2_S10_CH2" channels="2" />
+			<ChannelGroup name="SMU_4147_C2_S10_CH3" channels="3" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4147_C1_S11" numberOfChannels="4">
+			<ChannelGroup name="SMU_4147_C1_S11_Group" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4147_C3_S12" numberOfChannels="4">
+			<ChannelGroup name="CommonDCPower" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4147_C4_S18" numberOfChannels="4">
+			<ChannelGroup name="CommonDCPower" />
+		</NIDCPowerInstrument>
+		<NIDigitalPatternInstrument name="HSD_6571_C1_S02" numberOfChannels="32" group="CommonDigital" />
+		<NIDigitalPatternInstrument name="HSD_6571_C1_S03" numberOfChannels="32" group="CommonDigital" />
+		<NIDigitalPatternInstrument name="HSD_6571_C3_S02" numberOfChannels="32" group="HSD_6571_C1_S03_GROUP" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="SmuPin" />
+		<DUTPin name="SmuPinSharedSameSessionSameInstrument" />
+		<DUTPin name="SmuPinSharedSeperateSessionsSameInstrument" />
+		<DUTPin name="SmuPinPinSharedSameSessionDifferentInstruments" />
+		<DUTPin name="SmuPinPinSharedSeperateSessionsDifferentInstruments" />
+		<DUTPin name="DigiPin" />
+		<DUTPin name="DigiPinSharedSameSessionSameInstrument" />
+		<DUTPin name="DigiPinSharedSameSessionDifferentInstruments" />
+		<DUTPin name="DigiPinSharedSeperateSessionsDifferentInstruments" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="DigitalPins">
+			<PinReference pin="DigiPin" />
+			<PinReference pin="DigiPinSharedSameSessionSameInstrument" />
+			<PinReference pin="DigiPinSharedSameSessionDifferentInstruments" />
+			<PinReference pin="DigiPinSharedSeperateSessionsDifferentInstruments" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+		<Site siteNumber="3" />
+	</Sites>
+	<Connections>
+		<!-- DCPOWER PINS - NO SHARING -->
+		<Connection pin="SmuPin" siteNumber="0" instrument="SMU_4147_C1_S11" channel="0" />
+		<Connection pin="SmuPin" siteNumber="1" instrument="SMU_4147_C1_S11" channel="1" />
+		<Connection pin="SmuPin" siteNumber="2" instrument="SMU_4147_C2_S10" channel="2" />
+		<Connection pin="SmuPin" siteNumber="3" instrument="SMU_4147_C2_S10" channel="3" />
+		<!-- DCPOWER PINS - Shared, the same instrument, common instrument session -->
+		<Connection pin="SmuPinSharedSameSessionSameInstrument" siteNumber="0,1" instrument="SMU_4147_C3_S12" channel="0" />
+		<Connection pin="SmuPinSharedSameSessionSameInstrument" siteNumber="2,3" instrument="SMU_4147_C3_S12" channel="1" />
+		<!-- DCPOWER PINS - Shared, the same instrument, seperate instrument sessions -->
+		<Connection pin="SmuPinSharedSeperateSessionsSameInstrument" siteNumber="0,1" instrument="SMU_4147_C2_S10" channel="0" />
+		<Connection pin="SmuPinSharedSeperateSessionsSameInstrument" siteNumber="2,3" instrument="SMU_4147_C2_S10" channel="1" />
+		<!-- DCPOWER PINS - Shared, different instruments, common instrument session -->
+		<Connection pin="SmuPinPinSharedSameSessionDifferentInstruments" siteNumber="0,1" instrument="SMU_4147_C3_S12" channel="3" />
+		<Connection pin="SmuPinPinSharedSameSessionDifferentInstruments" siteNumber="2,3" instrument="SMU_4147_C4_S18" channel="0" />
+		<!-- DCPOWER PINS - Shared, the different instruments, with seperate instrument sessions -->
+		<Connection pin="SmuPinPinSharedSeperateSessionsDifferentInstruments" siteNumber="0,1" instrument="SMU_4147_C4_S18" channel="1" />
+		<Connection pin="SmuPinPinSharedSeperateSessionsDifferentInstruments" siteNumber="2,3" instrument="SMU_4147_C1_S11" channel="2" />
+		<!-- DIGITAL PINS - NO SHARING  -->
+		<Connection pin="DigiPin" siteNumber="0" instrument="HSD_6571_C1_S02" channel="0" />
+		<Connection pin="DigiPin" siteNumber="1" instrument="HSD_6571_C1_S02" channel="1" />
+		<Connection pin="DigiPin" siteNumber="2" instrument="HSD_6571_C1_S03" channel="0" />
+		<Connection pin="DigiPin" siteNumber="3" instrument="HSD_6571_C1_S03" channel="1" />
+		<!-- DIGITAL PINS - Shared, same instrument, common instrument session -->
+		<Connection pin="DigiPinSharedSameSessionSameInstrument" siteNumber="0,1" instrument="HSD_6571_C1_S02" channel="2" />
+		<Connection pin="DigiPinSharedSameSessionSameInstrument" siteNumber="2,3" instrument="HSD_6571_C1_S02" channel="3" />
+		<!-- DIGITAL PINS - Shared, different instruments, common instrument session -->
+		<Connection pin="DigiPinSharedSameSessionDifferentInstruments" siteNumber="0,1" instrument="HSD_6571_C1_S02" channel="4" />
+		<Connection pin="DigiPinSharedSameSessionDifferentInstruments" siteNumber="2,3" instrument="HSD_6571_C1_S03" channel="4" />
+		<!-- DIGITAL PINS - Shared, the different instruments, seperate instrument sessions -->
+		<Connection pin="DigiPinSharedSeperateSessionsDifferentInstruments" siteNumber="0,1" instrument="HSD_6571_C1_S02" channel="5" />
+		<Connection pin="DigiPinSharedSeperateSessionsDifferentInstruments" siteNumber="2,3" instrument="HSD_6571_C3_S02" channel="3" />
+	</Connections>
+</PinMap>
