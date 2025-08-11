@@ -539,7 +539,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
-            IList<int> onDemandChannelIndexes = new List<int>();
             IList<string> onDemandChannelStrings = new List<string>();
 
             onDemandChannelStrings = listOfChannelsToMeasure
@@ -554,13 +553,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     {
                         // Measure all channels that are configured to measure on demand as a single driver call to optimize test time.
                         var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
-                        for (int i = 0; i < onDemandChannelStrings.Count; i++)
+                        lock (lockObject)
                         {
-                            lock (lockObject)
-                            {
-                                voltageMeasurements[i] = measureResult.VoltageMeasurements[i];
-                                currentMeasurements[i] = measureResult.CurrentMeasurements[i];
-                            }
+                            voltageMeasurements = measureResult.VoltageMeasurements;
+                            currentMeasurements = measureResult.CurrentMeasurements;
                         }
                     }
                 },
