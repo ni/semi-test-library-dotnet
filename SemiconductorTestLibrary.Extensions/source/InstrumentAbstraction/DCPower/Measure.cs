@@ -535,34 +535,31 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var session = sessionInfo.Session;
             var lockObject = new object();
-            List<SitePinInfo> primarySitePinInfoList = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
-            int channelCount = primarySitePinInfoList.Count;
+            List<SitePinInfo> listOfChannelsToMeasure = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+            int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
             IList<int> onDemandChannelIndexes = new List<int>();
             IList<string> onDemandChannelStrings = new List<string>();
 
-            var onDemandChannels = primarySitePinInfoList
-                .Select((sitePin, index) => new { sitePin, index })
-                .Where(x => session.Outputs[x.sitePin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+            onDemandChannelStrings = listOfChannelsToMeasure
+                .Where(pin => session.Outputs[pin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                .Select(pin => pin.IndividualChannelString)
                 .ToList();
-            onDemandChannelIndexes = onDemandChannels.Select(x => x.index).ToList();
-            onDemandChannelStrings = onDemandChannels.Select(x => x.sitePin.IndividualChannelString).ToList();
 
             InvokeInParallel(
                 () =>
                 {
-                    if (onDemandChannelIndexes.Any())
+                    if (onDemandChannelStrings.Any())
                     {
                         // Measure all channels that are configured to measure on demand as a single driver call to optimize test time.
                         var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
-                        for (int i = 0; i < onDemandChannelIndexes.Count; i++)
+                        for (int i = 0; i < onDemandChannelStrings.Count; i++)
                         {
-                            int index = onDemandChannelIndexes[i];
                             lock (lockObject)
                             {
-                                voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
-                                currentMeasurements[index] = measureResult.CurrentMeasurements[i];
+                                voltageMeasurements[i] = measureResult.VoltageMeasurements[i];
+                                currentMeasurements[i] = measureResult.CurrentMeasurements[i];
                             }
                         }
                     }
@@ -571,7 +568,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     Parallel.For(0, channelCount, channelIndex =>
                     {
-                        var sitePinInfo = primarySitePinInfoList[channelIndex];
+                        var sitePinInfo = listOfChannelsToMeasure[channelIndex];
                         var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
 
                         switch (dcOutput.Measurement.MeasureWhen)

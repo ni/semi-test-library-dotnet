@@ -728,6 +728,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveResult(results);
         }
 
+        [Theory]
+        [InlineData("VCC1")]
+        [InlineData("VCC2")]
+        [InlineData("VDET")]
+        public void AllChannelsMeasureOnDemand_ForceCurrentMeasureVoltage_AllChannelsMeasuredInSharedPinConfiguration(string pinName)
+        {
+            var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+
+            sessionsBundle.ForceCurrent(currentLevel: 0.05, waitForSourceCompletion: true);
+            var results = sessionsBundle.MeasureVoltage();
+
+            AssertAllChannelsHaveResult(results);
+        }
+
         private int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.AggregateSitePinList
