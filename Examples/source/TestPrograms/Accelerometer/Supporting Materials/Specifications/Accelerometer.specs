@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Specifications xmlns:f="http://www.ni.com/schemas/Semiconductor/Formula.xsd" schemaVersion="1.0" xmlns="http://www.ni.com/schemas/Semiconductor/Specifications.xsd">
+  <Section name="SettlingTimes">
+    <f:Formula symbol="Continuity">
+      <f:Definition>5 ms</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="Leakage">
+      <f:Definition>3 ms</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="SetTestMode">
+      <f:Definition>3 ms</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="SetRST">
+      <f:Definition>3 ms</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="Relay">
+      <f:Definition>3 ms</f:Definition>
+    </f:Formula>
+  </Section>
+  <Section name="DC">
+    <f:Formula symbol="Vcc_Typical">
+      <f:Definition>3.33 V</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="Vcc_Typical_Max_Current">
+      <f:Definition>2 mA</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="Vcc_Max">
+      <f:Definition>5 V</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="Vcc_Min">
+      <f:Definition>2.4 V</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="Vil">
+      <f:Definition>0 V</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="Vol">
+      <f:Definition>0.7</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="Vih">
+      <f:Definition>3.33 V</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="Voh">
+      <f:Definition>1.7</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="Max_Vref_Value">
+      <f:Definition>2.5 V</f:Definition>
+    </f:Formula>
+  </Section>
+  <Section name="AC">
+    <f:Formula symbol="Period">
+      <f:Definition>20 ns</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="ResetTime">
+      <f:Definition>10 ms</f:Definition>
+    </f:Formula>
+  </Section>
+  <Section name="Leakage">
+    <f:Formula symbol="MaxCurrent">
+      <f:Definition>DC.Vcc_Typical_Max_Current</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="VoltageHigh">
+      <f:Definition>DC.Vcc_Typical</f:Definition>
+    </f:Formula>
+    <f:Formula symbol="VoltageLow">
+      <f:Definition>0 V</f:Definition>
+    </f:Formula>
+  </Section>
+  <Section name="Temperature">
+    <f:Formula symbol="High">
+      <f:Definition>260</f:Definition>
+    </f:Formula>
+  </Section>
+</Specifications>
