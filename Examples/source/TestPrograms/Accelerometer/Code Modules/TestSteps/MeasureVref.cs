@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using NationalInstruments;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -6,7 +7,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace Accelerometer
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
 {
     /// <summary>
     /// Partial class containing all test steps for the project.
@@ -31,7 +32,10 @@ namespace Accelerometer
             {
                 AnalogWaveformCollection<double> waveforms;
                 string channel = pinSiteInfo.IndividualChannelString;
-                waveforms = sessionInfo.Session.Channels[channel].Measurement.Read(PrecisionTimeSpan.FromSeconds(5), -1, null);
+                waveforms = sessionInfo.Session.Channels[channel].Measurement.Read(
+                    timeout: PrecisionTimeSpan.FromSeconds(5),
+                    numberOfSamples: -1,
+                    waveforms: null);
                 // Waveforms are returned as a collection of multiple records and channels.
                 // Indexing the first waveform, as only one record and one channel being read at a time.
                 double[] singleChannelSamples = waveforms[0].Samples.Select(sample => sample.Value).ToArray();

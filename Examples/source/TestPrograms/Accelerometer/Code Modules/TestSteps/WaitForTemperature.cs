@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading;
-using Accelerometer.Common;
+using NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer.Common;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using static NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer.Common.Constants;
 
-namespace Accelerometer
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
 {
     /// <summary>
     /// Partial class containing all test steps for the project.
@@ -20,7 +21,7 @@ namespace Accelerometer
         /// </exception>
         public static void WaitForTemperature(ISemiconductorModuleContext semiconductorModuleContext)
         {
-            var temperatureController = (SimulatedTemperatureController)semiconductorModuleContext.GetGlobalData(TemperatureControllerDataId);
+            var temperatureController = semiconductorModuleContext.GetGlobalData<SimulatedTemperatureController>(TemperatureControllerDataId);
 
             const int timeoutSeconds = 15;
             DateTime endTime = DateTime.Now.AddSeconds(timeoutSeconds);

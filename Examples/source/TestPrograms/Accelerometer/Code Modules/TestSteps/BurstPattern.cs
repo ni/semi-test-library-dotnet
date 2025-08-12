@@ -2,7 +2,7 @@
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace Accelerometer
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
 {
     /// <summary>
     /// Partial class containing all test steps for the project.
@@ -20,7 +20,7 @@ namespace Accelerometer
         public static void BurstPattern(ISemiconductorModuleContext semiconductorModuleContext, string[] spiPortPins, string patternName, string publishedDataId)
         {
             var sessionManager = new TSMSessionManager(semiconductorModuleContext);
-            sessionManager.Digital(spiPortPins).BurstPatternAndPublishResults(patternName, publishedDataId: publishedDataId);
+            _ = sessionManager.Digital(spiPortPins).BurstPatternAndPublishResults(patternName, publishedDataId: publishedDataId);
         }
     }
 }

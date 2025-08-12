@@ -1,7 +1,9 @@
-﻿using Accelerometer.Common;
+﻿using NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer.Common;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using static NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer.Common.Constants;
 
-namespace Accelerometer
+
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
 {
     /// <summary>
     /// Partial class containing all test steps for the project.

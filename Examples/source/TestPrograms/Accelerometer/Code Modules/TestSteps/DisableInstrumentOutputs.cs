@@ -4,7 +4,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
-namespace Accelerometer
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
 {
     /// <summary>
     /// Partial class containing all test steps for the project.

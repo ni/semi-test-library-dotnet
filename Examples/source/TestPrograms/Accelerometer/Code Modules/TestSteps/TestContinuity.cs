@@ -5,7 +5,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace Accelerometer
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
 {
     /// <summary>
     /// Partial class containing all test steps for the project.
@@ -36,7 +36,7 @@ namespace Accelerometer
             var sessionManager = new TSMSessionManager(semiconductorModuleContext);
             DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(pinsAndPinGroups, filterPins: true);
             DigitalSessionsBundle digitalPins = sessionManager.Digital(pinsAndPinGroups, filterPins: true);
-            // Expected to be null if calling code does passes pins or pin groups that do not map to DCPower pins.
+            // Expected to be null if calling code passes pins or pin groups that do not map to either DCPower or Digital pins.
             if (dcPowerPins == null && digitalPins == null)
             {
                 throw new System.ArgumentException("Pin(s) must map to a DCPower or Digital instrument.", nameof(pinsAndPinGroups));
@@ -52,6 +52,7 @@ namespace Accelerometer
             TestDCPowerContinuity(dcPowerPins, settlingTimeInSeconds);
             TestDigitalContinuity(digitalPins, settlingTimeInSeconds);
         }
+
         private static void TestDCPowerContinuity(DCPowerSessionsBundle dcPowerPins, double settlingTimeInSeconds)
         {
             if (dcPowerPins == null)

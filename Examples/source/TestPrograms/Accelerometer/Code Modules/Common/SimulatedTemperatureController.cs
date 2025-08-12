@@ -1,7 +1,7 @@
 using System;
 using System.Timers;
 
-namespace Accelerometer.Common
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer.Common
 {
     internal sealed class SimulatedTemperatureController : IDisposable
     {
@@ -53,6 +53,7 @@ namespace Accelerometer.Common
 
         public void Shutdown()
         {
+            mTemperatureAdjustTimer.Elapsed -= AdjustTemperatureTowardRequestedTemperature;
             mTemperatureAdjustTimer.Dispose();
             // The simulated temperature controller does not require any shutdown code.
             // Shutdown code for actual hardware would otherwise be inserted here.

@@ -3,7 +3,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace Accelerometer
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
 {
     /// <summary>
     /// Partial class containing all test steps for the project.
@@ -32,7 +32,7 @@ namespace Accelerometer
 
             rstPin.ForceVoltage(vih, currentLimitRange, settlingTime: rstPinSettlingTime);
 
-            // This is seperate from and in addtion to the rstPin settling time.
+            // This is separate from and in addtion to the rstPin settling time.
             Utilities.PreciseWait(resetTimeInSeconds);
 
             // Current limit range already set, no need to set it again.
