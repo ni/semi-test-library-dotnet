@@ -24,7 +24,7 @@ The example demonstrates several features of TSM and STL in the context of a tes
 ### Prerequisites
 
 1. If you want to use the example you must have the following software installed:
-   - STS Software 25.0.0 or later
+   - STS Software 25.0.0 or later (see note below for using with STS Software 24.5)
 2. To run the test program you must also have:
    - Two NI-Digital Pattern instruments named HSD_6570_C1_S02 and HSD_6570_C1_S04, respectively, as defined in Measurement & Automation Explorer (MAX).
    - Two NI-DCPower instruments named SMU_4143_C1_S06 and SMU_4143_C1_S07, respectively, as defined in MAX.
@@ -41,6 +41,19 @@ The example demonstrates several features of TSM and STL in the context of a tes
 > 1. Click the Enable Offline Mode button  on the TSM toolbar. To run the test program, click the Start/Resume Lot button on the TSM toolbar.
 > 2. Launch the Test Program Editor and select the Offline Mode panel to view the path to the Offline Mode system configuration file TSM uses to create simulated instruments for Accelerometer.seq.
 > 3. Click the Disable Offline Mode button to return to the default TSM behavior.
+>
+> *Using with STS Software 24.5*:
+> To use this example with STS Software 24.5, you must use the sequence file named "Accelerometer.STSSoftware24.5.seq".
+> This version of the sequence file is compatible STS Software 24.5.
+> It uses the older step prototypes for the following TestStand steps, which changed between 24.5 and 25.0 (refer to documented changes in release notes):
+>
+> - Setup NI Digital Instrumentation
+    - SetupAndCleanupSteps.SetupNIDigitalPatternInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, Boolean, System.String, System.String)
+> - Cleanup Instrumentation
+>   - SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, Boolean, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
+>
+> The "Accelerometer.STSSoftware24.5.seq" file can be opened on a system with 25.0, but it will appear broken and cannot run without modifications.
+> Similarly, "Accelerometer.seq" file can be open on a system with 24.0, but it will appear broken and cannot run without modifications.
 
 ## Using the Example
 
