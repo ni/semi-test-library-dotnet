@@ -44,8 +44,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `AcquireAnalogInputWaveformsTests.cs`
       - `BurstPatternTests.cs`
       - `ForceVoltageMeasureCurrentTests.cs`
-
-  - **NuGet Package**
+  
+  - **Documentation & Examples**
+    - Various additions to examples and documentation in accordance with latest changes.
+      - Added examples and documentation for merging and unmerging of channels in pin groups.
+      - Added examples and documentation for Custom and third-party instrument support.
+      - Added documentation for exception handling `NISemiconductorTestException`.
+      - Added documentation for shared pin support.
+      - Added documentation for best practices to write extension methods.
+      - [TODO]: Accelerometer example
 
 - ### Changed
 
@@ -59,6 +66,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - **TestStandSteps**
     - Updated test code to validate publish data for each pin. Validation ensures, for each site, published data is available for each expected pin with specific `PublishedDataId`.
   - **Documentation & Examples**
+    - Updated NuGet package documentation with information on to verify the integrity of a NuGet package.
 
 ## 25.0.0 - 2025-04-11
 
