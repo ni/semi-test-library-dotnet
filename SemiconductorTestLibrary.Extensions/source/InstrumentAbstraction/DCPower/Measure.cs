@@ -535,23 +535,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var session = sessionInfo.Session;
             var lockObject = new object();
-
-            int channelCount = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).Count();
+            List<SitePinInfo> listOfChannelsToMeasure = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+            int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
-
-            IList<int> onDemandChannelIndexes = new List<int>();
-            IList<string> onDemandChannelStrings = new List<string>();
-            for (int i = 0; i < channelCount; i++)
-            {
-                string individualChannelString = sessionInfo.AssociatedSitePinList[i].IndividualChannelString;
-                if (session.Outputs[individualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand
-                    && !sessionInfo.AssociatedSitePinList[i].SkipOperations)
-                {
-                    onDemandChannelIndexes.Add(i);
-                    onDemandChannelStrings.Add(individualChannelString);
-                }
-            }
+            var onDemandChannels = listOfChannelsToMeasure
+                .Select((sitePin, index) => new { sitePin, index })
+                .Where(x => session.Outputs[x.sitePin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                .ToList();
+            IList<string> onDemandChannelStrings = onDemandChannels.Select(x => x.sitePin.IndividualChannelString).ToList();
+            IList<int> onDemandChannelIndexes = onDemandChannels.Select(x => x.index).ToList();
 
             InvokeInParallel(
                 () =>
@@ -575,11 +568,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     Parallel.For(0, channelCount, channelIndex =>
                     {
-                        var sitePinInfo = sessionInfo.AssociatedSitePinList[channelIndex];
-                        if (sitePinInfo.SkipOperations)
-                        {
-                            return; // Skip channels that are marked to skip operations.
-                        }
+                        var sitePinInfo = listOfChannelsToMeasure[channelIndex];
                         var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
 
                         switch (dcOutput.Measurement.MeasureWhen)
