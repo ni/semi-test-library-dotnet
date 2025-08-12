@@ -493,7 +493,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower("VCC");
-            var expectedPhrases = new string[] { "An error occurred while processing", "Function or method not supported." };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "Function or method not supported." };
 
             sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
             sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1);
