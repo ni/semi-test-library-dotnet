@@ -432,6 +432,42 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void DifferentSMUDevicesWithSharedAndNonSharedChannelsAcrossPins_SavePerSitePerPinTDROffsetsToAndFromFile_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new PinSiteData<Ivi.Driver.PrecisionTimeSpan>(new Dictionary<string, IDictionary<int, Ivi.Driver.PrecisionTimeSpan>>()
+            {
+                ["C0"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8),
+                    [2] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.4e-8),
+                },
+                ["C1"] = new Dictionary<int, Ivi.Driver.PrecisionTimeSpan>()
+                {
+                    [0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8),
+                    [1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8),
+                    [2] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.9e-8),
+                }
+            });
+            var fileName = Path.GetTempFileName();
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            PreciseWait(timeInSeconds: 0.1);
+            var offsetsFromFile = sessionsBundle.LoadTDROffsetsFromFile(fileName);
+
+            Assert.Equal(offsets.GetValue(0, "C0"), offsetsFromFile.GetValue(0, "C0"));
+            Assert.Equal(offsets.GetValue(0, "C1"), offsetsFromFile.GetValue(0, "C1"));
+            Assert.Equal(offsets.GetValue(1, "C0"), offsetsFromFile.GetValue(1, "C0"));
+            Assert.Equal(offsets.GetValue(1, "C1"), offsetsFromFile.GetValue(1, "C1"));
+            Assert.Equal(offsets.GetValue(2, "C0"), offsetsFromFile.GetValue(2, "C0"));
+            Assert.Equal(offsets.GetValue(2, "C1"), offsetsFromFile.GetValue(2, "C1"));
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_SavePerSitePerPinTDROffsetsToAndFromFile_OverwritesExistingFile()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");

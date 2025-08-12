@@ -553,12 +553,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (!offsetsFromFile.ContainsKey(sitePinInfo.SitePinString))
                 {
                     missingChannels.Add($"{sitePinInfo.SitePinString}");
-                    break;
+                    continue;
                 }
                 if (offsetsDict.TryGetValue(sitePinInfo.PinName, out var perSitePinValues))
                 {
                     perSitePinValues.Add(sitePinInfo.SiteNumber, offsetsFromFile[sitePinInfo.SitePinString]);
-                    break;
+                    continue;
                 }
                 offsetsDict.Add(sitePinInfo.PinName, new Dictionary<int, IviDriverPrecisionTimeSpan>());
                 offsetsDict[sitePinInfo.PinName].Add(sitePinInfo.SiteNumber, offsetsFromFile[sitePinInfo.SitePinString]);
