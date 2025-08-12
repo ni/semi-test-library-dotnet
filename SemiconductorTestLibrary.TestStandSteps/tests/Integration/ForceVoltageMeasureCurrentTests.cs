@@ -40,7 +40,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact(Skip = "Manual Test")]
-        public void InitializeMultiSiteSharedPin_MeasureCurrent_SameDataPresentInAllSites()
+        public void InitializeMultiSiteSharedPin_RunForceVoltageMeasureCurrentWithPositiveTest_CorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("SharedPinTests_MultiSite.pinmap", out var publishedDataReader);
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
