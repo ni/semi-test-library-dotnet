@@ -58,7 +58,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - **TestStandSteps**
     - Updated test code to validate publish data for each pin. Validation ensures, for each site, published data is available for each expected pin with specific `PublishedDataId`.
   - **Documentation & Examples**
-    - Updated NuGet package documentation with information on to verify the integrity of a NuGet package.
+    - Updated NuGet package documentation with information on how to verify the integrity of a NuGet package.
 
 ## 25.0.0 - 2025-04-11
 
