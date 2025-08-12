@@ -695,6 +695,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [InlineData("VCC1")]
+        [InlineData("VCC2")]
+        [InlineData("VDET")]
+        public void AllChannelsMeasureOnDemand_ForceCurrentMeasureVoltage_AllChannelsMeasuredInSharedPinConfiguration(string pinName)
+        {
+            var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+
+            sessionsBundle.ForceCurrent(currentLevel: 0.05, waitForSourceCompletion: true);
+            var results = sessionsBundle.MeasureVoltage();
+
+            AssertAllChannelsHaveResult(results);
+        }
+
+        [Theory]
         [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
