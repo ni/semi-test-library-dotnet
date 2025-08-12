@@ -539,22 +539,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
-            IList<string> onDemandChannelStrings = listOfChannelsToMeasure
-                .Where(pin => session.Outputs[pin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
-                .Select(pin => pin.IndividualChannelString)
+            var onDemandChannels = listOfChannelsToMeasure
+                .Select((sitePin, index) => new { sitePin, index })
+                .Where(x => session.Outputs[x.sitePin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
                 .ToList();
+            IList<string> onDemandChannelStrings = onDemandChannels.Select(x => x.sitePin.IndividualChannelString).ToList();
+            IList<int> onDemandChannelIndexes = onDemandChannels.Select(x => x.index).ToList();
 
             InvokeInParallel(
                 () =>
                 {
-                    if (onDemandChannelStrings.Any())
+                    if (onDemandChannelIndexes.Any())
                     {
                         // Measure all channels that are configured to measure on demand as a single driver call to optimize test time.
                         var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
-                        lock (lockObject)
+                        for (int i = 0; i < onDemandChannelIndexes.Count; i++)
                         {
-                            voltageMeasurements = measureResult.VoltageMeasurements;
-                            currentMeasurements = measureResult.CurrentMeasurements;
+                            int index = onDemandChannelIndexes[i];
+                            lock (lockObject)
+                            {
+                                voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
+                                currentMeasurements[index] = measureResult.CurrentMeasurements[i];
+                            }
                         }
                     }
                 },
