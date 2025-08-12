@@ -39,6 +39,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - New `CloneSitePinInfo` method added that creates a shallow copy of the current `SitePinInfo` instance and returns it as a new object.
     - New property `SkipOperations` added that returns `true` if operations should be skipped for the current site-pin pair, based on shared or cascading channel context.
 
+  - **TestStandSteps**
+    - Added 3 new basic functional tests with `PublishedDataId` validation.
+      - `AcquireAnalogInputWaveformsTests.cs`
+      - `BurstPatternTests.cs`
+      - `ForceVoltageMeasureCurrentTests.cs`
+
   - **NuGet Package**
 
 - ### Changed
@@ -46,9 +52,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - **Data Abstraction**
 
   - **Instrument Abstraction**
+    - Updated the `MeasureVoltageAndCurrent` method to skip operations on shadow channel to support the shared pin configuration.
+    - Fix for not able to get the `DAQmxTaskBundle` for a running AO task.
+    - Fix for `DCPowerSessionsBundle` ``ClearTriggers Extension method generating exception on PXIe-4147.
 
   - **TestStandSteps**
-
+    - Updated test code to validate publish data for each pin. Validation ensures, for each site, published data is available for each expected pin with specific `PublishedDataId`.
   - **Documentation & Examples**
 
 ## 25.0.0 - 2025-04-11
