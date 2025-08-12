@@ -48,9 +48,9 @@ The example demonstrates several features of TSM and STL in the context of a tes
 > It uses the older step prototypes for the following TestStand steps, which changed between 24.5 and 25.0 (refer to documented changes in release notes):
 >
 > - Setup NI Digital Instrumentation
-    - SetupAndCleanupSteps.SetupNIDigitalPatternInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, Boolean, System.String, System.String)
+    - `SetupAndCleanupSteps.SetupNIDigitalPatternInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, Boolean, System.String, System.String)`
 > - Cleanup Instrumentation
->   - SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, Boolean, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)
+>   - `SetupAndCleanupSteps.CleanupInstrumentation(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext, Boolean, NationalInstruments.SemiconductorTestLibrary.TestStandSteps.NIInstrumentType)`
 >
 > The "Accelerometer.STSSoftware24.5.seq" file can be opened on a system with 25.0, but it will appear broken and cannot run without modifications.
 > Similarly, "Accelerometer.seq" file can be open on a system with 24.0, but it will appear broken and cannot run without modifications.
