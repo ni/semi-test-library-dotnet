@@ -539,9 +539,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
-            IList<string> onDemandChannelStrings = new List<string>();
-
-            onDemandChannelStrings = listOfChannelsToMeasure
+            IList<string> onDemandChannelStrings = listOfChannelsToMeasure
                 .Where(pin => session.Outputs[pin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
                 .Select(pin => pin.IndividualChannelString)
                 .ToList();

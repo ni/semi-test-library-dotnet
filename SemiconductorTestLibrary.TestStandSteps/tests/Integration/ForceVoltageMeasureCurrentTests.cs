@@ -42,39 +42,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         [Fact(Skip = "Manual Test")]
         public void InitializeMultiSiteSharedPin_MeasureCurrent_SameDataPresentInAllSites()
         {
-            var tsmContext = CreateTSMContext("SharedPinTests_MultiSite.pinmap");
+            var tsmContext = CreateTSMContext("SharedPinTests_MultiSite.pinmap", out var publishedDataReader);
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
-            var sessionmanager = new TSMSessionManager(tsmContext);
-            DCPowerSessionsBundle dcPowerSessionsBundle = sessionmanager.DCPower("VCC1");
 
-            dcPowerSessionsBundle.ConfigureSourceDelay(250e-6);
-            dcPowerSessionsBundle.ForceVoltage(3.8, 3.2e-2, waitForSourceCompletion: true);
-            var results = dcPowerSessionsBundle.MeasureCurrent();
+            ForceVoltageMeasureCurrent(
+                tsmContext,
+                pinsOrPinGroups: new[] { "VCC1" },
+                voltageLevel: 3.8,
+                currentLimit: 3.2e-2,
+                apertureTime: 5e-5);
 
-            Assert.Equal(results.GetValue(0, "VCC1"), results.GetValue(1, "VCC1"));
-            Assert.Equal(results.GetValue(0, "VCC1"), results.GetValue(2, "VCC1"));
-            Assert.Equal(results.GetValue(0, "VCC1"), results.GetValue(3, "VCC1"));
-            CleanupInstrumentation(tsmContext);
-        }
-
-        [Fact(Skip = "Manual Test")]
-        public void InitializeMultiSiteSharedPin_MeasureCurrent_CorrectDataPresentInEachSites()
-        {
-            var tsmContext = CreateTSMContext("SharedPinTests_MultiSite.pinmap");
-            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
-            var sessionmanager = new TSMSessionManager(tsmContext);
-            DCPowerSessionsBundle dcPowerSessionsBundle1 = sessionmanager.DCPower("VCC1").FilterBySite(0);
-            DCPowerSessionsBundle dcPowerSessionsBundle2 = sessionmanager.DCPower("VCC1").FilterBySite(2);
-            DCPowerSessionsBundle dcPowerSessionsBundle3 = sessionmanager.DCPower("VCC1");
-
-            dcPowerSessionsBundle1.ConfigureSourceDelay(350e-6);
-            dcPowerSessionsBundle1.ForceVoltage(1.8, 3.2e-2, waitForSourceCompletion: true);
-            dcPowerSessionsBundle2.ConfigureSourceDelay(250e-6);
-            dcPowerSessionsBundle2.ForceVoltage(4.8, 2.2e-2, waitForSourceCompletion: true);
-            var results = dcPowerSessionsBundle3.MeasureCurrent();
-
-            Assert.Equal(results.GetValue(0, "VCC1"), results.GetValue(1, "VCC1"));
-            Assert.Equal(results.GetValue(2, "VCC1"), results.GetValue(3, "VCC1"));
+            var publishedData = publishedDataReader.GetAndClearPublishedData();
+            string[] pinList = new string[] { "VCC1" };
+            AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, pinList, publishedData);
+            // Limits are set based on the expected value returned by the driver when in Offline Mode.
+            AssertPublishedDataValueInRange(publishedData, -0.001, 0.001);
+            AssertPublishedDataId("Current", publishedData);
             CleanupInstrumentation(tsmContext);
         }
     }
