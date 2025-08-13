@@ -25,6 +25,8 @@
         href: MathOperations/MathOperationsWithPinSiteData.md
       - name: Exception Conditions for Math Operations
         href: MathOperations/ExceptionConditionsForMathOperations.md
+- name: Exception Handling
+  href: ExceptionHandling.md
 - name: Configuring Instrument Sessions
   href: ConfiguringInstrumentSessions.md
 - name: Publishing Results
