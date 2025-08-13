@@ -1,7 +1,7 @@
 
 # Changelog
 
-- [25.5.0 - TBD](#2550---TBD)
+- [25.5.0 - 2025-09-26](#2550---2025-09-26)
 - [25.0.0 - 2025-04-11](#2500---2025-04-11)
 - [24.5.1 - 2024-10-31](#2451---2024-10-31)
 - [24.5.0 - 2024-08-16](#2450---2024-08-16)
@@ -10,7 +10,7 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## 25.5.0 - TBD
+## 25.5.0 - 2025-09-26
 
 - ### Added
 
@@ -25,7 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `MergePinGroup(string[] mergedChannelsPinGroupNames)`
       - `UnmergePinGroup(string mergedChannelsPinGroupName)`
       - `UnmergePinGroup(string[] mergedChannelsPinGroupNames)`
-    - New interfaces and classes added to support Custom Instruments defined the Pin Map, 
+    - New interfaces and classes added to support Custom Instruments defined the Pin Map,
     including extension methods in `TSMSessionManager` to create a new `CustomInstrumentSessionsBundle` object for Custom Instruments.
     Refer to the updated documentation for details.
       - `ICustomInstrument`
@@ -36,7 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - New support added for Shared Pins defined in the pin map.
       - Any pins mapping the same instrument channel to multiple sites are now handled by the instrument abstractions.
   - **Common**
-    - Improved Error Handling: site-pin context now provided when a `NISemiconductorTestException` is thrown.
+    - Exception message improvements: site-pin context now provided when a `NISemiconductorTestException` is thrown.
       - New class `ExceptionCollector` added that collects multiple exceptions during driver operations and throws them as a single `NISemiconductorTestException`, preserving site-pin context.
       - Updated the `ParallelExecution` class, instrument abstractions classes, and data abstractions classes to make use of the new `ExceptionCollector` class.
     - New `CloneSitePinInfo` method added to the `SitePinInfo` class.
@@ -46,7 +46,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - **Documentation & Examples**
     - Various additions to examples and documentation in accordance with latest changes.
       - Reorganized examples based different styles: Code Snippets, Sequence, Test Programs, etc.
-        - Preexisting examples consider Code Snippet style.
+        - Preexisting examples considered Code Snippet style.
         - Added documentation to explain the different example styles.
       - Added a Test Program style example demonstrating using STL to test a hypothetical Accelerometer DUT.
       - Added a Sequence style example and documentation for merging and unmerging of channels in pin groups.
