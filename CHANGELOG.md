@@ -15,49 +15,54 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - ### Added
 
   - **Instrument Abstraction**
-    - New `MergePinGroup` and `UnmergePinGroup` overloaded methods added for merging and unmerging channels in pin groups:
-      - `MergePinGroup(string[] mergedChannelsPinGroupNames)`  merges channels for each specified pin group. Each pin group is merged into the channel corresponding to its first pin.
-      - `MergePinGroup(string mergedChannelsPinGroupName)`  merges channels in the specified pin group into the channel corresponding to its first pin.
-      - `UnmergePinGroup(string[] mergedChannelsPinGroupNames)`  unmerges channels for each specified pin group.
-      - `UnmergePinGroup(string mergedChannelsPinGroupName)`  unmerges channels in the specified pin group.
-    - New instrument support added for Custom and third-party instruments, including overload methods in `TSMSessionManager` to create a `SessionsBundle` for CustomInstrument.
-      - Added `CustomInstrumentSessionInformation` class with `AssociatedSitePinList` and Session properties, two constructor overloads, and a `GenerateInstrumentNameToChannelSitePinDictionary` static method.
-      - Added `CustomInstrumentSessionsBundle` class with `TSMContext`, `InstrumentSessions`, and `AggregateSitePinList` properties, a constructor, and `FilterByPin` and `FilterBySite` methods (each with one overload).
-      - Added `ICustomInstrument` interface with `InstrumentName` property and `Close()` and `Reset()` methods.
-      - Added `ICustomInstrumentFactory` interface with `InstrumentTypeID` property, and `CreateInstrument()` and `ValidateCustomInstruments()` methods.
-      - Added `InitializeAndClose` class with `Initialize()`, `Close()`, and `Reset()` methods.
-    - New `GenerateInstrumentChannelToSitePinDictionary` method added that is used to generate a dictionary that takes a pinset string and returns the list of associated site-pin pair information.
+    - New `MergePinGroup` and `UnmergePinGroup` DCPower methods added for merging and unmerging channels within a pin group to output higher current.
+    Only supported with multichannel SMUs that support the NI-DCPower Merged Channels driver feature,
+    such as the [PXIe-4147](https://www.ni.com/docs/en-US/bundle/pxie-4147/page/merged-channels.html),
+    [PXIe-4162](https://www.ni.com/docs/en-US/bundle/pxie-4162/page/merged-channels.html),
+    and [PXIe-4163](https://www.ni.com/docs/en-US/bundle/pxie-4163/page/merged-channels.html) devices.
+    Refer to the updated documentation for details.
+      - `MergePinGroup(string mergedChannelsPinGroupName)`
+      - `MergePinGroup(string[] mergedChannelsPinGroupNames)`
+      - `UnmergePinGroup(string mergedChannelsPinGroupName)`
+      - `UnmergePinGroup(string[] mergedChannelsPinGroupNames)`
+    - New interfaces and classes added to support Custom Instruments defined the Pin Map, 
+    including extension methods in `TSMSessionManager` to create a new `CustomInstrumentSessionsBundle` object for Custom Instruments.
+    Refer to the updated documentation for details.
+      - `ICustomInstrument`
+      - `ICustomInstrumentFactory`
+      - `InitializeAndClose`
+      - `CustomInstrumentSessionInformation`
+      - `CustomInstrumentSessionsBundle`
+    - New support added for Shared Pins defined in the pin map.
+      - Any pins mapping the same instrument channel to multiple sites are now handled by the instrument abstractions.
   - **Common**
-    - New class `ExceptionCollector` added that collects multiple exceptions during driver operations and throws them as a single `NISemiconductorTestException`, preserving site-pin context.
-      - `Add<TSessionInformation>(Exception exception, TSessionInformation sessionInfo, string caseDescription = null)` adds an exception along with session information to provide site-pin context.
-      - `Add(Exception exception, SitePinInfo sitePinInfo, string caseDescription = null)` adds an exception associated with a specific `SitePinInfo`.
-      - `WrapAndThrowSTLException()` wraps a single exception and throws it as a `NISemiconductorTestException`, including site-pin context.
-      - `ThrowSTLException()` throws all collected exceptions as a single `NISemiconductorTestException`.
-    - New `CloneSitePinInfo` method added that creates a shallow copy of the current `SitePinInfo` instance and returns it as a new object.
-    - New property `SkipOperations` added that returns `true` if operations should be skipped for the current site-pin pair, based on shared or cascading channel context.
-  - **TestStandSteps**
-    - Added 3 new basic functional tests with `PublishedDataId` validation.
-      - `AcquireAnalogInputWaveformsTests.cs`
-      - `BurstPatternTests.cs`
-      - `ForceVoltageMeasureCurrentTests.cs`
+    - Improved Error Handling: site-pin context now provided when a `NISemiconductorTestException` is thrown.
+      - New class `ExceptionCollector` added that collects multiple exceptions during driver operations and throws them as a single `NISemiconductorTestException`, preserving site-pin context.
+      - Updated the `ParallelExecution` class, instrument abstractions classes, and data abstractions classes to make use of the new `ExceptionCollector` class.
+    - New `CloneSitePinInfo` method added to the `SitePinInfo` class.
+      - Creates a shallow copy of the current `SitePinInfo` instance and returns it as a new object.
+    - New `SkipOperations` property added to the `SitePinInfo` class.
+      - Returns `true` if operations should be skipped for the current site-pin pair, based on shared or cascading channel context.
   - **Documentation & Examples**
     - Various additions to examples and documentation in accordance with latest changes.
-      - Added examples and documentation for merging and unmerging of channels in pin groups.
-      - Added examples and documentation for Custom and third-party instrument support.
+      - Reorganized examples based different styles: Code Snippets, Sequence, Test Programs, etc.
+        - Preexisting examples consider Code Snippet style.
+        - Added documentation to explain the different example styles.
+      - Added a Test Program style example demonstrating using STL to test a hypothetical Accelerometer DUT.
+      - Added a Sequence style example and documentation for merging and unmerging of channels in pin groups.
+      - Added a Sequence style example and documentation for Custom and third-party instrument support.
       - Added documentation for exception handling `NISemiconductorTestException`.
       - Added documentation for shared pin support.
       - Added documentation for best practices to write extension methods.
-      - [TODO]: Accelerometer example
 
 - ### Changed
 
   - **Instrument Abstraction**
-    - Updated the `MeasureVoltageAndCurrent` method to skip operations on shadow channel to support the shared pin configuration.
-    - Fix for not able to get the `DAQmxTaskBundle` for a running AO task.
-    - Fix for `DCPowerSessionsBundle` ``ClearTriggers Extension method generating exception on PXIe-4147.
+    - Creating a `DAQmxTaskBundle` for a running AO task no longer results in an exception being thrown.
+    - The DCPower `ClearTriggers` extension method no longer results in an exception being thrown with PXIe-4147 devices.
   - **TestStandSteps**
-    - Updated test code to validate publish data for each pin. Validation ensures, for each site, published data is available for each expected pin with specific `PublishedDataId`.
-  - **Documentation & Examples**
+    - LeakageTest now publishes the correct value when the `serialOperationEnabled` parameter is set to `true`.
+  - **Documentation**
     - Updated NuGet package documentation with information on how to verify the integrity of a NuGet package.
 
 ## 25.0.0 - 2025-04-11
