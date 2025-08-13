@@ -59,7 +59,7 @@ The example demonstrates several features of TSM and STL in the context of a tes
 
 Complete the steps in the following sections to learn about the test program components. You can also run this example in offline mode to see it in action.
 
-1. Select **Semiconductor Module » Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the Accelerometer pin map file in the Pin Map Editor.
+1. Select **Semiconductor Module -> Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the Accelerometer pin map file in the Pin Map Editor.
 The pin map file defines the following information:
    - Two NI-Digital Pattern instruments named `HSD_6570_C1_S02` and `HSD_6570_C1_S04`. Both instruments belong to the same group so that code modules can access all digital pins on the tester using a single instrument session.
    - Two NI-DCPower instruments named `SMU_4143_C1_S06` and `SMU_4143_C1_S07`.
@@ -76,13 +76,13 @@ The pin map file defines the following information:
    - Site relay connections that specify to which control line of a relay driver module the `NOISE_ENABLE_RELAY` relay is connected for a given site.
    - A system relay connection that specifies whether the power source connected to the `POWER_RELAY` relay is enabled.
 2. Complete the following steps to review the Test Program Configurations that this test program uses.
-   1. Select **Semiconductor Module » Edit Test Program: Accelerometer.seq** or click the **Edit Test Program: Accelerometer.seq** button on the TSM toolbar.
+   1. Select **Semiconductor Module -> Edit Test Program: Accelerometer.seq** or click the **Edit Test Program: Accelerometer.seq** button on the TSM toolbar.
    2. Select the Configuration Definition panel.
    3. This test program specifies two test conditions that each test program configuration must define:
-       - `TestFlowId`—Defines an identifying name for the test flow.
-       - `TestTemperature`—Defines the temperature at which to perform the tests.
+       - `TestFlowId` - Defines an identifying name for the test flow.
+       - `TestTemperature` - Defines the temperature at which to perform the tests.
    4. Select each of the individual Configuration panels to review the values each test program configuration gives to the specified test conditions.
-3. Use the TestStand Sequence Editor to review the bin definitions file associated with the test program. Select **Semiconductor Module » Edit Bin Definitions File** or click the **Edit Bin Definitions File** button on the TSM toolbar.
+3. Use the TestStand Sequence Editor to review the bin definitions file associated with the test program. Select **Semiconductor Module -> Edit Bin Definitions File** or click the **Edit Bin Definitions File** button on the TSM toolbar.
    - The bin definitions file defines software bins that the test program uses and the hardware bins associated with the software bins.
 4. Complete the following steps to review the `MainSequence`, `ProcessSetup`, and `ProcessCleanup` sequences that this test program uses.
    1. On the `Sequences` pane, select the MainSequence sequence and review the objectives each step performs and optionally review the LabVIEW code associated with each step:
@@ -99,14 +99,14 @@ The pin map file defines the following information:
       - In the Cleanup section, the test program turns off all instrument output to the DUT in preparation for physical binning by the handler.
    2. On the `Sequences` pane, select the `ProcessSetup` sequence. TestStand calls this sequence once before starting testing. The steps in this sequence initialize the instruments and store the instrument sessions in the SemiconductorModuleContext. There are other steps in this sequence to configure a temperature controller, and to toggle the power source.
    3. On the `Sequences` pane, select the `ProcessCleanup` sequence. TestStand calls this sequence once after testing completes. The steps in this sequence close and reset the instruments.
-5. Select **Semiconductor Module » Launch Digital Pattern Editor** or click the **Launch Digital Pattern Editor** button on the TSM toolbar to open the Digital Pattern Editor. Open the `<TestStand Public>\Examples\NI_SemiconductorModule\Accelerometer\DotNET\Accelerometer.digiproj` digital pattern project file in the Digital Pattern Editor. Use the Digital Pattern Editor to review the following files the Accelerometer test program uses:
-   - `Accelerometer.specs` — Defines a set of variables and associated numeric values that you can reference in pin levels, time sets, other specifications files, and Shmoo operations.
-   - `Accelerometer.digitiming` — Defines configuration components of the time sets, including the format and edge placement that shape the digital waveform on a per-pin basis.
-   - `Accelerometer.digilevels` — Defines voltage levels for digital pins and pin groups connected to a Digital Pattern Instrument and for pins and pin groups connected to an NI-DCPower instrument.
-   - `SPI - Read Part Number.digipat` — Pattern that reads the part number register from the DUT.
-   - `SPI - Set Test Mode.digipat` — Pattern that sets the test mode by setting a register on the DUT.
-   - `SPI - Set Vref Value.digipat` — Pattern that sets the Vref register on the DUT using a source waveform and reads it back using a capture waveform.
-   - `Set Vref Value Waveform.tdms` — Source waveform configuration used to set the Vref register value.
-   - `Get Vref Value Waveform.digicapture` — Capture waveform configuration used to obtain the Vref register value.
+5. Select **Semiconductor Module -> Launch Digital Pattern Editor** or click the **Launch Digital Pattern Editor** button on the TSM toolbar to open the Digital Pattern Editor. Open the `<TestStand Public>\Examples\NI_SemiconductorModule\Accelerometer\DotNET\Accelerometer.digiproj` digital pattern project file in the Digital Pattern Editor. Use the Digital Pattern Editor to review the following files the Accelerometer test program uses:
+   - `Accelerometer.specs` - Defines a set of variables and associated numeric values that you can reference in pin levels, time sets, other specifications files, and Shmoo operations.
+   - `Accelerometer.digitiming` - Defines configuration components of the time sets, including the format and edge placement that shape the digital waveform on a per-pin basis.
+   - `Accelerometer.digilevels` - Defines voltage levels for digital pins and pin groups connected to a Digital Pattern Instrument and for pins and pin groups connected to an NI-DCPower instrument.
+   - `SPI - Read Part Number.digipat` - Pattern that reads the part number register from the DUT.
+   - `SPI - Set Test Mode.digipat` - Pattern that sets the test mode by setting a register on the DUT.
+   - `SPI - Set Vref Value.digipat` - Pattern that sets the Vref register on the DUT using a source waveform and reads it back using a capture waveform.
+   - `Set Vref Value Waveform.tdms` - Source waveform configuration used to set the Vref register value.
+   - `Get Vref Value Waveform.digicapture` - Capture waveform configuration used to obtain the Vref register value.
 6. Use a text editor or spreadsheet software to open and review the `<TestStand Public>\Examples\NI_SemiconductorModule\Accelerometer\DotNET\Limits\Production Limits.txt` file, which is the tests limits file for the Production configuration of this test program. The test limits file is loaded at run time based on the current test configuration. This file specifies the values to use to evaluate whether a measurement passes or fails. The test program stores the limits loaded from the file with the results.
 7. You must meet all the [Prerequisites](#prerequisites) to run the test program. To run the test program, click the **Start/Resume Lot** button on the TSM toolbar.
