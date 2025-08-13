@@ -44,8 +44,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - Returns `true` if operations should be skipped for the current site-pin pair, based on shared or cascading channel context.
   - **Documentation & Examples**
     - Various additions to examples and documentation in accordance with latest changes.
-      - Reorganized examples based different styles: Code Snippets, Sequence, Test Programs, etc.
-        - Preexisting examples considered Code Snippet style.
+      - Reorganized examples into the following categories: Code Snippets, Sequence, Test Programs.
+        - Examples from previous versions are categorized as code snippets beginning with this release.
         - Added documentation to explain the different example styles.
       - Added a Test Program style example demonstrating using STL to test a hypothetical Accelerometer DUT.
       - Added a Sequence style example and documentation for merging and unmerging of channels in pin groups.
