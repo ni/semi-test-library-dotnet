@@ -8,8 +8,9 @@ The Semiconductor Test Library supports the core set of modular instruments comm
 | :--------------------------------------   | :-------- | :----------- | :------------------- |
 | NI Source Measurement Unit (SMU)          | niDCPower | :heavy_check_mark: | :heavy_check_mark: |
 | NI Programmable Power Supply (PPS)        | niDCPower | :heavy_check_mark: | :heavy_check_mark: |
-| NI Multifunction I/O (DAQ) \*             | niDAQmx   | :warning: | :warning:   |
+| NI Multifunction I/O (DAQ) \*             | niDAQmx   | :warning: | :warning: |
 | NI Sound and Vibration Module (DSA) \* \* | niDAQmx   | :warning: | :warning: |
+| NI Analog Input Module (DAQ) \* \* \*     | niDAQmx   | :warning: | :warning: |
 | NI Digital Pattern Instrument (DPI/HSD)   | niDigital | :heavy_check_mark: | :heavy_check_mark: |
 | NI Digital Multimeter (DMM)               | niDmm     | :heavy_check_mark: | :heavy_check_mark: |
 | NI Relay Module (RELAY)                   | niSwitch  | :heavy_check_mark: | :heavy_check_mark: |
@@ -31,6 +32,10 @@ The Semiconductor Test Library supports the core set of modular instruments comm
 > \* \* \
 > Supported Devices: PXIe-4467/8 \
 > Supported Functionality: Analog Input, Analog Output, Analog Output: Function Generation
+>
+> \* \* \* \
+> Supported Devices: PXIe-4309/10 \
+> Supported Functionality: Analog Input
 
 > [!TIP]
 > When Extensions are not supported by an instrument type, but Abstractions support is provided, you can refer to the [Making Low-Level Driver Calls](advanced/MakingLowLevelDriverCalls.md) topic to learn how to interact with the low-level driver APIs at the Abstractions layer.
