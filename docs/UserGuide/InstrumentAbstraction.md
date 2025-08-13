@@ -150,11 +150,13 @@ public static PinSiteData<double> GetSampleClockRate(this DAQmxTasksBundle tasks
 }
 ```
 
-> Note: When working with Shared Pins configuration in Digital module, it is recommended to use the following specific overloads for Loading and Saving TDR Offsets in file.
-```cs
-PinSiteData<IviDriverPrecisionTimeSpan> LoadTDROffsetsFromFile(string filePath, bool throwOnMissingChannels = true)
-void SaveTDROffsetsToFile(PinSiteData<IviDriverPrecisionTimeSpan> offsets, string filePath)
-```
+>[!NOTE]
+> When working with Shared Pins configuration in Digital module, it is recommended to use the following specific overloads for Loading and Saving TDR Offsets in file.
+>
+> ```cs
+> PinSiteData<IviDriverPrecisionTimeSpan> LoadTDROffsetsFromFile(string filePath, bool throwOnMissingChannels = true)
+> void SaveTDROffsetsToFile(PinSiteData<IviDriverPrecisionTimeSpan> offsets, string filePath)
+> ```
 
 **Related information**:
 - [Shared Pins](https://www.ni.com/docs/en-US/bundle/pxie-6570/page/shared-pins.html)
