@@ -4505,14 +4505,27 @@
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.ExceptionCollector_MessageWithCaseDescription">
-            <summary>
-              Looks up a localized string similar to An error occurred while processing {0} in the case of {1}: .
-            </summary>
+             <summary>
+               Looks up a localized string similar to 
+            An exception occurred while processing pins/sites:
+            {0}
+            
+            Specifically within:
+            {1}
+            
+            More Details:
+                .
+             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.ExceptionCollector_MessageWithoutCaseDescription">
-            <summary>
-              Looks up a localized string similar to An error occurred while processing {0}:.
-            </summary>
+             <summary>
+               Looks up a localized string similar to 
+            An exception occurred while processing pins/sites:
+            {0}
+            
+            More Details:
+                .
+             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_ArrayDimensionMismatch">
             <summary>

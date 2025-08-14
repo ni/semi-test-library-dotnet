@@ -42,7 +42,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
             var tasksBundle = sessionManager.DAQmx("VDD");
-            var expectedPhrases = new string[] { "An error occurred while processing", "Specified property is not supported by the device or is not applicable to the task." };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "Specified property is not supported by the device or is not applicable to the task." };
 
             var exception = Assert.Throws<NISemiconductorTestException>(() => GenerateSineWave(tasksBundle));
             foreach (var expectedPhrase in expectedPhrases)
