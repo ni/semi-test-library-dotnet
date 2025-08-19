@@ -131,11 +131,16 @@ sdo.WriteStatic(PinState._1);
 
 ## Shared Pins
 
-The Semiconductor Test Library supports shared pins, where same pin of different DUTs at multiple sites are connected to the same instrument channel. The library maintains the mapping in such a way that, each instrument channel is mapped to all its associated site-pin pairs. The first site mapped to the channel is considered to be the primary site, while the rest are treated as secondary sites.
+The Semiconductor Test Library supports shared pins, where the same DUT pin is mapped to the same instrument channel across multiple sites. 
 
-Any operation performed on a shared pin is applied only to the primary site whereas, secondary sites are skipped to avoid redundant operation. When a value is read back from the driver, only the primary site is operated upon for instrument communication to read the value and the value that is read back is applied to all the secondary sites. This behavior of skipping operations on secondary sites is built into the methods in `ParallelExecution` class that involve site-pin information. `SitePinInfo` contains a public property called `SkipOperations`, which indicates whether an operation should be executed or skipped for a particular site. If the site is primary or non-shared, the property is set to `false`, if the site is secondary, it is set to `true`. 
+> [!NOTE]
+> Shared Pin is only supported when using the v25.5 or later release of the library.
 
-The following code module explains how the `SkipOperations` can be used to ignore the operations on the secondary site,
+The library abstracts this by ensuring the same instrument channel is correctly associated with each of the unique site-pin pairs. This is done by considering the first site mapped to the instrument channel as the primary site, while the rest are treated as secondary sites. Only the primary site is responsible for executing low-level driver methods. Whereas, secondary sites are skipped to avoid redundant operations. For example, when a read operation is performed, only the primary site is operated on to invoke the low-level instrument driver call necessary to perform the read operation. The value that is read back is then applied to all the secondary sites as well as the primary site. 
+
+This behavior of skipping operations on secondary sites is built into the `ParallelExecution` class methods utilizing site-pin information. The `SitePinInfo` class includes a public property called `SkipOperations`, which identifies whether an operation should be executed or skipped for a particular site. When a new bundle object is created it will identity whether the contained pins are shared or not by setting this property. If the site is primary or non-shared, the property is set to `false`, if the site is secondary, it is set to `true`. 
+
+In certain cases, you may need to handle how and when to appropriately perform an operation on the instrument channel within an extension method. This can be done by leveraging the `SkipOperations` property mentioned above. The following code module illustrates how `SkipOperations` can be used to ignore the operations on the secondary site, within an extension method.
 
 ```cs
 public static PinSiteData<double> GetSampleClockRate(this DAQmxTasksBundle tasksBundle)
@@ -151,12 +156,15 @@ public static PinSiteData<double> GetSampleClockRate(this DAQmxTasksBundle tasks
 ```
 
 >[!NOTE]
-> When working with Shared Pins configuration in Digital module, it is recommended to use the following specific overloads for Loading and Saving TDR Offsets in file.
+> If your test program have one or more Shared Pins mapped to a Digital Pattern Instrument in the pin map, it is recommended to use the following overloads for the corresponding TDR-related Digital Extension methods,
 >
 > ```cs
+> PinSiteData<IviDriverPrecisionTimeSpan> MeasureTDROffsets(bool apply = false)
+> void ApplyTDROffsets(PinSiteData<IviDriverPrecisionTimeSpan> offsets)
 > PinSiteData<IviDriverPrecisionTimeSpan> LoadTDROffsetsFromFile(string filePath, bool throwOnMissingChannels = true)
 > void SaveTDROffsetsToFile(PinSiteData<IviDriverPrecisionTimeSpan> offsets, string filePath)
 > ```
 
 **Related information**:
-- [Shared Pins](https://www.ni.com/docs/en-US/bundle/pxie-6570/page/shared-pins.html)
+- [NI PXIe-6570 User Manual: Operating Guidelines: Shared Pins](https://www.ni.com/docs/en-US/bundle/pxie-6570/page/shared-pins.html)
+- [NI PXIe-6571 User Manual: Operating Guidelines: Shared Pins](https://www.ni.com/docs/en-US/bundle/pxie-6571/page/shared-pins.html)
