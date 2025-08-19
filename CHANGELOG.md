@@ -1,6 +1,6 @@
-
 # Changelog
 
+- [25.5.0 - 2025-09-30](#2550---2025-09-30)
 - [25.0.0 - 2025-04-11](#2500---2025-04-11)
 - [24.5.1 - 2024-10-31](#2451---2024-10-31)
 - [24.5.0 - 2024-08-16](#2450---2024-08-16)
@@ -8,6 +8,61 @@
 All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## 25.5.0 - 2025-09-30
+
+- ### Added
+
+  - **Instrument Abstraction**
+    - New `MergePinGroup` and `UnmergePinGroup` DCPower methods added for merging and unmerging channels within a pin group to output higher current.
+    Only supported with multichannel SMUs that support the NI-DCPower Merged Channels driver feature,
+    such as the [PXIe-4147](https://www.ni.com/docs/en-US/bundle/pxie-4147/page/merged-channels.html),
+    [PXIe-4162](https://www.ni.com/docs/en-US/bundle/pxie-4162/page/merged-channels.html),
+    and [PXIe-4163](https://www.ni.com/docs/en-US/bundle/pxie-4163/page/merged-channels.html) devices.
+    Refer to the updated documentation for details.
+      - `MergePinGroup(string mergedChannelsPinGroupName)`
+      - `MergePinGroup(string[] mergedChannelsPinGroupNames)`
+      - `UnmergePinGroup(string mergedChannelsPinGroupName)`
+      - `UnmergePinGroup(string[] mergedChannelsPinGroupNames)`
+    - New interfaces and classes added to support Custom Instruments defined the Pin Map,
+    including extension methods in `TSMSessionManager` to create a new `CustomInstrumentSessionsBundle` object for Custom Instruments.
+    Refer to the updated documentation for details.
+      - `ICustomInstrument`
+      - `ICustomInstrumentFactory`
+      - `InitializeAndClose`
+      - `CustomInstrumentSessionInformation`
+      - `CustomInstrumentSessionsBundle`
+    - New support added for Shared Pins defined in the pin map.
+      - Any pins mapping the same instrument channel to multiple sites are now handled by the instrument abstractions.
+  - **Common**
+    - Exception message improvements: site-pin context now provided when a `NISemiconductorTestException` is thrown.
+      - New class `ExceptionCollector` added that collects multiple exceptions during driver operations and throws them as a single `NISemiconductorTestException`, preserving site-pin context.
+      - Updated the `ParallelExecution` class, instrument abstractions classes, and data abstractions classes to make use of the new `ExceptionCollector` class.
+    - New `CloneSitePinInfo` method added to the `SitePinInfo` class.
+      - Creates a shallow copy of the current `SitePinInfo` instance and returns it as a new object.
+    - New `SkipOperations` property added to the `SitePinInfo` class.
+      - Returns `true` if operations should be skipped for the current site-pin pair, based on shared or cascading channel context.
+  - **Documentation & Examples**
+    - Various additions to examples and documentation in accordance with latest changes.
+      - Reorganized examples into the following categories: Code Snippets, Sequence, Test Programs.
+        - Examples from previous versions are categorized as code snippets beginning with this release.
+        - Added documentation to explain the different example styles.
+      - Added a Test Program style example demonstrating using STL to test a hypothetical Accelerometer DUT.
+      - Added a Sequence style example and documentation for merging and unmerging of channels in pin groups.
+      - Added a Sequence style example and documentation for Custom and third-party instrument support.
+      - Added documentation for exception handling `NISemiconductorTestException`.
+      - Added documentation for shared pin support.
+      - Added documentation for best practices to write extension methods.
+
+- ### Changed
+
+  - **Instrument Abstraction**
+    - Creating a `DAQmxTaskBundle` for a running AO task no longer results in an exception being thrown.
+    - The DCPower `ClearTriggers` extension method no longer results in an exception being thrown with PXIe-4147 devices.
+  - **TestStandSteps**
+    - LeakageTest now publishes the correct value when the `serialOperationEnabled` parameter is set to `true`.
+  - **Documentation**
+    - Updated NuGet package documentation with information on how to verify the integrity of a NuGet package.
 
 ## 25.0.0 - 2025-04-11
 

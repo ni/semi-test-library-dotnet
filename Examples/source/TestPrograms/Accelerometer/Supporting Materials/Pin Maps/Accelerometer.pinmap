@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDigitalPatternInstrument name="HSD_6570_C1_S02" numberOfChannels="32" group="Digital" />
+		<NIDigitalPatternInstrument name="HSD_6570_C1_S04" numberOfChannels="32" group="Digital" />
+		<NIDCPowerInstrument name="SMU_4143_C1_S06" numberOfChannels="4">
+			<ChannelGroup name="CommonDCPowerChannelGroup" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4143_C1_S07" numberOfChannels="4">
+			<ChannelGroup name="CommonDCPowerChannelGroup" />
+		</NIDCPowerInstrument>
+		<NIScopeInstrument name="SCOPE_5105_C1_S08" numberOfChannels="8" />
+		<NIRelayDriverModule name="RELAY_2567_C1_S09" numberOfControlLines="64" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="Vcc" />
+		<DUTPin name="Gnd" />
+		<DUTPin name="SCLK" />
+		<DUTPin name="MOSI" />
+		<DUTPin name="MISO" />
+		<DUTPin name="CS" />
+		<DUTPin name="RST" />
+		<DUTPin name="MODE" />
+		<DUTPin name="Vref_DIO" />
+		<DUTPin name="Vref_OScope" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="SPI_Port">
+			<PinReference pin="SCLK" />
+			<PinReference pin="MOSI" />
+			<PinReference pin="MISO" />
+			<PinReference pin="CS" />
+		</PinGroup>
+		<PinGroup name="Digital">
+			<PinReference pin="RST" />
+			<PinReference pin="MODE" />
+			<PinReference pin="Vref_DIO" />
+			<PinReference pin="SPI_Port" />
+		</PinGroup>
+		<PinGroup name="AllDUTPins">
+			<PinReference pin="Vcc" />
+			<PinReference pin="Gnd" />
+			<PinReference pin="Digital" />
+			<PinReference pin="Vref_OScope" />
+		</PinGroup>
+	</PinGroups>
+	<Relays>
+		<SiteRelay name="SCOPE_ENABLE_RELAY" openStateDisplayLabel="digital" closedStateDisplayLabel="scope" />
+		<SiteRelay name="NOISE_ENABLE_RELAY" openStateDisplayLabel="source/digital" closedStateDisplayLabel="noise" />
+		<SystemRelay name="POWER_RELAY" openStateDisplayLabel="48v - power off" closedStateDisplayLabel="48v - power on" />
+	</Relays>
+	<RelayConfigurations>
+		<RelayConfiguration name="Connect VRef to DIO">
+			<RelayPosition relay="SCOPE_ENABLE_RELAY" position="Open" />
+			<RelayPosition relay="NOISE_ENABLE_RELAY" position="Open" />
+		</RelayConfiguration>
+		<RelayConfiguration name="Connect VRef to Scope">
+			<RelayPosition relay="SCOPE_ENABLE_RELAY" position="Closed" />
+			<RelayPosition relay="NOISE_ENABLE_RELAY" position="Open" />
+		</RelayConfiguration>
+		<RelayConfiguration name="Noise Test">
+			<RelayPosition relay="NOISE_ENABLE_RELAY" position="Closed" />
+		</RelayConfiguration>
+	</RelayConfigurations>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+		<Site siteNumber="3" />
+	</Sites>
+	<Connections>
+		<Connection pin="Gnd" siteNumber="0" instrument="SMU_4143_C1_S06" channel="1" />
+		<Connection pin="MISO" siteNumber="0" instrument="HSD_6570_C1_S02" channel="4" />
+		<Connection pin="MODE" siteNumber="0" instrument="HSD_6570_C1_S02" channel="1" />
+		<Connection pin="MOSI" siteNumber="0" instrument="HSD_6570_C1_S02" channel="3" />
+		<Connection pin="RST" siteNumber="0" instrument="HSD_6570_C1_S02" channel="0" />
+		<Connection pin="SCLK" siteNumber="0" instrument="HSD_6570_C1_S02" channel="2" />
+		<Connection pin="CS" siteNumber="0" instrument="HSD_6570_C1_S02" channel="5" />
+		<Connection pin="Vcc" siteNumber="0" instrument="SMU_4143_C1_S06" channel="0" />
+		<Connection pin="Vref_DIO" siteNumber="0" instrument="HSD_6570_C1_S02" channel="6" />
+		<Connection pin="Vref_OScope" siteNumber="0" instrument="SCOPE_5105_C1_S08" channel="0" />
+		<RelayConnection relay="SCOPE_ENABLE_RELAY" siteNumber="0" relayDriverModule="RELAY_2567_C1_S09" controlLine="K1" />
+		<RelayConnection relay="NOISE_ENABLE_RELAY" siteNumber="0" relayDriverModule="RELAY_2567_C1_S09" controlLine="K5" />
+		<Connection pin="Gnd" siteNumber="1" instrument="SMU_4143_C1_S06" channel="3" />
+		<Connection pin="MISO" siteNumber="1" instrument="HSD_6570_C1_S02" channel="14" />
+		<Connection pin="MODE" siteNumber="1" instrument="HSD_6570_C1_S02" channel="11" />
+		<Connection pin="MOSI" siteNumber="1" instrument="HSD_6570_C1_S02" channel="13" />
+		<Connection pin="RST" siteNumber="1" instrument="HSD_6570_C1_S02" channel="10" />
+		<Connection pin="SCLK" siteNumber="1" instrument="HSD_6570_C1_S02" channel="12" />
+		<Connection pin="CS" siteNumber="1" instrument="HSD_6570_C1_S02" channel="15" />
+		<Connection pin="Vcc" siteNumber="1" instrument="SMU_4143_C1_S06" channel="2" />
+		<Connection pin="Vref_DIO" siteNumber="1" instrument="HSD_6570_C1_S02" channel="16" />
+		<Connection pin="Vref_OScope" siteNumber="1" instrument="SCOPE_5105_C1_S08" channel="1" />
+		<RelayConnection relay="SCOPE_ENABLE_RELAY" siteNumber="1" relayDriverModule="RELAY_2567_C1_S09" controlLine="K2" />
+		<RelayConnection relay="NOISE_ENABLE_RELAY" siteNumber="1" relayDriverModule="RELAY_2567_C1_S09" controlLine="K6" />
+		<Connection pin="Gnd" siteNumber="2" instrument="SMU_4143_C1_S07" channel="1" />
+		<Connection pin="MISO" siteNumber="2" instrument="HSD_6570_C1_S04" channel="4" />
+		<Connection pin="MODE" siteNumber="2" instrument="HSD_6570_C1_S04" channel="1" />
+		<Connection pin="MOSI" siteNumber="2" instrument="HSD_6570_C1_S04" channel="3" />
+		<Connection pin="RST" siteNumber="2" instrument="HSD_6570_C1_S04" channel="0" />
+		<Connection pin="SCLK" siteNumber="2" instrument="HSD_6570_C1_S04" channel="2" />
+		<Connection pin="CS" siteNumber="2" instrument="HSD_6570_C1_S04" channel="5" />
+		<Connection pin="Vcc" siteNumber="2" instrument="SMU_4143_C1_S07" channel="0" />
+		<Connection pin="Vref_DIO" siteNumber="2" instrument="HSD_6570_C1_S04" channel="6" />
+		<Connection pin="Vref_OScope" siteNumber="2" instrument="SCOPE_5105_C1_S08" channel="2" />
+		<RelayConnection relay="SCOPE_ENABLE_RELAY" siteNumber="2" relayDriverModule="RELAY_2567_C1_S09" controlLine="K3" />
+		<RelayConnection relay="NOISE_ENABLE_RELAY" siteNumber="2" relayDriverModule="RELAY_2567_C1_S09" controlLine="K7" />
+		<Connection pin="Gnd" siteNumber="3" instrument="SMU_4143_C1_S07" channel="3" />
+		<Connection pin="MISO" siteNumber="3" instrument="HSD_6570_C1_S04" channel="14" />
+		<Connection pin="MODE" siteNumber="3" instrument="HSD_6570_C1_S04" channel="11" />
+		<Connection pin="MOSI" siteNumber="3" instrument="HSD_6570_C1_S04" channel="13" />
+		<Connection pin="RST" siteNumber="3" instrument="HSD_6570_C1_S04" channel="10" />
+		<Connection pin="SCLK" siteNumber="3" instrument="HSD_6570_C1_S04" channel="12" />
+		<Connection pin="CS" siteNumber="3" instrument="HSD_6570_C1_S04" channel="15" />
+		<Connection pin="Vcc" siteNumber="3" instrument="SMU_4143_C1_S07" channel="2" />
+		<Connection pin="Vref_DIO" siteNumber="3" instrument="HSD_6570_C1_S04" channel="16" />
+		<Connection pin="Vref_OScope" siteNumber="3" instrument="SCOPE_5105_C1_S08" channel="3" />
+		<RelayConnection relay="SCOPE_ENABLE_RELAY" siteNumber="3" relayDriverModule="RELAY_2567_C1_S09" controlLine="K4" />
+		<RelayConnection relay="NOISE_ENABLE_RELAY" siteNumber="3" relayDriverModule="RELAY_2567_C1_S09" controlLine="K8" />
+		<SystemRelayConnection relay="POWER_RELAY" relayDriverModule="RELAY_2567_C1_S09" controlLine="K0" />
+	</Connections>
+</PinMap>
