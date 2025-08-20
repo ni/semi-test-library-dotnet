@@ -212,9 +212,36 @@ public void SessionsInitialized_BurstPatternWithoutSpecifyingPins_Succeeds()
 
 Ensure proper error handling is in place. This could include validating input parameters, checking communication status with the instrument, and providing useful error messages if the operation fails.
 
+**Example**: This [example](https://github.com/ni/semi-test-library-dotnet/blob/12282644789e1f03018b6e3e024829d405ddad1d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Utilities.cs#L18) method is used in DAQmx Digital Input and Analog Input functions to validate the task type and throw error accordingly.
+
 When invoking `Do` and `DoAndReturnXXXResults` methods, provide the `caseDescription` parameter to add meaningful context to low-level error messages, making it easier for users to understand and troubleshoot issues.
 
-**Example**: This [example](https://github.com/ni/semi-test-library-dotnet/blob/12282644789e1f03018b6e3e024829d405ddad1d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Utilities.cs#L18) method is used in DAQmx Digital Input and Analog Input functions for validating the task type and throw error accordingly.
+#### How to name a `caseDescription`
+
+- Be descriptive and concise.
+  - Use a short phrase that clearly describes the operation (such as ***PPMU Force Voltage***).
+- Use Title case.
+  - Capitalize the first letter for better readability.
+- Match the method purpose.
+  - The description should match the intent of the extension method or the operation.
+- Avoid using generic or excessively long names (keep character count low).
+
+**Example**:
+
+```cs
+digitalSessionsBundle.Do((sessionInfo, sitePinInfo) =>
+{
+    var settings = new PPMUSettings
+    {
+        OutputFunction = PpmuOutputFunction.DCVoltage,
+        VoltageLevel = voltageLevels[sitePinInfo.PinName],
+        CurrentLimitRange = currentLimitRange,
+        ApertureTime = apertureTime,
+        SettlingTime = settlingTime
+    };
+    sessionInfo.Session.Force(sitePinInfo.SitePinString, settings);
+}, "PPMU Force Voltage");
+```
 
 ### **Determining the Scope of the Method: Channel, Model and Session**
 
