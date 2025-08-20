@@ -1,6 +1,10 @@
 # Supported Instrument Types
 
-The Semiconductor Test Library supports the core set of modular instruments commonly used within the NI [Semiconductor Test System (STS)](https://www.ni.com/sts). Refer to the following table for the instrument types currently supported by the library.
+The Semiconductor Test Library supports the core set of modular instruments commonly used within the NI [Semiconductor Test System (STS)](https://www.ni.com/sts).
+
+If an instrument type is not listed in the table below, proceed with low-level instrument channel centric programming for the desired instrument type in your test code. This will involve using the [Custom Instrument Support](***TODO: Link will be given once Naga's PR is merged***) to program your own Extension and TeststandStep methods to control the desired instrument. Contact NI support if you need any assistance with this.
+
+Refer to the following table for the instrument types currently supported by the library.
 
 **Table 1:** Supported Instrument Types
 
@@ -39,5 +43,3 @@ The Semiconductor Test Library supports the core set of modular instruments comm
 
 > [!TIP]
 > When Extensions are not supported by an instrument type, but Abstractions support is provided, you can refer to the [Making Low-Level Driver Calls](advanced/MakingLowLevelDriverCalls.md) topic to learn how to interact with the low-level driver APIs at the Abstractions layer.
->
-> If an instrument type is not listed in the table above, proceed with low-level instrument channel centric programming for the desired instrument type in your test code. This will involve using the [TestStand Semiconductor Module Code Module API](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/tsm-code-module-api.html) to query instruments and pin-to-channel mappings from the pin map, in combination with the appropriate driver API to control the desired instrument. Contact NI support if you need any assistance with this.
