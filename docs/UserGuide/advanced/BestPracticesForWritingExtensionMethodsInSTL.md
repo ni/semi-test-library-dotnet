@@ -196,15 +196,6 @@ public void SessionsInitialized_WaitUntilDoneSucceeds(string pinMap, string digi
 public void SessionsInitialized_BurstPatternWithoutSpecifyingPins_Succeeds()
 ```
 
-#### **Adding Platform-Specific Traits (INTERNAL-ONLY)**
-
-Based on the platform, add Trait attribute followed by the Tester's Name.
-**Example:**
-
-```csharp
-[Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-```
-
 ## **General Considerations for All Extension Method**
 
 ### **Reusability and Modularity**
