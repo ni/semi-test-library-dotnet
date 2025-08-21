@@ -52,24 +52,66 @@ NI recommends the following best practices for managing NuGet package dependenci
 
 ## Adding NuGet Packages
 
-Adding NuGet packages to an STS project can be done via the NuGet package manager, which will add a PackageReference to the .csproj file, and expect the package to be installed on the target system. The NuGet package manager can be configured to look at various sources and configured with a NuGet.config file, such as nuget.org or the project's `Code Modules\packages` directory,
+NuGet packages can be added to an STS project via the **NuGet package manager** in Visual Studio. This action will add a `PackageReference` entry to the project’s `.csproj` file and expect the package to be installed on the target system at build time.
 
-> [!NOTE]
-> Ensure the .nupkg files for all dependent NuGet packages added to your project have been copied into the packages directory of your project's source files and source code controlled.
+Packages can now be consumed in one of the following ways:
+
+- **From NuGet.org** (recommended for internet-connected environments)
+
+  Packages are published on [NuGet.org](https://www.nuget.org/packages/NationalInstruments.SemiconductorTestLibrary) for direct consumption.
+  - Open **Visual Studio > Tools > NuGet Package Manager > Manage NuGet Packages for Solution**.
+  - Ensure `nuget.org` is listed as a package source. If not, add it in **NuGet Package Manager Settings > Package Sources**.
+  - Search for the target package (example, `NationalInstruments.SemiconductorTestLibrary`) and select **Install**.
+  - This will add a `PackageReference` in your `.csproj` and fetch the package from NuGet.org.
+
+- **From the GitHub Releases page**
+
+  Packages are also attached to the [GitHub Releases](https://github.com/ni/semi-test-library-dotnet/releases) page of the repository. You may download the `.nupkg` files manually from the latest release.
+
+- **From a local `Code Modules\packages` directory** (recommended for disconnected/offline environments)
+
+  Configure `NuGet.config` to point to your project’s `Code Modules\packages` directory. Copy all required `.nupkg` files for your project into this folder and commit them to source control.  
+
+  > [!NOTE]  
+  > Ensure the `.nupkg` files for all dependent NuGet packages are copied into the `packages` directory and source controlled, so your project can build reliably on any system.
+  >
+  > To verify the integrity of a NuGet package, use the `nuget verify --all <nupkg>` command. This checks the package against its signature and reports an error if tampering is detected: `NU3008: The package integrity check failed`.
+  >
+  > The traditional method of comparing of file checksum hashes is not an adequate means of verifying NuGet packages. The checksum of a NuGet package downloaded from NuGet.org  will differ from the package uploaded as part of a GitHub release notes or the one included in the NI Default C#/.NET template project when using the STS Project Creation Tool. This is because NuGet.org  adds an additional NuGet.org-specific signature to the package when uploaded, in additional to the ni-signature already included in the package, and thereby changing its overall checksum hash. Instead, you should use the nuget verify command as mentioned above.
 
 ## Upgrading NuGet Packages
 
 > [!WARNING]
-> Upgrading package dependencies during development can introduce unnecessary risks to your project. After a NuGet package dependency is added to your project and your project development starts, you should not upgrade the package in the development cycle unless there is a valid reason requiring an upgrade.
+> Upgrading package dependencies during development can introduce unnecessary risks. After a NuGet package dependency is added and development starts, you should not upgrade the package in the development cycle unless there is a valid reason requiring an upgrade.
 
-Use the following procedure to upgrade a dependent NuGet package that has already been distributed with an STS test program's source code in the `Code Modules\packages` directory.
+You may upgrade a NuGet package using one of the following methods, depending on your environment:  
 
-1. Download the newer version of the .nupkg file for the target NuGet package and copy it to the `Code Modules\packages` directory within the project source. The newer version will temporarily coexist with the existing version of the target NuGet package file.
-2. Open the NuGet package manager to view the Installed packages for your project. Select the target package from the Installed packages list and then select Upgrade.
-   > [!NOTE]
-   > The NuGet package manager automatically recognizes an update to the target package and provides the option to upgrade. After you select Upgrade, the NuGet package manager will update PackageReference in .csproj.
+### Upgrade from NuGet.org (Internet-connected systems)
 
-3. After you upgrade the package reference and successfully build your project against the newer version, remove the older version of the package (.nupkg) from your project's source files and commit the change to your source code control system.
+1. Open the **NuGet Package Manager**.  
+2. Select the **Updates** tab.  
+3. Choose the target package and click **Update**.  
+
+   > [!NOTE]  
+   > The NuGet Package Manager automatically detects newer versions published on NuGet.org. When you update the `.csproj`, `PackageReference` is updated accordingly.  
+
+### Upgrade from GitHub Releases
+
+1. Download the newer `.nupkg` from the GitHub Releases page.  
+2. Replace the older version in your `Code Modules\packages` folder (if maintaining offline copies).  
+3. Open the **NuGet Package Manager** and select **Update**.  
+
+### Upgrade from a local `Code Modules\packages` directory
+
+1. Download the newer `.nupkg` for the package and copy it into your project’s `Code Modules\packages` directory.
+   - The newer version will temporarily coexist with the existing version.  
+2. Open the **NuGet Package Manager**, select the package from the Installed packages list, and then select **Upgrade**.  
+
+   > [!NOTE]  
+   > After the upgrade, the package reference in `.csproj` is updated.  
+
+3. Build your project against the newer version to confirm compatibility.  
+4. Remove the older `.nupkg` file from your source and commit the change to source control.
 
 ## Using STL Dependent 3rd-Party NuGet Packages
 
