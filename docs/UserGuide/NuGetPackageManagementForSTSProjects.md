@@ -75,9 +75,9 @@ Packages can now be consumed in one of the following ways:
   > [!NOTE]  
   > Ensure the `.nupkg` files for all dependent NuGet packages are copied into the `packages` directory and source controlled, so your project can build reliably on any system.
   >
-  > To verify the integrity of a NuGet package, use the `nuget verify --all <nupkg>` command. This checks the package against its signature and reports an error if tampering is detected: `NU3008: The package integrity check failed`.
+  > To verify the integrity of a NuGet package, use the [`nuget verify --all <nupkg>`](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-nuget-verify) command. This checks the package against its signature and reports an error if tampering is detected: `NU3008: The package integrity check failed`.
   >
-  > The traditional method of comparing of file checksum hashes is not an adequate means of verifying NuGet packages. The checksum of a NuGet package downloaded from NuGet.org  will differ from the package uploaded as part of a GitHub release notes or the one included in the NI Default C#/.NET template project when using the STS Project Creation Tool. This is because NuGet.org  adds an additional NuGet.org-specific signature to the package when uploaded, in additional to the ni-signature already included in the package, and thereby changing its overall checksum hash. Instead, you should use the nuget verify command as mentioned above.
+  > The traditional method of comparing of file checksum hashes is not an adequate means of verifying NuGet packages. The checksum of a NuGet package downloaded from NuGet.org will differ from the package uploaded as part of a GitHub release notes or the one included in the NI Default C#/.NET template project when using the STS Project Creation Tool. This is because NuGet.org adds an additional NuGet.org-specific signature to the package when uploaded, in additional to the ni-signature already included in the package, and thereby changing its overall checksum hash. Instead, you should use the `nuget verify` command as mentioned above.
 
 ## Upgrading NuGet Packages
 
