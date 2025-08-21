@@ -128,3 +128,43 @@ sdo.WriteStatic(PinState._1);
 > Assembly: `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll`
 >
 > Refer to the API Reference for more details regarding the `TSMSessionManager` class.
+
+## Shared Pins
+
+The Semiconductor Test Library supports shared pins, where the same DUT pin is mapped to the same instrument channel across multiple sites. 
+
+> [!NOTE]
+> Shared Pin is only supported when using the v25.5 or later release of the library.
+
+The library abstracts this by ensuring the same instrument channel is correctly associated with each of the unique site-pin pairs. This is done by considering the first site mapped to the instrument channel as the primary site, while the rest are treated as secondary sites. Only the primary site is responsible for executing low-level driver methods. Whereas, secondary sites are skipped to avoid redundant operations. For example, when a read operation is performed, only the primary site is operated on to invoke the low-level instrument driver call necessary to perform the read operation. The value that is read back is then applied to all the secondary sites as well as the primary site. 
+
+This behavior of skipping operations on secondary sites is built into the `ParallelExecution` class methods utilizing site-pin information. The `SitePinInfo` class includes a public property called `SkipOperations`, which identifies whether an operation should be executed or skipped for a particular site. When a new bundle object is created it will identity whether the contained pins are shared or not by setting this property. If the site is primary or non-shared, the property is set to `false`, if the site is secondary, it is set to `true`. 
+
+In certain cases, you may need to handle how and when to appropriately perform an operation on the instrument channel within an extension method. This can be done by leveraging the `SkipOperations` property mentioned above. The following code module illustrates how `SkipOperations` can be used to ignore the operations on the secondary site, within an extension method.
+
+```cs
+public static PinSiteData<double> GetSampleClockRate(this DAQmxTasksBundle tasksBundle)
+{
+    return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
+    {
+        return Enumerable.Repeat(
+            taskInfo.Task.Timing.SampleClockRate,
+            taskInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).Count()
+        ).ToArray();
+    });
+}
+```
+
+>[!NOTE]
+> If your test program have one or more Shared Pins mapped to a Digital Pattern Instrument in the pin map, it is recommended to use the following overloads for the corresponding TDR-related Digital Extension methods,
+>
+> ```cs
+> PinSiteData<IviDriverPrecisionTimeSpan> MeasureTDROffsets(bool apply = false)
+> void ApplyTDROffsets(PinSiteData<IviDriverPrecisionTimeSpan> offsets)
+> PinSiteData<IviDriverPrecisionTimeSpan> LoadTDROffsetsFromFile(string filePath, bool throwOnMissingChannels = true)
+> void SaveTDROffsetsToFile(PinSiteData<IviDriverPrecisionTimeSpan> offsets, string filePath)
+> ```
+
+**Related information**:
+- [NI PXIe-6570 User Manual: Operating Guidelines: Shared Pins](https://www.ni.com/docs/en-US/bundle/pxie-6570/page/shared-pins.html)
+- [NI PXIe-6571 User Manual: Operating Guidelines: Shared Pins](https://www.ni.com/docs/en-US/bundle/pxie-6571/page/shared-pins.html)
