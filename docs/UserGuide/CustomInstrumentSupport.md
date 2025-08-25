@@ -42,7 +42,7 @@ Optionally apply configurations by creating Sessions bundle for all the pins
 Refer [CustomInstrument Example, setup method](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/SetupAndCleanupSteps.cs#L12) for creating Setup method
 
 Setup Code workflow
-![CustomInstrument_SetupCode](Temp/Images/Setup.png)
+![CustomInstrument_SetupCode](../Images/Setup.png)
 
 ### Cleanup method
 Cleanup method should call close method for each CustomInstrument type by providing typeID as parameter.
@@ -51,7 +51,7 @@ Before calling close method, all configurations applied during setup method shou
 Refer [CustomInstrument Example, Cleanup method](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/SetupAndCleanupSteps.cs#L29) for creating Setup method
 
 Cleanup code workflow
-![CustomInstrument_CleanupCode](Temp/Images/Cleanup.png)
+![CustomInstrument_CleanupCode](../Images/Cleanup.png)
 
 ## Writing Extention methods
 To perform any operations on the CustomInstrument, need to extend SessionsBundle class to perform driver operatons on the instrument. SessionsBundle contains all the informations like session, pin site data, channel string, etc.
@@ -64,7 +64,7 @@ Using the CustomInstrument session, user can access driver reference and call re
 Refer [CustomInstrument Example, HighLevelDriverOperations](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/MyCustomInstrument/HighLevelDriverOperations.cs)
 
 Driver operation workflow
-![CustomInstrument_DriverOperations](Temp/Images/DriverOperation.png)
+![CustomInstrument_DriverOperations](../Images/DriverOperation.png)
 
 ## Writing TestSteps
 Similar to other NI instruments, we need to create SessionsBundle for required pins and the call required extension methods on the bundle.
