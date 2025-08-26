@@ -2,7 +2,7 @@
 
 ## NISemiconductorTestException
 
-The `NISemiconductorTestException` is the primary exception thrown by the Semiconductor Test Library. It acts as a wrapper for all types of exceptions that can occur during the operations, providing a consistent interface for error handling.
+The `NISemiconductorTestException` is the primary exception thrown by the Semiconductor Test Library. It acts as a wrapper for other low-level exceptions that may occur when using the Semiconductor Test Library, providing a consistent interface for handling exceptions with site- and pin-aware context.
 
 > [!NOTE]
 > Class: `NISemiconductorTestException`\
