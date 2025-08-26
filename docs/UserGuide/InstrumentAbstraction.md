@@ -131,32 +131,45 @@ sdo.WriteStatic(PinState._1);
 
 ## Shared Pins
 
-The Semiconductor Test Library supports shared pins, where the same DUT pin is mapped to the same instrument channel across multiple sites. 
+The Semiconductor Test Library supports shared pins, where the same DUT pin is mapped to the same instrument channel across multiple sites. For example, the instrument channel could be that of a NI-Digital or NI-DCPower instrument connected to all sites or a subset of sites when the amount of instrument resources in the system are limited. The instrument channel is either routed through an external multiplexer or relay network on the application load board to connect to each site separately, or is connected to each site at once, depending on the use case. Note that the latter is less common and will restrict the ability of the instrument take measurements.
 
 > [!NOTE]
-> Shared Pin is only supported when using the v25.5 or later release of the library.
+> Shared Pins are only supported when using the v25.5 or later release of the library.
 
 The library abstracts this by ensuring the same instrument channel is correctly associated with each of the unique site-pin pairs. This is done by considering the first site mapped to the instrument channel as the primary site, while the rest are treated as secondary sites. Only the primary site is responsible for executing low-level driver methods. Whereas, secondary sites are skipped to avoid redundant operations. For example, when a read operation is performed, only the primary site is operated on to invoke the low-level instrument driver call necessary to perform the read operation. The value that is read back is then applied to all the secondary sites as well as the primary site. 
 
-This behavior of skipping operations on secondary sites is built into the `ParallelExecution` class methods utilizing site-pin information. The `SitePinInfo` class includes a public property called `SkipOperations`, which identifies whether an operation should be executed or skipped for a particular site. When a new bundle object is created it will identity whether the contained pins are shared or not by setting this property. If the site is primary or non-shared, the property is set to `false`, if the site is secondary, it is set to `true`. 
+This behavior of skipping operations on secondary sites is built into the `ParallelExecution` class methods utilizing site-pin information. The `SitePinInfo` class includes a public property called `SkipOperations`, which identifies whether an operation should be executed or skipped for a particular site. When a new bundle object is created the `SkipOperations` property will be set to true for any of the contained pins that are shared. If the site is primary or non-shared, the property is set to `false`, if the site is secondary, it is set to `true`.
 
 In certain cases, you may need to handle how and when to appropriately perform an operation on the instrument channel within an extension method. This can be done by leveraging the `SkipOperations` property mentioned above. The following code module illustrates how `SkipOperations` can be used to ignore the operations on the secondary site, within an extension method.
 
 ```cs
-public static PinSiteData<double> GetSampleClockRate(this DAQmxTasksBundle tasksBundle)
-{
-    return tasksBundle.DoAndReturnPerSitePerPinResults(taskInfo =>
-    {
-        return Enumerable.Repeat(
-            taskInfo.Task.Timing.SampleClockRate,
-            taskInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).Count()
-        ).ToArray();
-    });
-}
+ public static void ForceVoltage(
+     this DigitalSessionsBundle sessionsBundle,
+     SiteData<double> voltageLevels,
+     double? currentLimitRange = null,
+     double? apertureTime = null,
+     double? settlingTime = null)
+ {
+     sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+     {
+         if (!sitePinInfo.SkipOperations)
+         {
+             var settings = new PPMUSettings
+             {
+                 OutputFunction = PpmuOutputFunction.DCVoltage,
+                 VoltageLevel = voltageLevels.GetValue(sitePinInfo.SiteNumber),
+                 CurrentLimitRange = currentLimitRange,
+                 ApertureTime = apertureTime,
+                 SettlingTime = settlingTime
+             };
+             sessionInfo.Session.Force(sitePinInfo.SitePinString, settings);
+         }
+     });
+ }
 ```
 
 >[!NOTE]
-> If your test program have one or more Shared Pins mapped to a Digital Pattern Instrument in the pin map, it is recommended to use the following overloads for the corresponding TDR-related Digital Extension methods,
+> If you have one or more Shared Pins mapped to a Digital Pattern Instrument in your pin map, it is recommended to use the following overloads for the corresponding TDR-related Digital Extension methods,
 >
 > ```cs
 > PinSiteData<IviDriverPrecisionTimeSpan> MeasureTDROffsets(bool apply = false)
