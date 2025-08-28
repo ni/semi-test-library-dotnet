@@ -2,7 +2,7 @@
 
 The Semiconductor Test Library supports the core set of modular instruments commonly used within the NI [Semiconductor Test System (STS)](https://www.ni.com/sts). The table below shows the specific instrument types currently supported by the library.
 
-If an instrument type is not listed in the table below, proceed with low-level instrument channel centric programming for the desired instrument type in your test code. This will involve using [Custom Instrument Support](***TODO: Link will be given once Naga's PR is merged***) to write your own Extensions methods to control the desired instrument. Contact NI support if you need any assistance with this.
+For unsupported instrument types, it is possible to implement low-level programming base on instrument channels in your test code. Use [Custom Instrument Support](***TODO: Link will be given once Naga's PR is merged***) to write your own extension methods that control the desired instrument type. Contact NI support for assistance.
 
 **Table 1:** Supported Instrument Types
 
@@ -32,11 +32,11 @@ If an instrument type is not listed in the table below, proceed with low-level i
 > Supported Functionality: Analog Input, Analog Output, Digital Input, Digital Output
 >
 > \* \* \
-> Supported Devices: PXIe-4467/8 \
+> Supported Devices: PXIe-4467, PXIe-4468 \
 > Supported Functionality: Analog Input, Analog Output, Analog Output: Function Generation
 >
 > \* \* \* \
-> Supported Devices: PXIe-4309/10 \
+> Supported Devices: PXIe-4309, PXIe-4310 \
 > Supported Functionality: Analog Input
 
 > [!TIP]
