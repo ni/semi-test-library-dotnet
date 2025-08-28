@@ -34,7 +34,7 @@ The following table shows the Published Data Ids for the TestStandSteps provided
 | Method Name                            | PublishedDataId(s)       | Data Type | Units                  |
 | :------------------------------------- | :----------------------- | :-------- | :--------------------- |
 | `AcquireAnalogInputWaveforms`          | Minimum                  | Numeric   | \*Depends on task type |
-|                                        | Minimum                  | Numeric   | \*Depends on task type |
+|                                        | Maximum                  | Numeric   | \*Depends on task type |
 | `BurstPattern`                         | Pattern Pass/Fail Result | Boolean   | N/A                    |
 |                                        | Pattern Fail Count       | Numeric   | N/A                    |
 | `ContinuityTest`                       | Continuity               | Numeric   | Volts                  |
