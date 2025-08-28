@@ -8,11 +8,11 @@ The `NISemiconductorTestException` is the primary exception thrown by the Semico
 > Class: `NISemiconductorTestException`\
 > Namespace: `NationalInstruments.SemiconductorTestLibrary.Common` \
 > Assembly: `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll`
->
 
 ### Exception Wrapping Behavior
 
-- If the original exception is an `AggregateException`, the `NISemiconductorTestException` flattens it and uses the first inner exception.
+- If the original exception is an [`AggregateException`](https://learn.microsoft.com/en-us/dotnet/api/system.aggregateexception?view=netframework-4.8), the `NISemiconductorTestException` flattens it and uses the first inner exception.
+  - This is common when working with the `Do` and `DoAndReturnXXX` methods from the [`ParallelExecution`](advanced/[ParallelizationMethods.md) class, which are used by almost all of the library's extensions methods.
 - The error code (*HResult*) is extracted from the original exception, or parsed from the exception message if available.
 - The original exception is set as the inner exception, preserving the full stack trace and context.
 
@@ -21,7 +21,7 @@ The `NISemiconductorTestException` is the primary exception thrown by the Semico
 - The exception message will include the message from the original exception.
 - The InnerException property will contain the original exception object.
 - The `HResult` property will be set to the error code, if available.
-    - Example: If the error code is present in the message (e.g., "Error code: -200077"), it will be parsed and set on the exception.
+  - Example: If the error code is present in the message (e.g., "Error code: -200077"), it will be parsed and set on the exception.
 This approach ensures that when you catch a `NISemiconductorTestException`, you have access to both a high-level error message and the full details of the underlying cause, making it easier to diagnose and handle errors in your test code.
 
 ### Exception Constructor Usage
