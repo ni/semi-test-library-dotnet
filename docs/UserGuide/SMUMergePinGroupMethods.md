@@ -83,7 +83,7 @@ The merge operation must be performed within the test program at runtime, once i
 > This by design to allow you the flexibility to handle situations where channels may not be statically merged on application load board, but rather, are be programmatically merged via external relay or MUX during testing for only certain tests that demand higher current. Allowing you to take advantage of the individual channels during other tests, or vice versa.
 
 You can use the `MergePinGroup` method with a `DCPowerSessionsBundle` object that contains the pin group to perform the merge operation with the instrument.
-Similarly, you can use the `MergePinGroup` method to un-merge the channels in the in group. 
+Similarly, you can use the `MergePinGroup` method to un-merge the channels in the in group.
 It is recommended to perform the merge operations at the start and end of the test program, unless performing a dynamic merge for specific tests.
 Once the merge operation has been performed, all subsequent DCPower Extension methods can be used on the bundle, and will operate on the pin group as if it were one single pin in the bundle.
 
@@ -109,4 +109,4 @@ smuBundle.MeasureAndPublishCurrent(publishedDataId: "MergedCurrent");
 smuBundle.UnmergePinGroup("Vcc");
 ```
 
-Please refer to the STL [shipping example](file:///C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUMergePinGroup) or in the [Github Repo](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/Sequence/SMUMergePinGroup) for the complete working example of this feature.
+Please refer to the STL [Github Repo](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/Sequence/SMUMergePinGroup) or in the shipping [example folder](file:///%Public%\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUMergePinGroup") for the complete working example of this feature.
