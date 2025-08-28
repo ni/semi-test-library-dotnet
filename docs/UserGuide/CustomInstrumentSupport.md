@@ -139,7 +139,7 @@ Custom Instrument support all 3 types of pinmap configurations
 1. Create channel group and populate channel names as per the instrument.
 1. Update connection details as for Pins.
 
-![Pinmap](../images/CustomInstrument_Pinmap.png)
+![Pinmap](../images/CustomInstrument_Pinmap.PNG)
 
 Refer [Custom Instrument Example - `STLExample.CustomInstrument.pinmap`](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/STLExample.CustomInstrument.pinmap)
 
