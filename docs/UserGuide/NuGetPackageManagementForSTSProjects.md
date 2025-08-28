@@ -56,9 +56,9 @@ NuGet packages can be added to an STS project via the **NuGet package manager** 
 
 Packages can be consumed using one of the following methods:
 
-### Use NuGet.org With Internet-Connected Systems 
+### Use NuGet.org With Internet-Connected Systems
 
-This method is recommended when working with systems that are connected to the internet and can directly access to NuGet.org. 
+This method is recommended when working with systems that are connected to the internet and can directly access to NuGet.org.
 
 Packages are published on [NuGet.org](https://www.nuget.org/packages/NationalInstruments.SemiconductorTestLibrary) for direct consumption using the NuGet Package Manager. Use the following steps to add a NuGet package from NuGet.org to your project:
 
@@ -74,7 +74,7 @@ Packages are published on [NuGet.org](https://www.nuget.org/packages/NationalIns
 
 This method is recommended when working with systems that are "offline", such as production systems being deployed to, and therefore are either not connected to the internet or do not have directly access to NuGet.org or GitHub.com due to specific firewall settings.
 
-1. Using a system that is connected to the internet, you first must download the `.nupkg` file from [NuGet.org](https://www.nuget.org/packages/NationalInstruments.SemiconductorTestLibrary) or via the project's [GitHub Release page] (https://github.com/ni/semi-test-library-dotnet/releases) and any dependent packages.
+1. Using a system that is connected to the internet, you first must download the `.nupkg` file from [NuGet.org](https://www.nuget.org/packages/NationalInstruments.SemiconductorTestLibrary) or via the project's [GitHub Release page](https://github.com/ni/semi-test-library-dotnet/releases) and any dependent packages.
 2. Then, manually and securely copy the file(s) to the target system and place the file(s) within the `Code Modules\packages` directory of your test program's source files.
 3. Finally, ensure the project's `NuGet.config` is configured to point to your project’s `Code Modules\packages` directory. Be sure to commit the newly added `.nupkg` file to source control to ensure it is available.
 
@@ -94,7 +94,7 @@ This method is recommended when working with systems that are "offline", such as
 
 You may upgrade a NuGet package using one of the following methods, depending on your environment:  
 
-### Upgrade With Internet-Connected Systems 
+### Upgrade With Internet-Connected Systems
 
 Use the following procedure if working with systems that are connected to the internet and can directly access to NuGet.org.
 
@@ -114,16 +114,16 @@ Use the following procedure if working with systems that are connected to the in
 
 Use the following procedure to upgrade a dependent NuGet package that has already been distributed with an STS test program's source code in the `Code Modules\packages` directory.
 
-1. Download the newer `.nupkg` file(s) from the NuGet.org or GitHub Releases page. 
+1. Download the newer `.nupkg` file(s) from the NuGet.org or GitHub Releases page.
 2. Copy the downloaded files into your project’s `Code Modules\packages` directory.
    - The newer version will temporarily coexist with the existing version.  
 3. Open your project with Visual Studio
-4. Open the **NuGet Package Manager** in Visual Studio 
+4. Open the **NuGet Package Manager** in Visual Studio
 5. Select the **Updates** tab.  
 6. Choose the target package and then click **Update**.
   
    > [!NOTE]  
-   > After the upgrade, the package reference in `.csproj` is updated. 
+   > After the upgrade, the package reference in `.csproj` is updated.
 
 7. Rebuild your project against the newer version to confirm compatibility.
 8. Once the upgrade has been tested and validated, you can remove the older `.nupkg` file from your source and commit the change to source control
