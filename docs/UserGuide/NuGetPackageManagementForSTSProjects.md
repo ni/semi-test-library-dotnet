@@ -52,7 +52,7 @@ NI recommends the following best practices for managing NuGet package dependenci
 
 ## Adding NuGet Packages
 
-NuGet packages can be added to an STS project via the **NuGet package manager** in Visual Studio. This action will add a `PackageReference` entry to the project’s `.csproj` file and expect the package to be available on the target system at build time.
+NuGet packages can be added to an STS project via the **NuGet package manager** in Visual Studio. This action adds a `PackageReference` entry to the project’s `.csproj` file and requires the package to be available on the target system at build time.
 
 Packages can be consumed using one of the following methods:
 
@@ -104,29 +104,29 @@ Use the following procedure if working with systems that are connected to the in
 4. Choose the target package and click **Update**.  
 
    > [!NOTE]  
-   > The NuGet Package Manager automatically detects newer versions published on NuGet.org. When you update the `.csproj`, `PackageReference` is updated accordingly.
+   > The NuGet Package Manager automatically detects new versions published on NuGet.org. When you update the `.csproj`, `PackageReference` is updated accordingly.
    >
    > If the dependent NuGet package has already been distributed in the `Code Modules\packages` directory within the STS test program's source code, you should additionally follow steps 1, 2, and 8 from the [Upgrade With Offline Environments](#upgrade-with-offline-environments) procedure below.
 
-5. Rebuild your project against the newer version to confirm compatibility.
+5. Rebuild your project against the new version to confirm compatibility.
 
 ### Upgrade With Offline Environments
 
 Use the following procedure to upgrade a dependent NuGet package that has already been distributed with an STS test program's source code in the `Code Modules\packages` directory.
 
-1. Download the newer `.nupkg` file(s) from the NuGet.org or GitHub Releases page.
+1. Download the new `.nupkg` file(s) from the NuGet.org or GitHub Releases page.
 2. Copy the downloaded files into your project’s `Code Modules\packages` directory.
-   - The newer version will temporarily coexist with the existing version.  
+   - Both new and old versions coexist while you prepare the upgrade.
 3. Open your project with Visual Studio
 4. Open the **NuGet Package Manager** in Visual Studio
 5. Select the **Updates** tab.  
 6. Choose the target package and then click **Update**.
   
    > [!NOTE]  
-   > After the upgrade, the package reference in `.csproj` is updated.
+   > The upgrade modifies the `.csproj` file with the updated package reference.
 
-7. Rebuild your project against the newer version to confirm compatibility.
-8. Once the upgrade has been tested and validated, you can remove the older `.nupkg` file from your source and commit the change to source control
+7. Rebuild your project against the new version to confirm compatibility.
+8. Once the upgrade has been tested and validated, you can remove the previous `.nupkg` file from your source and commit the change to source control
 
 ## Using STL Dependent 3rd-Party NuGet Packages
 
