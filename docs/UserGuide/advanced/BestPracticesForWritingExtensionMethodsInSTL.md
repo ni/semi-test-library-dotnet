@@ -1,11 +1,11 @@
-# **Best Practices for Writing Extension Methods in STL**
+# Best Practices for Writing Extension Methods in STL
 
 Extension methods collectively provide a comprehensive framework for adding capabilities built on top of the core abstractions provided by the Semiconductor Test Library, such as adding instrument-specific functionality for configuring, controlling, and measuring. They simplify the complexity of multi-site instrument programming, offering a smooth interface that makes it easier to write high-level test code.
 The extension methods act as a bridge between low-level instrument control and high-level test program development. Extension methods allow the Semiconductor Test Library to include predefined methods for supporting various instrument types and capabilities while also enabling users to create their own extension methods for their specific needs, without the constraints of inheritance or direct dependency.
 
 This page provides guidance on writing an extension method in alignment with the established practices of the Semiconductor Test Library, to ensure it meets the required standards.
 
-## **Type of Extension Methods**
+## Type of Extension Methods
 
 This section explains the different scenarios that are likely to be encountered when writing extension methods to add instrument specific capabilities, such as configuration, control, and measurement. It also discusses when and how to implement an effective extension method for each scenario.
 
@@ -13,7 +13,7 @@ This section explains the different scenarios that are likely to be encountered 
 
 These methods configure an instrument’s state or settings (such as voltage settings, configuring trigger parameters). To create a new Configure Method while adhering to best practices, follow these steps:
 
-#### **Method Definition:**
+#### Method Definition
 
 1. **Method Name**:
     - Use a clear and descriptive name that reflects the method's functionality.
@@ -33,7 +33,7 @@ These methods configure an instrument’s state or settings (such as voltage set
 
 These methods are used to retrieve properties, data or states from an instrument (such as read the current, get voltage). To create a new Get Method while adhering to best practices, follow these steps:
 
-#### **Method Definition:**
+#### Method Definition
 
 1. **Method Name**:
     - Use a clear and descriptive name that reflects the method's functionality.
@@ -51,7 +51,7 @@ These methods are used to retrieve properties, data or states from an instrument
 
 - These methods are intended to simplify complex tasks that typically require multiple driver calls or other operations by encapsulating them into a single method.
 
-#### **Method Definition:**
+#### Method Definition
 
 1. **Method Name**:
     - Name the method based on the specific functionality the higher-level method is intended to perform. For example, [ForceVoltage](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L79).
@@ -64,13 +64,13 @@ These methods are used to retrieve properties, data or states from an instrument
 1. **Return Type**:
     - The method should return either void or a value in an appropriate type (such as double, int, bool, or a custom data structure like `SiteData<T>` or `PinSiteData<T>`).
 
-## **Do And DoAndReturnXXXResults Methods**
+## Do And DoAndReturnXXXResults Methods
 
 - To invoke a low-level driver API call, use the `Do` methods in the `ParallelExecution` class within the `NationalInstruments.SemiconductorTestLibrary.Common` namespace.
 - These methods are used inside the extension methods to perform low-level driver operations on the session bundle and its associated sessions. These methods help in executing actions and retrieving results in different formats.
 - These methods are STL-provided parallel execution utilities that make multi-site and -pin programming with low-level driver APIs easier.
 
-### **Do Methods**
+### Do Methods
 
 1. **`Do<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Action<TSessionInformation> action)`**
     - Use this method when you need to perform an operation on all the sessions in parallel with the same inputs.
@@ -85,7 +85,7 @@ These methods are used to retrieve properties, data or states from an instrument
     - Use this method to perform an operation on all sessions and channels in parallel, and both the session index and channel information are required.
     - Example: [AcquireSynchronizedWaveforms](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Measure.cs#L330)
 
-### **DoAndReturnXXXResults Methods**
+### DoAndReturnXXXResults Methods
 
 1. **`DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, TResult> function)`**
     - Use this method to perform an operation on all sessions in parallel and return per-instrument per-channel results.
@@ -112,9 +112,9 @@ These methods are used to retrieve properties, data or states from an instrument
 
 For more information, refer to the [How to Make Low Level Driver API Calls](https://ni.github.io/semi-test-library-dotnet/UserGuide/advanced/MakingLowLevelDriverCalls.html#how-to-make-low-level-driver-api-calls).
 
-## **General Considerations for All Extension Method**
+## General Considerations for All Extension Method
 
-### **Reusability and Modularity**
+### Reusability and Modularity
 
 - When adding multiple high-level extension methods for a certain instrument with common, repeated code that can be reused between methods, extract that code into a separate method and refactor your methods to use it.
 
@@ -124,7 +124,7 @@ For more information, refer to the [How to Make Low Level Driver API Calls](http
 - :x: **Don't**
   - STL Contributors Only: Never refactor existing methods to use the new method. Only focus on the methods being added.
 
-### **Exception Handling and Validation**
+### Exception Handling and Validation
 
 Ensure proper exception handling is in place. This could include validating input parameters, checking communication status with the instrument, and providing useful error messages if the operation fails.
 
@@ -159,7 +159,7 @@ digitalSessionsBundle.Do((sessionInfo, sitePinInfo) =>
 }, "PPMU Force Voltage");  // <-- Case Description added as an optional parameter to the Do method.
 ```
 
-### **Determining the Scope of the Method: Channel, Model and Session**
+### Determining the Scope of the Method: Channel, Model and Session
 
 || **Channel-based Methods** | **Session-based Methods** | **Module-based Methods** |
 |----------|----------|----------|----------|
@@ -167,11 +167,11 @@ digitalSessionsBundle.Do((sessionInfo, sitePinInfo) =>
 |  **Documentation** | When appropriate, provide in-line code and method summary documentation to denote the channel-specific operation. | When appropriate, provide in-line code and method summary documentation to denote the session-specific operation. | When appropriate, provide in-line code and method summary documentation to denote the module-specific operation. |
 |  **Example** | [GetTimeSetEdge](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs#L315) | [GetTimeSetPeriod](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs#L254)| [ReadSequencerFlag](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SequencerFlagsAndRegisters.cs#L20) |
 
-### **Choosing Parameter and Return Types**
+### Choosing Parameter and Return Types
 
 The decision to use Scalar, SiteData, or PinSiteData depends on the level of requirement. Below are the guidelines for when to use each type:
 
-#### **Scalar Input/Return Type**
+#### Scalar Input/Return Type
 
 ***Use Case***: When the same value applies uniformly across all channels or pins in the session.
 
@@ -183,7 +183,7 @@ The decision to use Scalar, SiteData, or PinSiteData depends on the level of req
 - ***Return Type***:`List<TResult> or TResult[]` Each value indicates the result of the specified function for an individual session.
   - [public static bool[] ReadSequencerFlag(this DigitalSessionsBundle sessionsBundle, string flag)](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SequencerFlagsAndRegisters.cs#L20)
 
-#### **SiteData Input/Return Type**
+#### SiteData Input/Return Type
 
 ***Use Case***: When each site requires a unique value, but the value is consistent across all pins within a site.
 
@@ -194,7 +194,7 @@ The decision to use Scalar, SiteData, or PinSiteData depends on the level of req
 - ***Return Type***: `SiteData<T>` object containing measurements for each site.
   - [public static SiteData\<bool> GetSitePassFail(this DigitalSessionsBundle sessionsBundle)](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/Pattern.cs#L95)
 
-#### **PinSiteData Input/Return Type**
+#### PinSiteData Input/Return Type
 
 ***Use Case***: When each pin and site combination requires a unique value.
 
@@ -205,7 +205,7 @@ The decision to use Scalar, SiteData, or PinSiteData depends on the level of req
 - ***Return Type***: `PinSiteData<T>` object that contains measurements for each pin-site combination.
   - [public static PinSiteData\<double> GetSourceDelayInSeconds(this DCPowerSessionsBundle sessionsBundle)](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L803)
 
-#### **PerInstrumentPerChannel - Return type**
+#### PerInstrumentPerChannel - Return type
 
 ***Use Case***
 
@@ -213,27 +213,27 @@ The decision to use Scalar, SiteData, or PinSiteData depends on the level of req
 - This approach is useful when needing to work with raw instrument data, where mapping measurements to specific sites or pins is either not applicable or unnecessary.
   - Example: [MeasureAndReturnPerInstrumentPerChannelResults(this DCPowerSessionsBundle sessionsBundle)](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Measure.cs#L187)
 
-## **Instrument Specific Guidelines**
+## Instrument Specific Guidelines
 
 Some instruments may require additional considerations or have unique limitations. For instance:
 
-### **DCPower**
+### DCPower
 
 - Closely pay attention to cases where different model sessions are in a single sessions bundle because different models may have varying capabilities, limitations, and configuration requirements.
 - Ensure that your code handles different model sessions in a single sessions bundle effectively.
   - For Power Supplies specifically, you may need to handle voltage and current settings separately and always verify that both current and voltage are within their maximum and minimum ranges based on the instrument model. This is mainly to avoid unhandled exceptions.
 
-### **Digital**
+### Digital
 
 - In Digital, it is crucial to ensure the site details before proceeding with the development because site-specific operations can significantly impact the accuracy and reliability of the results.
 
-### **DAQmx**
+### DAQmx
 
 - Configure DAQmx sessions with homogeneous pin types. Avoid mixing analog and digital pin configurations within a single session. For example, when initializing an Analog Input (AI) session, include only pins designated for AI.
 - Avoid combining digital extension methods and analog methods. Maintain clear separation between analog and digital operations.
 - While accessing the read methods, note that the readings change smoothly over time, not instantly. For example, if an Analog Output (AO) is set to write 5 V, the corresponding Analog Input (AI) read shows the voltage ramping towards 5 V, rather than an immediate 5 V reading.
 
-## **Writing Tests for Extension Methods**
+## Writing Tests for Extension Methods
 
 When developing a new extension method it must be tested to validate functionality. This is especially important when developing extension method intended to be contributed to the [semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet) project. Each extension should have associated unit tests to ensure it works as expected. These tests should be capable of testing different scenarios, such as:
 
@@ -249,11 +249,11 @@ When developing a new extension method it must be tested to validate functionali
 >
 > If support is needed, contributors are encouraged to [open a new issue](https://github.com/ni/semi-test-library-dotnet/issues/new?template=support_request.md) using the *Contributor Support* template.
 
-### **General Practices for Writing Tests**
+### General Practices for Writing Tests
 
 When writing unit tests, it's important to maintain clarity, readability, and consistency. Below are essential guidelines:
 
-#### **Test Naming Conventions**
+#### Test Naming Conventions
 
 - Use clear, descriptive names for test methods to convey the intent of the test.
 - Follow the naming convention: `PreparedStateThatIsRelevant_MethodToTestWithScenarioDescription_ExpectedBehavior` for easy understanding.
@@ -264,7 +264,7 @@ When writing unit tests, it's important to maintain clarity, readability, and co
   public void InitializeDAQmxTasks_ReadAnalogSamplesFromOneFilteredChannel_ResultsContainExpectedData()
 ```
 
-#### **Test Structure**
+#### Test Structure
 
 Make sure that the tests are independent. Avoid creating dependencies between tests to ensure reliability in unit testing. Always use the Arrange-Act-Assert (AAA) Pattern and structure your tests in three clear phases:
 
@@ -294,7 +294,7 @@ Make sure that the tests are independent. Avoid creating dependencies between te
   }
 ```
 
-#### **Using Attributes**
+#### Using Attributes
 
 For tests requiring different input data, use required attribute such as **Theory**, **Fact** accordingly to define the test scenarios:
 
