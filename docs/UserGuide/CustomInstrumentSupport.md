@@ -26,7 +26,7 @@ Where the `ICustomInstrumentFactory` concrete class implementation is responsibl
 
 > [!NOTE]
 > There should be separate concrete class implementations of `ICustomInstrument` and `ICustomInstrumentFactory` for each type of custom instrument, or `InstrumentTypeId`, that are to be supported.
-> In general, there will be a specific `InstrumentTypeId` based on how different instrument channels are grouped and defined within the pin map. Refer to [How to Configure the Pin Map](#how-to-configure-the-pin-map) for more details.
+> In general, there will be a specific `InstrumentTypeId` based on how different instrument channels are grouped and defined within the pin map. Refer to [How to Configure the Pin Map](# 5. how-to-configure-the-pin-map) for more details.
 
 Additionally, for each custom instrument type, you must write high-level methods to Setup and Cleanup the instrument driver session.
 This is done by utilizing the concrete implementation of the `ICustomInstrumentFactory` interface with the `Initialize` and `Close` methods provided by the `InitializeAndClose` class.
@@ -82,7 +82,7 @@ Where `<NameOfCustomInstrumentType>` is replaced by your custom instrument's nam
 Refer to the [Custom Instrument Example - `SetupMyCustomInstruments` Method in SetupAndCleanupSteps.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/SetupAndCleanupSteps.cs#L12) as a reference for creating a Setup method.
 
 Setup Code workflow
-![CustomInstrument_SetupCode](../images/Setup.png)
+![CustomInstrument_SetupCode](../images/CustomInstrument_Setup.png)
 
 #### 3.2 Cleanup method
 
@@ -95,7 +95,7 @@ Where `<NameOfCustomInstrumentType>` is replaced by your custom instrument's nam
 Refer to the [Custom Instrument Example - `CleanupMyCustomInstruments` Method in SetupAndCleanupSteps.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/SetupAndCleanupSteps.cs#L29) as a reference for creating a Cleanup method.
 
 Cleanup code workflow
-![CustomInstrument_CleanupCode](../images/Cleanup.png)
+![CustomInstrument_CleanupCode](../images/CustomInstrument_Cleanup.png)
 
 ### 4. Create High-Level Extension Methods
 
@@ -118,7 +118,33 @@ To perform operations on the instrument, you need to write high-level extension 
 Refer to the [Custom Instrument Example - HighLevelDriverOperations.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/MyCustomInstrument/HighLevelDriverOperations.cs) as a reference.
 
 Driver operation workflow
-![CustomInstrument_DriverOperations](../images/DriverOperation.png)
+![CustomInstrument_DriverOperations](../images/CustomInstrument_DriverOperation.png)
+
+### 5. How to Configure the Pin Map
+
+Custom Instrument support all 3 types of pinmap configurations
+
+- Session per Instrument
+- Session per Channel Group
+- Session per Channel
+
+#### Instructions
+
+1. Open Pinmap editor
+1. Select `<Add Instruments Here>` under 'Instruments' in 'Pin Map' tree
+1. Select `Custom Instrument` in insert panel
+1. Provide resource name as per the MAX.
+1. Provide unique Type ID base on Instrument Type.
+1. Ensure `Custom Instrument` is selected for `Instrument Type` field
+1. Create channel group and populate channel names as per the instrument.
+1. Update connection details as for Pins.
+
+![Pinmap](../images/CustomInstrument_Pinmap.png)
+
+Refer [Custom Instrument Example - `STLExample.CustomInstrument.pinmap`](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/STLExample.CustomInstrument.pinmap)
+
+>[!Note]
+>Unique reference is created for each channel group specified in pinmap.
 
 ## Using Extension Methods Within Test Code Modules
 
