@@ -7,7 +7,7 @@ The DCPower Instrument Abstraction allows you to merge SMU pins together to achi
 
 This feature takes advantage of a NI-DCPower driver capability known as Merged Channels, which allows the user to combine multiple channels on a single multi-channel SMU to work in unison. Merging channels requires you to designate a primary channel and programmatically combine it with other compatible merge channels.
 
-- Primary channel: The channel you access when programming merged channels in the  low-level driver session.
+- Primary channel: The channel you access when programming merged channels in the low-level driver session.
 - Merge channels: The channels that you specify with the Merged Channels property. The merge channels work in unison with the primary channel.
 
 ## Hardware Requirements
@@ -38,10 +38,10 @@ The designated primary and merge channels must all map to DUT pins in the pin ma
 Use the following procedure to configure the pin map to use a Merged Pin Group:
 
 1. Add DUT pin definitions for each of the channels being merged. For example, "Vcc_0", "Vcc_1", "Vcc_2", etc.
-   - Ensure that the channels mapped to any particular are all from the same instrument, and the instrument supports Merged Channels (refer to [Hardware Requirements](#hardware-requirements))
+   - Ensure that the channels mapped to any particular site are all from the same instrument, and the instrument supports Merged Channels (refer to [Hardware Requirements](#hardware-requirements))
 2. Add a new pin group definition. Use a name that is appropriate for the combined pin. For example, "Vcc" or "Vcc_Merged".
 3. Assign each of the pins created in step 1 to the pin group created in step 2.
-   - Ensure that the first pin the pin group is mapped to the primary channel of the merged channel group and the pin group only contains the pins mapped to the channels being merged.
+   - Ensure that the first pin in the pin group is mapped to the primary channel of the merged channel group and the pin group only contains the pins mapped to the channels being merged.
 
 The following example pin map file illustrates a pin group of two pins being merged for two sites.
 
@@ -80,7 +80,7 @@ The following example pin map file illustrates a pin group of two pins being mer
 The merge operation must be performed within the test program at runtime, once instrument sessions are initialized.
 
 > [!NOTE]
-> This by design to allow you the flexibility to handle situations where channels may not be statically merged on application load board, but rather, are be programmatically merged via external relay or MUX during testing for only certain tests that demand higher current. Allowing you to take advantage of the individual channels during other tests, or vice versa.
+> This by design to allow you the flexibility to handle situations where channels may not be statically merged on an application load board, but rather, are programmatically merged via external relays or MUX during testing for only certain tests that demand higher current. Allowing you to take advantage of the individual channels during other tests, or vice versa.
 
 You can use the `MergePinGroup` method with a `DCPowerSessionsBundle` object that contains the pin group to perform the merge operation with the instrument.
 Similarly, you can use the `MergePinGroup` method to un-merge the channels in the in group.
@@ -88,7 +88,7 @@ It is recommended to perform the merge operations at the start and end of the te
 Once the merge operation has been performed, all subsequent DCPower Extension methods can be used on the bundle, and will operate on the pin group as if it were one single pin in the bundle.
 
 > [!NOTE]
-> The `DCPowerSessionsBundle` must be created using the Pin Group by name. Do not create the `DCPowerSessionsBundle` using the individual pin names.
+> The `DCPowerSessionsBundle` must be created using the Merged Pin Group by pin group name when attempting to perform merged operations. Do not create the `DCPowerSessionsBundle` using the individual pin names within the Merged Pin Group.
 
 ## Example Usage
 
