@@ -109,4 +109,6 @@ smuBundle.MeasureAndPublishCurrent(publishedDataId: "MergedCurrent");
 smuBundle.UnmergePinGroup("Vcc");
 ```
 
-Please refer to the STL [Github Repo](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/Sequence/SMUMergePinGroup) or in the shipping [example folder](file:///%Public%\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUMergePinGroup") for the complete working example of this feature.
+There is also sequence style example available that showcases a complete working example of this feature.
+Refer to the [SMUMergePinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUMergePinGroup/README.md) for more details.
+This example is also installed on any system using STS Software 25.5 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUMergePinGroup`.
