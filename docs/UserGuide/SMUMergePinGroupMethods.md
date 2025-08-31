@@ -22,7 +22,7 @@ The Merged Pin Groups feature is supported when using the following multi-channe
 
 ### Physical Connections
 
-The designated primary and merge channels must be physically connected on the application load board, either statically (always merged together) or dynamically using a MUX or relays. 
+The designated primary and merge channels must be physically connected on the application load board, either statically (always merged together) or dynamically using a MUX or relays.
 For remote sensing, only the primary channel sense wire must be connected.
 
 The following image illustrates an example of the relay-based dynamic connections for a 4 channel merge:
