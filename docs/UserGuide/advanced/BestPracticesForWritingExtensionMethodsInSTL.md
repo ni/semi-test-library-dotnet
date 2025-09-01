@@ -11,7 +11,7 @@ This section explains the different scenarios that are likely to be encountered 
 
 ### Configure Methods
 
-These methods configure an instrument’s state or settings (such as voltage settings, configuring trigger parameters). To create a new Configure Method while adhering to best practices, follow these steps:
+These methods configure an instrument's state or settings (such as voltage settings, configuring trigger parameters). To create a new Configure Method while adhering to best practices, follow these steps:
 
 #### Method Definition
 
@@ -20,7 +20,7 @@ These methods configure an instrument’s state or settings (such as voltage set
     - Begin the method name with `Configure`, followed by a description of the specific setting or state being configured. For example: [ConfigureAOTerminalConfiguration](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs#L23C9-L23C142)
 1. **Parameters**:
     - The first parameter should include the `this` keyword followed by the concrete type being extended.
-        - For Instrument Abstraction extensions the concrete type is the one implementing `ISessionsBundle`. For example, [DCPowerSessionsBundle](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L26C52-L26C93)
+        - For Instrument Abstraction extensions the concrete type is the one implementing `ISessionsBundle`. For example, `this DCPowerSessionsBundle` in [ConfigureSourceSettings](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L26C52-L26C66).
     - The user should provide the mandatory parameters required by the driver to execute the function successfully.
     - Choose the parameter type based on the requirement (such as Scalar, SiteData, or PinSiteData). Refer to the [key considerations](#choosing-parameter-and-return-types) for more detailed information on choosing appropriate parameters.
 1. **Method Functionality**:
@@ -41,7 +41,7 @@ These methods are used to retrieve properties, data or states from an instrument
     - *Avoid* `Read` or `Fetch` for property accesses. These prefixes are reserved for high-level operations involving *instrument interaction* to return results. For example: [ReadStatic](https://github.com/ni/semi-test-library-dotnet/blob/00772a0797b0522e23f27b880b181913bb84326a/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/StaticState.cs#L60)
 1. **Parameters and Return Type**:
     - The first parameter should include the `this` keyword followed by the concrete type being extended.
-        - For Instrument Abstraction extensions the concrete type is the one implementing `ISessionsBundle`. For example, [DCPowerSessionsBundle](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L26C52-L26C93)
+        - For Instrument Abstraction extensions the concrete type is the one implementing `ISessionsBundle`. For example, `this DCPowerSessionsBundle` in [ConfigureSourceSettings](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L26C52-L26C66).
     - Choose the rest of the parameter and the return type based on the requirement (such as Scalar, SiteData, or PinSiteData). Refer to the [key considerations](#choosing-parameter-and-return-types) for more detailed information on choosing appropriate parameters and return type.
 1. **Method Functionality**:
     - Use appropriate instrument commands to retrieve the required values.
@@ -57,7 +57,7 @@ These methods are used to retrieve properties, data or states from an instrument
     - Name the method based on the specific functionality the higher-level method is intended to perform. For example, [ForceVoltage](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L79).
 1. **Parameters**:
     - The first parameter should include the `this` keyword followed by the concrete type being extended.
-        - For Instrument Abstraction extensions the concrete type is the one implementing `ISessionsBundle`. For example, [DCPowerSessionsBundle](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L26C52-L26C93).
+        - For Instrument Abstraction extensions the concrete type is the one implementing `ISessionsBundle`. For example, `this DCPowerSessionsBundle` in [ConfigureSourceSettings](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L26C52-L26C66).
     - Accept parameters that are necessary to perform the high-level function.
 1. **Method Functionality**:
     - Combine multiple low-level or extension calls to perform the desired high-level action.
@@ -120,7 +120,7 @@ For more information, refer to the [How to Make Low Level Driver API Calls](http
 
 - :heavy_check_mark: **Do**
   - If all of your methods are part of the same .cs file, then place the new method within that same .cs file and mark it as a `private` method.
-  - If your methods are spread across multiple .cs files, then add the new method to an `internal static class Utilities` class within the namespace for the instrument type being worked on, and mark it as an `internal` method. If no such Class exists, create it (for example [ExcludeSpecificChannel](https://github.com/ni/semi-test-library-dotnet/blob/12282644789e1f03018b6e3e024829d405ddad1d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Utilities.cs#L7))
+  - If your methods are spread across multiple .cs files, then add the new method to an `internal static class Utilities` class within the namespace for the instrument type being worked on, and mark it as an `internal` method. If no such Class exists, create it (for example [`ExcludeSpecificChannel`](https://github.com/ni/semi-test-library-dotnet/blob/12282644789e1f03018b6e3e024829d405ddad1d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Utilities.cs#L7)).
 - :x: **Don't**
   - STL Contributors Only: Never refactor existing methods to use the new method. Only focus on the methods being added.
 
@@ -128,7 +128,7 @@ For more information, refer to the [How to Make Low Level Driver API Calls](http
 
 Ensure proper exception handling is in place. This could include validating input parameters, checking communication status with the instrument, and providing useful error messages if the operation fails.
 
-**Example**: This [example](https://github.com/ni/semi-test-library-dotnet/blob/12282644789e1f03018b6e3e024829d405ddad1d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Utilities.cs#L18) method is used in DAQmx Digital Input and Analog Input functions to validate the task type and throw error accordingly.
+**Example**: The [`VerifyTaskType`](https://github.com/ni/semi-test-library-dotnet/blob/12282644789e1f03018b6e3e024829d405ddad1d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Utilities.cs#L18) method is used in DAQmx Digital Input and Analog Input functions to validate the task type and throw error accordingly.
 
 When invoking `Do` and `DoAndReturnXXXResults` methods, provide the `caseDescription` parameter to add meaningful context to low-level error messages, making it easier for users to understand and troubleshoot issues.
 
@@ -163,7 +163,7 @@ digitalSessionsBundle.Do((sessionInfo, sitePinInfo) =>
 
 || **Channel-based Methods** | **Session-based Methods** | **Module-based Methods** |
 |----------|----------|----------|----------|
-| **Functionality** | If the functionality is specific to individual channels, use the appropriate `Do` or `DoAndReturnXXXResults` methods to iterate over each channel. For more details on how to use these methods, refer to the [Do And DoAndReturnXXXResults Methods](#do-and-doandreturnxxxresults-methods) section.| If the functionality is specific to the entire session, ensure that driver operations are only performed once per-session, and any returned values are returned consistently across across all channels using the appropriate Do or DoAndReturnXXXResults methods.  | If the functionality is applicable to an entire module, such as a hardware limited instrument capability, ensure that driver operations are performed only once per-session and choose the return type carefully using the appropriate Do or DoAndReturnXXXResults methods.|
+| **Functionality** | If the functionality is specific to individual channels, use the appropriate [`Do` or `DoAndReturnXXXResults` methods](#do-and-doandreturnxxxresults-methods) to iterate over each channel.| If the functionality is specific to the entire session, ensure that driver operations are only performed once per-session, and any returned values are returned consistently across across all channels using the appropriate [`Do` or `DoAndReturnXXXResults` methods](#do-and-doandreturnxxxresults-methods).  | If the functionality is applicable to an entire module, such as a hardware limited instrument capability, ensure that driver operations are performed only once per-session and choose the return type carefully using the appropriate [`Do` or `DoAndReturnXXXResults` methods](#do-and-doandreturnxxxresults-methods).|
 |  **Documentation** | When appropriate, provide in-line code and method summary documentation to denote the channel-specific operation. | When appropriate, provide in-line code and method summary documentation to denote the session-specific operation. | When appropriate, provide in-line code and method summary documentation to denote the module-specific operation. |
 |  **Example** | [GetTimeSetEdge](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs#L315) | [GetTimeSetPeriod](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs#L254)| [ReadSequencerFlag](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SequencerFlagsAndRegisters.cs#L20) |
 
@@ -243,7 +243,7 @@ When developing a new extension method it must be tested to validate functionali
 - **Exception handling**: Verifying that exceptions are properly thrown and handled when needed.
 
 > [!NOTE]
-> Unit tests should be written using the [xUnit](https://xunit.net). Refer to the various test projects within the [semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet) repository as a reference.
+> Unit tests should be written using [xUnit](https://xunit.net). Refer to the various test projects within the [semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet) repository as a reference.
 >
 > Contributors should write tests using simulated hardware that can be run in offline mode only. If a test requires actual hardware to run, please reach out to NI for further discussion before proceeding.
 >
