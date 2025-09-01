@@ -12,7 +12,7 @@ The `NISemiconductorTestException` is the primary exception thrown by the Semico
 ### Exception Wrapping Behavior
 
 - If the original exception is an [`AggregateException`](https://learn.microsoft.com/en-us/dotnet/api/system.aggregateexception?view=netframework-4.8), the `NISemiconductorTestException` flattens it and uses the first inner exception.
-  - This is common when working with the `Do` and `DoAndReturnXXX` methods from the [`ParallelExecution`](advanced/[ParallelizationMethods.md) class, which are used by almost all of the library's extensions methods.
+  - This is common when working with the `Do` and `DoAndReturnXXX` methods from the [`ParallelExecution`](advanced/ParallelizationMethods.md) class, used by most instrument extensions methods.
 - The error code (*HResult*) is extracted from the original exception, or parsed from the exception message if available.
 - The original exception is set as the inner exception, preserving the full stack trace and context.
 
