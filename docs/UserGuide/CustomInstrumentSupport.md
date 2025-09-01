@@ -87,7 +87,7 @@ Where `<NameOfCustomInstrumentType>` is replaced by your custom instrument's nam
 - The method should call the `InitializeAndClose.Initialize` method, passing it the newly created Custom Instrument factory object as parameter.
   - You will need to add the following `using` directive to the top of your .cs file to reference the appropriate `InitializeAndClose` class: `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`.
 - Optionally, you can perform any high-level operations to configuration the instrument upon its initial setup.
-  - It is recommended that you do so by create a new session bundle object, as discussed in [Using Extension Methods Within Test Code Modules](#using-extension-methods-within-test-code-modules)
+  - It is recommended that you do so by creating a new session bundle object, as discussed in [Using Extension Methods Within Test Code Modules](#using-extension-methods-within-test-code-modules)
 
 Refer to the [Custom Instrument Example - `SetupMyCustomInstruments` Method in SetupAndCleanupSteps.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/SetupAndCleanupSteps.cs#L12) as a reference for creating a Setup method.
 
@@ -160,7 +160,7 @@ To configure the pin map definition for your custom instrument, you must first i
 
 1. Open the Pin Map Editor and select an existing pin map file or create a new one.
 1. Select `<Add Instruments Here>` under the 'Instruments' definition within the Pin Map tree on the left side of the Pin Map Editor.
-1. Select Custom Instrument from the 'Insert' options.
+1. Select `Custom Instrument` from the 'Insert' options.
 1. Provide the unique resource name or identifier required to instantiate a new session with the hardware using the device driver (i.e. the instrument's alias shown in the NI MAX software).
 1. Provide the unique `InstrumentTypeId` you have defined for your custom instrument within the concrete custom instrument factory class implementing the `ICustomInstrumentFactory` interface (from the [2. Create a Custom Instrument Factory Class](#2-create-a-custom-instrument-factory-class) step above).
 1. Ensure `Custom Instrument` is selected for the `Instrument Type` field.
