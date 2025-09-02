@@ -1,11 +1,11 @@
-# Merge Pin Group Feature
+# SMU Merge Pin Group
 
 The DCPower Instrument Abstraction allows you to merge SMU pins together to achieve higher current. This is an advanced, yet common use case for many mixed-signal STS applications. This is particularly useful for applications that require a higher current output beyond what any single independent channel of the SMU can provide.
 
 > [!NOTE]
 > Only supported with v25.5 or later of the Semiconductor Test Library NuGet package.
 
-This feature takes advantage of a NI-DCPower driver capability known as Merged Channels, which allows the user to combine multiple channels on a single multi-channel SMU to work in unison. Merging channels requires you to designate a primary channel and programmatically combine it with other compatible merge channels.
+This works by taking advantage of a NI-DCPower driver capability known as Merged Channels, which allows the user to combine multiple channels on a single multi-channel SMU to work in unison. Merging channels requires you to designate a primary channel and programmatically combine it with other compatible merge channels.
 
 - Primary channel: The channel you access when programming merged channels in the low-level driver session.
 - Merge channels: The channels that you specify with the Merged Channels property. The merge channels work in unison with the primary channel.
@@ -14,7 +14,7 @@ This feature takes advantage of a NI-DCPower driver capability known as Merged C
 
 ### Supported Instruments
 
-The Merged Pin Groups feature is supported when using the following multi-channel SMUs:
+`SMU Merge pin group` is supported when using the following multi-channel SMUs:
 
 - [PXIe-4147](https://www.ni.com/docs/en-US/bundle/pxie-4147/page/merged-channels.html), supports 2 channel and 4 channel merging.
 - [PXIe-4162](https://www.ni.com/docs/en-US/bundle/pxie-4162/page/merged-channels.html), supports 2 channel and 4 channel merging.
@@ -26,7 +26,7 @@ The designated primary and merge channels must be physically connected on the ap
 For remote sensing, only the primary channel sense wire must be connected.
 
 The following image illustrates an example of the relay-based dynamic connections for a 4 channel merge:
-![image](SMUMergePinGroupConnection.png)
+![image](SMUMergePinGroupSetup.png)
 
 > [!NOTE]
 > Only certain channels on a device can be used as primary channels. Refer to the device specific user manuals linked above for more details, including Choosing a Valid Merge Configuration, Designing Merge Circuitry, and Effect of Merging Channels on Performance Specifications.
@@ -109,6 +109,6 @@ smuBundle.MeasureAndPublishCurrent(publishedDataId: "MergedCurrent");
 smuBundle.UnmergePinGroup("Vcc");
 ```
 
-There is also sequence style example available that showcases a complete working example of this feature.
+There is a sequence style example available that showcases a complete working example of `SMU Merge pin group`.
 Refer to the [SMUMergePinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUMergePinGroup/README.md) for more details.
 This example is also installed on any system using STS Software 25.5 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUMergePinGroup`.
