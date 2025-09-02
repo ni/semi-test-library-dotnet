@@ -50,8 +50,8 @@ Similar to the extension methods provided by the library for natively supported 
 
 Create a new custom instrument class that implements `ICustomInstrument` interface. For example, "MyCustomInstrument"
 
+- You will need to add the following `using` directive at the top of your .cs file to reference the `ICustomInstrument` interface: `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`
 - Within the class constructor open a unique session reference to the instrument or channel group using the instrument driver's API. Then store that reference as a property within the class.
-  - You will need to add the following `using` directive at the top of your .cs file to reference the `ICustomInstrument` interface: `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`
   - The Instrument name and channel details should also be stored as part of object data.
 - The class must Implement a `Close` method to close the sessions reference to the instrument or channel-group.
 - The class must implement a `Reset` method to reset instrument/channel-group.
@@ -67,7 +67,7 @@ Create a new concrete factory class implements the `ICustomInstrumentFactory` in
 - The class must implement a `InstrumentTypeId` property, which provides unique identifier to denote the Instrument type and will be used within the pin map.
 - The class must implement the `CreateInstrument` method, which creates and returns a new instance of the object that implements the `ICustomInstrument` interface.
 - The class must implement the `ValidateCustomInstruments` method, which is used to validate the channel names and channel groups in the pin map are setup as expected for the specific instrument type.
-- The body of this method can be left empty, but it's signature must still be defined.
+  - The body of this method can be left empty, but it's signature must still be defined.
 
 ### 3. Create High-level Setup and Cleanup Methods
 
@@ -114,7 +114,7 @@ To perform operations on the instrument, you need to write high-level extension 
 
 - Refer to [Extending the Semiconductor Test Library](https://ni.github.io/semi-test-library-dotnet/UserGuide/advanced/ExtendingTheSemiconductorTestLibrary.html) for more specific instructions to get started.
 - You will need to add the following `using` directives at the top of your .cs file to reference the required classes from the library:
-  - `﻿using NationalInstruments.SemiconductorTestLibrary.Common;`
+  - `using NationalInstruments.SemiconductorTestLibrary.Common;`
   - `using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;`
   - `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`
 - Within each high-level extension method, make use of the `Do` and `DoAndReturnXXX` methods provided by the `ParallelExecution` class to invoke driver methods in parallel across the various pins and sites.
@@ -143,15 +143,15 @@ To configure the pin map definition for your custom instrument, you must first i
   - Each channel can be independently operated on in multiple threads, in parallel.
   - This mode of operation is similar to an NI-DCPower instrument.
 - Session per Channel Group
-  - Each instrument has two or more unique sessions, each containing a subset of channels that share a common session. 
-  - For some devices, the subset of channels many only be operated on as a group within the same thread, and are not independent from one other within that group. However, the channel groups in each session can be independently operated on in multiple threads, in parallel. 
+  - Each instrument has two or more unique sessions, each containing a subset of channels that share a common session.
+  - For some devices, the subset of channels many only be operated on as a group within the same thread, and are not independent from one other within that group. However, the channel groups in each session can be independently operated on in multiple threads, in parallel.
   - This mode of operation is similar to an NI-DAQmx instrument.
 - Session per Instrument
   - Each instrument shares session data across the entire instrument.
   - Whether or not the channels can be interdependently operated on is dependent on the device and the device driver.
   - This mode of operation is common for many instruments, including NI-DCPower instruments which can operate in multiple modes (Session per Channel and Session per Instrument).
 
-**Related information**: 
+**Related information**:
 
 - [TestStand Semiconductor Module User Manual - Natively Supported and Custom Instruments (TSM)](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/natively-supported-and-custom-instruments.html)
 - [TestStand Semiconductor Module User Manual - Custom Instruments (TSM)](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/custom-instruments.html)
@@ -180,7 +180,7 @@ Similar to the other natively supported instruments, you use the same workflow w
 
 - Create new instance of `TSMSessionManager`.
   - Ensure you have the following `using` directives at the top of your .cs file to reference the required classes from the library:
-    - `﻿using NationalInstruments.SemiconductorTestLibrary.Common;`
+    - `using NationalInstruments.SemiconductorTestLibrary.Common;`
     - `using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;`
     - `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;`
 - Create sessions bundle by calling `CustomInstrument` method of `TSMSessionManager`, passing it both the target pin(s) and the `InstrumentTypeId` as parameters.
