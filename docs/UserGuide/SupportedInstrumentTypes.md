@@ -2,7 +2,7 @@
 
 The Semiconductor Test Library supports the core set of modular instruments commonly used within the NI [Semiconductor Test System (STS)](https://www.ni.com/sts). The table below shows the specific instrument types currently supported by the library.
 
-For unsupported instrument types, it is possible to implement low-level programming base on instrument channels in your test code. Use [Custom Instrument Support](***TODO: Link will be given once Naga's PR is merged***) to write your own extension methods that control the desired instrument type. Contact NI support for assistance.
+For unsupported instrument types, it is possible to implement low-level programming base on instrument channels in your test code. Use [Custom Instrument Support](CustomInstrumentSupport.md) to write your own extension methods that control the desired instrument type. Contact NI support for assistance.
 
 **Table 1:** Supported Instrument Types
 
