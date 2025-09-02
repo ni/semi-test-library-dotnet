@@ -92,7 +92,7 @@ Where `<NameOfCustomInstrumentType>` is replaced by your custom instrument's nam
 Refer to the [Custom Instrument Example - `SetupMyCustomInstruments` Method in SetupAndCleanupSteps.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/SetupAndCleanupSteps.cs#L12) as a reference for creating a Setup method.
 
 Setup Code workflow
-![CustomInstrument_SetupCode](../images/CustomInstrument_Setup.png)
+![CustomInstrument_SetupCode](../images/CustomInstrument/Setup.png)
 
 #### 3.2 Cleanup method
 
@@ -106,7 +106,7 @@ Where `<NameOfCustomInstrumentType>` is replaced by your custom instrument's nam
 Refer to the [Custom Instrument Example - `CleanupMyCustomInstruments` Method in SetupAndCleanupSteps.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/SetupAndCleanupSteps.cs#L29) as a reference for creating a Cleanup method.
 
 Cleanup code workflow
-![CustomInstrument_CleanupCode](../images/CustomInstrument_Cleanup.png)
+![CustomInstrument_CleanupCode](../images/CustomInstrument/Cleanup.png)
 
 ### 4. Create High-Level Extension Methods
 
@@ -132,7 +132,7 @@ To perform operations on the instrument, you need to write high-level extension 
 Refer to the [Custom Instrument Example - HighLevelDriverOperations.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/MyCustomInstrument/HighLevelDriverOperations.cs) as a reference.
 
 Driver operation workflow
-![CustomInstrument_DriverOperations](../images/CustomInstrument_DriverOperation.png)
+![CustomInstrument_DriverOperations](../images/CustomInstrument/DriverOperation.png)
 
 ### 5. How to Configure the Pin Map
 
@@ -167,7 +167,7 @@ To configure the pin map definition for your custom instrument, you must first i
 1. Create channel group and populate channel names as per the instrument hardware constraints mentioned above.
 1. Update the Connections table to map the instrument channels to the appropriate pins and sites.
 
-![Pinmap](../images/CustomInstrument_Pinmap.PNG)
+![Pinmap](../images/CustomInstrument/Pinmap.PNG)
 
 Refer to the [Custom Instrument Example - `STLExample.CustomInstrument.pinmap`](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/STLExample.CustomInstrument.pinmap) as a reference.
 
