@@ -14,7 +14,7 @@ This works by taking advantage of a NI-DCPower driver capability known as Merged
 
 ### Supported Instruments
 
-`SMU Merge pin group` is supported when using the following multi-channel SMUs:
+Merging of an SMU pin group is supported when using the following multi-channel SMUs:
 
 - [PXIe-4147](https://www.ni.com/docs/en-US/bundle/pxie-4147/page/merged-channels.html), supports 2 channel and 4 channel merging.
 - [PXIe-4162](https://www.ni.com/docs/en-US/bundle/pxie-4162/page/merged-channels.html), supports 2 channel and 4 channel merging.
@@ -26,7 +26,7 @@ The designated primary and merge channels must be physically connected on the ap
 For remote sensing, only the primary channel sense wire must be connected.
 
 The following image illustrates an example of the relay-based dynamic connections for a 4 channel merge:
-![SMUMergePinGroupSetup](../images/SMUMergePinGroup/SMUMergePinGroupSetup.png)
+![SMUMergePinGroupSetup](../images/SMUMergePinGroupSetup.png)
 
 > [!NOTE]
 > Only certain channels on a device can be used as primary channels. Refer to the device specific user manuals linked above for more details, including Choosing a Valid Merge Configuration, Designing Merge Circuitry, and Effect of Merging Channels on Performance Specifications.
@@ -109,6 +109,6 @@ smuBundle.MeasureAndPublishCurrent(publishedDataId: "MergedCurrent");
 smuBundle.UnmergePinGroup("Vcc");
 ```
 
-There is a sequence style example available that showcases a complete working example of `SMU Merge pin group`.
+There is also a sequence style example available that showcases a complete working example of merging SMU pin groups.
 Refer to the [SMUMergePinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUMergePinGroup/README.md) for more details.
 This example is also installed on any system using STS Software 25.5 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUMergePinGroup`.
