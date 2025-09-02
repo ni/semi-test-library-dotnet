@@ -15,7 +15,6 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DAQmx
 {
     [Collection("NonParallelizable")]
-    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
     public sealed class AnalogInputTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
@@ -33,6 +32,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         public void ReadAnalogSamplesFromOneChannelInMultipleChannelsTask_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
@@ -47,6 +47,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         public void ReadFiveAnalogSamplesFromTwoChannels_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
@@ -89,6 +90,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         public void ReadAnalogWaveformSamplesFromOneChannelInMultipleChannelsTask_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
@@ -103,6 +105,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         public void ReadFiveAnalogWaveformSamplesFromTwoChannels_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
@@ -119,6 +122,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         public void ReadAnalogSamplesFromOneChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxSingleChannelTests.pinmap");
@@ -133,6 +137,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         public void ReadFiveAnalogSamplesFromOneChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxSingleChannelTests.pinmap");
@@ -147,6 +152,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         public void ReadAnalogWaveformSamplesFromOneChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxSingleChannelTests.pinmap");
@@ -161,6 +167,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         public void ReadFiveAnalogWaveformSamplesFromOneChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxSingleChannelTests.pinmap");
