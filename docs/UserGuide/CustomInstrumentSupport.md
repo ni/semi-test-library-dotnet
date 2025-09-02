@@ -167,7 +167,7 @@ To configure the pin map definition for your custom instrument, you must first i
 1. Create channel group and populate channel names as per the instrument hardware constraints mentioned above.
 1. Update the Connections table to map the instrument channels to the appropriate pins and sites.
 
-![Pinmap](../images/CustomInstrument/Pinmap.PNG)
+![Pinmap](../images/CustomInstrument/PinmapEditor.png)
 
 Refer to the [Custom Instrument Example - `STLExample.CustomInstrument.pinmap`](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/STLExample.CustomInstrument.pinmap) as a reference.
 
