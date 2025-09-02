@@ -26,7 +26,7 @@ The designated primary and merge channels must be physically connected on the ap
 For remote sensing, only the primary channel sense wire must be connected.
 
 The following image illustrates an example of the relay-based dynamic connections for a 4 channel merge:
-![image](SMUMergePinGroupSetup.png)
+![image](images\SMUMergePinGroupSetup.png)
 
 > [!NOTE]
 > Only certain channels on a device can be used as primary channels. Refer to the device specific user manuals linked above for more details, including Choosing a Valid Merge Configuration, Designing Merge Circuitry, and Effect of Merging Channels on Performance Specifications.
