@@ -58,7 +58,7 @@ Create a new custom instrument class that implements `ICustomInstrument` interfa
   - If the devices does not support a reset operation then the body of this method can be left empty, but it's signature must still be defined.
 
 > [!TIP]
-> It's a good idea to write a comment in the body of the method to denote when `Reset` operation is not supported.
+> Add a comment in the body of the Reset method to denote when a reset operation is not supported by the instrument.
 
 ### 2. Create a Custom Instrument Factory Class
 
