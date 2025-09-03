@@ -1,17 +1,18 @@
 # Best Practices for Writing Extension Methods in STL
 
-Extension methods collectively provide a comprehensive framework for adding capabilities built on top of the core abstractions provided by the Semiconductor Test Library, such as adding instrument-specific functionality for configuring, controlling, and measuring. They simplify the complexity of multi-site instrument programming, offering a smooth interface that makes it easier to write high-level test code.
-The extension methods act as a bridge between low-level instrument control and high-level test program development. Extension methods allow the Semiconductor Test Library to include predefined methods for supporting various instrument types and capabilities while also enabling users to create their own extension methods for their specific needs, without the constraints of inheritance or direct dependency.
+Extension methods provide a framework for adding capabilities to the core abstractions provided by the Semiconductor Test Library. For example, you can add instrument-specific functionality for configuration, control, or measurement. Extension methods reduce the complexity of multi-site instrument programming and simplify writing high-level test code.
+The extension methods act as a bridge between low-level instrument control and high-level test program development. Pre-defined extension methods allow users to create new methods that meet specific needs while avoiding constraints of inheritance or direct dependency.
 
-This page provides guidance on writing an extension method in alignment with the established practices of the Semiconductor Test Library, to ensure it meets the required standards.
+This page provides instructions for writing extension methods that meet Semiconductor Test Library requirements.
 
 ## Type of Extension Methods
 
-This section explains the different scenarios that are likely to be encountered when writing extension methods to add instrument specific capabilities, such as configuration, control, and measurement. It also discusses when and how to implement an effective extension method for each scenario.
+This section describes common scenarios encountered when writing extension methods to add instrument specific capabilities, such as configuration, control, and measurement. It also discusses how to implement extension methods effectively for each scenario.
 
 ### Configure Methods
 
-These methods configure an instrument's state or settings (such as voltage settings, configuring trigger parameters). To create a new Configure Method while adhering to best practices, follow these steps:
+These methods configure an instrument state or settings (such as voltage settings, configuring trigger parameters).
+Complete the following steps to create a new Configure Method while adhering to best practices:
 
 #### Method Definition
 
@@ -21,7 +22,7 @@ These methods configure an instrument's state or settings (such as voltage setti
 1. **Parameters**:
     - The first parameter should include the `this` keyword followed by the concrete type being extended.
         - For Instrument Abstraction extensions the concrete type is the one implementing `ISessionsBundle`. For example, `this DCPowerSessionsBundle` in [ConfigureSourceSettings](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L26C52-L26C66).
-    - The user should provide the mandatory parameters required by the driver to execute the function successfully.
+    - Provide the mandatory parameters required by the driver to execute the function successfully.
     - Choose the parameter type based on the requirement (such as Scalar, SiteData, or PinSiteData). Refer to the [key considerations](#choosing-parameter-and-return-types) for more detailed information on choosing appropriate parameters.
 1. **Method Functionality**:
     - Perform any calculations if applicable and use the appropriate instrument commands to set/configure the values.
@@ -116,11 +117,11 @@ For more information, refer to the [How to Make Low Level Driver API Calls](http
 
 ### Reusability and Modularity
 
-- When adding multiple high-level extension methods for a certain instrument with common, repeated code that can be reused between methods, extract that code into a separate method and refactor your methods to use it.
+- When multiple extension methods share code, extract the reusable code into a separate method and refactor your methods to use it.
 
 - :heavy_check_mark: **Do**
-  - If all of your methods are part of the same .cs file, then place the new method within that same .cs file and mark it as a `private` method.
-  - If your methods are spread across multiple .cs files, then add the new method to an `internal static class Utilities` class within the namespace for the instrument type being worked on, and mark it as an `internal` method. If no such Class exists, create it (for example [`ExcludeSpecificChannel`](https://github.com/ni/semi-test-library-dotnet/blob/12282644789e1f03018b6e3e024829d405ddad1d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Utilities.cs#L7)).
+  - If all of your methods are part of the same .cs file, place the new method within that same .cs file and mark it as a `private` method.
+  - If your methods are spread across multiple .cs files, add the new method to an `internal static class Utilities` class within the namespace for the instrument type being worked on, and mark it as an `internal` method. If no such Class exists, create it (for example [`ExcludeSpecificChannel`](https://github.com/ni/semi-test-library-dotnet/blob/12282644789e1f03018b6e3e024829d405ddad1d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Utilities.cs#L7)).
 - :x: **Don't**
   - STL Contributors Only: Never refactor existing methods to use the new method. Only focus on the methods being added.
 
