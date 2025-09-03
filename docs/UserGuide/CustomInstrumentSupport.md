@@ -3,7 +3,7 @@
 The Semiconductor Test Library (STL) provides built-in support for commonly used instruments, such as NI-DCPower and NI-Digital. However, If you want to use an instrument that is not natively supported, STL provides the infrastructure to support Custom Instruments. For example, NI-RIO instruments such as FlexRIO or R-Series devices, 3rd-party devices, or even certain load board hardware can be defined and used as Custom Instruments with STL. You can define the unsupported instrument as a Custom Instrument within the pinmap and then leverage the provided interfaces and classes to abstract the device's driver and perform high-level operations on the instrument.
 
 > [!NOTE]
-> Only supported with v25.5 or later of the Semiconductor Test Library NuGet package.
+> Supported in Semiconductor Test Library 25.5 NuGet package or later.
 
 ## Implementation Requirements
 
@@ -24,7 +24,7 @@ The following steps must be repeated for each type of custom instrument that you
 5. Align the implementation to the appropriate pin map configuration.
 
 The `ICustomInstrument` and `ICustomInstrumentFactory` interfaces are used to define concrete class implementations for wrapping the instrument's driver API.
-Where the `ICustomInstrumentFactory` concrete class implementation is responsible for initially constructing the appropriate concrete `ICustomInstrument` object and designating the `InstrumentTypeId` to be used within the pin map definition.
+The `ICustomInstrumentFactory` concrete class implementation is responsible for initially constructing the appropriate concrete `ICustomInstrument` object and designating the `InstrumentTypeId` to be used within the pin map definition.
 
 > [!NOTE]
 > There should be separate concrete class implementations of `ICustomInstrument` and `ICustomInstrumentFactory` for each type of custom instrument, or `InstrumentTypeId`, that are to be supported.
@@ -50,13 +50,15 @@ Similar to the extension methods provided by the library for natively supported 
 
 Create a new custom instrument class that implements `ICustomInstrument` interface. For example, "MyCustomInstrument"
 
-- You will need to add the following `using` directive at the top of your .cs file to reference the `ICustomInstrument` interface: `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`
+- Add the following `using` directive at the top of your .cs file to reference the `ICustomInstrument` interface: `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`
 - Within the class constructor open a unique session reference to the instrument or channel group using the instrument driver's API. Then store that reference as a property within the class.
   - The Instrument name and channel details should also be stored as part of object data.
 - The class must Implement a `Close` method to close the sessions reference to the instrument or channel-group.
 - The class must implement a `Reset` method to reset instrument/channel-group.
   - If the devices does not support a reset operation then the body of this method can be left empty, but it's signature must still be defined.
-  - It's a good idea to write a comment in the body of the method to denote when this operation is not supported.
+
+> [!TIP]
+> It's a good idea to write a comment in the body of the method to denote when `Reset` operation is not supported.
 
 ### 2. Create a Custom Instrument Factory Class
 
@@ -71,7 +73,7 @@ Create a new concrete factory class implements the `ICustomInstrumentFactory` in
 
 ### 3. Create High-level Setup and Cleanup Methods
 
-You need to create Setup and Cleanup methods which will be called from TestProgram/Test Sequence.
+Create Setup and Cleanup methods which will be called from TestProgram/Test Sequence.
 The Setup method should take care of Initialization of the custom instruments.
 As part of the Setup method, an initial configuration for the instrument can also be applied (including pin specific configurations).
 The Cleanup code should take care of closing all references and resetting the instrumentation (when applicable).
@@ -85,7 +87,7 @@ Where `<NameOfCustomInstrumentType>` is replaced by your custom instrument's nam
   - Alternatively, you can add this method to an existing class, if your project already contains a similar class.
 - The method should create a new instance of the Custom Instrument Factory class.
 - The method should call the `InitializeAndClose.Initialize` method, passing it the newly created Custom Instrument factory object as parameter.
-  - You will need to add the following `using` directive to the top of your .cs file to reference the appropriate `InitializeAndClose` class: `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`.
+  - Add the following `using` directive to the top of your .cs file to reference the appropriate `InitializeAndClose` class: `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`.
 - Optionally, you can perform any high-level operations to configuration the instrument upon its initial setup.
   - It is recommended that you do so by creating a new session bundle object, as discussed in [Using Extension Methods Within Test Code Modules](#using-extension-methods-within-test-code-modules)
 
@@ -101,7 +103,7 @@ Where `<NameOfCustomInstrumentType>` is replaced by your custom instrument's nam
 
 - The method should call the `InitializeAndClose.Close` method, passing it the `InstrumentTypeId` property from the concrete Custom Instrument Factory class as parameter.
   - Before calling the `InitializeAndClose.Close` method, ensure the device is properly powered down and configured, if necessary.
-  - You will need to add the following `using` directive to the top of your .cs file to reference the appropriate `InitializeAndClose` class: `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`.
+  - Add the following `using` directive to the top of your .cs file to reference the appropriate `InitializeAndClose` class: `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`.
 
 Refer to the [Custom Instrument Example - `CleanupMyCustomInstruments` Method in SetupAndCleanupSteps.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/SetupAndCleanupSteps.cs#L29) as a reference for creating a Cleanup method.
 
@@ -113,7 +115,7 @@ Cleanup code workflow
 To perform operations on the instrument, you need to write high-level extension methods to extend the `CustomInstrumentSessionsBundle` class.
 
 - Refer to [Extending the Semiconductor Test Library](https://ni.github.io/semi-test-library-dotnet/UserGuide/advanced/ExtendingTheSemiconductorTestLibrary.html) for more specific instructions to get started.
-- You will need to add the following `using` directives at the top of your .cs file to reference the required classes from the library:
+- Add the following `using` directives at the top of your .cs file to reference the required classes from the library:
   - `using NationalInstruments.SemiconductorTestLibrary.Common;`
   - `using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;`
   - `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`
