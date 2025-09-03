@@ -1,6 +1,6 @@
 # Custom Instrument Support
 
-The Semiconductor Test Library (STL) provides built-in support for commonly used instruments, such as NI-DCPower and NI-Digital. However, If you want to use an instrument that is not natively supported, STL provides the infrastructure to support Custom Instruments. For example, NI-RIO instruments such as FlexRIO or R-Series devices, 3rd-party devices, or even certain load board hardware can be defined and used as Custom Instruments with STL. You can define the unsupported instrument as a Custom Instrument within the pinmap and then leverage the provided interfaces and classes to abstract the device's driver and perform high-level operations on the instrument.
+The Semiconductor Test Library (STL) provides built-in support for commonly used instruments, such as NI-DCPower and NI-Digital. STL also provides the infrastructure for you to define custom instruments, allowing you to use additional instruments that are not natively supported such as FlexRIO or R-Series devices, third-party devices, or specific load-board hardware. You can define the unsupported instrument as a Custom Instrument within the pinmap and then leverage the provided interfaces and classes to abstract the device's driver and perform high-level operations on the instrument.
 
 > [!NOTE]
 > Supported in Semiconductor Test Library 25.5 NuGet package or later.
