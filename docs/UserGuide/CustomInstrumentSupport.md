@@ -69,7 +69,7 @@ Create a new concrete factory class implements the `ICustomInstrumentFactory` in
 - The class must implement a `InstrumentTypeId` property, which provides unique identifier to denote the Instrument type and will be used within the pin map.
 - The class must implement the `CreateInstrument` method, which creates and returns a new instance of the object that implements the `ICustomInstrument` interface.
 - The class must implement the `ValidateCustomInstruments` method, which is used to validate the channel names and channel groups in the pin map are setup as expected for the specific instrument type.
-  - The body of this method can be left empty, but it's signature must still be defined.
+  - The body of this method can be left empty, but the method signature must still be defined.
 
 ### 3. Create High-level Setup and Cleanup Methods
 
@@ -138,7 +138,7 @@ Driver operation workflow
 
 ### 5. How to Configure the Pin Map
 
-To configure the pin map definition for your custom instrument, you must first identify what type of hardware constraints the instrument has. Typically, this is categorized based on how the hardware device gets reserved by the device driver and whether or not the instrument channels can be operated on independently from one another within a single device (i.e. within parallel threads). There are three categories of possible configurations.
+To configure the pin map definition for your custom instrument, you must identify any hardware or device driver constraints. This can be done by determining how the hardware device is reserved by the device driver and whether or not the instrument channels can operate independently within a single device (for example, in parallel threads). Typically, there are three possible configurations.
 
 - Session per Channel
   - Each instrument has unique session data for each channel.
@@ -166,7 +166,7 @@ To configure the pin map definition for your custom instrument, you must first i
 1. Provide the unique resource name or identifier required to instantiate a new session with the hardware using the device driver (i.e. the instrument's alias shown in the NI MAX software).
 1. Provide the unique `InstrumentTypeId` you have defined for your custom instrument within the concrete custom instrument factory class implementing the `ICustomInstrumentFactory` interface (from the [2. Create a Custom Instrument Factory Class](#2-create-a-custom-instrument-factory-class) step above).
 1. Ensure `Custom Instrument` is selected for the `Instrument Type` field.
-1. Create channel group and populate channel names as per the instrument hardware constraints mentioned above.
+1. Create a channel group and populate channel names according to the instrument hardware constraints mentioned above.
 1. Update the Connections table to map the instrument channels to the appropriate pins and sites.
 
 ![Pinmap](../images/CustomInstrument/PinmapEditor.png)
