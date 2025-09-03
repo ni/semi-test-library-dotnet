@@ -27,7 +27,7 @@ The `ICustomInstrument` and `ICustomInstrumentFactory` interfaces are used to de
 The `ICustomInstrumentFactory` concrete class implementation is responsible for initially constructing the appropriate concrete `ICustomInstrument` object and designating the `InstrumentTypeId` to be used within the pin map definition.
 
 > [!NOTE]
-> There should be separate concrete class implementations of `ICustomInstrument` and `ICustomInstrumentFactory` for each type of custom instrument, or `InstrumentTypeId`, that are to be supported.
+> Provide separate implementations of `ICustomInstrument` and `ICustomInstrumentFactory` for each type of custom Instrument or `InstrumentTypeId` that are to be supported.
 > In general, there will be a specific `InstrumentTypeId` based on how different instrument channels are grouped and defined within the pin map. Refer to [How to Configure the Pin Map](#5-how-to-configure-the-pin-map) for more details.
 
 Additionally, for each custom instrument type, you must write high-level methods to Setup and Cleanup the instrument driver session.
