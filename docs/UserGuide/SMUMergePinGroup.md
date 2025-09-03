@@ -1,14 +1,14 @@
 # SMU Merge Pin Group
 
-The DCPower Instrument Abstraction allows you to merge SMU pins together to achieve higher current. This is an advanced, yet common use case for many mixed-signal STS applications. This is particularly useful for applications that require a higher current output beyond what any single independent channel of the SMU can provide.
-
-> [!NOTE]
-> Only supported with v25.5 or later of the Semiconductor Test Library NuGet package.
+The DCPower Instrument Abstraction allows you to merge SMU pins together to achieve higher current output than a single independent channel of the SMU can provide.
 
 This works by taking advantage of a NI-DCPower driver capability known as Merged Channels, which allows the user to combine multiple channels on a single multi-channel SMU to work in unison. Merging channels requires you to designate a primary channel and programmatically combine it with other compatible merge channels.
 
 - Primary channel: The channel you access when programming merged channels in the low-level driver session.
 - Merge channels: The channels that you specify with the Merged Channels property. The merge channels work in unison with the primary channel.
+
+> [!NOTE]
+> Supported in Semiconductor Test Library 25.5 NuGet package or later.
 
 ## Hardware Requirements
 
@@ -29,19 +29,22 @@ The following image illustrates an example of the relay-based dynamic connection
 ![SMUMergePinGroupSetup](../images/SMUMergePinGroupSetup.png)
 
 > [!NOTE]
-> Only certain channels on a device can be used as primary channels. Refer to the device specific user manuals linked above for more details, including Choosing a Valid Merge Configuration, Designing Merge Circuitry, and Effect of Merging Channels on Performance Specifications.
+> Only certain channels on a device can be used as primary channels. Refer to the individual device user manuals, linked above, for more details including the following topics:
+    - Valid Merge Configuration
+    - Designing Merge Circuitry
+    - Effect of Merging Channels on Performance Specifications.
 
 ## Pin Map Requirements
 
-The designated primary and merge channels must all map to DUT pins in the pin map file, on a per site bases. Channels mapped to a particular site must all be from the same instrument, and that instrument must support Merged Channels (refer to [Hardware Requirements](#hardware-requirements)). It is possible to map multiple sites to the same instrument, depending on the merge configuration (x2, x4, etc.). The pins are then assigned to a dedicated pin group, where the pin mapping to the primary SMU channel is the first element in the pin group and the pin group only contains the pins mapped to the channels being merged.
+The designated primary and merge channels must all map to DUT pins in the pin map file on a per-site basis. Channels mapped to a particular site must all be from the same instrument, and that instrument must support Merged Channels (refer to [Hardware Requirements](#hardware-requirements)). It is possible to map multiple sites to the same instrument, depending on the merge configuration (x2, x4, or x8). The pins are then assigned to a dedicated pin group, where the pin mapping to the primary SMU channel is the first element in the pin group and the pin group only contains the pins mapped to the channels being merged.
 
-Use the following procedure to configure the pin map to use a Merged Pin Group:
+Use the following procedure to configure the pin map to use a merged pin group:
 
-1. Add DUT pin definitions for each of the channels being merged. For example, "Vcc_0", "Vcc_1", "Vcc_2", etc.
-   - Ensure that the channels mapped to any particular site are all from the same instrument, and the instrument supports Merged Channels (refer to [Hardware Requirements](#hardware-requirements))
-2. Add a new pin group definition. Use a name that is appropriate for the combined pin. For example, "Vcc" or "Vcc_Merged".
-3. Assign each of the pins created in step 1 to the pin group created in step 2.
-   - Ensure that the first pin in the pin group is mapped to the primary channel of the merged channel group and the pin group only contains the pins mapped to the channels being merged.
+1. Add DUT pin definitions for each of the channels being merged. For example, "Vcc_0", "Vcc_1", "Vcc_2" and so on.
+2. Ensure that the channels mapped to any particular site are all from the same instrument, and the instrument supports Merged Channels (refer to [Hardware Requirements](#hardware-requirements))
+3. Add a new pin group definition. Use a name that is appropriate for the combined pin. For example, "Vcc" or "Vcc_Merged".
+4. Assign each of the pins created in step 1 to the pin group created in step 3.
+5. Ensure that the first pin in the pin group is mapped to the primary channel of the merged channel group and the pin group only contains the pins mapped to the channels being merged.
 
 The following example pin map file illustrates a pin group of two pins being merged for two sites.
 
@@ -80,11 +83,11 @@ The following example pin map file illustrates a pin group of two pins being mer
 The merge operation must be performed within the test program at runtime, once instrument sessions are initialized.
 
 > [!NOTE]
-> This by design to allow you the flexibility to handle situations where channels may not be statically merged on an application load board, but rather, are programmatically merged via external relays or MUX during testing for only certain tests that demand higher current. Allowing you to take advantage of the individual channels during other tests, or vice versa.
+> This flexible design preserves access to individual channels for situations where channels are programmatically merged with external relays or MUX only for certain tests that demand higher current. Allowing you to take advantage of the individual channels during other tests, or vice versa.
 
 You can use the `MergePinGroup` method with a `DCPowerSessionsBundle` object that contains the pin group to perform the merge operation with the instrument.
 Similarly, you can use the `MergePinGroup` method to un-merge the channels in the in group.
-It is recommended to perform the merge operations at the start and end of the test program, unless performing a dynamic merge for specific tests.
+As a best practice, perform the merge operations at the start and end of the test program, unless performing a dynamic merge for specific tests.
 Once the merge operation has been performed, all subsequent DCPower Extension methods can be used on the bundle, and will operate on the pin group as if it were one single pin in the bundle.
 
 > [!NOTE]
