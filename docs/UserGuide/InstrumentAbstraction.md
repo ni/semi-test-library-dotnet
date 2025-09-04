@@ -132,13 +132,13 @@ sdo.WriteStatic(PinState._1);
 ## Shared Pins
 
 > [!NOTE]
-> Shared Pins are supported in Semiconductor Test Library 25.5 or later.
+> Supported in Semiconductor Test Library NuGet package 25.5 or later.
 
 The Semiconductor Test Library supports shared pins, where the same DUT pin is mapped to the same instrument channel across multiple sites. The instrument channel is either routed through an external multiplexer or relay network on the application load board to connect to each site separately. In some cases, the instrument channel can also be connected to multiple sites at once but this configuration restricts the ability of the instrument to take measurements.
 
 The library abstracts this by ensuring the same instrument channel is correctly associated with each of the site-pin pairs. The Semiconductor Test Library considers the first site mapped to the instrument channel as the primary site and treats all other sites as secondary. Only the primary site is used for executing low-level driver methods and secondary sites are skipped to avoid redundant operations. For example, a read operation is performed on the primary site and the value that is read back is applied to the primary site and all secondary sites.
 
-This behavior of skipping operations on secondary sites is built into the `ParallelExecution` class methods utilizing site-pin information. The `SitePinInfo` class includes a public property called `SkipOperations`, which identifies whether an operation should be executed or skipped for a particular site. When a new bundle object is created the `SkipOperations` property will be set to `true` for any of the contained pins that are shared. If the site is primary or non-shared, the property is set to `false`, if the site is secondary, it is set to `true`.
+This behavior of skipping operations on secondary sites is built into the `ParallelExecution` class methods utilizing site-pin information. The `SitePinInfo` class includes a public property called `SkipOperations`, which identifies whether an operation should be executed or skipped for a particular site. When a new bundle object is created the `SkipOperations` property will be set to `true` for any of the contained pins that are shared. If the site is primary or is not mapped to a shared pin, the property is set to `false`, if the site is secondary, it is set to `true`.
 
 To appropriately perform an operation on the instrument channel within an extension method, use the `SkipOperations` property. The following code module illustrates how `SkipOperations` can be used to ignore the operations on the secondary site, within an extension method.
 
