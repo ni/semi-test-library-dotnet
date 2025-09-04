@@ -1,7 +1,7 @@
 ﻿using MyCompany.MyCustomInstrumentDriverAPI;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
-namespace NationalInstruments.SemiconductorTestLibrary.Examples.CustomInstrument.MyCustomInstrument
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.MyCustomInstrument
 {
     /// <summary>
     /// Concrete implementation of ICustomInstrument Interface.

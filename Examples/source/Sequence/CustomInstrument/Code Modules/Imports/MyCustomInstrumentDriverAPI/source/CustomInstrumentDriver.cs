@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 
 namespace MyCompany.MyCustomInstrumentDriverAPI
 {
@@ -7,6 +7,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
     /// </summary>
     public class CustomInstrumentDriver
     {
+        private string _instrumentName;
+
         /// <summary>
         /// Initializes dummy driver session.
         /// </summary>
@@ -14,6 +16,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public CustomInstrumentDriver(string resourceName)
         {
             // Initialize dummy driver session.
+            _instrumentName = resourceName.Split('/').First();
+            Simulation.InitInstrument(_instrumentName);
         }
 
         /// <summary>
@@ -22,6 +26,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public void Close()
         {
             // Driver code.
+            // For simulation.
+            Simulation.ClearInstrument(_instrumentName);
         }
 
         /// <summary>
@@ -30,6 +36,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public void Reset()
         {
             // Driver code.
+            // For simulation.
+            Simulation.ResetInstrument(_instrumentName);
         }
 
         /// <summary>
@@ -39,16 +47,20 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public void WriteData(double data)
         {
             // Driver code.
+            // For simulation.
+            Simulation.WriteDigitalData(_instrumentName, data);
         }
 
         /// <summary>
         /// Dummy driver method for write channel data operation.
         /// </summary>
         /// <param name="channelString">Channel name.</param>
-        /// <param name="pinSiteSpecificData">Data sepcific to pin/site.</param>
+        /// <param name="pinSiteSpecificData">Data specific to pin/site.</param>
         public void WriteChannelData(string channelString, double pinSiteSpecificData)
         {
             // Driver code.
+            // For simulation.
+            Simulation.WriteDigitalChannelData(_instrumentName, channelString, pinSiteSpecificData);
         }
 
         /// <summary>
@@ -59,9 +71,8 @@ namespace MyCompany.MyCustomInstrumentDriverAPI
         public double MeasureData(string channelString)
         {
             // Driver code.
-            Random rand = new Random();
-            double data = rand.Next(0, 5);
-            return data;
+            // For simulation.
+            return Simulation.ReadAnalogChannel(_instrumentName, channelString);
         }
 
         /// <summary>

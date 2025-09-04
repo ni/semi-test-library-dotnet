@@ -493,7 +493,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower("VCC");
-            var expectedPhrases = new string[] { "An error occurred while processing", "Function or method not supported." };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "Function or method not supported." };
 
             sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
             sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1);
@@ -689,6 +689,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
 
             sessionsBundle.ForceCurrent(currentLevel: 0.1, waitForSourceCompletion: true);
+            var results = sessionsBundle.MeasureVoltage();
+
+            AssertAllChannelsHaveResult(results);
+        }
+
+        [Theory]
+        [InlineData("VCC1")]
+        [InlineData("VCC2")]
+        [InlineData("VDET")]
+        public void AllChannelsMeasureOnDemand_ForceCurrentMeasureVoltage_AllChannelsMeasuredInSharedPinConfiguration(string pinName)
+        {
+            var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+
+            sessionsBundle.ForceCurrent(currentLevel: 0.05, waitForSourceCompletion: true);
             var results = sessionsBundle.MeasureVoltage();
 
             AssertAllChannelsHaveResult(results);

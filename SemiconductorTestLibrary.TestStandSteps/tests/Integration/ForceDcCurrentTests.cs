@@ -1,6 +1,7 @@
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
@@ -10,6 +11,9 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
     public class ForceDcCurrentTests
     {
         [Fact]
@@ -138,7 +142,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 settlingTime: 5e-5);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceDcCurrentMethod);
-            Assert.Contains("An error occurred while processing site1/PA_EN, site1/C0, site1/C1", exception.Message);
+            Assert.Contains("An exception occurred while processing pins/sites:", exception.Message);
+            Assert.Contains("site1/PA_EN", exception.Message);
+            Assert.Contains("site1/C0", exception.Message);
+            Assert.Contains("site1/C1", exception.Message);
             Assert.Contains("Maximum Value: 6", exception.Message);
             CleanupInstrumentation(tsmContext);
         }
