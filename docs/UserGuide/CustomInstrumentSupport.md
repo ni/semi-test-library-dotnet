@@ -7,7 +7,7 @@ The Semiconductor Test Library (STL) provides built-in support for commonly used
 
 ## Implementation Requirements
 
-In order to use a Custom Instrument within your test program, you must develop a basic implementation within your test program using the provided interfaces and classes.
+To use a custom instrument within your test program, you must first develop the necessary code implementations using the provided interfaces and classes.
 
 - `ICustomInstrument`
 - `ICustomInstrumentFactory`
@@ -25,10 +25,10 @@ The following steps must be repeated for each type of custom instrument that you
 
 The `ICustomInstrument` and `ICustomInstrumentFactory` interfaces are used to define concrete class implementations for wrapping the instrument's driver API.
 The `ICustomInstrumentFactory` concrete class implementation is responsible for initially constructing the appropriate concrete `ICustomInstrument` object and designating the `InstrumentTypeId` to be used within the pin map definition.
+Separate implementations of `ICustomInstrument` and `ICustomInstrumentFactory` are required for each type of custom instrument, or `InstrumentTypeId`, that you plan to support.
 
 > [!NOTE]
-> Provide separate implementations of `ICustomInstrument` and `ICustomInstrumentFactory` for each type of custom Instrument or `InstrumentTypeId` that are to be supported.
-> In general, there will be a specific `InstrumentTypeId` based on how different instrument channels are grouped and defined within the pin map. Refer to [How to Configure the Pin Map](#5-how-to-configure-the-pin-map) for more details.
+> Typically, the `InstrumentTypeId` can be used to identify how different instrument channels are intended to be grouped and defined within the pin map. Refer to [How to Configure the Pin Map](#5-how-to-configure-the-pin-map) for more details.
 
 Additionally, for each custom instrument type, you must write high-level methods to Setup and Cleanup the instrument driver session.
 This is done by utilizing the concrete implementation of the `ICustomInstrumentFactory` interface with the `Initialize` and `Close` methods provided by the `InitializeAndClose` class.
@@ -58,7 +58,7 @@ Create a new custom instrument class that implements `ICustomInstrument` interfa
   - If the devices does not support a reset operation then the body of this method can be left empty, but it's signature must still be defined.
 
 > [!TIP]
-> Add a comment in the body of the Reset method to denote when a reset operation is not supported by the instrument.
+> Add a comment in the body of the `Reset` method to denote when a reset operation is not supported by the instrument.
 
 ### 2. Create a Custom Instrument Factory Class
 
