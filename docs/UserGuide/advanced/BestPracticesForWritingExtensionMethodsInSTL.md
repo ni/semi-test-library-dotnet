@@ -1,7 +1,7 @@
 # Best Practices for Writing Extension Methods in STL
 
 Extension methods provide a framework for adding capabilities to the core abstractions provided by the Semiconductor Test Library. For example, you can add instrument-specific functionality for configuration, control, or measurement. Extension methods reduce the complexity of multi-site instrument programming and simplify writing high-level test code.
-The extension methods act as a bridge between low-level instrument control and high-level test program development. Pre-defined extension methods allow users to create new methods that meet specific needs while avoiding constraints of inheritance or direct dependency.
+The extension methods act as a bridge between low-level instrument control and high-level test program development. In addition to the extension methods provided by the Semiconductor Test Library, you can also create new extension methods to meet your specific needs while avoiding constraints of inheritance and direct dependency.
 
 This page provides instructions for writing extension methods that meet Semiconductor Test Library requirements.
 
@@ -117,7 +117,7 @@ For more information, refer to the [How to Make Low Level Driver API Calls](http
 
 ### Reusability and Modularity
 
-- When multiple extension methods share code, extract the reusable code into a separate method and refactor your methods to use it.
+- When multiple extension methods contain repeating code, extract the reusable code into a separate method and refactor your methods to use it.
 
 - :heavy_check_mark: **Do**
   - If all of your methods are part of the same .cs file, place the new method within that same .cs file and mark it as a `private` method.
