@@ -127,6 +127,8 @@ For more information, refer to the [How to Make Low Level Driver API Calls](http
 
 ### Exception Handling and Validation
 
+The `ExceptionCollector` class collects and manages exceptions that occur during driver operations, allowing them to be aggregated and thrown as a single `NISemiconductorTestException`. This approach helps ensure that all relevant errors are reported together, improving troubleshooting and error visibility.
+
 Ensure proper exception handling is in place. This could include validating input parameters, checking communication status with the instrument, and providing useful error messages if the operation fails.
 
 **Example**: The [`VerifyTaskType`](https://github.com/ni/semi-test-library-dotnet/blob/12282644789e1f03018b6e3e024829d405ddad1d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Utilities.cs#L18) method is used in DAQmx Digital Input and Analog Input functions to validate the task type and throw error accordingly.
