@@ -14,6 +14,11 @@
 - name: Core Concepts
 - name: Instrument Abstraction
   href: InstrumentAbstraction.md
+  items:
+    - name: SMU Merge Pin Group
+      href: SMUMergePinGroup.md
+    - name: Custom Instrument Support
+      href: CustomInstrumentSupport.md
 - name: Data Abstraction
   href: DataAbstraction.md
   items:
