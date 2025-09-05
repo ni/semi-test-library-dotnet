@@ -30,9 +30,10 @@ The following image illustrates an example of the relay-based dynamic connection
 
 > [!NOTE]
 > Only certain channels on a device can be used as primary channels. Refer to the individual device user manuals, linked above, for more details including the following topics:
-    - Valid Merge Configuration
-    - Designing Merge Circuitry
-    - Effect of Merging Channels on Performance Specifications.
+>
+> - Valid Merge Configuration
+> - Designing Merge Circuitry
+> - Effect of Merging Channels on Performance Specifications.
 
 ## Pin Map Requirements
 
