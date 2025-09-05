@@ -91,7 +91,7 @@ Where `<NameOfCustomInstrumentType>` is replaced by your custom instrument's nam
 - Optionally, you can perform any high-level operations to configuration the instrument upon its initial setup.
   - It is recommended that you do so by creating a new session bundle object, as discussed in [Using Extension Methods Within Test Code Modules](#using-extension-methods-within-test-code-modules)
 
-Refer to the [Custom Instrument Example - `SetupMyCustomInstruments` Method in SetupAndCleanupSteps.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/SetupAndCleanupSteps.cs#L12) as a reference for creating a Setup method.
+Refer to the [Custom Instrument Example - `SetupMyCustomInstruments` Method in SetupAndCleanupSteps.cs](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/Code%20Modules/SetupAndCleanupSteps.cs#L18) as a reference for creating a Setup method.
 
 Setup Code workflow
 ![CustomInstrument_SetupCode](../images/CustomInstrument/Setup.png)

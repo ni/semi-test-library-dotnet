@@ -96,7 +96,7 @@ Once the merge operation has been performed, all subsequent DCPower Extension me
 
 ## Example Usage
 
-The following .Net/C# code snippet shows how to use `MergePinGroup()` and `UnmergePinGroup()` API calls to perform Merging and Unmerging operation on the `Vcc` PinGroup defined in the above pin map file.
+The following C#/.NET code snippet shows how to use `MergePinGroup()` and `UnmergePinGroup()` API calls to perform Merging and Unmerging operation on the `Vcc` PinGroup defined in the above pin map file.
 
 ``` C#
 var sessionManager = new TSMSessionManager(tsmContext);
