@@ -25,6 +25,8 @@
         href: MathOperations/MathOperationsWithPinSiteData.md
       - name: Exception Conditions for Math Operations
         href: MathOperations/ExceptionConditionsForMathOperations.md
+- name: Exception Handling
+  href: ExceptionHandling.md
 - name: Configuring Instrument Sessions
   href: ConfiguringInstrumentSessions.md
 - name: Publishing Results
@@ -47,6 +49,9 @@
   href: advanced/SharingPinSiteDataBetweenCodeModules.md
 - name: Extending the Semiconductor Test Library
   href: advanced/ExtendingTheSemiconductorTestLibrary.md
+  items:
+    - name: Best Practices for Writing Extension Methods in STL
+      href: advanced/BestPracticesForWritingExtensionMethodsInSTL.md
 - name: Customizing TestStand Steps
   href: advanced/CustomizingTestStandSteps.md
 - name: Using Measurement Studio Analysis Library with PinSiteData
