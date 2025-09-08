@@ -77,12 +77,12 @@ The following table highlights which release versions of Semiconductor Test Libr
 
 | **STS Software Version** | **Installed STL Version** | **Compatible STL NuGet Package Version** |
 | ------ | ------ | -------------------------------------- |
-| 24.5.0 | 24.5.0 | 24.5.0, 24.5.1, 24.5.2, 25.0.0, 25.5.0 |
-| 24.5.1 | 24.5.1 | 24.5.0, 24.5.1, 24.5.2, 25.0.0, 25.5.0 |
-| 24.5.2 | 24.5.1 | 24.5.0, 24.5.1, 24.5.2, 25.0.0, 25.5.0 |
-| 24.5.3 | 24.5.1 | 24.5.0, 24.5.1, 24.5.2, 25.0.0, 25.5.0 |
-| 25.0.0 | 25.0.0 | 24.5.0, 24.5.1, 24.5.2, 25.0.0, 25.5.0 |
-| 25.5.0 | 25.5.0 | 24.5.0, 24.5.1, 24.5.2, 25.0.0, 25.5.0 |
+| 24.5.0 | 24.5.0 | 24.5.0, 24.5.1, 25.0.0, 25.5.0 |
+| 24.5.1 | 24.5.1 | 24.5.0, 24.5.1, 25.0.0, 25.5.0 |
+| 24.5.2 | 24.5.1 | 24.5.0, 24.5.1, 25.0.0, 25.5.0 |
+| 24.5.3 | 24.5.1 | 24.5.0, 24.5.1, 25.0.0, 25.5.0 |
+| 25.0.0 | 25.0.0 | 24.5.0, 24.5.1, 25.0.0, 25.5.0 |
+| 25.5.0 | 25.5.0 | 24.5.0, 24.5.1, 25.0.0, 25.5.0 |
 
 > [!NOTE]
 > *Installed STL Version* - refers to the release version of STL assemblies that are installed by STS Software into the following directory: `C:\Program Files\National Instruments\Shared\NI_SemiconductorTestLibrary`.
