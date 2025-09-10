@@ -1,13 +1,14 @@
 # Locating Examples
 
-Examples for how to use the Semiconductor Test Library (STL) are available on GitHub and are also included as part of the STS Software install.
+Examples for how to use the Semiconductor Test Library (STL) are available on GitHub and are also installed with STS Software.
 
 - GitHub Location: [semi-test-library-dotnet/Examples](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source)
 - Installed Location: `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples`
 
 Reference the GitHub location for the latest version of the examples or to browse the example code source online.
 When on a system with STS Software installed, reference the examples from their installed location.
-The version of the examples included in the STS Software install will match their state at the time of the specific STL release used by the STS Software version.
+The installed version of an example matches the state of the example at the time of the STL release consumed by the installed STS Software version.
+
 Refer to the [STS Software Version Compatibility](https://ni.github.io/semi-test-library-dotnet/UserGuide/Overview.html#sts-software-version-compatibility) table for more details.
 
 > [!NOTE]
@@ -57,13 +58,14 @@ Test Program examples demonstrate mock test programs for testing specific DUT ty
 > [!NOTE]
 > Test program style examples are available as of the v25.5 release of the Semiconductor Test Library (STL). Unless documented otherwise, they can be leveraged with previous STL versions. Refer to the documentation accompanying the specific example for details.
 
-## Standalone Style
+## Standalone Examples
 
-Standalone style examples demonstrate how to program instrumentation or implement code-level concepts.
+Standalone examples demonstrate how to program instrumentation or implement code-level concepts.
 
-- Any assumed context required to run or understand the example is documented within an accompanying README.md file and via comments in-line with the code statements and method summaries.
-- It can be executed standalone, outside of the TestStand Sequence Editor, if the criteria defined by the provided context is met.
-Runs in offline mode with simulated hardware or with actual hardware depending on the criteria defined by the provided context.
+- Any requirements for understanding or running the example are documented in an accompanying README.md. Context is also provided in method summaries or inline code statements.
+
+- If the documented requirements are met, standalone examples can be executed independently outside the TestStand Sequence Editor.
+Depending on the individual example requirements, a standalone example may require physical hardware or run in offline mode with simulated hardware.
 
 > [!NOTE]
-> There are no standalone style examples that have been released to date. This style of example is being considered for future releases.
+> There are no standalone examples that have been released to date. This style of example is being considered for future releases.
