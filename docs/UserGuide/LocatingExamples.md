@@ -21,7 +21,6 @@ Refer to the sections below to learn more about each style of example.
 - [Code Snippet Style](#code-snippet-examples)
 - [Sequence Style](#sequence-examples)
 - [Test Program Style](#test-program-examples)
-- [Standalone Style](#standalone-style)
 
 > [!Note]
 > Each example includes documentation in the form of a README.md markdown file. Markdown files are human-readable plain-text documents you can view using any text editor, including Notepad.
@@ -57,15 +56,3 @@ Test Program examples demonstrate mock test programs for testing specific DUT ty
 
 > [!NOTE]
 > Test program style examples are available as of the v25.5 release of the Semiconductor Test Library (STL). Unless documented otherwise, they can be leveraged with previous STL versions. Refer to the documentation accompanying the specific example for details.
-
-## Standalone Examples
-
-Standalone examples demonstrate how to program instrumentation or implement code-level concepts.
-
-- Any requirements for understanding or running the example are documented in an accompanying README.md. Context is also provided in method summaries or inline code statements.
-
-- If the documented requirements are met, standalone examples can be executed independently outside the TestStand Sequence Editor.
-Depending on the individual example requirements, a standalone example may require physical hardware or run in offline mode with simulated hardware.
-
-> [!NOTE]
-> There are no standalone examples that have been released to date. This style of example is being considered for future releases.
