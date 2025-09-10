@@ -6,6 +6,8 @@
   href: Overview.md
 - name: Writing Test Code
   href: WritingTestCode.md
+- name: Locating Examples
+  href: LocatingExamples.md
 - name: Supported Instrument Types
   href: SupportedInstrumentTypes.md
 - name: Adding Using Directives
