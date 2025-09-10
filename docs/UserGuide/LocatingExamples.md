@@ -7,7 +7,7 @@ Examples for how to use the Semiconductor Test Library (STL) are available on Gi
 
 Reference the GitHub location for the latest version of the examples or to browse the example code source online.
 When on a system with STS Software installed, reference the examples from their installed location.
-The version of the examples included in the STS Software installer will match their state at the time of the specific STL release used by the STS Software version.
+The version of the examples included in the STS Software install will match their state at the time of the specific STL release used by the STS Software version.
 Refer to the [STS Software Version Compatibility](https://ni.github.io/semi-test-library-dotnet/UserGuide/Overview.html#sts-software-version-compatibility) table for more details.
 
 > [!NOTE]
@@ -57,7 +57,6 @@ Test Program examples demonstrate mock test programs for testing specific DUT ty
 > [!NOTE]
 > Test program style examples are available as of the v25.5 release of the Semiconductor Test Library (STL). Unless documented otherwise, they can be leveraged with previous STL versions. Refer to the documentation accompanying the specific example for details.
 
-
 ## Standalone Style
 
 Standalone style examples demonstrate how to program instrumentation or implement code-level concepts.
@@ -68,4 +67,3 @@ Runs in offline mode with simulated hardware or with actual hardware depending o
 
 > [!NOTE]
 > There are no standalone style examples that have been released to date. This style of example is being considered for future releases.
-
