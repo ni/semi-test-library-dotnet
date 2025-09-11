@@ -8,7 +8,6 @@ Examples for how to use the Semiconductor Test Library (STL) are available on Gi
 Reference the GitHub location for the latest version of the examples or to browse the example code source online.
 When on a system with STS Software installed, reference the examples from their installed location.
 The installed version of an example matches the state of the example at the time of the STL release consumed by the installed STS Software version.
-
 Refer to the [STS Software Version Compatibility](https://ni.github.io/semi-test-library-dotnet/UserGuide/Overview.html#sts-software-version-compatibility) table for more details.
 
 > [!NOTE]
@@ -22,7 +21,7 @@ Refer to the sections below to learn more about each style of example.
 - [Sequence Style](#sequence-examples)
 - [Test Program Style](#test-program-examples)
 
-> [!Note]
+> [!NOTE]
 > Each example includes documentation in the form of a README.md markdown file. Markdown files are human-readable plain-text documents you can view using any text editor, including Notepad.
 
 ## Code Snippet Examples
