@@ -8,7 +8,9 @@ For the latest release, visit the [GitHub Releases](https://github.com/ni/semi-t
 
 ## Examples and Source Code
 
-For examples and source code, visit the [semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet) repository in GitHub.
+For examples, refer to [Locating Examples](UserGuide/LocatingExamples.md).
+
+For source code, visit the [semi-test-library-dotnet](https://github.com/ni/semi-test-library-dotnet) repository in GitHub.
 
 ## Software Requirements
 
