@@ -14,19 +14,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - ### Added
 
   - **Instrument Abstraction**
-    - New `MergePinGroup` and `UnmergePinGroup` DCPower methods added for merging and unmerging channels within a pin group to output higher current.
-    Only supported with multichannel SMUs that support the NI-DCPower Merged Channels driver feature,
-    such as the [PXIe-4147](https://www.ni.com/docs/en-US/bundle/pxie-4147/page/merged-channels.html),
-    [PXIe-4162](https://www.ni.com/docs/en-US/bundle/pxie-4162/page/merged-channels.html),
-    and [PXIe-4163](https://www.ni.com/docs/en-US/bundle/pxie-4163/page/merged-channels.html) devices.
-    Refer to the updated documentation for details.
+    - New `MergePinGroup` and `UnmergePinGroup` DCPower methods added for merging and unmerging channels within a pin group to output higher current. Only supported with multichannel SMUs that support the NI-DCPower Merged Channels driver feature, such as the [PXIe-4147](https://www.ni.com/docs/en-US/bundle/pxie-4147/page/merged-channels.html), [PXIe-4162](https://www.ni.com/docs/en-US/bundle/pxie-4162/page/merged-channels.html), and [PXIe-4163](https://www.ni.com/docs/en-US/bundle/pxie-4163/page/merged-channels.html) devices. Refer to the updated documentation for details.
       - `MergePinGroup(string mergedChannelsPinGroupName)`
       - `MergePinGroup(string[] mergedChannelsPinGroupNames)`
       - `UnmergePinGroup(string mergedChannelsPinGroupName)`
       - `UnmergePinGroup(string[] mergedChannelsPinGroupNames)`
-    - New interfaces and classes added to support Custom Instruments defined the Pin Map,
-    including extension methods in `TSMSessionManager` to create a new `CustomInstrumentSessionsBundle` object for Custom Instruments.
-    Refer to the updated documentation for details.
+    - New interfaces and classes added to support Custom Instruments defined the Pin Map, including extension methods in `TSMSessionManager` to create a new `CustomInstrumentSessionsBundle` object for Custom Instruments. Refer to the updated documentation for details.
       - `ICustomInstrument`
       - `ICustomInstrumentFactory`
       - `InitializeAndClose`
