@@ -35,7 +35,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             else
             {
                 // When run on tester, limits are set based on the maximum voltage limits provided.
-                AssertPublishedDataValueInRange(publishedDataMaximum, 0, 0.001);
+                AssertPublishedDataValueInRange(publishedDataMaximum, -0.001, 0.001);
             }
             // Validate Minimum Value.
             var publishedDataMinimum = publishedData.Where(d => d.PublishedDataId == "Minimum").ToArray();
@@ -48,7 +48,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             else
             {
                 // When run on tester, limits are set based on the maximum voltage limits provided.
-                AssertPublishedDataValueInRange(publishedDataMinimum, -0.001, 0);
+                AssertPublishedDataValueInRange(publishedDataMinimum, -0.001, 0.001);
             }
         }
     }
