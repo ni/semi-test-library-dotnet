@@ -113,9 +113,9 @@ smuBundle.MeasureAndPublishCurrent(publishedDataId: "MergedCurrent");
 smuBundle.UnmergePinGroup("Vcc");
 ```
 
-## Measurement data
+## Measurement Data
 
-When a merged pin group is used, the `MeasureCurrent` method returns PinSiteData associated solely with the group name, representing the total current for all pins in the group. Individual pin-level PinSiteData is not provided in this scenario.  Additionally, `MeasureAndPublishCurrent` method publishes the measurement under the pin group name; however, TestStand step tests evaluate the published data for each individual pin, so the total current value appears for all pins within the merged group.
+When a merged pin group is used, the `Measurevoltage` and `MeasureCurrent` methods return PinSiteData associated with the group name. The voltage value reflects the common voltage, and the current value represents the total current for all pins in the group. Individual pin-level PinSiteData is not provided in this case. If the bundle contains non-merged pins,  their measurements are reported using their respective pin names by default. Additionally, `MeasureAndPublishVoltage` and `MeasureAndPublishCurrent` methods publish the measurements under the pin group name. However, TestStand step tests evaluate the published data for each individual pin, as TSM does not currently support evaluating data for an entire pin group. As a result, the total current value is repeated for each pin within the merged group.
 
 There is also a sequence style example available that showcases a complete working example of merging SMU pin groups.
 Refer to the [SMUMergePinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUMergePinGroup/README.md) for more details.
