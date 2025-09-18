@@ -113,6 +113,10 @@ smuBundle.MeasureAndPublishCurrent(publishedDataId: "MergedCurrent");
 smuBundle.UnmergePinGroup("Vcc");
 ```
 
+## Measurement data
+
+When using a merged pin group, the `MeasureCurrent` and `MeasureVoltage` methods will return PinSiteData associated only with the group name. Individual pin-level PinSiteData will not be available in this case.
+
 There is also a sequence style example available that showcases a complete working example of merging SMU pin groups.
 Refer to the [SMUMergePinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUMergePinGroup/README.md) for more details.
 This example is also installed on any system using STS Software 25.5 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUMergePinGroup`.
