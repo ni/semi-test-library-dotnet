@@ -26,7 +26,7 @@ The designated primary and merge channels must be physically connected on the ap
 For remote sensing, only the primary channel sense wire must be connected.
 
 The following image illustrates an example of the relay-based dynamic connections for a 4 channel merge:
-![SMUMergePinGroupSetup](../images/SMUMergePinGroupSetup.png)
+![SMUMergePinGroupSetup](../images/SMUMergePinGroupSetup/SMUMergePinGroupSetup.png)
 
 > [!NOTE]
 > Only certain channels on a device can be used as primary channels. Refer to the individual device user manuals, linked above, for more details including the following topics:
@@ -115,7 +115,27 @@ smuBundle.UnmergePinGroup("Vcc");
 
 ## Measurement Data
 
-When a merged pin group is used, the `Measurevoltage` and `MeasureCurrent` methods return PinSiteData associated with the group name. The voltage value reflects the common voltage, and the current value represents the total current for all pins in the group. Individual pin-level PinSiteData is not provided in this case. If the bundle contains non-merged pins,  their measurements are reported using their respective pin names by default. Additionally, `MeasureAndPublishVoltage` and `MeasureAndPublishCurrent` methods publish the measurements under the pin group name. However, TestStand step tests evaluate the published data for each individual pin, as TSM does not currently support evaluating data for an entire pin group. As a result, the total current value is repeated for each pin within the merged group.
+When a merged pin group is present within a `DCPowerSessionsBundle` object, the `MeasureCurrent` and `MeasureVoltage` methods will return a `PinSiteData` containing data associated with the pin group name. If there are non-merged pins or pin groups contained and measured as part of the same bundle object, their measurement data will be associated with their respective individual pin names. Refer to the screenshot below as an example.
+
+![PinSiteData object](../images/SMUMergePinGroupSetup/PinSiteData_object.png)
+
+The measured current value of a merged pin group will reflect the total combined current across all merged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the merged channels mapped to the pin group.
+
+> [!NOTE]
+> When the lower-level DCPower driver method is called to perform a measurement, only  the primary channel is operated on. The driver returns the combined measurement result taken across all pins in unison
+
+In addition to the aforementioned behavior, the `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the pin group name. When publishing a value by a pin group name, the TestStand Semiconductor Module (TSM) will associate the same value for each of the pins within the pin group. The published results that then gets evaluated by the calling TestStand step tests can either be associated each individual pin or no pin at all, depending on if you specify a pin for the test in the Tests tab or leave the pin field empty. Refer to the screenshots below as an example.
+
+> [!TIP]
+> TSM does not require you to specify a pin to log the published data against within the Tests tab of the calling TestStand step, only the PublishedDataId. Feel free to leave the pin field empty when working with merged pin groups. Otherwise, it is recommended that you specify the primary pin.
+>
+> Alternatively, if you want to associate the published data by the induvial pins, you can extract the data for the pin group by name from the PinSiteData object, using the `ExtractPin` method, and then only publish the `SiteData` object without associating it with any pin(s).
+
+![Example Code Snippet of MeasureAndPublish method being called](../images/SMUMergePinGroupSetup/)
+![Tests tab of calling step in TestStand at edit-time, no pin specified](../images/SMUMergePinGroupSetup/)
+![Tests tab of calling step in TestStand at run-time, while at a breakpoint in TestStand](../images/SMUMergePinGroupSetup/)
+![Tests tab of calling step in TestStand at edit-time, primary pin of the group specified](../images/SMUMergePinGroupSetup/)
+![Tests tab of calling step in TestStand at run-time, while at a breakpoint in TestStand](../images/SMUMergePinGroupSetup/)
 
 There is also a sequence style example available that showcases a complete working example of merging SMU pin groups.
 Refer to the [SMUMergePinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUMergePinGroup/README.md) for more details.
