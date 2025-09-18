@@ -131,11 +131,16 @@ In addition to the aforementioned behavior, the `MeasureAndPublishCurrent` and `
 >
 > Alternatively, if you want to associate the published data by the induvial pins, you can extract the data for the pin group by name from the PinSiteData object, using the `ExtractPin` method, and then only publish the `SiteData` object without associating it with any pin(s).
 
-![Example Code Snippet of MeasureAndPublish method being called](../images/SMUMergePinGroupSetup/)
-![Tests tab of calling step in TestStand at edit-time, no pin specified](../images/SMUMergePinGroupSetup/)
-![Tests tab of calling step in TestStand at run-time, while at a breakpoint in TestStand](../images/SMUMergePinGroupSetup/)
-![Tests tab of calling step in TestStand at edit-time, primary pin of the group specified](../images/SMUMergePinGroupSetup/)
-![Tests tab of calling step in TestStand at run-time, while at a breakpoint in TestStand](../images/SMUMergePinGroupSetup/)
+The following code snippet shows the function call to the `MeasureAndPublish` method with PublishDataId being `Current`.
+![MeasureAndPublish_method_call](../images/SMUMergePinGroupSetup/MeasureAndPublish_method_call.png)
+
+The following code snippets shows the publish id with no pin selected by default in the Tests tab of Teststep at EditTime and at RunTime.
+![Tests_Tab_No_Pin_EditTime](../images/SMUMergePinGroupSetup/Tests_Tab_No_Pin_EditTime.png)
+![Tests_Tab_No_Pin_RunTime](../images/SMUMergePinGroupSetup/Tests_Tab_No_Pin_RunTime.png)
+
+The following code snippets shows the publish id with Primary pin selected in the Tests tab of Teststep at EditTime and at RunTime.
+![Tests_Tab_Primary_Pin_EditTime](../images/SMUMergePinGroupSetup/Tests_Tab_Primary_Pin_EditTime.png)
+![Tests_Tab_Primary_Pin_RunTime](../images/SMUMergePinGroupSetup/Tests_Tab_Primary_Pin_RunTime.png)
 
 There is also a sequence style example available that showcases a complete working example of merging SMU pin groups.
 Refer to the [SMUMergePinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUMergePinGroup/README.md) for more details.
