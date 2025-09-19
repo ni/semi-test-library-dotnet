@@ -131,14 +131,14 @@ In addition to the aforementioned behavior, the `MeasureAndPublishCurrent` and `
 >
 > Alternatively, if you want to associate the published data by the induvial pins, you can extract the data for the pin group by name from the PinSiteData object, using the `ExtractPin` method, and then only publish the `SiteData` object without associating it with any pin(s).
 
-The following code snippet shows the function call to the `MeasureAndPublish` method with PublishDataId being `Current`.
+The following code snippet shows the function call to the `MeasureAndPublishCurrent` method with `PublishDataId` being `Current`.
 ![MeasureAndPublish_method_call](../images/SMUMergePinGroup/MeasureAndPublish_method_call.png)
 
-The following code snippets shows the PublishDataId with no pin selected by default in the Tests tab of Teststep at Edittime and at Runtime.
+The following images shows the PublishDataId with no pin selected by default in the Tests tab of `Force Voltage Measure Current (FVMI)` step at Edittime and at Runtime.
 ![Tests_Tab_No_Pin_EditTime](../images/SMUMergePinGroup/Tests_Tab_No_Pin_EditTime.png)
 ![Tests_Tab_No_Pin_RunTime](../images/SMUMergePinGroup/Tests_Tab_No_Pin_RunTime.png)
 
-The following code snippets shows the PublishDataId with Primary pin selected in the Tests tab of Teststep at Edittime and at Runtime.
+The following images shows the PublishDataId with Primary pin selected in the Tests tab of `Force Voltage Measure Current (FVMI)` step at Edittime and at Runtime.
 ![Tests_Tab_Primary_Pin_EditTime](../images/SMUMergePinGroup/Tests_Tab_Primary_Pin_EditTime.png)
 ![Tests_Tab_Primary_Pin_RunTime](../images/SMUMergePinGroup/Tests_Tab_Primary_Pin_RunTime.png)
 
