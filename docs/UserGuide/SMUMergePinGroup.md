@@ -113,6 +113,10 @@ smuBundle.MeasureAndPublishCurrent(publishedDataId: "MergedCurrent");
 smuBundle.UnmergePinGroup("Vcc");
 ```
 
+There is also a sequence style example available that showcases a complete working example of merging SMU pin groups.
+Refer to the [SMUMergePinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUMergePinGroup/README.md) for more details.
+This example is also installed on any system using STS Software 25.5 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUMergePinGroup`.
+
 ## Measurement Data
 
 When a merged pin group is present within a `DCPowerSessionsBundle` object, the `MeasureCurrent` and `MeasureVoltage` methods will return a `PinSiteData` containing data associated with the pin group name. If there are non-merged pins or pin groups contained and measured as part of the same bundle object, their measurement data will be associated with their respective individual pin names. Refer to the screenshot below as an example.
@@ -141,7 +145,3 @@ The following images shows the PublishDataId with no pin selected by default in 
 The following images shows the PublishDataId with Primary pin selected in the Tests tab of `Force Voltage Measure Current (FVMI)` step at Edittime and at Runtime.
 ![TestsTabPrimaryPinEdittime](../images/SMUMergePinGroup/TestsTabPrimaryPinEdittime.png)
 ![TestsTabPrimaryPinRuntime](../images/SMUMergePinGroup/TestsTabPrimaryPinRuntime.png)
-
-There is also a sequence style example available that showcases a complete working example of merging SMU pin groups.
-Refer to the [SMUMergePinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUMergePinGroup/README.md) for more details.
-This example is also installed on any system using STS Software 25.5 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUMergePinGroup`.
