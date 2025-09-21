@@ -117,7 +117,7 @@ smuBundle.UnmergePinGroup("Vcc");
 
 When a merged pin group is present within a `DCPowerSessionsBundle` object, the `MeasureCurrent` and `MeasureVoltage` methods will return a `PinSiteData` containing data associated with the pin group name. If there are non-merged pins or pin groups contained and measured as part of the same bundle object, their measurement data will be associated with their respective individual pin names. Refer to the screenshot below as an example.
 
-![PinSiteData object](../images/SMUMergePinGroup/PinSiteData_object.png)
+![PinSiteData object](../images/SMUMergePinGroup/PinSiteDataObject.png)
 
 The measured current value of a merged pin group will reflect the total combined current across all merged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the merged channels mapped to the pin group.
 
@@ -132,15 +132,15 @@ In addition to the aforementioned behavior, the `MeasureAndPublishCurrent` and `
 > Alternatively, if you want to associate the published data by the induvial pins, you can extract the data for the pin group by name from the PinSiteData object, using the `ExtractPin` method, and then only publish the `SiteData` object without associating it with any pin(s).
 
 The following code snippet shows the function call to the `MeasureAndPublishCurrent` method with `PublishDataId` being `Current`.
-![MeasureAndPublish_method_call](../images/SMUMergePinGroup/MeasureAndPublish_method_call.png)
+![MeasureAndPublish_method_call](../images/SMUMergePinGroup/MeasureAndPublishMethodCall.png)
 
 The following images shows the PublishDataId with no pin selected by default in the Tests tab of `Force Voltage Measure Current (FVMI)` step at Edittime and at Runtime.
-![Tests_Tab_No_Pin_EditTime](../images/SMUMergePinGroup/Tests_Tab_No_Pin_EditTime.png)
-![Tests_Tab_No_Pin_RunTime](../images/SMUMergePinGroup/Tests_Tab_No_Pin_RunTime.png)
+![TestsTabNoPinEdittime](../images/SMUMergePinGroup/TestsTabNoPinEdittime.png)
+![TestsTabNoPinRuntime](../images/SMUMergePinGroup/TestsTabNoPinRuntime.png)
 
 The following images shows the PublishDataId with Primary pin selected in the Tests tab of `Force Voltage Measure Current (FVMI)` step at Edittime and at Runtime.
-![Tests_Tab_Primary_Pin_EditTime](../images/SMUMergePinGroup/Tests_Tab_Primary_Pin_EditTime.png)
-![Tests_Tab_Primary_Pin_RunTime](../images/SMUMergePinGroup/Tests_Tab_Primary_Pin_RunTime.png)
+![TestsTabPrimaryPinEdittime](../images/SMUMergePinGroup/TestsTabPrimaryPinEdittime.png)
+![TestsTabPrimaryPinRuntime](../images/SMUMergePinGroup/TestsTabPrimaryPinRuntime.png)
 
 There is also a sequence style example available that showcases a complete working example of merging SMU pin groups.
 Refer to the [SMUMergePinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUMergePinGroup/README.md) for more details.
