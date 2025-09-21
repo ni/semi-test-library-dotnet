@@ -140,6 +140,9 @@ The following code snippet shows the function call to the `MeasureAndPublishCurr
 
 The following images shows the PublishDataId with no pin selected by default in the Tests tab of `Force Voltage Measure Current (FVMI)` step at Edittime and at Runtime.
 ![TestsTabNoPinEdittime](../images/SMUMergePinGroup/TestsTabNoPinEdittime.png)
+> [!NOTE]
+> When there is no pin selected in the tests tab of the Test Step, at runtime it will throw error as shown below. Either we should remove that test row or select a valid pin.
+
 ![TestsTabNoPinRuntime](../images/SMUMergePinGroup/TestsTabNoPinRuntime.png)
 
 The following images shows the PublishDataId with Primary pin selected in the Tests tab of `Force Voltage Measure Current (FVMI)` step at Edittime and at Runtime.
