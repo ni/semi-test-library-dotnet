@@ -751,7 +751,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void MergePinGroup_MeasureAndPublish_ResultwithPinGroup(string pinGroupName)
         {
             var sessionManager = Initialize("MergePinGroup_MultiGroupMeasure.pinmap");
-            var sessionsBundle = sessionManager.DCPower(["Vcc4ch", "Vref8ch"]);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "Vcc4ch", "Vref8ch" });
             sessionsBundle.ConfigureSourceDelay(0);
             sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
 
