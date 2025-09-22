@@ -111,7 +111,7 @@ These methods are used to retrieve properties, data or states from an instrument
 8. **`DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, int, TResult[]> function)`**
     - Use this method to perform an operation on all sessions in parallel and return per-site per-pin results, where the session index is required.
 
-For more information, refer to the [How to Make Low Level Driver API Calls](https://ni.github.io/semi-test-library-dotnet/UserGuide/advanced/MakingLowLevelDriverCalls.html#how-to-make-low-level-driver-api-calls).
+For more information, refer to the [How to Make Low Level Driver API Calls](MakingLowLevelDriverCalls.md#how-to-make-low-level-driver-api-calls).
 
 ## General Considerations for All Extension Method
 

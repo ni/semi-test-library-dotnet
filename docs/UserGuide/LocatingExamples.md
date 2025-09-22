@@ -8,7 +8,7 @@ Examples for how to use the Semiconductor Test Library (STL) are available on Gi
 Reference the GitHub location for the latest version of the examples or to browse the example code source online.
 When on a system with STS Software installed, reference the examples from their installed location.
 The installed version of an example matches the state of the example at the time of the STL release consumed by the installed STS Software version.
-Refer to the [STS Software Version Compatibility](https://ni.github.io/semi-test-library-dotnet/UserGuide/Overview.html#sts-software-version-compatibility) table for more details.
+Refer to the [STS Software Version Compatibility](Overview.md#sts-software-version-compatibility) table for more details.
 
 > [!NOTE]
 > You must build the code solutions for examples downloaded from GitHub before you can run them.
