@@ -121,7 +121,7 @@ This example is also installed on any system using STS Software 25.5 or later, u
 
 When a merged pin group is present within a `DCPowerSessionsBundle` object, the `MeasureCurrent` and `MeasureVoltage` methods will return a `PinSiteData` containing data associated with the pin group name. If there are non-merged pins or pin groups contained and measured as part of the same bundle object, their measurement data will be associated with their respective individual pin names. Refer to the screenshot below as an example.
 
-![PinSiteDataObject](../images/SMUMergePinGroup/PinSiteDataObject.png)
+![PinSiteData](../images/SMUMergePinGroup/PinSiteData.png)
 
 The measured current value of a merged pin group will reflect the total combined current across all merged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the merged channels mapped to the pin group.
 
