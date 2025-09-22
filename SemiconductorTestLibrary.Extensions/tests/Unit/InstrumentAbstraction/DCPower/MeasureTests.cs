@@ -752,6 +752,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("MergePinGroup_MultiGroupMeasure.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "Vcc4ch", "Vref8ch" });
+            sessionsBundle.MergePinGroup(pinGroupName);
             sessionsBundle.ConfigureSourceDelay(0);
             sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
 
@@ -759,6 +760,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var results2 = sessionsBundle.MeasureAndPublishCurrent("Current");
             var results3 = sessionsBundle.MeasureVoltage();
             var results4 = sessionsBundle.MeasureAndPublishVoltage("Voltage");
+            sessionsBundle.UnmergePinGroup(pinGroupName);
 
             AssertAllSitesHavePinGroupResult(results1, pinGroupName);
             AssertAllSitesHavePinGroupResult(results2, pinGroupName);
