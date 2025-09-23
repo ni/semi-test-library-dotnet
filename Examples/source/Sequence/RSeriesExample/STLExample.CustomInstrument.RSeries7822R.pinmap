@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.1">
+	<Pins>
+		<DUTPin name="DigitalInput_A" />
+		<DUTPin name="DigitalInput_B" />
+		<DUTPin name="DigitalOutput_A" />
+		<DUTPin name="DigitalOutput_B" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Instruments>
+		<Instrument name="Digital_RIO_7822R" instrumentTypeId="PXI_RSeries_7822R">
+			<ChannelGroup id="DigitalIO">
+				<Channel id="Connector0_DIOPORT0" />
+				<Channel id="Connector0_DIOPORT1" />
+				<Channel id="Connector0_DIOPORT2" />
+				<Channel id="Connector0_DIOPORT3" />
+				<Channel id="Connector1_DIOPORT0" />
+				<Channel id="Connector1_DIOPORT1" />
+				<Channel id="Connector1_DIOPORT2" />
+				<Channel id="Connector1_DIOPORT3" />
+			</ChannelGroup>
+		</Instrument>
+	</Instruments>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="DigitalInput_A" siteNumber="0" instrument="Digital_RIO_7822R" channel="Connector0_DIOPORT0" />
+		<Connection pin="DigitalInput_A" siteNumber="1" instrument="Digital_RIO_7822R" channel="Connector1_DIOPORT0" />
+		<Connection pin="DigitalInput_B" siteNumber="0" instrument="Digital_RIO_7822R" channel="Connector0_DIOPORT1" />
+		<Connection pin="DigitalInput_B" siteNumber="1" instrument="Digital_RIO_7822R" channel="Connector1_DIOPORT1" />
+		<Connection pin="DigitalOutput_A" siteNumber="0" instrument="Digital_RIO_7822R" channel="Connector0_DIOPORT2" />
+		<Connection pin="DigitalOutput_A" siteNumber="1" instrument="Digital_RIO_7822R" channel="Connector1_DIOPORT2" />
+		<Connection pin="DigitalOutput_B" siteNumber="0" instrument="Digital_RIO_7822R" channel="Connector0_DIOPORT3" />
+		<Connection pin="DigitalOutput_B" siteNumber="1" instrument="Digital_RIO_7822R" channel="Connector1_DIOPORT3" />
+	</Connections>
+</PinMap>
