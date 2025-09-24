@@ -81,7 +81,7 @@ The following example pin map file illustrates a pin group of two pins being mer
 
 ## Code Requirements
 
-The merge operation must be performed within the test program at runtime, once instrument sessions are initialized.
+The merge operation must be performed within the test program at run-time, once instrument sessions are initialized.
 
 > [!NOTE]
 > This flexible design preserves access to individual channels for situations where channels are programmatically merged with external relays or MUX only for certain tests that demand higher current. Allowing you to take advantage of the individual channels during other tests, or vice versa.
@@ -128,23 +128,28 @@ The measured current value of a merged pin group will reflect the total combined
 > [!NOTE]
 > When the lower-level DCPower driver method is called to perform a measurement, only  the primary channel is operated on. The driver returns the combined measurement result taken across all pins in unison
 
-In addition to the aforementioned behavior, the `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the pin group name. When publishing a value by a pin group name, the TestStand Semiconductor Module (TSM) will associate the same value for each of the pins within the pin group. The published results that then gets evaluated by the calling TestStand step tests can either be associated each individual pin or no pin at all, depending on if you specify a pin for the test in the Tests tab or leave the pin field empty. Refer to the screenshots below as an example.
+In addition to the aforementioned behavior, the `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the pin group name. When publishing a value by a pin group name, the TestStand Semiconductor Module (TSM) will associate the same value for each of the pins within the pin group. The published results that then gets evaluated by the calling TestStand step tests can either be associated each individual pin or no pin at all, depending on if you specify a pin for the test in the Tests tab or leave the pin field empty. It is recommended that you specify the primary pin in the pin field of related tests in Test tab of the calling TestStand step when working with merged pin groups. Refer to the screenshots below as an example.
 
 > [!TIP]
-> TSM does not require you to specify a pin to log the published data against within the Tests tab of the calling TestStand step, only the Published Data Id. It is recommended that you specify the primary pin.
+> If you do not want to associate the published data with a pin, you can extract the data from the `PinSiteData` object by the merged pin group name, using the `ExtractPin` method, and then only publish the returned `SiteData` object without associating it with any pin(s) by passing it to the `PublishResults` method."
+>
+> ```cs
+> ​var results = dcPower.MeasureCurrent();
+> tsmContext.PublishResults(results.ExtractPin("MergedPinGroupName"), publishedDataId: "Current");
+> ```
 >
 > Alternatively, if you want to associate the published data by the induvial pins, you can extract the data for the pin group by name from the PinSiteData object, using the `ExtractPin` method, and then only publish the `SiteData` object without associating it with any pin(s).
 
 The following code snippet shows the function call to the `MeasureAndPublishCurrent` method with `PublishedDataId` being `Current`.
 ![MeasureAndPublish_method_call](../images/SMUMergePinGroup/MeasureAndPublishMethodCall.png)
 
-The following images shows the Published Data Id with no pin selected by default in the Tests tab of `Force Voltage Measure Current (FVMI)` step at Edittime and at Runtime.
+The following images shows the Published Data Id with no pin selected by default in the Tests tab of `Force Voltage Measure Current (FVMI)` step at edit-time and at run-time.
 ![TestsTabNoPinEdittime](../images/SMUMergePinGroup/TestsTabNoPinEdittime.png)
 > [!NOTE]
-> When there is no pin selected in the tests tab of the Test Step, at runtime it will throw error as shown below. Either we should remove that test row or select a valid pin.
+> When there is no pin selected in the tests tab of the Test Step, at run-time it will throw error as shown below. Either we should remove that test row or select a valid pin.
 
 ![TestsTabNoPinRuntime](../images/SMUMergePinGroup/TestsTabNoPinRuntime.png)
 
-The following images shows the Published Data Id with Primary pin selected in the Tests tab of `Force Voltage Measure Current (FVMI)` step at Edittime and at Runtime.
+The following images shows the Published Data Id with Primary pin selected in the Tests tab of `Force Voltage Measure Current (FVMI)` step at edit-time and at run-time.
 ![TestsTabPrimaryPinEdittime](../images/SMUMergePinGroup/TestsTabPrimaryPinEdittime.png)
 ![TestsTabPrimaryPinRuntime](../images/SMUMergePinGroup/TestsTabPrimaryPinRuntime.png)
