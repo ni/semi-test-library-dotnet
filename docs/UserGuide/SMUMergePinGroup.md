@@ -143,13 +143,6 @@ In addition to the aforementioned behavior, the `MeasureAndPublishCurrent` and `
 The following code snippet shows the function call to the `MeasureAndPublishCurrent` method with `PublishedDataId` being `Current`.
 ![MeasureAndPublish_method_call](../images/SMUMergePinGroup/MeasureAndPublishMethodCall.png)
 
-The following images shows the Published Data Id with no pin selected by default in the Tests tab of `Force Voltage Measure Current (FVMI)` step at edit-time and at run-time.
-![TestsTabNoPinEdittime](../images/SMUMergePinGroup/TestsTabNoPinEdittime.png)
-> [!NOTE]
-> When there is no pin selected in the tests tab of the Test Step, at run-time it will throw error as shown below. Either we should remove that test row or select a valid pin.
-
-![TestsTabNoPinRuntime](../images/SMUMergePinGroup/TestsTabNoPinRuntime.png)
-
 The following images shows the Published Data Id with Primary pin selected in the Tests tab of `Force Voltage Measure Current (FVMI)` step at edit-time and at run-time.
 ![TestsTabPrimaryPinEdittime](../images/SMUMergePinGroup/TestsTabPrimaryPinEdittime.png)
 ![TestsTabPrimaryPinRuntime](../images/SMUMergePinGroup/TestsTabPrimaryPinRuntime.png)
