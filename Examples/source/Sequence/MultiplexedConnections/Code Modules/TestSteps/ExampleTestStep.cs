@@ -1,10 +1,9 @@
 ﻿using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using SemiconductorTestLibrary.Examples.MultiplexedConnections.Common;
-using SemiconductorTestLibrary.Examples.MultiplexedConnections.Common.MyDMM;
-using TSMSessionManager = SemiconductorTestLibrary.Examples.MultiplexedConnections.Common.MyTSMSessionManager;
+using System.Linq;
 
 namespace SemiconductorTestLibrary.Examples.MultiplexedConnections
 {
@@ -26,26 +25,56 @@ namespace SemiconductorTestLibrary.Examples.MultiplexedConnections
         /// <param name="dmmPin">The DMM pin that is multiplexed to multiple sites.</param>
         public static void ExampleTestStep(ISemiconductorModuleContext tsmContext, string pinName)
         {
-            object[] switchSessions = tsmContext.GetSwitchSessions(
+            _ = tsmContext.GetSwitchSessions(
                 pinName,
+                "RelayMultiplexer",
                 out ISemiconductorModuleContext[] semiconductorModuleContexts,
                 out string[] switchRoutes);
 
+            PinSiteData<double> allSiteData = null;
             for ( int i = 0; i < semiconductorModuleContexts.Length; i++ )
             {
                 // Each iteration of the For Loop tests one site at a time.
                 // This implementation intentionally does NOT using Parallel.For().
                 // The measurements must be executed serially in a For Loop because they share an instrument.
-                var semiconductorModuleContext = semiconductorModuleContexts[i];
+                var siteContext = semiconductorModuleContexts[i];
                 var route = switchRoutes[i];
-                var multiplexer = switchSessions[i] as SimulatedMultiplexer;
-                var sessionManager = new TSMSessionManager(semiconductorModuleContext);
+                var sessionManager = new TSMSessionManager(siteContext);
                 var dmm = sessionManager.DMM(pinName);
-                multiplexer.ConnectRoute(route);
+
+                // Set Relay Route(s)
+                if (pinName == "A" || pinName == "B")
+                {
+                    tsmContext.ControlRelay(route, RelayDriverAction.CloseRelay);
+                }
+                else
+                {
+                    tsmContext.ApplyRelayConfiguration(route);
+                }
+                
+                // Perform shared instrument operation for current site context.
                 PinSiteData<double> measurement = dmm.Read(maximumTimeInMilliseconds: 1000);
-                multiplexer.DisconnectRoute(route);
-                semiconductorModuleContext.PublishResults(measurement, "");
+
+                // Add site variance for testing purposes
+                measurement = measurement.Select(x => x * (1 + siteContext.SiteNumbers.First()));
+                // Combine site data
+                if (allSiteData == null)
+                {
+                    allSiteData = measurement;
+                }
+                else
+                {
+                    allSiteData = allSiteData.Combine(measurement);
+                }
+
+                // Unset Relay Route(s)
+                if (pinName == "A" || pinName == "B")
+                {
+                    tsmContext.ControlRelay(route, RelayDriverAction.OpenRelay);
+                }
             }
+            // Publish All Site Results
+            tsmContext.PublishResults(allSiteData, "");
         }
     }
 }

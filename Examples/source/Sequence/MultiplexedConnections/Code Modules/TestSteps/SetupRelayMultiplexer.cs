@@ -1,5 +1,4 @@
 ﻿using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using SemiconductorTestLibrary.Examples.MultiplexedConnections.Common;
 
 namespace SemiconductorTestLibrary.Examples.MultiplexedConnections
 {
@@ -10,16 +9,17 @@ namespace SemiconductorTestLibrary.Examples.MultiplexedConnections
     public static partial class TestSteps
     {
         /// <summary>
-        /// Call this method from the test executive to close the switch sessions.
+        /// Call this method from the test executive to setup switch sessions for the RelayMultiplexer.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object reference.</param>
-        public static void CleanupSimulatedMultiplexer(ISemiconductorModuleContext tsmContext)
+        public static void SetupRelayMultiplexer(ISemiconductorModuleContext tsmContext)
         {
-            object[] switchSessions = tsmContext.GetAllSwitchSessions();
+            string[] switchNames = tsmContext.GetSwitchNames("RelayMultiplexer");
 
-            foreach (SimulatedMultiplexer switchSession in switchSessions)
+            foreach (string switchName in switchNames)
             {
-                switchSession.Close();
+                // Passing the switch data as the session data, since this is a required input but this will not be used.
+                tsmContext.SetSwitchSession("RelayMultiplexer", switchName, switchName);
             }
         }
     }

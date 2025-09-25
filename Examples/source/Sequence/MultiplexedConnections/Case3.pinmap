@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.5" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDmmInstrument name="DMM_4081_C1_S04" />
+		<NIRelayDriverModule name="RELAY_2567_C1_S09" numberOfControlLines="64" />
+		<!-- The name of the mux does not matter in this case. -->
+		<Multiplexer name="MUX1" multiplexerTypeId="RelayMultiplexer" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="C" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Relays>
+		<SystemRelay name="K3_0" />
+		<SystemRelay name="K3_1" />
+	</Relays>
+	<RelayGroups></RelayGroups>
+	<RelayConfigurations>
+		<RelayConfiguration name="PinCToSite0">
+			<RelayPosition relay="K3_0" position="Closed" />
+			<RelayPosition relay="K3_1" position="Open" />
+		</RelayConfiguration>
+		<RelayConfiguration name="PinCToSite1">
+			<RelayPosition relay="K3_0" position="Open" />
+			<RelayPosition relay="K3_1" position="Closed" />
+		</RelayConfiguration>
+	</RelayConfigurations>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<MultiplexedConnection instrument="DMM_4081_C1_S04" channel="0">
+			<MultiplexedDUTPinRoute pin="C" siteNumber="0" multiplexer="MUX1" routeName="PinCToSite0" />
+			<MultiplexedDUTPinRoute pin="C" siteNumber="1" multiplexer="MUX1" routeName="PinCToSite1" />
+		</MultiplexedConnection>
+		<SystemRelayConnection relay="K3_0" relayDriverModule="RELAY_2567_C1_S09" controlLine="K8" />
+		<SystemRelayConnection relay="K3_1" relayDriverModule="RELAY_2567_C1_S09" controlLine="K9" />
+	</Connections>
+</PinMap>

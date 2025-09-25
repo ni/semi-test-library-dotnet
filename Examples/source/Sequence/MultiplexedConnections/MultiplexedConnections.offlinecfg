@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SystemConfiguration schemaVersion="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ni.com/TestStand/SemiconductorModule/SystemConfiguration.xsd">
 	<PXIChassis Number="1" Model="NI PXIe-1095">
-		<PXI Name="DMM_4081_C1_S02" Model="NI PXIe-4081" Slot="2" />
-		<PXI Name="DMM_4081_C1_S03" Model="NI PXIe-4081" Slot="3" />
 		<PXI Name="DMM_4081_C1_S04" Model="NI PXIe-4081" Slot="4" />
+		<PXI Name="RELAY_2567_C1_S09" Model="NI PXI-2567" Slot="9" />
+		<PXI Name="SMU_4147_C2_S10" Model="NI PXIe-4147" Slot="10" />
 	</PXIChassis>
 </SystemConfiguration>

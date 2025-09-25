@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <OutputPath>bin</OutputPath>
+	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <PlatformTarget>x64</PlatformTarget>
+    <RootNamespace>NationalInstruments.Examples.SemiconductorTestLibrary.MultiplexedConnections</RootNamespace>
+    <AssemblyName>STLExample.MultiplexedConnections</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <IsPublishable>False</IsPublishable>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+    <IsPublishable>False</IsPublishable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="packages\**" />
+    <EmbeddedResource Remove="packages\**" />
+    <None Remove="packages\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary" Version="25.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+	<Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">      
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDmm 23.8.0\NationalInstruments.ModularInstruments.NIDmm.Fx40.dll</HintPath>
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>		
+	</Reference>
+	<Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">      
+      <HintPath>C:\Program Files\National Instruments\TestStand 2023\API\DotNET\Assemblies\CurrentVersion\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
+      <Private>False</Private>
+	  <SpecificVersion>False</SpecificVersion>
+	</Reference>
+  </ItemGroup>
+</Project>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemiconductorTestLibrary.Examples.MultiplexedConnections", "SemiconductorTestLibrary.Examples.MultiplexedConnections.csproj", "{B8D4A831-82A6-436C-826B-CBF880A3B795}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STLExample.MultiplexedConnections", "STLExample.MultiplexedConnections.csproj", "{B8D4A831-82A6-436C-826B-CBF880A3B795}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

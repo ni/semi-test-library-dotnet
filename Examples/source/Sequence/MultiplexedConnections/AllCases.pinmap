@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4147_C2_S10" numberOfChannels="4">
+			<ChannelGroup name="CommonDCPowerChannelGroup" />
+		</NIDCPowerInstrument>
+		<NIRelayDriverModule name="RELAY_2567_C1_S09" numberOfControlLines="64" />
+		<!-- The name of the mux does not matter in this case, but I supose it could make sense to align with the relay module it relys upon -->
+		<Multiplexer name="MUX1" multiplexerTypeId="NIRelayMultiplexer" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="A" />
+		<DUTPin name="B" />
+		<DUTPin name="C" />
+		<DUTPin name="D" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Relays>
+		<SiteRelay name="K0" />
+		<SiteRelay name="K1" />
+		<SiteRelay name="K2" />
+		<SiteRelay name="K5" />
+		<SystemRelay name="K3_0" />
+		<SystemRelay name="K3_1" />
+		<SystemRelay name="K4_0" />
+		<SystemRelay name="K4_1" />
+	</Relays>
+	<RelayGroups>
+		<RelayGroup name="K1_2">
+			<RelayReference relay="K1" />
+			<RelayReference relay="K2" />
+		</RelayGroup>
+		<RelayGroup name="K3All">
+			<RelayReference relay="K3_0" />
+			<RelayReference relay="K3_1" />
+		</RelayGroup>
+		<RelayGroup name="K4All">
+			<RelayReference relay="K4_0" />
+			<RelayReference relay="K4_1" />
+		</RelayGroup>
+	</RelayGroups>
+	<RelayConfigurations>
+		<RelayConfiguration name="PinCToSite0">
+			<RelayPosition relay="K3_0" position="Closed" />
+			<RelayPosition relay="K3_1" position="Open" />
+		</RelayConfiguration>
+		<RelayConfiguration name="PinCToSite1">
+			<RelayPosition relay="K3_0" position="Open" />
+			<RelayPosition relay="K3_1" position="Closed" />
+		</RelayConfiguration>
+		<RelayConfiguration name="PinDToSite0">
+			<RelayPosition relay="K4_0" position="Closed" />
+			<RelayPosition relay="K4_1" position="Open" />
+			<RelayPosition relay="K5" position="Closed" />
+		</RelayConfiguration>
+		<RelayConfiguration name="PinDToSite1">
+			<RelayPosition relay="K4_0" position="Open" />
+			<RelayPosition relay="K4_1" position="Closed" />
+			<RelayPosition relay="K5" position="Closed" />
+		</RelayConfiguration>
+	</RelayConfigurations>
+	<Sites>pa
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<MultiplexedConnection instrument="SMU_4147_C2_S10" channel="0">
+			<MultiplexedDUTPinRoute pin="A" siteNumber="0,1" multiplexer="RELAY_2567_C1_S09" routeName="K0" />
+		</MultiplexedConnection>
+		<MultiplexedConnection instrument="SMU_4147_C2_S10" channel="1">
+			<MultiplexedDUTPinRoute pin="B" siteNumber="0,1" multiplexer="RELAY_2567_C1_S09" routeName="K1_K2" />
+		</MultiplexedConnection>
+		<MultiplexedConnection instrument="SMU_4147_C2_S10" channel="2">
+			<MultiplexedDUTPinRoute pin="C" siteNumber="0" multiplexer="RELAY_2567_C1_S09" routeName="PinCToSite0" />
+			<MultiplexedDUTPinRoute pin="C" siteNumber="1" multiplexer="RELAY_2567_C1_S09" routeName="PinCToSite1" />
+		</MultiplexedConnection>
+		<MultiplexedConnection instrument="SMU_4147_C2_S10" channel="3">
+			<MultiplexedDUTPinRoute pin="D" siteNumber="0" multiplexer="RELAY_2567_C1_S09" routeName="PinDToSite0" />
+			<MultiplexedDUTPinRoute pin="D" siteNumber="1" multiplexer="RELAY_2567_C1_S09" routeName="PinDToSite1" />
+		</MultiplexedConnection>
+		<RelayConnection relay="K0" siteNumber="0" relayDriverModule="RELAY_2567_C1_S09" controlLine="K0" />
+		<RelayConnection relay="K0" siteNumber="1" relayDriverModule="RELAY_2567_C1_S09" controlLine="K1" />
+		<RelayConnection relay="K1" siteNumber="0" relayDriverModule="RELAY_2567_C1_S09" controlLine="K2" />
+		<RelayConnection relay="K1" siteNumber="1" relayDriverModule="RELAY_2567_C1_S09" controlLine="K3" />
+		<RelayConnection relay="K2" siteNumber="0" relayDriverModule="RELAY_2567_C1_S09" controlLine="K4" />
+		<RelayConnection relay="K2" siteNumber="1" relayDriverModule="RELAY_2567_C1_S09" controlLine="K5" />
+		<RelayConnection relay="K5" siteNumber="0" relayDriverModule="RELAY_2567_C1_S09" controlLine="K6" />
+		<RelayConnection relay="K5" siteNumber="1" relayDriverModule="RELAY_2567_C1_S09" controlLine="K7" />
+		<SystemRelayConnection relay="K3_0" relayDriverModule="RELAY_2567_C1_S09" controlLine="K8" />
+		<SystemRelayConnection relay="K3_1" relayDriverModule="RELAY_2567_C1_S09" controlLine="K9" />
+		<SystemRelayConnection relay="K4_0" relayDriverModule="RELAY_2567_C1_S09" controlLine="K10" />
+		<SystemRelayConnection relay="K4_1" relayDriverModule="RELAY_2567_C1_S09" controlLine="K11" />
+	</Connections>
+</PinMap>
