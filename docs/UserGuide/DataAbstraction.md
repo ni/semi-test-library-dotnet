@@ -20,7 +20,7 @@ The `SiteData` object exposes basic methods for extracting a single site value o
 >[!NOTE]
 > Refer to the API Reference for more details regarding the properties and methods exposed by the `SiteData`.
 >
-> Find examples for using the `SiteData` object [here on GitHub](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/DataAbstraction).
+> Find examples for using the `SiteData` object [here on GitHub](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
 
 A `SiteData` object is an immutable dictionary of key-value pairs, where each key corresponds to a unique site number, and each value represents site-specific data for that site. This is also the observable structure when debugging a `SiteData` object at runtime in Visual Studio, as shown in the example below.
 
@@ -44,7 +44,7 @@ The `PinSiteData` object exposes basic methods for extracting a single site valu
 >[!NOTE]
 > Refer to the API Reference for more details regarding the properties and methods exposed by the `PinSiteData`.
 >
-> Find examples for using the `PinSiteData` object [here on GitHub](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/DataAbstraction).
+> Find examples for using the `PinSiteData` object [here on GitHub](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
 
 A `PinSiteData` object is an immutable dictionary of key-value pairs, where each key corresponds to a unique pin name, and each value is a `SiteData` object containing site-unique data for the given pin. This is also the observable structure when debugging a `SiteData` object at runtime in Visual Studio, as shown in the example below.
 

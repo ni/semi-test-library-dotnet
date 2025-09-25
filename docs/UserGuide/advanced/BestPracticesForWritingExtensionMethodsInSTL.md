@@ -80,7 +80,7 @@ These methods are used to retrieve properties, data or states from an instrument
     - Use this method to perform an operation on all sessions in parallel with session-specific inputs, where the session index is required.
     - Example: [ApplyTDROffsets](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/LevelsAndTiming.cs#L415)
 3. **`Do<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Action<TSessionInformation, SitePinInfo> action)`**
-    - Use this method to perform an operation on all sessions and channels in parallel, where pin, site, or channel information is required. Refer to the [`SitePinInfo` class documentation](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html#properties) for all accessible properties.
+    - Use this method to perform an operation on all sessions and channels in parallel, where pin, site, or channel information is required. Refer to the [`SitePinInfo` class documentation](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.md#properties) for all accessible properties.
     - Example: [ConfigureAOFunctionGeneration](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutputFunctionGeneration.cs#L25)
 4. **`Do<TSessionInformation>(this ISessionsBundle<TSessionInformation> sessionsBundle, Action<TSessionInformation, int, SitePinInfo> action)`**
     - Use this method to perform an operation on all sessions and channels in parallel, and both the session index and channel information are required.
@@ -92,7 +92,7 @@ These methods are used to retrieve properties, data or states from an instrument
     - Use this method to perform an operation on all sessions in parallel and return per-instrument per-channel results.
     - Example: [ReadSequencerFlag](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SequencerFlagsAndRegisters.cs#L20)
 2. **`DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, SitePinInfo, TResult> function)`**
-    - Use this method to perform an operation on all sessions and channels in parallel and return per-instrument per-channel results, where pin, site, or channel information is required. Refer to the [`SitePinInfo` class documentation](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html#properties) for all accessible properties.
+    - Use this method to perform an operation on all sessions and channels in parallel and return per-instrument per-channel results, where pin, site, or channel information is required. Refer to the [`SitePinInfo` class documentation](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.md#properties) for all accessible properties.
     - Example: [StartAOFunctionGeneration](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/AnalogOutputFunctionGeneration.cs#L64)
 3. **`DoAndReturnPerInstrumentPerChannelResults<TSessionInformation, TResult1, TResult2>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, Tuple<TResult1, TResult2>> function)`**
     - Use this method to perform an operation on all sessions in parallel and return two sets of per-instrument per-channel results.
@@ -101,7 +101,7 @@ These methods are used to retrieve properties, data or states from an instrument
     - Use this method to perform an operation on all sessions in parallel and return per-site per-pin results.
     - Example: [GetSampleClockRate](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DAQmx/Configure.cs#L131)
 5. **`DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, SitePinInfo, TResult> function)`**
-    - Use this method to perform an operation on all sessions and channels in parallel and return per-site per-pin results, where pin, site, or channel information is required. Refer to the [`SitePinInfo` class documentation](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.html#properties) for all accessible properties.
+    - Use this method to perform an operation on all sessions and channels in parallel and return per-site per-pin results, where pin, site, or channel information is required. Refer to the [`SitePinInfo` class documentation](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.md#properties) for all accessible properties.
     - Example: [GetApertureTimeInSeconds](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Measure.cs#L131)
 6. **`DoAndReturnPerSitePerPinResults<TSessionInformation, TResult1, TResult2>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, Tuple<TResult1[], TResult2[]>> function)`**
     - Use this method to perform an operation on all sessions in parallel and return two sets of per-site per-pin results.
@@ -111,7 +111,7 @@ These methods are used to retrieve properties, data or states from an instrument
 8. **`DoAndReturnPerSitePerPinResults<TSessionInformation, TResult>(this ISessionsBundle<TSessionInformation> sessionsBundle, Func<TSessionInformation, int, TResult[]> function)`**
     - Use this method to perform an operation on all sessions in parallel and return per-site per-pin results, where the session index is required.
 
-For more information, refer to the [How to Make Low Level Driver API Calls](https://ni.github.io/semi-test-library-dotnet/UserGuide/advanced/MakingLowLevelDriverCalls.html#how-to-make-low-level-driver-api-calls).
+For more information, refer to the [How to Make Low Level Driver API Calls](MakingLowLevelDriverCalls.md#how-to-make-low-level-driver-api-calls).
 
 ## General Considerations for All Extension Method
 
