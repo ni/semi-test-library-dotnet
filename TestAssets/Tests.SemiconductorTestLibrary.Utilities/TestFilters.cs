@@ -3,11 +3,17 @@
     public enum HardwareConfiguration
     {
         GP3,
-        Lungyuan
+        Lungyuan,
+        ChiXiao
     }
 
     public enum Platform
     {
         TesterOnly
+    }
+
+    public enum TestType
+    {
+        Performance
     }
 }

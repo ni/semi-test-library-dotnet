@@ -4,6 +4,7 @@
 	<PXIChassis Number="1" Model="NI PXIe-1095">
 		<PXI Name="HSD_6571_C1_S02" Model="NI PXIe-6571" Slot="2" NeedsIvi="false" />
 		<PXI Name="DAQ_6363_C1_S08" Model="NI PXIe-6363" Slot="8" NeedsIvi="false" />
+		<PXI Name="DAQ_4468_C1_S03" Model="NI PXIe-4468" Slot="3" NeedsIvi="false" />
 		<PXI Name="SYNC_6674T_C1_S10" Model="NI PXIe-6674T" Slot="10" NeedsIvi="false" />
 		<PXI Name="SMU_4147_C1_S11" Model="NI PXIe-4147" Slot="11" NeedsIvi="false" />
 		<PXI Name="SMU_4110_C1_S04" Model="NI PXI-4110" Slot="4" NeedsIvi="false" />
@@ -91,6 +92,14 @@
 	  	<PXI Name="DMM_4081_C6_S14" Model="NI PXIe-4081" Slot="14" />
 		<PXI Name="DSA_4467_C6_S15" Model="NI PXIe-4467" Slot="15" />
 	  	<PXI Name="DMM_4081_C6_S16" Model="NI PXIe-4081" Slot="16" />
+	</PXIChassis>
+   	<PXIChassis Number="7" Model="NI PXIe-1095">
+		<PXI Name="SMU_4113_C7_S02" Model="NI PXIe-4113" Slot="2" />
+		<PXI Name="SMU_4135_C7_S03" Model="NI PXIe-4135" Slot="3" />
+		<PXI Name="SMU_4141_C7_S04" Model="NI PXIe-4141" Slot="4" />
+		<PXI Name="SMU_4143_C7_S05" Model="NI PXIe-4143" Slot="5" />
+		<PXI Name="SMU_4145_C7_S06" Model="NI PXIe-4145" Slot="6" />
+		<PXI Name="SMU_4190_C7_S07" Model="NI PXIe-4190" Slot="7" />
 	</PXIChassis>
 	<Devices>
 		<USB Name="DIO_6509_C1_USB" Model="NI USB-6509" />

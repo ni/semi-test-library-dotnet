@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.0">
+	<Pins>
+		<DUTPin name="A" />
+		<DUTPin name="B" />
+		<DUTPin name="C" />
+		<DUTPin name="D" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Instruments>
+		<Instrument name="SMU_4147_C1_S11" instrumentTypeId="SessionPerChannelGroupInst1">
+			<ChannelGroup id="Grp1">
+				<Channel id="ch0" />
+				<Channel id="ch1" />
+				<Channel id="ch2" />
+				<Channel id="ch3" />
+			</ChannelGroup>
+			<ChannelGroup id="Grp2">
+				<Channel id="ch4" />
+				<Channel id="ch5" />
+				<Channel id="ch6" />
+				<Channel id="ch7" />
+			</ChannelGroup>
+		</Instrument>
+		<Instrument name="SMU_4147_C2_S10" instrumentTypeId="SessionPerChannelGroupInst2">
+			<ChannelGroup id="Grp1">
+				<Channel id="ch0" />
+				<Channel id="ch1" />
+				<Channel id="ch2" />
+				<Channel id="ch3" />
+			</ChannelGroup>
+			<ChannelGroup id="Grp2">
+				<Channel id="ch4" />
+				<Channel id="ch5" />
+				<Channel id="ch6" />
+				<Channel id="ch7" />
+			</ChannelGroup>
+		</Instrument>
+	</Instruments>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+		<Site siteNumber="3" />
+	</Sites>
+	<Connections>
+		<!-- Site 0 -->
+		<Connection pin="A" siteNumber="0" instrument="SMU_4147_C2_S10" channel="ch0" />
+		<Connection pin="B" siteNumber="0" instrument="SMU_4147_C2_S10" channel="ch1" />
+		<Connection pin="C" siteNumber="0" instrument="SMU_4147_C1_S11" channel="ch0" />
+		<Connection pin="D" siteNumber="0" instrument="SMU_4147_C1_S11" channel="ch1" />
+		<!-- Site 1 -->
+		<Connection pin="A" siteNumber="1" instrument="SMU_4147_C2_S10" channel="ch2" />
+		<Connection pin="B" siteNumber="1" instrument="SMU_4147_C2_S10" channel="ch3" />
+		<Connection pin="C" siteNumber="1" instrument="SMU_4147_C1_S11" channel="ch2" />
+		<Connection pin="D" siteNumber="1" instrument="SMU_4147_C1_S11" channel="ch3" />
+		<!-- Site 2 -->
+		<Connection pin="A" siteNumber="2" instrument="SMU_4147_C2_S10" channel="ch4" />
+		<Connection pin="B" siteNumber="2" instrument="SMU_4147_C2_S10" channel="ch5" />
+		<Connection pin="C" siteNumber="2" instrument="SMU_4147_C1_S11" channel="ch4" />
+		<Connection pin="D" siteNumber="2" instrument="SMU_4147_C1_S11" channel="ch5" />
+		<!-- Site 3 -->
+		<Connection pin="A" siteNumber="3" instrument="SMU_4147_C2_S10" channel="ch6" />
+		<Connection pin="B" siteNumber="3" instrument="SMU_4147_C2_S10" channel="ch7" />
+		<Connection pin="C" siteNumber="3" instrument="SMU_4147_C1_S11" channel="ch6" />
+		<Connection pin="D" siteNumber="3" instrument="SMU_4147_C1_S11" channel="ch7" />
+	</Connections>
+</PinMap>

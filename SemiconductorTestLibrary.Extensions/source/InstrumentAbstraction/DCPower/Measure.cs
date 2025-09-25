@@ -51,7 +51,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo));
             });
         }
 
@@ -305,7 +305,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 var results = Fetch(sessionInfo.Session, sitePinInfo.IndividualChannelString, fetchWaveformLength);
-                ApplyOriginalSettings(sessionInfo.Session, sessionInfo.AllChannelsString, originalSettings.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                ApplyOriginalSettings(sessionInfo.Session, sessionInfo.AllChannelsString, originalSettings.GetValue(sitePinInfo));
                 return results;
             });
         }
@@ -535,22 +535,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var session = sessionInfo.Session;
             var lockObject = new object();
-
-            int channelCount = sessionInfo.AssociatedSitePinList.Count;
+            List<SitePinInfo> listOfChannelsToMeasure = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+            int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
-
-            IList<int> onDemandChannelIndexes = new List<int>();
-            IList<string> onDemandChannelStrings = new List<string>();
-            for (int i = 0; i < channelCount; i++)
-            {
-                string individualChannelString = sessionInfo.AssociatedSitePinList[i].IndividualChannelString;
-                if (session.Outputs[individualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
-                {
-                    onDemandChannelIndexes.Add(i);
-                    onDemandChannelStrings.Add(individualChannelString);
-                }
-            }
+            var onDemandChannels = listOfChannelsToMeasure
+                .Select((sitePin, index) => new { sitePin, index })
+                .Where(x => session.Outputs[x.sitePin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                .ToList();
+            IList<string> onDemandChannelStrings = onDemandChannels.Select(x => x.sitePin.IndividualChannelString).ToList();
+            IList<int> onDemandChannelIndexes = onDemandChannels.Select(x => x.index).ToList();
 
             InvokeInParallel(
                 () =>
@@ -574,7 +568,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     Parallel.For(0, channelCount, channelIndex =>
                     {
-                        var sitePinInfo = sessionInfo.AssociatedSitePinList[channelIndex];
+                        var sitePinInfo = listOfChannelsToMeasure[channelIndex];
                         var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
 
                         switch (dcOutput.Measurement.MeasureWhen)
@@ -623,7 +617,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             else
             {
-                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList)
+                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations))
                 {
                     sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
                     configure(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString);

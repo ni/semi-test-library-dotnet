@@ -709,6 +709,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "Invalid value for parameter or property." };
 
             var values = new SiteData<bool>(GetActiveSites(sessionsBundle), false);
 
@@ -717,10 +718,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ConfigureOutputConnected(values);
             }
 
-            AggregateException aggregateException = Assert.Throws<AggregateException>(ConfigureOutputConnected);
-            foreach (Exception innerExeption in aggregateException.InnerExceptions)
+            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureOutputConnected);
+            foreach (var expectedPhrase in expectedPhrases)
             {
-                Assert.Contains("Invalid value for parameter or property.", innerExeption.InnerException.Message);
+                Assert.Contains(expectedPhrase, exception.Message);
             }
         }
 

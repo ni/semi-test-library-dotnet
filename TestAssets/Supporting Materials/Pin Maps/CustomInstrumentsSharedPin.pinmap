@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.2">
+	<Instruments>
+		<Instrument name="SMU_4147_C1_S11" instrumentTypeId="SessionPerChannelInst">
+			<Channel id="ch0" />
+			<Channel id="ch1" />
+			<Channel id="ch2" />
+			<Channel id="ch3" />
+			<Channel id="ch4" />
+			<Channel id="ch5" />
+			<Channel id="ch6" />
+			<Channel id="ch7" />
+		</Instrument>
+		<Instrument name="SMU_4147_C2_S10" instrumentTypeId="SessionPerChannelInst">
+			<Channel id="ch0" />
+			<Channel id="ch1" />
+			<Channel id="ch2" />
+			<Channel id="ch3" />
+			<Channel id="ch4" />
+			<Channel id="ch5" />
+			<Channel id="ch6" />
+			<Channel id="ch7" />
+		</Instrument>
+		<Instrument name="SMU_4147_C3_S12" instrumentTypeId="SessionPerInstrument">
+			<ChannelGroup id="allChannels">
+				<Channel id="ch0" />
+				<Channel id="ch1" />
+				<Channel id="ch2" />
+				<Channel id="ch3" />
+				<Channel id="ch4" />
+				<Channel id="ch5" />
+				<Channel id="ch6" />
+				<Channel id="ch7" />
+			</ChannelGroup>
+		</Instrument>
+		<Instrument name="SMU_4147_C4_S18" instrumentTypeId="SessionPerInstrument">
+			<ChannelGroup id="allChannels">
+				<Channel id="ch0" />
+				<Channel id="ch1" />
+				<Channel id="ch2" />
+				<Channel id="ch3" />
+				<Channel id="ch4" />
+				<Channel id="ch5" />
+				<Channel id="ch6" />
+				<Channel id="ch7" />
+			</ChannelGroup>
+		</Instrument>
+		<Instrument name="SMU_4163_C4_S03" instrumentTypeId="SessionPerChannelGroupInst">
+			<ChannelGroup id="Grp1">
+				<Channel id="ch0" />
+				<Channel id="ch1" />
+				<Channel id="ch2" />
+				<Channel id="ch3" />
+			</ChannelGroup>
+			<ChannelGroup id="Grp2">
+				<Channel id="ch4" />
+				<Channel id="ch5" />
+				<Channel id="ch6" />
+				<Channel id="ch7" />
+			</ChannelGroup>
+		</Instrument>
+		<Instrument name="SMU_4110_C1_S04" instrumentTypeId="SessionPerChannelGroupInst">
+			<ChannelGroup id="Grp1">
+				<Channel id="ch0" />
+				<Channel id="ch1" />
+				<Channel id="ch2" />
+				<Channel id="ch3" />
+			</ChannelGroup>
+			<ChannelGroup id="Grp2">
+				<Channel id="ch4" />
+				<Channel id="ch5" />
+				<Channel id="ch6" />
+				<Channel id="ch7" />
+			</ChannelGroup>
+		</Instrument>
+	</Instruments>
+	<Pins>
+		<DUTPin name="PIN_A" />
+		<DUTPin name="PIN_B" />
+		<DUTPin name="PIN_C" />
+		<DUTPin name="PIN_D" />
+		<DUTPin name="PIN_E" />
+		<DUTPin name="PIN_F" />
+		<DUTPin name="PIN_G" />
+		<DUTPin name="PIN_H" />
+		<DUTPin name="PIN_I" />
+	</Pins>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+	</Sites>
+	<Connections>
+		<Connection pin="PIN_A" siteNumber="0,1,2" instrument="SMU_4147_C1_S11" channel="ch0" />
+		<Connection pin="PIN_B" siteNumber="0,1" instrument="SMU_4147_C1_S11" channel="ch1" />
+		<Connection pin="PIN_B" siteNumber="2" instrument="SMU_4147_C1_S11" channel="ch2" />
+		<Connection pin="PIN_C" siteNumber="0,1" instrument="SMU_4147_C2_S10" channel="ch0" />
+		<Connection pin="PIN_C" siteNumber="2" instrument="SMU_4147_C1_S11" channel="ch3" />
+		<Connection pin="PIN_D" siteNumber="0,1,2" instrument="SMU_4147_C3_S12" channel="ch0" />
+		<Connection pin="PIN_E" siteNumber="0,2" instrument="SMU_4147_C3_S12" channel="ch1" />
+		<Connection pin="PIN_E" siteNumber="1" instrument="SMU_4147_C3_S12" channel="ch2" />
+		<Connection pin="PIN_F" siteNumber="0" instrument="SMU_4147_C4_S18" channel="ch2" />
+		<Connection pin="PIN_F" siteNumber="1,2" instrument="SMU_4147_C3_S12" channel="ch4" />
+		<Connection pin="PIN_G" siteNumber="0,1,2" instrument="SMU_4163_C4_S03" channel="ch0" />
+		<Connection pin="PIN_H" siteNumber="0,1" instrument="SMU_4163_C4_S03" channel="ch1" />
+		<Connection pin="PIN_H" siteNumber="2" instrument="SMU_4163_C4_S03" channel="ch4" />
+		<Connection pin="PIN_I" siteNumber="0" instrument="SMU_4110_C1_S04" channel="ch0" />
+		<Connection pin="PIN_I" siteNumber="1,2" instrument="SMU_4163_C4_S03" channel="ch6" />
+	</Connections>
+</PinMap>

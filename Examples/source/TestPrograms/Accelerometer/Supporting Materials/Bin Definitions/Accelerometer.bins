@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BinDefinitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.2" xmlns="http://www.ni.com/TestStand/SemiconductorModule/BinDefinitions">
+  <HardwareBins>
+    <Bin name="Pass" number="1" type="Pass" />
+    <Bin name="Fail" number="2" type="Fail" />
+    <Bin name="Error" number="3" type="Other" />
+  </HardwareBins>
+  <SoftwareBins errorBin="2" defaultFailBin="2" defaultPassBin="1" alarmBin="99">
+    <Bin name="Pass" number="1" hardwareBin="1" />
+    <Bin name="Generic Failure" number="2" hardwareBin="2" />
+    <Bin name="Continuity" number="3" hardwareBin="2" />
+    <Bin name="Leakage" number="4" hardwareBin="2" />
+    <Bin name="Idle Power Consumption" number="5" hardwareBin="2" />
+    <Bin name="Set Test Mode Verify" number="6" hardwareBin="2" />
+    <Bin name="Part Number Verify" number="7" hardwareBin="2" />
+    <Bin name="Trim Write Verify" number="9" hardwareBin="2" />
+    <Bin name="Vref Measurement" number="8" hardwareBin="2" />
+    <Bin name="Part Number Verify - Quality" number="10" hardwareBin="2" />
+    <Bin name="Alarm" number="99" hardwareBin="2" />
+  </SoftwareBins>
+</BinDefinitions>

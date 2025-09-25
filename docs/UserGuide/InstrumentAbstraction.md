@@ -128,3 +128,55 @@ sdo.WriteStatic(PinState._1);
 > Assembly: `NationalInstruments.SemiconductorTestLibrary.Abstractions.dll`
 >
 > Refer to the API Reference for more details regarding the `TSMSessionManager` class.
+
+## Shared Pins
+
+> [!NOTE]
+> Supported in Semiconductor Test Library NuGet package 25.5 or later.
+
+The Semiconductor Test Library supports shared pins, where the same DUT pin is mapped to the same instrument channel across multiple sites. The instrument channel is either routed through an external multiplexer or relay network on the application load board to connect to each site separately. In some cases, the instrument channel can also be connected to multiple sites at once but this configuration restricts the ability of the instrument to take measurements.
+
+The library abstracts this by ensuring the same instrument channel is correctly associated with each of the site-pin pairs. The Semiconductor Test Library considers the first site mapped to the instrument channel as the primary site and treats all other sites as secondary. Only the primary site is used for executing low-level driver methods and secondary sites are skipped to avoid redundant operations. For example, a read operation is performed on the primary site and the value that is read back is applied to the primary site and all secondary sites.
+
+This behavior of skipping operations on secondary sites is built into the `ParallelExecution` class methods utilizing site-pin information. The `SitePinInfo` class includes a public property called `SkipOperations`, which identifies whether an operation should be executed or skipped for a particular site. When a new bundle object is created the `SkipOperations` property will be set to `true` for any of the contained pins that are shared. If the site is primary or is not mapped to a shared pin, the property is set to `false`, if the site is secondary, it is set to `true`.
+
+To appropriately perform an operation on the instrument channel within an extension method, use the `SkipOperations` property. The following code module illustrates how `SkipOperations` can be used to ignore the operations on the secondary site, within an extension method.
+
+```cs
+ public static void ForceVoltage(
+     this DigitalSessionsBundle sessionsBundle,
+     SiteData<double> voltageLevels,
+     double? currentLimitRange = null,
+     double? apertureTime = null,
+     double? settlingTime = null)
+ {
+     sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+     {
+         if (!sitePinInfo.SkipOperations)
+         {
+             var settings = new PPMUSettings
+             {
+                 OutputFunction = PpmuOutputFunction.DCVoltage,
+                 VoltageLevel = voltageLevels.GetValue(sitePinInfo.SiteNumber),
+                 CurrentLimitRange = currentLimitRange,
+                 ApertureTime = apertureTime,
+                 SettlingTime = settlingTime
+             };
+             sessionInfo.Session.Force(sitePinInfo.SitePinString, settings);
+         }
+     });
+ }
+```
+
+>[!NOTE]
+> If you have one or more Shared Pins mapped to a Digital Pattern Instrument in your pin map, it is recommended to use the following overloads for the corresponding TDR-related Digital Extension methods utilizing `PinSiteData` input parameters and return values.
+>
+> - [`PinSiteData<IviDriverPrecisionTimeSpan> MeasureTDROffsets(bool apply = false)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.MeasureTDROffsets.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_MeasureTDROffsets_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_Boolean_)
+> - [`void ApplyTDROffsets(PinSiteData<IviDriverPrecisionTimeSpan> offsets)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.ApplyTDROffsets.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_ApplyTDROffsets_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_Ivi_Driver_PrecisionTimeSpan__)
+> - [`PinSiteData<IviDriverPrecisionTimeSpan> LoadTDROffsetsFromFile(string filePath, bool throwOnMissingChannels = true)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.LoadTDROffsetsFromFile.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_LoadTDROffsetsFromFile_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_System_String_System_Boolean_)
+> - [`void SaveTDROffsetsToFile(PinSiteData<IviDriverPrecisionTimeSpan> offsets, string filePath)`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.LevelsAndTiming.SaveTDROffsetsToFile.html#NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_LevelsAndTiming_SaveTDROffsetsToFile_NationalInstruments_SemiconductorTestLibrary_InstrumentAbstraction_Digital_DigitalSessionsBundle_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_PinSiteData_Ivi_Driver_PrecisionTimeSpan__System_String_)
+
+**Related information**:
+
+- [NI PXIe-6570 User Manual: Operating Guidelines: Shared Pins](https://www.ni.com/docs/en-US/bundle/pxie-6570/page/shared-pins.html)
+- [NI PXIe-6571 User Manual: Operating Guidelines: Shared Pins](https://www.ni.com/docs/en-US/bundle/pxie-6571/page/shared-pins.html)

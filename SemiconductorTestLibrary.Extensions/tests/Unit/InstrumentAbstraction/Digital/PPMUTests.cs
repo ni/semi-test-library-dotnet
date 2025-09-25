@@ -664,15 +664,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject, out var publishDatReader);
             var pins = new string[] { "C0", "C1" };
             var sessionsBundle = sessionManager.Digital(pins);
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "InvalidOperationException", "PPMU cannot measure current on a channel that is not sourcing voltage or current." };
 
             void MeasureAndPublishCurrent() => sessionsBundle.MeasureAndPublishCurrent("CurrentMeasurments");
 
-            AggregateException aggregateException = Assert.Throws<AggregateException>(MeasureAndPublishCurrent);
+            var exception = Assert.Throws<NISemiconductorTestException>(MeasureAndPublishCurrent);
             Assert.Empty(publishDatReader.GetAndClearPublishedData());
-            foreach (Exception innerExeption in aggregateException.InnerExceptions)
+            foreach (var expectedPhrase in expectedPhrases)
             {
-                Assert.IsType<InvalidOperationException>(innerExeption);
-                Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
+                Assert.Contains(expectedPhrase, exception.Message);
             }
         }
 
@@ -703,15 +703,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject, out var publishDatReader);
             var pins = new string[] { "C0", "C1" };
             var sessionsBundle = sessionManager.Digital(pins);
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "InvalidOperationException", "PPMU cannot measure current on a channel that is not sourcing voltage or current." };
 
             void MeasureCurrent() => sessionsBundle.MeasureCurrent();
 
-            AggregateException aggregateException = Assert.Throws<AggregateException>(MeasureCurrent);
+            var exception = Assert.Throws<NISemiconductorTestException>(MeasureCurrent);
             Assert.Empty(publishDatReader.GetAndClearPublishedData());
-            foreach (Exception innerExeption in aggregateException.InnerExceptions)
+            foreach (var expectedPhrase in expectedPhrases)
             {
-                Assert.IsType<InvalidOperationException>(innerExeption);
-                Assert.Contains("PPMU cannot measure current on a channel that is not sourcing voltage or current.", innerExeption.Message);
+                Assert.Contains(expectedPhrase, exception.Message);
             }
         }
 
