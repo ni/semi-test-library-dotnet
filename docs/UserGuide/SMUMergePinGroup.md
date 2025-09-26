@@ -126,7 +126,7 @@ When a merged pin group is present within a `DCPowerSessionsBundle` object, the 
 The measured current value of a merged pin group will reflect the total combined current across all merged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the merged channels mapped to the pin group.
 
 > [!NOTE]
-> When the lower-level DCPower driver method is called to perform a measurement, only  the primary channel is operated on. The driver returns the combined measurement result taken across all pins in unison
+> When the lower-level DCPower driver method is called to perform a measurement, only the primary channel is operated on. The driver returns the combined measurement result taken across all pins in unison
 
 The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the primary pin name. It is recommended that you specify the primary pin in the pin field of related tests in the Test tab of the calling TestStand step when working with merged pin groups.
 > [!NOTE]
