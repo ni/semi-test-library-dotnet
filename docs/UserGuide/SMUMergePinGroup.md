@@ -141,7 +141,7 @@ The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResul
 > ```
 
 The following code snippet shows the function call to the `MeasureAndPublishCurrent` method with `PublishedDataId` being `Current`.
-![MeasureAndPublish_method_call](../images/SMUMergePinGroup/MeasureAndPublishMethodCall.png)
+![MeasureAndPublishMethodCall](../images/SMUMergePinGroup/MeasureAndPublishMethodCall.png)
 
 The following images shows the Published Data Id with Primary pin selected in the Tests tab of `Force Voltage Measure Current (FVMI)` step which calls the code from the previous screenshot, at both edit-time and at run-time , respectively.
 ![TestsTabPrimaryPinEdittime](../images/SMUMergePinGroup/TestsTabPrimaryPinEdittime.png)
