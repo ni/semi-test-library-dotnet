@@ -130,10 +130,10 @@ The measured current value of a merged pin group will reflect the total combined
 
 The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the primary pin name. It is recommended that you specify the primary pin in the pin field of related tests in the Test tab of the calling TestStand step when working with merged pin groups.
 > [!NOTE]
->While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. For merged channels, only one of mapped channels has a returned measurement value, as discussed in the preceding note above, which is the value associated with the primary pin. There are no values for the secondary pins to publish and therefore results are not published by the pin group name when working with merged pin groups."_
->
+> While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. For merged channels, only one of mapped channels has a returned measurement value, as discussed in the preceding note above, which is the value associated with the primary pin. There are no values for the secondary pins to publish and therefore results are not published by the pin group name when working with merged pin groups.
+
 > [!TIP]
-> If you do not want to associate the published data with a pin, you can extract the data from the `PinSiteData` object by the merged pin group name, using the `ExtractPin` method, and then only publish the returned `SiteData` object without associating it with any pin(s) by passing it to the `PublishResults` method."
+> If you do not want to associate the published data with a pin, you can extract the data from the `PinSiteData` object by the merged pin group name, using the `ExtractPin` method, and then only publish the returned `SiteData` object without associating it with any pin(s) by passing it to the `PublishResults` method.
 >
 > ```cs
 > ​var results = dcPower.MeasureCurrent();
@@ -143,6 +143,6 @@ The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResul
 The following code snippet shows the function call to the `MeasureAndPublishCurrent` method with `PublishedDataId` being `Current`.
 ![MeasureAndPublishMethodCall](../images/SMUMergePinGroup/MeasureAndPublishMethodCall.png)
 
-The following images shows the Published Data Id with Primary pin selected in the Tests tab of `Force Voltage Measure Current (FVMI)` step which calls the code from the previous screenshot, at both edit-time and at run-time , respectively.
+The following images shows the Published Data Id with Primary pin selected in the Tests tab of `Force Voltage Measure Current (FVMI)` step, which calls the code from the previous screenshot, at both edit-time and at run-time , respectively.
 ![TestsTabPrimaryPinEdittime](../images/SMUMergePinGroup/TestsTabPrimaryPinEdittime.png)
 ![TestsTabPrimaryPinRuntime](../images/SMUMergePinGroup/TestsTabPrimaryPinRuntime.png)
