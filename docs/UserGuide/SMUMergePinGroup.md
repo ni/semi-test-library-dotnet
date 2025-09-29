@@ -140,7 +140,7 @@ The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResul
 > tsmContext.PublishResults(results.ExtractPin("MergedPinGroupName"), publishedDataId: "Current");
 > ```
 
-The following images show a code module, which invoking the `MeasureAndPublishCurrent` method, being called from a step in a TestStand Sequence, and how the Test tab of the calling step appears both at edit-time and at run-time. Note that the Primary pin is configured in the Tests tab of calling step at edit-time.
+The following images show a code module, which invokes the `MeasureAndPublishCurrent` method and is called from a step in a TestStand sequence, and how the Test tab of the calling step appears both at edit-time and at run-time. Note that at edit-time, the test item in the Tests tab of calling step has the Pin field configured with the primary pin name, and the Published Data ID field matches the value, "Current", used by the code module.
 ![MeasureAndPublishMethodCall](../images/SMUMergePinGroup/MeasureAndPublishMethodCall.png)
 ![TestsTabPrimaryPinEdittime](../images/SMUMergePinGroup/TestsTabPrimaryPinEdittime.png)
 ![TestsTabPrimaryPinRuntime](../images/SMUMergePinGroup/TestsTabPrimaryPinRuntime.png)
