@@ -136,7 +136,7 @@ The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResul
 > If you do not want to associate the published data with a pin, you can extract the data from the `PinSiteData` object by the merged pin group name, using the `ExtractPin` method, and then only publish the returned `SiteData` object without associating it with any pin(s) by passing it to the `PublishResults` method.
 >
 > ```cs
-> ​var results = dcPower.MeasureCurrent();
+> var results = dcPower.MeasureCurrent();
 > tsmContext.PublishResults(results.ExtractPin("MergedPinGroupName"), publishedDataId: "Current");
 > ```
 
