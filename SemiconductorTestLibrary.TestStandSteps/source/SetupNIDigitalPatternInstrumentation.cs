@@ -44,6 +44,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="resetDevice">Whether to reset device during initialization.</param>
         /// <param name="levelsSheetToApply">The name of the levels sheet to apply.</param>
         /// <param name="timingSheetToApply">The name of the timing sheet to apply.</param>
+        [Obsolete("Use TestStandSteps.NIInstrumentType instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static void SetupNIDigitalPatternInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,
