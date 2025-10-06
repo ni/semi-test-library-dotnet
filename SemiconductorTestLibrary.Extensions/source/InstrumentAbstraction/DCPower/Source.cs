@@ -976,7 +976,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionInfo.AllChannelsString.StartsWith(sitePinInfo.IndividualChannelString, StringComparison.InvariantCulture);
         }
 
-        private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
+        private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, int gangSize = 1)
         {
             if (settings.Level.HasValue)
             {
@@ -990,11 +990,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 if (settings.LimitHigh.HasValue)
                 {
-                    dcOutput.Source.Voltage.CurrentLimitHigh = settings.LimitHigh.Value;
+                    dcOutput.Source.Voltage.CurrentLimitHigh = settings.LimitHigh.Value / gangSize;
                 }
                 if (settings.LimitLow.HasValue)
                 {
-                    dcOutput.Source.Voltage.CurrentLimitLow = settings.LimitLow.Value;
+                    dcOutput.Source.Voltage.CurrentLimitLow = settings.LimitLow.Value / gangSize;
                 }
             }
             if (settings.LevelRange.HasValue || settings.Level.HasValue)
@@ -1005,15 +1005,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
                 || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric && (settings.LimitHigh.HasValue || settings.LimitLow.HasValue)))
             {
-                dcOutput.Source.Voltage.CurrentLimitRange = settings.LimitRange ?? CalculateLimitRangeFromLimit(settings);
+                dcOutput.Source.Voltage.CurrentLimitRange = settings.LimitRange ?? CalculateLimitRangeFromLimit(settings) / gangSize;
             }
         }
 
-        private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
+        private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, int gangSize = 1)
         {
             if (settings.Level.HasValue)
             {
-                dcOutput.Source.Current.CurrentLevel = settings.Level.Value;
+                dcOutput.Source.Current.CurrentLevel = settings.Level.Value / gangSize;
             }
             if (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
             {
@@ -1032,7 +1032,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             if (settings.LevelRange.HasValue || settings.Level.HasValue)
             {
-                dcOutput.Source.Current.CurrentLevelRange = settings.LevelRange ?? Math.Abs(settings.Level.Value);
+                dcOutput.Source.Current.CurrentLevelRange = settings.LevelRange ?? Math.Abs(settings.Level.Value / gangSize);
             }
             if (settings.LimitRange.HasValue
                 || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
