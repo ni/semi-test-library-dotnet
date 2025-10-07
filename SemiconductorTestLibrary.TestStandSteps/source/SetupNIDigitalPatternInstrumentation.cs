@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
@@ -19,7 +20,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="levelsSheetToApply">The name of the levels sheet to apply.</param>
         /// <param name="timingSheetToApply">The name of the timing sheet to apply.</param>
         /// <param name="applySourceWaveformData">Whether to apply the data in waveform files to source waveforms.</param>
-        public static void SetupNIDigitalPatternInstrumentation(
+        public static void SetupAllNIDigitalPatternInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,
             string levelsSheetToApply = "",
@@ -35,6 +36,53 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             {
                 NISemiconductorTestException.Throw(e);
             }
+        }
+
+        /// <summary>
+        /// [Deprecated] This method is deprecated and use 'SetupAllNIDigitalPatternInstrumentation' instead. Supported in 24.5.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="resetDevice">Whether to reset device during initialization.</param>
+        /// <param name="levelsSheetToApply">The name of the levels sheet to apply.</param>
+        /// <param name="timingSheetToApply">The name of the timing sheet to apply.</param>
+        [Obsolete("Use 'SetupAllNIDigitalPatternInstrumentation' instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void SetupNIDigitalPatternInstrumentation(
+            ISemiconductorModuleContext tsmContext,
+            bool resetDevice = false,
+            string levelsSheetToApply = "",
+            string timingSheetToApply = "")
+        {
+            SetupAllNIDigitalPatternInstrumentation(
+            tsmContext,
+            resetDevice,
+            levelsSheetToApply,
+            timingSheetToApply,
+            false);
+        }
+        /// <summary>
+        /// [Deprecated] This method is deprecated and use 'SetupAllNIDigitalPatternInstrumentation' instead. Supported in 25.0 and 25.5.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="resetDevice">Whether to reset device during initialization.</param>
+        /// <param name="levelsSheetToApply">The name of the levels sheet to apply.</param>
+        /// <param name="timingSheetToApply">The name of the timing sheet to apply.</param>
+        /// /// <param name="applySourceWaveformData">Whether to apply the data in waveform files to source waveforms.</param>
+        [Obsolete("Use 'SetupAllNIDigitalPatternInstrumentation' instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void SetupNIDigitalPatternInstrumentation(
+            ISemiconductorModuleContext tsmContext,
+            bool resetDevice = false,
+            string levelsSheetToApply = "",
+            string timingSheetToApply = "",
+            bool applySourceWaveformData = false)
+        {
+            SetupAllNIDigitalPatternInstrumentation(
+            tsmContext,
+            resetDevice,
+            levelsSheetToApply,
+            timingSheetToApply,
+            applySourceWaveformData );
         }
     }
 }
