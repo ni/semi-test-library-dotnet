@@ -937,9 +937,54 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "", bool waitForSourceCompletion = false)
         {
+            List<SitePinInfo> listOfLeaderChannels = sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader).ToList();
+            foreach (var sitePinInfo in listOfLeaderChannels)
+            {
+                // Iterate through the follower channel output dictionary and configure all the channels for ganging.
+                sessionInfo.GangingForce(sitePinInfo, settings, waitForSourceCompletion);
+            }
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelString);
+            channelOutput.Source.Output.Enabled = true;
+            channelOutput.Control.Initiate();
+            if (waitForSourceCompletion)
+            {
+                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(5.0));
+            }
+        }
+
+        private static void GangingForce(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, DCPowerSourceSettings settings, bool waitForSourceCompletion = false)
+        {
+            var count = sitePinInfo.ChannelCascadingInfo.Size;
+            var trigger = sitePinInfo.ChannelCascadingInfo.TriggerName;
+            InvokeInParallel(
+                () =>
+                {
+                    foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Sessions)
+                    {
+                        sessionInfo.ConfigureChannelsForGanging(settings, followerSesssion.Outputs[followerChannel], count, trigger);
+                        sessionInfo.InitiateChannelsForGanging(followerSesssion.Outputs[followerChannel]);
+                    }
+                },
+                () =>
+                {
+                    sessionInfo.ConfigureChannelsForGanging(settings, leaderChannelInfo.Item1, count, trigger);
+                });
+            sessionInfo.InitiateChannelsForGanging(leaderChannelInfo.Item1);
+        }
+
+        private static void ConfigureChannelsForGanging(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, int gangedChannelsCount = 1, string trigger = "")
+        {
+            channelOutput.Control.Abort();
+            sessionInfo.ConfigureSourceSettings(settings, gangedChannelsCount: gangedChannelsCount);
+            channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
+            channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure(trigger, DCPowerTriggerEdge.Rising);
+            channelOutput.Control.Commit();
+        }
+
+        private static void InitiateChannelsForGanging(this DCPowerSessionInformation sessionInfo, DCPowerOutput channelOutput, bool waitForSourceCompletion = false)
+        {
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
