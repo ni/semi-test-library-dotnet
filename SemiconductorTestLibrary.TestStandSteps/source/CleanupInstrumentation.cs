@@ -93,7 +93,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to reset device during initialization.</param>
         /// <param name="instrumentType">The type of instrument to close.</param>
-        [Obsolete("Use TestStandSteps.NIInstrumentType instead.")]
+        [Obsolete("Use other overloads of 'CleanupInstrumentation' instead.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static void CleanupInstrumentation(
             ISemiconductorModuleContext tsmContext,
@@ -104,7 +104,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         }
 
         /// <summary>
-        /// [Deprecated]Defines NI instrument types the NI Semiconductor Test Library supports.
+        /// Closes any open instrument sessions associated with the pin map. To close instruments of specific types, use other overloads instead.
+        /// </summary>
+        /// <remarks>
+        /// This method makes a callback to new overload  method.
+        /// </remarks>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void CleanupInstrumentation(ISemiconductorModuleContext tsmContext)
+        {
+            CleanupInstrumentation(tsmContext, false, TestStandSteps.NIInstrumentType.All);
+        }
+
+        /// <summary>
+        /// [Deprecated]Use 'TestStandSteps.NIInstrumentType' instead.
         /// </summary>
         [Obsolete("Use TestStandSteps.NIInstrumentType instead.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
