@@ -539,6 +539,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
+            var voltageAccumulators = new double[channelCount];
+            var currentAccumulators = new double[channelCount];
             var onDemandChannels = listOfChannelsToMeasure
                 .Select((sitePin, index) => new { sitePin, index })
                 .Where(x => session.Outputs[x.sitePin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
@@ -600,7 +602,40 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                                 break;
                         }
                     });
+                },
+                () =>
+                {
+                    Parallel.For(0, channelCount, masterIndex =>
+                    {
+                        var sitePinInfo = listOfChannelsToMeasure[masterIndex];
+                        if (sitePinInfo.Leader)
+                        {
+                            // Measure for master channels only.
+                            var followerSessions = sitePinInfo.ChannelCascadingInfo.Sessions;
+                            double voltageMeasurement = 0.0;
+                            double currentMeasurement = 0.0;
+                            foreach (var (followerSession, followerChannel, followerModel) in followerSessions)
+                            {
+                                var (voltage, current) = MeasureVoltageAndCurrent(followerSession, followerChannel, followerModel);
+                                voltageMeasurement += voltage;
+                                currentMeasurement += current;
+                            }
+                            lock (lockObject)
+                            {
+                                voltageAccumulators[masterIndex] = voltageMeasurement / (sitePinInfo.ChannelCascadingInfo.Size - 1); // Sum of voltage across all followers.
+                                currentAccumulators[masterIndex] = currentMeasurement; // Sum of current through all followers.
+                            }
+                        }
+                    });
                 });
+            for (int i = 0; i < channelCount; i++)
+            {
+                if (listOfChannelsToMeasure[i].Leader)
+                {
+                    voltageMeasurements[i] = (voltageAccumulators[i] + voltageMeasurements[i]) / listOfChannelsToMeasure[i].ChannelCascadingInfo.Size; // Average voltage.
+                    currentMeasurements[i] = currentAccumulators[i] + currentMeasurements[i];  // Total current.
+                }
+            }
             return new Tuple<double[], double[]>(voltageMeasurements, currentMeasurements);
         }
 
@@ -623,6 +658,52 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     configure(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString);
                 }
             }
+            foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader)) // Configure cascaded leader channels.
+            {
+                foreach (var (session, channel, model) in sitePinInfo.ChannelCascadingInfo.Sessions)
+                {
+                    session.Outputs[channel].Control.Abort();
+                    configure(channel, model);
+                }
+            }
+        }
+
+        private static Tuple<double, double> MeasureVoltageAndCurrent(this NIDCPower session, string channelString, string model)
+        {
+            double voltageMeasurement = double.NaN;
+            double currentMeasurement = double.NaN;
+            var dcOutput = session.Outputs[channelString];
+
+            switch (dcOutput.Measurement.MeasureWhen)
+            {
+                case DCPowerMeasurementWhen.OnMeasureTrigger:
+                    if (model == DCPowerModelStrings.PXI_4110)
+                    {
+                        break;
+                    }
+                    // Make sure to clear previous results before fetching again.
+                    session.Measurement.Fetch(channelString, new PrecisionTimeSpan(20), dcOutput.Measurement.FetchBacklog);
+                    dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
+                    goto case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+
+                case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
+                    if (model == DCPowerModelStrings.PXI_4110)
+                    {
+                        break;
+                    }
+                    var fetchResult = session.Measurement.Fetch(channelString, new PrecisionTimeSpan(20), 1);
+                        voltageMeasurement = fetchResult.VoltageMeasurements[0];
+                        currentMeasurement = fetchResult.CurrentMeasurements[0];
+                    break;
+
+                default:
+                    // Measure channel that is configured to measure on demand.
+                    var measureResult = session.Measurement.Measure(channelString);
+                    voltageMeasurement = measureResult.VoltageMeasurements[0];
+                    currentMeasurement = measureResult.CurrentMeasurements[0];
+                    break;
+             }
+            return new Tuple<double, double>(voltageMeasurement, currentMeasurement);
         }
 
         private static void ConfigureMeasureSettings(this NIDCPower session, string channelString, string modelString, double powerLineFrequency, DCPowerMeasureSettings settings)
