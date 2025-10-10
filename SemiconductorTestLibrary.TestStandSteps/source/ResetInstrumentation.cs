@@ -85,7 +85,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to perform a hard reset on the device.</param>
         /// <param name="instrumentType">The type of instrument to reset.</param>
-        [Obsolete("Use TestStandSteps.NIInstrumentType instead.")]
+        [Obsolete("Use other overloads of 'ResetInstrumentation' instead.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static void ResetInstrumentation(
             ISemiconductorModuleContext tsmContext,
