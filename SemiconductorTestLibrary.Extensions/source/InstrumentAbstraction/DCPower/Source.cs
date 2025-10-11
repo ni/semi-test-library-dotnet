@@ -915,32 +915,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #endregion methods on DCPowerSessionInformation
 
         #region private and internal methods
-
-        private static void ConfigureSourceSettings(DCPowerOutput channelOutput, DCPowerSourceSettings settings, string channelString = "")
-        {
-            channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
-            if (settings.LimitSymmetry.HasValue)
-            {
-                channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
-            }
-            if (settings.OutputFunction.HasValue)
-            {
-                channelOutput.Source.Output.Function = settings.OutputFunction.Value;
-            }
-            if (settings.SourceDelayInSeconds.HasValue)
-            {
-                channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
-            }
-            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
-            {
-                ConfigureVoltageSettings(channelOutput, settings);
-            }
-            else
-            {
-                ConfigureCurrentSettings(channelOutput, settings);
-            }
-        }
-
         private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "", bool waitForSourceCompletion = false)
         {
             List<SitePinInfo> leaderSitePinInfos = sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader).ToList();
@@ -968,7 +942,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private static void ConfigureChannelsForGanging(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, int gangedChannelsCount = 1, string trigger = "")
         {
             channelOutput.Control.Abort();
-            sessionInfo.ConfigureSourceSettings(settings, channelString);
+            sessionInfo.ConfigureSourceSettings(settings);
             channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
             channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure(trigger, DCPowerTriggerEdge.Rising);
             channelOutput.Control.Commit();
@@ -1010,6 +984,31 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         internal static bool IsFirstChannelOfSession(this SitePinInfo sitePinInfo, DCPowerSessionInformation sessionInfo)
         {
             return sessionInfo.AllChannelsString.StartsWith(sitePinInfo.IndividualChannelString, StringComparison.InvariantCulture);
+        }
+
+        private static void ConfigureSourceSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
+        {
+            dcOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
+            if (settings.LimitSymmetry.HasValue)
+            {
+                dcOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
+            }
+            if (settings.OutputFunction.HasValue)
+            {
+                dcOutput.Source.Output.Function = settings.OutputFunction.Value;
+            }
+            if (settings.SourceDelayInSeconds.HasValue)
+            {
+                dcOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
+            }
+            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+            {
+                ConfigureVoltageSettings(dcOutput, settings);
+            }
+            else
+            {
+                ConfigureCurrentSettings(dcOutput, settings);
+            }
         }
 
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, int gangSize = 1)
