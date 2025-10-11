@@ -611,7 +611,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         if (sitePinInfo.Leader)
                         {
                             // Measure for master channels only.
-                            var followerSessions = sitePinInfo.ChannelCascadingInfo.Sessions;
+                            var followerSessions = sitePinInfo.ChannelCascadingInfo.Followers;
                             double voltageMeasurement = 0.0;
                             double currentMeasurement = 0.0;
                             foreach (var (followerSession, followerChannel, followerModel) in followerSessions)
@@ -660,7 +660,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader)) // Configure cascaded leader channels.
             {
-                foreach (var (session, channel, model) in sitePinInfo.ChannelCascadingInfo.Sessions)
+                foreach (var (session, channel, model) in sitePinInfo.ChannelCascadingInfo.Followers)
                 {
                     session.Outputs[channel].Control.Abort();
                     configure(channel, model);
