@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Threading.Tasks;
+
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
@@ -31,6 +34,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.AbortAndConfigure((channelString, modelString) =>
                 {
                     sessionInfo.Session.ConfigureMeasureSettings(channelString, modelString, sessionInfo.PowerLineFrequency, settings);
+                    List<SitePinInfo> leaderSitePinInfos = sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader).ToList();
+                    foreach (var sitePinInfo in leaderSitePinInfos)
+                    {
+                        foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
+                        {
+                            followerSesssion.ConfigureMeasureSettings(followerChannel, followerModel, sessionInfo.PowerLineFrequency, settings);
+                        }
+                    }
                 });
             });
         }
@@ -41,7 +52,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo.SiteNumber));
+            sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo.SiteNumber));
+            foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
+            {
+                followerSesssion.ConfigureMeasureSettings(followerChannel, followerModel, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo.SiteNumber));
+            }
             });
         }
 
@@ -50,8 +65,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo));
+            sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+            sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo));
+            foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
+            {
+                followerSesssion.ConfigureMeasureSettings(followerChannel, followerModel, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo));
+            }
             });
         }
 
@@ -66,6 +85,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings[sitePinInfo.PinName]);
+            foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
+            {
+                followerSesssion.ConfigureMeasureSettings(followerChannel, followerModel, sessionInfo.PowerLineFrequency, settings[sitePinInfo.PinName]);
+            }
             });
         }
 
@@ -81,6 +104,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.AbortAndConfigure((channelString, modelString) =>
                 {
                     sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen);
+                    List<SitePinInfo> leaderSitePinInfos = sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader).ToList();
+                    foreach (var sitePinInfo in leaderSitePinInfos)
+                    {
+                        foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
+                        {
+                            followerSesssion.ConfigureMeasureWhen(followerChannel, followerModel, measureWhen);
+                        }
+                    }
                 });
             });
         }
