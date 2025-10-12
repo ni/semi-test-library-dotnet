@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime;
+
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
+
+using static System.Collections.Specialized.BitVector32;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -845,6 +850,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #endregion methods on DCPowerOutput
 
+        private static void ConfigureTransientResponseOnSessions(NIDCPower[] sessions, string[] channels, string[] models, DCPowerSourceTransientResponse transientResponse)
+        {
+            if (sessions.Length != channels.Length || sessions.Length != models.Length)
+            {
+                throw new ArgumentException("The lengths of sessions, channels and models must be the same.");
+            }
+            for (int i = 0; i < sessions.Length; i++)
+            {
+                ConfigureTransientResponse(sessions[i], channels[i], models[i], transientResponse);
+            }
+        }
+
         #region methods on NIDCPower session
 
         /// <summary>
@@ -893,22 +910,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
-            ConfigureSourceSettings(channelOutput, settings);
+            var sitePinInfolist = string.IsNullOrEmpty(channelString) ? sessionInfo.AssociatedSitePinList : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString)).ToList();
+            ConfigureOutputSettings(channelOutput, settings);
             if (settings.TransientResponse.HasValue)
             {
                 string channelStringToUse = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsString : channelString;
-                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => channelStringToUse.Contains(sitePin.IndividualChannelString)))
-                {
-                    sessionInfo.Session.ConfigureTransientResponse(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, settings.TransientResponse.Value);
-                    if (sitePinInfo.Leader)
-                    {
-                        // Configure transient response for all follower channels in the same session.
-                        foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
-                        {
-                            followerSesssion.ConfigureTransientResponse(followerChannel, followerModel, settings.TransientResponse.Value);
-                        }
-                    }
-                }
+                ConfigureTransientResponseToPrimaryChannels(sessionInfo.Session, sitePinInfolist, channelStringToUse, settings.TransientResponse.Value);
             }
         }
 
@@ -918,7 +925,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "", bool waitForSourceCompletion = false)
         {
             List<SitePinInfo> leaderSitePinInfos = sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader).ToList();
-            // List<SitePinInfo> primarySitePinInfos = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+            List<SitePinInfo> primarySitePinInfos = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
             InvokeInParallel(
             () =>
             {
@@ -927,22 +934,40 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
                     {
                         // Configure, Enable and Initiate all the follower channels for ganging.
-                        sessionInfo.ConfigureChannelsForGanging(settings, followerSesssion.Outputs[followerChannel]);
+                        ConfigureChannelForGanging(followerSesssion, followerChannel, followerModel, settings, sitePinInfo.ChannelCascadingInfo.Followers.Count + 1, sitePinInfo.ChannelCascadingInfo.TriggerName);
                         EnableAndInitiateChannels(followerSesssion.Outputs[followerChannel]);
                     }
                 }
             },
             () =>
             {
-                sessionInfo.ConfigureChannelsForGanging(settings, sessionInfo.AllChannelsOutput);
+                foreach (var sitePinInfo in leaderSitePinInfos)
+                {
+                    ConfigureChannelForGanging(sessionInfo.Session, sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, settings);
+                }
             });
             EnableAndInitiateChannels(sessionInfo.AllChannelsOutput);
             }
 
-        private static void ConfigureChannelsForGanging(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, int gangedChannelsCount = 1, string trigger = "")
+        private static void ConfigureChannelForGanging(NIDCPower session, string channel, string model, DCPowerSourceSettings settings, int gangedChannelsCount = 1, string trigger = "")
         {
+            string[] models = { model };
+            string[] channels = { channel };
+            ConfigureSessionForGanging(session, channels, models, settings, gangedChannelsCount, trigger);
+        }
+
+        private static void ConfigureSessionForGanging(NIDCPower session, string[] channels, string[] models, DCPowerSourceSettings settings, int gangedChannelsCount = 1, string trigger = "")
+        {
+            // Create an array of NIDCPower sessions with the same reference as 'session', sized to the number of channels.
+            NIDCPower[] sessions = new NIDCPower[channels.Length];
+            for (int i = 0; i < channels.Length; i++)
+            {
+                sessions[i] = session;
+            }
+            string channelString = string.Join(",", channels);
+            var channelOutput = session.Outputs[channelString];
             channelOutput.Control.Abort();
-            sessionInfo.ConfigureSourceSettings(settings);
+            ConfigureTransientResponseOnSessions(sessions, channels, models, settings.TransientResponse.Value);
             channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
             channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure(trigger, DCPowerTriggerEdge.Rising);
             channelOutput.Control.Commit();
@@ -986,7 +1011,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionInfo.AllChannelsString.StartsWith(sitePinInfo.IndividualChannelString, StringComparison.InvariantCulture);
         }
 
-        private static void ConfigureSourceSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
+        private static void ConfigureTransientResponseToPrimaryChannels(NIDCPower session, IList<SitePinInfo> sitePinInfolist, string channelString, DCPowerSourceTransientResponse transientResponse, bool applyToFollowers = false)
+        {
+            foreach (var sitePinInfo in sitePinInfolist.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString)))
+            {
+                session.ConfigureTransientResponse(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, transientResponse);
+                if (sitePinInfo.Leader)
+                {
+                    // Configure for follower channels as well.
+                    var followerSessions = sitePinInfo.ChannelCascadingInfo.Followers;
+                    foreach (var (followerSession, followerChannel, followerModel) in followerSessions)
+                    {
+                        ConfigureTransientResponse(followerSession, followerChannel, followerModel, transientResponse);
+                    }
+                }
+            }
+        }
+
+        private static void ConfigureOutputSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
             dcOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             if (settings.LimitSymmetry.HasValue)
