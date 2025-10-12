@@ -1,4 +1,9 @@
-﻿using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using NationalInstruments.SemiconductorTestLibrary.Common;
+
+using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -26,6 +31,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do(sessionInfo =>
             {
+                List<SitePinInfo> leaderSitePinInfos = sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader).ToList();
+                foreach (var sitePinInfo in leaderSitePinInfos)
+                {
+                    foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
+                    {
+                        followerSesssion.Outputs[followerChannel].Control.Abort();
+                    }
+                }
                 sessionInfo.AllChannelsOutput.Control.Abort();
             });
         }
@@ -44,6 +57,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do(sessionInfo =>
             {
+                List<SitePinInfo> leaderSitePinInfos = sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader).ToList();
+                foreach (var sitePinInfo in leaderSitePinInfos)
+                {
+                    foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
+                    {
+                        followerSesssion.Outputs[followerChannel].Control.Commit();
+                    }
+                }
                 sessionInfo.AllChannelsOutput.Control.Commit();
             });
         }
@@ -61,6 +82,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do(sessionInfo =>
             {
+                List<SitePinInfo> leaderSitePinInfos = sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader).ToList();
+                foreach (var sitePinInfo in leaderSitePinInfos)
+                {
+                    foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
+                    {
+                        followerSesssion.Outputs[followerChannel].Control.Initiate();
+                    }
+                }
                 sessionInfo.AllChannelsOutput.Control.Initiate();
             });
         }
