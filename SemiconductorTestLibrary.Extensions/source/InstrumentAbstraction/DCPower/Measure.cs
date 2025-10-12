@@ -763,6 +763,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigurePowerLineFrequency(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, double frequency)
         {
+            List<SitePinInfo> leaderSitePinInfos = sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader).ToList();
+            foreach (var sitePinInfo in leaderSitePinInfos)
+            {
+                foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
+                {
+                    ConfigurePowerLineFrequency(followerSesssion, followerChannel, followerModel, sessionInfo.PowerLineFrequency);
+                }
+            }
             switch (modelString)
             {
                 case DCPowerModelStrings.PXI_4110:
@@ -773,6 +781,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
                 default:
                     sessionInfo.Session.Outputs[channelString].Measurement.PowerLineFrequency = frequency;
+                    break;
+            }
+        }
+
+        private static void ConfigurePowerLineFrequency(NIDCPower session, string channelString, string modelString, double frequency)
+        {
+            switch (modelString)
+            {
+                case DCPowerModelStrings.PXI_4110:
+                case DCPowerModelStrings.PXI_4130:
+                case DCPowerModelStrings.PXIe_4154:
+                    break;
+                default:
+                    session.Outputs[channelString].Measurement.PowerLineFrequency = frequency;
                     break;
             }
         }
@@ -820,7 +842,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Measurement.BufferSize = requiredBufferSize;
             }
 
-            channelOutput.Control.Initiate();
+            channelOutput.Control.Initiate(); // Need to check this line
             channelOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
         }
 
