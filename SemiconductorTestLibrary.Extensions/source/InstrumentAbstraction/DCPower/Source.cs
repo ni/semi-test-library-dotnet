@@ -775,6 +775,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do(sessionInfo =>
             {
+                List<SitePinInfo> leaderSitePinInfos = sessionInfo.AssociatedSitePinList.Where(sitePin => sitePin.Leader).ToList();
+                foreach (var sitePinInfo in leaderSitePinInfos)
+                {
+                    foreach (var (followerSesssion, followerChannel, followerModel) in sitePinInfo.ChannelCascadingInfo.Followers)
+                    {
+                        followerSesssion.Outputs[followerChannel].Control.Abort();
+                        followerSesssion.Outputs[followerChannel].Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds);
+                    }
+                }
                 sessionInfo.AllChannelsOutput.Control.Abort();
                 sessionInfo.AllChannelsOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds);
             });
@@ -958,7 +967,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureSessionForGanging(NIDCPower session, string[] channels, string[] models, DCPowerSourceSettings settings, int gangedChannelsCount = 1, string trigger = "")
         {
-            // Create an array of NIDCPower sessions with the same reference as 'session', sized to the number of channels.
+            // Create an array of NIDCPower sessions, sized to the number of channels.
             NIDCPower[] sessions = new NIDCPower[channels.Length];
             for (int i = 0; i < channels.Length; i++)
             {
