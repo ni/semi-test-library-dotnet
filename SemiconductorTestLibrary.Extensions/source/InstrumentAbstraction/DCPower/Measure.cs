@@ -319,6 +319,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
             sessionsBundle.Do(sessionInfo =>
             {
+                // TODO: Need to revisit this function call as well.
                 ConfigureAndInitiate(sessionInfo.Session, sessionInfo.AllChannelsString, sampleRate, bufferLength);
             });
             return originalSettings;
