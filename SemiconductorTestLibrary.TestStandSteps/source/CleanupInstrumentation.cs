@@ -110,7 +110,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// This method makes a callback to new overload  method.
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public static void CleanupInstrumentation(ISemiconductorModuleContext tsmContext)
         {
             CleanupInstrumentation(tsmContext, false, TestStandSteps.NIInstrumentType.All);

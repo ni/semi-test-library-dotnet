@@ -71,7 +71,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// this includes the: pin map, specifications, patterns, source waveforms, capture waveforms, timing sheets, and levels sheets.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public static void SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext)
         {
             SetupNIDigitalPatternInstrumentation(

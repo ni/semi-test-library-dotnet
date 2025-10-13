@@ -102,7 +102,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// Resets all the supported instrument sessions associated with the pin map. To reset specific type of instruments, use other overload instead.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public static void ResetInstrumentation(ISemiconductorModuleContext tsmContext)
         {
             ResetInstrumentation(tsmContext, false, TestStandSteps.NIInstrumentType.All);
