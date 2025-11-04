@@ -193,30 +193,34 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Measures and returns per-site per-pin results.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="associateCurrentMeasurementsWithGroupName">True for measuring Current in Ganging case</param>
+        /// <param name="associateVoltageMeasurementsWithGroupName">True for measuring Voltage in Ganging case</param>
         /// <returns>The measurements in per-site per-pin format. Item1 is voltage measurements, Item2 is current measurements.</returns>
-        public static Tuple<PinSiteData<double>, PinSiteData<double>> MeasureAndReturnPerSitePerPinResults(this DCPowerSessionsBundle sessionsBundle)
+        public static Tuple<PinSiteData<double>, PinSiteData<double>> MeasureAndReturnPerSitePerPinResults(this DCPowerSessionsBundle sessionsBundle, bool associateCurrentMeasurementsWithGroupName = false, bool associateVoltageMeasurementsWithGroupName = false)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent());
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent(), associateCurrentMeasurementsWithGroupName: associateCurrentMeasurementsWithGroupName, associateVoltageMeasurementsWithGroupName: associateVoltageMeasurementsWithGroupName);
         }
 
         /// <summary>
         /// Measures the voltage on the target pin(s) and returns a pin- and site-aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="associateVoltageMeasurementsWithGroupName">True for measuring Voltage in Ganging case</param>
         /// <returns>The per-pin per-site voltage measurements.</returns>
-        public static PinSiteData<double> MeasureVoltage(this DCPowerSessionsBundle sessionsBundle)
+        public static PinSiteData<double> MeasureVoltage(this DCPowerSessionsBundle sessionsBundle, bool associateVoltageMeasurementsWithGroupName = false)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1);
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, associateVoltageMeasurementsWithGroupName: associateVoltageMeasurementsWithGroupName);
         }
 
         /// <summary>
         /// Measures the current on the target pin(s) and returns a pin- and site-aware data object.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="associateCurrentMeasurementsWithGroupName">True for measuring Current in Ganging case</param>
         /// <returns>The per-pin per-site voltage measurements.</returns>
-        public static PinSiteData<double> MeasureCurrent(this DCPowerSessionsBundle sessionsBundle)
+        public static PinSiteData<double> MeasureCurrent(this DCPowerSessionsBundle sessionsBundle, bool associateCurrentMeasurementsWithGroupName = false)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2);
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, associateCurrentMeasurementsWithGroupName: associateCurrentMeasurementsWithGroupName);
         }
 
         /// <summary>
@@ -239,11 +243,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="publishedDataId">The unique data id to use when publishing.</param>
+        /// <param name="associateCurrentMeasurementsWithGroupName">True for measuring Current in Ganging case</param>
+        /// <param name="associateVoltageMeasurementsWithGroupName">True for measuring Voltage in Ganging case</param>
         /// <returns>The pin-site aware voltage measurements.</returns>
-        public static PinSiteData<double> MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishedDataId)
+        public static PinSiteData<double> MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishedDataId, bool associateCurrentMeasurementsWithGroupName = false, bool associateVoltageMeasurementsWithGroupName = false)
         {
             MeasureAndPublishVoltage(sessionsBundle, publishedDataId, out var voltageMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(voltageMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(voltageMeasurements, associateCurrentMeasurementsWithGroupName, associateVoltageMeasurementsWithGroupName);
         }
 
         /// <summary>
@@ -266,11 +272,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="publishedDataId">The unique data id to use when publishing.</param>
+        /// <param name="associateCurrentMeasurementsWithGroupName">True for measuring Current in Ganging case</param>
+        /// <param name="associateVoltageMeasurementsWithGroupName">True for measuring Voltage in Ganging case</param>
         /// <returns>The pin-site aware current measurements.</returns>
-        public static PinSiteData<double> MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishedDataId)
+        public static PinSiteData<double> MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishedDataId, bool associateCurrentMeasurementsWithGroupName = false, bool associateVoltageMeasurementsWithGroupName = false)
         {
             MeasureAndPublishCurrent(sessionsBundle, publishedDataId, out var currentMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(currentMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(currentMeasurements, associateCurrentMeasurementsWithGroupName, associateVoltageMeasurementsWithGroupName);
         }
 
         /// <summary>
