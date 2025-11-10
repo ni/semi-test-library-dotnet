@@ -19,10 +19,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     {
         private ISemiconductorModuleContext _tsmContext;
 
+        public bool IsOffline()
+        {
+            return _tsmContext.IsSemiconductorModuleInOfflineMode;
+        }
+
         public TSMSessionManager Initialize(string pinMapFileName)
         {
             _tsmContext = CreateTSMContext(pinMapFileName);
             InitializeAndClose.CreateDAQmxAIVoltageTasks(_tsmContext);
+
             return new TSMSessionManager(_tsmContext);
         }
 
@@ -85,7 +91,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             aiTasksBundle.Stop();
             var maxValueOfFilteredSamples = filteredSiteData.GetValue(filteredSiteData.SiteNumbers[0], "AIPin").Max();
 
-            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
+            if (IsOffline())
+            {
+                // Limits are based on the expected value returned by the driver when in Offline Mode.
+                Assert.True(maxValueOfFilteredSamples > -1.0 && maxValueOfFilteredSamples < 1.0);
+            }
+            else
+            {
+                // When run on tester, limits are set based on the limits provided.
+                AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
+            }
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
@@ -206,7 +221,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var filteredWaveformSamples = filteredSite.GetValue(filteredSite.SiteNumbers[0], "AIPin").Samples;
             var maxValueOfFilteredSamples = filteredWaveformSamples.Max(filteredSample => filteredSample.Value);
 
-            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
+            if (IsOffline())
+            {
+                // Limits are based on the expected value returned by the driver when in Offline Mode.
+                Assert.True(maxValueOfFilteredSamples > -1.0 && maxValueOfFilteredSamples < 1.0);
+            }
+            else
+            {
+                // When run on tester, limits are set based on the limits provided.
+                AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
+            }
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
