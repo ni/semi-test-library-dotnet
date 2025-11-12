@@ -26,7 +26,7 @@ The designated primary and merge channels must be physically connected on the ap
 For remote sensing, only the primary channel sense wire must be connected.
 
 The following image illustrates an example of the relay-based dynamic connections for a 4 channel merge:
-![SMUMergePinGroupSetup](../images/SMUMergePinGroupSetup.png)
+![SMUMergePinGroupSetup](../images/SMUMergePinGroup/SMUMergePinGroupSetup.png)
 
 > [!NOTE]
 > Only certain channels on a device can be used as primary channels. Refer to the individual device user manuals, linked above, for more details including the following topics:
@@ -81,7 +81,7 @@ The following example pin map file illustrates a pin group of two pins being mer
 
 ## Code Requirements
 
-The merge operation must be performed within the test program at runtime, once instrument sessions are initialized.
+The merge operation must be performed within the test program at run-time, once instrument sessions are initialized.
 
 > [!NOTE]
 > This flexible design preserves access to individual channels for situations where channels are programmatically merged with external relays or MUX only for certain tests that demand higher current. Allowing you to take advantage of the individual channels during other tests, or vice versa.
@@ -116,3 +116,32 @@ smuBundle.UnmergePinGroup("Vcc");
 There is also a sequence style example available that showcases a complete working example of merging SMU pin groups.
 Refer to the [SMUMergePinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUMergePinGroup/README.md) for more details.
 This example is also installed on any system using STS Software 25.5 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUMergePinGroup`.
+
+## Measurement Data
+
+When a merged pin group is present within a `DCPowerSessionsBundle` object, the `MeasureCurrent` and `MeasureVoltage` methods will return a `PinSiteData` containing data associated with the pin group name. If there are non-merged pins or pin groups contained and measured as part of the same bundle object, their measurement data will be associated with their respective individual pin names. Refer to the screenshot below as an example.
+
+![PinSiteData](../images/SMUMergePinGroup/PinSiteData.png)
+
+The measured current value of a merged pin group will reflect the total combined current across all merged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the merged channels mapped to the pin group.
+
+> [!NOTE]
+> When the lower-level DCPower driver method is called to perform a measurement, only the primary channel is operated on. The driver returns the combined measurement result taken across all pins in unison
+
+The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the primary pin name. It is recommended that you specify the primary pin in the pin field of related tests in the Test tab of the calling TestStand step when working with merged pin groups.
+> [!NOTE]
+> While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. For merged channels, only one of mapped channels has a returned measurement value, as discussed in the preceding note above, which is the value associated with the primary pin. There are no values for the secondary pins to publish and therefore results are not published by the pin group name when working with merged pin groups.
+
+> [!TIP]
+> If you do not want to associate the published data with a pin, you can extract the data from the `PinSiteData` object by the merged pin group name, using the `ExtractPin` method, and then only publish the returned `SiteData` object without associating it with any pin(s) by passing it to the `PublishResults` method.
+>
+> ```cs
+> var results = dcPower.MeasureCurrent();
+> tsmContext.PublishResults(results.ExtractPin("MergedPinGroupName"), publishedDataId: "Current");
+> ```
+
+The following images show a code module, which invokes the `MeasureAndPublishCurrent` method and is called from a step in a TestStand sequence, and how the Test tab of the calling step appears both at edit-time and at run-time. Note that at edit-time, the test item in the Tests tab of calling step has the Pin field configured with the primary pin name, and the Published Data ID field matches the value, "Current", used by the code module.
+
+![MeasureAndPublishMethodCall](../images/SMUMergePinGroup/MeasureAndPublishMethodCall.png)
+![TestsTabPrimaryPinEdittime](../images/SMUMergePinGroup/TestsTabPrimaryPinEdittime.png)
+![TestsTabPrimaryPinRuntime](../images/SMUMergePinGroup/TestsTabPrimaryPinRuntime.png)
