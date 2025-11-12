@@ -56,7 +56,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         public MyCustomInstrument(string instrumentName, string channelGroupId, string channelList)
         {
             // Initialize your driver based on the instrument name and channel data and update 'InstrumentDriverSession'.
-
             ChannelGroupId = channelGroupId;
             InstrumentName = instrumentName;
             ChannelList = channelList;
