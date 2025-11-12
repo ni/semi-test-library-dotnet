@@ -7,7 +7,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     /// <summary>
     /// Factory for creating Custom Instrument object.
     /// </summary>
-    public class MyCustomInstrumentFactory : ICustomInstrumentFactory
+    public class RSeries7822RFactory : ICustomInstrumentFactory
     {
         /// <summary>
         /// The unique instrument type ID associated with a specific custom instrument implementation.
@@ -38,7 +38,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <returns>A new instance of <see cref="ICustomInstrument"/> object.</returns>
         public ICustomInstrument CreateInstrument(string instrumentName, string channelGroupId, string channelList)
         {
-            return new MyCustomInstrument(instrumentName, channelGroupId, channelList);
+            return new RSeries7822R(instrumentName, channelGroupId, channelList);
         }
 
         /// <summary>

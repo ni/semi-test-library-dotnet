@@ -9,7 +9,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     /// <remarks>
     /// Users must create separate concrete implementations for different Custom Instrument types.
     /// </remarks>
-    public class MyCustomInstrument : ICustomInstrument
+    public class RSeries7822R : ICustomInstrument
     {
         /// <summary>
         /// The custom instrument driver object.
@@ -53,7 +53,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <param name="instrumentName">Instrument Name as defined in the Pin Map</param>
         /// <param name="channelGroupId">Channel Group Id as defined in the Pin Map</param>
         /// <param name="channelList">Channel List as defined in the Pin Map</param>
-        public MyCustomInstrument(string instrumentName, string channelGroupId, string channelList)
+        public RSeries7822R(string instrumentName, string channelGroupId, string channelList)
         {
             // Initialize your driver based on the instrument name and channel data and update 'InstrumentDriverSession'.
             ChannelGroupId = channelGroupId;

@@ -18,7 +18,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         {
             myCustomInstrumentSessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var session = sessionInfo.Session as MyCustomInstrument;
+                var session = sessionInfo.Session as RSeries7822R;
                 var driverSession = session.InstrumentDriverSession;
                 double pinSiteSpecificData = data.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
                 string channelString = sitePinInfo.IndividualChannelString;
@@ -36,7 +36,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         {
             return myCustomInstrumentSessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
-                var session = sessionInfo.Session as MyCustomInstrument;
+                var session = sessionInfo.Session as RSeries7822R;
                 var driverSession = session.InstrumentDriverSession;
                 string channelString = sitePinInfo.IndividualChannelString;
                 // Perform measure data operation on the driver session.
@@ -53,7 +53,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         {
             myCustomInstrumentSessionsBundle.Do(sessionInfo =>
             {
-                var session = sessionInfo.Session as MyCustomInstrument;
+                var session = sessionInfo.Session as RSeries7822R;
                 var driverSession = session.InstrumentDriverSession;
                 // Call driver method to apply device configurations.
                 driverSession.ConfigureMode(configurationPreset);
@@ -68,7 +68,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         {
             myCustomInstrumentSessionsBundle.Do(sessionInfo =>
             {
-                var session = sessionInfo.Session as MyCustomInstrument;
+                var session = sessionInfo.Session as RSeries7822R;
                 var driverSession = session.InstrumentDriverSession;
                 // Call driver method to clear device configurations.
                 driverSession.ConfigureMode(string.Empty);

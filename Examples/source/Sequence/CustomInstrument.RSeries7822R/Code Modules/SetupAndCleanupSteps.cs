@@ -17,7 +17,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         public static void SetupMyCustomInstruments(ISemiconductorModuleContext tsmContext)
         {
-            var myCustomInstrumentFactory = new MyCustomInstrumentFactory();
+            var myCustomInstrumentFactory = new RSeries7822RFactory();
             InitializeAndClose.Initialize(tsmContext, myCustomInstrumentFactory);
             OptionallyApplyConfigurations(tsmContext, myCustomInstrumentFactory.InstrumentTypeId);
         }
@@ -28,10 +28,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         public static void CleanupMyCustomInstruments(ISemiconductorModuleContext tsmContext)
         {
-            OptionallyClearConfigurations(tsmContext, MyCustomInstrumentFactory.CustomInstrumentTypeId);
+            OptionallyClearConfigurations(tsmContext, RSeries7822RFactory.CustomInstrumentTypeId);
 
             // Close all references of custom instruments.
-            InitializeAndClose.Close(tsmContext, MyCustomInstrumentFactory.CustomInstrumentTypeId);
+            InitializeAndClose.Close(tsmContext, RSeries7822RFactory.CustomInstrumentTypeId);
         }
 
         /// <summary>
