@@ -114,14 +114,14 @@ Cleanup code workflow
 
 To perform operations on the instrument, you need to write high-level extension methods to extend the `CustomInstrumentSessionsBundle` class.
 
-- Refer to [Extending the Semiconductor Test Library](https://ni.github.io/semi-test-library-dotnet/UserGuide/advanced/ExtendingTheSemiconductorTestLibrary.html) for more specific instructions to get started.
+- Refer to [Extending the Semiconductor Test Library](advanced/ExtendingTheSemiconductorTestLibrary.md) for more specific instructions to get started.
 - Add the following `using` directives at the top of your .cs file to reference the required classes from the library:
   - `using NationalInstruments.SemiconductorTestLibrary.Common;`
   - `using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;`
   - `using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;`
 - Within each high-level extension method, make use of the `Do` and `DoAndReturnXXX` methods provided by the `ParallelExecution` class to invoke driver methods in parallel across the various pins and sites.
   - The sessions bundle contains the instrument sessions and important site, pin, and channel information you will need to perform operations on the appropriate instrument channels.
-  - Refer to [Making Low-Level Driver Calls](https://ni.github.io/semi-test-library-dotnet/UserGuide/advanced/MakingLowLevelDriverCalls.html) for details.
+  - Refer to [Making Low-Level Driver Calls](advanced/MakingLowLevelDriverCalls.md) for details.
 - Implement separate extension methods to enable any and all instrument's driver API capabilities that should be used by the test program.
 
 > [!NOTE]
