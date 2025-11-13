@@ -368,6 +368,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("SMUsSupportingPulsing.pinmap")]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void ConfigureTrigger_MeasureTrigger(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);

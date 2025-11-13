@@ -4,7 +4,9 @@
     {
         GP3,
         Lungyuan,
-        ChiXiao
+        ChiXiao,
+
+        STSNIBCauvery
     }
 
     public enum Platform
