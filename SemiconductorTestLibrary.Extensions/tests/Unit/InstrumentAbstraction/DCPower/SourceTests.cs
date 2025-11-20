@@ -320,6 +320,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceVoltageAsymmetricLimit(voltageLevel: 3.6, currentLimitHigh: 0.2, currentLimitLow: -0.1, voltageLevelRange: 5, currentLimitRange: 0.5);
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceVoltageWithSingleSettingsObject_CorrectVoltageForcedCurrentLimitDivided()
+        {
+            var sessionManager = Initialize("SampleGanging_4137_4147.pinmap");
+            var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
+            sessionsBundle.AggregateSitePinList[0].ChannelCascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
+            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
+            {
+                sitePinInfo.ChannelCascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
+            }
+
+            sessionsBundle.ForceVoltage(new DCPowerSourceSettings() { Level = 3.6, Limit = 5 }, gang: true);
+
+            sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedVoltageLevel: 3.6, expectedCurrentLimit: 1));
+            sessionsBundle.Do((sessionInfo, sitePinInfo) => AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, "/SMU_4147_C1_S11/PXI_Trig0"));
+        }
+
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
@@ -604,6 +621,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("VDD");
 
             sessionsBundle.ForceCurrentAsymmetricLimit(currentLevel: 0.1, voltageLimitHigh: 3, voltageLimitLow: -1, currentLevelRange: 0.5, voltageLimitRange: 5);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentWithSingleSettingsObject_CorrectCurrentForcedVoltageLimitDivided()
+        {
+            var sessionManager = Initialize("SampleGanging_4137_4147.pinmap");
+            var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
+            sessionsBundle.AggregateSitePinList[0].ChannelCascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
+            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
+            {
+                sitePinInfo.ChannelCascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
+            }
+
+            sessionsBundle.ForceCurrent(new DCPowerSourceSettings() { Level = 5, Limit = 3.6 }, gang: true);
+
+            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, 1, 3.6));
+            sessionsBundle.Do((sessionInfo, sitePinInfo) => AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, "/SMU_4147_C1_S11/PXI_Trig0"));
         }
 
         [Theory]
@@ -1201,6 +1235,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedCurrentLevel, channelOutput.Source.Current.CurrentLevel);
             Assert.Equal(expectedVoltageLimitHigh, channelOutput.Source.Current.VoltageLimitHigh);
             Assert.Equal(expectedVoltageLimitLow, channelOutput.Source.Current.VoltageLimitLow);
+        }
+
+        private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string triggerName)
+        {
+            if ((sitePinInfo.ChannelCascadingInfo as GangingInfo).IsFollower)
+            {
+                Assert.Equal(triggerName, channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+            }
+            else
+            {
+                Assert.Equal(string.Empty, channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+            }
         }
 
         private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
