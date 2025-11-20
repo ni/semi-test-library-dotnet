@@ -179,10 +179,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The settings to use.</param>
+        /// <param name="gang">Whether all the channels in the bundle are ganged</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
-        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false)
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false, bool gang = false)
         {
+            if (gang)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    settings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
+                    sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion: waitForSourceCompletion);
+                });
+                return;
+            }
             sessionsBundle.Do(sessionInfo =>
             {
                 settings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
@@ -383,10 +393,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The settings to use.</param>
+        /// <param name="gang">Whether all the channels in the bundle are ganged</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
-        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false)
+        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false, bool gang = false)
         {
+            if (gang)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    settings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
+                    sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion: waitForSourceCompletion);
+                });
+                return;
+            }
             sessionsBundle.Do(sessionInfo =>
             {
                 settings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
