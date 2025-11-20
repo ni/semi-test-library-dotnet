@@ -287,7 +287,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
-        // [Fact(Skip = "Temporarily skipping until Digital instrument card gets calibrated on LungYuan.")]
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_MeasureTDROffsets_Succeeds()
         {
@@ -302,7 +301,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2, results.ExtractSite(1).Count);
         }
 
-        // [Fact(Skip = "Temporarily skipping until Digital instrument card gets calibrated on LungYuan.")]
         [Fact]
         public void OneDeviceWorksForOnePinOnTwoSites_MeasureTDROffsets_Succeeds()
         {
@@ -559,7 +557,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             RemoveTemporaryFile(fileName);
         }
 
-        // [Fact(Skip = "Temporarily skipping until Digital instrument card gets calibrated on LungYuan.")]
         [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_MeasureTDROffsetsPerInstrumentSession_Succeeds()
         {
@@ -573,7 +570,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2, results[1].Length);
         }
 
-        // [Fact(Skip = "Temporarily skipping until Digital instrument card gets calibrated on LungYuan.")]
         [Fact]
         public void OneDeviceWorksForOnePinOnTwoSites_MeasureTDROffsetsPerInstrumentSession_Succeeds()
         {
