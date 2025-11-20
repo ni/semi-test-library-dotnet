@@ -952,30 +952,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(5.0));
             }
         }
-        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool waitForSourceCompletion = false)
-        {
-            var channelString = sitePinInfo != null ? sitePinInfo.IndividualChannelString : sessionInfo.AllChannelsString;
-            var channelOutput = sessionInfo.Session.Outputs[channelString];
-            sessionInfo.ConfigureChannels(settings, channelOutput, channelString, sitePinInfo);
-            sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
-        }
-
-        private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, string channelString = "", SitePinInfo sitePinInfo = null)
-        {
-            channelOutput.Control.Abort();
-            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
-            channelOutput.Control.Commit();
-        }
-
-        private static void InitiateChannels(this DCPowerSessionInformation sessionInfo, DCPowerOutput channelOutput, bool waitForSourceCompletion = false)
-        {
-            channelOutput.Source.Output.Enabled = true;
-            channelOutput.Control.Initiate();
-            if (waitForSourceCompletion)
-            {
-                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(5.0));
-            }
-        }
 
         internal static DCPowerOutput GetPrimaryOutput(this DCPowerSessionsBundle sessionsBundle, string triggerOrEventTypeName, out string terminalName)
         {
