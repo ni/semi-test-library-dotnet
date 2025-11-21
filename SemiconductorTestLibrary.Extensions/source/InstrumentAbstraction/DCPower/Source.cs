@@ -89,7 +89,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
             });
         }
 
@@ -186,7 +186,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 settings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
             });
         }
 
@@ -266,7 +266,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
             });
         }
 
@@ -293,7 +293,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
             });
         }
 
@@ -390,7 +390,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 settings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
             });
         }
 
