@@ -947,12 +947,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelString);
+            channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Commit();
         }
 
         private static void InitiateChannels(this DCPowerSessionInformation sessionInfo, DCPowerOutput channelOutput, bool waitForSourceCompletion = false)
         {
-            channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
             {
