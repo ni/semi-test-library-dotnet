@@ -320,7 +320,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -347,7 +347,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -374,7 +374,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -514,9 +514,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     TransientResponse = transientResponse
                 };
                 // Applies limits and ranges.
-                var perChannelString = sitePinInfo.IndividualChannelString;
                 sessionInfo.Force(settings, sitePinInfo);
 
+                var perChannelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
                 originalSourceDelays[perChannelString] = channelOutput.Source.SourceDelay;
@@ -937,7 +937,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool waitForSourceCompletion = false)
         {
-            var channelString = sitePinInfo != null ? sitePinInfo.IndividualChannelString : sessionInfo.AllChannelsString;
+            var channelString = sitePinInfo?.IndividualChannelString ?? sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
             sessionInfo.ConfigureChannels(settings, channelOutput, channelString, sitePinInfo);
             sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
