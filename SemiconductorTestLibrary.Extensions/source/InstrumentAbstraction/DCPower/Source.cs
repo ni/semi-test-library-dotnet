@@ -925,7 +925,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             if (settings.TransientResponse.HasValue)
             {
-                string channelStringToUse = sitePinInfo == null ? sessionInfo.AllChannelsString : sitePinInfo.IndividualChannelString;
+                string channelStringToUse = channelOutput.Name;
                 if (sessionInfo.AllInstrumentsAreTheSameModel)
                 {
                     sessionInfo.Session.ConfigureTransientResponse(channelStringToUse, sessionInfo.ModelString, settings.TransientResponse.Value);
@@ -1064,8 +1064,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
                 || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric && (settings.LimitHigh.HasValue || settings.LimitLow.HasValue)))
             {
-                dcOutput.Source.Current.VoltageLimitRange = settings.LimitRange ??
-                    CalculateLimitRangeFromLimit(settings);
+                dcOutput.Source.Current.VoltageLimitRange = settings.LimitRange ?? CalculateLimitRangeFromLimit(settings);
             }
         }
 
