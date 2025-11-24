@@ -475,6 +475,134 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Forces a hardware-timed sequence of current values on the targeted pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentSequence">Array of current levels (in amperes) to source step-by-step. First element is applied before initiating the sequence.</param>
+        /// <param name="voltageLimit">Optional symmetric compliance voltage limit for the sequence (in volts).</param>
+        /// <param name="currentLevelRange">Optional current level range (in amperes). Defaults to |currentSequence[i]| if not specified.</param>
+        /// <param name="voltageLimitRange">Optional voltage limit range (in volts). Defaults to |voltageLimit| if not specified.</param>
+        /// <param name="sequenceLoopCount">Number of times to repeat the entire sequence after one pass (minimum 1).</param>
+        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        public static void ForceCurrentSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            double[] currentSequence,
+            double? voltageLimit = null,
+            double? currentLevelRange = null,
+            double? voltageLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            // sequenceTimeoutInSeconds only applies when waitForSequenceCompletion is true
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                var settings = new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = currentSequence[0],
+                    Limit = voltageLimit,
+                    LevelRange = currentLevelRange,
+                    LimitRange = voltageLimitRange
+                };
+                sessionInfo.Session.Control.Abort();
+                sessionInfo.AllChannelsOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
+                sessionInfo.Force(settings);
+                if (waitForSequenceCompletion)
+                {
+                    sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+                }
+            });
+        }
+        /// <summary>
+        /// Forces a hardware-timed sequence of current values on the targeted pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentSequence">Array of current levels (in amperes) to source step-by-step. First element is applied before initiating the sequence.</param>
+        /// <param name="voltageLimit">Optional symmetric compliance voltage limit for the sequence (in volts).</param>
+        /// <param name="currentLevelRange">Optional current level range (in amperes). Defaults to |currentSequence[i]| if not specified.</param>
+        /// <param name="voltageLimitRange">Optional voltage limit range (in volts). Defaults to |voltageLimit| if not specified.</param>
+        /// <param name="sequenceLoopCount">Number of times to repeat the entire sequence after one pass (minimum 1).</param>
+        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        public static void ForceCurrentSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<double[]> currentSequence,
+            double? voltageLimit = null,
+            double? currentLevelRange = null,
+            double? voltageLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            // sequenceTimeoutInSeconds only applies when waitForSequenceCompletion is true
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                var settings = new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = currentSequence.GetValue(pinSiteInfo.SiteNumber)[0],
+                    Limit = voltageLimit,
+                    LevelRange = currentLevelRange,
+                    LimitRange = voltageLimitRange
+                };
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].ConfigureSequence(currentSequence.GetValue(pinSiteInfo.SiteNumber), sequenceLoopCount);
+                sessionInfo.Force(settings, pinSiteInfo.IndividualChannelString);
+                if (waitForSequenceCompletion)
+                {
+                    sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+                }
+            });
+        }
+
+        /// <summary>
+        /// Forces a hardware-timed sequence of current values on the targeted pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentSequence">Array of current levels (in amperes) to source step-by-step. First element is applied before initiating the sequence.</param>
+        /// <param name="voltageLimit">Optional symmetric compliance voltage limit for the sequence (in volts).</param>
+        /// <param name="currentLevelRange">Optional current level range (in amperes). Defaults to |currentSequence[i]| if not specified.</param>
+        /// <param name="voltageLimitRange">Optional voltage limit range (in volts). Defaults to |voltageLimit| if not specified.</param>
+        /// <param name="sequenceLoopCount">Number of times to repeat the entire sequence after one pass (minimum 1).</param>
+        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        public static void ForceCurrentSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<double[]> currentSequence,
+            double? voltageLimit = null,
+            double? currentLevelRange = null,
+            double? voltageLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            // sequenceTimeoutInSeconds only applies when waitForSequenceCompletion is true
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                var settings = new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = currentSequence.GetValue(pinSiteInfo)[0],
+                    Limit = voltageLimit,
+                    LevelRange = currentLevelRange,
+                    LimitRange = voltageLimitRange
+                };
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].ConfigureSequence(currentSequence.GetValue(pinSiteInfo), sequenceLoopCount);
+                sessionInfo.Force(settings, pinSiteInfo.IndividualChannelString);
+                if (waitForSequenceCompletion)
+                {
+                    sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+                }
+            });
+        }
+
+        /// <summary>
         /// Forces a hardware-timed sequence of voltage values. If multiple target pins, the sequenced output will be synchronized across the target pins.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -639,6 +767,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Configures a hardware-timed sequence of values.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequence">The voltage or current sequence to set.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
+        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].ConfigureSequence(sequence.GetValue(pinSiteInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+            });
+        }
+
+        /// <summary>
+        /// Configures a hardware-timed sequence of values.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequence">The voltage or current sequence to set.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
+        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].ConfigureSequence(sequence.GetValue(pinSiteInfo), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+            });
+        }
+
+        /// <summary>
         /// Gets the current limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -796,6 +956,66 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Configures a hardware-timed sequence of values with per-step source delays.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequence">The voltage or current sequence to set.</param>
+        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        public static void ConfigureSequenceWithSourceDelays(
+           this DCPowerSessionsBundle sessionsBundle,
+           double[] sequence,
+           double[] sourceDelaysInSeconds,
+           int sequenceLoopCount = 1)
+        {
+            sessionsBundle.Do(sessinInfo =>
+            {
+                sessinInfo.AllChannelsOutput.Control.Abort();
+                sessinInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sourceDelaysInSeconds);
+            });
+        }
+
+        /// <summary>
+        /// Configures a hardware-timed sequence of values with per-step source delays for each site.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequence">The voltage or current sequence to set for each site.</param>
+        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence for each site.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        public static void ConfigureSequenceWithSourceDelays(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<double[]> sequence,
+            SiteData<double[]> sourceDelaysInSeconds,
+            int sequenceLoopCount = 1)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].ConfigureSequence(sequence.GetValue(pinSiteInfo.SiteNumber), sequenceLoopCount, sourceDelaysInSeconds.GetValue(pinSiteInfo.SiteNumber));
+            });
+        }
+
+        /// <summary>
+        /// Configures a hardware-timed sequence of values with per-step source delays for each site and pin.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequence">The voltage or current sequence to set for each site and pin.</param>
+        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence for each site and pin.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        public static void ConfigureSequenceWithSourceDelays(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<double[]> sequence,
+            PinSiteData<double[]> sourceDelaysInSeconds,
+            int sequenceLoopCount = 1)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].ConfigureSequence(sequence.GetValue(pinSiteInfo), sequenceLoopCount, sourceDelaysInSeconds.GetValue(pinSiteInfo));
+            });
+        }
+
+        /// <summary>
         /// Gets the source delay in seconds for each of the underlying device channel(s), per-pin and per-site.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -841,6 +1061,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 output.Source.SequenceStepDeltaTimeEnabled = true;
                 output.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(sequenceStepDeltaTimeInSeconds.Value);
             }
+        }
+
+        /// <summary>
+        /// Configures a hardware-timed sequence of values with per-step source delays.
+        /// </summary>
+        /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
+        /// <param name="sequence">The voltage or current sequence to set.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
+        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double[] sourceDelaysInSeconds)
+        {
+            output.Source.Mode = DCPowerSourceMode.Sequence;
+            output.Source.SequenceLoopCount = sequenceLoopCount;
+            var sourceDelays = sourceDelaysInSeconds.Select(d => PrecisionTimeSpan.FromSeconds(d)).ToArray();
+            output.Source.SetSequence(sequence, sourceDelays);
         }
 
         #endregion methods on DCPowerOutput
