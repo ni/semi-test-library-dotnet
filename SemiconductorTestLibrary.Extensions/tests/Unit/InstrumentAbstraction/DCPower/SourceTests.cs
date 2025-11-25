@@ -862,6 +862,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Fact]
+        public void SMUDevicesMerged_GetSourceDelayInSeconds_ValuesAreReturnedInPrimaryPinName()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+            sessionsBundle.MergePinGroup("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+
+            var values = sessionsBundle.GetSourceDelayInSeconds();
+
+            Assert.Single(values.PinNames);
+            Assert.Equal("VCCPrimary", values.PinNames[0]);
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -975,6 +988,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(0.1, sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput.Source.Voltage.CurrentLimit);
                 Assert.Equal(0.01, sessionsBundle.InstrumentSessions.ElementAt(2).AllChannelsOutput.Source.Voltage.CurrentLimit);
             }
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetCurrentLimits_ValuesAreReturnedInPrimaryPinName()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+            sessionsBundle.MergePinGroup("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+
+            var values = sessionsBundle.GetCurrentLimits();
+
+            Assert.Single(values.PinNames);
+            Assert.Equal("VCCPrimary", values.PinNames[0]);
         }
 
         [Theory]
