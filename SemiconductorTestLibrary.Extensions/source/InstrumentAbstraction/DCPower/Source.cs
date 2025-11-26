@@ -28,7 +28,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings);
+                sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsOutput);
             });
         }
 
@@ -886,6 +886,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #endregion methods on NIDCPower session
 
         #region methods on DCPowerSessionInformation
+
+        /// <summary>
+        /// Configures <see cref="DCPowerSourceSettings"/>.
+        /// </summary>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
+        /// <param name="settings">The source settings to configure.</param>
+        /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
+        {
+            sessionInfo.ConfigureSourceSettings(settings, string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString]);
+        }
 
         /// <summary>
         /// Configures <see cref="DCPowerSourceSettings"/>.
