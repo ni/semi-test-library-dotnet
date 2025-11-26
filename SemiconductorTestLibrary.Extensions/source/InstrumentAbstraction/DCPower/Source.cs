@@ -28,7 +28,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsOutput);
+                sessionInfo.ConfigureSourceSettings(settings);
             });
         }
 
@@ -39,7 +39,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo.SiteNumber), channelOutput);
+                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo.SiteNumber), channelOutput, sitePinInfo);
             });
         }
 
@@ -50,7 +50,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo), channelOutput);
+                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo), channelOutput, sitePinInfo);
             });
         }
 
@@ -65,7 +65,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings[sitePinInfo.PinName], channelOutput);
+                sessionInfo.ConfigureSourceSettings(settings[sitePinInfo.PinName], channelOutput, sitePinInfo);
             });
         }
 
@@ -895,7 +895,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
-            sessionInfo.ConfigureSourceSettings(settings, string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString]);
+            sessionInfo.ConfigureSourceSettings(settings, string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString], null);
         }
 
         /// <summary>
@@ -905,9 +905,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="settings">The source settings to configure.</param>
         /// <param name="channelOutput">The <see cref="DCPowerOutput"/> object</param>
         /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput = null, SitePinInfo sitePinInfo = null)
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
         {
-            channelOutput = channelOutput ?? sessionInfo.AllChannelsOutput;
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             if (settings.LimitSymmetry.HasValue)
             {
@@ -955,7 +954,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
             channelOutput.Control.Abort();
-            sessionInfo.ConfigureSourceSettings(settings, channelOutput);
+            sessionInfo.ConfigureSourceSettings(settings, channelString);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
