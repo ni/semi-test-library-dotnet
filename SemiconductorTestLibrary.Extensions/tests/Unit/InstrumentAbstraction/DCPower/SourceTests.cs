@@ -1231,20 +1231,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedVoltageLimitLow, channelOutput.Source.Current.VoltageLimitLow);
         }
 
-        private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string channelString)
-        {
-            channelString = channelString.Remove(channelString.Length - 2);
-            var triggerName = $"/{channelString}/PXI_Trig0";
-            if ((sitePinInfo.ChannelCascadingInfo as GangingInfo).IsFollower)
-            {
-                Assert.Equal(triggerName, channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
-            }
-            else
-            {
-                Assert.Equal(string.Empty, channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
-            }
-        }
-
         private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.AggregateSitePinList
