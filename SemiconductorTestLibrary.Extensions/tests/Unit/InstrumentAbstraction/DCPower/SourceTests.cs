@@ -873,6 +873,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Single(values.PinNames);
             Assert.Equal("VCCPrimary", values.PinNames[0]);
+            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", values.PinNames);
         }
 
         [Theory]
@@ -1001,6 +1002,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Single(values.PinNames);
             Assert.Equal("VCCPrimary", values.PinNames[0]);
+            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", values.PinNames);
         }
 
         [Theory]
