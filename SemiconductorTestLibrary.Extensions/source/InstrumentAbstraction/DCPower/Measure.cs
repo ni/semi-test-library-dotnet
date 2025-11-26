@@ -196,7 +196,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The measurements in per-site per-pin format. Item1 is voltage measurements, Item2 is current measurements.</returns>
         public static Tuple<PinSiteData<double>, PinSiteData<double>> MeasureAndReturnPerSitePerPinResults(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent());
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent(), voltageMeasurement: CascadeCurrentOrVoltageMeasurement.VoltageMeasurement, currentMeasurement: CascadeCurrentOrVoltageMeasurement.CurrentMeasurement);
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-pin per-site voltage measurements.</returns>
         public static PinSiteData<double> MeasureVoltage(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1);
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, cascadeCurrentOrVoltageMeasurement: CascadeCurrentOrVoltageMeasurement.VoltageMeasurement);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-pin per-site voltage measurements.</returns>
         public static PinSiteData<double> MeasureCurrent(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2);
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, cascadeCurrentOrVoltageMeasurement: CascadeCurrentOrVoltageMeasurement.CurrentMeasurement);
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static PinSiteData<double> MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishedDataId)
         {
             MeasureAndPublishVoltage(sessionsBundle, publishedDataId, out var voltageMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(voltageMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(voltageMeasurements, CascadeCurrentOrVoltageMeasurement.VoltageMeasurement);
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static PinSiteData<double> MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishedDataId)
         {
             MeasureAndPublishCurrent(sessionsBundle, publishedDataId, out var currentMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(currentMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(currentMeasurements, CascadeCurrentOrVoltageMeasurement.CurrentMeasurement);
         }
 
         /// <summary>
