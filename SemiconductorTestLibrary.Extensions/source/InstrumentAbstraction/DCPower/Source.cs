@@ -944,7 +944,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
             channelOutput.Control.Abort();
-            sessionInfo.ConfigureSourceSettings(settings);
+            sessionInfo.ConfigureSourceSettings(settings, channelOutput);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
