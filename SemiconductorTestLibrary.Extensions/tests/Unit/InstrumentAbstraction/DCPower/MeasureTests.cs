@@ -616,6 +616,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void DifferentSMUDevices_ConfigureJustApertureTimeUnits_Succeeds()
         {
             var sessionManager = Initialize("DifferentSMUDevices.pinmap");
