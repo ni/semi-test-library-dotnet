@@ -715,14 +715,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 sitePinInfo.ChannelCascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
             }
-
             var settings = new DCPowerSourceSettings()
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                 Level = 5,
                 Limit = 7,
             };
-            sessionsBundle.ConfigureSourceSettings(settings, true);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
+            });
 
             Assert.Equal(settings.OutputFunction, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Source.Output.Function);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, 1, 7));
@@ -742,14 +747,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 sitePinInfo.ChannelCascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
             }
-
             var settings = new DCPowerSourceSettings()
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                 Level = 7,
                 Limit = 5,
             };
-            sessionsBundle.ConfigureSourceSettings(settings, true);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
+            });
 
             Assert.Equal(settings.OutputFunction, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Source.Output.Function);
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, 7, 1));
