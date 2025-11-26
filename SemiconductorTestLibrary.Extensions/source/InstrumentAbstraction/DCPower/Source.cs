@@ -23,26 +23,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
-        /// <param name="gang">Whether the channels in the bundle are ganged </param>
-        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool gang = false)
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings)
         {
-            if (gang)
+            sessionsBundle.Do(sessionInfo =>
             {
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    channelOutput.Control.Abort();
-                    sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
-                });
-            }
-            else
-            {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    sessionInfo.Session.Control.Abort();
-                    sessionInfo.ConfigureSourceSettings(settings);
-                });
-            }
+                sessionInfo.Session.Control.Abort();
+                sessionInfo.ConfigureSourceSettings(settings);
+            });
         }
 
         /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings)"/>
