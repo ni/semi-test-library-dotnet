@@ -78,6 +78,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(50, setValues.ExtractSite(3)["VCC"]);
         }
 
+        [Fact]
+        public void SMUDevicesMerged_GetPowerLineFrequency_ValuesAreReturnedInPrimaryPinName()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+            sessionsBundle.MergePinGroup("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+
+            var defaultValues = sessionsBundle.GetPowerLineFrequency();
+
+            Assert.Single(defaultValues.PinNames);
+            Assert.Equal("VCCPrimary", defaultValues.PinNames[0]);
+            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", defaultValues.PinNames);
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -505,6 +519,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Contains(expectedPhrase, exception.Message);
             }
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetApertureTimeInSeconds_ValuesAreReturnedInPrimaryPinName()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+            sessionsBundle.MergePinGroup("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+
+            Assert.Single(apertureTimes.PinNames);
+            Assert.Equal("VCCPrimary", apertureTimes.PinNames[0]);
+            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", apertureTimes.PinNames);
         }
 
         [Theory]
