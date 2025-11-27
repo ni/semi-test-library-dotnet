@@ -148,7 +148,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             tasksBundle.WriteAnalogWaveform(data, autoStart);
         }
 
-        [Fact(Skip = "Fails without the fix in Abstractions.")]
+        [Fact]
         public void PinMapWithMismatchChannelListOrder_WriteSucceeds()
         {
             var sessionManager = Initialize("DAQmxChannelListOrderTests.pinmap");

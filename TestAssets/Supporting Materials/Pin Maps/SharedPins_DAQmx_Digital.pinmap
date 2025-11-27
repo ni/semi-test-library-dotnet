@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.9">
+	<Instruments>
+		<NIDAQmxTask name="DAQ_6363_C1_S08_DITask" taskType="DI" channelList="DAQ_6363_C1_S08/port0/line0" />
+		<NIDAQmxTask name="DAQ_6363_C1_S08_DOTask" taskType="DO" channelList="DAQ_6363_C1_S08/port1/line2" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="DI_PIN1" />
+		<DUTPin name="DO_PIN1" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="DI_PIN1" siteNumber="0,1" instrument="DAQ_6363_C1_S08_DITask" channel="DAQ_6363_C1_S08/port0/line0" />
+		<Connection pin="DO_PIN1" siteNumber="0,1" instrument="DAQ_6363_C1_S08_DOTask" channel="DAQ_6363_C1_S08/port1/line2" />
+	</Connections>
+</PinMap>
