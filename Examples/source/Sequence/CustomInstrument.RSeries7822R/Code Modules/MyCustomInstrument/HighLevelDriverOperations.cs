@@ -5,12 +5,12 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomI
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.MyCustomInstrument
 {
     /// <summary>
-    /// This class contains example methods to perform driver operations using Custom Instrument support provided in STL.
+    /// This class contains sample methods to perform driver operations using Custom Instrument support provided in STL.
     /// </summary>
     public static partial class HighLevelDriverOperations
     {
         /// <summary>
-        /// Sample method to perform a driver write operation without a return value using PinSiteData. Where the data value may be pin and/or site specific.
+        /// Sample method to perform a driver write operation using PinSiteData, where the data value may be pin and/or site specific.
         /// </summary>
         /// <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
         /// <param name="data">The data to be written.</param>

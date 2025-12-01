@@ -11,21 +11,21 @@
         </member>
         <member name="T:NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI.RSeriesDriver">
             <summary>
-            RSeries driver class which provides .NET APIs for Rseries card driver operations.
+            RSeries driver class which provides .NET APIs for RSeries card driver operations.
             </summary>
         </member>
         <member name="M:NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI.RSeriesDriver.#ctor(System.String)">
             <summary>
-            Initializes Rseries card driver session.
+            Initializes RSeries card driver session.
             </summary>
             <param name="resourceName">InstrumentName.</param>
-            <exception cref="T:System.Exception"></exception>
+            <exception cref="T:System.Exception">Thrown when 'OpenFPGA' fails.</exception>
         </member>
         <member name="M:NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI.RSeriesDriver.Close">
             <summary>
-            Close Rseries card driver session.
+            Close RSeries card driver session.
             </summary>
-            <exception cref="T:System.Exception"></exception>
+            <exception cref="T:System.Exception">Thrown when 'CloseFPGA' fails.</exception>
         </member>
         <member name="M:NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI.RSeriesDriver.Reset">
             <summary>
@@ -34,26 +34,26 @@
         </member>
         <member name="M:NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI.RSeriesDriver.WriteChannelData(System.String,System.Double)">
             <summary>
-            Rseries card write channel data operation.
+            RSeries card write channel data operation.
             </summary>
             <param name="channelString">ChannelName.</param>
             <param name="pinSiteSpecificData">ChannelData.</param>
-            <exception cref="T:System.Exception"></exception>
+            <exception cref="T:System.Exception">Thrown when FPGA 'WriteData' fails.</exception>
         </member>
         <member name="M:NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI.RSeriesDriver.MeasureChannelData(System.String)">
             <summary>
-            Rseries card read channel data operation.
+            RSeries card read channel data operation.
             </summary>
             <param name="channelString">Channel name.</param>
             <returns>Channel data.</returns>
-            <exception cref="T:System.Exception"></exception>
+            <exception cref="T:System.Exception">Thrown when FPGA 'ReadData' fails.</exception>
         </member>
         <member name="M:NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI.RSeriesDriver.ConfigureMode(System.String)">
             <summary>
-            Rseries card driver method for configure.
+            RSeries card driver method for configure.
             </summary>
-            <param name="operationMode..">Operation mode.</param>
-            <exception cref="T:System.Exception"></exception>
+            <param name="operationMode">Operation mode.</param>
+            <exception cref="T:System.Exception">Thrown when 'EnableLoopBack' fails. </exception>
         </member>
     </members>
 </doc>

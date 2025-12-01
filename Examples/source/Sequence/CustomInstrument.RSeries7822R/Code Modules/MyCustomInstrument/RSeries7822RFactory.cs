@@ -5,7 +5,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomI
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.MyCustomInstrument
 {
     /// <summary>
-    /// Factory for creating Custom Instrument object.
+    /// Factory class responsible for creating instances of the RSeries7822R custom instrument.
     /// </summary>
     public class RSeries7822RFactory : ICustomInstrumentFactory
     {
