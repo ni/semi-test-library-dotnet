@@ -7,8 +7,8 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
     /// </summary>
     public class RSeriesDriver
     {
-        private ulong ReferenceID { get; }
-        private int Status { get; set; }
+        private readonly ulong _referenceId;
+        private int _status;
 
         /// <summary>
         /// Initializes RSeries card driver session.
@@ -18,11 +18,11 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
         public RSeriesDriver(string resourceName)
         {
             string bitFilePath = RSeriesCAPI.BitFilePath();
-            Status = RSeriesCAPI.OpenFPGA(resourceName, bitFilePath, out ulong fpgaRef);
-            ReferenceID = fpgaRef;
-            if (Status != 0)
+            _status = RSeriesCAPI.OpenFPGA(resourceName, bitFilePath, out ulong fpgaRef);
+            _referenceId = fpgaRef;
+            if (_status != 0)
             {
-                throw new Exception($"Error in OpenFPGA Ref, ErrorCode:{Status}, ResourceName:{resourceName}, Ref:{ReferenceID}, Bitfile:{bitFilePath}");
+                throw new Exception($"Error in OpenFPGA Ref, ErrorCode:{_status}, ResourceName:{resourceName}, Ref:{_referenceId}, Bitfile:{bitFilePath}");
             }
         }
 
@@ -32,10 +32,10 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
         /// <exception cref="Exception">Thrown when 'CloseFPGA' fails.</exception>
         public void Close()
         {
-            Status = RSeriesCAPI.CloseFPGA(ReferenceID);
-            if (Status != 0)
+            _status = RSeriesCAPI.CloseFPGA(_referenceId);
+            if (_status != 0)
             {
-                throw new Exception($"Error in CloseFPGA Ref, ErrorCode:{Status}");
+                throw new Exception($"Error in CloseFPGA Ref, ErrorCode:{_status}");
             }
         }
 
@@ -55,10 +55,10 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
         /// <exception cref="Exception">Thrown when FPGA 'WriteData' fails.</exception>
         public void WriteChannelData(string channelString, double pinSiteSpecificData)
         {
-            Status = RSeriesCAPI.WriteData(ReferenceID, channelString, (byte)pinSiteSpecificData);
-            if (Status != 0)
+            _status = RSeriesCAPI.WriteData(_referenceId, channelString, (byte)pinSiteSpecificData);
+            if (_status != 0)
             {
-                throw new Exception($"Error in Write channel data, ErrorCode:{Status}, channel name:{channelString}");
+                throw new Exception($"Error in Write channel data, ErrorCode:{_status}, channel name:{channelString}");
             }
         }
 
@@ -70,10 +70,10 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
         /// <exception cref="Exception">Thrown when FPGA 'ReadData' fails.</exception>
         public double MeasureChannelData(string channelString)
         {
-            Status = RSeriesCAPI.ReadData(ReferenceID, channelString, out byte data);
-            if (Status != 0)
+            _status = RSeriesCAPI.ReadData(_referenceId, channelString, out byte data);
+            if (_status != 0)
             {
-                throw new Exception($"Error in read channel data, ErrorCode:{Status}, channel name:{channelString}, channel data:{data}");
+                throw new Exception($"Error in read channel data, ErrorCode:{_status}, channel name:{channelString}, channel data:{data}");
             }
             return data;
         }
@@ -87,13 +87,13 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
         {
             if (operationMode == "LoopBack")
             {
-                Status = RSeriesCAPI.EnableLoopBack(ReferenceID, 1);
+                _status = RSeriesCAPI.EnableLoopBack(_referenceId, 1);
             }
             else
             {
-                Status = RSeriesCAPI.EnableLoopBack(ReferenceID, 0);
+                _status = RSeriesCAPI.EnableLoopBack(_referenceId, 0);
             }
-            if (Status != 0)
+            if (_status != 0)
             {
                 throw new Exception("Error in Disabling Loopback");
             }
