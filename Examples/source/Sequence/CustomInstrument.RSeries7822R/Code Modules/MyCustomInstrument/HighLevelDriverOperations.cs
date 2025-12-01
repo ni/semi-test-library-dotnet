@@ -45,33 +45,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         }
 
         /// <summary>
-        /// Sample method to apply device configuration.
+        /// Enables loop back mode.
         /// </summary>
         /// <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
-        /// <param name="configurationPreset">Configuration preset.</param>
-        public static void ApplyConfiguration(this CustomInstrumentSessionsBundle myCustomInstrumentSessionsBundle, string configurationPreset)
+        public static void EnableLoopBackMode(this CustomInstrumentSessionsBundle myCustomInstrumentSessionsBundle)
         {
             myCustomInstrumentSessionsBundle.Do(sessionInfo =>
             {
                 var session = sessionInfo.Session as RSeries7822R;
                 var driverSession = session.InstrumentDriverSession;
-                // Call driver method to apply device configurations.
-                driverSession.ConfigureMode(configurationPreset);
-            });
-        }
 
-        /// <summary>
-        /// Sample method to clear previously applied device configuration.
-        /// </summary>
-        /// <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
-        public static void ClearConfiguration(this CustomInstrumentSessionsBundle myCustomInstrumentSessionsBundle)
-        {
-            myCustomInstrumentSessionsBundle.Do(sessionInfo =>
-            {
-                var session = sessionInfo.Session as RSeries7822R;
-                var driverSession = session.InstrumentDriverSession;
-                // Call driver method to clear device configurations.
-                driverSession.ConfigureMode(string.Empty);
+                driverSession.ConfigureMode("LoopBack");
             });
         }
     }

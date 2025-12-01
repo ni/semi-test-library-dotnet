@@ -16,8 +16,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// Demonstrates the use of extension methods to perform a digital read write test, write digital data to the DUT's digital input pins, read the DUT's output pin(s), and publish the measured data.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="digitalInputPins">The DUT's digital input pins.</param>
-        /// <param name="digitalOutputPins">The DUT's analog output pin(s).</param>
+        /// <param name="digitalInputPins">The DUT's digital input pin(s).</param>
+        /// <param name="digitalOutputPins">The DUT's digital output pin(s).</param>
         /// <param name="pinData">The per-pin digital data to be sent to the DUT.</param>
         /// <param name="publishedDataID">The data id to use for publishing the measurement result.</param>
         public static void DigitalReadWriteTest(ISemiconductorModuleContext tsmContext, string[] digitalInputPins, string[] digitalOutputPins, double[] pinData, string publishedDataID)
@@ -25,7 +25,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // The amount of time in seconds to wait for the DUT's output to settle.
             double settlingTime = 0.2;
 
-            // Generate pinSiteData.
+            // Get active sites and create PinSiteData object for digital input data.
             int[] sites = tsmContext.SiteNumbers.ToArray();
             var pinSiteData = new PinSiteData<double>(digitalInputPins, sites, pinData);
 
