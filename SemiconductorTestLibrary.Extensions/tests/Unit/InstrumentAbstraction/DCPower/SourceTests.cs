@@ -336,6 +336,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo => Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry));
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceSameCurrentWithSymmetricLimit_SameCurrentForced()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_IndividualChannelSessionsPerSite.pinmap");
+            var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
+            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
+            {
+                sitePinInfo.ChannelCascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
+            }
+            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
+            {
+                sitePinInfo.ChannelCascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
+            }
+            sessionsBundle.GangedPinGroupsCount = 1;
+
+            sessionsBundle.ForceCurrent(currentLevel: 5, voltageLimit: 5);
+
+            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5));
+            sessionsBundle.Do(sessionInfo => Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry));
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
