@@ -55,7 +55,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 var session = sessionInfo.Session as RSeries7822R;
                 var driverSession = session.InstrumentDriverSession;
 
-                driverSession.ConfigureMode("LoopBack");
+                driverSession.SetLoopBackMode(true);
             });
         }
     }

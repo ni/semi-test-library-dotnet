@@ -48,11 +48,11 @@
             <returns>Channel data.</returns>
             <exception cref="T:System.Exception">Thrown when FPGA 'ReadData' fails.</exception>
         </member>
-        <member name="M:NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI.RSeriesDriver.ConfigureMode(System.String)">
+        <member name="M:NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI.RSeriesDriver.SetLoopBackMode(System.Boolean)">
             <summary>
-            RSeries card driver method for configure.
+            RSeries card set LoopBack mode.
             </summary>
-            <param name="operationMode">Operation mode.</param>
+            <param name="mode">Status of LoopBack mode.</param>
             <exception cref="T:System.Exception">Thrown when 'EnableLoopBack' fails. </exception>
         </member>
     </members>

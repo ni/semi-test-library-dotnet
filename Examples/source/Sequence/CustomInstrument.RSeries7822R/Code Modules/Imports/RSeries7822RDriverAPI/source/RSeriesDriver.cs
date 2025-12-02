@@ -67,20 +67,14 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
         }
 
         /// <summary>
-        /// RSeries card driver method for configure.
+        /// RSeries card set LoopBack mode.
         /// </summary>
-        /// <param name="operationMode">Operation mode.</param>
+        /// <param name="mode">Status of LoopBack mode.</param>
         /// <exception cref="Exception">Thrown when 'EnableLoopBack' fails. </exception>
-        public void ConfigureMode(string operationMode)
+        public void SetLoopBackMode(bool mode)
         {
-            if (operationMode == "LoopBack")
-            {
-                _status = RSeriesCAPI.EnableLoopBack(_referenceId, 1);
-            }
-            else
-            {
-                _status = RSeriesCAPI.EnableLoopBack(_referenceId, 0);
-            }
+            int value = mode ? 1 : 0;
+            _status = RSeriesCAPI.EnableLoopBack(_referenceId, (ulong)value);
             ValidateStatus($"Error in EnableLoopBack method, ErrorCode:{_status}");
         }
 
