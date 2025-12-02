@@ -291,17 +291,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             // Capture originals per channel.
             var originalSourceDelays = new ConcurrentDictionary<string, PrecisionTimeSpan>();
             var originalStartTriggerTypes = new ConcurrentDictionary<string, DCPowerStartTriggerType>();
-            var originalStartTriggerInputTerminals = new ConcurrentDictionary<string, DCPowerDigitalEdgeStartTriggerInputTerminal>();
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 originalSourceDelays[sitePinInfo.IndividualChannelString] = channelOutput.Source.SourceDelay;
                 originalStartTriggerTypes[sitePinInfo.IndividualChannelString] = channelOutput.Triggers.StartTrigger.Type;
-                if (channelOutput.Triggers.StartTrigger.Type == DCPowerStartTriggerType.DigitalEdge)
-                {
-                    originalStartTriggerInputTerminals[sitePinInfo.IndividualChannelString] =
-                        channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal;
-                }
             });
 
             var sequence = new[] { 0.000, 0.005, 0.010 };
@@ -339,17 +333,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             // Capture originals per channel.
             var originalSourceDelays = new ConcurrentDictionary<string, PrecisionTimeSpan>();
             var originalStartTriggerTypes = new ConcurrentDictionary<string, DCPowerStartTriggerType>();
-            var originalStartTriggerInputTerminals = new ConcurrentDictionary<string, DCPowerDigitalEdgeStartTriggerInputTerminal>();
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 originalSourceDelays[sitePinInfo.IndividualChannelString] = channelOutput.Source.SourceDelay;
                 originalStartTriggerTypes[sitePinInfo.IndividualChannelString] = channelOutput.Triggers.StartTrigger.Type;
-                if (channelOutput.Triggers.StartTrigger.Type == DCPowerStartTriggerType.DigitalEdge)
-                {
-                    originalStartTriggerInputTerminals[sitePinInfo.IndividualChannelString] =
-                        channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal;
-                }
             });
 
             // Create per-pin per-site sequences
@@ -408,17 +396,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             // Capture originals per channel.
             var originalSourceDelays = new ConcurrentDictionary<string, PrecisionTimeSpan>();
             var originalStartTriggerTypes = new ConcurrentDictionary<string, DCPowerStartTriggerType>();
-            var originalStartTriggerInputTerminals = new ConcurrentDictionary<string, DCPowerDigitalEdgeStartTriggerInputTerminal>();
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 originalSourceDelays[sitePinInfo.IndividualChannelString] = channelOutput.Source.SourceDelay;
                 originalStartTriggerTypes[sitePinInfo.IndividualChannelString] = channelOutput.Triggers.StartTrigger.Type;
-                if (channelOutput.Triggers.StartTrigger.Type == DCPowerStartTriggerType.DigitalEdge)
-                {
-                    originalStartTriggerInputTerminals[sitePinInfo.IndividualChannelString] =
-                        channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal;
-                }
             });
 
             // Create per-site sequences

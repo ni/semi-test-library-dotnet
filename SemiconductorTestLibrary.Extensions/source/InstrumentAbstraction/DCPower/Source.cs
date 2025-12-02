@@ -579,18 +579,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// dummy
+        /// Forces a hardware-timed sequence of current values on all target pins synchronously.
+        /// If multiple target pins, the sequenced output will be synchronized across the target pins.
         /// </summary>
-        /// <param name="sessionsBundle">dummy</param>
-        /// <param name="currentSequence">d</param>
-        /// <param name="voltageLimit">d</param>
-        /// <param name="currentLevelRange">d</param>
-        /// <param name="voltageLimitRange">d</param>
-        /// <param name="sourceDelayinSeconds">d</param>
-        /// <param name="transientResponse">d</param>
-        /// <param name="sequenceLoopCount">d</param>
-        /// <param name="waitForSequenceCompletion">d</param>
-        /// <param name="sequenceTimeoutInSeconds">d</param>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentSequence">The current sequence to force for all site-pin pairs.</param>
+        /// <param name="voltageLimit">Optional voltage limit to use for all site-pin pairs. Defaults to +Infinity if not provided.</param>
+        /// <param name="currentLevelRange">Optional current level range to use for all site-pin pairs. Defaults to max(abs(sequence)) if not provided.</param>
+        /// <param name="voltageLimitRange">Optional voltage limit range to use for all site-pin pairs. Defaults to max(abs(sequence)) if not provided.</param>
+        /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
+        /// <param name="transientResponse">Optional transient response. If provided, applied uniformly.</param>
+        /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
+        /// <param name="waitForSequenceCompletion">Whether to wait for sequence completion.</param>
+        /// <param name="sequenceTimeoutInSeconds">The maximum time used to force the sequence if waiting.</param>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] currentSequence,
