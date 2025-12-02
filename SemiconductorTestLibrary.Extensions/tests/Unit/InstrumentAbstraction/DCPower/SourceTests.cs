@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
@@ -277,6 +278,191 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 AssertVoltageSettings(sessionsBundle.InstrumentSessions.ElementAt(6).AllChannelsOutput, expectedVoltageLevel: 2.5, expectedCurrentLimit: 0.2);
                 AssertVoltageSettings(sessionsBundle.InstrumentSessions.ElementAt(7).AllChannelsOutput, expectedVoltageLevel: 4.5, expectedCurrentLimit: 0.2);
             }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesWithOriginalChannelValues_ForceCurrentSequenceSynchronized_CorrectSettingsApplied(bool pinMapWithChannelGroup)
+        {
+            var pinNames = new string[] { "VDD" };
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            // Capture originals per channel.
+            var originalSourceDelays = new ConcurrentDictionary<string, PrecisionTimeSpan>();
+            var originalStartTriggerTypes = new ConcurrentDictionary<string, DCPowerStartTriggerType>();
+            var originalStartTriggerInputTerminals = new ConcurrentDictionary<string, DCPowerDigitalEdgeStartTriggerInputTerminal>();
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                originalSourceDelays[sitePinInfo.IndividualChannelString] = channelOutput.Source.SourceDelay;
+                originalStartTriggerTypes[sitePinInfo.IndividualChannelString] = channelOutput.Triggers.StartTrigger.Type;
+                if (channelOutput.Triggers.StartTrigger.Type == DCPowerStartTriggerType.DigitalEdge)
+                {
+                    originalStartTriggerInputTerminals[sitePinInfo.IndividualChannelString] =
+                        channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal;
+                }
+            });
+
+            var sequence = new[] { 0.000, 0.005, 0.010 };
+            sessionsBundle.ForceCurrentSequenceSynchronized(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 0.5);
+
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                var channelString = sitePinInfo.IndividualChannelString;
+                var channelOutput = sessionInfo.Session.Outputs[channelString];
+                // Current level should be first sequence element.
+                Assert.Equal(sequence[0], channelOutput.Source.Current.CurrentLevel);
+                Assert.Equal(DCPowerSourceMode.SinglePoint, channelOutput.Source.Mode);
+                // Source delay restored.
+                Assert.Equal(
+                   originalSourceDelays[sitePinInfo.IndividualChannelString].TotalSeconds,
+                   channelOutput.Source.SourceDelay.TotalSeconds,
+                   6);
+                // Start trigger type restored.
+                Assert.Equal(
+                    originalStartTriggerTypes[channelString],
+                    channelOutput.Triggers.StartTrigger.Type);
+                // TransientResponse set to requested value
+                Assert.Equal(DCPowerSourceTransientResponse.Fast, channelOutput.Source.TransientResponse);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesWithOriginalChannelValues_ForceCurrentSequenceSynchronizedWithPerPinPerSiteValues_CorrectSettingsApplied(bool pinMapWithChannelGroup)
+        {
+            var pinNames = new string[] { "VDD" };
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            // Capture originals per channel.
+            var originalSourceDelays = new ConcurrentDictionary<string, PrecisionTimeSpan>();
+            var originalStartTriggerTypes = new ConcurrentDictionary<string, DCPowerStartTriggerType>();
+            var originalStartTriggerInputTerminals = new ConcurrentDictionary<string, DCPowerDigitalEdgeStartTriggerInputTerminal>();
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                originalSourceDelays[sitePinInfo.IndividualChannelString] = channelOutput.Source.SourceDelay;
+                originalStartTriggerTypes[sitePinInfo.IndividualChannelString] = channelOutput.Triggers.StartTrigger.Type;
+                if (channelOutput.Triggers.StartTrigger.Type == DCPowerStartTriggerType.DigitalEdge)
+                {
+                    originalStartTriggerInputTerminals[sitePinInfo.IndividualChannelString] =
+                        channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal;
+                }
+            });
+
+            // Create per-pin per-site sequences
+            var currentSequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 0.001, 0.002, 0.003 },
+                    [1] = new[] { 0.004, 0.005, 0.006 },
+                    [2] = new[] { 0.007, 0.008, 0.009 },
+                    [3] = new[] { 0.010, 0.011, 0.012 }
+                }
+            });
+            sessionsBundle.ForceCurrentSequenceSynchronized(
+                currentSequence: currentSequence,
+                voltageLimit: new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+                {
+                    ["VDD"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 1.1, [2] = 1.2, [3] = 1.3 }
+                }),
+                currentLevelRange: new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+                {
+                    ["VDD"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.1, [2] = 0.1, [3] = 0.1 }
+                }),
+                voltageLimitRange: new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+                {
+                    ["VDD"] = new Dictionary<int, double>() { [0] = 1.5, [1] = 1.5, [2] = 1.5, [3] = 1.5 }
+                }));
+
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                var channelString = sitePinInfo.IndividualChannelString;
+                var channelOutput = sessionInfo.Session.Outputs[channelString];
+                var expectedSequence = currentSequence.GetValue(sitePinInfo);
+                // Current level should be first sequence element.
+                Assert.Equal(expectedSequence[0], channelOutput.Source.Current.CurrentLevel);
+                // Mode restored to SinglePoint.
+                Assert.Equal(DCPowerSourceMode.SinglePoint, channelOutput.Source.Mode);
+                // Source delay restored.
+                Assert.Equal(
+                   originalSourceDelays[sitePinInfo.IndividualChannelString].TotalSeconds,
+                   channelOutput.Source.SourceDelay.TotalSeconds,
+                   6);
+                // TransientResponse set to requested value.
+                Assert.Equal(DCPowerSourceTransientResponse.Fast, channelOutput.Source.TransientResponse);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesWithOriginalChannelValues_ForceCurrentSequenceSynchronizedWithPerSiteValues_CorrectSettingsApplied(bool pinMapWithChannelGroup)
+        {
+            var pinNames = new string[] { "VDD" };
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            // Capture originals per channel.
+            var originalSourceDelays = new ConcurrentDictionary<string, PrecisionTimeSpan>();
+            var originalStartTriggerTypes = new ConcurrentDictionary<string, DCPowerStartTriggerType>();
+            var originalStartTriggerInputTerminals = new ConcurrentDictionary<string, DCPowerDigitalEdgeStartTriggerInputTerminal>();
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                originalSourceDelays[sitePinInfo.IndividualChannelString] = channelOutput.Source.SourceDelay;
+                originalStartTriggerTypes[sitePinInfo.IndividualChannelString] = channelOutput.Triggers.StartTrigger.Type;
+                if (channelOutput.Triggers.StartTrigger.Type == DCPowerStartTriggerType.DigitalEdge)
+                {
+                    originalStartTriggerInputTerminals[sitePinInfo.IndividualChannelString] =
+                        channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal;
+                }
+            });
+
+            // Create per-site sequences
+            var currentSequences = new SiteData<double[]>(new[]
+            {
+                new[] { 0.001, 0.002, 0.003 },
+                new[] { 0.004, 0.005, 0.006 },
+                new[] { 0.007, 0.008, 0.009 },
+                new[] { 0.010, 0.011, 0.012 }
+            });
+            var voltageLimits = new SiteData<double?>(new double?[] { 1.0, 1.1, 1.2, 1.3 });
+            var currentLevelRanges = new SiteData<double?>(new double?[] { 0.05, 0.05, 0.05, 0.05 });
+            var voltageLimitRanges = new SiteData<double?>(new double?[] { 1.5, 1.5, 1.5, 1.5 });
+            sessionsBundle.ForceCurrentSequenceSynchronized(
+                currentSequences: currentSequences,
+                voltageLimits: voltageLimits,
+                currentLevelRanges: currentLevelRanges,
+                voltageLimitRanges: voltageLimitRanges,
+                sourceDelayinSeconds: 0.001,
+                transientResponse: DCPowerSourceTransientResponse.Fast,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: false);
+
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                var channelString = sitePinInfo.IndividualChannelString;
+                var channelOutput = sessionInfo.Session.Outputs[channelString];
+                var expectedSequence = currentSequences.GetValue(sitePinInfo.SiteNumber);
+                // Current level should be first sequence element.
+                Assert.Equal(expectedSequence[0], channelOutput.Source.Current.CurrentLevel);
+                // Mode restored to SinglePoint.
+                Assert.Equal(DCPowerSourceMode.SinglePoint, channelOutput.Source.Mode);
+                // Source delay restored.
+                Assert.Equal(
+                   originalSourceDelays[sitePinInfo.IndividualChannelString].TotalSeconds,
+                   channelOutput.Source.SourceDelay.TotalSeconds,
+                   6);
+                // Start trigger type restored.
+                Assert.Equal(
+                    originalStartTriggerTypes[channelString],
+                    channelOutput.Triggers.StartTrigger.Type);
+                // TransientResponse set to requested value
+                Assert.Equal(DCPowerSourceTransientResponse.Fast, channelOutput.Source.TransientResponse);
+            });
         }
 
         [Theory]
