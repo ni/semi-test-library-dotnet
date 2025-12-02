@@ -629,8 +629,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
-            var sequence = new[] { 0.005, 0.010 };
 
+            var sequence = new[] { 0.005, 0.010 };
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 1, sequenceLoopCount: 2);
 
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevelRange: 0.1, expectedVoltageLimit: 0.5, expectedVoltageLimitRange: 1, expectedSequenceLoopCount: 2));
@@ -641,10 +641,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [InlineData("DifferentSMUDevices.pinmap", false)]
         [InlineData("DifferentSMUDevicesOfSameModelSharedChannelGroup.pinmap", true)]
-        public void DifferentSMUDevices_ForceSequenceCurrentWithPinSiteDataSequence_CorrectValueAreSet(string pinMapFileName, bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceSequenceCurrentWithPerSiteSequence_CorrectValueAreSet(string pinMapFileName, bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower("VDD");
+
             var sequence = new SiteData<double[]>(new double[][]
                         {
                             new[] { 0.005, 0.010 },  // Site 0
@@ -652,7 +653,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                             new[] { 0.007, 0.014 },  // Site 2
                             new[] { 0.008, 0.016 }
                         });
-
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 1, sequenceLoopCount: 2);
 
             if (pinMapWithChannelGroup)
@@ -668,7 +668,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("DifferentSMUDevices.pinmap", false)]
         [InlineData("DifferentSMUDevicesOfSameModelSharedChannelGroup.pinmap", true)]
-        public void DifferentSMUDevices_ForceSequenceCurrentWithPerPinPerSitePinSiteDataSequence_CorrectValueAreSet(string pinMapFileName, bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceSequenceCurrentWithPerPinPerSiteSequence_CorrectValueAreSet(string pinMapFileName, bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower("VDD");
