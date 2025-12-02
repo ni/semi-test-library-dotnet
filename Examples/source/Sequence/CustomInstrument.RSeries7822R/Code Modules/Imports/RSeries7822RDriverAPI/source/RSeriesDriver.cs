@@ -20,10 +20,7 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
             string bitFilePath = RSeriesCAPI.BitFilePath();
             _status = RSeriesCAPI.OpenFPGA(resourceName, bitFilePath, out ulong fpgaRef);
             _referenceId = fpgaRef;
-            if (_status != 0)
-            {
-                throw new Exception($"Error in OpenFPGA Ref, ErrorCode:{_status}, ResourceName:{resourceName}, Ref:{_referenceId}, Bitfile:{bitFilePath}");
-            }
+            ValidateStatus($"Error in OpenFPGA method, Error Code:{_status}, Resource Name:{resourceName}, Ref:{_referenceId}, Bitfile:{bitFilePath}");
         }
 
         /// <summary>
@@ -33,10 +30,7 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
         public void Close()
         {
             _status = RSeriesCAPI.CloseFPGA(_referenceId);
-            if (_status != 0)
-            {
-                throw new Exception($"Error in CloseFPGA Ref, ErrorCode:{_status}");
-            }
+            ValidateStatus($"Error in CloseFPGA method, ErrorCode:{_status}");
         }
 
         /// <summary>
@@ -56,10 +50,7 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
         public void WriteChannelData(string channelString, double pinSiteSpecificData)
         {
             _status = RSeriesCAPI.WriteData(_referenceId, channelString, (byte)pinSiteSpecificData);
-            if (_status != 0)
-            {
-                throw new Exception($"Error in Write channel data, ErrorCode:{_status}, channel name:{channelString}");
-            }
+            ValidateStatus($"Error in WriteData method, ErrorCode:{_status}, Channel Name:{channelString}, Channel Data:{pinSiteSpecificData}");
         }
 
         /// <summary>
@@ -71,10 +62,7 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
         public double MeasureChannelData(string channelString)
         {
             _status = RSeriesCAPI.ReadData(_referenceId, channelString, out byte data);
-            if (_status != 0)
-            {
-                throw new Exception($"Error in read channel data, ErrorCode:{_status}, channel name:{channelString}, channel data:{data}");
-            }
+            ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, Channel name:{channelString}");
             return data;
         }
 
@@ -93,9 +81,14 @@ namespace NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI
             {
                 _status = RSeriesCAPI.EnableLoopBack(_referenceId, 0);
             }
+            ValidateStatus($"Error in EnableLoopBack method, ErrorCode:{_status}");
+        }
+
+        private void ValidateStatus(string exceptionMessage)
+        {
             if (_status != 0)
             {
-                throw new Exception("Error in Disabling Loopback");
+                throw new Exception(exceptionMessage);
             }
         }
     }

@@ -53,16 +53,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// </Remarks>
         public void ValidateCustomInstruments(string[] instrumentNames, string[] channelGroupIds, string[] channelLists)
         {
-            // Reconstruct the instrumentNames and channelLists inputs into the format of IEnumerable<KeyValuePair<instrumentName, sortedChannelList>>.
-            // Each KeyValuePair element corresponds to one channel group.
-            var instruments = instrumentNames.Zip(channelLists, (instrumentName, channelList)
-                => new KeyValuePair<string, string>(instrumentName, channelList));
-
-            // Group the instruments by name.
-            var instrumentsByName = instruments.GroupBy(instrument => instrument.Key);
-
-            // Check if all instruments have single channel group.
-            if (instrumentsByName.Any(instrument => instrument.Count() != 1))
+            // Duplicate entry in `instrumentNames` array means that at least one of the instrument has more than one channel group.
+            // Throw error when there are more than 1 channel group for any given instrument.
+            if (instrumentNames.Distinct().Count() < instrumentNames.Length)
             {
                 throw new InvalidCustomInstrumentPinMapDefinitionException("At least one instrument definition does not satify the single channel group constraint");
             }
