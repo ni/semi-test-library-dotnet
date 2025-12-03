@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.MyCustomInstrument;
+using NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries7822R;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
