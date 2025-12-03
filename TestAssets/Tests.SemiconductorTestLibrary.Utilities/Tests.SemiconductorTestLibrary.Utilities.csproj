@@ -10,6 +10,7 @@
     <RootNamespace>NationalInstruments.Tests.SemiconductorTestLibrary</RootNamespace>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <AssemblyName>NationalInstruments.Tests.SemiconductorTestLibrary.Utilities</AssemblyName>
+    <Configurations>Debug;Release;OnlyTestProjects</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />

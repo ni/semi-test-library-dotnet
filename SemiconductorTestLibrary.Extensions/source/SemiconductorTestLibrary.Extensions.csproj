@@ -10,6 +10,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <RootNamespace>NationalInstruments.SemiconductorTestLibrary</RootNamespace>
     <AssemblyName>NationalInstruments.SemiconductorTestLibrary.Extensions</AssemblyName>
+    <Configurations>Debug;Release;OnlyTestProjects</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />

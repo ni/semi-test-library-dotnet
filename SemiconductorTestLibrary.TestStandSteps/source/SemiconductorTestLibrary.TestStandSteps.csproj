@@ -10,6 +10,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <RootNamespace>NationalInstruments.SemiconductorTestLibrary.TestStandSteps</RootNamespace>
     <AssemblyName>NationalInstruments.SemiconductorTestLibrary.TestStandSteps</AssemblyName>
+    <Configurations>Debug;Release;OnlyTestProjects</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
