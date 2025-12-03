@@ -1,4 +1,5 @@
-﻿using NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI;
+﻿using System;
+using NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.MyCustomInstrument
@@ -11,15 +12,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     /// </remarks>
     public class RSeries7822R : ICustomInstrument
     {
-        /// <summary>
-        /// The custom instrument driver object.
-        /// </summary>
-        /// <remarks>
-        /// If the Driver Session is a class object, then this property should have a data type matching that class.
-        /// If the Driver Session is not a class object, for example, String type or Integer type, then define this property with that type.
-        /// Be sure to update the constructor when changing the type of this property, so that the initial value is set appropriately.
-        /// </remarks>
-        public RSeriesDriver InstrumentDriverSession { get; private set; }
+        private readonly ulong _referenceId;
+        private int _status;
 
         /// <summary>
         /// Instrument name that matches the one defined in the Pinmap file.
@@ -60,8 +54,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             InstrumentName = instrumentName;
             ChannelList = channelList;
             ResourceName = InstrumentName;
-
-            InstrumentDriverSession = new RSeriesDriver(ResourceName);
+            string bitFilePath = RSeriesCAPI.BitFilePath();
+            _status = RSeriesCAPI.OpenFPGA(ResourceName, bitFilePath, out ulong fpgaRef);
+            _referenceId = fpgaRef;
+            ValidateStatus($"Error in OpenFPGA method, Error Code:{_status}, Resource Name:{ResourceName}, Ref:{_referenceId}, Bitfile:{bitFilePath}");
         }
 
         /// <summary>
@@ -69,8 +65,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// </summary>
         public void Close()
         {
-            InstrumentDriverSession.Close();
-            InstrumentDriverSession = default; // Explicitly set InstrumentDriverSession to default value if required.
+            _status = RSeriesCAPI.CloseFPGA(_referenceId);
+            ValidateStatus($"Error in CloseFPGA method, ErrorCode:{_status}");
         }
 
         /// <summary>
@@ -82,7 +78,53 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         public void Reset()
         {
             // If instrument does not support reset operation, you can make it NOP.
-            InstrumentDriverSession.Reset();
+            // NOP
+        }
+
+        /// <summary>
+        /// RSeries card set LoopBack mode.
+        /// </summary>
+        /// <param name="mode">Status of LoopBack mode.</param>
+        /// <exception cref="Exception">Thrown when 'EnableLoopBack' fails. </exception>
+        public void SetLoopBackMode(bool mode)
+        {
+            int value = mode ? 1 : 0;
+            _status = RSeriesCAPI.EnableLoopBack(_referenceId, (ulong)value);
+            ValidateStatus($"Error in EnableLoopBack method, ErrorCode:{_status}");
+        }
+
+        /// <summary>
+        /// RSeries card write channel data operation.
+        /// </summary>
+        /// <param name="channelString">ChannelName.</param>
+        /// <param name="pinSiteSpecificData">ChannelData.</param>
+        /// <exception cref="Exception">Thrown when FPGA 'WriteData' fails.</exception>
+        public void WriteChannelData(string channelString, double pinSiteSpecificData)
+        {
+            _status = RSeriesCAPI.WriteData(_referenceId, channelString, (byte)pinSiteSpecificData);
+            ValidateStatus($"Error in WriteData method, ErrorCode:{_status}, Channel Name:{channelString}, Channel Data:{pinSiteSpecificData}");
+        }
+
+
+        /// <summary>
+        /// RSeries card read channel data operation.
+        /// </summary>
+        /// <param name="channelString">Channel name.</param>
+        /// <returns>Channel data.</returns>
+        /// <exception cref="Exception">Thrown when FPGA 'ReadData' fails.</exception>
+        public double MeasureChannelData(string channelString)
+        {
+            _status = RSeriesCAPI.ReadData(_referenceId, channelString, out byte data);
+            ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, Channel name:{channelString}");
+            return data;
+        }
+
+        private void ValidateStatus(string exceptionMessage)
+        {
+            if (_status != 0)
+            {
+                throw new Exception(exceptionMessage);
+            }
         }
     }
 }

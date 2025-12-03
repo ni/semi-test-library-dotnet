@@ -19,11 +19,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             myCustomInstrumentSessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var session = sessionInfo.Session as RSeries7822R;
-                var driverSession = session.InstrumentDriverSession;
                 double pinSiteSpecificData = data.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
                 string channelString = sitePinInfo.IndividualChannelString;
                 // Perform write data operation on the driver session.
-                driverSession.WriteChannelData(channelString, pinSiteSpecificData);
+                session.WriteChannelData(channelString, pinSiteSpecificData);
             });
         }
 
@@ -37,10 +36,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             return myCustomInstrumentSessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 var session = sessionInfo.Session as RSeries7822R;
-                var driverSession = session.InstrumentDriverSession;
                 string channelString = sitePinInfo.IndividualChannelString;
                 // Perform measure data operation on the driver session.
-                return driverSession.MeasureChannelData(channelString);
+                return session.MeasureChannelData(channelString);
             });
         }
 
@@ -53,9 +51,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             myCustomInstrumentSessionsBundle.Do(sessionInfo =>
             {
                 var session = sessionInfo.Session as RSeries7822R;
-                var driverSession = session.InstrumentDriverSession;
-
-                driverSession.SetLoopBackMode(true);
+                // Set loopback mode to true.
+                session.SetLoopBackMode(true);
             });
         }
     }
