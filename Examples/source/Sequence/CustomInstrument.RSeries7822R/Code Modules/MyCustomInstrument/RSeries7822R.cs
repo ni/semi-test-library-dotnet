@@ -50,8 +50,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         public RSeries7822R(string instrumentName, string channelGroupId, string channelList)
         {
             // Initialize your driver based on the instrument name and channel data and update 'InstrumentDriverSession'.
-            ChannelGroupId = channelGroupId;
             InstrumentName = instrumentName;
+            ChannelGroupId = channelGroupId;
             ChannelList = channelList;
             ResourceName = InstrumentName;
             string bitFilePath = RSeriesCAPI.BitFilePath();
@@ -84,11 +84,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <summary>
         /// RSeries card set LoopBack mode.
         /// </summary>
-        /// <param name="mode">Status of LoopBack mode.</param>
+        /// <param name="enable">Status of LoopBack mode.</param>
         /// <exception cref="Exception">Thrown when 'EnableLoopBack' fails. </exception>
-        public void SetLoopBackMode(bool mode)
+        public void EnableLoopBack(bool enable)
         {
-            int value = mode ? 1 : 0;
+            int value = enable ? 1 : 0;
             _status = RSeriesCAPI.EnableLoopBack(_referenceId, (ulong)value);
             ValidateStatus($"Error in EnableLoopBack method, ErrorCode:{_status}");
         }

@@ -9,10 +9,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     /// <summary>
     /// This class contains methods to perform setup and cleanup operations for RSeries7822R Instruments using the custom instrument support provided by STL.
     /// </summary>
-    public static partial class SetupAndCleanupSteps
+    public static class SetupAndCleanupSteps
     {
         /// <summary>
-        /// Initializes all RSeries7822R Instruments.
+        /// Initializes all RSeries7822R instruments.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         public static void SetupRSeries7822RInstrumentation(ISemiconductorModuleContext tsmContext)
@@ -23,7 +23,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         }
 
         /// <summary>
-        /// Closes all references of RSeries7822RInstruments.
+        /// Closes all RSeries7822R instruments.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         public static void CleanupRSeries7822RInstrumentation(ISemiconductorModuleContext tsmContext)
@@ -36,16 +36,16 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// Applies loop back configuration.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="instrumentTypeID">Instrument type Id.</param>
-        public static void ApplyLoopBackConfiguration(ISemiconductorModuleContext tsmContext, string instrumentTypeID)
+        /// <param name="instrumentTypeId">Instrument type Id.</param>
+        public static void ApplyLoopBackConfiguration(ISemiconductorModuleContext tsmContext, string instrumentTypeId)
         {
-            // Create CustomInstrument Session Bundle.
-            tsmContext.GetPins(instrumentTypeID, out var dutPins, out var systemPins);
+            // Create CustomInstrument Sessions Bundle.
+            tsmContext.GetPins(instrumentTypeId, out var dutPins, out var systemPins);
             var tsmSessionManager = new TSMSessionManager(tsmContext);
-            var myCustomInstrumentSessionsBundle = tsmSessionManager.CustomInstrument(instrumentTypeID, systemPins.Concat(dutPins).ToArray());
+            var myCustomInstrumentSessionsBundle = tsmSessionManager.CustomInstrument(instrumentTypeId, systemPins.Concat(dutPins).ToArray());
 
             // Set LoopBack mode.
-            myCustomInstrumentSessionsBundle.EnableLoopBackMode();
+            myCustomInstrumentSessionsBundle.EnableLoopBack();
         }
     }
 }

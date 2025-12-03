@@ -7,7 +7,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     /// <summary>
     /// This class contains sample methods to perform driver operations using Custom Instrument support provided in STL.
     /// </summary>
-    public static partial class HighLevelDriverOperations
+    public static class HighLevelDriverOperations
     {
         /// <summary>
         /// Sample method to perform a driver write operation using PinSiteData, where the data value may be pin and/or site specific.
@@ -46,13 +46,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// Enables loop back mode.
         /// </summary>
         /// <param name="myCustomInstrumentSessionsBundle">CustomInstrumentSessionsBundle.</param>
-        public static void EnableLoopBackMode(this CustomInstrumentSessionsBundle myCustomInstrumentSessionsBundle)
+        public static void EnableLoopBack(this CustomInstrumentSessionsBundle myCustomInstrumentSessionsBundle)
         {
             myCustomInstrumentSessionsBundle.Do(sessionInfo =>
             {
                 var session = sessionInfo.Session as RSeries7822R;
-                // Set loopback mode to true.
-                session.SetLoopBackMode(true);
+                // Set true for enabling LoopBack.
+                session.EnableLoopBack(true);
             });
         }
     }

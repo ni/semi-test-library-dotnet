@@ -8,7 +8,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 {
     /// <summary>
-    /// This class contains sample method to perform digital read write test using RSeries card via CustomInstrument feature of STL.
+    /// This class contains sample method to perform digital read write test using RSeries card via the custom instrument support provided by STL.
     /// </summary>
     public static class TestStep
     {
@@ -32,15 +32,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Create TSM session manager.
             var tsmSessionManager = new TSMSessionManager(tsmContext);
 
-            // Create bundle for DUT digital input pins and apply signal using custom instrument.
+            // Create sessions bundle for DUT digital input pins and sessions bundle for digital output pins.
             var digitalInputBundle = tsmSessionManager.CustomInstrument(RSeries7822RFactory.CustomInstrumentTypeId, digitalInputPins);
-            digitalInputBundle.WriteData(pinSiteData);
-
-            // Need to wait for the DUT's output to settle before measuring.
-            Utilities.PreciseWait(settlingTime);
-
-            // Create session bundle for analog output pins and measure signal using custom instrument.
             var digitalOutputBundle = tsmSessionManager.CustomInstrument(RSeries7822RFactory.CustomInstrumentTypeId, digitalOutputPins);
+
+            // Write data to digital input pins, wait for setting time and measure data on digital output pins.
+            digitalInputBundle.WriteData(pinSiteData);
+            Utilities.PreciseWait(settlingTime);
             var measurements = digitalOutputBundle.MeasureData();
 
             // Publish measured data.
