@@ -28,7 +28,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         public static void CleanupRSeries7822RInstrumentation(ISemiconductorModuleContext tsmContext)
         {
-            // Close all references of custom instruments.
             InitializeAndClose.Close(tsmContext, RSeries7822RFactory.CustomInstrumentTypeId);
         }
 

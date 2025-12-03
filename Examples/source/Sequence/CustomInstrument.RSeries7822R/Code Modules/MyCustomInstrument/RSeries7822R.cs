@@ -7,9 +7,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     /// <summary>
     /// Concrete implementation of ICustomInstrument Interface.
     /// </summary>
-    /// <remarks>
-    /// Users must create separate concrete implementations for different Custom Instrument types.
-    /// </remarks>
     public class RSeries7822R : ICustomInstrument
     {
         private readonly ulong _referenceId;
@@ -42,18 +39,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         public string ResourceName { get; }
 
         /// <summary>
-        /// Creates new driver session and stores it in InstrumentDriverSession.
+        /// Opens FPGA reference of the RIO instrument and stores it in '_referenceId'.
         /// </summary>
         /// <param name="instrumentName">Instrument Name as defined in the Pin Map</param>
         /// <param name="channelGroupId">Channel Group Id as defined in the Pin Map</param>
         /// <param name="channelList">Channel List as defined in the Pin Map</param>
         public RSeries7822R(string instrumentName, string channelGroupId, string channelList)
         {
-            // Initialize your driver based on the instrument name and channel data and update 'InstrumentDriverSession'.
+            // Store instrument name, channel and channel group information in the class object.
             InstrumentName = instrumentName;
             ChannelGroupId = channelGroupId;
             ChannelList = channelList;
             ResourceName = InstrumentName;
+
+            // Open FPGA reference by deploying BitFile on the RIO device of the given Instrument.
             string bitFilePath = RSeriesCAPI.BitFilePath();
             _status = RSeriesCAPI.OpenFPGA(ResourceName, bitFilePath, out ulong fpgaRef);
             _referenceId = fpgaRef;
@@ -61,7 +60,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         }
 
         /// <summary>
-        /// Closes the custom instrument session.
+        /// Closes FPGA reference of the RIO instrument.
         /// </summary>
         public void Close()
         {
@@ -70,19 +69,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         }
 
         /// <summary>
-        /// Resets the custom instrument.
+        /// Resets the RIO instrument.
         /// </summary>
-        /// <remarks>
-        /// Reset operation is about resetting to a known state, stopping current operation, clear faults and errors, reinitialize properties, etc. Not all instruments have reset API.
-        /// </remarks>
         public void Reset()
         {
-            // If instrument does not support reset operation, you can make it NOP.
-            // NOP
+            // Not supported, NOP.
         }
 
         /// <summary>
-        /// RSeries card set LoopBack mode.
+        /// Enables LoopBack mode.
         /// </summary>
         /// <param name="enable">Status of LoopBack mode.</param>
         /// <exception cref="Exception">Thrown when 'EnableLoopBack' fails. </exception>
