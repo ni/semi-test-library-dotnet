@@ -196,7 +196,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The measurements in per-site per-pin format. Item1 is voltage measurements, Item2 is current measurements.</returns>
         public static Tuple<PinSiteData<double>, PinSiteData<double>> MeasureAndReturnPerSitePerPinResults(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent(), caseDescription: string.Empty, CascadeCurrentOrVoltageMeasurement.VoltageMeasurement, CascadeCurrentOrVoltageMeasurement.CurrentMeasurement);
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent(), caseDescription: string.Empty, FillCurrentOrVoltageResultsDictionary, FillCurrentOrVoltageResultsDictionary);
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-pin per-site voltage measurements.</returns>
         public static PinSiteData<double> MeasureVoltage(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, caseDescription: string.Empty, CascadeCurrentOrVoltageMeasurement.VoltageMeasurement);
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, caseDescription: string.Empty, FillCurrentOrVoltageResultsDictionary);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-pin per-site voltage measurements.</returns>
         public static PinSiteData<double> MeasureCurrent(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, caseDescription: string.Empty, CascadeCurrentOrVoltageMeasurement.CurrentMeasurement);
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, caseDescription: string.Empty, FillCurrentOrVoltageResultsDictionary);
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static PinSiteData<double> MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishedDataId)
         {
             MeasureAndPublishVoltage(sessionsBundle, publishedDataId, out var voltageMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(voltageMeasurements, CascadeCurrentOrVoltageMeasurement.VoltageMeasurement);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(voltageMeasurements, FillCurrentOrVoltageResultsDictionary);
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static PinSiteData<double> MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishedDataId)
         {
             MeasureAndPublishCurrent(sessionsBundle, publishedDataId, out var currentMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(currentMeasurements, CascadeCurrentOrVoltageMeasurement.CurrentMeasurement);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(currentMeasurements);
         }
 
         /// <summary>
@@ -719,6 +719,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int pointsToFetch = fetchWaveformLength == 0 ? channelOutput.Measurement.FetchBacklog : Convert.ToInt32(Math.Round(fetchWaveformLength / deltaTime));
             var result = session.Measurement.Fetch(channelString, timeout: PrecisionTimeSpan.FromSeconds(fetchWaveformLength + 1), pointsToFetch);
             return new DCPowerWaveformResults(result, deltaTime);
+        }
+
+        private static void FillCurrentOrVoltageResultsDictionary<T>(SitePinInfo sitePinInfo, T result, Dictionary<string, IDictionary<int, T>> pinSiteResults = null, Dictionary<int, IDictionary<string, T>> sitePinResults = null)
+        {
+            string pinOrPinGroupName = sitePinInfo.CascadingInfo?.GroupName ?? sitePinInfo.PinName;
+            if (pinSiteResults != null)
+            {
+                if (!pinSiteResults.TryGetValue(pinOrPinGroupName, out var _))
+                {
+                    pinSiteResults.Add(pinOrPinGroupName, new Dictionary<int, T>());
+                }
+                pinSiteResults[pinOrPinGroupName].Add(sitePinInfo.SiteNumber, result);
+            }
+            else
+            {
+                if (!sitePinResults.TryGetValue(sitePinInfo.SiteNumber, out var _))
+                {
+                    sitePinResults[sitePinInfo.SiteNumber] = new Dictionary<string, T>();
+                }
+                sitePinResults[sitePinInfo.SiteNumber].Add(pinOrPinGroupName, result);
+            }
         }
 
         #endregion private methods
