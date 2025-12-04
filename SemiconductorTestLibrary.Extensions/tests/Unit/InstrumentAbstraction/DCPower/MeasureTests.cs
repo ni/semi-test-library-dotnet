@@ -746,6 +746,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveResult(results);
         }
 
+        [Theory]
+        [InlineData("Vcc2ch")]
+        [InlineData("Vcc4ch")]
+        [InlineData("Vref8ch")]
+        public void MergePinGroup_MeasureAndPublish_ResultwithPinGroup(string pinGroupName)
+        {
+            var sessionManager = Initialize("MergePinGroup_MultiGroupMeasure.pinmap");
+            // var sessionsBundle = sessionManager.DCPower(new string[] { "Vcc4ch", "Vref8ch" });
+            var sessionsBundle = sessionManager.DCPower(pinGroupName);
+            sessionsBundle.MergePinGroup(pinGroupName);
+            sessionsBundle.ConfigureSourceDelay(0);
+            sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
+
+            var results1 = sessionsBundle.MeasureCurrent();
+            var results2 = sessionsBundle.MeasureVoltage();
+            var results3 = sessionsBundle.MeasureAndPublishCurrent("Current");
+            var results4 = sessionsBundle.MeasureAndPublishVoltage("Voltage");
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+
+            AssertAllSitesHavePinGroupResult(results1, pinGroupName);
+            AssertAllSitesHavePinGroupResult(results2, pinGroupName);
+            AssertAllSitesHavePinGroupResult(results3, pinGroupName);
+            AssertAllSitesHavePinGroupResult(results4, pinGroupName);
+        }
+
         private int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.AggregateSitePinList
@@ -763,6 +788,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     Assert.NotEqual(0, results.GetValue(siteNumber, pin));
                 }
+            }
+        }
+        private void AssertAllSitesHavePinGroupResult(PinSiteData<double> results, string pinGroup)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                    Assert.NotEqual(0, results.GetValue(siteNumber, pinGroup));
             }
         }
     }
