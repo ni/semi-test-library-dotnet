@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -907,6 +908,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object</param>
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
         {
+            if (sitePinInfo != null && channelOutput.Name.Split(',').Length > 1)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelOutput));
+            }
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             if (settings.LimitSymmetry.HasValue)
             {
@@ -1005,7 +1010,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
         {
-            var gangingInfo = sitePinInfo?.ChannelCascadingInfo as GangingInfo;
+            var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Voltage.VoltageLevel = settings.Level.Value;
@@ -1041,7 +1046,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
         {
             var currentLevel = settings.Level.Value;
-            if (sitePinInfo?.ChannelCascadingInfo is GangingInfo gangingInfo)
+            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
             {
                 currentLevel /= gangingInfo.ChannelsCount;
             }
@@ -1086,7 +1091,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureTriggerForGanging(SitePinInfo sitePinInfo, DCPowerOutput channelOutput)
         {
-            if (sitePinInfo?.ChannelCascadingInfo is GangingInfo gangingInfo)
+            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
             {
                 if (gangingInfo.IsFollower)
                 {

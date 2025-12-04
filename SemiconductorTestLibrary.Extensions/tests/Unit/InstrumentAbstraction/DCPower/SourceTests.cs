@@ -709,11 +709,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
             {
-                sitePinInfo.ChannelCascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
             }
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
             {
-                sitePinInfo.ChannelCascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
             }
             var settings = new DCPowerSourceSettings()
             {
@@ -741,11 +741,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
             {
-                sitePinInfo.ChannelCascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
             }
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
             {
-                sitePinInfo.ChannelCascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
             }
             var settings = new DCPowerSourceSettings()
             {
@@ -764,6 +764,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(settings.OutputFunction, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Source.Output.Function);
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, 7, 1));
             sessionsBundle.Do((sessionInfo, sitePinInfo) => AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString));
+        }
+
+        [Fact]
+        public void DifferentSMU_ConfigureSourceSettingsWithMultipleChannelOutputAndValidSitePinInfo_ThrowsException()
+        {
+            var sessionManager = Initialize("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC");
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                Level = 1,
+                Limit = 1,
+            };
+
+            void ConfigureSourceSettingsWithMultipleChannelOutput()
+            {
+                var sessionInfo = sessionsBundle.InstrumentSessions.First();
+                sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsOutput, sessionsBundle.AggregateSitePinList.First());
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureSourceSettingsWithMultipleChannelOutput);
+            Assert.Contains("only supports single channel operation", exception.Message);
         }
 
         [Theory]
@@ -1271,7 +1293,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             channelString = channelString.Remove(channelString.Length - 2);
             var triggerName = $"/{channelString}/PXI_Trig0";
-            if ((sitePinInfo.ChannelCascadingInfo as GangingInfo).IsFollower)
+            if ((sitePinInfo.CascadingInfo as GangingInfo).IsFollower)
             {
                 Assert.Equal(triggerName, channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
             }
