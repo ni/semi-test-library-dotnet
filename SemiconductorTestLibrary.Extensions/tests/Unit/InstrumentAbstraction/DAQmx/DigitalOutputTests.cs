@@ -81,7 +81,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             tasksBundle.WriteDigitalWaveform(data, autoStart);
         }
 
-        [Theory(Skip = "Fails without the fix in Abstractions.")]
+        [Theory]
         [InlineData("DOPin1")]
         [InlineData("DOPin2")]
         [InlineData("DOPin3")]

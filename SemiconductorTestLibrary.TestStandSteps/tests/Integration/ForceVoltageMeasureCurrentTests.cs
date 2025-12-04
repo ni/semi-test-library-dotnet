@@ -40,7 +40,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             CleanupInstrumentation(tsmContext);
         }
 
-        [Fact(Skip = "Manual Test")]
+        [Fact]
         public void InitializeMultiSiteSharedPin_RunForceVoltageMeasureCurrentWithPositiveTest_CorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("SharedPinTests_MultiSite.pinmap", out var publishedDataReader);
