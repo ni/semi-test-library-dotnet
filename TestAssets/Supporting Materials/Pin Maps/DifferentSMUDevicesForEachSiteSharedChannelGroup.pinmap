@@ -47,7 +47,12 @@
 		<DUTPin name="VDET" />
 		<DUTPin name="VEE" />
 	</Pins>
-	<PinGroups></PinGroups>
+	<PinGroups>
+		<PinGroup name="PinGroup1">
+			<PinReference pin="VCC" />
+			<PinReference pin="VDD" />
+		</PinGroup>
+	</PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
 		<Site siteNumber="1" />
