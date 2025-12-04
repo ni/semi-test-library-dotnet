@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.5">
+	<Instruments>
+		<NIDigitalPatternInstrument name="HSD_6571_C1_S02" numberOfChannels="32" />
+		<NIDmmInstrument name="DMM_4081_C6_S13" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="C0" />
+		<DUTPin name="PA_EN" />
+		<DUTPin name="DMM" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Relays></Relays>
+	<RelayGroups></RelayGroups>
+	<RelayConfigurations></RelayConfigurations>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="C0" siteNumber="0,1" instrument="HSD_6571_C1_S02" channel="0" />
+		<Connection pin="PA_EN" siteNumber="0,1" instrument="HSD_6571_C1_S02" channel="2" />
+		<Connection pin="DMM" siteNumber="0,1" instrument="DMM_4081_C6_S13" channel="0" />
+	</Connections>
+</PinMap>
