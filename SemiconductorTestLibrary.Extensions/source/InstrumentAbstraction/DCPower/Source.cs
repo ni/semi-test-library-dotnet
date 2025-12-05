@@ -1091,17 +1091,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureTriggerForGanging(SitePinInfo sitePinInfo, DCPowerOutput channelOutput)
         {
-            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
             {
-                if (gangingInfo.IsFollower)
-                {
-                    channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
-                    channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure(gangingInfo.TriggerName, DCPowerTriggerEdge.Rising);
-                }
-                else
-                {
-                    channelOutput.Triggers.SourceTrigger.Disable();
-                }
+                channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
+                channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure(gangingInfo.TriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
