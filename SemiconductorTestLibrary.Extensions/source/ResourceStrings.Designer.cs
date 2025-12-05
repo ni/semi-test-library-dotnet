@@ -79,11 +79,20 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The sample clock rate is not the same for all underlying instrument sessions..
+        ///   Looks up a localized string similar to The value for the sample clock rate is not the same for all underlying instrument sessions..
         /// </summary>
         internal static string DAQmx_SampleClockRateNotDistinct {
             get {
                 return ResourceManager.GetString("DAQmx_SampleClockRateNotDistinct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The channelOutput argument {0} contains more than one channel. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
+        /// </summary>
+        internal static string DCPower_MultipleChannelOutputsDetected {
+            get {
+                return ResourceManager.GetString("DCPower_MultipleChannelOutputsDetected", resourceCulture);
             }
         }
         
