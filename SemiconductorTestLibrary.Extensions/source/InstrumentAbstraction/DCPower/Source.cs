@@ -905,10 +905,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
         /// <param name="channelOutput">The <see cref="DCPowerOutput"/> object</param>
-        /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
+        /// <param name="sitePinInformation">The <see cref="SitePinInfo"/> object</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInformation)
         {
-            if (sitePinInfo != null && channelOutput.Name.Split(',').Length > 1)
+            if (sitePinInformation != null && channelOutput.Name.Split(',').Length > 1)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelOutput));
             }
@@ -934,21 +934,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
                 else
                 {
-                    foreach (var sitePin in sessionInfo.AssociatedSitePinList.Where(spInfo => channelStringToUse.Contains(spInfo.IndividualChannelString)))
+                    foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => channelStringToUse.Contains(sitePin.IndividualChannelString)))
                     {
-                        sessionInfo.Session.ConfigureTransientResponse(sitePin.IndividualChannelString, sitePin.ModelString, settings.TransientResponse.Value);
+                        sessionInfo.Session.ConfigureTransientResponse(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, settings.TransientResponse.Value);
                     }
                 }
             }
             if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
             {
-                ConfigureVoltageSettings(channelOutput, settings, sitePinInfo);
+                ConfigureVoltageSettings(channelOutput, settings, sitePinInformation);
             }
             else
             {
-                ConfigureCurrentSettings(channelOutput, settings, sitePinInfo);
+                ConfigureCurrentSettings(channelOutput, settings, sitePinInformation);
             }
-            ConfigureTriggerForGanging(sitePinInfo, channelOutput);
+            ConfigureTriggerForGanging(sitePinInformation, channelOutput);
         }
 
         #endregion methods on DCPowerSessionInformation
