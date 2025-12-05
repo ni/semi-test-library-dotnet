@@ -79,7 +79,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <summary>
         /// Enables LoopBack mode.
         /// </summary>
-        /// <param name="enable">Status of LoopBack mode.</param>
+        /// <param name="enable">Whether to enable or disable LoopBack mode.</param>
         /// <exception cref="Exception">Thrown when 'EnableLoopBack' fails. </exception>
         public void EnableLoopBack(bool enable)
         {
@@ -91,8 +91,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <summary>
         /// RSeries card write channel data operation.
         /// </summary>
-        /// <param name="channelString">ChannelName.</param>
-        /// <param name="pinSiteSpecificData">ChannelData.</param>
+        /// <param name="channelString">Channel name.</param>
+        /// <param name="pinSiteSpecificData">Channel data to write.</param>
         /// <exception cref="Exception">Thrown when FPGA 'WriteData' fails.</exception>
         public void WriteChannelData(string channelString, double pinSiteSpecificData)
         {

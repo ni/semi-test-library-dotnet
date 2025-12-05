@@ -7,7 +7,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 {
     /// <summary>
-    /// This class contains methods to perform setup and cleanup operations for RSeries7822R Instruments using the custom instrument support provided by STL.
+    /// This class contains methods to perform setup and cleanup operations for RSeries7822R instruments using the Custom Instrument support provided by STL.
     /// </summary>
     public static class SetupAndCleanupSteps
     {
@@ -43,7 +43,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             var tsmSessionManager = new TSMSessionManager(tsmContext);
             var myCustomInstrumentSessionsBundle = tsmSessionManager.CustomInstrument(instrumentTypeId, systemPins.Concat(dutPins).ToArray());
 
-            // Set LoopBack mode.
+            // Enable LoopBack mode
             myCustomInstrumentSessionsBundle.EnableLoopBack();
         }
     }

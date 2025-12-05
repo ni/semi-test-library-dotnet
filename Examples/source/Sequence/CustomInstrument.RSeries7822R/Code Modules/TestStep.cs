@@ -8,7 +8,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 {
     /// <summary>
-    /// This class contains sample method to perform digital read write test using RSeries card via the custom instrument support provided by STL.
+    /// This class contains sample method to perform digital read write test using RSeries card via the Custom Instrument support provided by STL.
     /// </summary>
     public static class TestStep
     {
@@ -36,7 +36,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             var digitalInputBundle = tsmSessionManager.CustomInstrument(RSeries7822RFactory.CustomInstrumentTypeId, digitalInputPins);
             var digitalOutputBundle = tsmSessionManager.CustomInstrument(RSeries7822RFactory.CustomInstrumentTypeId, digitalOutputPins);
 
-            // Write data to digital input pins, wait for setting time and measure data on digital output pins.
+            // Write data to digital input pins, wait for settling time and measure data on digital output pins.
             digitalInputBundle.WriteData(pinSiteData);
             Utilities.PreciseWait(settlingTime);
             var measurements = digitalOutputBundle.MeasureData();
