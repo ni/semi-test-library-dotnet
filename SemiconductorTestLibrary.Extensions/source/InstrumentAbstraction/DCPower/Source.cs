@@ -242,6 +242,165 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Forces a sequence of voltage levels on the specified pin sites within the session bundle.
+        /// </summary>
+        /// <param name="sessionsBundle">The bundle of DC power sessions that manage the pin sites where the voltage sequence will be applied.</param>
+        /// <param name="voltageSequence">A collection of voltage sequences, where each sequence specifies the voltage levels to apply to the
+        /// corresponding pin site.</param>
+        /// <param name="currentLimit">The maximum allowable current, in amperes, for each pin site during the sequence. If <see langword="null"/>,
+        /// the current limit is not modified.</param>
+        /// <param name="voltageLevelRange">The allowable range for voltage levels, in volts, for each pin site during the sequence. If <see
+        /// langword="null"/>, the range is not modified.</param>
+        /// <param name="currentLimitRange">The allowable range for current limits, in amperes, for each pin site during the sequence. If <see
+        /// langword="null"/>, the range is not modified.</param>
+        /// <param name="sequenceLoopCount">The number of times to repeat the voltage sequence. Must be greater than or equal to 1.</param>
+        /// <param name="waitForSequenceCompletion">A value indicating whether to wait for the voltage sequence to complete before returning. If <see
+        /// langword="true"/>, the method blocks until the sequence finishes or the timeout elapses.</param>
+        /// <param name="sequenceTimeoutInSeconds">The maximum time, in seconds, to wait for the sequence to complete when <paramref
+        /// name="waitForSequenceCompletion"/> is <see langword="true"/>. Defaults to 5.0 seconds.</param>
+        public static void ForceVoltageSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<double[]> voltageSequence,
+            double? currentLimit = null,
+            double? voltageLevelRange = null,
+            double? currentLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                var sequence = voltageSequence.GetValue(pinSiteInfo);
+                var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+
+                ForceVoltageSequenceCore(
+                    sessionInfo,
+                    pinSiteInfo,
+                    channelOutput,
+                    sequence,
+                    currentLimit,
+                    voltageLevelRange,
+                    currentLimitRange,
+                    sequenceLoopCount,
+                    waitForSequenceCompletion,
+                    sequenceTimeoutInSeconds);
+            });
+        }
+
+        /// <summary>
+        /// Forces a sequence of voltage levels on the specified channels within the session bundle.
+        /// </summary>
+        /// <param name="sessionsBundle">The bundle of DC power sessions that contains the channels on which the voltage sequence will be applied.</param>
+        /// <param name="voltageSequence">A site-specific collection of voltage sequences to apply.
+        /// corresponding to the specified site.</param>
+        /// <param name="currentLimit">The optional current limit, in amperes, to apply during the voltage sequence.
+        /// limit configured in the session will be used.</param>
+        /// <param name="voltageLevelRange">The optional voltage level range, in volts, to constrain the applied voltage levels.</param>
+        /// <param name="currentLimitRange">The optional current limit range, in amperes, to constrain the current limit.</param>
+        /// <param name="sequenceLoopCount">The number of times to repeat the voltage sequence. Must be greater than or equal to 1.</param>
+        /// <param name="waitForSequenceCompletion">A value indicating whether to wait for the voltage sequence to complete before returning.</param>
+        /// <param name="sequenceTimeoutInSeconds">The maximum time, in seconds, to wait for the voltage sequence to complete when <paramref
+        /// name="waitForSequenceCompletion"/> is <see langword="true"/>. The default value is 5.0 seconds.</param>
+        public static void ForceVoltageSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<double[]> voltageSequence,
+            double? currentLimit = null,
+            double? voltageLevelRange = null,
+            double? currentLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                var sequence = voltageSequence.GetValue(pinSiteInfo.SiteNumber);
+                var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+
+                ForceVoltageSequenceCore(
+                    sessionInfo,
+                    pinSiteInfo,
+                    channelOutput,
+                    sequence,
+                    currentLimit,
+                    voltageLevelRange,
+                    currentLimitRange,
+                    sequenceLoopCount,
+                    waitForSequenceCompletion,
+                    sequenceTimeoutInSeconds);
+            });
+        }
+
+        /// <summary>
+        /// Forces a hardware-timed sequence of voltage values on the target pins. The sequence is defined by an array of voltage values.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageSequence">The array of voltage values to force in sequence.</param>
+        /// <param name="currentLimit">The current limit to use for the sequence.</param>
+        /// <param name="voltageLevelRange">The voltage level range to use for the sequence.</param>
+        /// <param name="currentLimitRange">The current limit range to use for the sequence.</param>
+        /// <param name="sequenceLoopCount">The number of times to loop the sequence.</param>
+        /// <param name="waitForSequenceCompletion">If true, waits until the sequence is complete before continuing.</param>
+        /// <param name="sequenceTimeoutInSeconds">The maximum time in seconds to wait for the sequence to complete.</param>
+        public static void ForceVoltageSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            double[] voltageSequence,
+            double? currentLimit = null,
+            double? voltageLevelRange = null,
+            double? currentLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                ForceVoltageSequenceCore(
+                    sessionInfo,
+                    null,
+                    sessionInfo.AllChannelsOutput,
+                    voltageSequence,
+                    currentLimit,
+                    voltageLevelRange,
+                    currentLimitRange,
+                    sequenceLoopCount,
+                    waitForSequenceCompletion,
+                    sequenceTimeoutInSeconds);
+            });
+        }
+
+        private static void ForceVoltageSequenceCore(
+            DCPowerSessionInformation sessionInfo,
+            SitePinInfo sitePinInfo,
+            DCPowerOutput channelOutput,
+            double[] voltageSequence,
+            double? currentLimit,
+            double? voltageLevelRange,
+            double? currentLimitRange,
+            int sequenceLoopCount,
+            bool waitForSequenceCompletion,
+            double sequenceTimeoutInSeconds)
+        {
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Level = voltageSequence[0],
+                Limit = currentLimit,
+                LevelRange = voltageLevelRange,
+                LimitRange = currentLimitRange
+            };
+
+            channelOutput.Control.Abort();
+            channelOutput.ConfigureSequence(voltageSequence, sequenceLoopCount);
+            sessionInfo.Force(settings, sitePinInfo);
+
+            if (waitForSequenceCompletion)
+            {
+                sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(
+                    PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+            }
+        }
+
+        /// <summary>
         /// Behaves the same as the ForceVoltage() method, but as two current limit inputs for setting separate high and low current limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
