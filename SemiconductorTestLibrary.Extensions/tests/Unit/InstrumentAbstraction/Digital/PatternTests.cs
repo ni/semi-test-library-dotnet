@@ -16,6 +16,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     [Collection("NonParallelizable")]
     [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
     [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public sealed class PatternTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
