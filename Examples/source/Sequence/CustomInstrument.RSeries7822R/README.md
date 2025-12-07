@@ -1,52 +1,80 @@
-# [Draft]Custom Instrument RSeries sequence Example
+# Custom Instrument RSeries sequence Example
 
-This example demonstrates how to use the **Custom Instrument** feature to interact with an **RSeries** card through the STL.
-R Series cards are FPGA-based NI instruments whose functionality can be customized by deploying an FPGA bit file generated from your custom FPGA code.
-Because R Series cards are not natively supported in TSM, you must define them as **Custom Instruments** and access them using STL’s Custom Instrument functionality.
+This example demonstrates how to use the **Custom Instrument** feature to interact with an R Series card through the STL.
 
-This example demonstrates how to interact with the PXIe-7822R R Series card to perform simple digital read and write operations.
+R Series cards are FPGA-based NI RIO instruments whose functionality can be customized by deploying an FPGA bitfile generated from user-defined FPGA code. Because R Series cards are not natively supported in TSM, they must be defined as **Custom Instrument** in the PinMap file and accessed through the STL’s Custom Instrument interface.
+
+This example uses a **PXIe-7822R** R Series card to illustrate simple digital read and write operations.
+
+## More Details
+
+The **PXIe-7822R** R Series card provides **128 digital I/O physical channels**, organized into four connectors. Each connector is further divided into **four digital ports**, with each port offering 8-bit width.
+
+For site 0, Connector 0 is used:
+
+- Port 0 → _DigitalInput_A_
+- Port 1 → _DigitalInput_B_
+- Port 2 → _DigitalOutput_A_
+- Port 3 → _DigitalOutput_B_
+
+For site 1, Connector 1 is configured in the same way.
+
+When **Loopback** is enabled, any data written to _DigitalInput_A_ and _DigitalInput_B_ is automatically copied to _DigitalOutput_A_ and _DigitalOutput_B_, respectively.
+
+## Key Files
+
+Below are the key files along with its purpose.
+
+### Example files
+
+- STLExample.CustomInstrument.RSeries7822R.pinmap
+- STLExample.CustomInstrument.RSeries7822R.seq
+- Code Modules
+  - STLExample.CustomInstrument.RSeries7822R.csproj
+  - STLExample.CustomInstrument.RSeries7822R.sln
+  - SetupAndCleanupSteps.cs
+  - TestStep.cs
+  - MyCustomInstrument/RSeries7822R.cs
+  - MyCustomInstrument/RSeries7822RFactory.cs
+  - MyCustomInstrument/HighLevelDriverOperations.cs
+  - MyCustomInstrument/ImportRSeriesCAPI.cs
+
+### Driver code
+
+Driver code `RSeries7822RDriverAPI` is placed under `Imports` directory. Driver code contains FPGA bit file, dynamic linked library containing C APIs to interact with deployed bit file.
+
+- RSeries7822R_ReadWriteDigitalPorts_CAPI.dll
+- RSeries7822R_ReadWriteDigitalPorts_CAPI.h
+- FPGARSeriesExample.lvbitx
+- Source
+  - RSeries Example.lvproj
+  - FPGACode_ReadWriteDigitalPorts.vi
+  - Debug C API.vi
+  - Debug LV API.vi
+  - APIs
+    - CloseFPGA.vi
+    - EnableLoopBack.vi
+    - OpenFPGA.vi
+    - ReadData.vi
+    - WriteData.vi
 
 ## Prerequisites
 
 - Software Requirements:
-STS 25.5 or later
-LV FPGA (Required only for customizing FPGA host code)
-Xilinx compiler / Compile worker with Xilinx cloud server (Required only if FPGA source is updated)
+STS 25.5 or later.
+LV FPGA (Required only for customizing FPGA source code).
+Xilinx compiler / Compile worker with Xilinx cloud server (Required only if FPGA source is updated).
 
 - Hardware Requirements:
-STS hardware or PXI system with PXI-7822R
-
-## Key Files
-
-This example has two parts
-
-1. Driver code for RSeries7822R (RSeries7822 driver API)
-2. Example code for integrating RSeries7822 driver API
-
-### Driver code
-
-- FPGARSeriesExample.lvbitx - FPGA bit file generated from Custom FPGA code.
-- RSeries7822R_ReadWriteDigitalPorts_CAPI.dll - Contains C APIs to interact with deployed FPGA code.
-- RSeries7822RDriverAPI.dll - Contains C# wrappers for the C APIs.
-- RSeries Driver API source:
-  - RSeries7822RDriverAPI.csproj
-  - RSeriesDriver.cs
-  - ImportRSeriesCAPI.cs
-    - Custom FPGA Code source:
-    - RSeries Example.lvproj
-    - APIs/OpenFPGA.vi
-    - APIs/CloseFPGA.vi
-    - APIs/EnableLoopBack.vi
-    - APIs/WriteData.vi
-    - APIs/ReadData.vi
-    - APIs/Utility/*
-
-### Example code
+STS hardware or PXI system with PXI-7822R instrument.
 
 ## Using this Example
 
-Open STLExample.CustomInstrument.RSeries7822R.seq file in TestStand.
-Verify Setup and Cleanup instruments are configured in ProcessSetup and ProcessCleanup callback sequences.
-Verify that main sequence contains `Semiconductor Multi Test` step for performing simple Digital Read/Write operations.
-Verify the PinMap.
-Run the example and ensure validation tests pass.
+Open the STLExample.CustomInstrument.RSeries7822R.seq file in TestStand.
+
+- Verify that the Setup and Cleanup instruments are correctly configured in the ProcessSetup and ProcessCleanup callback sequences.
+- Confirm that the MainSequence contains a Semiconductor Multi Test step that performs basic digital read/write operations.
+- Ensure that the digital write operation is configured for the digital ports (pins) DigitalInput_A and DigitalInput_B, with values 127 and 255, respectively.
+- Ensure that the digital read operation is configured for the digital ports (pins) DigitalOutput_A and DigitalOutput_B, and that the returned values are validated against the expected values 127 and 255, respectively.
+- Verify the PinMap configuration for all pin-to-channel connections.
+- Run the example sequence and confirm that all validation tests passes for both sites '0' &'1'.
