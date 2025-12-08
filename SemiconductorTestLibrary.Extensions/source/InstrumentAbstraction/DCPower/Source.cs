@@ -896,7 +896,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
-            sessionInfo.ConfigureSourceSettings(settings, string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString], null);
+            sessionInfo.ConfigureSourceSettings(settings, string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString], sitePinInformation: null);
         }
 
         /// <summary>
@@ -1010,24 +1010,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
         {
-            var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
+            var currentLimitDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
+
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Voltage.VoltageLevel = settings.Level.Value;
             }
             if (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
             {
-                dcOutput.Source.Voltage.CurrentLimit = gangingInfo != null ? settings.Limit.Value / gangingInfo.ChannelsCount : settings.Limit.Value;
+                dcOutput.Source.Voltage.CurrentLimit = settings.Limit.Value / currentLimitDivisor;
             }
             else
             {
                 if (settings.LimitHigh.HasValue)
                 {
-                    dcOutput.Source.Voltage.CurrentLimitHigh = gangingInfo != null ? settings.LimitHigh.Value / gangingInfo.ChannelsCount : settings.LimitHigh.Value;
+                    dcOutput.Source.Voltage.CurrentLimitHigh = settings.LimitHigh.Value / currentLimitDivisor;
                 }
                 if (settings.LimitLow.HasValue)
                 {
-                    dcOutput.Source.Voltage.CurrentLimitLow = gangingInfo != null ? settings.LimitLow.Value / gangingInfo.ChannelsCount : settings.LimitLow.Value;
+                    dcOutput.Source.Voltage.CurrentLimitLow = settings.LimitLow.Value / currentLimitDivisor;
                 }
             }
             if (settings.LevelRange.HasValue || settings.Level.HasValue)
@@ -1038,8 +1039,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
                 || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric && (settings.LimitHigh.HasValue || settings.LimitLow.HasValue)))
             {
-                dcOutput.Source.Voltage.CurrentLimitRange = settings.LimitRange ??
-                    (gangingInfo != null ? CalculateLimitRangeFromLimit(settings) / gangingInfo.ChannelsCount : CalculateLimitRangeFromLimit(settings));
+                dcOutput.Source.Voltage.CurrentLimitRange = settings.LimitRange ?? CalculateLimitRangeFromLimit(settings) / currentLimitDivisor;
             }
         }
 

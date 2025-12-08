@@ -703,7 +703,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureSourceSettings_CorrectValuesAreSetAndCurrentLevelDivided()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentSourceSettings_CorrectValuesAreSetAndCurrentLevelDivided()
         {
             var sessionManager = Initialize("SMUGangPinGroup_IndividualChannelSessionsPerSite.pinmap");
             var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
@@ -735,7 +735,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureSourceSettings_CorrectValuesAreSetAndCurrentLimitDivided()
+        public void DifferentSMUDevicesGanged_ConfigureVoltageSourceSettings_CorrectValuesAreSetAndCurrentLimitDivided()
         {
             var sessionManager = Initialize("SMUGangPinGroup_IndividualChannelSessionsPerSite.pinmap");
             var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
@@ -1293,14 +1293,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             channelString = channelString.Remove(channelString.Length - 2);
             var triggerName = $"/{channelString}/PXI_Trig0";
-            if ((sitePinInfo.CascadingInfo as GangingInfo).IsFollower)
-            {
-                Assert.Equal(triggerName, channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
-            }
-            else
-            {
-                Assert.Equal(string.Empty, channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
-            }
+            string expectedTriggerName = (sitePinInfo.CascadingInfo as GangingInfo).IsFollower ? triggerName : string.Empty;
+            Assert.Equal(expectedTriggerName, channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
         }
 
         private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
