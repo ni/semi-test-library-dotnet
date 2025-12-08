@@ -21,6 +21,10 @@ For site 1, Connector 1 is configured in the same way.
 
 When **Loopback** is enabled, any data written to _DigitalInput_A_ and _DigitalInput_B_ is automatically copied to _DigitalOutput_A_ and _DigitalOutput_B_, respectively.
 
+- `FPGARSeriesExample.lvbitx` – The FPGA bitfile deployed to the PXIe-7822R RIO device. It contains the digital read/write logic generated from the FPGA source VI (`FPGACode_ReadWriteDigitalPorts.vi`).
+
+- `RSeries7822R_ReadWriteDigitalPorts_CAPI.dll` – A DLL exposing the C API used to interact with the deployed FPGA bitfile. It is built from the FPGA host API sources located under `Imports/source/APIs/*`
+
 ## Key Files
 
 Below are the key files along with its purpose.
@@ -43,15 +47,15 @@ Below are the key files along with its purpose.
 
 Driver code `RSeries7822RDriverAPI` is placed under `Imports` directory. Driver code contains FPGA bit file, dynamic linked library containing C APIs to interact with deployed bit file.
 
-- RSeries7822R_ReadWriteDigitalPorts_CAPI.dll
+- RSeries7822R_ReadWriteDigitalPorts_CAPI.dll (C API)
 - RSeries7822R_ReadWriteDigitalPorts_CAPI.h
-- FPGARSeriesExample.lvbitx
+- FPGARSeriesExample.lvbitx (bit file)
 - Source
   - RSeries Example.lvproj
-  - FPGACode_ReadWriteDigitalPorts.vi
-  - Debug C API.vi
-  - Debug LV API.vi
-  - APIs
+  - FPGACode_ReadWriteDigitalPorts.vi (FPGA source VI)
+  - Debug C API.vi (VI to debug and test C APIs)
+  - Debug LV API.vi (VI to debug and test LV APIs)
+  - APIs (Contains source VIs built in to C API dll)
     - CloseFPGA.vi
     - EnableLoopBack.vi
     - OpenFPGA.vi
