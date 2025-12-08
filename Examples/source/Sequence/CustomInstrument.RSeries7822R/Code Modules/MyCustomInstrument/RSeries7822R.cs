@@ -83,8 +83,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <exception cref="Exception">Thrown when 'EnableLoopBack' fails. </exception>
         public void EnableLoopBack(bool enable)
         {
-            int value = enable ? 1 : 0;
-            _status = RSeriesCAPI.EnableLoopBack(_referenceId, (ulong)value);
+            ulong value = enable ? 1UL : 0UL;
+            _status = RSeriesCAPI.EnableLoopBack(_referenceId, value);
             ValidateStatus($"Error in EnableLoopBack method, ErrorCode:{_status}");
         }
 
