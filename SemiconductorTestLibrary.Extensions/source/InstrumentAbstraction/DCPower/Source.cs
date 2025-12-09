@@ -319,7 +319,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                if ((sitePinInfo.ChannelCascadingInfo as GangingInfo)?.IsSecondaryChannel == true)
+                if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
                 {
                     sessionInfo.InitiateChannels(channelOutput);
                 }
@@ -327,7 +327,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                if (!(sitePinInfo.ChannelCascadingInfo is GangingInfo ganging) || !ganging.IsSecondaryChannel)
+                if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
                 {
                     sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
                 }
@@ -359,7 +359,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                if ((sitePinInfo.ChannelCascadingInfo as GangingInfo)?.IsSecondaryChannel == true)
+                if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
                 {
                     sessionInfo.InitiateChannels(channelOutput);
                 }
@@ -367,7 +367,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                if (!(sitePinInfo.ChannelCascadingInfo is GangingInfo ganging) || !ganging.IsSecondaryChannel)
+                if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
                 {
                     sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
                 }
@@ -399,7 +399,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                if ((sitePinInfo.ChannelCascadingInfo as GangingInfo)?.IsSecondaryChannel == true)
+                if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
                 {
                     sessionInfo.InitiateChannels(channelOutput);
                 }
@@ -407,7 +407,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                if (!(sitePinInfo.ChannelCascadingInfo is GangingInfo ganging) || !ganging.IsSecondaryChannel)
+                if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
                 {
                     sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
                 }
@@ -436,14 +436,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                    if ((sitePinInfo.ChannelCascadingInfo as GangingInfo)?.IsSecondaryChannel == true)
+                    if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
                     {
                         sessionInfo.InitiateChannels(channelOutput);
                     }
                 });
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    if (!(sitePinInfo.ChannelCascadingInfo is GangingInfo ganging) || !ganging.IsSecondaryChannel)
+                    if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
                     {
                         var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                         sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
