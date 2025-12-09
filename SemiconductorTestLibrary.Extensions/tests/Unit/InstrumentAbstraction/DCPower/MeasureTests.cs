@@ -750,10 +750,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("Vcc2ch")]
         [InlineData("Vcc4ch")]
         [InlineData("Vref8ch")]
-        public void MergePinGroup_MeasureAndPublish_ResultwithPinGroup(string pinGroupName)
+        public void MergePinGroupAndForceVoltage_MeasureAndPublishCurrentAndVoltageAndUnmerge_ResultPublisedCorrectly(string pinGroupName)
         {
             var sessionManager = Initialize("MergePinGroup_MultiGroupMeasure.pinmap");
-            // var sessionsBundle = sessionManager.DCPower(new string[] { "Vcc4ch", "Vref8ch" });
             var sessionsBundle = sessionManager.DCPower(pinGroupName);
             sessionsBundle.MergePinGroup(pinGroupName);
             sessionsBundle.ConfigureSourceDelay(0);
