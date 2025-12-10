@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -611,14 +612,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                Level = currentSequence[0],
+                SourceMode = DCPowerSourceMode.Sequence,
+                SequenceLoopCount = sequenceLoopCount,
+                Sequence = currentSequence.ToList(),
                 Limit = voltageLimit,
                 LevelRange = currentLevelRange,
                 LimitRange = voltageLimitRange
             };
 
             channelOutput.Control.Abort();
-            channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
             sessionInfo.Force(settings, channelString);
 
             if (waitForSequenceCompletion)
@@ -1154,7 +1156,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
-            channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
+            channelOutput.Source.Mode = settings.SourceMode;
             if (settings.LimitSymmetry.HasValue)
             {
                 channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
@@ -1166,6 +1168,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             if (settings.SourceDelayInSeconds.HasValue)
             {
                 channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
+            }
+            if (settings.SequenceLoopCount.HasValue)
+            {
+                channelOutput.Source.SequenceLoopCount = settings.SequenceLoopCount.Value;
+            }
+            if (settings.Sequence.Count > 0)
+            {
+                channelOutput.Source.SetSequence(settings.Sequence.ToArray());
             }
             if (settings.TransientResponse.HasValue)
             {
