@@ -8,7 +8,7 @@
 	</Pins>
 	<PinGroups></PinGroups>
 	<Instruments>
-		<Instrument name="Digital_RIO_7822R" instrumentTypeId="PXI_RSeries_7822R">
+		<Instrument name="RIO_7822R_C1_S06" instrumentTypeId="PXI_RSeries_7822R">
 			<ChannelGroup id="DigitalIO">
 				<Channel id="Connector0_DIOPORT0" />
 				<Channel id="Connector0_DIOPORT1" />
@@ -26,13 +26,13 @@
 		<Site siteNumber="1" />
 	</Sites>
 	<Connections>
-		<Connection pin="DigitalInput_A" siteNumber="0" instrument="Digital_RIO_7822R" channel="Connector0_DIOPORT0" />
-		<Connection pin="DigitalInput_A" siteNumber="1" instrument="Digital_RIO_7822R" channel="Connector1_DIOPORT0" />
-		<Connection pin="DigitalInput_B" siteNumber="0" instrument="Digital_RIO_7822R" channel="Connector0_DIOPORT1" />
-		<Connection pin="DigitalInput_B" siteNumber="1" instrument="Digital_RIO_7822R" channel="Connector1_DIOPORT1" />
-		<Connection pin="DigitalOutput_A" siteNumber="0" instrument="Digital_RIO_7822R" channel="Connector0_DIOPORT2" />
-		<Connection pin="DigitalOutput_A" siteNumber="1" instrument="Digital_RIO_7822R" channel="Connector1_DIOPORT2" />
-		<Connection pin="DigitalOutput_B" siteNumber="0" instrument="Digital_RIO_7822R" channel="Connector0_DIOPORT3" />
-		<Connection pin="DigitalOutput_B" siteNumber="1" instrument="Digital_RIO_7822R" channel="Connector1_DIOPORT3" />
+		<Connection pin="DigitalInput_A" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_DIOPORT0" />
+		<Connection pin="DigitalInput_A" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_DIOPORT0" />
+		<Connection pin="DigitalInput_B" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_DIOPORT1" />
+		<Connection pin="DigitalInput_B" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_DIOPORT1" />
+		<Connection pin="DigitalOutput_A" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_DIOPORT2" />
+		<Connection pin="DigitalOutput_A" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_DIOPORT2" />
+		<Connection pin="DigitalOutput_B" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_DIOPORT3" />
+		<Connection pin="DigitalOutput_B" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_DIOPORT3" />
 	</Connections>
 </PinMap>
