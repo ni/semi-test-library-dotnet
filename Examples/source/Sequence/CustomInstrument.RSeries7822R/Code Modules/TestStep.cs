@@ -5,7 +5,7 @@ using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries7822R
 {
     /// <summary>
     /// This class contains sample method to perform digital read write test using RSeries card via the Custom Instrument support provided by STL.

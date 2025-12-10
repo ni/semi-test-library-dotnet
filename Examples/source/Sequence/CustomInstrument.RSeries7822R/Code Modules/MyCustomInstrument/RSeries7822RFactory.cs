@@ -9,7 +9,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     public class RSeries7822RFactory : ICustomInstrumentFactory
     {
         /// <summary>
-        /// The unique instrument type ID associated with a specific custom instrument implementation.
+        /// The unique instrument type ID associated with the custom instrument implementation for PXIe-7822R R Series devices.
         /// </summary>
         /// <remarks>
         /// Use this field to access the instrument type ID string from the class itself.

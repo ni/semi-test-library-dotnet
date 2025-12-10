@@ -40,5 +40,4 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         {
         }
     }
-
 }

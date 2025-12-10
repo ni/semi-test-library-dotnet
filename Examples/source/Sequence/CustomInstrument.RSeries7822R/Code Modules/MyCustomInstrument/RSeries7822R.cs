@@ -1,5 +1,4 @@
 ﻿using System;
-using NationalInstruments.Example.CustomInstrument.RSeries7822DriverAPI;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries7822R
@@ -53,8 +52,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             ResourceName = InstrumentName;
 
             // Open FPGA reference by deploying BitFile on the RIO device of the given Instrument.
-            string bitFilePath = RSeriesCAPI.BitFilePath();
-            _status = RSeriesCAPI.OpenFPGA(ResourceName, bitFilePath, out ulong fpgaRef);
+            string bitFilePath = RSeries7822RDriverAPI.BitFilePath();
+            _status = RSeries7822RDriverAPI.OpenFPGA(ResourceName, bitFilePath, out ulong fpgaRef);
             _referenceId = fpgaRef;
             ValidateStatus($"Error in OpenFPGA method, Error Code:{_status}, Resource Name:{ResourceName}, Ref:{_referenceId}, Bitfile:{bitFilePath}");
         }
@@ -64,7 +63,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// </summary>
         public void Close()
         {
-            _status = RSeriesCAPI.CloseFPGA(_referenceId);
+            _status = RSeries7822RDriverAPI.CloseFPGA(_referenceId);
             ValidateStatus($"Error in CloseFPGA method, ErrorCode:{_status}");
         }
 
@@ -84,7 +83,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         public void EnableLoopBack(bool enable)
         {
             ulong value = enable ? 1UL : 0UL;
-            _status = RSeriesCAPI.EnableLoopBack(_referenceId, value);
+            _status = RSeries7822RDriverAPI.EnableLoopBack(_referenceId, value);
             ValidateStatus($"Error in EnableLoopBack method, ErrorCode:{_status}");
         }
 
@@ -96,10 +95,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <exception cref="Exception">Thrown when FPGA 'WriteData' fails.</exception>
         public void WriteChannelData(string channelString, double pinSiteSpecificData)
         {
-            _status = RSeriesCAPI.WriteData(_referenceId, channelString, (byte)pinSiteSpecificData);
+            _status = RSeries7822RDriverAPI.WriteData(_referenceId, channelString, (byte)pinSiteSpecificData);
             ValidateStatus($"Error in WriteData method, ErrorCode:{_status}, Channel Name:{channelString}, Channel Data:{pinSiteSpecificData}");
         }
-
 
         /// <summary>
         /// RSeries card read channel data operation.
@@ -109,7 +107,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <exception cref="Exception">Thrown when FPGA 'ReadData' fails.</exception>
         public double MeasureChannelData(string channelString)
         {
-            _status = RSeriesCAPI.ReadData(_referenceId, channelString, out byte data);
+            _status = RSeries7822RDriverAPI.ReadData(_referenceId, channelString, out byte data);
             ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, Channel name:{channelString}");
             return data;
         }
