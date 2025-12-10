@@ -253,7 +253,7 @@
 				<Property Name="NI.LV.FPGA.Version" Type="Int">5</Property>
 			</Item>
 			<Item Name="FPGACode_ReadWriteDigitalPorts.vi" Type="VI" URL="../FPGACode_ReadWriteDigitalPorts.vi">
-				<Property Name="BuildSpec" Type="Str">{C49739BE-1DB9-4D36-9E76-D307949BE80B}</Property>
+				<Property Name="BuildSpec" Type="Str">{208B8CAF-879D-481C-9228-E07891ADD951}</Property>
 				<Property Name="configString.guid" Type="Str">{3F6972D2-CBBA-4FC4-ADBC-CE682CB5F0F9}ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector1/DIOPORT0;0;ReadMethodType=u8;WriteMethodType=u8{5A57CE82-F21B-4E06-9684-8E78642C9AAA}ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector1/DIOPORT1;0;ReadMethodType=u8;WriteMethodType=u8{7A8268AE-84E2-4541-AF10-E8BA8DA8C675}ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector0/DIOPORT2;0;ReadMethodType=u8;WriteMethodType=u8{7FAED4A9-6A36-453C-A2BF-2CCEAD16ACE8}ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector1/DIOPORT3;0;ReadMethodType=u8;WriteMethodType=u8{80FA296A-4A1D-4EE2-9CFE-551F7014CE9D}ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector0/DIOPORT3;0;ReadMethodType=u8;WriteMethodType=u8{A0C4CE59-323B-481A-9473-4F6ECF3CAECB}ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector0/DIOPORT0;0;ReadMethodType=u8;WriteMethodType=u8{CF517272-0CDE-4710-A338-BB31C6F04621}ResourceName=40 MHz Onboard Clock;TopSignalConnect=Clk40;ClockSignalName=Clk40;MinFreq=40000000.000000;MaxFreq=40000000.000000;VariableFreq=0;NomFreq=40000000.000000;PeakPeriodJitter=250.000000;MinDutyCycle=50.000000;MaxDutyCycle=50.000000;Accuracy=100.000000;RunTime=0;SpreadSpectrum=0;GenericDataHash=D41D8CD98F00B204E9800998ECF8427E;{E5E61E74-E2F3-4448-8719-DEEB536CDF27}ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector0/DIOPORT1;0;ReadMethodType=u8;WriteMethodType=u8{FDED1040-A1D5-4B6F-A923-3EC102CF9094}ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector1/DIOPORT2;0;ReadMethodType=u8;WriteMethodType=u8PXIe-7822R/Clk40/falsefalseFPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_7822RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin]rseries.dio./Connector0=0,rseries.dio./Connector1=0,rseries.dio./Connector2=0,rseries.dio./Connector3=0[rSeriesConfig.End]</Property>
 				<Property Name="configString.name" Type="Str">40 MHz Onboard ClockResourceName=40 MHz Onboard Clock;TopSignalConnect=Clk40;ClockSignalName=Clk40;MinFreq=40000000.000000;MaxFreq=40000000.000000;VariableFreq=0;NomFreq=40000000.000000;PeakPeriodJitter=250.000000;MinDutyCycle=50.000000;MaxDutyCycle=50.000000;Accuracy=100.000000;RunTime=0;SpreadSpectrum=0;GenericDataHash=D41D8CD98F00B204E9800998ECF8427E;Connector0/DIOPORT0ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector0/DIOPORT0;0;ReadMethodType=u8;WriteMethodType=u8Connector0/DIOPORT1ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector0/DIOPORT1;0;ReadMethodType=u8;WriteMethodType=u8Connector0/DIOPORT2ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector0/DIOPORT2;0;ReadMethodType=u8;WriteMethodType=u8Connector0/DIOPORT3ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector0/DIOPORT3;0;ReadMethodType=u8;WriteMethodType=u8Connector1/DIOPORT0ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector1/DIOPORT0;0;ReadMethodType=u8;WriteMethodType=u8Connector1/DIOPORT1ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector1/DIOPORT1;0;ReadMethodType=u8;WriteMethodType=u8Connector1/DIOPORT2ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector1/DIOPORT2;0;ReadMethodType=u8;WriteMethodType=u8Connector1/DIOPORT3ArbitrationForOutputData=NeverArbitrate;ArbitrationForOutputEnable=NeverArbitrate;NumberOfSyncRegistersForOutputData=1;NumberOfSyncRegistersForOutputEnable=1;NumberOfSyncRegistersForReadInProject=Auto;resource=/Connector1/DIOPORT3;0;ReadMethodType=u8;WriteMethodType=u8PXIe-7822R/Clk40/falsefalseFPGA_EXECUTION_MODEFPGA_TARGETFPGA_TARGET_CLASSPXIE_7822RFPGA_TARGET_FAMILYKINTEX7TARGET_TYPEFPGA/[rSeriesConfig.Begin]rseries.dio./Connector0=0,rseries.dio./Connector1=0,rseries.dio./Connector2=0,rseries.dio./Connector3=0[rSeriesConfig.End]</Property>
 				<Property Name="NI.LV.FPGA.InterfaceBitfile" Type="Str">C:\Users\Administrator\Desktop\RSeries7822RDriverAPI\source\Digital Rseries example\FPGA Bitfiles\FPGARSeriesExample.lvbitx</Property>
@@ -285,7 +285,7 @@
 					<Property Name="AllowEnableRemoval" Type="Bool">false</Property>
 					<Property Name="BuildSpecDecription" Type="Str"></Property>
 					<Property Name="BuildSpecName" Type="Str">FPGA Code</Property>
-					<Property Name="Comp.BitfileName" Type="Str">FPGARSeriesExample.lvbitx</Property>
+					<Property Name="Comp.BitfileName" Type="Str">RSeries7822R_ReadWriteDigitalPorts</Property>
 					<Property Name="Comp.CustomXilinxParameters" Type="Str"></Property>
 					<Property Name="Comp.MaxFanout" Type="Int">-1</Property>
 					<Property Name="Comp.RandomSeed" Type="Bool">false</Property>
@@ -300,7 +300,7 @@
 					<Property Name="Comp.Vivado.PlaceDirective" Type="Str">Default</Property>
 					<Property Name="Comp.Vivado.RouteDirective" Type="Str">Default</Property>
 					<Property Name="Comp.Vivado.RunPowerOpt" Type="Bool">false</Property>
-					<Property Name="Comp.Vivado.Strategy" Type="Str">Default</Property>
+					<Property Name="Comp.Vivado.Strategy" Type="Str">Custom</Property>
 					<Property Name="Comp.Xilinx.DesignStrategy" Type="Str">balanced</Property>
 					<Property Name="Comp.Xilinx.MapEffort" Type="Str">default(noTiming)</Property>
 					<Property Name="Comp.Xilinx.ParEffort" Type="Str">standard</Property>
@@ -311,7 +311,7 @@
 					<Property Name="DestinationDirectory" Type="Path">/C/Users/Public/Documents/National Instruments/NI_SemiconductorTestLibrary/Examples/Sequence/CustomInstrument.RSeries7822R/Code Modules/Imports/RSeries7822RDriverAPI</Property>
 					<Property Name="NI.LV.FPGA.LastCompiledBitfilePath" Type="Path">/C/Users/Administrator/Desktop/RSeries7822RDriverAPI/source/Digital Rseries example/FPGA Bitfiles/FPGARSeriesExample.lvbitx</Property>
 					<Property Name="NI.LV.FPGA.LastCompiledBitfilePathRelativeToProject" Type="Path">FPGA Bitfiles/FPGARSeriesExample.lvbitx</Property>
-					<Property Name="ProjectPath" Type="Path">/C/Users/Public/Documents/National Instruments/NI_SemiconductorTestLibrary/Examples/Sequence/CustomInstrument.RSeries7822R/Code Modules/Imports/RSeries7822RDriverAPI/source/RSeries Example.lvproj</Property>
+					<Property Name="ProjectPath" Type="Path">/C/Users/Public/Documents/National Instruments/NI_SemiconductorTestLibrary/Examples/Sequence/CustomInstrument.RSeries7822R/Code Modules/Imports/RSeries7822RDriverAPI/source/RSeries7822RDriverAPI.lvproj</Property>
 					<Property Name="RelativePath" Type="Bool">false</Property>
 					<Property Name="RunWhenLoaded" Type="Bool">false</Property>
 					<Property Name="SupportDownload" Type="Bool">true</Property>
@@ -347,10 +347,10 @@
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{F158AB81-9DE8-41BF-8B72-67F7E705D37D}</Property>
-				<Property Name="Bld_version.build" Type="Int">19</Property>
+				<Property Name="Bld_version.build" Type="Int">20</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
-				<Property Name="Destination[0].destName" Type="Str">RSeries7822R_ReadWriteDigitalPorts_CAPI.dll</Property>
-				<Property Name="Destination[0].path" Type="Path">../RSeries7822R_ReadWriteDigitalPorts_CAPI.dll</Property>
+				<Property Name="Destination[0].destName" Type="Str">RSeries7822RDriverAPI.dll</Property>
+				<Property Name="Destination[0].path" Type="Path">../NI_AB_PROJECTNAME.dll</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
 				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
@@ -361,7 +361,7 @@
 				<Property Name="Dll_headerGUID" Type="Str">{0122F12D-6B84-4015-B6BE-3A6F56CCB4F8}</Property>
 				<Property Name="Dll_libGUID" Type="Str">{DAD5E5D7-B780-4CB8-B2FE-E76025814BBF}</Property>
 				<Property Name="Dll_privateExecSys" Type="Bool">true</Property>
-				<Property Name="Source[0].itemID" Type="Str">{D085F022-1507-4762-8F69-1551C5F98B70}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{C15DCECF-180B-4F33-9BB9-8CCFFDE381CE}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].Container.applyInclusion" Type="Bool">true</Property>
 				<Property Name="Source[1].Container.depDestIndex" Type="Int">0</Property>
@@ -535,7 +535,7 @@
 				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2025 National Instruments</Property>
 				<Property Name="TgtF_productName" Type="Str">CAPI</Property>
 				<Property Name="TgtF_targetfileGUID" Type="Str">{18747062-6258-4A92-98D0-66DEDF91D708}</Property>
-				<Property Name="TgtF_targetfileName" Type="Str">RSeries7822R_ReadWriteDigitalPorts_CAPI.dll</Property>
+				<Property Name="TgtF_targetfileName" Type="Str">RSeries7822RDriverAPI.dll</Property>
 				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
 			</Item>
 		</Item>

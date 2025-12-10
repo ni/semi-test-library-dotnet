@@ -10,8 +10,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     /// </summary>
     internal static class RSeries7822RDriverAPI
     {
-        private const string NativeDLLName = "RSeries7822R_ReadWriteDigitalPorts_CAPI.dll";
-        public const string BitFileName = "FPGARSeriesExample.lvbitx";
+        private const string NativeDLLName = "RSeries7822RDriverAPI.dll";
+        public const string BitFileName = "RSeries7822R_ReadWriteDigitalPorts.lvbitx";
 
         [DllImport(NativeDLLName, CallingConvention = CallingConvention.StdCall)]
         public static extern int OpenFPGA(string resource, string bitFilePath, out ulong referenceID);
