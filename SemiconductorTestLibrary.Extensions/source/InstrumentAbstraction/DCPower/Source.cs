@@ -423,10 +423,34 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false)
         {
-            sessionsBundle.Do(sessionInfo =>
+            settings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
+            if (sessionsBundle.GangedPinGroupsCount == 0)
             {
-                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
-            });
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
+                    if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
+                    {
+                        sessionInfo.InitiateChannels(channelOutput);
+                    }
+                });
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
+                    {
+                        var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                        sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+                    }
+                });
+            }
         }
 
         /// <summary>
