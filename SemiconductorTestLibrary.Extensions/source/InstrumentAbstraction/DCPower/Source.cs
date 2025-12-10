@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -474,6 +474,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
+        private static void ForceCurrentSequenceCore(
+            DCPowerSessionInformation sessionInfo,
+            string channelString,
+            DCPowerOutput channelOutput,
+            SitePinInfo sitePinInfo,
+            double[] currentSequence,
+            double? voltageLimit,
+            double? currentLevelRange,
+            double? voltageLimitRange,
+            int sequenceLoopCount,
+            bool waitForSequenceCompletion,
+            double sequenceTimeoutInSeconds)
+        {
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Limit = voltageLimit,
+                LevelRange = currentLevelRange,
+                LimitRange = voltageLimitRange
+            };
+
+            channelOutput.Control.Abort();
+            channelOutput.ConfigureSequence(settings, currentSequence, sequenceLoopCount);
+
+            if (waitForSequenceCompletion)
+            {
+                sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(
+                    PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+            }
+        }
+
         /// <summary>
         /// Forces a hardware-timed sequence of voltage values. If multiple target pins, the sequenced output will be synchronized across the target pins.
         /// </summary>
@@ -843,6 +875,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
+        private static void ConfigureSequence(this DCPowerOutput output, DCPowerSourceSettings settings, double[] sequence, int sequenceLoopCount)
+        {
+            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+            {
+                ConfigureVoltageSettings(output, settings);
+            }
+            else
+            {
+                ConfigureCurrentSettings(output, settings);
+            }
+            output.ConfigureSequence(sequence, sequenceLoopCount);
+        }
         #endregion methods on DCPowerOutput
 
         #region methods on NIDCPower session
@@ -940,7 +984,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var channelString = sitePinInfo?.IndividualChannelString ?? sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
             sessionInfo.ConfigureChannels(settings, channelOutput, channelString, sitePinInfo);
-            sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+            channelOutput.InitiateChannels(waitForSourceCompletion);
         }
 
         private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, string channelString = "", SitePinInfo sitePinInfo = null)
@@ -951,7 +995,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Commit();
         }
 
-        private static void InitiateChannels(this DCPowerSessionInformation sessionInfo, DCPowerOutput channelOutput, bool waitForSourceCompletion = false)
+        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false)
         {
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
