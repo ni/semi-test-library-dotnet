@@ -4,11 +4,7 @@ This example demonstrates how to use the **Custom Instrument** feature of the Se
 
 R-Series devices are FPGA-based instruments whose functionality is defined by custom LabVIEW FPGA code deployed via a compiled FPGA bitfile. Since they are not natively supported in TSM, these devices must be specified as a Custom Instrument in the PinMap file and accessed through the STL Custom Instrument interface.
 
-This example uses a **PXIe-7822R** R Series device to illustrate simple digital read and write operations.
-
-## More Details
-
-The **PXIe-7822R** R Series device provides **128 digital I/O physical channels**, organized into four connectors. Each connector is further divided into **four digital ports**, with each port offering 8-bit width.
+This example uses a **PXIe-7822R** R Series device to illustrate simple digital read and write operations. The **PXIe-7822R** R Series device provides **128 digital I/O physical channels**, organized into four connectors. Each connector is further divided into **four digital ports**, with each port offering 8-bit width.
 
 For site 0, Connector 0 is used:
 
@@ -19,11 +15,13 @@ For site 0, Connector 0 is used:
 
 For site 1, Connector 1 is configured in the same way.
 
-When **Loopback** is enabled, any data written to _DigitalInput_A_ and _DigitalInput_B_ is automatically copied to _DigitalOutput_A_ and _DigitalOutput_B_, respectively.
+The FPGA code logic which will be deployed on to the RIO device (**PXIe-7822R**) gives a provision to enable loopback mode. When loopback mode is enabled, data written to input digital ports will be copied to output digital ports.
 
-- `FPGARSeriesExample.lvbitx` – The FPGA bitfile deployed to the PXIe-7822R RIO device. It contains the digital read/write logic generated from the FPGA source VI (`FPGACode_ReadWriteDigitalPorts.vi`).
+### Sample Test: _Digital Read Write_
 
-- `RSeries7822R_ReadWriteDigitalPorts_CAPI.dll` – A DLL exposing the C API used to interact with the deployed FPGA bitfile. It is built from the FPGA host API sources located under `Imports/source/APIs/*`
+The Digital Read Write Test provided by the example sources different values to the digital input port and measures the values at digital output port to ensure the measured values match the input values provided. When Loopback mode is enabled, test will pass without the need for external connections.
+
+> **NOTE**:For demonstrations purposes this example is expected to be run with Loopback mode enabled by default
 
 ## Key Files
 
@@ -43,17 +41,18 @@ These files represent the main code that demonstrates the custom instrument impl
   - MyCustomInstrument/RSeries7822R.cs
   - MyCustomInstrument/RSeries7822RFactory.cs
   - MyCustomInstrument/HighLevelDriverOperations.cs
-  - MyCustomInstrument/ImportRSeriesCAPI.cs
+  - MyCustomInstrument/RSeries7822RDriverAPI.cs
 
 ### Driver code
 
-Driver code `RSeries7822RDriverAPI` is placed under `Imports` directory. Driver code contains FPGA bit file, dynamic linked library containing C APIs to interact with deployed bit file.
+These files represent the driver used to control the PXIe-7822R R Series device and are placed under Imports directory. The driver consists of a C API (`RSeries7822RDriverAPI.dll`) for interacting with a PXIe-7822R device via a compiled FPGA bit file (`RSeries7822R_ReadWriteDigitalPorts.lvbitx`).
 
-- RSeries7822R_ReadWriteDigitalPorts_CAPI.dll (C API)
-- RSeries7822R_ReadWriteDigitalPorts_CAPI.h
-- FPGARSeriesExample.lvbitx (bit file)
+- RSeries7822RDriverAPI.dll – A DLL exposing the C API used to interact with the deployed FPGA bitfile. It is built from the FPGA host API sources located under `Imports/source/APIs/*`
+- RSeries7822RDriverAPI.h - header file containing method signatures.
+- RSeries7822R_ReadWriteDigitalPorts.lvbitx – The FPGA bitfile deployed to the PXIe-7822R RIO device. It contains the digital read/write logic generated from the FPGA source VI (`FPGACode_ReadWriteDigitalPorts.vi`).
+
 - Source
-  - RSeries Example.lvproj
+  - RSeries7822RDriverAPI.lvproj
   - FPGACode_ReadWriteDigitalPorts.vi (FPGA source VI)
   - Debug C API.vi (VI to debug and test C APIs)
   - Debug LV API.vi (VI to debug and test LV APIs)
@@ -66,21 +65,43 @@ Driver code `RSeries7822RDriverAPI` is placed under `Imports` directory. Driver 
 
 ## Prerequisites
 
-- Software Requirements:
-STS 25.5 or later.
-LV FPGA (Required only for customizing FPGA source code).
-Xilinx compiler / Compile worker with Xilinx cloud server (Required only if FPGA source is updated).
+1. If you want to use the example you must have the following software installed:
+    - STS Software 24.5.0 or later
+1. To run the example you must also have:
+    - A PXIe-7822R instrument with an alias of 'RIO_7822R_C1_S06' defined in NI MAX.
+    - TestStand configured to use the Batch process model.
+1. To open, view, and compile the LabVIEW source files (GitHub only), you must have:
+    - LabVIEW FPGA Module
+    - Xilinx compiler / Compile worker with Xilinx cloud server
 
-- Hardware Requirements:
-STS hardware or PXI system with PXI-7822R instrument.
+> **NOTE**:  
+> You can view the example sequence file in the TestStand Sequence Editor and C# code source files in Visual Studio or any text editor without meeting the #2 requirement. To run the example though, you must have the required instruments physically installed in your system.
 
 ## Using this Example
 
-Open the STLExample.CustomInstrument.RSeries7822R.seq file in TestStand.
+Open the STLExample.CustomInstrument.RSeries7822R.seq file in TestStand and complete the following steps to use this example. You can also run this example in offline mode to see it in action.
 
-- Verify that the Setup and Cleanup instruments are correctly configured in the ProcessSetup and ProcessCleanup callback sequences.
-- Confirm that the MainSequence contains a Semiconductor Multi Test step that performs basic digital read/write operations.
-- Ensure that the digital write operation is configured for the digital ports (pins) DigitalInput_A and DigitalInput_B, with values 127 and 255, respectively.
-- Ensure that the digital read operation is configured for the digital ports (pins) DigitalOutput_A and DigitalOutput_B, and that the returned values are validated against the expected values 127 and 255, respectively.
-- Verify the PinMap configuration for all pin-to-channel connections.
-- Run the example sequence and confirm that all validation tests passes for both sites '0' &'1'.
+- **Select Semiconductor Module -> Edit Pin Map File...** or click the Edit Pin Map File button on the TSM toolbar. The pin map file defines the following information:
+  - R Series instrument `PXIe-7822R` with alias name: `RIO_7822R_C1_S06` Instrument Type Id: `PXI_RSeries_7822R`, Instrument Type:`Custom Instrument`
+  - No of sites: 2; 0 & 1.
+  - DUT pins: `DigitalInput_A`, `DigitalInput_B`, `DigitalOutput_A`, `DigitalOutput_B`
+  - Connections:  
+  For site '0', connector 1 ports are used for site '1' connector 2 ports are used.
+    - `DigitalInput_A` --> `DIOPORT0`
+    - `DigitalInput_B` --> `DIOPORT1`
+    - `DigitalOutput_A`--> `DIOPORT2`
+    - `DigitalOutput_B`--> `DIOPORT2`
+- On the Sequences pane, select the **ProcessSetup sequence**. TestStand calls this sequence at the start of the testing.
+  - Select `Setup RSeries7822R Instrumentation` step and ensure `enableLoopBackConfiguration` is set to default (true). If you are running with external physical loopback connections, then select 'false'.
+- On the Sequences pane, select the **ProcessCleanup sequence**. TestStand calls this sequence at the end of the testing.
+  - Ensure `Cleanup RSeries7822R Instrumentation` step is configured.
+- On the Sequences pane, select the **MainSequence sequence**. This contains the actual test steps.
+  - Ensure `Digital Read Write Test` is configured with following arguments.
+    - `digitalInputPins`
+    - `digitalOutputPins`
+    - `pinData` {'127', '255'}
+    - `publishedDataID`
+  - Navigate to **Tests** tab and ensure data on the output are validated.
+    - DigitalOutput_A validated against '127'.
+    - DigitalOutput_B validated against '255'.
+- To run the test program, click the **Start/Resume Lot** button on the TSM toolbar. You must meet all the [Prerequisites](#prerequisites) before running the test program.
