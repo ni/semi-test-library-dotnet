@@ -1,14 +1,14 @@
-# Custom Instrument RSeries sequence Example
+# Custom Instrument RSeries Sequence Example
 
-This example demonstrates how to use the **Custom Instrument** feature to interact with an R Series card through the STL.
+This example demonstrates how to use the **Custom Instrument** feature of the Semiconductor Test Library to interact with an R Series card through the STL.
 
-R Series cards are FPGA-based NI RIO instruments whose functionality can be customized by deploying an FPGA bitfile generated from user-defined FPGA code. Because R Series cards are not natively supported in TSM, they must be defined as **Custom Instrument** in the PinMap file and accessed through the STL’s Custom Instrument interface.
+R-Series devices are FPGA-based instruments whose functionality is defined by custom LabVIEW FPGA code deployed via a compiled FPGA bitfile. Since they are not natively supported in TSM, these devices must be specified as a Custom Instrument in the PinMap file and accessed through the STL Custom Instrument interface.
 
-This example uses a **PXIe-7822R** R Series card to illustrate simple digital read and write operations.
+This example uses a **PXIe-7822R** R Series device to illustrate simple digital read and write operations.
 
 ## More Details
 
-The **PXIe-7822R** R Series card provides **128 digital I/O physical channels**, organized into four connectors. Each connector is further divided into **four digital ports**, with each port offering 8-bit width.
+The **PXIe-7822R** R Series device provides **128 digital I/O physical channels**, organized into four connectors. Each connector is further divided into **four digital ports**, with each port offering 8-bit width.
 
 For site 0, Connector 0 is used:
 
@@ -30,6 +30,8 @@ When **Loopback** is enabled, any data written to _DigitalInput_A_ and _DigitalI
 Below are the key files along with its purpose.
 
 ### Example files
+
+These files represent the main code that demonstrates the custom instrument implementation for this example.
 
 - STLExample.CustomInstrument.RSeries7822R.pinmap
 - STLExample.CustomInstrument.RSeries7822R.seq
