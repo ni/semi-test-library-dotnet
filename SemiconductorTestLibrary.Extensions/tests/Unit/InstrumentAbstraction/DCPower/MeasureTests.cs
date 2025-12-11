@@ -796,8 +796,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             foreach (var siteNumber in results.SiteNumbers)
             {
-                    Assert.NotEqual(0, results.GetValue(siteNumber, pinGroup));
-                    Assert.Equal(0, results.GetValue(siteNumber, primaryPin));
+                Assert.NotEqual(0, results.GetValue(siteNumber, pinGroup));
+                void Operation() => results.GetValue(siteNumber, primaryPin);
+                var exception = Assert.Throws<NISemiconductorTestException>(Operation);
+                Assert.Contains($"The pin name {primaryPin} does not exist", exception.Message);
             }
         }
     }
