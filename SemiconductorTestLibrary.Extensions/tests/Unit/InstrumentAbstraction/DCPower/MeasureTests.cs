@@ -747,13 +747,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("Vcc2ch")]
-        [InlineData("Vcc4ch")]
-        [InlineData("Vref8ch")]
-        public void MergePinGroupAndForceVoltage_MeasureAndPublishCurrentAndVoltageAndUnmerge_ResultPublisedCorrectly(string pinGroupName)
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_MeasureAndPublishCurrentAndVoltageAndUnmerge_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
-            var sessionManager = Initialize("MergePinGroup_MultiGroupMeasure.pinmap");
+            _tsmContext = CreateTSMContext("Merged_4163.pinmap");
+            InitializeAndClose.Initialize(_tsmContext);
+            var sessionManager = new TSMSessionManager(_tsmContext);
             var sessionsBundle = sessionManager.DCPower(pinGroupName);
+            var primaryPin = _tsmContext.GetPinsInPinGroup(pinGroupName).First();
             sessionsBundle.MergePinGroup(pinGroupName);
             sessionsBundle.ConfigureSourceDelay(0);
             sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
@@ -764,10 +767,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var results4 = sessionsBundle.MeasureAndPublishVoltage("Voltage");
             sessionsBundle.UnmergePinGroup(pinGroupName);
 
-            AssertAllSitesHavePinGroupResult(results1, pinGroupName);
-            AssertAllSitesHavePinGroupResult(results2, pinGroupName);
-            AssertAllSitesHavePinGroupResult(results3, pinGroupName);
-            AssertAllSitesHavePinGroupResult(results4, pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results1, pinGroupName, primaryPin);
+            AssertResultAssociatedWithPinGroupName(results2, pinGroupName, primaryPin);
+            AssertResultAssociatedWithPinGroupName(results3, pinGroupName, primaryPin);
+            AssertResultAssociatedWithPinGroupName(results4, pinGroupName, primaryPin);
         }
 
         private int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
@@ -789,11 +792,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
             }
         }
-        private void AssertAllSitesHavePinGroupResult(PinSiteData<double> results, string pinGroup)
+        private void AssertResultAssociatedWithPinGroupName(PinSiteData<double> results, string pinGroup, string primaryPin)
         {
             foreach (var siteNumber in results.SiteNumbers)
             {
                     Assert.NotEqual(0, results.GetValue(siteNumber, pinGroup));
+                    Assert.Equal(0, results.GetValue(siteNumber, primaryPin));
             }
         }
     }
