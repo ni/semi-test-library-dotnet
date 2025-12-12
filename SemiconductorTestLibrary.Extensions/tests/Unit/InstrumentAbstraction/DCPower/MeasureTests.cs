@@ -750,56 +750,56 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("G1_1mA")]
         [InlineData("G1_2mA")]
         [InlineData("G1_4mA")]
-        public void MergePinGroupAndForceVoltage_MeasureCurrentAndUnmerge_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        public void MergePinGroupAndForceVoltage_MeasureCurrent_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
             var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
 
-            var results1 = sessionsBundle.MeasureCurrent();
-            sessionsBundle.UnmergePinGroup(pinGroupName);
+            var results = sessionsBundle.MeasureCurrent();
 
-            AssertResultAssociatedWithPinGroupName(results1, pinGroupName, primaryPin);
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
         }
 
         [Theory]
         [InlineData("G1_1mA")]
         [InlineData("G1_2mA")]
         [InlineData("G1_4mA")]
-        public void MergePinGroupAndForceVoltage_MeasureVoltageAndUnmerge_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        public void MergePinGroupAndForceVoltage_MeasureVoltage_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
             var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
 
-            var results2 = sessionsBundle.MeasureVoltage();
-            sessionsBundle.UnmergePinGroup(pinGroupName);
+            var results = sessionsBundle.MeasureVoltage();
 
-            AssertResultAssociatedWithPinGroupName(results2, pinGroupName, primaryPin);
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
         }
 
         [Theory]
         [InlineData("G1_1mA")]
         [InlineData("G1_2mA")]
         [InlineData("G1_4mA")]
-        public void MergePinGroupAndForceVoltage_MeasureAndPublishCurrentAndUnmerge_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        public void MergePinGroupAndForceVoltage_MeasureAndPublishCurrent_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
             var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
 
-            var results3 = sessionsBundle.MeasureAndPublishCurrent("Current");
-            sessionsBundle.UnmergePinGroup(pinGroupName);
+            var results = sessionsBundle.MeasureAndPublishCurrent("Current");
 
-            AssertResultAssociatedWithPinGroupName(results3, pinGroupName, primaryPin);
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
         }
 
         [Theory]
         [InlineData("G1_1mA")]
         [InlineData("G1_2mA")]
         [InlineData("G1_4mA")]
-        public void MergePinGroupAndForceVoltage_MeasureAndPublishVoltageAndUnmerge_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        public void MergePinGroupAndForceVoltage_MeasureAndPublishVoltage_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
             var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
 
-            var results4 = sessionsBundle.MeasureAndPublishVoltage("Voltage");
-            sessionsBundle.UnmergePinGroup(pinGroupName);
+            var results = sessionsBundle.MeasureAndPublishVoltage("Voltage");
 
-            AssertResultAssociatedWithPinGroupName(results4, pinGroupName, primaryPin);
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
         }
 
         private int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
