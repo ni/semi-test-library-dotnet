@@ -752,14 +752,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("G1_4mA")]
         public void MergePinGroupAndForceVoltage_MeasureCurrentAndUnmerge_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
-            _tsmContext = CreateTSMContext("Merged_4163.pinmap");
-            InitializeAndClose.Initialize(_tsmContext);
-            var sessionManager = new TSMSessionManager(_tsmContext);
-            var sessionsBundle = sessionManager.DCPower(pinGroupName);
-            var primaryPin = _tsmContext.GetPinsInPinGroup(pinGroupName).First();
-            sessionsBundle.MergePinGroup(pinGroupName);
-            sessionsBundle.ConfigureSourceDelay(0);
-            sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
 
             var results1 = sessionsBundle.MeasureCurrent();
             sessionsBundle.UnmergePinGroup(pinGroupName);
@@ -773,14 +766,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("G1_4mA")]
         public void MergePinGroupAndForceVoltage_MeasureVoltageAndUnmerge_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
-            _tsmContext = CreateTSMContext("Merged_4163.pinmap");
-            InitializeAndClose.Initialize(_tsmContext);
-            var sessionManager = new TSMSessionManager(_tsmContext);
-            var sessionsBundle = sessionManager.DCPower(pinGroupName);
-            var primaryPin = _tsmContext.GetPinsInPinGroup(pinGroupName).First();
-            sessionsBundle.MergePinGroup(pinGroupName);
-            sessionsBundle.ConfigureSourceDelay(0);
-            sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
 
             var results2 = sessionsBundle.MeasureVoltage();
             sessionsBundle.UnmergePinGroup(pinGroupName);
@@ -794,14 +780,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("G1_4mA")]
         public void MergePinGroupAndForceVoltage_MeasureAndPublishCurrentAndUnmerge_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
-            _tsmContext = CreateTSMContext("Merged_4163.pinmap");
-            InitializeAndClose.Initialize(_tsmContext);
-            var sessionManager = new TSMSessionManager(_tsmContext);
-            var sessionsBundle = sessionManager.DCPower(pinGroupName);
-            var primaryPin = _tsmContext.GetPinsInPinGroup(pinGroupName).First();
-            sessionsBundle.MergePinGroup(pinGroupName);
-            sessionsBundle.ConfigureSourceDelay(0);
-            sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
 
             var results3 = sessionsBundle.MeasureAndPublishCurrent("Current");
             sessionsBundle.UnmergePinGroup(pinGroupName);
@@ -815,14 +794,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("G1_4mA")]
         public void MergePinGroupAndForceVoltage_MeasureAndPublishVoltageAndUnmerge_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
-            _tsmContext = CreateTSMContext("Merged_4163.pinmap");
-            InitializeAndClose.Initialize(_tsmContext);
-            var sessionManager = new TSMSessionManager(_tsmContext);
-            var sessionsBundle = sessionManager.DCPower(pinGroupName);
-            var primaryPin = _tsmContext.GetPinsInPinGroup(pinGroupName).First();
-            sessionsBundle.MergePinGroup(pinGroupName);
-            sessionsBundle.ConfigureSourceDelay(0);
-            sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
 
             var results4 = sessionsBundle.MeasureAndPublishVoltage("Voltage");
             sessionsBundle.UnmergePinGroup(pinGroupName);
@@ -849,6 +821,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
             }
         }
+        private DCPowerSessionsBundle MergeAndForceVoltage(string pinGroupName, out string primaryPin)
+        {
+            _tsmContext = CreateTSMContext("Merged_4163.pinmap");
+            InitializeAndClose.Initialize(_tsmContext);
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            var sessionsBundle = sessionManager.DCPower(pinGroupName);
+            primaryPin = _tsmContext.GetPinsInPinGroup(pinGroupName).First();
+            sessionsBundle.MergePinGroup(pinGroupName);
+            sessionsBundle.ConfigureSourceDelay(0);
+            sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
+            return sessionsBundle;
+        }
+
         private void AssertResultAssociatedWithPinGroupName(PinSiteData<double> results, string pinGroup, string primaryPin)
         {
             foreach (var siteNumber in results.SiteNumbers)
