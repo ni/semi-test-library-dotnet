@@ -492,12 +492,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                 Limit = voltageLimit,
+                LevelSequence = currentSequence.ToList(),
                 LevelRange = currentLevelRange,
-                LimitRange = voltageLimitRange
+                LimitRange = voltageLimitRange,
+                SequenceLoopCount = sequenceLoopCount
             };
 
             channelOutput.Control.Abort();
-            channelOutput.ConfigureSequence(settings, currentSequence, sequenceLoopCount);
+            channelOutput.ConfigureSequence(settings);
             channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
@@ -870,7 +872,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureSequence(this DCPowerOutput output, DCPowerSourceSettings settings, double[] sequence, int sequenceLoopCount)
+        private static void ConfigureSequence(this DCPowerOutput output, DCPowerSourceSettings settings)
         {
             if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
             {
@@ -880,7 +882,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 ConfigureCurrentSettings(output, settings);
             }
-            output.ConfigureSequence(sequence, sequenceLoopCount);
+            output.ConfigureSequence(settings.LevelSequence.ToArray(), settings.SequenceLoopCount);
         }
         #endregion methods on DCPowerOutput
 
