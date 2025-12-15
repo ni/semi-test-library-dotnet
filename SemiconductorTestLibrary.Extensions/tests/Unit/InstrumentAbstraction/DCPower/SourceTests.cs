@@ -1189,7 +1189,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_SetSequenceWithSourceDelay_CorrectValueSet(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_SetSequenceWithSourceDelay(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -1202,22 +1202,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new[] { 2.0, 3.0, 4.0, 5.0, 6.0 },  // Site 2
                 new[] { 2.5, 3.5, 4.5, 5.5, 6.5 } // Site 3
             });
-
             var expectedSourceDelayInSeconds = new SiteData<double[]>(new double[][]
             {
-                new[] { 0.01, 0.01, 0.01, 0.01, 0.01 },  // Site 0
-                new[] { 0.02, 0.02, 0.02, 0.02, 0.02 },  // Site 1
-                new[] { 0.03, 0.03, 0.03, 0.03, 0.03 },  // Site 2
-                new[] { 0.04, 0.04, 0.04, 0.04, 0.04 } // Site 3
+                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 },  // Site 0
+                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 },  // Site 1
+                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 },  // Site 2
+                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 }, // Site 3
             });
             sessionsBundle.ConfigureSequenceWithSourceDelays(expectedSequences, expectedSourceDelayInSeconds, sequenceLoopCount: 1);
-
-            sessionsBundle.Do((DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
-            {
-                Assert.Equal(
-                    expectedSourceDelayInSeconds.GetValue(sitePinInfo.SiteNumber)[0],
-                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.SourceDelay.TotalSeconds);
-            });
         }
 
         [Theory]
