@@ -614,7 +614,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             channelOutput.Control.Abort();
             channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
-            channelOutput.ConfigureSettings(settings);
+            channelOutput.ConfigureLevelsAndLimits(settings);
             channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
@@ -1149,10 +1149,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
             }
-            if (settings.OutputFunction.HasValue)
-            {
-                channelOutput.Source.Output.Function = settings.OutputFunction.Value;
-            }
             if (settings.SourceDelayInSeconds.HasValue)
             {
                 channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
@@ -1172,14 +1168,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     }
                 }
             }
-            channelOutput.ConfigureSettings(settings);
+            channelOutput.ConfigureLevelsAndLimits(settings);
         }
 
         #endregion methods on DCPowerSessionInformation
 
         #region private and internal methods
 
-        private static void ConfigureSettings(this DCPowerOutput channelOutput, DCPowerSourceSettings settings)
+        private static void ConfigureLevelsAndLimits(this DCPowerOutput channelOutput, DCPowerSourceSettings settings)
         {
             if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
             {
