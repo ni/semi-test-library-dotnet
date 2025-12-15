@@ -497,7 +497,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
 
             channelOutput.Control.Abort();
-            channelOutput.ConfigureSequence(settings, currentSequence, sequenceLoopCount);
+            channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
+            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+            {
+                ConfigureVoltageSettings(channelOutput, settings);
+            }
+            else
+            {
+                ConfigureCurrentSettings(channelOutput, settings);
+            }
             channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
@@ -870,18 +878,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureSequence(this DCPowerOutput output, DCPowerSourceSettings settings, double[] sequence, int sequenceLoopCount)
-        {
-            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
-            {
-                ConfigureVoltageSettings(output, settings);
-            }
-            else
-            {
-                ConfigureCurrentSettings(output, settings);
-            }
-            output.ConfigureSequence(sequence, sequenceLoopCount);
-        }
+        //private static void ConfigureSequence(this DCPowerOutput output, DCPowerSourceSettings settings, double[] sequence, int sequenceLoopCount)
+        //{
+        //    if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+        //    {
+        //        ConfigureVoltageSettings(output, settings);
+        //    }
+        //    else
+        //    {
+        //        ConfigureCurrentSettings(output, settings);
+        //    }
+        //    output.ConfigureSequence(sequence, sequenceLoopCount);
+        //}
         #endregion methods on DCPowerOutput
 
         #region methods on NIDCPower session
