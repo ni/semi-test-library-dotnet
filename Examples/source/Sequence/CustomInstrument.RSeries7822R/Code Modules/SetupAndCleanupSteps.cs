@@ -12,7 +12,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     public static class SetupAndCleanupSteps
     {
         /// <summary>
-        /// Initializes all RSeries7822R instrument sessions associated with the pin map and applies the loop back configuration based depending on value of the enableLoopBackConfiguration input parameter (default: true/enabled).
+        /// Initializes all RSeries7822R instrument sessions associated with the pin map and applies the loop back configuration depending on value of the enableLoopBackConfiguration input parameter (default: true/enabled).
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="enableLoopBackConfiguration">Optional parameter to enable/disable Loopback configuration. Default value is 'true'</param>
