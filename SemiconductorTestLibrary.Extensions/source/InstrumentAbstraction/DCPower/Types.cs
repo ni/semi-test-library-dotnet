@@ -1,5 +1,4 @@
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
-using System.Collections.Generic;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -45,16 +44,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// The voltage or current level.
         /// </summary>
         public double? Level { get; set; }
-
-        /// <summary>
-        /// The level sequence for current or voltage
-        /// </summary>
-        public List<double> LevelSequence { get; set; }
-
-        /// <summary>
-        /// sequence loop count
-        /// </summary>
-        public int SequenceLoopCount { get; set; }
 
         /// <summary>
         /// The current or voltage limit.

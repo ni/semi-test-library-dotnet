@@ -1,10 +1,10 @@
-﻿using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -492,14 +492,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                 Limit = voltageLimit,
-                LevelSequence = currentSequence.ToList(),
                 LevelRange = currentLevelRange,
-                LimitRange = voltageLimitRange,
-                SequenceLoopCount = sequenceLoopCount
+                LimitRange = voltageLimitRange
             };
 
             channelOutput.Control.Abort();
-            channelOutput.ConfigureSequence(settings);
+            channelOutput.ConfigureSequence(settings, currentSequence, sequenceLoopCount);
             channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
@@ -872,7 +870,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureSequence(this DCPowerOutput output, DCPowerSourceSettings settings)
+        private static void ConfigureSequence(this DCPowerOutput output, DCPowerSourceSettings settings, double[] sequence, int sequenceLoopCount)
         {
             if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
             {
@@ -882,7 +880,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 ConfigureCurrentSettings(output, settings);
             }
-            output.ConfigureSequence(settings.LevelSequence.ToArray(), settings.SequenceLoopCount);
+            output.ConfigureSequence(sequence, sequenceLoopCount);
         }
         #endregion methods on DCPowerOutput
 
