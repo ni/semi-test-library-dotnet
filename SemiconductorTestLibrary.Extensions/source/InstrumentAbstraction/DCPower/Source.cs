@@ -905,17 +905,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
-        /// <param name="channelOutput">The <see cref="DCPowerOutput"/> object</param>
-        /// <param name="sitePinInformation">The <see cref="SitePinInfo"/> object</param>
+        /// <param name="channelOutput">The <see cref="DCPowerOutput"/> object.</param>
+        /// <param name="sitePinInformation">The <see cref="SitePinInfo"/> object.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInformation)
         {
-            string channelString = channelOutput.Name;
-            var sitePinInfoList = sitePinInformation != null ? new List<SitePinInfo>() { sitePinInformation } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
-
             if (sitePinInformation != null && channelOutput.Name.Split(',').Length > 1)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelOutput));
             }
+            string channelString = channelOutput.Name;
+            var sitePinInfoList = sitePinInformation != null ? new List<SitePinInfo>() { sitePinInformation } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
+
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             if (settings.LimitSymmetry.HasValue)
             {
@@ -943,18 +943,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     }
                 }
             }
-            Parallel.ForEach(sitePinInfoList, sitePinInfo =>
+
+            if (sessionInfo.ContainsGangedChannels)
             {
-                if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+                Parallel.ForEach(sitePinInfoList, sitePinInfo =>
                 {
-                    ConfigureVoltageSettings(channelOutput, settings, sitePinInfo);
-                }
-                else
-                {
-                    ConfigureCurrentSettings(channelOutput, settings, sitePinInfo);
-                }
-                ConfigureTriggerForGanging(sitePinInfo, channelOutput);
-            });
+                    ConfigureCurrentOrVoltageSettings(channelOutput, settings, sitePinInfo);
+                    ConfigureTriggerForGanging(channelOutput, sitePinInfo);
+                });
+            }
+            else
+            {
+                ConfigureCurrentOrVoltageSettings(channelOutput, settings);
+            }
         }
 
         #endregion methods on DCPowerSessionInformation
@@ -1012,6 +1013,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         internal static bool IsFirstChannelOfSession(this SitePinInfo sitePinInfo, DCPowerSessionInformation sessionInfo)
         {
             return sessionInfo.AllChannelsString.StartsWith(sitePinInfo.IndividualChannelString, StringComparison.InvariantCulture);
+        }
+
+        private static void ConfigureCurrentOrVoltageSettings(DCPowerOutput channelOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
+        {
+            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+            {
+                ConfigureVoltageSettings(channelOutput, settings, sitePinInfo);
+            }
+            else
+            {
+                ConfigureCurrentSettings(channelOutput, settings, sitePinInfo);
+            }
         }
 
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
@@ -1091,7 +1104,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 : Math.Max(Math.Abs(settings.LimitHigh.Value), Math.Abs(settings.LimitLow.Value));
         }
 
-        private static void ConfigureTriggerForGanging(SitePinInfo sitePinInfo, DCPowerOutput channelOutput)
+        private static void ConfigureTriggerForGanging(DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
         {
             if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
             {
