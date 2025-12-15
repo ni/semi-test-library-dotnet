@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -942,7 +943,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     }
                 }
             }
-            foreach (var sitePinInfo in sitePinInfoList)
+            Parallel.ForEach(sitePinInfoList, sitePinInfo =>
             {
                 if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
                 {
@@ -953,7 +954,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     ConfigureCurrentSettings(channelOutput, settings, sitePinInfo);
                 }
                 ConfigureTriggerForGanging(sitePinInfo, channelOutput);
-            }
+            });
         }
 
         #endregion methods on DCPowerSessionInformation
@@ -1050,15 +1051,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
         {
-            var currentLevel = settings.Level.Value;
-            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
-            {
-                currentLevel /= gangingInfo.ChannelsCount;
-            }
+            var currentLevelDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
 
             if (settings.Level.HasValue)
             {
-                dcOutput.Source.Current.CurrentLevel = currentLevel;
+                dcOutput.Source.Current.CurrentLevel = settings.Level.Value / currentLevelDivisor;
             }
             if (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
             {
@@ -1077,7 +1074,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             if (settings.LevelRange.HasValue || settings.Level.HasValue)
             {
-                dcOutput.Source.Current.CurrentLevelRange = settings.LevelRange ?? Math.Abs(currentLevel);
+                dcOutput.Source.Current.CurrentLevelRange = (settings.LevelRange ?? Math.Abs(settings.Level.Value)) / currentLevelDivisor;
             }
             if (settings.LimitRange.HasValue
                 || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
