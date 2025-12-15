@@ -1,6 +1,6 @@
 # Custom Instrument RSeries Sequence Example
 
-This example demonstrates how to use the **Custom Instrument** feature of the Semiconductor Test Library to interact with an R Series card through the STL.
+This example demonstrates how to use the **Custom Instrument** feature of the Semiconductor Test Library to interact with an R Series device through the STL.
 
 R-Series devices are FPGA-based instruments whose functionality is defined by custom LabVIEW FPGA code deployed via a compiled FPGA bitfile. Since they are not natively supported in TSM, these devices must be specified as a Custom Instrument in the PinMap file and accessed through the STL Custom Instrument interface.
 
@@ -19,7 +19,7 @@ The FPGA code logic which will be deployed on to the RIO device (**PXIe-7822R**)
 
 ### Sample Test: _Digital Read Write_
 
-The Digital Read Write Test provided by the example sources different values to the digital input port and measures the values at digital output port to ensure the measured values match the input values provided. When Loopback mode is enabled, test will pass without the need for external connections.
+The Digital Read Write Test provided by the example sources different values to the digital input port and measures the values at digital output port to ensure the measured values match the input values provided. When loopback mode is enabled, the test will pass without the need for external connections.
 
 > **NOTE**:For demonstrations purposes this example is expected to be run with Loopback mode enabled by default
 
