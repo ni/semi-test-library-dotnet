@@ -821,6 +821,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
             }
         }
+
         private DCPowerSessionsBundle MergeAndForceVoltage(string pinGroupName, out string primaryPin)
         {
             _tsmContext = CreateTSMContext("Merged_4163.pinmap");
