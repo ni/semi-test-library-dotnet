@@ -505,7 +505,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                      voltageLimitRange,
                      sequenceLoopCount,
                      waitForSequenceCompletion,
-                     sequenceTimeoutInSeconds);
+                     sequenceTimeoutInSeconds,
+                     DCPowerSourceOutputFunction.DCCurrent);
             });
         }
         /// <summary>
@@ -543,7 +544,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     voltageLimitRange,
                     sequenceLoopCount,
                     waitForSequenceCompletion,
-                    sequenceTimeoutInSeconds);
+                    sequenceTimeoutInSeconds,
+                    DCPowerSourceOutputFunction.DCCurrent);
             });
         }
 
@@ -582,7 +584,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     voltageLimitRange,
                     sequenceLoopCount,
                     waitForSequenceCompletion,
-                    sequenceTimeoutInSeconds);
+                    sequenceTimeoutInSeconds,
+                    DCPowerSourceOutputFunction.DCCurrent);
             });
         }
 
@@ -1243,6 +1246,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
+            if (settings.OutputFunction.HasValue)
+            {
+                dcOutput.Source.Output.Function = settings.OutputFunction.Value;
+            }
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Voltage.VoltageLevel = settings.Level.Value;
@@ -1276,6 +1283,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
+            if (settings.OutputFunction.HasValue)
+            {
+                dcOutput.Source.Output.Function = settings.OutputFunction.Value;
+            }
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Current.CurrentLevel = settings.Level.Value;
