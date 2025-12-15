@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -498,9 +497,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                ForceCurrentSequenceCore(
-                     sessionInfo,
-                     sessionInfo.AllChannelsString,
+                ForceSequenceCore(
                      sessionInfo.AllChannelsOutput,
                      currentSequence,
                      voltageLimit,
@@ -538,9 +535,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelString = pinSiteInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[channelString];
 
-                ForceCurrentSequenceCore(
-                    sessionInfo,
-                    channelString,
+                ForceSequenceCore(
                     channelOutput,
                     sequence,
                     voltageLimit,
@@ -579,9 +574,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelString = pinSiteInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[channelString];
 
-                ForceCurrentSequenceCore(
-                    sessionInfo,
-                    channelString,
+                ForceSequenceCore(
                     channelOutput,
                     sequence,
                     voltageLimit,
@@ -596,38 +589,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Core implementation for forcing a current sequence on a specific channel.
         /// </summary>
-        private static void ForceCurrentSequenceCore(
-            DCPowerSessionInformation sessionInfo,
-            string channelString,
+        private static void ForceSequenceCore(
             DCPowerOutput channelOutput,
             double[] currentSequence,
-            double? voltageLimit,
-            double? currentLevelRange,
-            double? voltageLimitRange,
+            double? limit,
+            double? levelRange,
+            double? limitRange,
             int sequenceLoopCount,
             bool waitForSequenceCompletion,
-            double sequenceTimeoutInSeconds)
+            double sequenceTimeoutInSeconds,
+            DCPowerSourceOutputFunction outputFunction = DCPowerSourceOutputFunction.DCVoltage)
         {
             var settings = new DCPowerSourceSettings()
             {
-                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                OutputFunction = outputFunction,
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                SourceMode = DCPowerSourceMode.Sequence,
-                SequenceLoopCount = sequenceLoopCount,
-                Sequence = currentSequence.ToList(),
-                Limit = voltageLimit,
-                LevelRange = currentLevelRange,
-                LimitRange = voltageLimitRange
+                Limit = limit,
+                LevelRange = levelRange,
+                LimitRange = limitRange
             };
 
             channelOutput.Control.Abort();
-            sessionInfo.Force(settings, channelString);
-
-            if (waitForSequenceCompletion)
-            {
-                sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(
-                    PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
-            }
+            channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
+            channelOutput.ConfigureSettings(settings);
+            channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
         /// <summary>
@@ -1184,6 +1169,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     }
                 }
             }
+            channelOutput.ConfigureSettings(settings);
+        }
+
+        #endregion methods on DCPowerSessionInformation
+
+        #region private and internal methods
+
+        private static void ConfigureSettings(this DCPowerOutput channelOutput, DCPowerSourceSettings settings)
+        {
             if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
             {
                 ConfigureVoltageSettings(channelOutput, settings);
@@ -1194,16 +1188,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        #endregion methods on DCPowerSessionInformation
-
-        #region private and internal methods
-
         private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool waitForSourceCompletion = false)
         {
             var channelString = sitePinInfo?.IndividualChannelString ?? sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
             sessionInfo.ConfigureChannels(settings, channelOutput, channelString, sitePinInfo);
-            sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+            channelOutput.InitiateChannels(waitForSourceCompletion);
         }
 
         private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, string channelString = "", SitePinInfo sitePinInfo = null)
@@ -1214,12 +1204,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Commit();
         }
 
-        private static void InitiateChannels(this DCPowerSessionInformation sessionInfo, DCPowerOutput channelOutput, bool waitForSourceCompletion = false)
+        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false, double timeoutInSeconds = 5)
         {
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
             {
-                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(5.0));
+                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(timeoutInSeconds));
             }
         }
 
