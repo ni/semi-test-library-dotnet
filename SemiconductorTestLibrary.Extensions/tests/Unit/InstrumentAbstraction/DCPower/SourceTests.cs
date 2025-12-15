@@ -1089,16 +1089,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedSequence = new double[] { 1, 2, 3, 4, 5 };
             // Cannot test sequence loop count because it's not supported in offline mode.
             sessionsBundle.ConfigureSequence(expectedSequence, sequenceLoopCount: 1);
-
             var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
                 sessionInfo.AllChannelsOutput.Control.Initiate();
+                // Cannot test fetch backlog because it's always 1 in offline mode.
                 return sessionInfo.Session.Measurement.Fetch(sessionInfo.AllChannelsString, PrecisionTimeSpan.FromSeconds(1), 5);
             });
-            for (int i = 0; i < 4; i++)
-            {
-                Assert.Equal(expectedSequence, results[i].VoltageMeasurements);
-            }
+
+            Assert.Equal(expectedSequence, results[0].VoltageMeasurements);
+            Assert.Equal(expectedSequence, results[1].VoltageMeasurements);
+            Assert.Equal(expectedSequence, results[2].VoltageMeasurements);
+            Assert.Equal(expectedSequence, results[3].VoltageMeasurements);
         }
 
         [Theory]
@@ -1121,7 +1122,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo =>
             {
                 Assert.True(sessionInfo.AllChannelsOutput.Source.SequenceStepDeltaTimeEnabled);
-                Assert.Equal(0.05, sessionInfo.AllChannelsOutput.Source.SourceDelay.TotalSeconds);
+                Assert.Equal(0.05, sessionInfo.AllChannelsOutput.Source.SequenceStepDeltaTime.TotalSeconds);
             });
         }
 
