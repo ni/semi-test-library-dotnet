@@ -139,6 +139,6 @@
     <value>The value of the time set period ({0}) is not the same for all underlying instrument sessions.</value>
   </data>
   <data name="DCPower_MultipleChannelOutputsDetected" xml:space="preserve">
-    <value>The channelOutput argument {0} contains more than one channel. This method overload only supports single channel operation when a valid SitePinInfo object is passed."</value>
+    <value>The channelOutput contains more than one channel "{0}". This method overload only supports single channel operation when a valid SitePinInfo object is passed."</value>
   </data>
 </root>

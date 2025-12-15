@@ -88,7 +88,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The channelOutput argument {0} contains more than one channel. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
+        ///   Looks up a localized string similar to The channelOutput contains more than one channel &quot;{0}&quot;. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
         /// </summary>
         internal static string DCPower_MultipleChannelOutputsDetected {
             get {
