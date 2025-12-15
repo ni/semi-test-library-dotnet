@@ -10,43 +10,36 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         [Fact]
         public void CleanupInstrumentation_HasCorrectSignature()
         {
-            // Retrieve method
-            var method = typeof(SetupAndCleanupSteps).GetMethod(
-                "CleanupInstrumentation",
-                BindingFlags.Public | BindingFlags.Static);
+            // Arrange
+            var type = typeof(SetupAndCleanupSteps);
 
+            // Act
+            var method = type.GetMethod("CleanupInstrumentation", BindingFlags.Public | BindingFlags.Static);
+
+            // Assert
             Assert.NotNull(method);
 
-            // Get parameters
-            var p = method.GetParameters();
+            var parameters = method.GetParameters();
+            Assert.Equal(3, parameters.Length);
 
-            // ---- Parameter Count ----------------------------------------------------
-            Assert.Equal(3, p.Length);
-
-            // -------------------------------------------------------------------------
             // Parameter 1: tsmContext
-            // -------------------------------------------------------------------------
-            Assert.Equal("tsmContext", p[0].Name);
-            Assert.Equal(typeof(ISemiconductorModuleContext), p[0].ParameterType);
-            Assert.False(p[0].IsOptional);
+            Assert.Equal("tsmContext", parameters[0].Name);
+            Assert.Equal(typeof(ISemiconductorModuleContext), parameters[0].ParameterType);
+            Assert.False(parameters[0].IsOptional);
 
-            // -------------------------------------------------------------------------
             // Parameter 2: resetDevice  (bool, default = false)
-            // -------------------------------------------------------------------------
-            Assert.Equal("resetDevice", p[1].Name);
-            Assert.Equal(typeof(bool), p[1].ParameterType);
-            Assert.True(p[1].IsOptional);
-            Assert.Equal(false, p[1].DefaultValue);
+            Assert.Equal("resetDevice", parameters[1].Name);
+            Assert.Equal(typeof(bool), parameters[1].ParameterType);
+            Assert.True(parameters[1].IsOptional);
+            Assert.Equal(false, parameters[1].DefaultValue);
 
-            // -------------------------------------------------------------------------
             // Parameter 3: instrumentType  (NIInstrumentType, default = NIInstrumentType.All)
-            // -------------------------------------------------------------------------
-            Assert.Equal("instrumentType", p[2].Name);
-            Assert.Equal(typeof(NIInstrumentType), p[2].ParameterType);
-            Assert.True(p[2].IsOptional);
-            Assert.Equal(NIInstrumentType.All, p[2].DefaultValue);
+            Assert.Equal("instrumentType", parameters[2].Name);
+            Assert.Equal(typeof(NIInstrumentType), parameters[2].ParameterType);
+            Assert.True(parameters[2].IsOptional);
+            Assert.Equal(NIInstrumentType.All, parameters[2].DefaultValue);
 
-            // ---- Return Type --------------------------------------------------------
+            // Return Type
             Assert.Equal(typeof(void), method.ReturnType);
         }
     }
