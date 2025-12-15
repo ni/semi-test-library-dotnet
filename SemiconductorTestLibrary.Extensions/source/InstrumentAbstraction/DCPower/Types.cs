@@ -42,16 +42,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public DCPowerComplianceLimitSymmetry? LimitSymmetry { get; set; } = DCPowerComplianceLimitSymmetry.Symmetric;
 
         /// <summary>
-        /// Gets or sets the mode used to control the DC power source.
-        /// </summary>
-        public DCPowerSourceMode SourceMode { get; set; } = DCPowerSourceMode.SinglePoint;
-
-        /// <summary>
-        /// Gets or sets the sequnce loop count.
-        /// </summary>
-        public int? SequenceLoopCount { get; set; } = 1;
-
-        /// <summary>
         /// The voltage or current level.
         /// </summary>
         public double? Level { get; set; }
@@ -80,11 +70,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// The current or voltage limit range.
         /// </summary>
         public double? LimitRange { get; set; }
-
-        /// <summary>
-        /// The current or voltage sequece.
-        /// </summary>
-        public IList<double> Sequence { get; set; }
 
         /// <summary>
         /// The source delay in seconds.

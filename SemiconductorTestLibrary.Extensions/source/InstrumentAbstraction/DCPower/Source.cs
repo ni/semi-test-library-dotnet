@@ -1152,11 +1152,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
-        /// <param name="channelString">The channel strin   g. Empty string means all channels in the session.</param>
+        /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
-            channelOutput.Source.Mode = settings.SourceMode;
+            channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             if (settings.LimitSymmetry.HasValue)
             {
                 channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
@@ -1168,14 +1168,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             if (settings.SourceDelayInSeconds.HasValue)
             {
                 channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
-            }
-            if (settings.SequenceLoopCount.HasValue)
-            {
-                channelOutput.Source.SequenceLoopCount = settings.SequenceLoopCount.Value;
-            }
-            if (settings.Sequence.Count > 0)
-            {
-                channelOutput.Source.SetSequence(settings.Sequence.ToArray());
             }
             if (settings.TransientResponse.HasValue)
             {
