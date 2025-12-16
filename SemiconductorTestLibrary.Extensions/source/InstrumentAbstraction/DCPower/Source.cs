@@ -346,7 +346,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
             sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
@@ -375,7 +374,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
             sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
@@ -402,7 +400,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
                 });
                 sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
