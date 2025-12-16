@@ -319,19 +319,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
-                {
-                    channelOutput.InitiateChannels();
-                }
+                channelOutput.InitiateGangedFollowerChannels(sitePinInfo);
             });
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
-                {
-                    channelOutput.InitiateChannels(waitForSourceCompletion);
-                }
-            });
+            sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -359,19 +349,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
-                {
-                    channelOutput.InitiateChannels();
-                }
+                channelOutput.InitiateGangedFollowerChannels(sitePinInfo);
             });
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
-                {
-                    channelOutput.InitiateChannels(waitForSourceCompletion);
-                }
-            });
+            sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -399,19 +379,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
-                {
-                    channelOutput.InitiateChannels();
-                }
+                channelOutput.InitiateGangedFollowerChannels(sitePinInfo);
             });
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
-                {
-                    channelOutput.InitiateChannels(waitForSourceCompletion);
-                }
-            });
+            sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -437,19 +407,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                    if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
-                    {
-                        channelOutput.InitiateChannels();
-                    }
+                    channelOutput.InitiateGangedFollowerChannels(sitePinInfo);
                 });
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
-                    {
-                        var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                        channelOutput.InitiateChannels(waitForSourceCompletion);
-                    }
-                });
+                sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
             }
         }
 
@@ -1029,6 +989,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Commit();
+        }
+
+        private static void InitiateGangedLeaderChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    channelOutput.InitiateChannels(waitForSourceCompletion);
+                }
+            });
+        }
+
+        private static void InitiateGangedFollowerChannels(this DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
+        {
+            if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
+            {
+                channelOutput.InitiateChannels();
+            }
         }
 
         private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false)
