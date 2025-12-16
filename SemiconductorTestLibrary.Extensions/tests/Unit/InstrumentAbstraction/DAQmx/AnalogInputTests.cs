@@ -198,7 +198,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
             InitializeAndClose.CreateDAQmxAOVoltageTasks(_tsmContext);
-            _tsmContext.GetNIDAQmxTasks("AIPin", out var tasks, out var channelLists);
+            _tsmContext.GetNIDAQmxTasks("AIPin", out _, out var channelLists);
             var aiTasksBundle = sessionManager.DAQmx("AIPin");
             var aoTasksBundle = sessionManager.DAQmx("AOPin");
             var site0Data = AnalogWaveform<double>.FromArray1D(new double[] { 0.5 });
