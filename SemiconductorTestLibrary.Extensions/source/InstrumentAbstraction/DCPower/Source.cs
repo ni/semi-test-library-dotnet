@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Runtime;
+using System.Threading.Tasks;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -407,7 +410,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
                 perSiteSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(perSiteSettings, sitePinInfo, waitForSourceCompletion);
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                sessionInfo.ConfigureChannels(perSiteSettings, channelOutput, sitePinInfo);
+                if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
+                {
+                    sessionInfo.InitiateChannels(channelOutput);
+                }
+            });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
+                {
+                    sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+                }
             });
         }
 
@@ -424,7 +440,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perPinSettings = settings[sitePinInfo.PinName];
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(perPinSettings, sitePinInfo, waitForSourceCompletion);
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                sessionInfo.ConfigureChannels(perPinSettings, channelOutput, sitePinInfo);
+                if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
+                {
+                    sessionInfo.InitiateChannels(channelOutput);
+                }
+            });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
+                {
+                    sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+                }
             });
         }
 
@@ -441,7 +470,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo);
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(perSitePinPairSettings, sitePinInfo, waitForSourceCompletion);
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                sessionInfo.ConfigureChannels(perSitePinPairSettings, channelOutput, sitePinInfo);
+                if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
+                {
+                    sessionInfo.InitiateChannels(channelOutput);
+                }
+            });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
+                {
+                    sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+                }
             });
         }
 
@@ -892,7 +934,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
-            var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
+            sessionInfo.ConfigureSourceSettings(settings, string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString], sitePinInformation: null);
+        }
+
+        /// <summary>
+        /// Configures <see cref="DCPowerSourceSettings"/>.
+        /// </summary>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
+        /// <param name="settings">The source settings to configure.</param>
+        /// <param name="channelOutput">The <see cref="DCPowerOutput"/> object.</param>
+        /// <param name="sitePinInformation">The <see cref="SitePinInfo"/> object.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInformation)
+        {
+            if (sitePinInformation != null && channelOutput.Name.Split(',').Length > 1)
+            {
+                // throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelOutput.Name));
+            }
+            string channelString = channelOutput.Name;
+            var sitePinInfoList = sitePinInformation != null ? new List<SitePinInfo>() { sitePinInformation } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
+
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             if (settings.LimitSymmetry.HasValue)
             {
@@ -908,26 +968,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             if (settings.TransientResponse.HasValue)
             {
-                string channelStringToUse = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsString : channelString;
                 if (sessionInfo.AllInstrumentsAreTheSameModel)
                 {
-                    sessionInfo.Session.ConfigureTransientResponse(channelStringToUse, sessionInfo.ModelString, settings.TransientResponse.Value);
+                    sessionInfo.Session.ConfigureTransientResponse(channelString, sessionInfo.ModelString, settings.TransientResponse.Value);
                 }
                 else
                 {
-                    foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => channelStringToUse.Contains(sitePin.IndividualChannelString)))
+                    foreach (var sitePinInfo in sitePinInfoList)
                     {
                         sessionInfo.Session.ConfigureTransientResponse(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, settings.TransientResponse.Value);
                     }
                 }
             }
-            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+
+            if (sessionInfo.ContainsGangedChannels)
             {
-                ConfigureVoltageSettings(channelOutput, settings);
+                Parallel.ForEach(sitePinInfoList, sitePinInfo =>
+                {
+                    ConfigureCurrentOrVoltageSettings(channelOutput, settings, sitePinInfo);
+                    ConfigureTriggerForGanging(channelOutput, sitePinInfo);
+                });
             }
             else
             {
-                ConfigureCurrentSettings(channelOutput, settings);
+                ConfigureCurrentOrVoltageSettings(channelOutput, settings);
             }
         }
 
@@ -935,18 +999,39 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region private and internal methods
 
+        private static void ConfigureTriggerForGanging(DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
+        {
+            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
+            {
+                channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
+                channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure(gangingInfo.TriggerName, DCPowerTriggerEdge.Rising);
+            }
+        }
+
+        private static void ConfigureCurrentOrVoltageSettings(DCPowerOutput channelOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
+        {
+            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+            {
+                ConfigureVoltageSettings(channelOutput, settings, sitePinInfo);
+            }
+            else
+            {
+                ConfigureCurrentSettings(channelOutput, settings, sitePinInfo);
+            }
+        }
+
         private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool waitForSourceCompletion = false)
         {
             var channelString = sitePinInfo?.IndividualChannelString ?? sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
-            sessionInfo.ConfigureChannels(settings, channelOutput, channelString, sitePinInfo);
+            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
             sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
         }
 
-        private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, string channelString = "", SitePinInfo sitePinInfo = null)
+        private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo = null)
         {
             channelOutput.Control.Abort();
-            sessionInfo.ConfigureSourceSettings(settings, channelString);
+            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Commit();
         }
