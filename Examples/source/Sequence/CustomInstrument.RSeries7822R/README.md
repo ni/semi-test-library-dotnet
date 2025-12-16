@@ -31,17 +31,17 @@ Below are the key files along with their purpose.
 
 These files represent the main code that demonstrates the custom instrument implementation for this example.
 
-- STLExample.CustomInstrument.RSeries7822R.pinmap
-- STLExample.CustomInstrument.RSeries7822R.seq
+- STLExample.CustomInstrument.RSeriesDevice.pinmap
+- STLExample.CustomInstrument.RSeriesDevice.seq
 - Code Modules
-  - STLExample.CustomInstrument.RSeries7822R.csproj
-  - STLExample.CustomInstrument.RSeries7822R.sln
+  - STLExample.CustomInstrument.RSeriesDevice.csproj
+  - STLExample.CustomInstrument.RSeriesDevice.sln
   - SetupAndCleanupSteps.cs
   - TestStep.cs
-  - MyCustomInstrument/RSeries7822R.cs
-  - MyCustomInstrument/RSeries7822RFactory.cs
-  - MyCustomInstrument/HighLevelDriverOperations.cs
-  - MyCustomInstrument/RSeries7822RDriverAPI.cs
+  - RSeries7822RCustomInstrument/RSeries7822R.cs
+  - RSeries7822RCustomInstrument/RSeries7822RFactory.cs
+  - RSeries7822RCustomInstrument/HighLevelDriverOperations.cs
+  - RSeries7822RCustomInstrument/RSeries7822RDriverAPI.cs
 
 ### Driver code
 
