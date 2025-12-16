@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries7822R
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeriesDevice.RSeries7822RCustomInstrument
 {
     /// <summary>
     /// This class exposes native methods for the RSeries7822Driver's C API.

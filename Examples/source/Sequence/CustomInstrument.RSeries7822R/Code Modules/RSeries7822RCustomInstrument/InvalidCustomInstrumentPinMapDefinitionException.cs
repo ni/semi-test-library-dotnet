@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries7822R
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeriesDevice.RSeries7822RCustomInstrument
 {
     /// <summary>
     /// Define specific exception for Pinmap validation.

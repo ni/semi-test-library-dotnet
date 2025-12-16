@@ -1,7 +1,7 @@
 ﻿using System;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries7822R
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeriesDevice.RSeries7822RCustomInstrument
 {
     /// <summary>
     /// Concrete implementation of ICustomInstrument Interface.

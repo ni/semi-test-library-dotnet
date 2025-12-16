@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries7822R;
+using NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeriesDevice.RSeries7822RCustomInstrument;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries7822R
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeriesDevice
 {
     /// <summary>
     /// This class contains sample method to perform digital read write test using RSeries card via the Custom Instrument support provided by STL.
