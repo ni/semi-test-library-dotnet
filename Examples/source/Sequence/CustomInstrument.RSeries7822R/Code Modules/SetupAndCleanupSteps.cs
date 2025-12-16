@@ -40,7 +40,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="instrumentTypeId">Instrument type Id.</param>
-        public static void ApplyLoopBackConfiguration(ISemiconductorModuleContext tsmContext, string instrumentTypeId)
+        private static void ApplyLoopBackConfiguration(ISemiconductorModuleContext tsmContext, string instrumentTypeId)
         {
             // Create CustomInstrument Sessions Bundle.
             tsmContext.GetPins(instrumentTypeId, out var dutPins, out var systemPins);
