@@ -321,7 +321,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
                 if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
                 {
-                    sessionInfo.InitiateChannels(channelOutput);
+                    channelOutput.InitiateChannels();
                 }
             });
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -329,7 +329,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
                 {
-                    sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+                    channelOutput.InitiateChannels(waitForSourceCompletion);
                 }
             });
         }
@@ -361,7 +361,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
                 if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
                 {
-                    sessionInfo.InitiateChannels(channelOutput);
+                    channelOutput.InitiateChannels();
                 }
             });
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -369,7 +369,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
                 {
-                    sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+                    channelOutput.InitiateChannels(waitForSourceCompletion);
                 }
             });
         }
@@ -401,7 +401,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
                 if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
                 {
-                    sessionInfo.InitiateChannels(channelOutput);
+                    channelOutput.InitiateChannels();
                 }
             });
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -409,7 +409,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
                 {
-                    sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+                    channelOutput.InitiateChannels(waitForSourceCompletion);
                 }
             });
         }
@@ -439,7 +439,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
                     if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
                     {
-                        sessionInfo.InitiateChannels(channelOutput);
+                        channelOutput.InitiateChannels();
                     }
                 });
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -447,7 +447,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
                     {
                         var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                        sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+                        channelOutput.InitiateChannels(waitForSourceCompletion);
                     }
                 });
             }
@@ -1020,7 +1020,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var channelString = sitePinInfo?.IndividualChannelString ?? sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
             sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-            sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+            channelOutput.InitiateChannels(waitForSourceCompletion);
         }
 
         private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo = null)
@@ -1031,7 +1031,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Commit();
         }
 
-        private static void InitiateChannels(this DCPowerSessionInformation sessionInfo, DCPowerOutput channelOutput, bool waitForSourceCompletion = false)
+        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false)
         {
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
