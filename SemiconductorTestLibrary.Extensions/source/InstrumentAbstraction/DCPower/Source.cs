@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -317,9 +318,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                channelOutput.InitiateGangedFollowerChannels(sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
             sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
         }
@@ -348,8 +347,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LimitRange = voltageLimitRange
                 };
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                channelOutput.InitiateGangedFollowerChannels(sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
             sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
         }
@@ -378,8 +376,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LimitRange = voltageLimitRange
                 };
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                channelOutput.InitiateGangedFollowerChannels(sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
             sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
         }
@@ -406,8 +403,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-                    channelOutput.InitiateGangedFollowerChannels(sitePinInfo);
+                    sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
                 });
                 sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
             }
@@ -1003,9 +999,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        private static void InitiateGangedFollowerChannels(this DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
+        private static void ConfigureAllChannelsAndInitiateGangedFollowerChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo)
         {
-            if ((sitePinInfo.CascadingInfo as GangingInfo)?.IsFollower == true)
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
+            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
             {
                 channelOutput.InitiateChannels();
             }
