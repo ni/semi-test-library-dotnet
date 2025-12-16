@@ -15,6 +15,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static class Source
     {
+        #region Custom Delegates
+
+        /// <summary>
+        /// Delegate to retrieve a sequence of double values for a given site-pin pair.
+        /// </summary>
+        private delegate double[] SequenceProvider(SitePinInfo sitePinInfo);
+
+        /// <summary>
+        /// Delegate to retrieve a single double value (limit, range, etc.) for a given site-pin pair.
+        /// </summary>
+        private delegate double ValueProvider(SitePinInfo sitePinInfo);
+
+        #endregion
+
         #region methods on DCPowerSessionsBundle
 
         /// <summary>
@@ -491,24 +505,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> currentSequence,
-            PinSiteData<double> voltageLimit = null,
-            PinSiteData<double> currentLevelRange = null,
-            PinSiteData<double> voltageLimitRange = null,
+            PinSiteData<double?> voltageLimit = null,
+            PinSiteData<double?> currentLevelRange = null,
+            PinSiteData<double?> voltageLimitRange = null,
             double? sourceDelayinSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            Func<SitePinInfo, double[]> getCurrentSequenceForSite = sitePinInfo => currentSequence.GetValue(sitePinInfo);
-            Func<SitePinInfo, double> getVoltageLimitForSite = sitePinInfo => voltageLimit?.GetValue(sitePinInfo) ?? double.PositiveInfinity;
-            Func<SitePinInfo, double> getCurrentLevelRangeForSite = sitePinInfo =>
+            SequenceProvider getCurrentSequenceForSite = sitePinInfo => currentSequence.GetValue(sitePinInfo);
+            ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimit?.GetValue(sitePinInfo) ?? double.PositiveInfinity;
+            ValueProvider getCurrentLevelRangeForSite = sitePinInfo =>
             {
                 var sequence = getCurrentSequenceForSite(sitePinInfo);
                 var absMaxLevel = sequence?.Length > 0 ? sequence.Select(v => Math.Abs(v)).Max() : 0.0;
                 return currentLevelRange?.GetValue(sitePinInfo) ?? absMaxLevel;
             };
-            Func<SitePinInfo, double> getVoltageLimitRangeForSite = sitePinInfo =>
+            ValueProvider getVoltageLimitRangeForSite = sitePinInfo =>
             {
                 var sequence = getCurrentSequenceForSite(sitePinInfo);
                 var absMaxLevel = sequence?.Length > 0 ? sequence.Select(v => Math.Abs(v)).Max() : 0.0;
@@ -551,15 +565,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            Func<SitePinInfo, double[]> getCurrentSequenceForSite = sitePinInfo => currentSequences.GetValue(sitePinInfo.SiteNumber);
-            Func<SitePinInfo, double> getVoltageLimitForSite = sitePinInfo => voltageLimits?.GetValue(sitePinInfo.SiteNumber) ?? double.PositiveInfinity;
-            Func<SitePinInfo, double> getCurrentLevelRangeForSite = sitePinInfo =>
+            SequenceProvider getCurrentSequenceForSite = sitePinInfo => currentSequences.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimits?.GetValue(sitePinInfo.SiteNumber) ?? double.PositiveInfinity;
+            ValueProvider getCurrentLevelRangeForSite = sitePinInfo =>
             {
                 var sequence = getCurrentSequenceForSite(sitePinInfo);
                 var absMaxLevel = sequence?.Length > 0 ? sequence.Select(v => Math.Abs(v)).Max() : 0.0;
                 return currentLevelRanges?.GetValue(sitePinInfo.SiteNumber) ?? absMaxLevel;
             };
-            Func<SitePinInfo, double> getVoltageLimitRangeForSite = sitePinInfo =>
+            ValueProvider getVoltageLimitRangeForSite = sitePinInfo =>
             {
                 var sequence = getCurrentSequenceForSite(sitePinInfo);
                 var absMaxLevel = sequence?.Length > 0 ? sequence.Select(v => Math.Abs(v)).Max() : 0.0;
@@ -604,10 +618,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            Func<SitePinInfo, double[]> currentSequences = _ => currentSequence;
-            Func<SitePinInfo, double> voltageLimits = _ => voltageLimit ?? double.PositiveInfinity;
-            Func<SitePinInfo, double> currentLevelRanges = _ => currentLevelRange ?? (currentSequence?.Length > 0 ? currentSequence.Select(v => Math.Abs(v)).Max() : 0.0);
-            Func<SitePinInfo, double> voltageLimitRanges = _ => voltageLimitRange ?? (currentSequence?.Length > 0 ? currentSequence.Select(v => Math.Abs(v)).Max() : 0.0);
+            SequenceProvider currentSequences = _ => currentSequence;
+            ValueProvider voltageLimits = _ => voltageLimit ?? double.PositiveInfinity;
+            ValueProvider currentLevelRanges = _ => currentLevelRange ?? (currentSequence?.Length > 0 ? currentSequence.Select(v => Math.Abs(v)).Max() : 0.0);
+            ValueProvider voltageLimitRanges = _ => voltageLimitRange ?? (currentSequence?.Length > 0 ? currentSequence.Select(v => Math.Abs(v)).Max() : 0.0);
             sessionsBundle.ForceCurrentSequenceSynchronized(
                currentSequences,
                voltageLimitRanges,
@@ -625,10 +639,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         private static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
-            Func<SitePinInfo, double[]> getCurrentSequenceForSite,
-            Func<SitePinInfo, double> getVoltageLimitRangeForSite,
-            Func<SitePinInfo, double> getCurrentLevelRangeForSite,
-            Func<SitePinInfo, double> getVoltageLimitForSite,
+            SequenceProvider getCurrentSequenceForSite,
+            ValueProvider getVoltageLimitRangeForSite,
+            ValueProvider getCurrentLevelRangeForSite,
+            ValueProvider getVoltageLimitForSite,
             double? sourceDelayinSeconds,
             DCPowerSourceTransientResponse? transientResponse,
             int sequenceLoopCount = 1,
@@ -668,7 +682,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var perChannelString = sitePinInfo.IndividualChannelString;
 
                 // Apply settings
-                sessionInfo.Force(settings, perChannelString);
+                sessionInfo.Force(settings, sitePinInfo);
 
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
@@ -679,7 +693,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 originalMeasureWhens[perChannelString] = channelOutput.Measurement.MeasureWhen;
                 channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
 
-                // Configure voltage sequence
                 channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
