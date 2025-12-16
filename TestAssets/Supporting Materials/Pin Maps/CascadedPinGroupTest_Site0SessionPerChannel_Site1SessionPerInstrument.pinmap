@@ -12,25 +12,25 @@
 		</NIDCPowerInstrument>
 	</Instruments>
 	<Pins>
-		<DUTPin name="VCCPrimary" />
-		<DUTPin name="VCCSecondary" />
-		<DUTPin name="VDDPrimary" />
-		<DUTPin name="VDDSecondary" />
+		<DUTPin name="Vcc0" />
+		<DUTPin name="Vcc1" />
+		<DUTPin name="Vdd0" />
+		<DUTPin name="Vdd1" />
 	</Pins>
 	<PinGroups>
-		<PinGroup name="AllPinsCascadedWithVCCPrimaryAsPrimaryPin">
-			<PinReference pin="VCCPrimary" />
-			<PinReference pin="VCCSecondary" />
-			<PinReference pin="VDDPrimary" />
-			<PinReference pin="VDDSecondary" />
+		<PinGroup name="CascadedVccAndVdd">
+			<PinReference pin="Vcc0" />
+			<PinReference pin="Vcc1" />
+			<PinReference pin="Vdd0" />
+			<PinReference pin="Vdd1" />
 		</PinGroup>
 		<PinGroup name="CascadedVdd">
-			<PinReference pin="VDDPrimary" />
-			<PinReference pin="VDDSecondary" />
+			<PinReference pin="Vdd0" />
+			<PinReference pin="Vdd1" />
 		</PinGroup>
 		<PinGroup name="CascadedVcc">
-			<PinReference pin="VCCPrimary" />
-			<PinReference pin="VCCSecondary" />
+			<PinReference pin="Vcc0" />
+			<PinReference pin="Vcc1" />
 		</PinGroup>
 	</PinGroups>
 	<Sites>
@@ -38,13 +38,13 @@
 		<Site siteNumber="1" />
 	</Sites>
 	<Connections>
-		<Connection pin="VCCPrimary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="0" />
-		<Connection pin="VCCSecondary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="1" />
-		<Connection pin="VCCSecondary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="1" />
-		<Connection pin="VDDPrimary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="2" />
-		<Connection pin="VDDPrimary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="2" />
-		<Connection pin="VDDSecondary" siteNumber="0" instrument="SMU_4147_C1_S11" channel="3" />
-		<Connection pin="VDDSecondary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="3" />
-		<Connection pin="VCCPrimary" siteNumber="1" instrument="SMU_4147_C2_S10" channel="0" />
+		<Connection pin="Vcc0" siteNumber="0" instrument="SMU_4147_C1_S11" channel="0" />
+		<Connection pin="Vcc1" siteNumber="0" instrument="SMU_4147_C1_S11" channel="1" />
+		<Connection pin="Vcc1" siteNumber="1" instrument="SMU_4147_C2_S10" channel="1" />
+		<Connection pin="Vdd0" siteNumber="0" instrument="SMU_4147_C1_S11" channel="2" />
+		<Connection pin="Vdd0" siteNumber="1" instrument="SMU_4147_C2_S10" channel="2" />
+		<Connection pin="Vdd1" siteNumber="0" instrument="SMU_4147_C1_S11" channel="3" />
+		<Connection pin="Vdd1" siteNumber="1" instrument="SMU_4147_C2_S10" channel="3" />
+		<Connection pin="Vcc0" siteNumber="1" instrument="SMU_4147_C2_S10" channel="0" />
 	</Connections>
 </PinMap>
