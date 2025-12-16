@@ -408,7 +408,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
                 perSiteSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSiteSettings, sitePinInfo);
             });
             sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
@@ -427,7 +426,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perPinSettings = settings[sitePinInfo.PinName];
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perPinSettings, sitePinInfo);
             });
             sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
@@ -446,7 +444,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo);
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
             });
             sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
