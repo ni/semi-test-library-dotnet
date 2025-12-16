@@ -56,7 +56,7 @@ These files represent the driver used to control the PXIe-7822R R Series device 
   - FPGACode_ReadWriteDigitalPorts.vi (LabVIEW FPGA source VI implementing the core digital read/write logic)
   - Debug C API.vi (VI to debug and test C API)
   - Debug LV API.vi (VI to debug and test LV API)
-  - APIs ((LabVIEW source VIs used to build the FPGA host C API, `RSeries7822RDriverAPI.dll`)
+  - APIs (LabVIEW source VIs used to build the FPGA host C API, `RSeries7822RDriverAPI.dll`)
     - CloseFPGA.vi
     - EnableLoopBack.vi
     - OpenFPGA.vi
@@ -68,7 +68,7 @@ These files represent the driver used to control the PXIe-7822R R Series device 
 1. If you want to use the example you must have the following software installed:
     - STS Software 24.5.0 or later
 1. To run the example you must also have:
-    - A PXIe-7822R instrument with an alias of 'RIO_7822R_C1_S06' defined in NI MAX.
+    - A physical PXIe-7822R instrument with an alias of 'RIO_7822R_C1_S06' defined in NI MAX.
     - TestStand configured to use the Batch process model.
 1. To open, view, and compile the LabVIEW source files (GitHub only), you must have:
     - LabVIEW FPGA Module
@@ -91,13 +91,13 @@ Open the STLExample.CustomInstrument.RSeries7822R.seq file in TestStand and comp
     - `DigitalInput_B` --> `DIOPORT1`
     - `DigitalOutput_A`--> `DIOPORT2`
     - `DigitalOutput_B`--> `DIOPORT3`
-- On the Sequences pane, select the **ProcessSetup** sequence. estStand calls this sequence once at the start of testing.
-  - Select `Setup RSeries7822R Instrumentation` step and note that the `enableLoopBackConfiguration` parameter is set to default (true). If you are running with external physical loopback connections, then select 'false'.
+- On the Sequences pane, select the **ProcessSetup** sequence. TestStand calls this sequence once at the start of testing.
+  - Select `Setup RSeries7822R Instrumentation` step and note that the `enableLoopBackConfiguration` parameter is set to default (true). If you are using external physical connections, select `false`.
 - On the Sequences pane, select the **ProcessCleanup** sequence. TestStand calls this sequence once at the end of testing
   - Note that the `Cleanup RSeries7822R Instrumentation`  step is called from within this sequence.
 - On the Sequences pane, select the **MainSequence** sequence. TestStand calls this sequence in separate threads for each site, and loops over it for each batch in the lot or until testing ends.
   - This is where the `Digital Read Write Test` step is called from.
-  - Select the `Digital Read Write Test` step to view the Module tab of step's Step Settings pane. Note that the step parameter are configured with the following arguments, which are defined by Local variables declared in the Variables tab.
+  - Select the `Digital Read Write Test` step to view the Module tab of step's Step Settings pane. Note that the step parameters are configured with the following arguments, which are defined by Local variables declared in the Variables tab.
     - `digitalInputPins = Locals.DigitalInputPins` -> `"{DigitalInput_A, DigitalInput_B}"`
     - `digitalOutputPins = Locals.DigitalOutputPins` -> `"{DigialOutput_A, DigitalOuput_B}"`
     - `pinData = Locals.PinData` -> `"{127, 255}"`
