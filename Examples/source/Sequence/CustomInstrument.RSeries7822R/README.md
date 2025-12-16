@@ -76,6 +76,7 @@ These files represent the driver used to control the PXIe-7822R R Series device 
 
 > **NOTE**:  
 > You can view the example sequence file in the TestStand Sequence Editor and C# code source files in Visual Studio or any text editor without meeting the #2 requirement. To run the example though, you must have the required instruments physically installed in your system.
+> Users can also run the example using physical connections made externally, but the sample test will only pass if the output ports are physically looped back to the input ports.
 
 ## Using this Example
 
