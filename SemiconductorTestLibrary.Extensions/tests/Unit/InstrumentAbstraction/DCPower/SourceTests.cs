@@ -623,10 +623,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceCurrent(currentLevel: 5, voltageLimit: 5);
 
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.Do(sessionInfo =>
             {
                 AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5);
-                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
+                AssertTriggerSettings(sessionInfo.AssociatedSitePinList[0], sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry);
             });
         }
@@ -647,10 +647,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceCurrent(currentLevels: new Dictionary<string, double>() { ["VCC1"] = 5, ["VCC2"] = 5, ["VCC3"] = 5, ["VCC4"] = 5, ["VCC5"] = 5 }, voltageLimit: 5);
 
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.Do(sessionInfo =>
             {
                 AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5);
-                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
+                AssertTriggerSettings(sessionInfo.AssociatedSitePinList[0], sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
             });
         }
 
@@ -681,7 +681,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.6, expectedVoltageLimit: 5);
                 }
-                AssertTriggerSettings(sessionInfo.AssociatedSitePinList[0], sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
             });
         }
 
@@ -719,7 +719,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.5, expectedVoltageLimit: 5);
                 }
-                AssertTriggerSettings(sessionInfo.AssociatedSitePinList[0], sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
             });
         }
 
@@ -740,6 +740,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrent(new DCPowerSourceSettings() { Level = 5, Limit = 3.6 });
 
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 3.6));
+            sessionsBundle.Do((sessionInfo) =>
+            {
+                AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 3.6);
+                AssertTriggerSettings(sessionInfo.AssociatedSitePinList[0], sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
+            });
         }
 
         [Theory]
