@@ -21,11 +21,11 @@ The FPGA code logic which will be deployed on to the RIO device (**PXIe-7822R**)
 
 The Digital Read Write Test provided by the example sources different values to the digital input port and measures the values at digital output port to ensure the measured values match the input values provided. When loopback mode is enabled, the test will pass without the need for external connections.
 
-> **NOTE**:For demonstrations purposes this example is expected to be run with Loopback mode enabled by default
+> **NOTE**: For demonstration purposes, this example is expected to be run with loopback mode enabled by default.
 
 ## Key Files
 
-Below are the key files along with its purpose.
+Below are the key files along with their purpose.
 
 ### Example files
 
@@ -47,16 +47,16 @@ These files represent the main code that demonstrates the custom instrument impl
 
 These files represent the driver used to control the PXIe-7822R R Series device and are placed under Imports directory. The driver consists of a C API (`RSeries7822RDriverAPI.dll`) for interacting with a PXIe-7822R device via a compiled FPGA bit file (`RSeries7822R_ReadWriteDigitalPorts.lvbitx`).
 
-- RSeries7822RDriverAPI.dll – A DLL exposing the C API used to interact with the deployed FPGA bitfile. It is built from the FPGA host API sources located under `Imports/source/APIs/*`
+- RSeries7822RDriverAPI.dll – A DLL exposing the C API used to interact with the deployed FPGA bitfile.
 - RSeries7822RDriverAPI.h - header file containing method signatures.
-- RSeries7822R_ReadWriteDigitalPorts.lvbitx – The FPGA bitfile deployed to the PXIe-7822R RIO device. It contains the digital read/write logic generated from the FPGA source VI (`FPGACode_ReadWriteDigitalPorts.vi`).
+- RSeries7822R_ReadWriteDigitalPorts.lvbitx – The FPGA bitfile deployed to the PXIe-7822R RIO device.
 
 - Source
   - RSeries7822RDriverAPI.lvproj
-  - FPGACode_ReadWriteDigitalPorts.vi (FPGA source VI)
-  - Debug C API.vi (VI to debug and test C APIs)
-  - Debug LV API.vi (VI to debug and test LV APIs)
-  - APIs (Contains source VIs built in to C API dll)
+  - FPGACode_ReadWriteDigitalPorts.vi (LabVIEW FPGA source VI implementing the core digital read/write logic)
+  - Debug C API.vi (VI to debug and test C API)
+  - Debug LV API.vi (VI to debug and test LV API)
+  - APIs ((LabVIEW source VIs used to build the FPGA host C API, `RSeries7822RDriverAPI.dll`)
     - CloseFPGA.vi
     - EnableLoopBack.vi
     - OpenFPGA.vi
@@ -79,29 +79,30 @@ These files represent the driver used to control the PXIe-7822R R Series device 
 
 ## Using this Example
 
-Open the STLExample.CustomInstrument.RSeries7822R.seq file in TestStand and complete the following steps to use this example. You can also run this example in offline mode to see it in action.
+Open the STLExample.CustomInstrument.RSeries7822R.seq file in TestStand and complete the following steps to use this example.
 
-- **Select Semiconductor Module -> Edit Pin Map File...** or click the Edit Pin Map File button on the TSM toolbar. The pin map file defines the following information:
+- Review the pin map from the TestStand Sequence Editor by selecting **Semiconductor Module -> Edit Pin Map File...** or clicking the Edit Pin Map File button on the TSM toolbar. The pin map file defines the following information:
   - R Series instrument `PXIe-7822R` with alias name: `RIO_7822R_C1_S06` Instrument Type Id: `PXI_RSeries_7822R`, Instrument Type:`Custom Instrument`
-  - No of sites: 2; 0 & 1.
+  - Two sites: 0 & 1
   - DUT pins: `DigitalInput_A`, `DigitalInput_B`, `DigitalOutput_A`, `DigitalOutput_B`
   - Connections:  
-  For site '0', connector 1 ports are used for site '1' connector 2 ports are used.
+  For site '0', all four ports from connector 1 are used. For site '1', all four ports from connector 2 are used."
     - `DigitalInput_A` --> `DIOPORT0`
     - `DigitalInput_B` --> `DIOPORT1`
     - `DigitalOutput_A`--> `DIOPORT2`
-    - `DigitalOutput_B`--> `DIOPORT2`
-- On the Sequences pane, select the **ProcessSetup sequence**. TestStand calls this sequence at the start of the testing.
-  - Select `Setup RSeries7822R Instrumentation` step and ensure `enableLoopBackConfiguration` is set to default (true). If you are running with external physical loopback connections, then select 'false'.
-- On the Sequences pane, select the **ProcessCleanup sequence**. TestStand calls this sequence at the end of the testing.
-  - Ensure `Cleanup RSeries7822R Instrumentation` step is configured.
-- On the Sequences pane, select the **MainSequence sequence**. This contains the actual test steps.
-  - Ensure `Digital Read Write Test` is configured with following arguments.
-    - `digitalInputPins`
-    - `digitalOutputPins`
-    - `pinData` {'127', '255'}
-    - `publishedDataID`
-  - Navigate to **Tests** tab and ensure data on the output are validated.
+    - `DigitalOutput_B`--> `DIOPORT3`
+- On the Sequences pane, select the **ProcessSetup** sequence. estStand calls this sequence once at the start of testing.
+  - Select `Setup RSeries7822R Instrumentation` step and note that the `enableLoopBackConfiguration` parameter is set to default (true). If you are running with external physical loopback connections, then select 'false'.
+- On the Sequences pane, select the **ProcessCleanup** sequence. TestStand calls this sequence once at the end of testing
+  - Note that the `Cleanup RSeries7822R Instrumentation`  step is called from within this sequence.
+- On the Sequences pane, select the **MainSequence** sequence. TestStand calls this sequence in separate threads for each site, and loops over it for each batch in the lot or until testing ends.
+  - This is where the `Digital Read Write Test` step is called from.
+  - Select the `Digital Read Write Test` step to view the Module tab of step's Step Settings pane. Note that the step parameter are configured with the following arguments, which are defined by Local variables declared in the Variables tab.
+    - `digitalInputPins = Locals.DigitalInputPins` -> `"{DigitalInput_A, DigitalInput_B}"`
+    - `digitalOutputPins = Locals.DigitalOutputPins` -> `"{DigialOutput_A, DigitalOuput_B}"`
+    - `pinData = Locals.PinData` -> `"{127, 255}"`
+    - `publishedDataId = Locals.PublishedDataId` -> `"DigitalOutData"`
+  - Navigate to Tests tab from within the Step Settings pane. Note that there are two test items, one for each digital output pin, validated against their separate limits.
     - DigitalOutput_A validated against '127'.
     - DigitalOutput_B validated against '255'.
 - To run the test program, click the **Start/Resume Lot** button on the TSM toolbar. You must meet all the [Prerequisites](#prerequisites) before running the test program.
