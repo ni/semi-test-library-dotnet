@@ -410,7 +410,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 perSiteSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSiteSettings, sitePinInfo);
             });
-            sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -428,7 +428,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perPinSettings, sitePinInfo);
             });
-            sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -446,7 +446,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
             });
-            sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -1005,7 +1005,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void InitiateGangedLeaderChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false)
+        private static void InitiateGangedLeaderAndNonGangedChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
