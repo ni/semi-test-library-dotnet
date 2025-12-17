@@ -642,17 +642,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sequence = new[] { -0.02, 0.03, 0.04, 0.05, 0.07 };
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 1, sequenceLoopCount: 1);
 
-            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(5), 2);
-            });
-            for (int i = 0; i < 4; i++)
-            {
-                Assert.All(
-                    results[i][0].CurrentMeasurements.Select((val, idx) => (val, idx)),
-                    p => Assert.Equal(sequence[p.idx], p.val, 3));
-            }
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 3, itemToFetch: 5);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 2, itemToFetch: 5);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevelRange: 0.1, expectedVoltageLimit: 0.5, expectedVoltageLimitRange: 1, expectedSequenceLoopCount: 1));
         }
 
@@ -695,16 +685,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 1, sequenceLoopCount: 2);
 
-            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(1), 2);
-            });
-            for (int i = 0; i < 4; i++)
-            {
-                Assert.All(
-                    results[i][0].CurrentMeasurements.Select((val, idx) => (val, idx)),
-                    p => Assert.Equal(sequence.GetValue(i, "VDD")[p.idx], p.val, 2));
-            }
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex, "VDD"), precision: 2, itemToFetch: 2);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevelRange: 0.1, expectedVoltageLimit: 0.5, expectedVoltageLimitRange: 1, expectedSequenceLoopCount: 2));
         }
 
