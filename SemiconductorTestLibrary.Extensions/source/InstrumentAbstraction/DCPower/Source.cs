@@ -1133,7 +1133,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var channelString = sitePinInfo?.IndividualChannelString ?? sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
             sessionInfo.ConfigureChannels(settings, channelOutput, channelString, sitePinInfo);
-            channelOutput.InitiateChannels(waitForSourceCompletion);
+            sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
         }
 
         private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, string channelString = "", SitePinInfo sitePinInfo = null)
@@ -1141,15 +1141,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelString);
             channelOutput.Source.Output.Enabled = true;
-            // channelOutput.Control.Commit();
+            channelOutput.Control.Commit();
         }
 
-        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false, double timeoutInSeconds = 5)
+        private static void InitiateChannels(this DCPowerSessionInformation sessionInfo, DCPowerOutput channelOutput, bool waitForSourceCompletion = false)
         {
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
             {
-                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(timeoutInSeconds));
+                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(5.0));
             }
         }
 
@@ -1183,10 +1183,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
-            if (settings.OutputFunction.HasValue)
-            {
-                dcOutput.Source.Output.Function = settings.OutputFunction.Value;
-            }
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Voltage.VoltageLevel = settings.Level.Value;
@@ -1220,10 +1216,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
-            if (settings.OutputFunction.HasValue)
-            {
-                dcOutput.Source.Output.Function = settings.OutputFunction.Value;
-            }
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Current.CurrentLevel = settings.Level.Value;
