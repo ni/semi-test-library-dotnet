@@ -657,15 +657,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
 
-            var originalSourceDelays = new ConcurrentDictionary<string, PrecisionTimeSpan>();
-            var originalMeasureWhens = new ConcurrentDictionary<string, DCPowerMeasurementWhen>();
-            var originalStartTriggerTypes = new ConcurrentDictionary<string, DCPowerStartTriggerType>();
-            var originalStartTriggerTerminalNames = new ConcurrentDictionary<string, DCPowerDigitalEdgeStartTriggerInputTerminal>();
-
             // Configure and arm all channels
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
-                var siteNumber = sitePinInfo.SiteNumber;
                 var currentSequence = getCurrentSequenceForSite(sitePinInfo);
                 var levelRange = getCurrentLevelRangeForSite(sitePinInfo);
                 var limitRange = getVoltageLimitRangeForSite(sitePinInfo);
@@ -689,12 +683,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
                 channelOutput.ConfigureLevelsAndLimits(settings);
-                originalSourceDelays[perChannelString] = channelOutput.Source.SourceDelay;
                 channelOutput.Source.SourceDelay = sourceDelayinSeconds.HasValue
                     ? PrecisionTimeSpan.FromSeconds(sourceDelayinSeconds.Value)
                     : PrecisionTimeSpan.Zero;
-                originalMeasureWhens[perChannelString] = channelOutput.Measurement.MeasureWhen;
                 channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+                sessionInfo.ConfigureTransientResponce(settings, perChannelString);
 
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
@@ -705,9 +698,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 else
                 {
                     // Slave channels start on master's start trigger
-                    originalStartTriggerTypes[perChannelString] = channelOutput.Triggers.StartTrigger.Type;
                     channelOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.DigitalEdge;
-                    originalStartTriggerTerminalNames[perChannelString] = channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal;
                     channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
                     channelOutput.Control.Initiate();
                 }
@@ -716,7 +707,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Start master
             masterChannelOutput.Control.Initiate();
 
-            // Optionally wait for completion
             if (waitForSequenceCompletion)
             {
                 masterChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
@@ -1142,7 +1132,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
-            channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
+            channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             if (settings.LimitSymmetry.HasValue)
             {
                 channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
@@ -1194,6 +1184,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region private and internal methods
 
+        private static void ConfigureTransientResponce(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
+        {
+            if (settings.TransientResponse.HasValue)
+            {
+                string channelStringToUse = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsString : channelString;
+                if (sessionInfo.AllInstrumentsAreTheSameModel)
+                {
+                    sessionInfo.Session.ConfigureTransientResponse(channelStringToUse, sessionInfo.ModelString, settings.TransientResponse.Value);
+                }
+                else
+                {
+                    foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => channelStringToUse.Contains(sitePin.IndividualChannelString)))
+                    {
+                        sessionInfo.Session.ConfigureTransientResponse(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, settings.TransientResponse.Value);
+                    }
+                }
+            }
+        }
         private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool waitForSourceCompletion = false)
         {
             var channelString = sitePinInfo?.IndividualChannelString ?? sessionInfo.AllChannelsString;

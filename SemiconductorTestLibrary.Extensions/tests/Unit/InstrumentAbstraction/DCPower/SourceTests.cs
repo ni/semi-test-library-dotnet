@@ -331,18 +331,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = new string[] { "VDD" };
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower(pinNames);
-            // Capture originals per channel.
-            var originalSourceDelays = new ConcurrentDictionary<string, PrecisionTimeSpan>();
-            var originalStartTriggerTypes = new ConcurrentDictionary<string, DCPowerStartTriggerType>();
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                originalSourceDelays[sitePinInfo.IndividualChannelString] = channelOutput.Source.SourceDelay;
-                originalStartTriggerTypes[sitePinInfo.IndividualChannelString] = channelOutput.Triggers.StartTrigger.Type;
-            });
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
-            // Create per-pin per-site sequences
             var currentSequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
             {
                 ["VDD"] = new Dictionary<int, double[]>()
@@ -353,43 +343,45 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     [3] = new[] { 0.010, 0.011, 0.012 }
                 }
             });
+            var voltageLimits = new PinSiteData<double?>(new Dictionary<string, IDictionary<int, double?>>()
+            {
+                ["VDD"] = new Dictionary<int, double?>() { [0] = 1.0, [1] = 1.1, [2] = 1.2, [3] = 1.3 }
+            });
+
+            var currentLevelRanges = new PinSiteData<double?>(new Dictionary<string, IDictionary<int, double?>>()
+            {
+                ["VDD"] = new Dictionary<int, double?>() { [0] = 0.1, [1] = 0.1, [2] = 0.1, [3] = 0.1 }
+            });
+
+            var voltageLimitRanges = new PinSiteData<double?>(new Dictionary<string, IDictionary<int, double?>>()
+            {
+                ["VDD"] = new Dictionary<int, double?>() { [0] = 1.5, [1] = 1.5, [2] = 1.5, [3] = 1.5 }
+            });
             sessionsBundle.ForceCurrentSequenceSynchronized(
                 currentSequence: currentSequence,
-                voltageLimit: new PinSiteData<double?>(new Dictionary<string, IDictionary<int, double?>>()
-                {
-                    ["VDD"] = new Dictionary<int, double?>() { [0] = 1.0, [1] = 1.1, [2] = 1.2, [3] = 1.3 }
-                }),
-                currentLevelRange: new PinSiteData<double?>(new Dictionary<string, IDictionary<int, double?>>()
-                {
-                    ["VDD"] = new Dictionary<int, double?>() { [0] = 0.1, [1] = 0.1, [2] = 0.1, [3] = 0.1 }
-                }),
-                voltageLimitRange: new PinSiteData<double?>(new Dictionary<string, IDictionary<int, double?>>()
-                {
-                    ["VDD"] = new Dictionary<int, double?>() { [0] = 1.5, [1] = 1.5, [2] = 1.5, [3] = 1.5 }
-                }));
+                voltageLimit: voltageLimits,
+                currentLevelRange: currentLevelRanges,
+                voltageLimitRange: voltageLimitRanges);
 
-            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.AllChannelsOutput.Control.Abort();
-                sessionInfo.AllChannelsOutput.Control.Initiate();
-                return sessionInfo.Session.Measurement.Fetch(sessionInfo.AllChannelsString, PrecisionTimeSpan.FromSeconds(1), 3);
+                return sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(1), 3);
             });
+            for (int i = 0; i < 4; i++)
+            {
+                Assert.All(
+                    results[i][0].CurrentMeasurements.Select((val, idx) => (val, idx)),
+                    p => Assert.Equal(currentSequence.GetValue(i, "VDD")[p.idx], p.val, 3));
+            }
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
-                var channelString = sitePinInfo.IndividualChannelString;
-                var channelOutput = sessionInfo.Session.Outputs[channelString];
-                var expectedSequence = currentSequence.GetValue(sitePinInfo);
-                // Current level should be first sequence element.
-                Assert.Equal(expectedSequence[0], channelOutput.Source.Current.CurrentLevel);
-                // Mode restored to SinglePoint.
-                Assert.Equal(DCPowerSourceMode.SinglePoint, channelOutput.Source.Mode);
-                // Source delay restored.
-                Assert.Equal(
-                   originalSourceDelays[sitePinInfo.IndividualChannelString].TotalSeconds,
-                   channelOutput.Source.SourceDelay.TotalSeconds,
-                   6);
-                // TransientResponse set to requested value.
-                Assert.Equal(DCPowerSourceTransientResponse.Fast, channelOutput.Source.TransientResponse);
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                var siteNumber = sitePinInfo.SiteNumber;
+                AssertCurrentSettings(
+                    channelOutput,
+                    expectedCurrentLevel: currentSequence.GetValue(siteNumber, "VDD")[0],
+                    expectedVoltageLimit: voltageLimits.GetValue(siteNumber, "VDD").Value);
+                Assert.Equal(currentLevelRanges.GetValue(siteNumber, "VDD").Value, channelOutput.Source.Current.CurrentLevelRange);
             });
         }
 
