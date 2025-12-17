@@ -613,21 +613,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup") { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup") { ChannelsCount = 3 };
             }
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
+            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC2" && sitepin.PinName == "VCC2"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup", true) { ChannelsCount = 5, SourceTriggerName = "PXI_Trig0" };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup", true) { ChannelsCount = 3, SourceTriggerName = "PXI_Trig0" };
             }
-            sessionsBundle.GangedPinGroupsCount = 1;
+            sessionsBundle.HasGangedChannels = true;
 
-            sessionsBundle.ForceCurrent(currentLevel: 5, voltageLimit: 5);
+            sessionsBundle.ForceCurrent(currentLevel: 1.5, voltageLimit: 2);
 
-            sessionsBundle.Do(sessionInfo =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5);
-                AssertTriggerSettings(sessionInfo.AssociatedSitePinList[0], sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry);
+                if (sitePinInfo.CascadingInfo is GangingInfo)
+                {
+                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.5, expectedVoltageLimit: 2);
+                }
+                else
+                {
+                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1.5, expectedVoltageLimit: 2);
+                }
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
             });
         }
 
@@ -636,21 +643,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_IndividualChannelSessionsPerSite.pinmap");
             var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
+            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC2"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup") { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup") { ChannelsCount = 2 };
             }
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
+            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC3"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup", true) { ChannelsCount = 5, SourceTriggerName = "PXI_Trig0" };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup", true) { ChannelsCount = 2, SourceTriggerName = "PXI_Trig0" };
             }
 
-            sessionsBundle.ForceCurrent(currentLevels: new Dictionary<string, double>() { ["VCC1"] = 5, ["VCC2"] = 5, ["VCC3"] = 5, ["VCC4"] = 5, ["VCC5"] = 5 }, voltageLimit: 5);
+            sessionsBundle.ForceCurrent(currentLevels: new Dictionary<string, double>() { ["VCC1"] = 1, ["VCC2"] = 6, ["VCC3"] = 6, ["VCC4"] = 1, ["VCC5"] = 1 }, voltageLimit: 5);
 
-            sessionsBundle.Do(sessionInfo =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5);
-                AssertTriggerSettings(sessionInfo.AssociatedSitePinList[0], sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
+                Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry);
+                if (sitePinInfo.CascadingInfo is GangingInfo)
+                {
+                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 3, expectedVoltageLimit: 5);
+                }
+                else
+                {
+                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5);
+                }
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
             });
         }
 
@@ -668,18 +683,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup", true) { ChannelsCount = 5, SourceTriggerName = "PXI_Trig0" };
             }
 
-            var currentLevels = new SiteData<double>(new double[] { 5, 3 });
-            sessionsBundle.ForceCurrent(currentLevels, voltageLimit: 5);
+            var currentLevels = new SiteData<double>(new double[] { 1, 3 });
+            sessionsBundle.ForceCurrent(currentLevels, voltageLimit: 3);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sitePinInfo.SiteNumber == 0)
                 {
-                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5);
+                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.2, expectedVoltageLimit: 3);
                 }
                 else
                 {
-                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.6, expectedVoltageLimit: 5);
+                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.6, expectedVoltageLimit: 3);
                 }
                 AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
             });
@@ -707,17 +722,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 ["VCC4"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
                 ["VCC5"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 }
             });
-            sessionsBundle.ForceCurrent(currentLevels, voltageLimit: 5);
+            sessionsBundle.ForceCurrent(currentLevels, voltageLimit: 4.5);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sitePinInfo.SiteNumber == 0)
                 {
-                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.8, expectedVoltageLimit: 5);
+                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.8, expectedVoltageLimit: 4.5);
                 }
                 else
                 {
-                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.5, expectedVoltageLimit: 5);
+                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.5, expectedVoltageLimit: 4.5);
                 }
                 AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
             });

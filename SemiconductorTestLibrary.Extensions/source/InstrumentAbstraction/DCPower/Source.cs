@@ -388,20 +388,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false)
         {
             settings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-            if (sessionsBundle.GangedPinGroupsCount == 0)
-            {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
-                });
-            }
-            else
+            if (sessionsBundle.HasGangedChannels)
             {
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
                     sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
                 });
                 sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
+                });
             }
         }
 
@@ -987,7 +987,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     channelOutput.InitiateChannels(waitForSourceCompletion);
@@ -999,7 +999,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
-            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
+            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
                 channelOutput.InitiateChannels();
             }
