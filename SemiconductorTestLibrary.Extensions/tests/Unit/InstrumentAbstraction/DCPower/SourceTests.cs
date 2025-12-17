@@ -613,11 +613,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup") { ChannelsCount = 5 };
             }
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup", true) { ChannelsCount = 5, SourceTriggerName = "PXI_Trig0" };
             }
             sessionsBundle.GangedPinGroupsCount = 1;
 
@@ -638,11 +638,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup") { ChannelsCount = 5 };
             }
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup", true) { ChannelsCount = 5, SourceTriggerName = "PXI_Trig0" };
             }
 
             sessionsBundle.ForceCurrent(currentLevels: new Dictionary<string, double>() { ["VCC1"] = 5, ["VCC2"] = 5, ["VCC3"] = 5, ["VCC4"] = 5, ["VCC5"] = 5 }, voltageLimit: 5);
@@ -661,11 +661,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup") { ChannelsCount = 5 };
             }
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup", true) { ChannelsCount = 5, SourceTriggerName = "PXI_Trig0" };
             }
 
             var currentLevels = new SiteData<double>(new double[] { 5, 3 });
@@ -692,20 +692,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup") { ChannelsCount = 5 };
             }
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup", true) { ChannelsCount = 5, SourceTriggerName = "PXI_Trig0" };
             }
 
             var currentLevels = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                ["VCC1"] = new Dictionary<int, double>() { [0] = 5, [1] = 2.5 },
-                ["VCC2"] = new Dictionary<int, double>() { [0] = 5, [1] = 2.5 },
-                ["VCC3"] = new Dictionary<int, double>() { [0] = 5, [1] = 2.5 },
-                ["VCC4"] = new Dictionary<int, double>() { [0] = 5, [1] = 2.5 },
-                ["VCC5"] = new Dictionary<int, double>() { [0] = 5, [1] = 2.5 }
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
+                ["VCC5"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 }
             });
             sessionsBundle.ForceCurrent(currentLevels, voltageLimit: 5);
 
@@ -713,7 +713,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 if (sitePinInfo.SiteNumber == 0)
                 {
-                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5);
+                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.8, expectedVoltageLimit: 5);
                 }
                 else
                 {
@@ -730,20 +730,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
             foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo(isFollower: false) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup") { ChannelsCount = 4 };
             }
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
+            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1" && sitepin.PinName != "VCC5"))
             {
-                sitePinInfo.CascadingInfo = new GangingInfo("PXI_Trig0", true) { ChannelsCount = 5 };
+                sitePinInfo.CascadingInfo = new GangingInfo("GangedPinGroup", true) { ChannelsCount = 4, SourceTriggerName = "PXI_Trig0" };
             }
 
-            sessionsBundle.ForceCurrent(new DCPowerSourceSettings() { Level = 5, Limit = 3.6 });
+            sessionsBundle.ForceCurrent(new DCPowerSourceSettings() { Level = 2, Limit = 2.6 });
 
-            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 3.6));
-            sessionsBundle.Do((sessionInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 3.6);
-                AssertTriggerSettings(sessionInfo.AssociatedSitePinList[0], sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
+                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                if (sitePinInfo.CascadingInfo is GangingInfo)
+                {
+                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, 0.5, 2.6);
+                }
+                else
+                {
+                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, 2, 2.6);
+                }
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
             });
         }
 
@@ -1346,10 +1353,41 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string channelString)
         {
-            channelString = channelOutput.Name.Remove(channelString.Length - 2);
-            var triggerName = $"/{channelString}/PXI_Trig0";
-            string expectedTriggerName = (sitePinInfo.CascadingInfo as GangingInfo).IsFollower ? triggerName : string.Empty;
-            Assert.Equal(expectedTriggerName, channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+            Assert.Equal(GetTriggerName(sitePinInfo), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+        }
+
+        private string GetTriggerName(SitePinInfo sitePinInfo)
+        {
+            var gangingInfo = sitePinInfo.CascadingInfo as GangingInfo;
+            var channelString = sitePinInfo.IndividualChannelString;
+            var channelNameForTrigger = channelString.Remove(channelString.Length - 2);
+            switch (channelString)
+            {
+                case string channel when channel.Contains("SMU_4137"):
+                    {
+                        if (gangingInfo != null && gangingInfo.IsFollower)
+                        {
+                            return $"/{channelNameForTrigger}/PXI_Trig0";
+                        }
+                        else
+                        {
+                            return string.Empty;
+                        }
+                    }
+                case string channel when channel.Contains("SMU_4147"):
+                    {
+                        if (gangingInfo != null && gangingInfo.IsFollower)
+                        {
+                            return $"/{channelNameForTrigger}/PXI_Trig0";
+                        }
+                        else
+                        {
+                            return $"/{channelNameForTrigger}/Immediate";
+                        }
+                    }
+                default:
+                    return string.Empty;
+            }
         }
 
         private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
