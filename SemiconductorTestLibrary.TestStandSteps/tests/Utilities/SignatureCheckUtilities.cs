@@ -2,9 +2,9 @@
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 
-namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
+namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
 {
-    internal static class Utility
+    internal static class SignatureCheckUtilities
     {
         internal static void AssertTsmcontextParameter(ParameterInfo parameter)
         {

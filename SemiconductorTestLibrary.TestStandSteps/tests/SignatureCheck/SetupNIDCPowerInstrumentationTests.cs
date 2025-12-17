@@ -1,6 +1,7 @@
 using System.Reflection;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.TestStandSteps;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using Xunit;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
@@ -23,10 +24,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
             Assert.Equal(8, parameters.Length);
 
             // Parameter 1: tsmContext
-            Utility.AssertTsmcontextParameter(parameters[0]);
+            SignatureCheckUtilities.AssertTsmcontextParameter(parameters[0]);
 
             // Parameter 2: resetDevice
-            Utility.AssertResetDeviceParameter(parameters[1]);
+            SignatureCheckUtilities.AssertResetDeviceParameter(parameters[1]);
 
             // Parameter 3: apertureTime (double, default = 1)
             Assert.Equal("apertureTime", parameters[2].Name);

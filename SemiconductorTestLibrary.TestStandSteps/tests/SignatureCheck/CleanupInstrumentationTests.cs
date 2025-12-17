@@ -1,5 +1,6 @@
 using System.Reflection;
 using NationalInstruments.SemiconductorTestLibrary.TestStandSteps;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using Xunit;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
@@ -22,10 +23,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
             Assert.Equal(3, parameters.Length);
 
             // Parameter 1: tsmContext
-            Utility.AssertTsmcontextParameter(parameters[0]);
+            SignatureCheckUtilities.AssertTsmcontextParameter(parameters[0]);
 
             // Parameter 2: resetDevice
-            Utility.AssertResetDeviceParameter(parameters[1]);
+            SignatureCheckUtilities.AssertResetDeviceParameter(parameters[1]);
 
             // Parameter 3: instrumentType  (NIInstrumentType, default = NIInstrumentType.All)
             Assert.Equal("instrumentType", parameters[2].Name);
