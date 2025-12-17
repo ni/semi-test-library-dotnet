@@ -345,11 +345,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 1, itemsToFetch: 5, checkForCurrentMeasurement: false);
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                AssertVoltageSequenceSettings(channelOutput, currentLimit, currentLimitRange);
-            });
+            sessionsBundle.Do(sessionInfo => AssertVoltageSequenceSettings(sessionInfo.AllChannelsOutput, currentLimit, currentLimitRange));
         }
 
         [Theory]
@@ -379,11 +375,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex), precision: 1, itemsToFetch: 3, checkForCurrentMeasurement: false);
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                AssertVoltageSequenceSettings(channelOutput, currentLimit, currentLimitRange);
-            });
+            sessionsBundle.Do(sessionInfo => AssertVoltageSequenceSettings(sessionInfo.AllChannelsOutput, currentLimit, currentLimitRange));
         }
 
         [Theory]
@@ -415,11 +407,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex, "VDD"), precision: 1, itemsToFetch: 3, checkForCurrentMeasurement: false);
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                AssertVoltageSequenceSettings(channelOutput, currentLimit, currentLimitRange);
-            });
+            sessionsBundle.Do(sessionInfo => AssertVoltageSequenceSettings(sessionInfo.AllChannelsOutput, currentLimit, currentLimitRange));
         }
 
         [Theory]

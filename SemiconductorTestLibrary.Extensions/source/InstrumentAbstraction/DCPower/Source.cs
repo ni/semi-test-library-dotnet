@@ -259,7 +259,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
                 ForceSequenceCore(
                     channelOutput,
-                    DCPowerSourceOutputFunction.DCCurrent,
+                    DCPowerSourceOutputFunction.DCVoltage,
                     sequence,
                     currentLimit,
                     voltageLevelRange,
@@ -288,7 +288,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
                 ForceSequenceCore(
                     channelOutput,
-                    DCPowerSourceOutputFunction.DCCurrent,
+                    DCPowerSourceOutputFunction.DCVoltage,
                     sequence,
                     currentLimit,
                     voltageLevelRange,
@@ -324,7 +324,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 ForceSequenceCore(
                     sessionInfo.AllChannelsOutput,
-                    DCPowerSourceOutputFunction.DCCurrent,
+                    DCPowerSourceOutputFunction.DCVoltage,
                     voltageSequence,
                     currentLimit,
                     voltageLevelRange,
