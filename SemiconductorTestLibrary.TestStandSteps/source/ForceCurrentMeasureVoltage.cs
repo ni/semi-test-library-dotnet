@@ -56,7 +56,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                                 dcPower.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = apertureTime });
                             }
                             dcPower.ForceCurrent(currentLevel, absoluteValueOfVoltageLimit, waitForSourceCompletion: true);
-                            dcPower.MeasureAndPublishVoltage("Voltage", out _);
+                            var data = dcPower.MeasureAndPublishVoltage("Voltage");
+                            var data1 = dcPower.MeasureVoltage();
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
                         }
                     },
