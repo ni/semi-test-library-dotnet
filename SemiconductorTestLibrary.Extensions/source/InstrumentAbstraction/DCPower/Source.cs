@@ -528,7 +528,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var absMaxLevel = sequence?.Length > 0 ? sequence.Select(v => Math.Abs(v)).Max() : 0.0;
                 return voltageLimitRange?.GetValue(sitePinInfo) ?? absMaxLevel;
             };
-            sessionsBundle.ForceCurrentSequenceSynchronized(
+            sessionsBundle.ForceSequenceSynchronizedCore(
                 getCurrentSequenceForSite,
                 getVoltageLimitRangeForSite,
                 getCurrentLevelRangeForSite,
@@ -537,7 +537,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
-                sequenceTimeoutInSeconds);
+                sequenceTimeoutInSeconds,
+                DCPowerSourceOutputFunction.DCCurrent);
         }
 
         /// <summary>
@@ -580,7 +581,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 return voltageLimitRanges?.GetValue(sitePinInfo.SiteNumber) ?? absMaxLevel;
             };
 
-            sessionsBundle.ForceCurrentSequenceSynchronized(
+            sessionsBundle.ForceSequenceSynchronizedCore(
                 getCurrentSequenceForSite,
                 getVoltageLimitRangeForSite,
                 getCurrentLevelRangeForSite,
@@ -589,7 +590,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
-                sequenceTimeoutInSeconds);
+                sequenceTimeoutInSeconds,
+                DCPowerSourceOutputFunction.DCCurrent);
         }
 
         /// <summary>
@@ -622,7 +624,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             ValueProvider voltageLimits = _ => voltageLimit ?? double.PositiveInfinity;
             ValueProvider currentLevelRanges = _ => currentLevelRange ?? (currentSequence?.Length > 0 ? currentSequence.Select(v => Math.Abs(v)).Max() : 0.0);
             ValueProvider voltageLimitRanges = _ => voltageLimitRange ?? (currentSequence?.Length > 0 ? currentSequence.Select(v => Math.Abs(v)).Max() : 0.0);
-            sessionsBundle.ForceCurrentSequenceSynchronized(
+            sessionsBundle.ForceSequenceSynchronizedCore(
                currentSequences,
                voltageLimitRanges,
                currentLevelRanges,
@@ -631,13 +633,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                transientResponse,
                sequenceLoopCount,
                waitForSequenceCompletion,
-               sequenceTimeoutInSeconds);
+               sequenceTimeoutInSeconds,
+               DCPowerSourceOutputFunction.DCCurrent);
         }
 
         /// <summary>
         /// Forces a hardware-timed sequence of voltage values. If multiple target pins, the sequenced output will be synchronized across the target pins.
         /// </summary>
-        private static void ForceCurrentSequenceSynchronized(
+        private static void ForceSequenceSynchronizedCore(
             this DCPowerSessionsBundle sessionsBundle,
             SequenceProvider getCurrentSequenceForSite,
             ValueProvider getVoltageLimitRangeForSite,
@@ -647,7 +650,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             DCPowerSourceTransientResponse? transientResponse,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds = 5.0,
+            DCPowerSourceOutputFunction outputFunction = DCPowerSourceOutputFunction.DCVoltage)
         {
             var resolvedTransientResponse = transientResponse ?? DCPowerSourceTransientResponse.Fast;
 
@@ -670,7 +674,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
                 var settings = new DCPowerSourceSettings()
                 {
-                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    OutputFunction = outputFunction,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                     Level = initialLevel,
                     Limit = limit,
@@ -681,11 +685,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
                 var perChannelString = sitePinInfo.IndividualChannelString;
 
-                // Apply settings
-                sessionInfo.Force(settings, sitePinInfo);
-
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
+                channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
+                channelOutput.ConfigureLevelsAndLimits(settings);
                 originalSourceDelays[perChannelString] = channelOutput.Source.SourceDelay;
                 channelOutput.Source.SourceDelay = sourceDelayinSeconds.HasValue
                     ? PrecisionTimeSpan.FromSeconds(sourceDelayinSeconds.Value)
@@ -693,7 +696,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 originalMeasureWhens[perChannelString] = channelOutput.Measurement.MeasureWhen;
                 channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
 
-                channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
                     // Master channel does not need a start trigger
@@ -719,29 +721,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 masterChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
             }
-
-            // Restore configuration and re-init channels to SinglePoin
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                var perChannelString = sitePinInfo.IndividualChannelString;
-                var channelOutput = sessionInfo.Session.Outputs[perChannelString];
-
-                channelOutput.Control.Abort();
-
-                // Restore triggers for non-master channels
-                if (sessionIndex > 0 || (sessionIndex == 0 && !sitePinInfo.IsFirstChannelOfSession(sessionInfo)))
-                {
-                    channelOutput.Triggers.StartTrigger.Type = originalStartTriggerTypes[perChannelString];
-                    channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal = originalStartTriggerTerminalNames[perChannelString];
-                }
-
-                // Restor source delay
-                channelOutput.Source.SourceDelay = originalSourceDelays[perChannelString];
-                channelOutput.Measurement.MeasureWhen = originalMeasureWhens[perChannelString];
-                // Return to SinglePoint mode
-                channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
-                channelOutput.Control.Initiate();
-            });
         }
 
         /// <summary>
@@ -1163,7 +1142,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
-            channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
+            channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
             if (settings.LimitSymmetry.HasValue)
             {
                 channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
@@ -1200,7 +1179,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 ConfigureCurrentSettings(channelOutput, settings);
             }
         }
-
+        private static void ConfigureLevelsAndLimits(this DCPowerOutput channelOutput, DCPowerSourceSettings settings)
+        {
+            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+            {
+                ConfigureVoltageSettings(channelOutput, settings);
+            }
+            else
+            {
+                ConfigureCurrentSettings(channelOutput, settings);
+            }
+        }
         #endregion methods on DCPowerSessionInformation
 
         #region private and internal methods
@@ -1210,7 +1199,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var channelString = sitePinInfo?.IndividualChannelString ?? sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
             sessionInfo.ConfigureChannels(settings, channelOutput, channelString, sitePinInfo);
-            sessionInfo.InitiateChannels(channelOutput, waitForSourceCompletion);
+            channelOutput.InitiateChannels(waitForSourceCompletion);
         }
 
         private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, string channelString = "", SitePinInfo sitePinInfo = null)
@@ -1218,15 +1207,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelString);
             channelOutput.Source.Output.Enabled = true;
-            channelOutput.Control.Commit();
+            // channelOutput.Control.Commit();
         }
 
-        private static void InitiateChannels(this DCPowerSessionInformation sessionInfo, DCPowerOutput channelOutput, bool waitForSourceCompletion = false)
+        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false, double timeoutInSeconds = 5)
         {
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
             {
-                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(5.0));
+                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(timeoutInSeconds));
             }
         }
 
@@ -1260,6 +1249,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
+            if (settings.OutputFunction.HasValue)
+            {
+                dcOutput.Source.Output.Function = settings.OutputFunction.Value;
+            }
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Voltage.VoltageLevel = settings.Level.Value;
@@ -1293,6 +1286,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
+            if (settings.OutputFunction.HasValue)
+            {
+                dcOutput.Source.Output.Function = settings.OutputFunction.Value;
+            }
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Current.CurrentLevel = settings.Level.Value;

@@ -340,6 +340,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 originalSourceDelays[sitePinInfo.IndividualChannelString] = channelOutput.Source.SourceDelay;
                 originalStartTriggerTypes[sitePinInfo.IndividualChannelString] = channelOutput.Triggers.StartTrigger.Type;
             });
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
             // Create per-pin per-site sequences
             var currentSequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
@@ -354,19 +355,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             sessionsBundle.ForceCurrentSequenceSynchronized(
                 currentSequence: currentSequence,
-                voltageLimit: new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+                voltageLimit: new PinSiteData<double?>(new Dictionary<string, IDictionary<int, double?>>()
                 {
-                    ["VDD"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 1.1, [2] = 1.2, [3] = 1.3 }
+                    ["VDD"] = new Dictionary<int, double?>() { [0] = 1.0, [1] = 1.1, [2] = 1.2, [3] = 1.3 }
                 }),
-                currentLevelRange: new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+                currentLevelRange: new PinSiteData<double?>(new Dictionary<string, IDictionary<int, double?>>()
                 {
-                    ["VDD"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.1, [2] = 0.1, [3] = 0.1 }
+                    ["VDD"] = new Dictionary<int, double?>() { [0] = 0.1, [1] = 0.1, [2] = 0.1, [3] = 0.1 }
                 }),
-                voltageLimitRange: new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+                voltageLimitRange: new PinSiteData<double?>(new Dictionary<string, IDictionary<int, double?>>()
                 {
-                    ["VDD"] = new Dictionary<int, double>() { [0] = 1.5, [1] = 1.5, [2] = 1.5, [3] = 1.5 }
+                    ["VDD"] = new Dictionary<int, double?>() { [0] = 1.5, [1] = 1.5, [2] = 1.5, [3] = 1.5 }
                 }));
 
+            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            {
+                sessionInfo.AllChannelsOutput.Control.Abort();
+                sessionInfo.AllChannelsOutput.Control.Initiate();
+                return sessionInfo.Session.Measurement.Fetch(sessionInfo.AllChannelsString, PrecisionTimeSpan.FromSeconds(1), 3);
+            });
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
                 var channelString = sitePinInfo.IndividualChannelString;
