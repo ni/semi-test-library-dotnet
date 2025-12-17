@@ -914,8 +914,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelOutput.Name));
             }
             string channelString = channelOutput.Name;
-            var sitePinInfoList = sitePinInformation != null ? new List<SitePinInfo>() { sitePinInformation } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
+            IEnumerable<SitePinInfo> sitePinInfoList = null;
 
+            if (sessionInfo.ContainsGangedChannels)
+            {
+                sitePinInfoList = sitePinInformation != null ? new List<SitePinInfo>() { sitePinInformation } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
+            }
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             if (settings.LimitSymmetry.HasValue)
             {
@@ -935,9 +939,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     sessionInfo.Session.ConfigureTransientResponse(channelString, sessionInfo.ModelString, settings.TransientResponse.Value);
                 }
-                else
+                else if (sessionInfo.ContainsGangedChannels)
                 {
                     foreach (var sitePinInfo in sitePinInfoList)
+                    {
+                        sessionInfo.Session.ConfigureTransientResponse(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, settings.TransientResponse.Value);
+                    }
+                }
+                else
+                {
+                    foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString)))
                     {
                         sessionInfo.Session.ConfigureTransientResponse(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, settings.TransientResponse.Value);
                     }
@@ -1109,7 +1120,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
             {
                 channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
-                channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure(gangingInfo.TriggerName, DCPowerTriggerEdge.Rising);
+                channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure(gangingInfo.SourceTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
