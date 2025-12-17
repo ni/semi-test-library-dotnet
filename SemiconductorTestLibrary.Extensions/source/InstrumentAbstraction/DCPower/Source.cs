@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
@@ -25,7 +24,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Delegate to retrieve a single double value (limit, range, etc.) for a given site-pin pair.
         /// </summary>
-        private delegate double ValueProvider(SitePinInfo sitePinInfo);
+        private delegate double? ValueProvider(SitePinInfo sitePinInfo);
 
         #endregion
 
@@ -489,25 +488,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <summary>
-        /// Forces a hardware-timed sequence of current values per site and pin. If multiple target pins, the sequenced output will be synchronized across the target pins.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentSequence">The current sequence to force for different site-pin pairs.</param>
-        /// <param name="voltageLimit">Optional voltage limits to use per site-pin pair. Defaults to +Infinity if not provided.</param>
-        /// <param name="currentLevelRange">Optional current level ranges to use per site-pin pair. Defaults to max(abs(sequence)) if not provided.</param>
-        /// <param name="voltageLimitRange">Optional voltage limit ranges to use per site-pin pair. Defaults to max(abs(sequence)) if not provided.</param>
-        /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
-        /// <param name="transientResponse">Optional transient response. If provided, applied uniformly.</param>
-        /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
-        /// <param name="waitForSequenceCompletion">Whether to wait for sequence completion.</param>
-        /// <param name="sequenceTimeoutInSeconds">The maximum time used to force the sequence if waiting.</param>
+        /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> currentSequence,
-            PinSiteData<double?> voltageLimit = null,
-            PinSiteData<double?> currentLevelRange = null,
-            PinSiteData<double?> voltageLimitRange = null,
+            PinSiteData<double> voltageLimit = null,
+            PinSiteData<double> currentLevelRange = null,
+            PinSiteData<double> voltageLimitRange = null,
             double? sourceDelayinSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
@@ -515,21 +502,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double sequenceTimeoutInSeconds = 5.0)
         {
             SequenceProvider getCurrentSequenceForSite = sitePinInfo => currentSequence.GetValue(sitePinInfo);
-            ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimit?.GetValue(sitePinInfo) ?? double.PositiveInfinity;
-            ValueProvider getCurrentLevelRangeForSite = sitePinInfo =>
-            {
-                var sequence = getCurrentSequenceForSite(sitePinInfo);
-                var absMaxLevel = sequence?.Length > 0 ? sequence.Select(v => Math.Abs(v)).Max() : 0.0;
-                return currentLevelRange?.GetValue(sitePinInfo) ?? absMaxLevel;
-            };
-            ValueProvider getVoltageLimitRangeForSite = sitePinInfo =>
-            {
-                var sequence = getCurrentSequenceForSite(sitePinInfo);
-                var absMaxLevel = sequence?.Length > 0 ? sequence.Select(v => Math.Abs(v)).Max() : 0.0;
-                return voltageLimitRange?.GetValue(sitePinInfo) ?? absMaxLevel;
-            };
+            ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimit?.GetValue(sitePinInfo);
+            ValueProvider getCurrentLevelRangeForSite = sitePinInfo => currentLevelRange?.GetValue(sitePinInfo);
+            ValueProvider getVoltageLimitRangeForSite = sitePinInfo => voltageLimitRange?.GetValue(sitePinInfo);
+
             sessionsBundle.ForceSequenceSynchronizedCore(
                 getCurrentSequenceForSite,
+               DCPowerSourceOutputFunction.DCCurrent,
                 getVoltageLimitRangeForSite,
                 getCurrentLevelRangeForSite,
                 getVoltageLimitForSite,
@@ -537,29 +516,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
-                sequenceTimeoutInSeconds,
-                DCPowerSourceOutputFunction.DCCurrent);
+                sequenceTimeoutInSeconds);
         }
 
-        /// <summary>
-        /// Forces a hardware-timed sequence of current values per site. If multiple target pins, the sequenced output will be synchronized across the target pins.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentSequences">The current sequences to force for different sites.</param>
-        /// <param name="voltageLimits">Optional voltage limits to use per site. Defaults to +Infinity if not provided.</param>
-        /// <param name="currentLevelRanges">Optional current level ranges to use per site. Defaults to max(abs(sequence)) if not provided.</param>
-        /// <param name="voltageLimitRanges">Optional voltage limit ranges to use per site. Defaults to max(abs(sequence)) if not provided.</param>
-        /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
-        /// <param name="transientResponse">Optional transient response. If provided, applied uniformly.</param>
-        /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
-        /// <param name="waitForSequenceCompletion">Whether to wait for sequence completion.</param>
-        /// <param name="sequenceTimeoutInSeconds">The maximum time used to force the sequence if waiting.</param>
+        /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<double[]> currentSequences,
-            SiteData<double?> voltageLimits = null,
-            SiteData<double?> currentLevelRanges = null,
-            SiteData<double?> voltageLimitRanges = null,
+            SiteData<double> voltageLimits = null,
+            SiteData<double> currentLevelRanges = null,
+            SiteData<double> voltageLimitRanges = null,
             double? sourceDelayinSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
@@ -567,22 +533,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double sequenceTimeoutInSeconds = 5.0)
         {
             SequenceProvider getCurrentSequenceForSite = sitePinInfo => currentSequences.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimits?.GetValue(sitePinInfo.SiteNumber) ?? double.PositiveInfinity;
-            ValueProvider getCurrentLevelRangeForSite = sitePinInfo =>
-            {
-                var sequence = getCurrentSequenceForSite(sitePinInfo);
-                var absMaxLevel = sequence?.Length > 0 ? sequence.Select(v => Math.Abs(v)).Max() : 0.0;
-                return currentLevelRanges?.GetValue(sitePinInfo.SiteNumber) ?? absMaxLevel;
-            };
-            ValueProvider getVoltageLimitRangeForSite = sitePinInfo =>
-            {
-                var sequence = getCurrentSequenceForSite(sitePinInfo);
-                var absMaxLevel = sequence?.Length > 0 ? sequence.Select(v => Math.Abs(v)).Max() : 0.0;
-                return voltageLimitRanges?.GetValue(sitePinInfo.SiteNumber) ?? absMaxLevel;
-            };
+            ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimits?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getCurrentLevelRangeForSite = sitePinInfo => currentLevelRanges?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getVoltageLimitRangeForSite = sitePinInfo => voltageLimitRanges?.GetValue(sitePinInfo.SiteNumber);
 
             sessionsBundle.ForceSequenceSynchronizedCore(
                 getCurrentSequenceForSite,
+               DCPowerSourceOutputFunction.DCCurrent,
                 getVoltageLimitRangeForSite,
                 getCurrentLevelRangeForSite,
                 getVoltageLimitForSite,
@@ -590,24 +547,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
-                sequenceTimeoutInSeconds,
-                DCPowerSourceOutputFunction.DCCurrent);
+                sequenceTimeoutInSeconds);
         }
 
         /// <summary>
-        /// Forces a hardware-timed sequence of current values on all target pins synchronously.
-        /// If multiple target pins, the sequenced output will be synchronized across the target pins.
+        /// Forces a hardware-timed sequence of current outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentSequence">The current sequence to force for all site-pin pairs.</param>
-        /// <param name="voltageLimit">Optional voltage limit to use for all site-pin pairs. Defaults to +Infinity if not provided.</param>
-        /// <param name="currentLevelRange">Optional current level range to use for all site-pin pairs. Defaults to max(abs(sequence)) if not provided.</param>
-        /// <param name="voltageLimitRange">Optional voltage limit range to use for all site-pin pairs. Defaults to max(abs(sequence)) if not provided.</param>
+        /// <param name="voltageLimit">Voltage limit for the sequence.</param>
+        /// <param name="currentLevelRange">Current level range.</param>
+        /// <param name="voltageLimitRange">Voltage limit range.</param>
         /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
-        /// <param name="transientResponse">Optional transient response. If provided, applied uniformly.</param>
+        /// <param name="transientResponse">Transient response.</param>
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
-        /// <param name="waitForSequenceCompletion">Whether to wait for sequence completion.</param>
-        /// <param name="sequenceTimeoutInSeconds">The maximum time used to force the sequence if waiting.</param>
+        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] currentSequence,
@@ -621,11 +576,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double sequenceTimeoutInSeconds = 5.0)
         {
             SequenceProvider currentSequences = _ => currentSequence;
-            ValueProvider voltageLimits = _ => voltageLimit ?? double.PositiveInfinity;
-            ValueProvider currentLevelRanges = _ => currentLevelRange ?? (currentSequence?.Length > 0 ? currentSequence.Select(v => Math.Abs(v)).Max() : 0.0);
-            ValueProvider voltageLimitRanges = _ => voltageLimitRange ?? (currentSequence?.Length > 0 ? currentSequence.Select(v => Math.Abs(v)).Max() : 0.0);
+            ValueProvider voltageLimits = _ => voltageLimit;
+            ValueProvider currentLevelRanges = _ => currentLevelRange;
+            ValueProvider voltageLimitRanges = _ => voltageLimitRange;
             sessionsBundle.ForceSequenceSynchronizedCore(
                currentSequences,
+               DCPowerSourceOutputFunction.DCCurrent,
                voltageLimitRanges,
                currentLevelRanges,
                voltageLimits,
@@ -633,44 +589,40 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                transientResponse,
                sequenceLoopCount,
                waitForSequenceCompletion,
-               sequenceTimeoutInSeconds,
-               DCPowerSourceOutputFunction.DCCurrent);
+               sequenceTimeoutInSeconds);
         }
 
         /// <summary>
-        /// Forces a hardware-timed sequence of voltage values. If multiple target pins, the sequenced output will be synchronized across the target pins.
+        /// Forces a hardware-timed sequence of current/voltage outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
         private static void ForceSequenceSynchronizedCore(
             this DCPowerSessionsBundle sessionsBundle,
-            SequenceProvider getCurrentSequenceForSite,
-            ValueProvider getVoltageLimitRangeForSite,
-            ValueProvider getCurrentLevelRangeForSite,
-            ValueProvider getVoltageLimitForSite,
+            SequenceProvider levelSequence,
+            DCPowerSourceOutputFunction outputFunction,
+            ValueProvider fetchLimitRange,
+            ValueProvider fetchLevelRange,
+            ValueProvider fetchLimit,
             double? sourceDelayinSeconds,
             DCPowerSourceTransientResponse? transientResponse,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0,
-            DCPowerSourceOutputFunction outputFunction = DCPowerSourceOutputFunction.DCVoltage)
+            double sequenceTimeoutInSeconds = 5.0)
         {
             var resolvedTransientResponse = transientResponse ?? DCPowerSourceTransientResponse.Fast;
-
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
 
-            // Configure and arm all channels
+            // Configure all channels
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
-                var currentSequence = getCurrentSequenceForSite(sitePinInfo);
-                var levelRange = getCurrentLevelRangeForSite(sitePinInfo);
-                var limitRange = getVoltageLimitRangeForSite(sitePinInfo);
-                var limit = getVoltageLimitForSite(sitePinInfo);
-                var initialLevel = currentSequence.Length > 0 ? currentSequence[0] : 0.0;
+                var currentSequence = levelSequence(sitePinInfo);
+                var levelRange = fetchLevelRange(sitePinInfo);
+                var limitRange = fetchLimitRange(sitePinInfo);
+                var limit = fetchLimit(sitePinInfo);
 
                 var settings = new DCPowerSourceSettings()
                 {
                     OutputFunction = outputFunction,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = initialLevel,
                     Limit = limit,
                     LevelRange = levelRange,
                     LimitRange = limitRange,
@@ -678,7 +630,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
 
                 var perChannelString = sitePinInfo.IndividualChannelString;
-
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
@@ -1145,32 +1096,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
             }
-            if (settings.TransientResponse.HasValue)
-            {
-                string channelStringToUse = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsString : channelString;
-                if (sessionInfo.AllInstrumentsAreTheSameModel)
-                {
-                    sessionInfo.Session.ConfigureTransientResponse(channelStringToUse, sessionInfo.ModelString, settings.TransientResponse.Value);
-                }
-                else
-                {
-                    foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => channelStringToUse.Contains(sitePin.IndividualChannelString)))
-                    {
-                        sessionInfo.Session.ConfigureTransientResponse(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, settings.TransientResponse.Value);
-                    }
-                }
-            }
-            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
-            {
-                ConfigureVoltageSettings(channelOutput, settings);
-            }
-            else
-            {
-                ConfigureCurrentSettings(channelOutput, settings);
-            }
-        }
-        private static void ConfigureLevelsAndLimits(this DCPowerOutput channelOutput, DCPowerSourceSettings settings)
-        {
+            sessionInfo.ConfigureTransientResponce(settings, channelString);
             if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
             {
                 ConfigureVoltageSettings(channelOutput, settings);
