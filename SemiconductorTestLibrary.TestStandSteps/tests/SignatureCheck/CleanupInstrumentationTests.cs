@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Reflection;
 using NationalInstruments.SemiconductorTestLibrary.TestStandSteps;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
@@ -10,15 +11,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         [Fact]
         public void CleanupInstrumentation_HasCorrectSignature()
         {
-            // Arrange
             var type = typeof(SetupAndCleanupSteps);
 
-            // Act
-            var method = type.GetMethod("CleanupInstrumentation", BindingFlags.Public | BindingFlags.Static);
+            // Act, get all overloads of the method
+            var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "CleanupInstrumentation").ToArray();
 
-            // Assert
-            Assert.NotNull(method);
+            // Assert, ensure there is only one method without any overload.
+            Assert.Single(methods);
 
+            var method = methods[0];
             var parameters = method.GetParameters();
             Assert.Equal(3, parameters.Length);
 
