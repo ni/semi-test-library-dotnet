@@ -1,11 +1,10 @@
-﻿using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -320,7 +319,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
-            sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -348,7 +347,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
-            sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -376,7 +375,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
-            sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -402,7 +401,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
                 });
-                sessionsBundle.InitiateGangedLeaderChannels(waitForSourceCompletion);
+                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
             }
         }
 
@@ -984,11 +983,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Commit();
         }
 
-        private static void InitiateGangedLeaderChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false)
+        private static void InitiateGangedLeaderAndNonGangedChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                if (!(sitePinInfo.CascadingInfo is GangingInfo ganging) || !ganging.IsFollower)
+                if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     channelOutput.InitiateChannels(waitForSourceCompletion);
