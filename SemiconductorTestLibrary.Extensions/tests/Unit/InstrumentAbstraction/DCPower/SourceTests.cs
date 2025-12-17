@@ -285,9 +285,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(true)]
         public void DifferentSMUDevices_ForceCurrentSequenceSynchronized_CorrectValueAreSet(bool pinMapWithChannelGroup)
         {
-            var pinNames = new string[] { "VDD" };
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var sessionsBundle = sessionManager.DCPower("VDD");
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new[] { 0.000, 0.005, 0.010 };
@@ -306,9 +305,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(true)]
         public void DifferentSMUDevices_ForceCurrentSequenceSynchronizedWithPerPinPerSiteValues_CorrectValueAreSet(bool pinMapWithChannelGroup)
         {
-            var pinNames = new string[] { "VDD" };
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var sessionsBundle = sessionManager.DCPower("VDD");
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
             var currentSequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
