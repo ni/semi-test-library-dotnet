@@ -479,9 +479,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentSequence">Array of current levels to source step-by-step.</param>
-        /// <param name="voltageLimit">voltage limit for the sequence.</param>
-        /// <param name="currentLevelRange">current level range.</param>
-        /// <param name="voltageLimitRange">voltage limit range.</param>
+        /// <param name="voltageLimit">Voltage limit for the sequence.</param>
+        /// <param name="currentLevelRange">Current level range.</param>
+        /// <param name="voltageLimitRange">Voltage limit range.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
@@ -499,14 +499,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 ForceSequenceCore(
                      sessionInfo.AllChannelsOutput,
+                     DCPowerSourceOutputFunction.DCCurrent,
                      currentSequence,
                      voltageLimit,
                      currentLevelRange,
                      voltageLimitRange,
                      sequenceLoopCount,
                      waitForSequenceCompletion,
-                     sequenceTimeoutInSeconds,
-                     DCPowerSourceOutputFunction.DCCurrent);
+                     sequenceTimeoutInSeconds);
             });
         }
 
@@ -529,14 +529,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
                 ForceSequenceCore(
                     channelOutput,
+                    DCPowerSourceOutputFunction.DCCurrent,
                     sequence,
                     voltageLimit,
                     currentLevelRange,
                     voltageLimitRange,
                     sequenceLoopCount,
                     waitForSequenceCompletion,
-                    sequenceTimeoutInSeconds,
-                    DCPowerSourceOutputFunction.DCCurrent);
+                    sequenceTimeoutInSeconds);
             });
         }
 
@@ -559,30 +559,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
                 ForceSequenceCore(
                     channelOutput,
+                    DCPowerSourceOutputFunction.DCCurrent,
                     sequence,
                     voltageLimit,
                     currentLevelRange,
                     voltageLimitRange,
                     sequenceLoopCount,
                     waitForSequenceCompletion,
-                    sequenceTimeoutInSeconds,
-                    DCPowerSourceOutputFunction.DCCurrent);
+                    sequenceTimeoutInSeconds);
             });
         }
 
         /// <summary>
-        /// Core implementation for forcing a current/voltage sequence on a specific channel.
+        /// Core implementation for forcing a current/voltage sequence.
         /// </summary>
         private static void ForceSequenceCore(
             DCPowerOutput channelOutput,
-            double[] currentSequence,
+            DCPowerSourceOutputFunction outputFunction,
+            double[] levelSequence,
             double? limit,
             double? levelRange,
             double? limitRange,
             int sequenceLoopCount,
             bool waitForSequenceCompletion,
-            double sequenceTimeoutInSeconds,
-            DCPowerSourceOutputFunction outputFunction = DCPowerSourceOutputFunction.DCVoltage)
+            double sequenceTimeoutInSeconds)
         {
             var settings = new DCPowerSourceSettings()
             {
@@ -594,7 +594,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
 
             channelOutput.Control.Abort();
-            channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
+            channelOutput.ConfigureSequence(levelSequence, sequenceLoopCount);
             channelOutput.ConfigureLevelsAndLimits(settings);
             channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
@@ -763,35 +763,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <summary>
-        /// Configures a hardware-timed sequence of values.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="sequence">The voltage or current sequence to set.</param>
-        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
-        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
+        /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].ConfigureSequence(sequence.GetValue(pinSiteInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+                var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.ConfigureSequence(sequence.GetValue(pinSiteInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
             });
         }
 
-        /// <summary>
-        /// Configures a hardware-timed sequence of values.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="sequence">The voltage or current sequence to set.</param>
-        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
-        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
+        /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].ConfigureSequence(sequence.GetValue(pinSiteInfo), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+                var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.ConfigureSequence(sequence.GetValue(pinSiteInfo), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
             });
         }
 
@@ -1150,7 +1140,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 ConfigureVoltageSettings(channelOutput, settings);
             }
-            else
+            else if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCCurrent))
             {
                 ConfigureCurrentSettings(channelOutput, settings);
             }
@@ -1211,10 +1201,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
-            if (settings.OutputFunction.HasValue)
-            {
-                dcOutput.Source.Output.Function = settings.OutputFunction.Value;
-            }
+            dcOutput.Source.Output.Function = settings.OutputFunction.Value;
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Voltage.VoltageLevel = settings.Level.Value;
@@ -1248,10 +1235,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
-            if (settings.OutputFunction.HasValue)
-            {
-                dcOutput.Source.Output.Function = settings.OutputFunction.Value;
-            }
+            dcOutput.Source.Output.Function = settings.OutputFunction.Value;
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Current.CurrentLevel = settings.Level.Value;
