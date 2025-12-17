@@ -478,11 +478,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Forces a hardware-timed sequence of current values on the targeted pin(s).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentSequence">Array of current levels (in amperes) to source step-by-step. First element is applied before initiating the sequence.</param>
-        /// <param name="voltageLimit">Optional symmetric compliance voltage limit for the sequence (in volts).</param>
-        /// <param name="currentLevelRange">Optional current level range (in amperes). Defaults to |currentSequence[i]| if not specified.</param>
-        /// <param name="voltageLimitRange">Optional voltage limit range (in volts). Defaults to |voltageLimit| if not specified.</param>
-        /// <param name="sequenceLoopCount">Number of times to repeat the entire sequence after one pass (minimum 1).</param>
+        /// <param name="currentSequence">Array of current levels to source step-by-step.</param>
+        /// <param name="voltageLimit">voltage limit for the sequence.</param>
+        /// <param name="currentLevelRange">current level range.</param>
+        /// <param name="voltageLimitRange">voltage limit range.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
         public static void ForceCurrentSequence(
@@ -509,17 +509,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                      DCPowerSourceOutputFunction.DCCurrent);
             });
         }
-        /// <summary>
-        /// Forces a hardware-timed sequence of current values on the targeted pin(s).
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentSequence">Array of current levels (in amperes) to source step-by-step. First element is applied before initiating the sequence.</param>
-        /// <param name="voltageLimit">Optional symmetric compliance voltage limit for the sequence (in volts).</param>
-        /// <param name="currentLevelRange">Optional current level range (in amperes). Defaults to |currentSequence[i]| if not specified.</param>
-        /// <param name="voltageLimitRange">Optional voltage limit range (in volts). Defaults to |voltageLimit| if not specified.</param>
-        /// <param name="sequenceLoopCount">Number of times to repeat the entire sequence after one pass (minimum 1).</param>
-        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
-        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+
+        /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
         public static void ForceCurrentSequence(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<double[]> currentSequence,
@@ -549,17 +540,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <summary>
-        /// Forces a hardware-timed sequence of current values on the targeted pin(s).
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentSequence">Array of current levels (in amperes) to source step-by-step. First element is applied before initiating the sequence.</param>
-        /// <param name="voltageLimit">Optional symmetric compliance voltage limit for the sequence (in volts).</param>
-        /// <param name="currentLevelRange">Optional current level range (in amperes). Defaults to |currentSequence[i]| if not specified.</param>
-        /// <param name="voltageLimitRange">Optional voltage limit range (in volts). Defaults to |voltageLimit| if not specified.</param>
-        /// <param name="sequenceLoopCount">Number of times to repeat the entire sequence after one pass (minimum 1).</param>
-        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
-        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
         public static void ForceCurrentSequence(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> currentSequence,
@@ -590,7 +571,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Core implementation for forcing a current sequence on a specific channel.
+        /// Core implementation for forcing a current/voltage sequence on a specific channel.
         /// </summary>
         private static void ForceSequenceCore(
             DCPowerOutput channelOutput,
@@ -991,13 +972,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <summary>
-        /// Configures a hardware-timed sequence of values with per-step source delays for each site.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="sequence">The voltage or current sequence to set for each site.</param>
-        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence for each site.</param>
-        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <inheritdoc cref="ConfigureSequenceWithSourceDelays(DCPowerSessionsBundle, double[], double[], int)"/>
         public static void ConfigureSequenceWithSourceDelays(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<double[]> sequence,
@@ -1011,13 +986,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <summary>
-        /// Configures a hardware-timed sequence of values with per-step source delays for each site and pin.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="sequence">The voltage or current sequence to set for each site and pin.</param>
-        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence for each site and pin.</param>
-        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <inheritdoc cref="ConfigureSequenceWithSourceDelays(DCPowerSessionsBundle, double[], double[], int)"/>
         public static void ConfigureSequenceWithSourceDelays(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> sequence,

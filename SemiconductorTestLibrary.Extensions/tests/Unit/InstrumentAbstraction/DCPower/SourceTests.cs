@@ -642,18 +642,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sequence = new[] { -0.02, 0.03, 0.04, 0.05, 0.07 };
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 1, sequenceLoopCount: 1);
 
-            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.AllChannelsOutput.Control.Abort();
-                sessionInfo.AllChannelsOutput.Control.Initiate();
-                return sessionInfo.Session.Measurement.Fetch(sessionInfo.AllChannelsString, PrecisionTimeSpan.FromSeconds(1), 5);
+                return sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(5), 2);
             });
             for (int i = 0; i < 4; i++)
             {
                 Assert.All(
-                    results[i].CurrentMeasurements.Select((val, idx) => (val, idx)),
-                    p => Assert.Equal(sequence[p.idx], p.val, 2));
+                    results[i][0].CurrentMeasurements.Select((val, idx) => (val, idx)),
+                    p => Assert.Equal(sequence[p.idx], p.val, 3));
             }
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 3, itemToFetch: 5);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevelRange: 0.1, expectedVoltageLimit: 0.5, expectedVoltageLimitRange: 1, expectedSequenceLoopCount: 1));
         }
 
@@ -677,18 +676,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                         });
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 1, sequenceLoopCount: 2);
 
-            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
-            {
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Initiate();
-                return sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(5), 2);
-            });
-            for (int i = 0; i < 4; i++)
-            {
-                Assert.All(
-                    results[i][0].CurrentMeasurements.Select((val, idx) => (val, idx)),
-                    p => Assert.Equal(sequence.GetValue(i)[p.idx], p.val, 3));
-            }
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex), precision: 3, itemToFetch: 2);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevelRange: 0.1, expectedVoltageLimit: 0.5, expectedVoltageLimitRange: 1, expectedSequenceLoopCount: 2));
         }
 
@@ -709,8 +697,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Initiate();
                 return sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(1), 2);
             });
             for (int i = 0; i < 4; i++)
@@ -1424,6 +1410,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 .Select(sitePinInfo => sitePinInfo.SiteNumber)
                 .Distinct()
                 .ToArray();
+        }
+
+        private void AssertSequenceMeasurementsMatchExpected(
+            DCPowerSessionsBundle sessionsBundle,
+            Func<int, double[]> getExpectedSequence,
+            int siteCount = 4,
+            double timeoutSeconds = 5.0,
+            int precision = 3,
+            int itemToFetch = 2)
+        {
+            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(timeoutSeconds), itemToFetch);
+            });
+
+            for (int i = 0; i < siteCount; i++)
+            {
+                var expectedSequence = getExpectedSequence(i);
+                Assert.All(results[i][0].CurrentMeasurements.Select((val, idx) => (val, idx)), p => Assert.Equal(expectedSequence[p.idx], p.val, precision));
+            }
         }
     }
 }
