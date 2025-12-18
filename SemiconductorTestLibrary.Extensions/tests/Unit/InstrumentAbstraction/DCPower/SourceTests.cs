@@ -726,7 +726,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                Assert.Equal(settings.OutputFunction, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertCurrentSettings(sessionInfo.AllChannelsOutput, 1, 7);
                 AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
             });
@@ -769,15 +769,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                Assert.Equal(perSiteSettings.GetValue(sitePinInfo.SiteNumber).OutputFunction, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                if (sitePinInfo.SiteNumber == 0)
-                {
-                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.4, expectedVoltageLimit: 7);
-                }
-                else
-                {
-                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: 0.6, expectedVoltageLimit: 5);
-                }
+                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.4 : 0.6, expectedVoltageLimit: sitePinInfo.SiteNumber == 0 ? 7 : 5);
                 AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
             });
         }
@@ -817,15 +810,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                Assert.Equal(perPinPerSiteSettings.GetValue(sitePinInfo).OutputFunction, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, 0.75, 6);
-                }
-                else
-                {
-                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, 3, 6);
-                }
+                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                AssertCurrentSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 0.75, 3, 6);
                 AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
             });
         }
@@ -870,15 +856,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                Assert.Equal(perPinsettings[sitePinInfo.PinName].OutputFunction, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, 1, 7);
-                }
-                else
-                {
-                    AssertCurrentSettings(sessionInfo.AllChannelsOutput, 2, 7);
-                }
+                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                AssertCurrentSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 1, 2, 7);
                 AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
             });
         }
@@ -908,6 +887,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 Assert.Equal(settings.OutputFunction, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                AssertVoltageSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 3, 0.5, 1.5);
                 if (sitePinInfo.CascadingInfo is GangingInfo)
                 {
                     AssertVoltageSettings(sessionInfo.AllChannelsOutput, 3, 0.5);
@@ -946,7 +926,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                Assert.Equal(perSiteSettings.GetValue(sitePinInfo.SiteNumber).OutputFunction, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                AssertVoltageSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 4, 0.75, 3);
                 if (sitePinInfo.CascadingInfo is GangingInfo)
                 {
                     AssertVoltageSettings(sessionInfo.AllChannelsOutput, 4, 0.75);
@@ -993,15 +974,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                Assert.Equal(perPinPerSiteSettings.GetValue(sitePinInfo).OutputFunction, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertVoltageSettings(sessionInfo.AllChannelsOutput, 3, 1);
-                }
-                else
-                {
-                    AssertVoltageSettings(sessionInfo.AllChannelsOutput, 3, 3);
-                }
+                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                AssertVoltageSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 3, 1, 3);
                 AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
             });
         }
@@ -1038,7 +1012,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                Assert.Equal(perPinsettings[sitePinInfo.PinName].OutputFunction, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertVoltageSettings(sessionInfo.AllChannelsOutput, 4, 0.6);
                 AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
             });
@@ -1565,6 +1539,30 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedCurrentLevel, channelOutput.Source.Current.CurrentLevel);
             Assert.Equal(expectedVoltageLimitHigh, channelOutput.Source.Current.VoltageLimitHigh);
             Assert.Equal(expectedVoltageLimitLow, channelOutput.Source.Current.VoltageLimitLow);
+        }
+
+        private void AssertCurrentSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, double gangedChannelLevel, double normalChannelLevel, double voltageLimit)
+        {
+            if (sitePinInfo.CascadingInfo is GangingInfo)
+            {
+                AssertCurrentSettings(channelOutput, gangedChannelLevel, voltageLimit);
+            }
+            else
+            {
+                AssertCurrentSettings(channelOutput, normalChannelLevel, voltageLimit);
+            }
+        }
+
+        private void AssertVoltageSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, double voltageLevel, double gangedChannelLimit, double normalChannelLimit)
+        {
+            if (sitePinInfo.CascadingInfo is GangingInfo)
+            {
+                AssertVoltageSettings(channelOutput, voltageLevel, gangedChannelLimit);
+            }
+            else
+            {
+                AssertVoltageSettings(channelOutput, voltageLevel, normalChannelLimit);
+            }
         }
 
         private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string channelString)
