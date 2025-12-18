@@ -521,10 +521,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var sequence = currentSequence.GetValue(pinSiteInfo.SiteNumber);
-                var channelString = pinSiteInfo.IndividualChannelString;
+                var sequence = currentSequence.GetValue(sitePinInfo.SiteNumber);
+                var channelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[channelString];
 
                 ForceSequenceCore(
@@ -551,10 +551,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var sequence = currentSequence.GetValue(pinSiteInfo);
-                var channelString = pinSiteInfo.IndividualChannelString;
+                var sequence = currentSequence.GetValue(sitePinInfo);
+                var channelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[channelString];
 
                 ForceSequenceCore(
@@ -969,10 +969,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             SiteData<double[]> sourceDelaysInSeconds,
             int sequenceLoopCount = 1)
         {
-            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].ConfigureSequence(sequence.GetValue(pinSiteInfo.SiteNumber), sequenceLoopCount, sourceDelaysInSeconds.GetValue(pinSiteInfo.SiteNumber));
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -983,10 +984,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             PinSiteData<double[]> sourceDelaysInSeconds,
             int sequenceLoopCount = 1)
         {
-            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].ConfigureSequence(sequence.GetValue(pinSiteInfo), sequenceLoopCount, sourceDelaysInSeconds.GetValue(pinSiteInfo));
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo));
             });
         }
 
@@ -1201,7 +1203,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
-            dcOutput.Source.Output.Function = settings.OutputFunction.Value;
+            dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Voltage.VoltageLevel = settings.Level.Value;
@@ -1235,7 +1237,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
-            dcOutput.Source.Output.Function = settings.OutputFunction.Value;
+            dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Current.CurrentLevel = settings.Level.Value;
