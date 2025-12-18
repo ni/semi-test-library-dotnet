@@ -1106,10 +1106,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
-            if (settings.LimitSymmetry.HasValue)
-            {
-                channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
-            }
             if (settings.SourceDelayInSeconds.HasValue)
             {
                 channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
@@ -1138,6 +1134,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureLevelsAndLimits(this DCPowerOutput channelOutput, DCPowerSourceSettings settings)
         {
+            if (settings.LimitSymmetry.HasValue)
+            {
+                channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
+            }
             if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
             {
                 ConfigureVoltageSettings(channelOutput, settings);
