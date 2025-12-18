@@ -46,6 +46,13 @@
 			<PinReference pin="VCC3" />
 			<PinReference pin="VCC4" />
 		</PinGroup>
+		<PinGroup name="AllPinsGroup">
+			<PinReference pin="VCC1" />
+			<PinReference pin="VCC2" />
+			<PinReference pin="VCC3" />
+			<PinReference pin="VCC4" />
+			<PinReference pin="VCC5" />
+		</PinGroup>
 	</PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
