@@ -413,7 +413,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceVoltageSequenceArrayWithDefaultParameters_SequenceApplied(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceVoltageSequenceArrayWithDefaultParameters_SequenceAppliedSuccessfully(bool pinMapWithChannelGroup)
         {
             var pinNames = new string[] { "VDD" };
             var sessionManager = Initialize(pinMapWithChannelGroup);
@@ -422,11 +422,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sequence = new[] { 0.5, 1.0, 1.5 };
             sessionsBundle.ForceVoltageSequence(voltageSequence: sequence);
 
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                AssertVoltageSequenceSettings(channelOutput, sequence[0]);
-            });
+            sessionsBundle.Abort();
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 1, itemsToFetch: 3, checkForCurrentMeasurement: false);
         }
 
         [Theory]
