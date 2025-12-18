@@ -17,6 +17,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #region methods on DCPowerSessionsBundle
 
         /// <summary>
+        /// Delegate to retrieve a sequence of double values for a given site-pin pair.
+        /// </summary>
+        private delegate double[] SequenceProvider(SitePinInfo sitePinInfo);
+
+        /// <summary>
+        /// Delegate to retrieve a single double value (limit, range, etc.) for a given site-pin pair.
+        /// </summary>
+        private delegate double? ValueProvider(SitePinInfo sitePinInfo);
+
+        /// <summary>
         /// Configures one or more source settings based on values populated within a <see  cref="DCPowerSourceSettings"/> object.
         /// Accepts a scalar input of type <see  cref="DCPowerSourceSettings"/>.
         /// With overrides for <see cref="SiteData{DCPowerSourceSettings}"/>, and <see cref="PinSiteData{DCPowerSourceSettings}"/> input.
@@ -475,92 +485,168 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces a hardware-timed sequence of voltage values. If multiple target pins, the sequenced output will be synchronized across the target pins.
+        /// Forces a hardware-timed sequence of voltage outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageSequences">The voltage sequence to force for different site-pin pairs.</param>
-        /// <param name="currentLimits">The current limits to use for different pins.</param>
-        /// <param name="currentLimitRanges">The current limit ranges to use for different pins.</param>
+        /// <param name="voltageSequence">The current sequence to force for all site-pin pairs.</param>
+        /// <param name="currentLimit">Voltage limit for the sequence.</param>
+        /// <param name="voltageLevelRange">Current level range.</param>
+        /// <param name="currentLimitRange">Voltage limit range.</param>
+        /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
+        /// <param name="transientResponse">Transient response.</param>
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
-        /// <param name="transientResponse">The transient response to use.</param>
-        /// <param name="sequenceTimeoutInSeconds">The maximum time used to force the sequence.</param>
-        internal static void ForceVoltageSequenceSynchronized(
+        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        public static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
-            IDictionary<int, Dictionary<string, double[]>> voltageSequences,
-            IDictionary<string, double> currentLimits,
-            IDictionary<string, double> currentLimitRanges,
+            double[] voltageSequence,
+            double? currentLimit = null,
+            double? voltageLevelRange = null,
+            double? currentLimitRange = null,
+            double? sourceDelayinSeconds = null,
+            DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            DCPowerSourceTransientResponse transientResponse = DCPowerSourceTransientResponse.Fast,
+            bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
+            SequenceProvider currentSequences = _ => voltageSequence;
+            ValueProvider currentLimits = _ => currentLimit;
+            ValueProvider voltageLevelRanges = _ => voltageLevelRange;
+            ValueProvider currentLimitRanges = _ => currentLimitRange;
+            sessionsBundle.ForceSequenceSynchronizedCore(
+               currentSequences,
+               DCPowerSourceOutputFunction.DCVoltage,
+               currentLimitRanges,
+               voltageLevelRanges,
+               currentLimits,
+               sourceDelayinSeconds,
+               transientResponse,
+               sequenceLoopCount,
+               waitForSequenceCompletion,
+               sequenceTimeoutInSeconds);
+        }
+
+        /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
+        public static void ForceVoltageSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<double[]> voltageSequence,
+            SiteData<double> currentLimit = null,
+            SiteData<double> voltageLevelRange = null,
+            SiteData<double> currentLimitRange = null,
+            double? sourceDelayinSeconds = null,
+            DCPowerSourceTransientResponse? transientResponse = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            SequenceProvider currentSequences = sitePinInfo => voltageSequence?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider currentLimits = sitePinInfo => currentLimit?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider voltageLevelRanges = sitePinInfo => voltageLevelRange?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider currentLimitRanges = sitePinInfo => currentLimitRange?.GetValue(sitePinInfo.SiteNumber);
+            sessionsBundle.ForceSequenceSynchronizedCore(
+               currentSequences,
+               DCPowerSourceOutputFunction.DCVoltage,
+               currentLimitRanges,
+               voltageLevelRanges,
+               currentLimits,
+               sourceDelayinSeconds,
+               transientResponse,
+               sequenceLoopCount,
+               waitForSequenceCompletion,
+               sequenceTimeoutInSeconds);
+        }
+
+        /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
+        public static void ForceVoltageSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<double[]> voltageSequence,
+            PinSiteData<double> currentLimit = null,
+            PinSiteData<double> voltageLevelRange = null,
+            PinSiteData<double> currentLimitRange = null,
+            double? sourceDelayinSeconds = null,
+            DCPowerSourceTransientResponse? transientResponse = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            SequenceProvider currentSequences = sitePinInfo => voltageSequence?.GetValue(sitePinInfo);
+            ValueProvider currentLimits = sitePinInfo => currentLimit?.GetValue(sitePinInfo);
+            ValueProvider voltageLevelRanges = sitePinInfo => voltageLevelRange?.GetValue(sitePinInfo);
+            ValueProvider currentLimitRanges = sitePinInfo => currentLimitRange?.GetValue(sitePinInfo);
+            sessionsBundle.ForceSequenceSynchronizedCore(
+               currentSequences,
+               DCPowerSourceOutputFunction.DCVoltage,
+               currentLimitRanges,
+               voltageLevelRanges,
+               currentLimits,
+               sourceDelayinSeconds,
+               transientResponse,
+               sequenceLoopCount,
+               waitForSequenceCompletion,
+               sequenceTimeoutInSeconds);
+        }
+
+        /// <summary>
+        /// Forces a hardware-timed sequence of current/voltage outputs, ensuring synchronized output across all specified target pins.
+        /// </summary>
+        private static void ForceSequenceSynchronizedCore(
+            this DCPowerSessionsBundle sessionsBundle,
+            SequenceProvider levelSequence,
+            DCPowerSourceOutputFunction outputFunction,
+            ValueProvider fetchLimitRange,
+            ValueProvider fetchLevelRange,
+            ValueProvider fetchLimit,
+            double? sourceDelayinSeconds,
+            DCPowerSourceTransientResponse? transientResponse,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            var resolvedTransientResponse = transientResponse ?? DCPowerSourceTransientResponse.Fast;
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
 
-            var originalSourceDelays = new Dictionary<string, PrecisionTimeSpan>();
-            var originalMeasureWhens = new Dictionary<string, DCPowerMeasurementWhen>();
-            var originalStartTriggerTypes = new Dictionary<string, DCPowerStartTriggerType>();
-            var originalStartTriggerTerminalNames = new Dictionary<string, DCPowerDigitalEdgeStartTriggerInputTerminal>();
-
+            // Configure all channels
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
-                var voltageSequence = voltageSequences[sitePinInfo.SiteNumber][sitePinInfo.PinName];
+                var currentSequence = levelSequence(sitePinInfo);
+                var levelRange = fetchLevelRange(sitePinInfo);
+                var limitRange = fetchLimitRange(sitePinInfo);
+                var limit = fetchLimit(sitePinInfo);
+
                 var settings = new DCPowerSourceSettings()
                 {
-                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    OutputFunction = outputFunction,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = voltageSequence[0],
-                    Limit = currentLimits[sitePinInfo.PinName],
-                    LevelRange = voltageSequence.Select(v => Math.Abs(v)).Max(),
-                    LimitRange = currentLimitRanges[sitePinInfo.PinName],
-                    TransientResponse = transientResponse
+                    Limit = limit,
+                    LevelRange = levelRange,
+                    LimitRange = limitRange,
+                    TransientResponse = resolvedTransientResponse
                 };
-                // Applies limits and ranges.
-                sessionInfo.Force(settings, sitePinInfo);
 
                 var perChannelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
-                originalSourceDelays[perChannelString] = channelOutput.Source.SourceDelay;
-                channelOutput.Source.SourceDelay = PrecisionTimeSpan.Zero;
-                originalMeasureWhens[perChannelString] = channelOutput.Measurement.MeasureWhen;
+                channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
+                channelOutput.ConfigureLevelsAndLimits(settings);
+                channelOutput.Source.SourceDelay = sourceDelayinSeconds.HasValue
+                    ? PrecisionTimeSpan.FromSeconds(sourceDelayinSeconds.Value)
+                    : PrecisionTimeSpan.Zero;
                 channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
-                // Applies voltage sequence.
-                channelOutput.ConfigureSequence(voltageSequence, sequenceLoopCount);
+                sessionInfo.ConfigureTransientResponce(settings, perChannelString);
 
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
-                    // Master channel does not need a start trigger.
+                    // Master channel does not need a start trigger
                     channelOutput.Triggers.StartTrigger.Disable();
                     channelOutput.Control.Commit();
                 }
                 else
                 {
-                    // Set slave channel start trigger to be the master channel terminal name.
-                    originalStartTriggerTypes[perChannelString] = channelOutput.Triggers.StartTrigger.Type;
+                    // Slave channels start on master's start trigger
                     channelOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.DigitalEdge;
-                    originalStartTriggerTerminalNames[perChannelString] = channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal;
                     channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
                     channelOutput.Control.Initiate();
                 }
-            });
-
-            masterChannelOutput.Control.Initiate();
-
-            masterChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
-
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                var perChannelString = sitePinInfo.IndividualChannelString;
-                var channelOutput = sessionInfo.Session.Outputs[perChannelString];
-                channelOutput.Control.Abort();
-                if (sessionIndex > 0 || (sessionIndex == 0 && !sitePinInfo.IsFirstChannelOfSession(sessionInfo)))
-                {
-                    channelOutput.Triggers.StartTrigger.Type = originalStartTriggerTypes[perChannelString];
-                    channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal = originalStartTriggerTerminalNames[perChannelString];
-                }
-                channelOutput.Measurement.MeasureWhen = originalMeasureWhens[perChannelString];
-                channelOutput.Source.SourceDelay = originalSourceDelays[perChannelString];
-                channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
-                channelOutput.Control.Initiate();
             });
         }
 
