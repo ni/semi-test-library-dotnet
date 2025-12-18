@@ -1380,6 +1380,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 .ToArray();
         }
 
+        private void AssertEqualForDoubleArrays(double[] expected, double[] actual, int precision = 3)
+        {
+            Assert.Equal(expected.Length, actual.Length);
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.Equal(expected[i], actual[i], precision);
+            }
+        }
+
         private void AssertSequenceMeasurementsMatchExpected(
             DCPowerSessionsBundle sessionsBundle,
             Func<int, double[]> getExpectedSequence,
@@ -1398,18 +1407,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             for (int i = 0; i < siteCount; i++)
             {
                 var expectedSequence = getExpectedSequence(i);
-                if (checkForCurrentMeasurement)
-                {
-                    Assert.All(
-                        results[i][0].CurrentMeasurements.Select((val, idx) => (val, idx)),
-                        p => Assert.Equal(expectedSequence[p.idx], p.val, precision));
-                }
-                else
-                {
-                    Assert.All(
-                        results[i][0].VoltageMeasurements.Select((val, idx) => (val, idx)),
-                        p => Assert.Equal(expectedSequence[p.idx], p.val, precision));
-                }
+                var actualSequence = checkForCurrentMeasurement ? results[i][0].CurrentMeasurements : results[i][0].VoltageMeasurements;
+                AssertEqualForDoubleArrays(expectedSequence, actualSequence, precision);
             }
         }
     }
