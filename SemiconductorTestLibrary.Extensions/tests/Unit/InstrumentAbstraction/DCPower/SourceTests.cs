@@ -886,16 +886,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                Assert.Equal(settings.OutputFunction, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertVoltageSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 3, 0.5, 1.5);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertVoltageSettings(sessionInfo.AllChannelsOutput, 3, 0.5);
-                }
-                else
-                {
-                    AssertVoltageSettings(sessionInfo.AllChannelsOutput, 3, 1.5);
-                }
                 AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
             });
         }
@@ -928,14 +920,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertVoltageSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 4, 0.75, 3);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertVoltageSettings(sessionInfo.AllChannelsOutput, 4, 0.75);
-                }
-                else
-                {
-                    AssertVoltageSettings(sessionInfo.AllChannelsOutput, 4, 3);
-                }
                 AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
             });
         }
