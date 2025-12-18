@@ -28,12 +28,23 @@
 		<DUTPin name="VCC5" />
 	</Pins>
 	<PinGroups>
-		<PinGroup name="GangedPinGroup">
+		<PinGroup name="AllPinsGangedGroup">
 			<PinReference pin="VCC1" />
 			<PinReference pin="VCC2" />
 			<PinReference pin="VCC3" />
 			<PinReference pin="VCC4" />
 			<PinReference pin="VCC5" />
+		</PinGroup>
+		<PinGroup name="ThreePinsGangedGroup">
+			<PinReference pin="VCC1" />
+			<PinReference pin="VCC2" />
+			<PinReference pin="VCC3" />
+		</PinGroup>
+		<PinGroup name="FourPinsGangedGroup">
+			<PinReference pin="VCC1" />
+			<PinReference pin="VCC2" />
+			<PinReference pin="VCC3" />
+			<PinReference pin="VCC4" />
 		</PinGroup>
 	</PinGroups>
 	<Sites>
