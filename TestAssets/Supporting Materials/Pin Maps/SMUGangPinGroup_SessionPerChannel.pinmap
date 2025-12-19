@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4137_C5_S02" numberOfChannels="1">
+			<ChannelGroup name="SMU_4137_C5_S02_0" channels="0" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4137_C5_S03" numberOfChannels="1">
+			<ChannelGroup name="SMU_4137_C5_S03_0" channels="0" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4147_C1_S11" numberOfChannels="4">
+			<ChannelGroup name="SMU_4147_C1_S11_0" channels="0" />
+			<ChannelGroup name="SMU_4147_C1_S11_1" channels="1" />
+			<ChannelGroup name="SMU_4147_C1_S11_2" channels="2" />
+			<ChannelGroup name="SMU_4147_C1_S11_3" channels="3" />
+		</NIDCPowerInstrument>
+		<NIDCPowerInstrument name="SMU_4147_C2_S10" numberOfChannels="4">
+			<ChannelGroup name="SMU_4147_C2_S10_0" channels="0" />
+			<ChannelGroup name="SMU_4147_C2_S10_1" channels="1" />
+			<ChannelGroup name="SMU_4147_C2_S10_2" channels="2" />
+			<ChannelGroup name="SMU_4147_C2_S10_3" channels="3" />
+		</NIDCPowerInstrument>
+	</Instruments>
+	<Pins>
+		<DUTPin name="VCC1" />
+		<DUTPin name="VCC2" />
+		<DUTPin name="VCC3" />
+		<DUTPin name="VCC4" />
+		<DUTPin name="VCC5" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="AllPinsGangedGroup">
+			<PinReference pin="VCC1" />
+			<PinReference pin="VCC2" />
+			<PinReference pin="VCC3" />
+			<PinReference pin="VCC4" />
+			<PinReference pin="VCC5" />
+		</PinGroup>
+		<PinGroup name="ThreePinsGangedGroup">
+			<PinReference pin="VCC1" />
+			<PinReference pin="VCC2" />
+			<PinReference pin="VCC3" />
+		</PinGroup>
+		<PinGroup name="FourPinsGangedGroup">
+			<PinReference pin="VCC1" />
+			<PinReference pin="VCC2" />
+			<PinReference pin="VCC3" />
+			<PinReference pin="VCC4" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="VCC5" siteNumber="0" instrument="SMU_4147_C1_S11" channel="3" />
+		<Connection pin="VCC1" siteNumber="0" instrument="SMU_4137_C5_S02" channel="0" />
+		<Connection pin="VCC1" siteNumber="1" instrument="SMU_4137_C5_S03" channel="0" />
+		<Connection pin="VCC2" siteNumber="0" instrument="SMU_4147_C1_S11" channel="0" />
+		<Connection pin="VCC2" siteNumber="1" instrument="SMU_4147_C2_S10" channel="0" />
+		<Connection pin="VCC3" siteNumber="0" instrument="SMU_4147_C1_S11" channel="1" />
+		<Connection pin="VCC3" siteNumber="1" instrument="SMU_4147_C2_S10" channel="1" />
+		<Connection pin="VCC4" siteNumber="0" instrument="SMU_4147_C1_S11" channel="2" />
+		<Connection pin="VCC4" siteNumber="1" instrument="SMU_4147_C2_S10" channel="2" />
+		<Connection pin="VCC5" siteNumber="1" instrument="SMU_4147_C2_S10" channel="3" />
+	</Connections>
+</PinMap>
