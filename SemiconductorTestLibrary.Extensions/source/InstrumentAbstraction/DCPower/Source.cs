@@ -942,7 +942,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     }
                 }
             }
-            if (sessionInfo.ContainsGangedChannels)
+            if (sessionInfo.HasGangedChannels)
             {
                 var sitePinInfoList = sitePinInformation != null ? new List<SitePinInfo>() { sitePinInformation } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePinInfo =>
