@@ -720,6 +720,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var result = session.Measurement.Fetch(channelString, timeout: PrecisionTimeSpan.FromSeconds(fetchWaveformLength + 1), pointsToFetch);
             return new DCPowerWaveformResults(result, deltaTime);
         }
+
         #endregion private methods
     }
 }

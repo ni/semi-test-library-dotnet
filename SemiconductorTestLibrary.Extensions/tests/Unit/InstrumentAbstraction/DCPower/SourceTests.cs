@@ -815,11 +815,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
             sessionsBundle.MergePinGroup("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
 
-            var values = sessionsBundle.GetSourceDelayInSeconds();
+            var sourceDelays = sessionsBundle.GetSourceDelayInSeconds();
 
-            Assert.Single(values.PinNames);
-            Assert.Equal("VCCPrimary", values.PinNames[0]);
-            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", values.PinNames);
+            Assert.Single(sourceDelays.PinNames);
+            Assert.Equal("VCCPrimary", sourceDelays.PinNames[0]);
+            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", sourceDelays.PinNames);
         }
 
         [Theory]
@@ -944,11 +944,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
             sessionsBundle.MergePinGroup("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
 
-            var values = sessionsBundle.GetCurrentLimits();
+            var currentLimits = sessionsBundle.GetCurrentLimits();
 
-            Assert.Single(values.PinNames);
-            Assert.Equal("VCCPrimary", values.PinNames[0]);
-            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", values.PinNames);
+            Assert.Single(currentLimits.PinNames);
+            Assert.Equal("VCCPrimary", currentLimits.PinNames[0]);
+            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", currentLimits.PinNames);
         }
 
         [Theory]

@@ -85,11 +85,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
             sessionsBundle.MergePinGroup("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
 
-            var defaultValues = sessionsBundle.GetPowerLineFrequency();
+            var powerLineFrequencies = sessionsBundle.GetPowerLineFrequency();
 
-            Assert.Single(defaultValues.PinNames);
-            Assert.Equal("VCCPrimary", defaultValues.PinNames[0]);
-            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", defaultValues.PinNames);
+            Assert.Single(powerLineFrequencies.PinNames);
+            Assert.Equal("VCCPrimary", powerLineFrequencies.PinNames[0]);
+            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", powerLineFrequencies.PinNames);
         }
 
         [Theory]
