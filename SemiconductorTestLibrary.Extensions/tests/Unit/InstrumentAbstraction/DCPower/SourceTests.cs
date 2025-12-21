@@ -345,7 +345,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 1, itemsToFetch: 5, checkForCurrentMeasurement: false);
-            sessionsBundle.Do(sessionInfo => AssertVoltageSequenceSettings(sessionInfo.AllChannelsOutput, currentLimit, currentLimitRange));
+            sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: currentLimit, expectedCurrentLimitRange: (double?)currentLimitRange));
         }
 
         [Theory]
@@ -375,7 +375,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex), precision: 1, itemsToFetch: 3, checkForCurrentMeasurement: false);
-            sessionsBundle.Do(sessionInfo => AssertVoltageSequenceSettings(sessionInfo.AllChannelsOutput, currentLimit, currentLimitRange));
+            sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: currentLimit, expectedCurrentLimitRange: (double?)currentLimitRange));
         }
 
         [Theory]
@@ -407,7 +407,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex, "VDD"), precision: 1, itemsToFetch: 3, checkForCurrentMeasurement: false);
-            sessionsBundle.Do(sessionInfo => AssertVoltageSequenceSettings(sessionInfo.AllChannelsOutput, currentLimit, currentLimitRange));
+            sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: currentLimit, expectedCurrentLimitRange: (double?)currentLimitRange));
         }
 
         [Theory]
@@ -1296,11 +1296,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedCurrentLimit, channelOutput.Source.Voltage.CurrentLimit);
         }
 
-        private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimitHigh, double expectedCurrentLimitLow)
+        private void AssertVoltageSettings(DCPowerOutput channelOutput, double? expectedVoltageLevel = null, double? expectedCurrentLimitHigh = null, double? expectedCurrentLimitLow = null, double? expectedCurrentLimit = null, double? expectedCurrentLimitRange = null)
         {
-            Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel);
-            Assert.Equal(expectedCurrentLimitHigh, channelOutput.Source.Voltage.CurrentLimitHigh);
-            Assert.Equal(expectedCurrentLimitLow, channelOutput.Source.Voltage.CurrentLimitLow);
+            if (expectedVoltageLevel.HasValue)
+            {
+                Assert.Equal(expectedVoltageLevel.Value, channelOutput.Source.Voltage.VoltageLevel);
+            }
+            if (expectedCurrentLimitHigh.HasValue)
+            {
+                Assert.Equal(expectedCurrentLimitHigh.Value, channelOutput.Source.Voltage.CurrentLimitHigh);
+            }
+            if (expectedCurrentLimitLow.HasValue)
+            {
+                Assert.Equal(expectedCurrentLimitLow.Value, channelOutput.Source.Voltage.CurrentLimitLow);
+            }
+            if (expectedCurrentLimit.HasValue)
+            {
+                Assert.Equal(expectedCurrentLimit.Value, channelOutput.Source.Voltage.CurrentLimit);
+            }
+            if (expectedCurrentLimitRange.HasValue)
+            {
+                Assert.Equal(expectedCurrentLimitRange.Value, channelOutput.Source.Voltage.CurrentLimitRange);
+            }
         }
 
         private void AssertCurrentSettings(DCPowerOutput channelOutput, double expectedCurrentLevel, double expectedVoltageLimit)
@@ -1314,18 +1331,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedCurrentLevel, channelOutput.Source.Current.CurrentLevel);
             Assert.Equal(expectedVoltageLimitHigh, channelOutput.Source.Current.VoltageLimitHigh);
             Assert.Equal(expectedVoltageLimitLow, channelOutput.Source.Current.VoltageLimitLow);
-        }
-
-        private void AssertVoltageSequenceSettings(DCPowerOutput channelOutput, double? expectedCurrentLimit = null, double? expectedCurrentLimitRange = null)
-        {
-            if (expectedCurrentLimit.HasValue)
-            {
-                Assert.Equal(expectedCurrentLimit.Value, channelOutput.Source.Voltage.CurrentLimit);
-            }
-            if (expectedCurrentLimitRange.HasValue)
-            {
-                Assert.Equal(expectedCurrentLimitRange.Value, channelOutput.Source.Voltage.CurrentLimitRange);
-            }
         }
 
         private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
