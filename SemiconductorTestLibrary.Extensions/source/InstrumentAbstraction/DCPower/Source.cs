@@ -614,25 +614,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Configure all channels
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
-                var currentSequence = fetchLevelSequence(sitePinInfo);
-                var levelRange = fetchLevelRange(sitePinInfo);
-                var limitRange = fetchLimitRange(sitePinInfo);
-                var limit = fetchLimit(sitePinInfo);
-
                 var settings = new DCPowerSourceSettings()
                 {
                     OutputFunction = outputFunction,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Limit = limit,
-                    LevelRange = levelRange,
-                    LimitRange = limitRange,
+                    Limit = fetchLimit(sitePinInfo),
+                    LevelRange = fetchLevelRange(sitePinInfo),
+                    LimitRange = fetchLimitRange(sitePinInfo),
                     TransientResponse = resolvedTransientResponse
                 };
 
                 var perChannelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
-                channelOutput.ConfigureSequence(currentSequence, sequenceLoopCount);
+                channelOutput.ConfigureSequence(fetchLevelSequence(sitePinInfo), sequenceLoopCount);
                 channelOutput.ConfigureLevelsAndLimits(settings);
                 channelOutput.Source.SourceDelay = sourceDelayinSeconds.HasValue
                     ? PrecisionTimeSpan.FromSeconds(sourceDelayinSeconds.Value)
