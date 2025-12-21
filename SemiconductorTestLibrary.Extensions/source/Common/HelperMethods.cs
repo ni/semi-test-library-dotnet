@@ -29,18 +29,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         /// <param name="outputStop">The ending value of the ramp.</param>
         /// <param name="numberOfPoints">The number of points in the ramp sequence.</param>
         /// <returns>An array of double values representing the ramp sequence.</returns>
-        public static double[] CreateRampSequence(double outputStart, double outputStop, double numberOfPoints)
+        public static double[] CreateRampSequence(double outputStart, double outputStop, int numberOfPoints)
         {
             double stepSize = 0.0;
-
             if (numberOfPoints > 1)
             {
                 stepSize = (outputStop - outputStart) / (numberOfPoints - 1);
             }
-            double[] rampSequence = new double[(int)numberOfPoints];
+            double[] rampSequence = new double[numberOfPoints];
             for (int i = 0; i < numberOfPoints; i++)
             {
-                rampSequence[i] = outputStart + (i * (double)stepSize);
+                rampSequence[i] = outputStart + (i * stepSize);
             }
             return rampSequence;
         }
