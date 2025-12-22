@@ -46,6 +46,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
             Assert.Equal(typeof(NIInstrumentType), parameters[2].ParameterType);
             Assert.True(parameters[2].IsOptional);
             Assert.Equal(NIInstrumentType.All, parameters[2].DefaultValue);
+
+            // Return Type
+            Assert.Equal(typeof(void), method.ReturnType);
         }
     }
 }
