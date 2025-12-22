@@ -9,20 +9,9 @@
             Defines an object that contains the cascading information for an individual pin per site.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo.IsSecondaryChannel">
-            <summary>
-            Flag for marking if the channel of the site-pin is a secondary channel of cascaded group.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo.OwningGroupName">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo.GroupName">
             <summary>
             Name of the cascaded group to which the site-pin belongs.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo.MergedChannelsStrings">
-            <summary>
-            A dictionary where the key is the cascaded pin group name and the value is a comma-separated string of associated secondary pin channels for the current site.
-            Example: { "pinGroupName": "SMU_4147_C1_S11/1,SMU_4147_C1_S11/2,SMU_4147_C1_S11/3" }.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.ChannelSharedInfo">
@@ -89,6 +78,55 @@
             Throws all collected exceptions as a single <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/>.
             </summary>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown if any exceptions have been collected.</exception>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo">
+            <summary>
+            Defines an object that contains the ganging information for an individual pin per site.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.IsFollower">
+            <summary>
+            Gets a value indicating whether the channel is a follower channel in a ganged group.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.ChannelsCount">
+            <summary>
+            Number of pins or channels in ganged pin group.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.SourceTriggerName">
+            <summary>
+            Name of the trigger line to use for the synchronization of sourcing.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.MeasureTriggerName">
+            <summary>
+            Name of the trigger line to use for the synchronization of Measuring.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Boolean)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="groupName">Name of the pin group to use as the trigger line.</param>
+            <param name="isFollower">Flag indicating if the channel is a follower in the ganged group.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo">
+            <summary>
+            Defines an object that contains the merging information for an individual pin per site.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo.IsSecondary">
+            <summary>
+            This flag is used for storing if the channel of the site-pin is a secondary channel of merged group.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo.#ctor(System.String,System.Boolean)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="groupName">The name of the pin group that owns this merging info.</param>
+            <param name="isSecondary">Flag indicating if the channel is a secondary channel of a merged group.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
             <summary>
@@ -402,9 +440,9 @@
             Such as, the site number, pin name, instrument channel string used by the driver, instrument model, etc.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.ChannelCascadingInfo">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.CascadingInfo">
             <summary>
-            class  <see cref = "T:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo"/> containg the information related to pins who are secondary of merged group for current site and the secondary channle string for each merged group of the current site.
+            To store the child class instance of <see cref = "T:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo"/>. i.e. it will be mergingInfo object or gangingInfo object for each merged or ganged group of the current site.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.SitePinString">
@@ -564,6 +602,13 @@
             <param name="pins">The filtered pins.</param>
             <param name="pinIndexes">The index of each of the filtered pins in the input pins or pin groups array.</param>
             <param name="pinsFlattened">The filtered pins in flattened format.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.IsFollowerOfGangedChannels(NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo)">
+            <summary>
+            Checks if the cascading info represents a follower channel in ganged channels.
+            </summary>
+            <param name="cascadingInfo">Cascading information.</param>
+            <returns>True if the cascadingInfo represtents ganging follower channel.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType">
             <summary>

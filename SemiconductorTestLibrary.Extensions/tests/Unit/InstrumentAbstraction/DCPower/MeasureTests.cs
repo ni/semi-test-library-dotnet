@@ -316,6 +316,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void SessionsInitialized_ConfigureAndStartWaveformAcquisition_OriginalSettingsAreCorrectlyReturned(bool pinMapWithChannelGroup)
@@ -615,6 +616,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void DifferentSMUDevices_ConfigureJustApertureTimeUnits_Succeeds()
         {
             var sessionManager = Initialize("DifferentSMUDevices.pinmap");
@@ -744,6 +746,62 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveResult(results);
         }
 
+        [Theory]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_MeasureCurrent_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
+
+            var results = sessionsBundle.MeasureCurrent();
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
+        }
+
+        [Theory]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_MeasureVoltage_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
+
+            var results = sessionsBundle.MeasureVoltage();
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
+        }
+
+        [Theory]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_MeasureAndPublishCurrent_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
+
+            var results = sessionsBundle.MeasureAndPublishCurrent("Current");
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
+        }
+
+        [Theory]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_MeasureAndPublishVoltage_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
+
+            var results = sessionsBundle.MeasureAndPublishVoltage("Voltage");
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
+        }
+
         private int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.AggregateSitePinList
@@ -761,6 +819,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     Assert.NotEqual(0, results.GetValue(siteNumber, pin));
                 }
+            }
+        }
+
+        private DCPowerSessionsBundle MergeAndForceVoltage(string pinGroupName, out string primaryPin)
+        {
+            _tsmContext = CreateTSMContext("Merged_4163.pinmap");
+            InitializeAndClose.Initialize(_tsmContext);
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            var sessionsBundle = sessionManager.DCPower(pinGroupName);
+            primaryPin = _tsmContext.GetPinsInPinGroup(pinGroupName).First();
+            sessionsBundle.MergePinGroup(pinGroupName);
+            sessionsBundle.ConfigureSourceDelay(0);
+            sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
+            return sessionsBundle;
+        }
+
+        private void AssertResultAssociatedWithPinGroupName(PinSiteData<double> results, string pinGroup, string primaryPin)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                Assert.True(results.TryGetValue(siteNumber, pinGroup, out _));
+                Assert.False(results.TryGetValue(siteNumber, primaryPin, out _));
             }
         }
     }
