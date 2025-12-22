@@ -478,10 +478,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Forces a hardware-timed sequence of voltage outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageSequence">The current sequence to force for all site-pin pairs.</param>
-        /// <param name="currentLimit">Voltage limit for the sequence.</param>
-        /// <param name="voltageLevelRange">Current level range.</param>
-        /// <param name="currentLimitRange">Voltage limit range.</param>
+        /// <param name="voltageSequence">The voltage sequence to force for all site-pin pairs.</param>
+        /// <param name="currentLimit">Current limit for the sequence.</param>
+        /// <param name="voltageLevelRange">Voltage level range.</param>
+        /// <param name="currentLimitRange">current limit range.</param>
         /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
