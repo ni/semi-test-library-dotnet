@@ -27,7 +27,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private delegate double? ValueProvider(SitePinInfo sitePinInfo);
 
         #endregion
-        
+
         private const double DefaultSequenceTimeOut = 5;
 
         #region methods on DCPowerSessionsBundle
