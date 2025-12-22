@@ -517,6 +517,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             ValueProvider getVoltageLimits = _ => voltageLimit;
             ValueProvider getCurrentLevelRanges = _ => currentLevelRange;
             ValueProvider getVoltageLimitRanges = _ => voltageLimitRange;
+
             sessionsBundle.ForceSequenceSynchronizedCore(
                 getCurrentSequences,
                 DCPowerSourceOutputFunction.DCCurrent,
