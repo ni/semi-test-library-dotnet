@@ -122,5 +122,32 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("Digital_TimeSetPeriodNotDistinct", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of points must be greater than zero. .
+        /// </summary>
+        internal static string InvalidNumberOfPoints {
+            get {
+                return ResourceManager.GetString("InvalidNumberOfPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output Start value must be a finite number..
+        /// </summary>
+        internal static string InvalidOutPutStart {
+            get {
+                return ResourceManager.GetString("InvalidOutPutStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output Stop value must be a finite number..
+        /// </summary>
+        internal static string InvalidOutputStop {
+            get {
+                return ResourceManager.GetString("InvalidOutputStop", resourceCulture);
+            }
+        }
     }
 }

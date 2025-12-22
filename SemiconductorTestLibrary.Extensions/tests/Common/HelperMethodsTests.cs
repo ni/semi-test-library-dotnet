@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using Xunit;
 
@@ -65,7 +66,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
             var pinSiteData = HelperMethods.CreateRampSequence(-2.0, 2.0, 5, pinNames, sites);
 
             var seqP1Site0 = pinSiteData.GetValue(0, "P1");
-            var seqP2Site1 = pinSiteData.GetValue(1, "P2");
             Assert.Equal(5, seqP1Site0.Length);
             Assert.Equal(-2.0, seqP1Site0.First());
             Assert.Equal(2.0, seqP1Site0.Last());
@@ -95,6 +95,42 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
             var seq = HelperMethods.CreateRampSequence(5.0, 1.0, 5);
 
             Assert.Equal(new[] { 5.0, 4.0, 3.0, 2.0, 1.0 }, seq);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(-10)]
+        public void CreateRampSequence_ZeroOrNegativeNumberOfPoints_ThrowsArgumentException(int numberOfPoints)
+        {
+            var exception = Assert.Throws<ArgumentException>(() =>
+                HelperMethods.CreateRampSequence(0.0, 1.0, numberOfPoints));
+
+            Assert.Contains("Number of points must be greater than zero", exception.Message);
+        }
+
+        [Theory]
+        [InlineData(double.NaN)]
+        [InlineData(double.PositiveInfinity)]
+        [InlineData(double.NegativeInfinity)]
+        public void CreateRampSequence_InvalidOutputStart_ThrowsArgumentException(double outputStart)
+        {
+            var exception = Assert.Throws<ArgumentException>(() =>
+                HelperMethods.CreateRampSequence(outputStart, 1.0, 10));
+
+            Assert.Contains("Output Start value must be a finite number", exception.Message);
+        }
+
+        [Theory]
+        [InlineData(double.NaN)]
+        [InlineData(double.PositiveInfinity)]
+        [InlineData(double.NegativeInfinity)]
+        public void CreateRampSequence_InvalidOutputStop_ThrowsArgumentException(double outputStop)
+        {
+            var exception = Assert.Throws<ArgumentException>(() =>
+                HelperMethods.CreateRampSequence(0.0, outputStop, 10));
+
+            Assert.Contains("Output Stop value must be a finite number", exception.Message);
         }
     }
 }

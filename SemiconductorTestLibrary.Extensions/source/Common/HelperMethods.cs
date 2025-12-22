@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
@@ -31,16 +32,34 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         /// <returns>An array of double values representing the ramp sequence.</returns>
         public static double[] CreateRampSequence(double outputStart, double outputStop, int numberOfPoints)
         {
-            double stepSize = 0.0;
-            if (numberOfPoints > 1)
+            if (numberOfPoints <= 0)
             {
-                stepSize = (outputStop - outputStart) / (numberOfPoints - 1);
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.InvalidNumberOfPoints));
             }
+            if (double.IsNaN(outputStart) || double.IsInfinity(outputStart))
+            {
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.InvalidOutPutStart));
+            }
+            if (double.IsNaN(outputStop) || double.IsInfinity(outputStop))
+            {
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.InvalidOutputStop));
+            }
+
             double[] rampSequence = new double[numberOfPoints];
-            for (int i = 0; i < numberOfPoints; i++)
+
+            if (numberOfPoints == 1)
+            {
+                rampSequence[0] = outputStart;
+                return rampSequence;
+            }
+
+            double stepSize = (outputStop - outputStart) / (numberOfPoints - 1);
+            for (int i = 0; i < numberOfPoints - 1; i++)
             {
                 rampSequence[i] = outputStart + (i * stepSize);
             }
+            rampSequence[numberOfPoints - 1] = outputStop;
+
             return rampSequence;
         }
 
