@@ -10,6 +10,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
         {
             // validate tsmContext.
             Assert.Equal("tsmContext", parameter.Name);
+            // Will be removed if all caller methods validate type  info while getting exact metod.
             Assert.Equal(typeof(ISemiconductorModuleContext), parameter.ParameterType);
             Assert.False(parameter.IsOptional);
         }
@@ -18,6 +19,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
         {
             // Validate resetDevice  (bool, default = false)
             Assert.Equal("resetDevice", parameter.Name);
+            // Will be removed if all caller methods validate type info while getting exact metod.
             Assert.Equal(typeof(bool), parameter.ParameterType);
             Assert.True(parameter.IsOptional);
             Assert.Equal(false, parameter.DefaultValue);
