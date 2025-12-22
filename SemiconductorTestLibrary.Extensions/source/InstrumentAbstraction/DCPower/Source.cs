@@ -460,35 +460,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Behaves the same as the ForceCurrent() method, but has two voltage limit inputs for setting separate high and low voltage limits.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLevel">The current level to force.</param>
-        /// <param name="voltageLimitHigh">The voltage high limit to use.</param>
-        /// <param name="voltageLimitLow">The voltage low limit to use.</param>
-        /// <param name="currentLevelRange">The current level range to use.</param>
-        /// <param name="voltageLimitRange">The voltage limit range to use.</param>
-        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
-        /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
-        public static void ForceCurrentAsymmetricLimit(this DCPowerSessionsBundle sessionsBundle, double currentLevel, double voltageLimitHigh, double voltageLimitLow, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)
-        {
-            var settings = new DCPowerSourceSettings()
-            {
-                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                LimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric,
-                Level = currentLevel,
-                LimitHigh = voltageLimitHigh,
-                LimitLow = voltageLimitLow,
-                LevelRange = currentLevelRange,
-                LimitRange = voltageLimitRange
-            };
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
-            });
-        }
-
-        /// <summary>
         /// Forces a hardware-timed sequence of current outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -657,6 +628,35 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 masterChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
             }
+        }
+
+        /// <summary>
+        /// Behaves the same as the ForceCurrent() method, but has two voltage limit inputs for setting separate high and low voltage limits.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLevel">The current level to force.</param>
+        /// <param name="voltageLimitHigh">The voltage high limit to use.</param>
+        /// <param name="voltageLimitLow">The voltage low limit to use.</param>
+        /// <param name="currentLevelRange">The current level range to use.</param>
+        /// <param name="voltageLimitRange">The voltage limit range to use.</param>
+        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
+        public static void ForceCurrentAsymmetricLimit(this DCPowerSessionsBundle sessionsBundle, double currentLevel, double voltageLimitHigh, double voltageLimitLow, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)
+        {
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric,
+                Level = currentLevel,
+                LimitHigh = voltageLimitHigh,
+                LimitLow = voltageLimitLow,
+                LevelRange = currentLevelRange,
+                LimitRange = voltageLimitRange
+            };
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
+            });
         }
 
         /// <summary>
