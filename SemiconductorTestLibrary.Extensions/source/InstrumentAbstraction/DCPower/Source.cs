@@ -14,6 +14,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static class Source
     {
+        private const double DefaultSequenceTimeOut = 5;
+
         #region methods on DCPowerSessionsBundle
 
         /// <summary>
@@ -493,7 +495,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -519,7 +521,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -549,7 +551,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -766,22 +768,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
         {
-            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                channelOutput.ConfigureSequence(sequence.GetValue(pinSiteInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
             });
         }
 
         /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
         {
-            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                channelOutput.ConfigureSequence(sequence.GetValue(pinSiteInfo), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
             });
         }
 

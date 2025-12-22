@@ -659,12 +659,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new SiteData<double[]>(new double[][]
-                        {
-                            new[] { -0.005, 0.010 },  // Site 0
-                            new[] { -0.006, 0.012 },  // Site 1
-                            new[] { 0.007, 0.014 },  // Site 2
-                            new[] { 0.008, 0.016 }
-                        });
+            {
+                new[] { -0.005, 0.010 },
+                new[] { -0.006, 0.012 },
+                new[] { 0.007, 0.014 },
+                new[] { 0.008, 0.016 }
+            });
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 1, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
@@ -1144,7 +1144,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_SetSequenceWithSourceDelaySucceeds(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ConfigureSequenceWithSourceDelaySucceeds(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
