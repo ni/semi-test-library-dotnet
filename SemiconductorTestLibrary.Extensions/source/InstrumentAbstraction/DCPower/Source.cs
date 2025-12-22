@@ -608,7 +608,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            var resolvedTransientResponse = transientResponse ?? DCPowerSourceTransientResponse.Fast;
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
 
             // Configure all channels
@@ -621,7 +620,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     Limit = fetchLimit(sitePinInfo),
                     LevelRange = fetchLevelRange(sitePinInfo),
                     LimitRange = fetchLimitRange(sitePinInfo),
-                    TransientResponse = resolvedTransientResponse
+                    TransientResponse = transientResponse
                 };
 
                 var perChannelString = sitePinInfo.IndividualChannelString;
