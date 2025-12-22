@@ -270,7 +270,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static PinSiteData<double> MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishedDataId)
         {
             MeasureAndPublishCurrent(sessionsBundle, publishedDataId, out var currentMeasurements);
-            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(currentMeasurements);
+            return sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(currentMeasurements, VoltageOrCurrentPinSiteResultsFilling);
         }
 
         /// <summary>
