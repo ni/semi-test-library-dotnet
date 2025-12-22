@@ -79,6 +79,38 @@
             </summary>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown if any exceptions have been collected.</exception>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo">
+            <summary>
+            Defines an object that contains the ganging information for an individual pin per site.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.IsFollower">
+            <summary>
+            Gets a value indicating whether the channel is a follower channel in a ganged group.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.ChannelsCount">
+            <summary>
+            Number of pins or channels in ganged pin group.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.SourceTriggerName">
+            <summary>
+            Name of the trigger line to use for the synchronization of sourcing.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.MeasureTriggerName">
+            <summary>
+            Name of the trigger line to use for the synchronization of Measuring.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Boolean)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="groupName">Name of the pin group to use as the trigger line.</param>
+            <param name="isFollower">Flag indicating if the channel is a follower in the ganged group.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo">
             <summary>
             Defines an object that contains the merging information for an individual pin per site.
@@ -570,6 +602,13 @@
             <param name="pins">The filtered pins.</param>
             <param name="pinIndexes">The index of each of the filtered pins in the input pins or pin groups array.</param>
             <param name="pinsFlattened">The filtered pins in flattened format.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.IsFollowerOfGangedChannels(NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo)">
+            <summary>
+            Checks if the cascading info represents a follower channel in ganged channels.
+            </summary>
+            <param name="cascadingInfo">Cascading information.</param>
+            <returns>True if the cascadingInfo represtents ganging follower channel.</returns>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType">
             <summary>
