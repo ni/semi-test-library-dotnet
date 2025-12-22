@@ -46,7 +46,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
         public void CreateRampSequenceForSiteData_AllSitesContainSameRampReference()
         {
             var sites = new[] { 0, 1, 2 };
-            var siteData = HelperMethods.CreateRampSequence(0.0, 1.0, 4, sites);
+            var siteData = HelperMethods.CreateRampSequence(sites, 0.0, 1.0, 4);
 
             var firstSiteSequence = siteData.GetValue(0);
             Assert.NotNull(firstSiteSequence);
@@ -63,7 +63,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
         {
             var pinNames = new[] { "P1", "P2" };
             var sites = new[] { 0, 1 };
-            var pinSiteData = HelperMethods.CreateRampSequence(-2.0, 2.0, 5, pinNames, sites);
+            var pinSiteData = HelperMethods.CreateRampSequence(pinNames, sites, -2.0, 2.0, 5);
 
             var seqP1Site0 = pinSiteData.GetValue(0, "P1");
             Assert.Equal(5, seqP1Site0.Length);
