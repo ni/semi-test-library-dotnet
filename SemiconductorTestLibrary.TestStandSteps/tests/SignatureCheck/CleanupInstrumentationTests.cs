@@ -32,5 +32,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
             SignatureCheckUtilities.AssertEnumParameter(parameters[2], "instrumentType", true, 0);
             Assert.Equal(typeof(void), method.ReturnType);
         }
+
+        [Fact]
+        public void CleanupInstrumentation_GetAllOverloads_HasCorrectOverloadCount()
+        {
+            // Arrange
+            var type = typeof(SetupAndCleanupSteps);
+            int expectedOverloadCount = 1;
+
+            // Act: get all overloads
+            var overloads = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "CleanupInstrumentation").ToArray();
+
+            // Assert
+            Assert.NotNull(overloads);
+            Assert.Equal(expectedOverloadCount, overloads.Length);
+        }
     }
 }

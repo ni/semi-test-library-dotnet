@@ -48,5 +48,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
             SignatureCheckUtilities.AssertDoubleParameter(parameters[7], "powerLineFrequency", true, -1);
             Assert.Equal(typeof(void), method.ReturnType);
         }
+
+        [Fact]
+        public void SetupNIDCPowerInstrumentation_GetAllOverloads_HasCorrectOverloadCount()
+        {
+            // Arrange
+            var type = typeof(SetupAndCleanupSteps);
+            int expectedOverloadCount = 1;
+
+            // Act: get all overloads
+            var overloads = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDCPowerInstrumentation").ToArray();
+
+            // Assert
+            Assert.NotNull(overloads);
+            Assert.Equal(expectedOverloadCount, overloads.Length);
+        }
     }
 }
