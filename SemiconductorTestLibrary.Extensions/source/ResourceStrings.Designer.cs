@@ -61,6 +61,33 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of points must be greater than zero. .
+        /// </summary>
+        internal static string CreateRamp_InvalidNumberOfPoints {
+            get {
+                return ResourceManager.GetString("CreateRamp_InvalidNumberOfPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output Start value must be a finite number..
+        /// </summary>
+        internal static string CreateRamp_InvalidOutputStart {
+            get {
+                return ResourceManager.GetString("CreateRamp_InvalidOutputStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output Stop value must be a finite number..
+        /// </summary>
+        internal static string CreateRamp_InvalidOutputStop {
+            get {
+                return ResourceManager.GetString("CreateRamp_InvalidOutputStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The requested function is not supported by this device: {0}..
         /// </summary>
         internal static string DAQmx_FuncGenNotSupported {
@@ -79,7 +106,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The sample clock rate is not the same for all underlying instrument sessions..
+        ///   Looks up a localized string similar to The value for the sample clock rate is not the same for all underlying instrument sessions..
         /// </summary>
         internal static string DAQmx_SampleClockRateNotDistinct {
             get {
@@ -120,33 +147,6 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string Digital_TimeSetPeriodNotDistinct {
             get {
                 return ResourceManager.GetString("Digital_TimeSetPeriodNotDistinct", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Number of points must be greater than zero. .
-        /// </summary>
-        internal static string InvalidNumberOfPoints {
-            get {
-                return ResourceManager.GetString("InvalidNumberOfPoints", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Output Start value must be a finite number..
-        /// </summary>
-        internal static string InvalidOutPutStart {
-            get {
-                return ResourceManager.GetString("InvalidOutPutStart", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Output Stop value must be a finite number..
-        /// </summary>
-        internal static string InvalidOutputStop {
-            get {
-                return ResourceManager.GetString("InvalidOutputStop", resourceCulture);
             }
         }
     }

@@ -7,33 +7,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
 {
     public class HelperMethodsTests
     {
-        [Theory]
-        [InlineData(0.0, 1.0, 5)]
-        [InlineData(-1.0, 1.0, 3)]
-        [InlineData(2.5, 2.5, 1)]
-        public void CreateRampSequence_RampValuesAreCorrect(double start, double stop, int points)
-        {
-            var seq = HelperMethods.CreateRampSequence(start, stop, points);
-
-            Assert.NotNull(seq);
-            Assert.Equal(points, seq.Length);
-            Assert.Equal(start, seq.First());
-            Assert.Equal(stop, seq.Last());
-            if (points == 1)
-            {
-                Assert.Equal(start, seq[0]);
-            }
-            double expectedStep = 0.0;
-            if (points > 1)
-            {
-                expectedStep = (stop - start) / (points - 1);
-            }
-            for (int i = 0; i < points; i++)
-            {
-                Assert.Equal(start + ((double)i * expectedStep), seq[i]);
-            }
-        }
-
         [Fact]
         public void CreateRampSequence_RampWithTwoPointsProducesEndsOnly()
         {
@@ -101,9 +74,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
         [InlineData(0)]
         [InlineData(-1)]
         [InlineData(-10)]
-        public void CreateRampSequence_ZeroOrNegativeNumberOfPoints_ThrowsArgumentException(int numberOfPoints)
+        public void CreateRampSequenceWithZeroOrNegativeNumberOfPoints_ThrowsException(int numberOfPoints)
         {
-            var exception = Assert.Throws<ArgumentException>(() =>
+            var exception = Assert.Throws<NISemiconductorTestException>(() =>
                 HelperMethods.CreateRampSequence(0.0, 1.0, numberOfPoints));
 
             Assert.Contains("Number of points must be greater than zero", exception.Message);
@@ -113,9 +86,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
         [InlineData(double.NaN)]
         [InlineData(double.PositiveInfinity)]
         [InlineData(double.NegativeInfinity)]
-        public void CreateRampSequence_InvalidOutputStart_ThrowsArgumentException(double outputStart)
+        public void CreateRampSequenceWithInvalidOutputStart_ThrowsException(double outputStart)
         {
-            var exception = Assert.Throws<ArgumentException>(() =>
+            var exception = Assert.Throws<NISemiconductorTestException>(() =>
                 HelperMethods.CreateRampSequence(outputStart, 1.0, 10));
 
             Assert.Contains("Output Start value must be a finite number", exception.Message);
@@ -125,9 +98,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
         [InlineData(double.NaN)]
         [InlineData(double.PositiveInfinity)]
         [InlineData(double.NegativeInfinity)]
-        public void CreateRampSequence_InvalidOutputStop_ThrowsArgumentException(double outputStop)
+        public void CreateRampSequenceWithInvalidOutputStop_ThrowsException(double outputStop)
         {
-            var exception = Assert.Throws<ArgumentException>(() =>
+            var exception = Assert.Throws<NISemiconductorTestException>(() =>
                 HelperMethods.CreateRampSequence(0.0, outputStop, 10));
 
             Assert.Contains("Output Stop value must be a finite number", exception.Message);

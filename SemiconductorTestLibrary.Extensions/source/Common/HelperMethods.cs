@@ -30,22 +30,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         /// <param name="outputStop">The ending value of the ramp.</param>
         /// <param name="numberOfPoints">The number of points in the ramp sequence.</param>
         /// <returns>An array of double values representing the ramp sequence.</returns>
-        /// <exception cref="ArgumentException">Thrown when numberOfPoints is less than or equal to zero.</exception>
-        /// <exception cref="ArgumentException">Thrown when outputStart is NaN or Infinity.</exception>
-        /// <exception cref="ArgumentException">Thrown when outputStop is NaN or Infinity.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when numberOfPoints is less than or equal to zero.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when outputStart is NaN or Infinity.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when outputStop is NaN or Infinity.</exception>
         public static double[] CreateRampSequence(double outputStart, double outputStop, int numberOfPoints)
         {
             if (numberOfPoints <= 0)
             {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.InvalidNumberOfPoints));
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.CreateRamp_InvalidNumberOfPoints));
             }
             if (double.IsNaN(outputStart) || double.IsInfinity(outputStart))
             {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.InvalidOutPutStart));
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.CreateRamp_InvalidOutputStart));
             }
             if (double.IsNaN(outputStop) || double.IsInfinity(outputStop))
             {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.InvalidOutputStop));
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.CreateRamp_InvalidOutputStop));
             }
 
             double[] rampSequence = new double[numberOfPoints];
