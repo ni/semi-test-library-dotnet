@@ -377,9 +377,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             sessionsBundle.ForceVoltageSequenceSynchronized(
                 voltageSequence: sequence,
-                currentLimit: currentLimits,
-                voltageLevelRange: voltageLevelRanges,
-                currentLimitRange: currentLimitRanges);
+                currentLimits: currentLimits,
+                voltageLevelRanges: voltageLevelRanges,
+                currentLimitRanges: currentLimitRanges);
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex, "VDD"), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
@@ -410,9 +410,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLimitRanges = new SiteData<double>(new double[] { 1.5, 1.5, 1.5, 1.5 });
             sessionsBundle.ForceVoltageSequenceSynchronized(
                 voltageSequence: sequences,
-                currentLimit: currentLimits,
-                voltageLevelRange: voltageLevelRanges,
-                currentLimitRange: currentLimitRanges);
+                currentLimits: currentLimits,
+                voltageLevelRanges: voltageLevelRanges,
+                currentLimitRanges: currentLimitRanges);
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequences.GetValue(siteIndex), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
