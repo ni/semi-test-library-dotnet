@@ -14,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static class Source
     {
-        private const double DefaultSequenceTimeout = 5;
+        private const double DefaultSequenceTimeOut = 5;
 
         #region methods on DCPowerSessionsBundle
 
@@ -295,7 +295,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
         {
             SequenceProvider getVoltageSequence = _ => voltageSequence;
             ValueProvider getCurrentLimit = _ => currentLimit;
@@ -326,7 +326,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
         {
             SequenceProvider getVoltageSequenceForSite = sitePinInfo => voltageSequence?.GetValue(sitePinInfo.SiteNumber);
             ValueProvider getCurrentLimitsForSite = sitePinInfo => currentLimits?.GetValue(sitePinInfo.SiteNumber);
@@ -357,7 +357,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
         {
             SequenceProvider getVoltageSequenceForSitePin = sitePinInfo => voltageSequence?.GetValue(sitePinInfo);
             ValueProvider getCurrentLimitsForSitePin = sitePinInfo => currentLimits?.GetValue(sitePinInfo);
@@ -600,7 +600,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -626,7 +626,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -656,7 +656,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
