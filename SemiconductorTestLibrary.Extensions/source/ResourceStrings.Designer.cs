@@ -61,7 +61,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of points must be greater than zero. .
+        ///   Looks up a localized string similar to Number of points must be greater than one. .
         /// </summary>
         internal static string CreateRamp_InvalidNumberOfPoints {
             get {

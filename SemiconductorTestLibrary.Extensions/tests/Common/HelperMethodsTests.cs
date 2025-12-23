@@ -69,7 +69,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
             var exception = Assert.Throws<NISemiconductorTestException>(() =>
                 HelperMethods.CreateRampSequence(0.0, 1.0, numberOfPoints));
 
-            Assert.Contains("Number of points must be greater than zero", exception.Message);
+            Assert.Contains("Number of points must be greater than one", exception.Message);
         }
 
         [Theory]

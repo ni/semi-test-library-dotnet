@@ -139,7 +139,7 @@
     <value>The value of the time set period ({0}) is not the same for all underlying instrument sessions.</value>
   </data>
   <data name="CreateRamp_InvalidNumberOfPoints" xml:space="preserve">
-    <value>Number of points must be greater than zero. </value>
+    <value>Number of points must be greater than one. </value>
   </data>
   <data name="CreateRamp_InvalidOutputStart" xml:space="preserve">
     <value>Output Start value must be a finite number.</value>
