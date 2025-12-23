@@ -788,6 +788,53 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Creates and configures an advanced sequence with per-step property configurations.
+        /// </summary>
+        /// <param name="sessionsBundle">The DCPower sessions bundle.</param>
+        /// <param name="sequenceName">The name of the advanced sequence to create.</param>
+        /// <param name="perStepProperties">A list of property configurations for each step in the sequence.</param>
+        /// <param name="setAsActiveSequence">If true, leaves the sequence active after configuration. If false (default), clears the active sequence to allow configuring multiple sequences without activation. Default is false.</param>
+        /// <param name="commitFirstElementAsInitialState">If true, uses the first element in perStepProperties as a commit step. Default is false.</param>
+        public static void ConfigureAdvancedSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            IList<DCPowerAdvancedSequenceStepProperties> perStepProperties,
+            bool setAsActiveSequence = false,
+            bool commitFirstElementAsInitialState = false)
+        {
+            sessionsBundle.Do((sessionInfo, index, pinSiteInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+                // Extract the list of properties that will vary per step
+                var advancedSequenceProperties = Utilities.ExtractAdvancedSequencePropertiesArray(perStepProperties[index]);
+
+                channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, setAsActiveSequence);
+
+                int startIndex = 0;
+
+                // Handle commit step if requested
+                if (commitFirstElementAsInitialState && perStepProperties.Count > 0)
+                {
+                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(setAsActiveSequence);
+                    Utilities.ApplyStepProperties(channelOutput, perStepProperties[0], pinSiteInfo.ModelString);
+                    startIndex = 1;
+                }
+
+                // Create and configure each step
+                for (int i = startIndex; i < perStepProperties.Count; i++)
+                {
+                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(setAsActiveSequence);
+                    Utilities.ApplyStepProperties(channelOutput, perStepProperties[i], pinSiteInfo.ModelString);
+                }
+
+                if (!setAsActiveSequence)
+                {
+                    channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
+                }
+            });
+        }
+
+        /// <summary>
         /// Gets the current limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
