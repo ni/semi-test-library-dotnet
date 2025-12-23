@@ -6,23 +6,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
 {
     internal static class SignatureCheckUtilities
     {
-        internal static void AssertTsmcontextParameter(ParameterInfo parameter)
+        internal static void AssertEnumParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, int expectedDefaultValue)
         {
-            // validate tsmContext.
-            Assert.Equal("tsmContext", parameter.Name);
-            // Will be removed if all caller methods validate type  info while getting exact metod.
-            Assert.Equal(typeof(ISemiconductorModuleContext), parameter.ParameterType);
-            Assert.False(parameter.IsOptional);
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+            Assert.Equal(expectedDefaultValue, (int)parameterInfo.DefaultValue);
         }
 
-        internal static void AssertResetDeviceParameter(ParameterInfo parameter)
+        internal static void AssertBoolParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional,  bool expectedDefaultValue)
         {
-            // Validate resetDevice  (bool, default = false)
-            Assert.Equal("resetDevice", parameter.Name);
-            // Will be removed if all caller methods validate type info while getting exact metod.
-            Assert.Equal(typeof(bool), parameter.ParameterType);
-            Assert.True(parameter.IsOptional);
-            Assert.Equal(false, parameter.DefaultValue);
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+            Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
+        }
+
+        internal static void AssertDoubleParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, double expectedDefaultValue)
+        {
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+            Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
+        }
+
+        internal static void AssertParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional)
+        {
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
         }
     }
 }

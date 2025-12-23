@@ -10,44 +10,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
     public partial class SetupAndCleanupSignatureTests
     {
         [Fact]
-        public void ResetInstrumentation_ExactOverload_HasCorrectSignature()
+        public void ResetInstrumentation_GetExactOverload_HasCorrectSignature()
         {
             // Arrange
             var type = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[] { typeof(ISemiconductorModuleContext), typeof(bool), typeof(NIInstrumentType) };
 
             // Act: get exact overload
             var method = type.GetMethod(
                 "ResetInstrumentation",
                 BindingFlags.Public | BindingFlags.Static,
                 binder: null,
-                types: new[]
-                {
-                typeof(ISemiconductorModuleContext),
-                typeof(bool),
-                typeof(NIInstrumentType)
-                },
+                parameterTypes,
                 modifiers: null);
 
-            // Assert: method exists
+            // Assert
             Assert.NotNull(method);
-
             var parameters = method.GetParameters();
-
-            // Assert parameter count
-            Assert.Equal(3, parameters.Length);
-
-            // Parameter 1: tsmContext
-            SignatureCheckUtilities.AssertTsmcontextParameter(parameters[0]);
-
-            // Parameter 2: resetDevice
-            SignatureCheckUtilities.AssertResetDeviceParameter(parameters[1]);
-
-            // Parameter 3: NIInstrumentType
-            Assert.Equal(typeof(NIInstrumentType), parameters[2].ParameterType);
-            Assert.True(parameters[2].IsOptional);
-            Assert.Equal(NIInstrumentType.All, parameters[2].DefaultValue);
-
-            // Return Type
+            SignatureCheckUtilities.AssertParameter(parameters[0], "tsmContext", false);
+            SignatureCheckUtilities.AssertBoolParameter(parameters[1], "resetDevice", true, false);
+            SignatureCheckUtilities.AssertEnumParameter(parameters[2], "instrumentType", true, 0);
             Assert.Equal(typeof(void), method.ReturnType);
         }
     }
