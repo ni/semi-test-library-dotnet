@@ -35,7 +35,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         /// <exception cref="NISemiconductorTestException">Thrown when outputStop is NaN or Infinity.</exception>
         public static double[] CreateRampSequence(double outputStart, double outputStop, int numberOfPoints)
         {
-            if (numberOfPoints <= 0)
+            if (numberOfPoints <= 1)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.CreateRamp_InvalidNumberOfPoints));
             }
@@ -49,12 +49,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
             }
 
             double[] rampSequence = new double[numberOfPoints];
-
-            if (numberOfPoints == 1)
-            {
-                rampSequence[0] = outputStart;
-                return rampSequence;
-            }
 
             double stepSize = (outputStop - outputStart) / (numberOfPoints - 1);
             for (int i = 0; i < numberOfPoints - 1; i++)

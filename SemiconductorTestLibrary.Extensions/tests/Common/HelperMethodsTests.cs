@@ -51,17 +51,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
             }
         }
 
-        [Theory]
-        [InlineData(10.0, 10.0)]
-        [InlineData(-5.0, -5.0)]
-        public void CreateRampSequence_SinglePointRampProducesConstant(double start, double stop)
-        {
-            var seq = HelperMethods.CreateRampSequence(start, stop, 1);
-
-            Assert.Single(seq);
-            Assert.Equal(start, seq[0]);
-        }
-
         [Fact]
         public void CreateRampSequence_DescendingRampValuesCorrect()
         {
@@ -72,6 +61,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
 
         [Theory]
         [InlineData(0)]
+        [InlineData(1)]
         [InlineData(-1)]
         [InlineData(-10)]
         public void CreateRampSequenceWithZeroOrNegativeNumberOfPoints_ThrowsException(int numberOfPoints)
