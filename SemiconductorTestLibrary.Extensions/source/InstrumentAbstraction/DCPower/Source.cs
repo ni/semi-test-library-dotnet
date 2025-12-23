@@ -329,16 +329,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
         {
             SequenceProvider getVoltageSequenceForSite = sitePinInfo => voltageSequence?.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getCurrentLimitsForSite = sitePinInfo => currentLimits?.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getVoltageLevelRangesForSite = sitePinInfo => voltageLevelRanges?.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getCurrentLimitRangesForSite = sitePinInfo => currentLimitRanges?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getCurrentLimitForSite = sitePinInfo => currentLimits?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getVoltageLevelRangeForSite = sitePinInfo => voltageLevelRanges?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getCurrentLimitRangeForSite = sitePinInfo => currentLimitRanges?.GetValue(sitePinInfo.SiteNumber);
 
             sessionsBundle.ForceSequenceSynchronizedCore(
                getVoltageSequenceForSite,
                DCPowerSourceOutputFunction.DCVoltage,
-               getCurrentLimitsForSite,
-               getVoltageLevelRangesForSite,
-               getCurrentLimitRangesForSite,
+               getCurrentLimitForSite,
+               getVoltageLevelRangeForSite,
+               getCurrentLimitRangeForSite,
                sourceDelayinSeconds,
                transientResponse,
                sequenceLoopCount,
@@ -360,16 +360,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
         {
             SequenceProvider getVoltageSequenceForSitePin = sitePinInfo => voltageSequence?.GetValue(sitePinInfo);
-            ValueProvider getCurrentLimitsForSitePin = sitePinInfo => currentLimits?.GetValue(sitePinInfo);
-            ValueProvider getVoltageLevelRangesForSitePin = sitePinInfo => voltageLevelRanges?.GetValue(sitePinInfo);
-            ValueProvider getCurrentLimitRangesForSitePin = sitePinInfo => currentLimitRanges?.GetValue(sitePinInfo);
+            ValueProvider getCurrentLimitForSitePin = sitePinInfo => currentLimits?.GetValue(sitePinInfo);
+            ValueProvider getVoltageLevelRangeForSitePin = sitePinInfo => voltageLevelRanges?.GetValue(sitePinInfo);
+            ValueProvider getCurrentLimitRangeForSitePin = sitePinInfo => currentLimitRanges?.GetValue(sitePinInfo);
 
             sessionsBundle.ForceSequenceSynchronizedCore(
                getVoltageSequenceForSitePin,
                DCPowerSourceOutputFunction.DCVoltage,
-               getCurrentLimitsForSitePin,
-               getVoltageLevelRangesForSitePin,
-               getCurrentLimitRangesForSitePin,
+               getCurrentLimitForSitePin,
+               getVoltageLevelRangeForSitePin,
+               getCurrentLimitRangeForSitePin,
                sourceDelayinSeconds,
                transientResponse,
                sequenceLoopCount,
