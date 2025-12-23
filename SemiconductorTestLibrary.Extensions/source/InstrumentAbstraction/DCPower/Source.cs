@@ -271,6 +271,111 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Forces a hardware-timed sequence of voltage outputs, ensuring synchronized output across all specified target pins.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageSequence">The voltage sequence to force for all site-pin pairs.</param>
+        /// <param name="currentLimit">Current limit for the sequence.</param>
+        /// <param name="voltageLevelRange">Voltage level range.</param>
+        /// <param name="currentLimitRange">current limit range.</param>
+        /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
+        /// <param name="transientResponse">Transient response.</param>
+        /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
+        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        public static void ForceVoltageSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            double[] voltageSequence,
+            double? currentLimit = null,
+            double? voltageLevelRange = null,
+            double? currentLimitRange = null,
+            double? sourceDelayinSeconds = null,
+            DCPowerSourceTransientResponse? transientResponse = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            SequenceProvider getVoltageSequences = _ => voltageSequence;
+            ValueProvider getCurrentLimits = _ => currentLimit;
+            ValueProvider getVoltageLevelRanges = _ => voltageLevelRange;
+            ValueProvider getCurrentLimitRanges = _ => currentLimitRange;
+
+            sessionsBundle.ForceSequenceSynchronizedCore(
+               getVoltageSequences,
+               DCPowerSourceOutputFunction.DCVoltage,
+               getCurrentLimits,
+               getVoltageLevelRanges,
+               getCurrentLimitRanges,
+               sourceDelayinSeconds,
+               transientResponse,
+               sequenceLoopCount,
+               waitForSequenceCompletion,
+               sequenceTimeoutInSeconds);
+        }
+
+        /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
+        public static void ForceVoltageSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<double[]> voltageSequence,
+            SiteData<double> currentLimits = null,
+            SiteData<double> voltageLevelRanges = null,
+            SiteData<double> currentLimitRanges = null,
+            double? sourceDelayinSeconds = null,
+            DCPowerSourceTransientResponse? transientResponse = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            SequenceProvider getVoltageSequenceForSite = sitePinInfo => voltageSequence?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getCurrentLimitsForSite = sitePinInfo => currentLimits?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getVoltageLevelRangesForSite = sitePinInfo => voltageLevelRanges?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getCurrentLimitRangesForSite = sitePinInfo => currentLimitRanges?.GetValue(sitePinInfo.SiteNumber);
+
+            sessionsBundle.ForceSequenceSynchronizedCore(
+               getVoltageSequenceForSite,
+               DCPowerSourceOutputFunction.DCVoltage,
+               getCurrentLimitsForSite,
+               getVoltageLevelRangesForSite,
+               getCurrentLimitRangesForSite,
+               sourceDelayinSeconds,
+               transientResponse,
+               sequenceLoopCount,
+               waitForSequenceCompletion,
+               sequenceTimeoutInSeconds);
+        }
+
+        /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
+        public static void ForceVoltageSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<double[]> voltageSequence,
+            PinSiteData<double> currentLimits = null,
+            PinSiteData<double> voltageLevelRanges = null,
+            PinSiteData<double> currentLimitRanges = null,
+            double? sourceDelayinSeconds = null,
+            DCPowerSourceTransientResponse? transientResponse = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            SequenceProvider getVoltageSequenceForSitePin = sitePinInfo => voltageSequence?.GetValue(sitePinInfo);
+            ValueProvider getCurrentLimitForSitePin = sitePinInfo => currentLimits?.GetValue(sitePinInfo);
+            ValueProvider getVoltageLevelRangeForSitePin = sitePinInfo => voltageLevelRanges?.GetValue(sitePinInfo);
+            ValueProvider getCurrentLimitRangeForSitePin = sitePinInfo => currentLimitRanges?.GetValue(sitePinInfo);
+
+            sessionsBundle.ForceSequenceSynchronizedCore(
+               getVoltageSequenceForSitePin,
+               DCPowerSourceOutputFunction.DCVoltage,
+               getCurrentLimitForSitePin,
+               getVoltageLevelRangeForSitePin,
+               getCurrentLimitRangeForSitePin,
+               sourceDelayinSeconds,
+               transientResponse,
+               sequenceLoopCount,
+               waitForSequenceCompletion,
+               sequenceTimeoutInSeconds);
+        }
+
+        /// <summary>
         /// Forces current on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -472,111 +577,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
             });
-        }
-
-        /// <summary>
-        /// Forces a hardware-timed sequence of voltage outputs, ensuring synchronized output across all specified target pins.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageSequence">The voltage sequence to force for all site-pin pairs.</param>
-        /// <param name="currentLimit">Current limit for the sequence.</param>
-        /// <param name="voltageLevelRange">Voltage level range.</param>
-        /// <param name="currentLimitRange">current limit range.</param>
-        /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
-        /// <param name="transientResponse">Transient response.</param>
-        /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
-        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
-        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
-        public static void ForceVoltageSequenceSynchronized(
-            this DCPowerSessionsBundle sessionsBundle,
-            double[] voltageSequence,
-            double? currentLimit = null,
-            double? voltageLevelRange = null,
-            double? currentLimitRange = null,
-            double? sourceDelayinSeconds = null,
-            DCPowerSourceTransientResponse? transientResponse = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
-        {
-            SequenceProvider getVoltageSequences = _ => voltageSequence;
-            ValueProvider getCurrentLimits = _ => currentLimit;
-            ValueProvider getVoltageLevelRanges = _ => voltageLevelRange;
-            ValueProvider getCurrentLimitRanges = _ => currentLimitRange;
-
-            sessionsBundle.ForceSequenceSynchronizedCore(
-               getVoltageSequences,
-               DCPowerSourceOutputFunction.DCVoltage,
-               getCurrentLimits,
-               getVoltageLevelRanges,
-               getCurrentLimitRanges,
-               sourceDelayinSeconds,
-               transientResponse,
-               sequenceLoopCount,
-               waitForSequenceCompletion,
-               sequenceTimeoutInSeconds);
-        }
-
-        /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
-        public static void ForceVoltageSequenceSynchronized(
-            this DCPowerSessionsBundle sessionsBundle,
-            SiteData<double[]> voltageSequence,
-            SiteData<double> currentLimits = null,
-            SiteData<double> voltageLevelRanges = null,
-            SiteData<double> currentLimitRanges = null,
-            double? sourceDelayinSeconds = null,
-            DCPowerSourceTransientResponse? transientResponse = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
-        {
-            SequenceProvider getVoltageSequenceForSite = sitePinInfo => voltageSequence?.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getCurrentLimitsForSite = sitePinInfo => currentLimits?.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getVoltageLevelRangesForSite = sitePinInfo => voltageLevelRanges?.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getCurrentLimitRangesForSite = sitePinInfo => currentLimitRanges?.GetValue(sitePinInfo.SiteNumber);
-
-            sessionsBundle.ForceSequenceSynchronizedCore(
-               getVoltageSequenceForSite,
-               DCPowerSourceOutputFunction.DCVoltage,
-               getCurrentLimitsForSite,
-               getVoltageLevelRangesForSite,
-               getCurrentLimitRangesForSite,
-               sourceDelayinSeconds,
-               transientResponse,
-               sequenceLoopCount,
-               waitForSequenceCompletion,
-               sequenceTimeoutInSeconds);
-        }
-
-        /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
-        public static void ForceVoltageSequenceSynchronized(
-            this DCPowerSessionsBundle sessionsBundle,
-            PinSiteData<double[]> voltageSequence,
-            PinSiteData<double> currentLimits = null,
-            PinSiteData<double> voltageLevelRanges = null,
-            PinSiteData<double> currentLimitRanges = null,
-            double? sourceDelayinSeconds = null,
-            DCPowerSourceTransientResponse? transientResponse = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
-        {
-            SequenceProvider getVoltageSequenceForSitePin = sitePinInfo => voltageSequence?.GetValue(sitePinInfo);
-            ValueProvider getCurrentLimitForSitePin = sitePinInfo => currentLimits?.GetValue(sitePinInfo);
-            ValueProvider getVoltageLevelRangeForSitePin = sitePinInfo => voltageLevelRanges?.GetValue(sitePinInfo);
-            ValueProvider getCurrentLimitRangeForSitePin = sitePinInfo => currentLimitRanges?.GetValue(sitePinInfo);
-
-            sessionsBundle.ForceSequenceSynchronizedCore(
-               getVoltageSequenceForSitePin,
-               DCPowerSourceOutputFunction.DCVoltage,
-               getCurrentLimitForSitePin,
-               getVoltageLevelRangeForSitePin,
-               getCurrentLimitRangeForSitePin,
-               sourceDelayinSeconds,
-               transientResponse,
-               sequenceLoopCount,
-               waitForSequenceCompletion,
-               sequenceTimeoutInSeconds);
         }
 
         /// <summary>
