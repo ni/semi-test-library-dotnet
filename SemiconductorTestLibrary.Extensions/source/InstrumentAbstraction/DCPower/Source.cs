@@ -805,14 +805,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, index, pinSiteInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-                // Extract the list of properties that will vary per step
                 var advancedSequenceProperties = Utilities.ExtractAdvancedSequencePropertiesArray(perStepProperties[index]);
 
                 channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, setAsActiveSequence);
 
                 int startIndex = 0;
 
-                // Handle commit step if requested
                 if (commitFirstElementAsInitialState && perStepProperties.Count > 0)
                 {
                     channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(setAsActiveSequence);
@@ -820,7 +818,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     startIndex = 1;
                 }
 
-                // Create and configure each step
                 for (int i = startIndex; i < perStepProperties.Count; i++)
                 {
                     channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(setAsActiveSequence);
