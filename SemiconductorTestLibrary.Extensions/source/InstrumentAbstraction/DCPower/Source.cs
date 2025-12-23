@@ -28,7 +28,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #endregion
 
-        private const double DefaultSequenceTimeOut = 5;
+        private const double DefaultSequenceTimeout = 5.0;
 
         #region methods on DCPowerSessionsBundle
 
@@ -484,19 +484,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
-            SequenceProvider getCurrentSequences = _ => currentSequence;
-            ValueProvider getVoltageLimits = _ => voltageLimit;
-            ValueProvider getCurrentLevelRanges = _ => currentLevelRange;
-            ValueProvider getVoltageLimitRanges = _ => voltageLimitRange;
+            SequenceProvider getCurrentSequence = _ => currentSequence;
+            ValueProvider getVoltageLimit = _ => voltageLimit;
+            ValueProvider getCurrentLevelRange = _ => currentLevelRange;
+            ValueProvider getVoltageLimitRange = _ => voltageLimitRange;
 
             sessionsBundle.ForceSequenceSynchronizedCore(
-                getCurrentSequences,
+                getCurrentSequence,
                 DCPowerSourceOutputFunction.DCCurrent,
-                getVoltageLimits,
-                getCurrentLevelRanges,
-                getVoltageLimitRanges,
+                getVoltageLimit,
+                getCurrentLevelRange,
+                getVoltageLimitRange,
                 sourceDelayinSeconds,
                 transientResponse,
                 sequenceLoopCount,
@@ -515,7 +515,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
             SequenceProvider getCurrentSequenceForSite = sitePinInfo => currentSequences.GetValue(sitePinInfo.SiteNumber);
             ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimits?.GetValue(sitePinInfo.SiteNumber);
@@ -539,19 +539,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> currentSequence,
-            PinSiteData<double> voltageLimit = null,
-            PinSiteData<double> currentLevelRange = null,
-            PinSiteData<double> voltageLimitRange = null,
+            PinSiteData<double> voltageLimits = null,
+            PinSiteData<double> currentLevelRanges = null,
+            PinSiteData<double> voltageLimitRanges = null,
             double? sourceDelayinSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
             SequenceProvider getCurrentSequenceForSitePin = sitePinInfo => currentSequence.GetValue(sitePinInfo);
-            ValueProvider getVoltageLimitForSitePin = sitePinInfo => voltageLimit?.GetValue(sitePinInfo);
-            ValueProvider getCurrentLevelRangeForSitePin = sitePinInfo => currentLevelRange?.GetValue(sitePinInfo);
-            ValueProvider getVoltageLimitRangeForSitePin = sitePinInfo => voltageLimitRange?.GetValue(sitePinInfo);
+            ValueProvider getVoltageLimitForSitePin = sitePinInfo => voltageLimits?.GetValue(sitePinInfo);
+            ValueProvider getCurrentLevelRangeForSitePin = sitePinInfo => currentLevelRanges?.GetValue(sitePinInfo);
+            ValueProvider getVoltageLimitRangeForSitePin = sitePinInfo => voltageLimitRanges?.GetValue(sitePinInfo);
 
             sessionsBundle.ForceSequenceSynchronizedCore(
                 getCurrentSequenceForSitePin,
@@ -578,9 +578,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             ValueProvider fetchLimitRange,
             double? sourceDelayinSeconds,
             DCPowerSourceTransientResponse? transientResponse,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            int sequenceLoopCount,
+            bool waitForSequenceCompletion,
+            double sequenceTimeoutInSeconds)
         {
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
 
@@ -680,7 +680,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -706,7 +706,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -736,7 +736,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {

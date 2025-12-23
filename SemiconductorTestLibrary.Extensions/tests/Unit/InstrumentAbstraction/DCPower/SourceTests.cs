@@ -333,9 +333,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             sessionsBundle.ForceCurrentSequenceSynchronized(
                 currentSequence: currentSequence,
-                voltageLimit: voltageLimits,
-                currentLevelRange: currentLevelRanges,
-                voltageLimitRange: voltageLimitRanges);
+                voltageLimits: voltageLimits,
+                currentLevelRanges: currentLevelRanges,
+                voltageLimitRanges: voltageLimitRanges);
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => currentSequence.GetValue(siteIndex, "VDD"), precision: 3, itemsToFetch: 3);
