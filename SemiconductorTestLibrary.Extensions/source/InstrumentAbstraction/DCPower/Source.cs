@@ -538,7 +538,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
-            PinSiteData<double[]> currentSequence,
+            PinSiteData<double[]> currentSequences,
             PinSiteData<double> voltageLimits = null,
             PinSiteData<double> currentLevelRanges = null,
             PinSiteData<double> voltageLimitRanges = null,
@@ -548,7 +548,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
-            SequenceProvider getCurrentSequenceForSitePin = sitePinInfo => currentSequence.GetValue(sitePinInfo);
+            SequenceProvider getCurrentSequenceForSitePin = sitePinInfo => currentSequences.GetValue(sitePinInfo);
             ValueProvider getVoltageLimitForSitePin = sitePinInfo => voltageLimits?.GetValue(sitePinInfo);
             ValueProvider getCurrentLevelRangeForSitePin = sitePinInfo => currentLevelRanges?.GetValue(sitePinInfo);
             ValueProvider getVoltageLimitRangeForSitePin = sitePinInfo => voltageLimitRanges?.GetValue(sitePinInfo);
@@ -700,7 +700,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
         public static void ForceCurrentSequence(
             this DCPowerSessionsBundle sessionsBundle,
-            SiteData<double[]> currentSequence,
+            SiteData<double[]> currentSequences,
             double? voltageLimit = null,
             double? currentLevelRange = null,
             double? voltageLimitRange = null,
@@ -710,7 +710,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var sequence = currentSequence.GetValue(sitePinInfo.SiteNumber);
+                var sequence = currentSequences.GetValue(sitePinInfo.SiteNumber);
                 var channelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[channelString];
 
@@ -730,7 +730,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
         public static void ForceCurrentSequence(
             this DCPowerSessionsBundle sessionsBundle,
-            PinSiteData<double[]> currentSequence,
+            PinSiteData<double[]> currentSequences,
             double? voltageLimit = null,
             double? currentLevelRange = null,
             double? voltageLimitRange = null,
@@ -740,7 +740,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var sequence = currentSequence.GetValue(sitePinInfo);
+                var sequence = currentSequences.GetValue(sitePinInfo);
                 var channelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[channelString];
 
