@@ -276,7 +276,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? currentLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -302,7 +302,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? currentLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
@@ -331,7 +331,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? currentLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
