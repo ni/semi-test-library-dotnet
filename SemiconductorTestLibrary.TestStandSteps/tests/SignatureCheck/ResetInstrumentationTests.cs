@@ -3,7 +3,7 @@ using System.Reflection;
 using NationalInstruments.SemiconductorTestLibrary.TestStandSteps;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
-using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.SignatureCheckUtilities;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
 {
