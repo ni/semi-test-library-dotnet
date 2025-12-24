@@ -894,6 +894,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Fact]
+        public void SMUDevicesMerged_GetSourceDelayInSeconds_ValuesAreReturnedInPrimaryPinName()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+            sessionsBundle.MergePinGroup("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+
+            var sourceDelays = sessionsBundle.GetSourceDelayInSeconds();
+
+            Assert.Single(sourceDelays.PinNames);
+            Assert.Equal("VCCPrimary", sourceDelays.PinNames[0]);
+            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", sourceDelays.PinNames);
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -1007,6 +1021,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(0.1, sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput.Source.Voltage.CurrentLimit);
                 Assert.Equal(0.01, sessionsBundle.InstrumentSessions.ElementAt(2).AllChannelsOutput.Source.Voltage.CurrentLimit);
             }
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetCurrentLimits_ValuesAreReturnedInPrimaryPinName()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+            sessionsBundle.MergePinGroup("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
+
+            var currentLimits = sessionsBundle.GetCurrentLimits();
+
+            Assert.Single(currentLimits.PinNames);
+            Assert.Equal("VCCPrimary", currentLimits.PinNames[0]);
+            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", currentLimits.PinNames);
         }
 
         [Theory]
