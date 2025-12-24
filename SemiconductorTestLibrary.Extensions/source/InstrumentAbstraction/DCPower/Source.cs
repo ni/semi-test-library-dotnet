@@ -14,6 +14,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static class Source
     {
+        private const double DefaultSequenceTimeOut = 5;
+
         #region methods on DCPowerSessionsBundle
 
         /// <summary>
@@ -89,7 +91,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
             });
         }
 
@@ -116,7 +118,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -143,7 +145,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -170,7 +172,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -186,7 +188,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 settings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.Force(settings, sessionInfo.AllChannelsString, waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
             });
         }
 
@@ -203,7 +205,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
                 perSiteSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.Force(perSiteSettings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
+                sessionInfo.Force(perSiteSettings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -220,7 +222,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perPinSettings = settings[sitePinInfo.PinName];
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.Force(perPinSettings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
+                sessionInfo.Force(perPinSettings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -237,7 +239,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo);
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.Force(perSitePinPairSettings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
+                sessionInfo.Force(perSitePinPairSettings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -266,7 +268,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
             });
         }
 
@@ -293,7 +295,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
             });
         }
 
@@ -320,7 +322,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -347,7 +349,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -374,7 +376,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo.IndividualChannelString, waitForSourceCompletion: waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -390,7 +392,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 settings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(settings, sessionInfo.AllChannelsString, waitForSourceCompletion);
+                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
             });
         }
 
@@ -407,7 +409,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
                 perSiteSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(perSiteSettings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
+                sessionInfo.Force(perSiteSettings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -424,7 +426,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perPinSettings = settings[sitePinInfo.PinName];
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(perPinSettings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
+                sessionInfo.Force(perPinSettings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -441,7 +443,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo);
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(perSitePinPairSettings, sitePinInfo.IndividualChannelString, waitForSourceCompletion);
+                sessionInfo.Force(perSitePinPairSettings, sitePinInfo, waitForSourceCompletion);
             });
         }
 
@@ -472,6 +474,131 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
             });
+        }
+
+        /// <summary>
+        /// Forces a hardware-timed sequence of current values on the targeted pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentSequence">Array of current levels to source step-by-step.</param>
+        /// <param name="voltageLimit">Voltage limit for the sequence.</param>
+        /// <param name="currentLevelRange">Current level range.</param>
+        /// <param name="voltageLimitRange">Voltage limit range.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        public static void ForceCurrentSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            double[] currentSequence,
+            double? voltageLimit = null,
+            double? currentLevelRange = null,
+            double? voltageLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                ForceSequenceCore(
+                     sessionInfo.AllChannelsOutput,
+                     DCPowerSourceOutputFunction.DCCurrent,
+                     currentSequence,
+                     voltageLimit,
+                     currentLevelRange,
+                     voltageLimitRange,
+                     sequenceLoopCount,
+                     waitForSequenceCompletion,
+                     sequenceTimeoutInSeconds);
+            });
+        }
+
+        /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
+        public static void ForceCurrentSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<double[]> currentSequence,
+            double? voltageLimit = null,
+            double? currentLevelRange = null,
+            double? voltageLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var sequence = currentSequence.GetValue(sitePinInfo.SiteNumber);
+                var channelString = sitePinInfo.IndividualChannelString;
+                var channelOutput = sessionInfo.Session.Outputs[channelString];
+
+                ForceSequenceCore(
+                    channelOutput,
+                    DCPowerSourceOutputFunction.DCCurrent,
+                    sequence,
+                    voltageLimit,
+                    currentLevelRange,
+                    voltageLimitRange,
+                    sequenceLoopCount,
+                    waitForSequenceCompletion,
+                    sequenceTimeoutInSeconds);
+            });
+        }
+
+        /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
+        public static void ForceCurrentSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<double[]> currentSequence,
+            double? voltageLimit = null,
+            double? currentLevelRange = null,
+            double? voltageLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var sequence = currentSequence.GetValue(sitePinInfo);
+                var channelString = sitePinInfo.IndividualChannelString;
+                var channelOutput = sessionInfo.Session.Outputs[channelString];
+
+                ForceSequenceCore(
+                    channelOutput,
+                    DCPowerSourceOutputFunction.DCCurrent,
+                    sequence,
+                    voltageLimit,
+                    currentLevelRange,
+                    voltageLimitRange,
+                    sequenceLoopCount,
+                    waitForSequenceCompletion,
+                    sequenceTimeoutInSeconds);
+            });
+        }
+
+        /// <summary>
+        /// Core implementation for forcing a current/voltage sequence.
+        /// </summary>
+        private static void ForceSequenceCore(
+            DCPowerOutput channelOutput,
+            DCPowerSourceOutputFunction outputFunction,
+            double[] levelSequence,
+            double? limit,
+            double? levelRange,
+            double? limitRange,
+            int sequenceLoopCount,
+            bool waitForSequenceCompletion,
+            double sequenceTimeoutInSeconds)
+        {
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = outputFunction,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Limit = limit,
+                LevelRange = levelRange,
+                LimitRange = limitRange
+            };
+
+            channelOutput.Control.Abort();
+            channelOutput.ConfigureSequence(levelSequence, sequenceLoopCount);
+            channelOutput.ConfigureLevelsAndLimits(settings);
+            channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
         /// <summary>
@@ -514,9 +641,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     TransientResponse = transientResponse
                 };
                 // Applies limits and ranges.
-                var perChannelString = sitePinInfo.IndividualChannelString;
-                sessionInfo.Force(settings, perChannelString);
+                sessionInfo.Force(settings, sitePinInfo);
 
+                var perChannelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
                 originalSourceDelays[perChannelString] = channelOutput.Source.SourceDelay;
@@ -635,6 +762,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionInfo.Session.Control.Abort();
                 sessionInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
+        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
+        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
             });
         }
 
@@ -796,6 +945,56 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Configures a hardware-timed sequence of values with per-step source delays.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequence">The voltage or current sequence to set.</param>
+        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        public static void ConfigureSequenceWithSourceDelays(
+           this DCPowerSessionsBundle sessionsBundle,
+           double[] sequence,
+           double[] sourceDelaysInSeconds,
+           int sequenceLoopCount = 1)
+        {
+            sessionsBundle.Do(sessinInfo =>
+            {
+                sessinInfo.AllChannelsOutput.Control.Abort();
+                sessinInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sourceDelaysInSeconds);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureSequenceWithSourceDelays(DCPowerSessionsBundle, double[], double[], int)"/>
+        public static void ConfigureSequenceWithSourceDelays(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<double[]> sequence,
+            SiteData<double[]> sourceDelaysInSeconds,
+            int sequenceLoopCount = 1)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureSequenceWithSourceDelays(DCPowerSessionsBundle, double[], double[], int)"/>
+        public static void ConfigureSequenceWithSourceDelays(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<double[]> sequence,
+            PinSiteData<double[]> sourceDelaysInSeconds,
+            int sequenceLoopCount = 1)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo));
+            });
+        }
+
+        /// <summary>
         /// Gets the source delay in seconds for each of the underlying device channel(s), per-pin and per-site.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -841,6 +1040,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 output.Source.SequenceStepDeltaTimeEnabled = true;
                 output.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(sequenceStepDeltaTimeInSeconds.Value);
             }
+        }
+
+        /// <summary>
+        /// Configures a hardware-timed sequence of values with per-step source delays.
+        /// </summary>
+        /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
+        /// <param name="sequence">The voltage or current sequence to set.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
+        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double[] sourceDelaysInSeconds)
+        {
+            output.Source.Mode = DCPowerSourceMode.Sequence;
+            output.Source.SequenceLoopCount = sequenceLoopCount;
+            var sourceDelays = sourceDelaysInSeconds.Select(d => PrecisionTimeSpan.FromSeconds(d)).ToArray();
+            output.Source.SetSequence(sequence, sourceDelays);
         }
 
         #endregion methods on DCPowerOutput
@@ -894,14 +1108,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
-            if (settings.LimitSymmetry.HasValue)
-            {
-                channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
-            }
-            if (settings.OutputFunction.HasValue)
-            {
-                channelOutput.Source.Output.Function = settings.OutputFunction.Value;
-            }
             if (settings.SourceDelayInSeconds.HasValue)
             {
                 channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
@@ -921,30 +1127,51 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     }
                 }
             }
-            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
-            {
-                ConfigureVoltageSettings(channelOutput, settings);
-            }
-            else
-            {
-                ConfigureCurrentSettings(channelOutput, settings);
-            }
+            channelOutput.ConfigureLevelsAndLimits(settings);
         }
 
         #endregion methods on DCPowerSessionInformation
 
         #region private and internal methods
 
-        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "", bool waitForSourceCompletion = false)
+        private static void ConfigureLevelsAndLimits(this DCPowerOutput channelOutput, DCPowerSourceSettings settings)
         {
-            var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
+            if (settings.LimitSymmetry.HasValue)
+            {
+                channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
+            }
+            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+            {
+                ConfigureVoltageSettings(channelOutput, settings);
+            }
+            else if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCCurrent))
+            {
+                ConfigureCurrentSettings(channelOutput, settings);
+            }
+        }
+
+        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool waitForSourceCompletion = false)
+        {
+            var channelString = sitePinInfo?.IndividualChannelString ?? sessionInfo.AllChannelsString;
+            var channelOutput = sessionInfo.Session.Outputs[channelString];
+            sessionInfo.ConfigureChannels(settings, channelOutput, channelString, sitePinInfo);
+            channelOutput.InitiateChannels(waitForSourceCompletion);
+        }
+
+        private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, string channelString = "", SitePinInfo sitePinInfo = null)
+        {
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelString);
             channelOutput.Source.Output.Enabled = true;
+            channelOutput.Control.Commit();
+        }
+
+        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false, double timeoutInSeconds = 5)
+        {
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
             {
-                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(5.0));
+                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(timeoutInSeconds));
             }
         }
 
@@ -978,6 +1205,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
+            dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Voltage.VoltageLevel = settings.Level.Value;
@@ -1011,6 +1239,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings)
         {
+            dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Current.CurrentLevel = settings.Level.Value;

@@ -14,6 +14,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 {
     [Collection("NonParallelizable")]
     [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public sealed class DigitalOutputTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
@@ -80,7 +81,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             tasksBundle.WriteDigitalWaveform(data, autoStart);
         }
 
-        [Theory(Skip = "Fails without the fix in Abstractions.")]
+        [Theory]
         [InlineData("DOPin1")]
         [InlineData("DOPin2")]
         [InlineData("DOPin3")]
