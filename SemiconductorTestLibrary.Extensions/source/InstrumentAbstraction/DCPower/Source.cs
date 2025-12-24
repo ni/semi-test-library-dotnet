@@ -258,6 +258,100 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Forces a hardware-timed sequence of voltage values on the targeted pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageSequence">The array of voltage values to force in sequence.</param>
+        /// <param name="currentLimit">The current limit to use for the sequence.</param>
+        /// <param name="voltageLevelRange">The voltage level range to use for the sequence.</param>
+        /// <param name="currentLimitRange">The current limit range to use for the sequence.</param>
+        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is <see langword="true"/>.</param>
+        public static void ForceVoltageSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            double[] voltageSequence,
+            double? currentLimit = null,
+            double? voltageLevelRange = null,
+            double? currentLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                ForceSequenceCore(
+                    sessionInfo.AllChannelsOutput,
+                    DCPowerSourceOutputFunction.DCVoltage,
+                    voltageSequence,
+                    currentLimit,
+                    voltageLevelRange,
+                    currentLimitRange,
+                    sequenceLoopCount,
+                    waitForSequenceCompletion,
+                    sequenceTimeoutInSeconds);
+            });
+        }
+
+        /// <inheritdoc cref="ForceVoltageSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
+        public static void ForceVoltageSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<double[]> voltageSequence,
+            double? currentLimit = null,
+            double? voltageLevelRange = null,
+            double? currentLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                var sequence = voltageSequence.GetValue(pinSiteInfo.SiteNumber);
+                var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+
+                ForceSequenceCore(
+                    channelOutput,
+                    DCPowerSourceOutputFunction.DCVoltage,
+                    sequence,
+                    currentLimit,
+                    voltageLevelRange,
+                    currentLimitRange,
+                    sequenceLoopCount,
+                    waitForSequenceCompletion,
+                    sequenceTimeoutInSeconds);
+            });
+        }
+
+        /// <inheritdoc cref="ForceVoltageSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
+        public static void ForceVoltageSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<double[]> voltageSequence,
+            double? currentLimit = null,
+            double? voltageLevelRange = null,
+            double? currentLimitRange = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                var sequence = voltageSequence.GetValue(pinSiteInfo);
+                var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+
+                ForceSequenceCore(
+                    channelOutput,
+                    DCPowerSourceOutputFunction.DCVoltage,
+                    sequence,
+                    currentLimit,
+                    voltageLevelRange,
+                    currentLimitRange,
+                    sequenceLoopCount,
+                    waitForSequenceCompletion,
+                    sequenceTimeoutInSeconds);
+            });
+        }
+
+        /// <summary>
         /// Behaves the same as the ForceVoltage() method, but as two current limit inputs for setting separate high and low current limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
