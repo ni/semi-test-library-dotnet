@@ -1,16 +1,16 @@
 using System.Linq;
 using System.Reflection;
 using NationalInstruments.SemiconductorTestLibrary.TestStandSteps;
-using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.SignatureCheckUtilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
 {
     public partial class SetupAndCleanupSignatureTests
     {
         [Fact]
-        public void CleanupInstrumentation_GetExactOverload_HasCorrectSignature()
+        public void GetCleanupInstrumentationWithParameters_HasCorrectSignature()
         {
             // Arrange
             var type = typeof(SetupAndCleanupSteps);
@@ -27,25 +27,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
             // Assert
             Assert.NotNull(method);
             var parameters = method.GetParameters();
-            SignatureCheckUtilities.AssertParameter(parameters[0], "tsmContext", false);
-            SignatureCheckUtilities.AssertBoolParameter(parameters[1], "resetDevice", true, false);
-            SignatureCheckUtilities.AssertEnumParameter(parameters[2], "instrumentType", true, 0);
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertBoolParameter(parameters[1], "resetDevice", true, false);
+            AssertEnumParameter(parameters[2], "instrumentType", true, (int)NIInstrumentType.All);
             Assert.Equal(typeof(void), method.ReturnType);
         }
 
         [Fact]
-        public void CleanupInstrumentation_GetAllOverloads_HasCorrectOverloadCount()
+        public void GetAllCleanupInstrumentationOverloads_HasCorrectOverloadCount()
         {
-            // Arrange
             var type = typeof(SetupAndCleanupSteps);
             int expectedOverloadCount = 1;
 
-            // Act: get all overloads
-            var overloads = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "CleanupInstrumentation").ToArray();
+            var overloads = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "CleanupInstrumentation");
 
-            // Assert
-            Assert.NotNull(overloads);
-            Assert.Equal(expectedOverloadCount, overloads.Length);
+            Assert.Equal(expectedOverloadCount, overloads.Count());
         }
     }
 }
