@@ -403,7 +403,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
             SequenceProvider getVoltageSequence = _ => voltageSequence;
             ValueProvider getCurrentLimit = _ => currentLimit;
@@ -434,7 +434,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
             SequenceProvider getVoltageSequenceForSite = sitePinInfo => voltageSequences?.GetValue(sitePinInfo.SiteNumber);
             ValueProvider getCurrentLimitForSite = sitePinInfo => currentLimits?.GetValue(sitePinInfo.SiteNumber);
@@ -465,7 +465,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeOut)
+            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
             SequenceProvider getVoltageSequenceForSitePin = sitePinInfo => voltageSequences?.GetValue(sitePinInfo);
             ValueProvider getCurrentLimitForSitePin = sitePinInfo => currentLimits?.GetValue(sitePinInfo);
