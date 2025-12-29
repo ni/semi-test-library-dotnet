@@ -153,13 +153,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new[] { 0.000, 0.005, 0.010 };
-            sessionsBundle.ForceVoltageSequenceSynchronized(voltageSequence: sequence, currentLimit: 0.5, voltageLevelRange: 0.1, currentLimitRange: 0.5);
+            sessionsBundle.ForceVoltageSequenceSynchronized(voltageSequence: sequence, currentLimit: 0.5, voltageLevelRange: 1.0, currentLimitRange: 0.5);
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
-                Assert.Equal(0.1, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange);
+                Assert.Equal(1.0, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange);
             });
         }
 
@@ -188,7 +188,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             var voltageLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                ["VDD"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.1, [2] = 0.1, [3] = 0.1 }
+                ["VDD"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 1.0, [2] = 1.0, [3] = 1.0 }
             });
             var currentLimitRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
@@ -225,7 +225,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new[] { 0.010, 0.011, 0.012 }
             });
             var currentLimits = new SiteData<double>(new double[] { 1.0, 1.1, 1.2, 1.3 });
-            var voltageLevelRanges = new SiteData<double>(new double[] { 0.1, 0.1, 0.1, 0.1 });
+            var voltageLevelRanges = new SiteData<double>(new double[] { 1.0, 1.0, 1.0, 1.0 });
             var currentLimitRanges = new SiteData<double>(new double[] { 1.5, 1.5, 1.5, 1.5 });
             sessionsBundle.ForceVoltageSequenceSynchronized(
                 voltageSequences: sequences,
@@ -237,7 +237,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequences.GetValue(siteIndex), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
-                Assert.Equal(voltageLevelRanges.GetValue(sitePinInfo.SiteNumber), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange, 2);
+                Assert.Equal(voltageLevelRanges.GetValue(sitePinInfo.SiteNumber), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange, 2);
             });
         }
 
