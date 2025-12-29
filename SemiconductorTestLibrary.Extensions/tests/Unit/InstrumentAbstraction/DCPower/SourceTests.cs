@@ -144,6 +144,104 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceVoltageSequenceSynchronized_CorrectValuesAreSet(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var sequence = new[] { 0.000, 0.005, 0.010 };
+            sessionsBundle.ForceVoltageSequenceSynchronized(voltageSequence: sequence, currentLimit: 0.5, voltageLevelRange: 0.1, currentLimitRange: 0.5);
+
+            sessionsBundle.Abort();
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                Assert.Equal(0.1, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceVoltageSequenceSynchronizedWithPerPinPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+
+            var sequences = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 0.001, 0.002, 0.003 },
+                    [1] = new[] { 0.004, 0.005, 0.006 },
+                    [2] = new[] { 0.007, 0.008, 0.009 },
+                    [3] = new[] { 0.010, 0.011, 0.012 }
+                }
+            });
+            var currentLimits = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VDD"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 1.1, [2] = 1.2, [3] = 1.3 }
+            });
+            var voltageLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VDD"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.1, [2] = 0.1, [3] = 0.1 }
+            });
+            var currentLimitRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VDD"] = new Dictionary<int, double>() { [0] = 1.5, [1] = 1.5, [2] = 1.5, [3] = 1.5 }
+            });
+            sessionsBundle.ForceVoltageSequenceSynchronized(
+                voltageSequences: sequences,
+                currentLimits: currentLimits,
+                voltageLevelRanges: voltageLevelRanges,
+                currentLimitRanges: currentLimitRanges);
+
+            sessionsBundle.Abort();
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequences.GetValue(siteIndex, "VDD"), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                Assert.Equal(voltageLevelRanges.GetValue(sitePinInfo.SiteNumber, "VDD"), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceVoltageSequenceSynchronizedWithPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            // Create per-site sequences
+            var sequences = new SiteData<double[]>(new[]
+            {
+                new[] { 0.001, 0.002, 0.003 },
+                new[] { 0.004, 0.005, 0.006 },
+                new[] { 0.007, 0.008, 0.009 },
+                new[] { 0.010, 0.011, 0.012 }
+            });
+            var currentLimits = new SiteData<double>(new double[] { 1.0, 1.1, 1.2, 1.3 });
+            var voltageLevelRanges = new SiteData<double>(new double[] { 0.1, 0.1, 0.1, 0.1 });
+            var currentLimitRanges = new SiteData<double>(new double[] { 1.5, 1.5, 1.5, 1.5 });
+            sessionsBundle.ForceVoltageSequenceSynchronized(
+                voltageSequences: sequences,
+                currentLimits: currentLimits,
+                voltageLevelRanges: voltageLevelRanges,
+                currentLimitRanges: currentLimitRanges);
+
+            sessionsBundle.Abort();
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequences.GetValue(siteIndex), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                Assert.Equal(voltageLevelRanges.GetValue(sitePinInfo.SiteNumber), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange, 2);
+            });
+        }
+
+        [Theory]
         [InlineData("DifferentSMUDevices.pinmap")]
         [InlineData("DifferentSMUDevicesOfSameModelSharedChannelGroup.pinmap")]
         public void DifferentSMUDevices_ForceVoltageWithSingleSettingsObject_CorrectVoltageForced(string pinMapFileName)
@@ -278,104 +376,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 AssertVoltageSettings(sessionsBundle.InstrumentSessions.ElementAt(6).AllChannelsOutput, expectedVoltageLevel: 2.5, expectedCurrentLimit: 0.2);
                 AssertVoltageSettings(sessionsBundle.InstrumentSessions.ElementAt(7).AllChannelsOutput, expectedVoltageLevel: 4.5, expectedCurrentLimit: 0.2);
             }
-        }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void DifferentSMUDevices_ForceVoltageSequenceSynchronized_CorrectValuesAreSet(bool pinMapWithChannelGroup)
-        {
-            var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower("VDD");
-
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            var sequence = new[] { 0.000, 0.005, 0.010 };
-            sessionsBundle.ForceVoltageSequenceSynchronized(voltageSequence: sequence, currentLimit: 0.5, voltageLevelRange: 0.1, currentLimitRange: 0.5);
-
-            sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                Assert.Equal(0.1, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange);
-            });
-        }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void DifferentSMUDevices_ForceVoltageSequenceSynchronizedWithPerPinPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
-        {
-            var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower("VDD");
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-
-            var sequences = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
-            {
-                ["VDD"] = new Dictionary<int, double[]>()
-                {
-                    [0] = new[] { 0.001, 0.002, 0.003 },
-                    [1] = new[] { 0.004, 0.005, 0.006 },
-                    [2] = new[] { 0.007, 0.008, 0.009 },
-                    [3] = new[] { 0.010, 0.011, 0.012 }
-                }
-            });
-            var currentLimits = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
-            {
-                ["VDD"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 1.1, [2] = 1.2, [3] = 1.3 }
-            });
-            var voltageLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
-            {
-                ["VDD"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.1, [2] = 0.1, [3] = 0.1 }
-            });
-            var currentLimitRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
-            {
-                ["VDD"] = new Dictionary<int, double>() { [0] = 1.5, [1] = 1.5, [2] = 1.5, [3] = 1.5 }
-            });
-            sessionsBundle.ForceVoltageSequenceSynchronized(
-                voltageSequences: sequences,
-                currentLimits: currentLimits,
-                voltageLevelRanges: voltageLevelRanges,
-                currentLimitRanges: currentLimitRanges);
-
-            sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequences.GetValue(siteIndex, "VDD"), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                Assert.Equal(voltageLevelRanges.GetValue(sitePinInfo.SiteNumber, "VDD"), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange);
-            });
-        }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void DifferentSMUDevices_ForceVoltageSequenceSynchronizedWithPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
-        {
-            var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.DCPower("VDD");
-
-            // Create per-site sequences
-            var sequences = new SiteData<double[]>(new[]
-            {
-                new[] { 0.001, 0.002, 0.003 },
-                new[] { 0.004, 0.005, 0.006 },
-                new[] { 0.007, 0.008, 0.009 },
-                new[] { 0.010, 0.011, 0.012 }
-            });
-            var currentLimits = new SiteData<double>(new double[] { 1.0, 1.1, 1.2, 1.3 });
-            var voltageLevelRanges = new SiteData<double>(new double[] { 0.1, 0.1, 0.1, 0.1 });
-            var currentLimitRanges = new SiteData<double>(new double[] { 1.5, 1.5, 1.5, 1.5 });
-            sessionsBundle.ForceVoltageSequenceSynchronized(
-                voltageSequences: sequences,
-                currentLimits: currentLimits,
-                voltageLevelRanges: voltageLevelRanges,
-                currentLimitRanges: currentLimitRanges);
-
-            sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequences.GetValue(siteIndex), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
-            {
-                Assert.Equal(voltageLevelRanges.GetValue(sitePinInfo.SiteNumber), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange, 2);
-            });
         }
 
         [Theory]
