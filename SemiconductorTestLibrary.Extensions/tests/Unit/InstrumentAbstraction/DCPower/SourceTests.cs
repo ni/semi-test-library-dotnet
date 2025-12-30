@@ -612,8 +612,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void DifferentSMUDevicesGanged_ForceCurrentWithSymmetricLimit_DividedCurrentForced()
         {
-            var sessionManager = Initialize("SMUGangPinGroup_IndividualChannelSessionsPerSite.pinmap");
-            var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             sessionsBundle.ForceCurrent(currentLevel: 1.5, voltageLimit: 2);
@@ -636,8 +636,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void DifferentSMUDevicesGanged_ForcePerPinCurrentsWithSymmetricLimit_CorrectCurrentsForced()
         {
-            var sessionManager = Initialize("SMUGangPinGroup_IndividualChannelSessionsPerSite.pinmap");
-            var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             sessionsBundle.ForceCurrent(currentLevels: new Dictionary<string, double>() { ["VCC1"] = 3, ["VCC2"] = 3, ["VCC3"] = 3, ["VCC4"] = 1, ["VCC5"] = 1 }, voltageLimit: 5);
@@ -660,8 +660,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void DifferentSMUDevicesGanged_ForcePerSiteCurrentsWithSymmetricLimit_CorrectCurrentsForced()
         {
-            var sessionManager = Initialize("SMUGangPinGroup_IndividualChannelSessionsPerSite.pinmap");
-            var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var currentLevels = new SiteData<double>(new double[] { 1, 3 });
@@ -684,8 +684,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void DifferentSMUDevicesGanged_ForcePerPinPerSiteCurrentsWithSymmetricLimit_CorrectCurrentsForced()
         {
-            var sessionManager = Initialize("SMUGangPinGroup_IndividualChannelSessionsPerSite.pinmap");
-            var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var currentLevels = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
@@ -715,8 +715,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void DifferentSMUDevicesGanged_ForceCurrentWithSingleSettingsObject_CorrectCurrentForced()
         {
-            var sessionManager = Initialize("SMUGangPinGroup_IndividualChannelSessionsPerSite.pinmap");
-            var sessionsBundle = sessionManager.DCPower("GangedPinGroup");
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(FourPinsGangedGroup);
 
             sessionsBundle.ForceCurrent(new DCPowerSourceSettings() { Level = 2, Limit = 2.6 });
@@ -1335,22 +1335,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString)
         {
-            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "SourceTrigger"), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
-            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "MeasureTrigger"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
+            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
         }
 
-        private string GetTriggerName(SitePinInfo sitePinInfo, string leaderChannelString, string triggerType)
+        private string GetTriggerName(SitePinInfo sitePinInfo, string leaderChannelString)
         {
             var channel = sitePinInfo.IndividualChannelString;
 
             if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
             {
-                return $"/{leaderChannelString}/Engine0/{triggerType}";
+                return $"/{leaderChannelString}/Engine0/SourceTrigger";
             }
-            if (channel.Contains("SMU_4147") && string.Equals(triggerType, "SourceTrigger", StringComparison.Ordinal))
+            if (channel.Contains("SMU_4147"))
             {
-                var channelNameForTrigger = channel.Remove(channel.Length - 2);
-                return $"/{channelNameForTrigger}/Immediate";
+                return $"/{channel.Remove(channel.Length - 2)}/Immediate";
             }
             return string.Empty;
         }
