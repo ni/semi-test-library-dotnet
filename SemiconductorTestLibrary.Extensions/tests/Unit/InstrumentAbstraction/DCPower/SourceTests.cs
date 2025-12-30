@@ -18,6 +18,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     public sealed class SourceTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
+        private const string ThreePinsGangedGroup = "ThreePinsGangedGroup";
+        private const string FourPinsGangedGroup = "FourPinsGangedGroup";
+        private const string AllPinsGangedGroup = "AllPinsGangedGroup";
 
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
@@ -707,14 +710,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("AllPinsGangedGroup") { ChannelsCount = 5 };
-            }
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("AllPinsGangedGroup", true) { ChannelsCount = 5, SourceTriggerName = "PXI_Trig0" };
-            }
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var settings = new DCPowerSourceSettings()
             {
@@ -728,7 +724,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertCurrentSettings(sessionInfo.AllChannelsOutput, 1, 7);
-                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02" : "SMU_4137_C5_S03");
             });
         }
 
@@ -737,14 +733,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("AllPinsGangedGroup") { ChannelsCount = 5 };
-            }
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("AllPinsGangedGroup", true) { ChannelsCount = 5, SourceTriggerName = "PXI_Trig0" };
-            }
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var settingsForSite1 = new DCPowerSourceSettings()
             {
@@ -771,7 +760,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.4 : 0.6, expectedVoltageLimit: sitePinInfo.SiteNumber == 0 ? 7 : 5);
-                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sessionInfo.AllChannelsString);
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02" : "SMU_4137_C5_S03");
             });
         }
 
@@ -780,14 +769,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("FourPinsGangedGroup") { ChannelsCount = 4 };
-            }
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1" && sitepin.PinName != "VCC5"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("FourPinsGangedGroup", true) { ChannelsCount = 4, SourceTriggerName = "PXI_Trig0" };
-            }
+            sessionsBundle.GangPinGroup(FourPinsGangedGroup);
 
             var perPinPerSiteSettings = new PinSiteData<DCPowerSourceSettings>(
                 new string[]
@@ -812,7 +794,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertCurrentSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 0.75, 3, 6);
-                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02" : "SMU_4137_C5_S03");
             });
         }
 
@@ -821,14 +803,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("ThreePinsGangedGroup") { ChannelsCount = 3 };
-            }
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => (sitepin.PinName == "VCC2" || sitepin.PinName == "VCC3")))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("ThreePinsGangedGroup", true) { ChannelsCount = 3, SourceTriggerName = "PXI_Trig0" };
-            }
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             var settingsForGangedChannels = new DCPowerSourceSettings()
             {
@@ -858,7 +833,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertCurrentSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 1, 2, 7);
-                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02" : "SMU_4137_C5_S03");
             });
         }
 
@@ -867,14 +842,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("ThreePinsGangedGroup") { ChannelsCount = 3 };
-            }
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC2" || sitepin.PinName == "VCC3"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("ThreePinsGangedGroup", true) { ChannelsCount = 3, SourceTriggerName = "PXI_Trig0" };
-            }
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             var settings = new DCPowerSourceSettings()
             {
@@ -888,7 +856,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertVoltageSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 3, 0.5, 1.5);
-                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02" : "SMU_4137_C5_S03");
             });
         }
 
@@ -897,14 +865,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("FourPinsGangedGroup") { ChannelsCount = 4 };
-            }
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName != "VCC1" && sitepin.PinName != "VCC5"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("FourPinsGangedGroup", true) { ChannelsCount = 4, SourceTriggerName = "PXI_Trig0" };
-            }
+            sessionsBundle.GangPinGroup(FourPinsGangedGroup);
 
             var perSiteSettings = new SiteData<DCPowerSourceSettings>(
                 new int[] { 0, 1 },
@@ -920,7 +881,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertVoltageSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 4, 0.75, 3);
-                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02" : "SMU_4137_C5_S03");
             });
         }
 
@@ -929,14 +890,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("ThreePinsGangedGroup") { ChannelsCount = 3 };
-            }
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC2" && sitepin.PinName == "VCC3"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("ThreePinsGangedGroup", true) { ChannelsCount = 3, SourceTriggerName = "PXI_Trig0" };
-            }
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             var perPinPerSiteSettings = new PinSiteData<DCPowerSourceSettings>(
                 new string[]
@@ -960,7 +914,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertVoltageSettings(sitePinInfo, sessionInfo.AllChannelsOutput, 3, 1, 3);
-                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02" : "SMU_4137_C5_S03");
             });
         }
 
@@ -969,14 +923,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => sitepin.PinName == "VCC1"))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("AllPinsGangedGroup") { ChannelsCount = 5 };
-            }
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList.Where(sitepin => (sitepin.PinName != "VCC1")))
-            {
-                sitePinInfo.CascadingInfo = new GangingInfo("AllPinsGangedGroup", true) { ChannelsCount = 5, SourceTriggerName = "PXI_Trig0" };
-            }
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var settings = new DCPowerSourceSettings()
             {
@@ -998,7 +945,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
                 AssertVoltageSettings(sessionInfo.AllChannelsOutput, 4, 0.6);
-                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.IndividualChannelString);
+                AssertTriggerSettings(sitePinInfo, sessionInfo.AllChannelsOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02" : "SMU_4137_C5_S03");
             });
         }
 
@@ -1549,43 +1496,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
-        private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string channelString)
+        private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString)
         {
-            Assert.Equal(GetTriggerName(sitePinInfo), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "SourceTrigger"), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "MeasureTrigger"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
         }
 
-        private string GetTriggerName(SitePinInfo sitePinInfo)
+        private string GetTriggerName(SitePinInfo sitePinInfo, string leaderChannelString, string triggerType)
         {
-            var gangingInfo = sitePinInfo.CascadingInfo as GangingInfo;
-            var channelString = sitePinInfo.IndividualChannelString;
-            var channelNameForTrigger = channelString.Remove(channelString.Length - 2);
-            switch (channelString)
+            var channel = sitePinInfo.IndividualChannelString;
+
+            if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
             {
-                case string channel when channel.Contains("SMU_4137"):
-                    {
-                        if (gangingInfo != null && gangingInfo.IsFollower)
-                        {
-                            return $"/{channelNameForTrigger}/PXI_Trig0";
-                        }
-                        else
-                        {
-                            return string.Empty;
-                        }
-                    }
-                case string channel when channel.Contains("SMU_4147"):
-                    {
-                        if (gangingInfo != null && gangingInfo.IsFollower)
-                        {
-                            return $"/{channelNameForTrigger}/PXI_Trig0";
-                        }
-                        else
-                        {
-                            return $"/{channelNameForTrigger}/Immediate";
-                        }
-                    }
-                default:
-                    return string.Empty;
+                return $"/{leaderChannelString}/Engine0/{triggerType}";
             }
+            if (channel.Contains("SMU_4147") && string.Equals(triggerType, "SourceTrigger", StringComparison.Ordinal))
+            {
+                var channelNameForTrigger = channel.Remove(channel.Length - 2);
+                return $"/{channelNameForTrigger}/Immediate";
+            }
+            return string.Empty;
         }
 
         private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
