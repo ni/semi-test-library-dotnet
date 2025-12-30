@@ -1108,7 +1108,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
                 channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
+                channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+                channelOutput.Triggers.MeasureTrigger.Type = DCPowerMeasureTriggerType.DigitalEdge;
                 channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure((sitePinInfo.CascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
+                channelOutput.Triggers.MeasureTrigger.DigitalEdge.Configure((sitePinInfo.CascadingInfo as GangingInfo).MeasureTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
