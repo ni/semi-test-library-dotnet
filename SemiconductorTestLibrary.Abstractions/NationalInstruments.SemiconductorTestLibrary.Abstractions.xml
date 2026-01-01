@@ -96,20 +96,29 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.SourceTriggerName">
             <summary>
-            Name of the trigger line to use for the synchronization of sourcing.
+            Name of the trigger line to use for the synchronization of outputs.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.MeasureTriggerName">
             <summary>
-            Name of the trigger line to use for the synchronization of Measuring.
+            Name of the trigger line to use for the synchronization of measurements.
             </summary>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Boolean)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Int32)">
             <summary>
-            Default constructor.
+            Constructs a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo"/> object for a leader channel.
             </summary>
-            <param name="groupName">Name of the pin group to use as the trigger line.</param>
-            <param name="isFollower">Flag indicating if the channel is a follower in the ganged group.</param>
+            <param name="groupName">Name of the pin group to be ganged.</param>
+            <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Int32,System.String,System.String)">
+            <summary>
+            Constructs a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo"/> object for a follower channel.
+            </summary>
+            <param name="groupName">Name of the pin group to be ganged.</param>
+            <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
+            <param name="sourceTriggerName">Name of the trigger line to use for the synchronization of outputs.</param>
+            <param name="measureTriggerName">Name of the trigger line to use for the synchronization of measurements.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo">
             <summary>
@@ -3232,9 +3241,43 @@
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.BuildTerminalName(System.String,System.String)">
+            <summary>
+            Builds the terminal name for the specified trigger or event type.
+            </summary>
+            <param name="channelString">The channel string.</param>
+            <param name="triggerOrEventTypeName">The trigger or event type.</param>
+            <returns>The built terminal name.</returns>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle">
             <summary>
             Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/> objects.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType">
+            <summary>
+            Specifies the type of cascading action to perform in an operation that supports merging or ganging
+            entities.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Merge">
+            <summary>
+            Performs merge operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Unmerge">
+            <summary>
+            Performs unmerge operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Gang">
+            <summary>
+            Performs gang operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Ungang">
+            <summary>
+            Performs ungang operation.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.TSMContext">
@@ -3304,6 +3347,30 @@
             Unmerges the channels that are part of the connections in specified pin group.
             </summary>
             <param name="mergedChannelsPinGroupName">Pin Group that is to be unmerged.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.GangPinGroup(System.String[])">
+            <summary>
+            Performs the ganging operation on all the pin groups specified.
+            </summary>
+            <param name="gangedChannelsPinGroupNames">Pin Groups that are to be ganged.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UngangPinGroup(System.String[])">
+            <summary>
+            Performs the unganging operation on all the pin groups specified.
+            </summary>
+            <param name="gangedChannelsPinGroupNames">Pin Groups that are to be unganged.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.GangPinGroup(System.String)">
+            <summary>
+            Gangs the channels that are part of the specified pin group on all sites in the bundle.
+            </summary>
+            <param name="gangedChannelsPinGroupName">Pin Groups that are to be ganged.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UngangPinGroup(System.String)">
+            <summary>
+            Ungangs the channels that are part of the connections in specified pin group on all sites in the bundle.
+            </summary>
+            <param name="gangedChannelsPinGroupName">Pin Groups that are to be ganged.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose">
             <summary>
@@ -4558,9 +4625,9 @@
               Looks up a localized string similar to Detected a mismatch in PXI module. All pins in the merged pin group must be connected to the same PXI module for each site.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_MissingMergePinInBundle">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_MissingCascadePinInBundle">
             <summary>
-              Looks up a localized string similar to Pin(s) {0} from the merged pin group &quot;{1}&quot; is/are not present in the DCPower bundle. Ensure that all pins required for merging and unmerging are included in the DCPower bundle..
+              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are not present in the DCPower bundle. Ensure that all pins required for cascading or uncascading are included in the DCPower bundle..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_NotUsingChannelGroups">
@@ -4568,14 +4635,14 @@
               Looks up a localized string similar to Convert DCPower instruments to use channel groups in the pinmap..
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupAlreadyMerged">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupAlreadyCascaded">
             <summary>
-              Looks up a localized string similar to Unmerge PinGroup &quot;{0}&quot; first, before trying to merge PinGroup &quot;{1}&quot;..
+              Looks up a localized string similar to Uncascade PinGroup &quot;{0}&quot; first, before trying to cascade PinGroup &quot;{1}&quot;..
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupNotMerged">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupNotCascaded">
             <summary>
-              Looks up a localized string similar to PinGroup &quot;{0}&quot; is not merged. Unmerge operation is invalid. .
+              Looks up a localized string similar to PinGroup &quot;{0}&quot; is not cascaded. Uncascade operation is invalid. .
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_InvalidTSMContext">
