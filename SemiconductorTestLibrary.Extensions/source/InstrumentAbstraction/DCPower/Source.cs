@@ -802,33 +802,69 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
-            sessionsBundle.Do((sessionInfo, index, pinSiteInfo) =>
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-                var advancedSequenceProperties = Utilities.ExtractAdvancedSequencePropertiesArray(perStepProperties[index]);
-
-                channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, setAsActiveSequence);
-
-                int startIndex = 0;
-
-                if (commitFirstElementAsInitialState && perStepProperties.Count > 0)
-                {
-                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(setAsActiveSequence);
-                    Utilities.ApplyStepProperties(channelOutput, perStepProperties[0], pinSiteInfo.ModelString);
-                    startIndex = 1;
-                }
-
-                for (int i = startIndex; i < perStepProperties.Count; i++)
-                {
-                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(setAsActiveSequence);
-                    Utilities.ApplyStepProperties(channelOutput, perStepProperties[i], pinSiteInfo.ModelString);
-                }
-
-                if (!setAsActiveSequence)
-                {
-                    channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
-                }
+                ConfigureAdvanceSequenceCore(channelOutput, sequenceName, perStepProperties, setAsActiveSequence, commitFirstElementAsInitialState, pinSiteInfo.ModelString);
             });
+        }
+
+        /// <inheritdoc cref="ConfigureAdvancedSequence(DCPowerSessionsBundle, string, IList{DCPowerAdvancedSequenceStepProperties}, bool, bool)"/>
+        public static void ConfigureAdvancedSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            SiteData<IList<DCPowerAdvancedSequenceStepProperties>> perStepProperties,
+            bool setAsActiveSequence = false,
+            bool commitFirstElementAsInitialState = false)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+                ConfigureAdvanceSequenceCore(channelOutput, sequenceName, perStepProperties.GetValue(pinSiteInfo.SiteNumber), setAsActiveSequence, commitFirstElementAsInitialState, pinSiteInfo.ModelString);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureAdvancedSequence(DCPowerSessionsBundle, string, IList{DCPowerAdvancedSequenceStepProperties}, bool, bool)"/>
+        public static void ConfigureAdvancedSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            PinSiteData<IList<DCPowerAdvancedSequenceStepProperties>> perStepProperties,
+            bool setAsActiveSequence = false,
+            bool commitFirstElementAsInitialState = false)
+        {
+            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+                ConfigureAdvanceSequenceCore(channelOutput, sequenceName, perStepProperties.GetValue(pinSiteInfo), setAsActiveSequence, commitFirstElementAsInitialState, pinSiteInfo.ModelString);
+            });
+        }
+
+        private static void ConfigureAdvanceSequenceCore(
+            DCPowerOutput channelOutput,
+            string sequenceName,
+            IList<DCPowerAdvancedSequenceStepProperties> perStepProperties,
+            bool setAsActiveSequence,
+            bool commitFirstElementAsInitialState,
+            string modelString)
+        {
+            var advancedSequenceProperties = Utilities.ExtractAdvancedSequencePropertiesArray(perStepProperties);
+            channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, setAsActiveSequence);
+            int startIndex = 0;
+            if (commitFirstElementAsInitialState && perStepProperties.Count > 0)
+            {
+                channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(setAsActiveSequence);
+                Utilities.ApplyStepProperties(channelOutput, perStepProperties[0], modelString);
+                startIndex = 1;
+            }
+            for (int i = startIndex; i < perStepProperties.Count; i++)
+            {
+                channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(setAsActiveSequence);
+                Utilities.ApplyStepProperties(channelOutput, perStepProperties[i], modelString);
+            }
+            if (!setAsActiveSequence)
+            {
+                channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
+            }
         }
 
         /// <summary>

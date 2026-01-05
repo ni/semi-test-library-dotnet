@@ -1,9 +1,9 @@
-﻿using NationalInstruments.ModularInstruments.NIDCPower;
-using NationalInstruments.SemiconductorTestLibrary.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -95,321 +95,323 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         public static DCPowerAdvancedSequenceProperty[] ExtractAdvancedSequencePropertiesArray(
-            DCPowerAdvancedSequenceStepProperties stepProperties)
+            IEnumerable<DCPowerAdvancedSequenceStepProperties> perStepProperties)
         {
             var properties = new HashSet<DCPowerAdvancedSequenceProperty>();
-
-            if (stepProperties.Autorange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.Autorange);
-            }
-            if (stepProperties.AutorangeApertureTimeMode.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.AutorangeApertureTimeMode);
-            }
-            if (stepProperties.AutorangeBehavior.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.AutorangeBehavior);
-            }
-            if (stepProperties.AutorangeMaximumDelayAfterRangeChange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.AutorangeMaximumDelayAfterRangeChange);
-            }
-            if (stepProperties.AutorangeMinimumApertureTime.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.AutorangeMinimumApertureTime);
-            }
-            if (stepProperties.AutorangeMinimumCurrentRange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.AutorangeMinimumCurrentRange);
-            }
-            if (stepProperties.AutorangeMinimumVoltageRange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.AutorangeMinimumVoltageRange);
-            }
-            if (stepProperties.DCNoiseRejection.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.DCNoiseRejection);
-            }
-            if (stepProperties.MeasureRecordLength.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.MeasureRecordLength);
-            }
-            if (stepProperties.Sense.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.Sense);
-            }
-            if (stepProperties.VoltageLevel.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.VoltageLevel);
-            }
-            if (stepProperties.VoltageLevelRange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.VoltageLevelRange);
-            }
-            if (stepProperties.VoltageLimit.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.VoltageLimit);
-            }
-            if (stepProperties.VoltageLimitHigh.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.VoltageLimitHigh);
-            }
-            if (stepProperties.VoltageLimitLow.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.VoltageLimitLow);
-            }
-            if (stepProperties.VoltageLimitRange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.VoltageLimitRange);
-            }
-            if (stepProperties.VoltageCompensationFrequency.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.VoltageCompensationFrequency);
-            }
-            if (stepProperties.VoltageGainBandwidth.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.VoltageGainBandwidth);
-            }
-            if (stepProperties.VoltagePoleZeroRatio.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.VoltagePoleZeroRatio);
-            }
-            if (stepProperties.CurrentLevel.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.CurrentLevel);
-            }
-            if (stepProperties.CurrentLevelRange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.CurrentLevelRange);
-            }
-            if (stepProperties.CurrentLimit.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.CurrentLimit);
-            }
-            if (stepProperties.CurrentLimitHigh.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.CurrentLimitHigh);
-            }
-            if (stepProperties.CurrentLimitLow.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.CurrentLimitLow);
-            }
-            if (stepProperties.CurrentLimitRange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.CurrentLimitRange);
-            }
-            if (stepProperties.CurrentCompensationFrequency.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.CurrentCompensationFrequency);
-            }
-            if (stepProperties.CurrentGainBandwidth.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.CurrentGainBandwidth);
-            }
-            if (stepProperties.CurrentPoleZeroRatio.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.CurrentPoleZeroRatio);
-            }
-            if (stepProperties.CurrentLevelRisingSlewRate.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.CurrentLevelRisingSlewRate);
-            }
-            if (stepProperties.CurrentLevelFallingSlewRate.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.CurrentLevelFallingSlewRate);
-            }
-            if (stepProperties.PulseVoltageLevel.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLevel);
-            }
-            if (stepProperties.PulseVoltageLevelRange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLevelRange);
-            }
-            if (stepProperties.PulseVoltageLimit.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLimit);
-            }
-            if (stepProperties.PulseVoltageLimitHigh.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLimitHigh);
-            }
-            if (stepProperties.PulseVoltageLimitLow.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLimitLow);
-            }
-            if (stepProperties.PulseVoltageLimitRange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLimitRange);
-            }
-            if (stepProperties.PulseBiasVoltageLevel.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasVoltageLevel);
-            }
-            if (stepProperties.PulseBiasVoltageLimit.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasVoltageLimit);
-            }
-            if (stepProperties.PulseBiasVoltageLimitHigh.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasVoltageLimitHigh);
-            }
-            if (stepProperties.PulseBiasVoltageLimitLow.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasVoltageLimitLow);
-            }
-            if (stepProperties.PulseCurrentLevel.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLevel);
-            }
-            if (stepProperties.PulseCurrentLevelRange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLevelRange);
-            }
-            if (stepProperties.PulseCurrentLimit.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLimit);
-            }
-            if (stepProperties.PulseCurrentLimitHigh.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLimitHigh);
-            }
-            if (stepProperties.PulseCurrentLimitLow.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLimitLow);
-            }
-            if (stepProperties.PulseCurrentLimitRange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLimitRange);
-            }
-            if (stepProperties.PulseBiasCurrentLevel.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasCurrentLevel);
-            }
-            if (stepProperties.PulseBiasCurrentLimit.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasCurrentLimit);
-            }
-            if (stepProperties.PulseBiasCurrentLimitHigh.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasCurrentLimitHigh);
-            }
-            if (stepProperties.PulseBiasCurrentLimitLow.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasCurrentLimitLow);
-            }
-            if (stepProperties.PulseOnTime.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseOnTime);
-            }
-            if (stepProperties.PulseOffTime.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseOffTime);
-            }
-            if (stepProperties.PulseBiasDelay.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasDelay);
-            }
-            if (stepProperties.SourceDelay.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.SourceDelay);
-            }
-            if (stepProperties.SequenceStepDeltaTime.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.SequenceStepDeltaTime);
-            }
-            if (stepProperties.TransientResponse.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.TransientResponse);
-            }
-            if (stepProperties.OutputEnabled.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.OutputEnabled);
-            }
-            if (stepProperties.OutputFunction.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.OutputFunction);
-            }
-            if (stepProperties.OutputResistance.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.OutputResistance);
-            }
-            if (stepProperties.ComplianceLimitSymmetry.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.ComplianceLimitSymmetry);
-            }
-            if (stepProperties.OvpEnabled.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.OvpEnabled);
-            }
-            if (stepProperties.OvpLimit.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.OvpLimit);
-            }
-            if (stepProperties.LcrCurrentAmplitude.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrCurrentAmplitude);
-            }
-            if (stepProperties.LcrVoltageAmplitude.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrVoltageAmplitude);
-            }
-            if (stepProperties.LcrFrequency.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrFrequency);
-            }
-            if (stepProperties.LcrDcBiasCurrentLevel.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrDcBiasCurrentLevel);
-            }
-            if (stepProperties.LcrDcBiasVoltageLevel.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrDcBiasVoltageLevel);
-            }
-            if (stepProperties.LcrImpedanceRange.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrImpedanceRange);
-            }
-            if (stepProperties.LcrImpedanceRangeSource.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrImpedanceRangeSource);
-            }
-            if (stepProperties.LcrMeasurementTime.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrMeasurementTime);
-            }
-            if (stepProperties.LcrCustomMeasurementTime.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrCustomMeasurementTime);
-            }
-            if (stepProperties.LcrSourceApertureTime.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrSourceApertureTime);
-            }
-            if (stepProperties.LcrStimulusFunction.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrStimulusFunction);
-            }
-            if (stepProperties.LcrDcBiasSource.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrDcBiasSource);
-            }
-            if (stepProperties.LcrOpenCompensationEnabled.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrOpenCompensationEnabled);
-            }
-            if (stepProperties.LcrShortCompensationEnabled.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrShortCompensationEnabled);
-            }
-            if (stepProperties.LcrLoadCompensationEnabled.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.LcrLoadCompensationEnabled);
-            }
-            if (stepProperties.InstrumentMode.HasValue)
-            {
-                properties.Add(DCPowerAdvancedSequenceProperty.InstrumentMode);
+            foreach (var stepProperties in perStepProperties)
+            {
+                if (stepProperties.Autorange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.Autorange);
+                }
+                if (stepProperties.AutorangeApertureTimeMode.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.AutorangeApertureTimeMode);
+                }
+                if (stepProperties.AutorangeBehavior.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.AutorangeBehavior);
+                }
+                if (stepProperties.AutorangeMaximumDelayAfterRangeChange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.AutorangeMaximumDelayAfterRangeChange);
+                }
+                if (stepProperties.AutorangeMinimumApertureTime.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.AutorangeMinimumApertureTime);
+                }
+                if (stepProperties.AutorangeMinimumCurrentRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.AutorangeMinimumCurrentRange);
+                }
+                if (stepProperties.AutorangeMinimumVoltageRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.AutorangeMinimumVoltageRange);
+                }
+                if (stepProperties.DCNoiseRejection.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.DCNoiseRejection);
+                }
+                if (stepProperties.MeasureRecordLength.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.MeasureRecordLength);
+                }
+                if (stepProperties.Sense.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.Sense);
+                }
+                if (stepProperties.VoltageLevel.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.VoltageLevel);
+                }
+                if (stepProperties.VoltageLevelRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.VoltageLevelRange);
+                }
+                if (stepProperties.VoltageLimit.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.VoltageLimit);
+                }
+                if (stepProperties.VoltageLimitHigh.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.VoltageLimitHigh);
+                }
+                if (stepProperties.VoltageLimitLow.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.VoltageLimitLow);
+                }
+                if (stepProperties.VoltageLimitRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.VoltageLimitRange);
+                }
+                if (stepProperties.VoltageCompensationFrequency.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.VoltageCompensationFrequency);
+                }
+                if (stepProperties.VoltageGainBandwidth.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.VoltageGainBandwidth);
+                }
+                if (stepProperties.VoltagePoleZeroRatio.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.VoltagePoleZeroRatio);
+                }
+                if (stepProperties.CurrentLevel.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.CurrentLevel);
+                }
+                if (stepProperties.CurrentLevelRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.CurrentLevelRange);
+                }
+                if (stepProperties.CurrentLimit.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.CurrentLimit);
+                }
+                if (stepProperties.CurrentLimitHigh.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.CurrentLimitHigh);
+                }
+                if (stepProperties.CurrentLimitLow.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.CurrentLimitLow);
+                }
+                if (stepProperties.CurrentLimitRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.CurrentLimitRange);
+                }
+                if (stepProperties.CurrentCompensationFrequency.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.CurrentCompensationFrequency);
+                }
+                if (stepProperties.CurrentGainBandwidth.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.CurrentGainBandwidth);
+                }
+                if (stepProperties.CurrentPoleZeroRatio.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.CurrentPoleZeroRatio);
+                }
+                if (stepProperties.CurrentLevelRisingSlewRate.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.CurrentLevelRisingSlewRate);
+                }
+                if (stepProperties.CurrentLevelFallingSlewRate.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.CurrentLevelFallingSlewRate);
+                }
+                if (stepProperties.PulseVoltageLevel.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLevel);
+                }
+                if (stepProperties.PulseVoltageLevelRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLevelRange);
+                }
+                if (stepProperties.PulseVoltageLimit.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLimit);
+                }
+                if (stepProperties.PulseVoltageLimitHigh.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLimitHigh);
+                }
+                if (stepProperties.PulseVoltageLimitLow.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLimitLow);
+                }
+                if (stepProperties.PulseVoltageLimitRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseVoltageLimitRange);
+                }
+                if (stepProperties.PulseBiasVoltageLevel.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasVoltageLevel);
+                }
+                if (stepProperties.PulseBiasVoltageLimit.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasVoltageLimit);
+                }
+                if (stepProperties.PulseBiasVoltageLimitHigh.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasVoltageLimitHigh);
+                }
+                if (stepProperties.PulseBiasVoltageLimitLow.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasVoltageLimitLow);
+                }
+                if (stepProperties.PulseCurrentLevel.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLevel);
+                }
+                if (stepProperties.PulseCurrentLevelRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLevelRange);
+                }
+                if (stepProperties.PulseCurrentLimit.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLimit);
+                }
+                if (stepProperties.PulseCurrentLimitHigh.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLimitHigh);
+                }
+                if (stepProperties.PulseCurrentLimitLow.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLimitLow);
+                }
+                if (stepProperties.PulseCurrentLimitRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseCurrentLimitRange);
+                }
+                if (stepProperties.PulseBiasCurrentLevel.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasCurrentLevel);
+                }
+                if (stepProperties.PulseBiasCurrentLimit.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasCurrentLimit);
+                }
+                if (stepProperties.PulseBiasCurrentLimitHigh.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasCurrentLimitHigh);
+                }
+                if (stepProperties.PulseBiasCurrentLimitLow.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasCurrentLimitLow);
+                }
+                if (stepProperties.PulseOnTime.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseOnTime);
+                }
+                if (stepProperties.PulseOffTime.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseOffTime);
+                }
+                if (stepProperties.PulseBiasDelay.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.PulseBiasDelay);
+                }
+                if (stepProperties.SourceDelay.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.SourceDelay);
+                }
+                if (stepProperties.SequenceStepDeltaTime.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.SequenceStepDeltaTime);
+                }
+                if (stepProperties.TransientResponse.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.TransientResponse);
+                }
+                if (stepProperties.OutputEnabled.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.OutputEnabled);
+                }
+                if (stepProperties.OutputFunction.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.OutputFunction);
+                }
+                if (stepProperties.OutputResistance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.OutputResistance);
+                }
+                if (stepProperties.ComplianceLimitSymmetry.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ComplianceLimitSymmetry);
+                }
+                if (stepProperties.OvpEnabled.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.OvpEnabled);
+                }
+                if (stepProperties.OvpLimit.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.OvpLimit);
+                }
+                if (stepProperties.LcrCurrentAmplitude.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrCurrentAmplitude);
+                }
+                if (stepProperties.LcrVoltageAmplitude.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrVoltageAmplitude);
+                }
+                if (stepProperties.LcrFrequency.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrFrequency);
+                }
+                if (stepProperties.LcrDcBiasCurrentLevel.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrDcBiasCurrentLevel);
+                }
+                if (stepProperties.LcrDcBiasVoltageLevel.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrDcBiasVoltageLevel);
+                }
+                if (stepProperties.LcrImpedanceRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrImpedanceRange);
+                }
+                if (stepProperties.LcrImpedanceRangeSource.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrImpedanceRangeSource);
+                }
+                if (stepProperties.LcrMeasurementTime.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrMeasurementTime);
+                }
+                if (stepProperties.LcrCustomMeasurementTime.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrCustomMeasurementTime);
+                }
+                if (stepProperties.LcrSourceApertureTime.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrSourceApertureTime);
+                }
+                if (stepProperties.LcrStimulusFunction.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrStimulusFunction);
+                }
+                if (stepProperties.LcrDcBiasSource.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrDcBiasSource);
+                }
+                if (stepProperties.LcrOpenCompensationEnabled.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrOpenCompensationEnabled);
+                }
+                if (stepProperties.LcrShortCompensationEnabled.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrShortCompensationEnabled);
+                }
+                if (stepProperties.LcrLoadCompensationEnabled.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrLoadCompensationEnabled);
+                }
+                if (stepProperties.InstrumentMode.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.InstrumentMode);
+                }
             }
             return properties.ToArray();
         }
