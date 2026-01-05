@@ -940,7 +940,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
             }
 
-            if (sessionInfo.ContainsGangedChannels)
+            if (sessionInfo.HasGangedChannels)
             {
                 Parallel.ForEach(sitePinInfoList, sitePinInfo =>
                 {
