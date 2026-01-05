@@ -140,5 +140,13 @@
   </data>
   <data name="DCPower_MultipleChannelOutputsDetected" xml:space="preserve">
     <value>The channelOutput contains more than one channel "{0}". This method overload only supports single channel operation when a valid SitePinInfo object is passed."</value>
+  <data name="CreateRamp_InvalidNumberOfPoints" xml:space="preserve">
+    <value>Number of points must be greater than one. </value>
+  </data>
+  <data name="CreateRamp_InvalidOutputStart" xml:space="preserve">
+    <value>Output Start value must be a finite number.</value>
+  </data>
+  <data name="CreateRamp_InvalidOutputStop" xml:space="preserve">
+    <value>Output Stop value must be a finite number.</value>
   </data>
 </root>

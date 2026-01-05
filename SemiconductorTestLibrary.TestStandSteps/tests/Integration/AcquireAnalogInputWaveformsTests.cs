@@ -10,6 +10,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
     [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public class AcquireAnalogInputWaveformsTests
     {
         [Fact]

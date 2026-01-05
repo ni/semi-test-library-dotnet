@@ -33,6 +33,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void ReadAnalogSamplesFromOneChannelInMultipleChannelsTask_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
@@ -48,6 +49,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void ReadFiveAnalogSamplesFromTwoChannels_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
@@ -66,10 +68,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void InitializeDAQmxTasks_ReadAnalogSamplesFromOneFilteredChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
             InitializeAndClose.CreateDAQmxAOVoltageTasks(_tsmContext);
+            _tsmContext.GetNIDAQmxTasks("AIPin", out _, out var channelLists);
             var aiTasksBundle = sessionManager.DAQmx("AIPin");
             var aoTasksBundle = sessionManager.DAQmx("AOPin");
             var data = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>> { { "AOPin", new Dictionary<int, double> { { 0, 0.5 }, { 1, 0.8 } } } });
@@ -78,19 +82,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             aoTasksBundle.WriteAnalogSingleSample(data, autoStart: false);
             aiTasksBundle.Start();
             aoTasksBundle.Start();
-            // Wait for the generation to get completed
-            Thread.Sleep(100);
+            Thread.Sleep(100);  // Wait for the generation to get completed
             aoTasksBundle.Stop();
             var filteredSiteData = aiTasksBundle.FilterBySite(1).ReadAnalogMultiSample();
             aiTasksBundle.Stop();
             var maxValueOfFilteredSamples = filteredSiteData.GetValue(filteredSiteData.SiteNumbers[0], "AIPin").Max();
 
-            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
+            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, channelLists[0]);
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void ReadAnalogWaveformSamplesFromOneChannelInMultipleChannelsTask_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
@@ -106,6 +110,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void ReadFiveAnalogWaveformSamplesFromTwoChannels_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxTests.pinmap");
@@ -123,6 +128,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void ReadAnalogSamplesFromOneChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxSingleChannelTests.pinmap");
@@ -138,6 +144,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void ReadFiveAnalogSamplesFromOneChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxSingleChannelTests.pinmap");
@@ -153,6 +160,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void ReadAnalogWaveformSamplesFromOneChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxSingleChannelTests.pinmap");
@@ -168,6 +176,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void ReadFiveAnalogWaveformSamplesFromOneChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxSingleChannelTests.pinmap");
@@ -184,10 +193,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void InitializeDAQmxTasks_ReadAnalogWaveformSamplesFromOneFilteredChannel_ResultsContainExpectedData()
         {
             var sessionManager = Initialize("DAQmxMultiChannelTests.pinmap");
             InitializeAndClose.CreateDAQmxAOVoltageTasks(_tsmContext);
+            _tsmContext.GetNIDAQmxTasks("AIPin", out _, out var channelLists);
             var aiTasksBundle = sessionManager.DAQmx("AIPin");
             var aoTasksBundle = sessionManager.DAQmx("AOPin");
             var site0Data = AnalogWaveform<double>.FromArray1D(new double[] { 0.5 });
@@ -206,7 +217,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var filteredWaveformSamples = filteredSite.GetValue(filteredSite.SiteNumbers[0], "AIPin").Samples;
             var maxValueOfFilteredSamples = filteredWaveformSamples.Max(filteredSample => filteredSample.Value);
 
-            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
+            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, channelLists[0]);
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
@@ -220,10 +231,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             aiTasksBundle.ConfigureTiming(dAQmxTimingSampleClockSettingsAI);
         }
 
-        private void AssertFilteredSample(double filteredSample, DAQmxTasksBundle inputTasksBundle, double lowerLimit, double upperLimit)
+        private void AssertFilteredSample(double filteredSample, DAQmxTasksBundle inputTasksBundle, string availableChannels)
         {
-            var availableChannels = "DAQ_4468_C2_S13/ai0, DAQ_4468_C2_S13/ai1";
-
+            double lowerLimit = 0.75;
+            double upperLimit = 0.8;
+            if (_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                lowerLimit = -1.0;
+                upperLimit = 1.0;
+            }
             Assert.True(filteredSample > lowerLimit && filteredSample < upperLimit);
             inputTasksBundle.Do(taskInfo =>
             {

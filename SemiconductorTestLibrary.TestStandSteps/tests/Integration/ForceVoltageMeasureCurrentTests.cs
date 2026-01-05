@@ -14,6 +14,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
     [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
     [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public class ForceVoltageMeasureCurrentTests
     {
         [Fact]
@@ -39,7 +40,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             CleanupInstrumentation(tsmContext);
         }
 
-        [Fact(Skip = "Manual Test")]
+        [Fact]
         public void InitializeMultiSiteSharedPin_RunForceVoltageMeasureCurrentWithPositiveTest_CorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("SharedPinTests_MultiSite.pinmap", out var publishedDataReader);
