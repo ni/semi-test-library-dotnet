@@ -1,7 +1,9 @@
-﻿using System;
+﻿using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.SemiconductorTestLibrary.Common;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using NationalInstruments.ModularInstruments.NIDCPower;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -420,194 +422,493 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Measurement Properties
             TrySetProperty(
                 () =>
-            {
-                if (stepProperties.ApertureTime.HasValue)
-                    channelOutput.Measurement.ApertureTime = stepProperties.ApertureTime.Value;
-            }, "ApertureTime", modelString);
+                {
+                    if (stepProperties.ApertureTime.HasValue)
+                    {
+                        channelOutput.Measurement.ApertureTime = stepProperties.ApertureTime.Value;
+                    }
+                },
+                "ApertureTime",
+                modelString);
 
             TrySetProperty(
                 () =>
-            {
-                if (stepProperties.Autorange.HasValue)
-                    channelOutput.Measurement.Autorange = stepProperties.Autorange.Value;
-            }, "Autorange", modelString);
+                {
+                    if (stepProperties.Autorange.HasValue)
+                    {
+                        channelOutput.Measurement.Autorange = stepProperties.Autorange.Value;
+                    }
+                },
+                "Autorange",
+                modelString);
 
             TrySetProperty(
                 () =>
-            {
-                if (stepProperties.Sense.HasValue)
-                    channelOutput.Measurement.Sense = stepProperties.Sense.Value;
-            }, "Sense", modelString);
+                {
+                    if (stepProperties.Sense.HasValue)
+                    {
+                        channelOutput.Measurement.Sense = stepProperties.Sense.Value;
+                    }
+                },
+                "Sense",
+                modelString);
 
             // DC Voltage Properties
             TrySetProperty(
                 () =>
-            {
-                if (stepProperties.VoltageLevel.HasValue)
-                    channelOutput.Source.Voltage.VoltageLevel = stepProperties.VoltageLevel.Value;
-            }, "VoltageLevel", modelString);
+                {
+                    if (stepProperties.VoltageLevel.HasValue)
+                    {
+                        channelOutput.Source.Voltage.VoltageLevel = stepProperties.VoltageLevel.Value;
+                    }
+                },
+                "VoltageLevel",
+                modelString);
 
             TrySetProperty(
                 () =>
-            {
-                if (stepProperties.VoltageLevelRange.HasValue)
-                    channelOutput.Source.Voltage.VoltageLevelRange = stepProperties.VoltageLevelRange.Value;
-            }, "VoltageLevelRange", modelString);
+                {
+                    if (stepProperties.VoltageLevelRange.HasValue)
+                    {
+                        channelOutput.Source.Voltage.VoltageLevelRange = stepProperties.VoltageLevelRange.Value;
+                    }
+                },
+                "VoltageLevelRange",
+                modelString);
 
             TrySetProperty(
                 () =>
-            {
-                if (stepProperties.VoltageLimit.HasValue)
-                    channelOutput.Source.Voltage.CurrentLimit = stepProperties.VoltageLimit.Value;
-            }, "CurrentLimit", modelString);
+                {
+                    if (stepProperties.VoltageLimit.HasValue)
+                    {
+                        channelOutput.Source.Voltage.CurrentLimit = stepProperties.VoltageLimit.Value;
+                    }
+                },
+                "CurrentLimit",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.VoltageLimitRange.HasValue)
-                    channelOutput.Source.Voltage.CurrentLimitRange = stepProperties.VoltageLimitRange.Value;
-            }, "CurrentLimitRange", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.VoltageLimitRange.HasValue)
+                    {
+                        channelOutput.Source.Voltage.CurrentLimitRange = stepProperties.VoltageLimitRange.Value;
+                    }
+                },
+                "CurrentLimitRange",
+                modelString);
 
             // DC Current Properties
-            TrySetProperty(() =>
-            {
-                if (stepProperties.CurrentLevel.HasValue)
-                    channelOutput.Source.Current.CurrentLevel = stepProperties.CurrentLevel.Value;
-            }, "CurrentLevel", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.CurrentLevel.HasValue)
+                    {
+                        channelOutput.Source.Current.CurrentLevel = stepProperties.CurrentLevel.Value;
+                    }
+                },
+                "CurrentLevel",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.CurrentLevelRange.HasValue)
-                    channelOutput.Source.Current.CurrentLevelRange = stepProperties.CurrentLevelRange.Value;
-            }, "CurrentLevelRange", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.CurrentLevelRange.HasValue)
+                    {
+                        channelOutput.Source.Current.CurrentLevelRange = stepProperties.CurrentLevelRange.Value;
+                    }
+                },
+                "CurrentLevelRange",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.CurrentLimit.HasValue)
-                    channelOutput.Source.Current.VoltageLimit = stepProperties.CurrentLimit.Value;
-            }, "VoltageLimit", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.CurrentLimit.HasValue)
+                    {
+                        channelOutput.Source.Current.VoltageLimit = stepProperties.CurrentLimit.Value;
+                    }
+                },
+                "VoltageLimit",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.CurrentLimitRange.HasValue)
-                    channelOutput.Source.Current.VoltageLimitRange = stepProperties.CurrentLimitRange.Value;
-            }, "VoltageLimitRange", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.CurrentLimitRange.HasValue)
+                    {
+                        channelOutput.Source.Current.VoltageLimitRange = stepProperties.CurrentLimitRange.Value;
+                    }
+                },
+                "VoltageLimitRange",
+                modelString);
 
-            // Pulse Properties
-            TrySetProperty(() =>
-            {
-                if (stepProperties.PulseVoltageLevel.HasValue)
-                    channelOutput.Source.PulseVoltage.VoltageLevel = stepProperties.PulseVoltageLevel.Value;
-            }, "PulseVoltageLevel", modelString);
+            // Pulse Voltage Properties
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseVoltageLevel.HasValue)
+                    {
+                        channelOutput.Source.PulseVoltage.VoltageLevel = stepProperties.PulseVoltageLevel.Value;
+                    }
+                },
+                "PulseVoltageLevel",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.PulseVoltageLevelRange.HasValue)
-                    channelOutput.Source.PulseVoltage.VoltageLevelRange = stepProperties.PulseVoltageLevelRange.Value;
-            }, "PulseVoltageLevelRange", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseVoltageLevelRange.HasValue)
+                    {
+                        channelOutput.Source.PulseVoltage.VoltageLevelRange = stepProperties.PulseVoltageLevelRange.Value;
+                    }
+                },
+                "PulseVoltageLevelRange",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.PulseVoltageLimit.HasValue)
-                    channelOutput.Source.PulseVoltage.CurrentLimit = stepProperties.PulseVoltageLimit.Value;
-            }, "PulseCurrentLimit", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseVoltageLimit.HasValue)
+                    {
+                        channelOutput.Source.PulseVoltage.CurrentLimit = stepProperties.PulseVoltageLimit.Value;
+                    }
+                },
+                "PulseCurrentLimit",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.PulseVoltageLimitRange.HasValue)
-                    channelOutput.Source.PulseVoltage.CurrentLimitRange = stepProperties.PulseVoltageLimitRange.Value;
-            }, "PulseCurrentLimitRange", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseVoltageLimitRange.HasValue)
+                    {
+                        channelOutput.Source.PulseVoltage.CurrentLimitRange = stepProperties.PulseVoltageLimitRange.Value;
+                    }
+                },
+                "PulseCurrentLimitRange",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.PulseCurrentLevel.HasValue)
-                    channelOutput.Source.PulseCurrent.CurrentLevel = stepProperties.PulseCurrentLevel.Value;
-            }, "PulseCurrentLevel", modelString);
+            // Pulse Current Properties
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseCurrentLevel.HasValue)
+                    {
+                        channelOutput.Source.PulseCurrent.CurrentLevel = stepProperties.PulseCurrentLevel.Value;
+                    }
+                },
+                "PulseCurrentLevel",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.PulseCurrentLevelRange.HasValue)
-                    channelOutput.Source.PulseCurrent.CurrentLevelRange = stepProperties.PulseCurrentLevelRange.Value;
-            }, "PulseCurrentLevelRange", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseCurrentLevelRange.HasValue)
+                    {
+                        channelOutput.Source.PulseCurrent.CurrentLevelRange = stepProperties.PulseCurrentLevelRange.Value;
+                    }
+                },
+                "PulseCurrentLevelRange",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.PulseCurrentLimit.HasValue)
-                    channelOutput.Source.PulseCurrent.VoltageLimit = stepProperties.PulseCurrentLimit.Value;
-            }, "PulseVoltageLimit", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseCurrentLimit.HasValue)
+                    {
+                        channelOutput.Source.PulseCurrent.VoltageLimit = stepProperties.PulseCurrentLimit.Value;
+                    }
+                },
+                "PulseVoltageLimit",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.PulseCurrentLimitRange.HasValue)
-                    channelOutput.Source.PulseCurrent.VoltageLimitRange = stepProperties.PulseCurrentLimitRange.Value;
-            }, "PulseVoltageLimitRange", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseCurrentLimitRange.HasValue)
+                    {
+                        channelOutput.Source.PulseCurrent.VoltageLimitRange = stepProperties.PulseCurrentLimitRange.Value;
+                    }
+                },
+                "PulseVoltageLimitRange",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.PulseBiasVoltageLevel.HasValue)
-                    channelOutput.Source.PulseVoltage.BiasVoltageLevel = stepProperties.PulseBiasVoltageLevel.Value;
-            }, "PulseBiasVoltageLevel", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseBiasVoltageLevel.HasValue)
+                    {
+                        channelOutput.Source.PulseVoltage.BiasVoltageLevel = stepProperties.PulseBiasVoltageLevel.Value;
+                    }
+                },
+                "PulseBiasVoltageLevel",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.PulseBiasCurrentLevel.HasValue)
-                    channelOutput.Source.PulseCurrent.BiasCurrentLevel = stepProperties.PulseBiasCurrentLevel.Value;
-            }, "PulseBiasCurrentLevel", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseBiasCurrentLevel.HasValue)
+                    {
+                        channelOutput.Source.PulseCurrent.BiasCurrentLevel = stepProperties.PulseBiasCurrentLevel.Value;
+                    }
+                },
+                "PulseBiasCurrentLevel",
+                modelString);
 
             // Source Delay
-            TrySetProperty(() =>
-            {
-                if (stepProperties.SourceDelay.HasValue)
-                    channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(stepProperties.SourceDelay.Value);
-            }, "SourceDelay", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.SourceDelay.HasValue)
+                    {
+                        channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(stepProperties.SourceDelay.Value);
+                    }
+                },
+                "SourceDelay",
+                modelString);
 
             // Transient Response
-            TrySetProperty(() =>
-            {
-                if (stepProperties.TransientResponse.HasValue)
-                    channelOutput.Source.TransientResponse = stepProperties.TransientResponse.Value;
-            }, "TransientResponse", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.TransientResponse.HasValue)
+                    {
+                        channelOutput.Source.TransientResponse = stepProperties.TransientResponse.Value;
+                    }
+                },
+                "TransientResponse",
+                modelString);
 
-            // Measurement Record Length
-            TrySetProperty(() =>
-            {
-                if (stepProperties.MeasureRecordLength.HasValue)
-                    channelOutput.Measurement.Configuration.MeasureRecordLength = stepProperties.MeasureRecordLength.Value;
-            }, "MeasureRecordLength", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.MeasureRecordLength.HasValue)
+                    {
+                        channelOutput.Measurement.RecordLength = stepProperties.MeasureRecordLength.Value;
+                    }
+                },
+                "MeasureRecordLength",
+                modelString);
 
-            // Output Properties
-            TrySetProperty(() =>
-            {
-                if (stepProperties.OutputEnabled.HasValue)
-                    channelOutput.Source.Output.Enabled = stepProperties.OutputEnabled.Value;
-            }, "OutputEnabled", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.OutputEnabled.HasValue)
+                    {
+                        channelOutput.Source.Output.Enabled = stepProperties.OutputEnabled.Value;
+                    }
+                },
+                "OutputEnabled",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.OutputFunction.HasValue)
-                    channelOutput.Source.Output.Function = stepProperties.OutputFunction.Value;
-            }, "OutputFunction", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.OutputFunction.HasValue)
+                    {
+                        channelOutput.Source.Output.Function = stepProperties.OutputFunction.Value;
+                    }
+                },
+                "OutputFunction",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.ComplianceLimitSymmetry.HasValue)
-                    channelOutput.Source.ComplianceLimitSymmetry = stepProperties.ComplianceLimitSymmetry.Value;
-            }, "ComplianceLimitSymmetry", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ComplianceLimitSymmetry.HasValue)
+                    {
+                        channelOutput.Source.ComplianceLimitSymmetry = stepProperties.ComplianceLimitSymmetry.Value;
+                    }
+                },
+                "ComplianceLimitSymmetry",
+                modelString);
 
-            // OVP Properties
-            TrySetProperty(() =>
-            {
-                if (stepProperties.OvpEnabled.HasValue)
-                    channelOutput.OverVoltageProtection.Enabled = stepProperties.OvpEnabled.Value;
-            }, "OvpEnabled", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.OvpEnabled.HasValue)
+                    {
+                        channelOutput.Source.OvpEnabled = stepProperties.OvpEnabled.Value;
+                    }
+                },
+                "OvpEnabled",
+                modelString);
 
-            TrySetProperty(() =>
-            {
-                if (stepProperties.OvpLimit.HasValue)
-                    channelOutput.OverVoltageProtection.Limit = stepProperties.OvpLimit.Value;
-            }, "OvpLimit", modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.OvpLimit.HasValue)
+                    {
+                        channelOutput.Source.OvpLimit = stepProperties.OvpLimit.Value;
+                    }
+                },
+                "OvpLimit",
+                modelString);
 
-            // Note: LCR properties and other advanced properties would be set similarly
-            // but may require model-specific checks for availability
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrCurrentAmplitude.HasValue)
+                    {
+                        channelOutput.LCR.CurrentAmplitude = stepProperties.LcrCurrentAmplitude.Value;
+                    }
+                },
+                "LcrCurrentAmplitude",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrVoltageAmplitude.HasValue)
+                    {
+                        channelOutput.LCR.VoltageAmplitude = stepProperties.LcrVoltageAmplitude.Value;
+                    }
+                },
+                "LcrVoltageAmplitude",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrFrequency.HasValue)
+                    {
+                        channelOutput.LCR.Frequency = stepProperties.LcrFrequency.Value;
+                    }
+                },
+                "LcrFrequency",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrDcBiasCurrentLevel.HasValue)
+                    {
+                        channelOutput.LCR.DCBiasCurrentLevel = stepProperties.LcrDcBiasCurrentLevel.Value;
+                    }
+                },
+                "LcrDcBiasCurrentLevel",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrDcBiasVoltageLevel.HasValue)
+                    {
+                        channelOutput.LCR.DCBiasVoltageLevel = stepProperties.LcrDcBiasVoltageLevel.Value;
+                    }
+                },
+                "LcrDcBiasVoltageLevel",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrImpedanceRange.HasValue)
+                    {
+                        channelOutput.LCR.ImpedanceRange = stepProperties.LcrImpedanceRange.Value;
+                    }
+                },
+                "LcrImpedanceRange",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrImpedanceRangeSource.HasValue)
+                    {
+                        channelOutput.LCR.ImpedanceRangeSource = stepProperties.LcrImpedanceRangeSource.Value;
+                    }
+                },
+                "LcrImpedanceRangeSource",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrMeasurementTime.HasValue)
+                    {
+                        channelOutput.LCR.MeasurementTime = stepProperties.LcrMeasurementTime.Value;
+                    }
+                },
+                "LcrMeasurementTime",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrCustomMeasurementTime.HasValue)
+                    {
+                        channelOutput.LCR.CustomMeasurementTime = stepProperties.LcrCustomMeasurementTime.Value;
+                    }
+                },
+                "LcrCustomMeasurementTime",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrSourceApertureTime.HasValue)
+                    {
+                        channelOutput.LCR.Advanced.SourceApertureTime = stepProperties.LcrSourceApertureTime.Value;
+                    }
+                },
+                "LcrSourceApertureTime",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrStimulusFunction.HasValue)
+                    {
+                        channelOutput.LCR.StimulusFunction = stepProperties.LcrStimulusFunction.Value;
+                    }
+                },
+                "LcrStimulusFunction",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrDcBiasSource.HasValue)
+                    {
+                        channelOutput.LCR.DCBiasSource = stepProperties.LcrDcBiasSource.Value;
+                    }
+                },
+                "LcrDcBiasSource",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrOpenCompensationEnabled.HasValue)
+                    {
+                        channelOutput.LCR.Compensation.OpenCompensationEnabled = stepProperties.LcrOpenCompensationEnabled.Value;
+                    }
+                },
+                "LcrOpenCompensationEnabled",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrShortCompensationEnabled.HasValue)
+                    {
+                        channelOutput.LCR.Compensation.ShortCompensationEnabled = stepProperties.LcrShortCompensationEnabled.Value;
+                    }
+                },
+                "LcrShortCompensationEnabled",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrLoadCompensationEnabled.HasValue)
+                    {
+                        channelOutput.LCR.Compensation.LoadCompensationEnabled = stepProperties.LcrLoadCompensationEnabled.Value;
+                    }
+                },
+                "LcrLoadCompensationEnabled",
+                modelString);
         }
 
         /// <summary>
@@ -619,22 +920,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 setPropertyAction();
             }
-            catch (Exception ex) when (ex is Ivi.Driver.IviCDriverException ||
-                                       ex is System.Runtime.InteropServices.COMException ||
-                                       ex is NotSupportedException)
+            catch (Exception ex) when (ex is Ivi.Driver.IviCDriverException || ex is NotSupportedException)
             {
-                // Log unsupported property - in production use a logging framework
-                System.Diagnostics.Debug.WriteLine(
-                    $"Property '{propertyName}' is not supported on instrument model '{modelString}'. " +
-                    $"Skipping. Error: {ex.Message}");
-
-                // Only rethrow if it's a critical error
-                if (ex.Message.Contains("required") || ex.Message.Contains("critical"))
-                {
-                    throw;
-                }
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPowerDeviceNotSupported, propertyName, modelString));
             }
         }
-
     }
 }
