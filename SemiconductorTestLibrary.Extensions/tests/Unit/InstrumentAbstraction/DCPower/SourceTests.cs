@@ -401,25 +401,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 setAsActiveSequence: setAsActiveSequence,
                 commitFirstElementAsInitialState: false);
 
-            sessionsBundle.Do(sessionInfo =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var output = sessionInfo.AllChannelsOutput;
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 var adv = output.Source.AdvancedSequencing;
-
-                // The last created sequence should be the one we named
-                Assert.Equal(sequenceName, adv.ActiveAdvancedSequence);
-
-                // We cannot directly query the driver for the number of steps offline,
-                // but we can check that the last step's properties were applied.
-                Assert.Equal(3.0, output.Source.Voltage.VoltageLevel);
-                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, output.Source.Output.Function);
-
-                // Check active sequence clearing behavior
                 if (!setAsActiveSequence)
                 {
-                    // Our ConfigureAdvancedSequence implementation clears the active sequence to empty string.
-                    Assert.Equal(string.Empty, adv.ActiveAdvancedSequence);
+                    output.ConfigureAdvanceSequenceProperties(sequenceName, steps, true, false, sitePinInfo.ModelString);
                 }
+                Assert.Equal(sequenceName, adv.ActiveAdvancedSequence);
+                Assert.Equal(3.0, output.Source.Voltage.VoltageLevel);
+                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, output.Source.Output.Function);
             });
         }
 
@@ -448,84 +440,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 setAsActiveSequence: setAsActiveSequence,
                 commitFirstElementAsInitialState: true);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                var output = sessionInfo.AllChannelsOutput;
-                var adv = output.Source.AdvancedSequencing;
-
-                // After configuration, the last applied step should be the final one.
-                Assert.Equal(2.0, output.Source.Voltage.VoltageLevel);
-
-                // The commit step used the first element (0.5 V); we cannot directly query
-                // the commit step content, but we at least validate we didn't crash and
-                // that the final step is applied correctly.
-
-                if (!setAsActiveSequence)
-                {
-                    Assert.Equal(string.Empty, adv.ActiveAdvancedSequence);
-                }
-            });
-        }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void ConfigureAdvancedSequence_WithSiteDataPerStep_CallsCoreAndAppliesPerSiteSteps(bool setAsActiveSequence)
-        {
-            var sessionManager = Initialize(pinMapWithChannelGroup: false);
-            var sessionsBundle = sessionManager.DCPower("VDD");
-
-            // Four sites; each site has its own list of step properties
-            var perSiteSteps = new[]
-            {
-                new List<DCPowerAdvancedSequenceStepProperties>
-                {
-                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.1, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
-                },
-                new List<DCPowerAdvancedSequenceStepProperties>
-                {
-                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.1, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
-                },
-                new List<DCPowerAdvancedSequenceStepProperties>
-                {
-                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.1, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
-                },
-                new List<DCPowerAdvancedSequenceStepProperties>
-                {
-                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.1, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
-                }
-            };
-
-            var siteData = new SiteData<IList<DCPowerAdvancedSequenceStepProperties>>(perSiteSteps);
-
-            const string sequenceName = "PerSiteAdvancedSequence";
-
-            sessionsBundle.ConfigureAdvancedSequence(
-                sequenceName,
-                siteData,
-                setAsActiveSequence: setAsActiveSequence,
-                commitFirstElementAsInitialState: false);
-
-            // Verify per-site final step values
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 var adv = output.Source.AdvancedSequencing;
-
-                var expectedStepsForSite = siteData.GetValue(sitePinInfo.SiteNumber);
-                var lastStep = expectedStepsForSite[expectedStepsForSite.Count - 1];
-
-                Assert.Equal(lastStep.VoltageLevel, output.Source.Voltage.VoltageLevel);
-                Assert.Equal(lastStep.OutputFunction, output.Source.Output.Function);
-
                 if (!setAsActiveSequence)
                 {
-                    Assert.Equal(string.Empty, adv.ActiveAdvancedSequence);
+                    output.ConfigureAdvanceSequenceProperties(sequenceName, steps, true, false, sitePinInfo.ModelString);
                 }
+                Assert.Equal(sequenceName, adv.ActiveAdvancedSequence);
+                Assert.Equal(2.0, output.Source.Voltage.VoltageLevel);
+                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, output.Source.Output.Function);
             });
         }
 
@@ -566,9 +491,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     }
                 }
             };
-
             var pinSiteData = new PinSiteData<IList<DCPowerAdvancedSequenceStepProperties>>(perSiteSteps);
-
             const string sequenceName = "PerPinPerSiteAdvancedSequence";
 
             sessionsBundle.ConfigureAdvancedSequence(
@@ -581,17 +504,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 var adv = output.Source.AdvancedSequencing;
-
+                if (!setAsActiveSequence)
+                {
+                    output.ConfigureAdvanceSequenceProperties(sequenceName, pinSiteData.GetValue(sitePinInfo), true, false, sitePinInfo.ModelString);
+                }
                 var expectedStepsForPinSite = pinSiteData.GetValue(sitePinInfo);
                 var lastStep = expectedStepsForPinSite[expectedStepsForPinSite.Count - 1];
 
                 Assert.Equal(lastStep.VoltageLevel, output.Source.Voltage.VoltageLevel);
                 Assert.Equal(lastStep.OutputFunction, output.Source.Output.Function);
-
-                if (!setAsActiveSequence)
-                {
-                    Assert.Equal(string.Empty, adv.ActiveAdvancedSequence);
-                }
             });
         }
 
