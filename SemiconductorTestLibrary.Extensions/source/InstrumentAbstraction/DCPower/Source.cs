@@ -1141,8 +1141,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool commitFirstElementAsInitialState,
             string modelString)
         {
+            channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
             var advancedSequenceProperties = Utilities.ExtractAdvancedSequencePropertiesArray(perStepProperties);
             channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, setAsActiveSequence);
+            if (!setAsActiveSequence)
+            {
+                channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
+            }
             int startIndex = 0;
             if (commitFirstElementAsInitialState && perStepProperties.Count > 0)
             {
@@ -1154,10 +1159,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(setAsActiveSequence);
                 Utilities.ApplyStepProperties(channelOutput, perStepProperties[i], modelString);
-            }
-            if (!setAsActiveSequence)
-            {
-                channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
             }
         }
 

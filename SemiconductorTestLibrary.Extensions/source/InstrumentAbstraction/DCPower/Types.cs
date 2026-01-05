@@ -239,7 +239,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Specifies the relative weighting of samples in a measurement.
         /// </summary>
-        public DCPowerMeasurementDCNoiseRejection? DCNoiseRejection { get; set; }
+        public DCPowerMeasurementNoiseRejection? DCNoiseRejection { get; set; }
 
         /// <summary>
         /// Specifies how many measurements compose a measure record.
@@ -580,12 +580,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Specifies how the impedance range for LCR measurements is determined.
         /// </summary>
-        public DCPowerLcrImpedanceRangeSource? LcrImpedanceRangeSource { get; set; }
+        public DCPowerLCRImpedanceRangeSource? LcrImpedanceRangeSource { get; set; }
 
         /// <summary>
         /// Specifies the aperture time of LCR measurements.
         /// </summary>
-        public DCPowerLcrMeasurementTime? LcrMeasurementTime { get; set; }
+        public DCPowerLCRMeasurementTime? LcrMeasurementTime { get; set; }
 
         /// <summary>
         /// Specifies the LCR measurement aperture time for a channel, in seconds, when the MeasurementTime property is set to Custom.
@@ -600,12 +600,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Specifies whether AC Voltage or AC Current stimulus is used in LCR mode.
         /// </summary>
-        public DCPowerLcrStimulusFunction? LcrStimulusFunction { get; set; }
+        public DCPowerLCRStimulusFunction? LcrStimulusFunction { get; set; }
 
         /// <summary>
         /// Specifies how to set the DC bias in LCR mode.
         /// </summary>
-        public DCPowerLcrDcBiasSource? LcrDcBiasSource { get; set; }
+        public DCPowerLCRDCBiasSource? LcrDcBiasSource { get; set; }
 
         /// <summary>
         /// Specifies whether to apply open LCR compensation data to LCR measurements.

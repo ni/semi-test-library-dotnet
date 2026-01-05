@@ -436,6 +436,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             TrySetProperty(
                 () =>
                 {
+                    if (stepProperties.DCNoiseRejection.HasValue)
+                    {
+                        channelOutput.Measurement.NoiseRejection = stepProperties.DCNoiseRejection.Value;
+                    }
+                },
+                "DCNoiseRejection",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
                     if (stepProperties.Autorange.HasValue)
                     {
                         channelOutput.Measurement.Autorange = stepProperties.Autorange.Value;
