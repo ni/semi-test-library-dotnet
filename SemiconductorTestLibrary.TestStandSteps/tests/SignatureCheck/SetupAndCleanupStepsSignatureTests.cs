@@ -13,7 +13,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         [Fact]
         public void GetSetupNIDCPowerInstrumentationWithParameters_HasCorrectSignature()
         {
-            var type = typeof(SetupAndCleanupSteps);
+            var classType = typeof(SetupAndCleanupSteps);
             var parameterTypes = new[]
             {
                 typeof(ISemiconductorModuleContext),
@@ -25,8 +25,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(double)
             };
-
-            var method = type.GetMethod(
+            var method = classType.GetMethod(
                 "SetupNIDCPowerInstrumentation",
                 BindingFlags.Public | BindingFlags.Static,
                 binder: null,
@@ -47,33 +46,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetAllSetupNIDCPowerInstrumentationOverloads_HasCorrectOverloadCount()
+        public void GetAllSetupNIDCPowerInstrumentationOverloads_HasSingleOverload()
         {
-            var type = typeof(SetupAndCleanupSteps);
-            int expectedOverloadCount = 1;
+            var classType = typeof(SetupAndCleanupSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDCPowerInstrumentation");
 
-            var overloads = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDCPowerInstrumentation");
-
-            Assert.NotNull(overloads);
-            Assert.Equal(expectedOverloadCount, overloads.Count());
+            Assert.Single(overloads);
         }
 
         [Fact]
         public void GetCleanupInstrumentationWithParameters_HasCorrectSignature()
         {
-            // Arrange
-            var type = typeof(SetupAndCleanupSteps);
+            var classType = typeof(SetupAndCleanupSteps);
             var parameterTypes = new[] { typeof(ISemiconductorModuleContext), typeof(bool), typeof(NIInstrumentType) };
-
-            // Act: get exact overload
-            var method = type.GetMethod(
+            var method = classType.GetMethod(
                 "CleanupInstrumentation",
                 BindingFlags.Public | BindingFlags.Static,
                 binder: null,
                 parameterTypes,
                 modifiers: null);
 
-            // Assert
             Assert.NotNull(method);
             var parameters = method.GetParameters();
             AssertParameter(parameters[0], "tsmContext", false);
@@ -83,23 +75,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetAllCleanupInstrumentationOverloads_HasCorrectOverloadCount()
+        public void GetAllCleanupInstrumentationOverloads_HasSingleOverload()
         {
-            var type = typeof(SetupAndCleanupSteps);
-            int expectedOverloadCount = 1;
+            var classType = typeof(SetupAndCleanupSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "CleanupInstrumentation");
 
-            var overloads = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "CleanupInstrumentation");
-
-            Assert.Equal(expectedOverloadCount, overloads.Count());
+            Assert.Single(overloads);
         }
 
         [Fact]
         public void GetResetInstrumentationWithParameters_HasCorrectSignature()
         {
-            var type = typeof(SetupAndCleanupSteps);
+            var classType = typeof(SetupAndCleanupSteps);
             var parameterTypes = new[] { typeof(ISemiconductorModuleContext), typeof(bool), typeof(NIInstrumentType) };
-
-            var method = type.GetMethod(
+            var method = classType.GetMethod(
                 "ResetInstrumentation",
                 BindingFlags.Public | BindingFlags.Static,
                 binder: null,
@@ -115,14 +104,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetAllResetInstrumentationOverloads_HasCorrectOverloadCount()
+        public void GetAllResetInstrumentationOverloads_HasSingleOverload()
         {
-            var type = typeof(SetupAndCleanupSteps);
-            int expectedOverloadCount = 1;
+            var classType = typeof(SetupAndCleanupSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "ResetInstrumentation");
 
-            var overloads = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "ResetInstrumentation");
-
-            Assert.Equal(expectedOverloadCount, overloads.Count());
+            Assert.Single(overloads);
         }
     }
 }
