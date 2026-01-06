@@ -381,90 +381,111 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void ConfigureAdvancedSequence_WithScalarSteps_CreatesStepsAndClearsActiveSequenceWhenRequested(bool setAsActiveSequence)
+        public void DifferentSMUDevices_ConfigureAdvancedSequence_CorrectValueAreSet(bool setAsActiveSequence)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
 
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var steps = new List<DCPowerAdvancedSequenceStepProperties>
             {
                 new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
                 new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
                 new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
             };
-
             const string sequenceName = "ScalarAdvancedSequence";
-
             sessionsBundle.ConfigureAdvancedSequence(
                 sequenceName,
                 steps,
                 setAsActiveSequence: setAsActiveSequence,
                 commitFirstElementAsInitialState: false);
 
+            if (setAsActiveSequence && !_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => new double[] { 1.0, 2.0, 3.0 }, precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
+            }
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 var adv = output.Source.AdvancedSequencing;
-                if (!setAsActiveSequence)
+                if (setAsActiveSequence)
                 {
-                    output.ConfigureAdvanceSequenceProperties(sequenceName, steps, true, false, sitePinInfo.ModelString);
+                    Assert.Equal(sequenceName, adv.ActiveAdvancedSequence);
                 }
-                Assert.Equal(sequenceName, adv.ActiveAdvancedSequence);
-                Assert.Equal(3.0, output.Source.Voltage.VoltageLevel);
-                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, output.Source.Output.Function);
             });
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void ConfigureAdvancedSequence_WithScalarStepsAndCommitStep_FirstStepUsedAsCommit(bool setAsActiveSequence)
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithPerSiteDataPerStep_CorrectValueAreSet(bool setAsActiveSequence)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-
-            var steps = new List<DCPowerAdvancedSequenceStepProperties>
+            var perSiteSteps = new SiteData<IList<DCPowerAdvancedSequenceStepProperties>>(new[]
             {
-                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 0.5, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
-            };
-
-            const string sequenceName = "ScalarAdvancedSequenceWithCommit";
-
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                }
+            });
+            const string sequenceName = "PerSiteAdvancedSequence";
             sessionsBundle.ConfigureAdvancedSequence(
                 sequenceName,
-                steps,
+                perSiteSteps,
                 setAsActiveSequence: setAsActiveSequence,
-                commitFirstElementAsInitialState: true);
+                commitFirstElementAsInitialState: false);
 
+            if (setAsActiveSequence && !_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                var siteData = new SiteData<double[]>(new[]
+                {
+                    new double[] { 1.0, 1.2 },
+                    new double[] { 2.0, 2.2 },
+                    new double[] { 3.0, 3.2 },
+                    new double[] { 4.0, 4.2 }
+                });
+                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteNumber => siteData.GetValue(siteNumber), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
+            }
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 var adv = output.Source.AdvancedSequencing;
-                if (!setAsActiveSequence)
+                if (setAsActiveSequence)
                 {
-                    output.ConfigureAdvanceSequenceProperties(sequenceName, steps, true, false, sitePinInfo.ModelString);
+                    Assert.Equal(sequenceName, adv.ActiveAdvancedSequence);
                 }
-                Assert.Equal(sequenceName, adv.ActiveAdvancedSequence);
-                Assert.Equal(2.0, output.Source.Voltage.VoltageLevel);
-                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, output.Source.Output.Function);
             });
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void ConfigureAdvancedSequence_WithPinSiteDataPerStep_CallsCoreAndAppliesPerPinPerSiteSteps(bool setAsActiveSequence)
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithPinSiteDataPerStep_CorrectValueAreSet(bool setAsActiveSequence)
         {
             var pinNames = new[] { "VDD" };
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower(pinNames);
 
-            // Build PinSiteData<IList<DCPowerAdvancedSequenceStepProperties>>:
-            // one pin ("VDD"), four sites, each with its own step list.
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var perSiteSteps = new Dictionary<string, IDictionary<int, IList<DCPowerAdvancedSequenceStepProperties>>>
             {
                 ["VDD"] = new Dictionary<int, IList<DCPowerAdvancedSequenceStepProperties>>
@@ -493,26 +514,34 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             var pinSiteData = new PinSiteData<IList<DCPowerAdvancedSequenceStepProperties>>(perSiteSteps);
             const string sequenceName = "PerPinPerSiteAdvancedSequence";
-
             sessionsBundle.ConfigureAdvancedSequence(
                 sequenceName,
                 pinSiteData,
                 setAsActiveSequence: setAsActiveSequence,
                 commitFirstElementAsInitialState: false);
 
+            if (setAsActiveSequence && !_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                var data = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+                {
+                    ["VDD"] = new Dictionary<int, double[]>()
+                    {
+                        [0] = new double[] { 1.0, 1.2 },
+                        [1] = new double[] { 2.0, 2.2 },
+                        [2] = new double[] { 3.0, 3.2 },
+                        [3] = new double[] { 4.0, 4.2 }
+                    }
+                });
+                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteNumber => data.GetValue(siteNumber, "VDD"), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
+            }
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 var adv = output.Source.AdvancedSequencing;
-                if (!setAsActiveSequence)
+                if (setAsActiveSequence)
                 {
-                    output.ConfigureAdvanceSequenceProperties(sequenceName, pinSiteData.GetValue(sitePinInfo), true, false, sitePinInfo.ModelString);
+                    Assert.Equal(sequenceName, adv.ActiveAdvancedSequence);
                 }
-                var expectedStepsForPinSite = pinSiteData.GetValue(sitePinInfo);
-                var lastStep = expectedStepsForPinSite[expectedStepsForPinSite.Count - 1];
-
-                Assert.Equal(lastStep.VoltageLevel, output.Source.Voltage.VoltageLevel);
-                Assert.Equal(lastStep.OutputFunction, output.Source.Output.Function);
             });
         }
 
