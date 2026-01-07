@@ -1,0 +1,115 @@
+using System.Linq;
+using System.Reflection;
+using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.SemiconductorTestLibrary.TestStandSteps;
+using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using Xunit;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
+
+namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
+{
+    public class SetupAndCleanupStepsSignatureTests
+    {
+        [Fact]
+        public void GetSetupNIDCPowerInstrumentationWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(bool),
+                typeof(double),
+                typeof(DCPowerMeasureApertureTimeUnits),
+                typeof(DCPowerMeasurementWhen),
+                typeof(DCPowerMeasurementSense),
+                typeof(double),
+                typeof(double)
+            };
+            var method = classType.GetMethod(
+                "SetupNIDCPowerInstrumentation",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertBoolParameter(parameters[1], "resetDevice", true, false);
+            AssertDoubleParameter(parameters[2], "apertureTime", true, 1);
+            AssertEnumParameter(parameters[3], "apertureTimeUnits", true, (int)DCPowerMeasureApertureTimeUnits.PowerLineCycles);
+            AssertEnumParameter(parameters[4], "measureWhen", true, (int)DCPowerMeasurementWhen.OnDemand);
+            AssertEnumParameter(parameters[5], "measurementSense", true, (int)DCPowerMeasurementSense.Remote);
+            AssertDoubleParameter(parameters[6], "sourceDelay", true, -1);
+            AssertDoubleParameter(parameters[7], "powerLineFrequency", true, -1);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllSetupNIDCPowerInstrumentationOverloads_HasSingleOverload()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDCPowerInstrumentation");
+
+            Assert.Single(overloads);
+        }
+
+        [Fact]
+        public void GetCleanupInstrumentationWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[] { typeof(ISemiconductorModuleContext), typeof(bool), typeof(NIInstrumentType) };
+            var method = classType.GetMethod(
+                "CleanupInstrumentation",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertBoolParameter(parameters[1], "resetDevice", true, false);
+            AssertEnumParameter(parameters[2], "instrumentType", true, (int)NIInstrumentType.All);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllCleanupInstrumentationOverloads_HasSingleOverload()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "CleanupInstrumentation");
+
+            Assert.Single(overloads);
+        }
+
+        [Fact]
+        public void GetResetInstrumentationWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[] { typeof(ISemiconductorModuleContext), typeof(bool), typeof(NIInstrumentType) };
+            var method = classType.GetMethod(
+                "ResetInstrumentation",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertBoolParameter(parameters[1], "resetDevice", true, false);
+            AssertEnumParameter(parameters[2], "instrumentType", true, (int)NIInstrumentType.All);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllResetInstrumentationOverloads_HasSingleOverload()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "ResetInstrumentation");
+
+            Assert.Single(overloads);
+        }
+    }
+}
