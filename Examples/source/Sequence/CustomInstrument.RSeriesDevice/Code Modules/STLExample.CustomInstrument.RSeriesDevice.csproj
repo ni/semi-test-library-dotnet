@@ -43,13 +43,13 @@
   </ItemGroup>
   <Target Name="CopyCDllDependency" AfterTargets="Build">
   <ItemGroup>
-    <CDll Include="Imports\RSeries7822RDriverAPI\RSeries7822RDriverAPI.dll" />
+    <CDll Include="Imports\RSeries7822RDriver\RSeries7822RDriverAPI.dll" />
   </ItemGroup>
   <Copy SourceFiles="@(CDll)" DestinationFolder="$(OutputPath)" />
   </Target>
     <Target Name="CopyBitFileDependency" AfterTargets="Build">
   <ItemGroup>
-    <BitFile Include="Imports\RSeries7822RDriverAPI\RSeries7822R_ReadWriteDigitalPorts.lvbitx" />
+    <BitFile Include="Imports\RSeries7822RDriver\RSeries7822R_ReadWriteDigital.lvbitx" />
   </ItemGroup>
   <Copy SourceFiles="@(BitFile)" DestinationFolder="$(OutputPath)" />
   </Target>

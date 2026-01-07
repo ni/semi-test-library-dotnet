@@ -56,7 +56,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Throw error when there are more than 1 channel group for any given instrument.
             if (instrumentNames.Distinct().Count() < instrumentNames.Length)
             {
-                throw new InvalidCustomInstrumentPinMapDefinitionException("At least one instrument definition does not satify the single channel group constraint");
+                throw new InvalidPinMapDefinitionException("At least one instrument definition does not satify the single channel group constraint");
             }
         }
     }
