@@ -804,7 +804,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Source.SourceDelay = sourceDelayinSeconds.HasValue
                     ? PrecisionTimeSpan.FromSeconds(sourceDelayinSeconds.Value)
                     : PrecisionTimeSpan.Zero;
-                channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
                 sessionInfo.ConfigureTransientResponce(settings, perChannelString);
 
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))

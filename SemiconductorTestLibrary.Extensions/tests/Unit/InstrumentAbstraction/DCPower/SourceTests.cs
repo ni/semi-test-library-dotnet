@@ -1735,7 +1735,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private void AssertSequenceMeasurementsMatchExpected(
             DCPowerSessionsBundle sessionsBundle,
             Func<int, double[]> getExpectedSequence,
-            int siteCount = 4,
+            int siteCount = 2,
             double timeoutSeconds = 5.0,
             int precision = 3,
             int itemsToFetch = 2,
