@@ -927,8 +927,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceCurrentSequence_CorrectValueAreSet(bool pinMapWithChannelGroup)
@@ -946,8 +944,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceCurrentSequenceWithPerSiteSequence_CorrectValueAreSet(bool pinMapWithChannelGroup)
