@@ -3212,6 +3212,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.AssociatedSitePinList">
             <inheritdoc/>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.HasGangedChannels">
+            <summary>
+            Gets a value indicating whether the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/> contains any ganged channels.
+            </summary>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDCPower.NIDCPower,System.String)">
             <summary>
             Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> instrument session.
@@ -3288,6 +3293,11 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.AggregateSitePinList">
             <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.HasGangedChannels">
+            <summary>
+            Gets a value indicating whether the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> contains any ganged channels.
+            </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation})">
             <summary>
