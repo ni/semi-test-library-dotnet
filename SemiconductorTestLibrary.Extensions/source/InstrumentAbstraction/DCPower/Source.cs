@@ -1418,8 +1418,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
         {
-            string channelString = channelOutput.Name;
-            if (sitePinInfo != null && (string.IsNullOrEmpty(channelString) || channelString.Split(',').Length > 1))
+            string channelString = string.IsNullOrEmpty(channelOutput.Name) ? sessionInfo.AllChannelsString : channelOutput.Name;
+            if (sitePinInfo != null && channelString.Split(',').Length > 1)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelString));
             }
@@ -1430,7 +1430,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
             }
 
-            channelString = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsString : channelString;
             sessionInfo.ConfigureTransientResponce(settings, channelString);
             if (sessionInfo.HasGangedChannels)
             {
