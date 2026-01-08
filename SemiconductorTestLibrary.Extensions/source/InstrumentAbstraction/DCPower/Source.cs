@@ -1430,6 +1430,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
             }
 
+            channelString = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsString : channelString;
             sessionInfo.ConfigureTransientResponce(settings, channelString);
             if (sessionInfo.HasGangedChannels)
             {
