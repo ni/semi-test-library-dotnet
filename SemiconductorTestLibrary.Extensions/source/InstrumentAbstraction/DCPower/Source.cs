@@ -1436,8 +1436,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
-                    channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo);
-                    channelOutput.ConfigureTriggerForGanging(sitePinInfo);
+                    channelOutput.ConfigureLevelsAndLimits(settings, sitePin);
+                    channelOutput.ConfigureTriggerForGanging(sitePin);
                 });
             }
             else
