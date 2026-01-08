@@ -775,13 +775,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             ValueProvider fetchLimit,
             ValueProvider fetchLevelRange,
             ValueProvider fetchLimitRange,
-            double? sourceDelayinSeconds,
+            double? sourceDelayInSeconds,
             DCPowerSourceTransientResponse? transientResponse,
             int sequenceLoopCount,
             bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds)
         {
-            var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
+            var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.SourceTrigger.ToString(), out string sourceTrigger);
 
             // Configure all channels
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
@@ -801,22 +801,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 channelOutput.ConfigureSequence(fetchLevelSequence(sitePinInfo), sequenceLoopCount);
                 channelOutput.ConfigureLevelsAndLimits(settings);
-                channelOutput.Source.SourceDelay = sourceDelayinSeconds.HasValue
-                    ? PrecisionTimeSpan.FromSeconds(sourceDelayinSeconds.Value)
+                channelOutput.Source.SourceDelay = sourceDelayInSeconds.HasValue
+                    ? PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.Value)
                     : PrecisionTimeSpan.Zero;
                 sessionInfo.ConfigureTransientResponce(settings, perChannelString);
 
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
-                    // Master channel does not need a start trigger
-                    channelOutput.Triggers.StartTrigger.Disable();
+                    // Master channel does not need a trigger
+                    channelOutput.Triggers.SourceTrigger.Disable();
                     channelOutput.Control.Commit();
                 }
                 else
                 {
-                    // Slave channels start on master's start trigger
-                    channelOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.DigitalEdge;
-                    channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
+                    // Slave channels start on master's trigger
+                    channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
+                    channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure(sourceTrigger, DCPowerTriggerEdge.Rising);
                     channelOutput.Control.Initiate();
                 }
             });
