@@ -31,11 +31,11 @@ Below are the key files along with their purpose.
 
 These files represent the main code that demonstrates the custom instrument implementation for this example.
 
-- STLExample.CustomInstrument.RSeriesDevice.pinmap
-- STLExample.CustomInstrument.RSeriesDevice.seq
+- STLExample.CustomInstrument.RSeries.pinmap
+- STLExample.CustomInstrument.RSeries.seq
 - Code Modules
-  - STLExample.CustomInstrument.RSeriesDevice.csproj
-  - STLExample.CustomInstrument.RSeriesDevice.sln
+  - STLExample.CustomInstrument.RSeries.csproj
+  - STLExample.CustomInstrument.RSeries.sln
   - SetupAndCleanupSteps.cs
   - TestStep.cs
   - RSeries7822RCustomInstrument/RSeries7822R.cs
@@ -45,11 +45,11 @@ These files represent the main code that demonstrates the custom instrument impl
 
 ### Driver code
 
-These files represent the driver used to control the PXIe-7822R R Series device and are placed under Imports directory. The driver consists of a C API (`RSeries7822RDriverAPI.dll`) for interacting with a PXIe-7822R device via a compiled FPGA bit file (`RSeries7822R_ReadWriteDigitalPorts.lvbitx`).
+These files represent the driver used to control the PXIe-7822R R Series device and are placed under Imports directory. The driver consists of a C API (`RSeries7822RDriverAPI.dll`) for interacting with a PXIe-7822R device via a compiled FPGA bit file (`RSeries7822R_ReadWriteDigital.lvbitx`).
 
 - RSeries7822RDriverAPI.dll – A DLL exposing the C API used to interact with the deployed FPGA bitfile.
 - RSeries7822RDriverAPI.h - header file containing method signatures.
-- RSeries7822R_ReadWriteDigitalPorts.lvbitx – The FPGA bitfile deployed to the PXIe-7822R RIO device.
+- RSeries7822R_ReadWriteDigital.lvbitx – The FPGA bitfile deployed to the PXIe-7822R RIO device.
 
 - Source
   - RSeries7822RDriverAPI.lvproj
