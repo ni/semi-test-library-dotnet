@@ -203,7 +203,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: currentLimits.GetValue(sitePinInfo.SiteNumber, "VDD"), expectedCurrentLimitRange: currentLimitRanges.GetValue(sitePinInfo.SiteNumber, "VDD"));
             });
-
         }
 
         [Theory]
