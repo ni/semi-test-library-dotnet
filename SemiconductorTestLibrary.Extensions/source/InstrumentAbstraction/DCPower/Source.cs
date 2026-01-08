@@ -43,7 +43,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="settings">The source settings to configure.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings)
         {
-            sessionsBundle.Do((sessionInfo =>
+            sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Control.Abort();
                 sessionInfo.ConfigureSourceSettings(settings);
@@ -1406,7 +1406,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
-            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInformation: null);
+            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo: null);
         }
 
         /// <summary>
@@ -1415,11 +1415,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
         /// <param name="channelOutput">The <see cref="DCPowerOutput"/> object.</param>
-        /// <param name="sitePinInformation">The <see cref="SitePinInfo"/> object.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInformation)
+        /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
         {
             string channelString = channelOutput.Name;
-            if (sitePinInformation != null && (string.IsNullOrEmpty(channelString) || channelString.Split(',').Length > 1))
+            if (sitePinInfo != null && (string.IsNullOrEmpty(channelString) || channelString.Split(',').Length > 1))
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelString));
             }
@@ -1433,8 +1433,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.ConfigureTransientResponce(settings, channelString);
             if (sessionInfo.HasGangedChannels)
             {
-                var sitePinInfoList = sitePinInformation != null ? new List<SitePinInfo>() { sitePinInformation } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
-                Parallel.ForEach(sitePinInfoList, sitePinInfo =>
+                var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
+                Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
                     channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo);
                     channelOutput.ConfigureTriggerForGanging(sitePinInfo);
