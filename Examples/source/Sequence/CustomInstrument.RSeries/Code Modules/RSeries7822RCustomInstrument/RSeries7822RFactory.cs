@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeriesDevice.RSeries7822RCustomInstrument
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.RSeries7822RCustomInstrument
 {
     /// <summary>
     /// Factory class responsible for creating instances of the RSeries7822R custom instrument.

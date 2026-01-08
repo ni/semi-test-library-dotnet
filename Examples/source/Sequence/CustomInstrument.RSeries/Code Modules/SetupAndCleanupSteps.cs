@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeriesDevice.RSeries7822RCustomInstrument;
+using NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.RSeries7822RCustomInstrument;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeriesDevice
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries
 {
     /// <summary>
     /// This class contains methods to perform setup and cleanup operations for RSeries7822R instruments using the Custom Instrument support provided by STL.
