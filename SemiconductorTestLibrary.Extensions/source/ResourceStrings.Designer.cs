@@ -115,6 +115,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The property &apos;{0}&apos; is not supported by the instrument model &apos;{1}&apos;..
+        /// </summary>
+        internal static string DCPowerDeviceNotSupported {
+            get {
+                return ResourceManager.GetString("DCPowerDeviceNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The state of the sequencer flag ({0}) is not the same for all underlying instrument sessions..
         /// </summary>
         internal static string Digital_SequencerFlagNotDistinct {
