@@ -1424,10 +1424,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             string channelString = channelOutput.Name;
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
-            if (settings.OutputFunction.HasValue)
-            {
-                channelOutput.Source.Output.Function = settings.OutputFunction.Value;
-            }
             if (settings.SourceDelayInSeconds.HasValue)
             {
                 channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
@@ -1544,7 +1540,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
         {
             var currentLimitDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
-
+            dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Voltage.VoltageLevel = settings.Level.Value;
@@ -1579,7 +1575,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
         {
             var currentLevelDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
-
+            dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
             if (settings.Level.HasValue)
             {
                 dcOutput.Source.Current.CurrentLevel = settings.Level.Value / currentLevelDivisor;
