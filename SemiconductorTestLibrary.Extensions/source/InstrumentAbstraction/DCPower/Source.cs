@@ -43,7 +43,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="settings">The source settings to configure.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings)
         {
-            sessionsBundle.Do(sessionInfo =>
+            sessionsBundle.Do((sessionInfo =>
             {
                 sessionInfo.Session.Control.Abort();
                 sessionInfo.ConfigureSourceSettings(settings);
@@ -1405,7 +1405,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
-            sessionInfo.ConfigureSourceSettings(settings, string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString], sitePinInformation: null);
+            var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
+            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInformation: null);
         }
 
         /// <summary>
@@ -1417,12 +1418,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sitePinInformation">The <see cref="SitePinInfo"/> object.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInformation)
         {
-            if (sitePinInformation != null && channelOutput.Name.Split(',').Length > 1)
+            string channelString = channelOutput.Name;
+            if (sitePinInformation != null && (string.IsNullOrEmpty(channelString) || channelString.Split(',').Length > 1))
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelOutput.Name));
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelString));
             }
 
-            string channelString = channelOutput.Name;
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             if (settings.SourceDelayInSeconds.HasValue)
             {
