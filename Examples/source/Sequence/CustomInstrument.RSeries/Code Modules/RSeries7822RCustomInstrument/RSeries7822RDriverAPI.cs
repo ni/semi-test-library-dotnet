@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeriesDevice.RSeries7822RCustomInstrument
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.RSeries7822RCustomInstrument
 {
     /// <summary>
     /// This class exposes native methods for the RSeries7822Driver's C API.
@@ -11,7 +11,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     internal static class RSeries7822RDriverAPI
     {
         private const string NativeDLLName = "RSeries7822RDriverAPI.dll";
-        public const string BitFileName = "RSeries7822R_ReadWriteDigitalPorts.lvbitx";
+        public const string BitFileName = "RSeries7822R_ReadWriteDigital.lvbitx";
 
         [DllImport(NativeDLLName, CallingConvention = CallingConvention.StdCall)]
         public static extern int OpenFPGA(string resource, string bitFilePath, out ulong referenceID);
