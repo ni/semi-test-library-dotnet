@@ -780,7 +780,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             ValueProvider fetchLimit,
             ValueProvider fetchLevelRange,
             ValueProvider fetchLimitRange,
-            double? sourceDelayinSeconds,
+            double? sourceDelayInSeconds,
             DCPowerSourceTransientResponse? transientResponse,
             int sequenceLoopCount,
             bool waitForSequenceCompletion,
@@ -806,10 +806,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 channelOutput.ConfigureSequence(fetchLevelSequence(sitePinInfo), sequenceLoopCount);
                 channelOutput.ConfigureLevelsAndLimits(settings);
-                channelOutput.Source.SourceDelay = sourceDelayinSeconds.HasValue
-                    ? PrecisionTimeSpan.FromSeconds(sourceDelayinSeconds.Value)
+                channelOutput.Source.SourceDelay = sourceDelayInSeconds.HasValue
+                    ? PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.Value)
                     : PrecisionTimeSpan.Zero;
-                channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
                 sessionInfo.ConfigureTransientResponce(settings, perChannelString);
 
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
