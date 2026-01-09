@@ -16,6 +16,9 @@
     <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+	<Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
+	  <SpecificVersion>False</SpecificVersion>
+	</Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>

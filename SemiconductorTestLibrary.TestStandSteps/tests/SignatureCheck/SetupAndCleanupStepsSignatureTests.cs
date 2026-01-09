@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Reflection;
 using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.ModularInstruments.NIDmm;
 using NationalInstruments.SemiconductorTestLibrary.TestStandSteps;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
@@ -62,12 +63,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
             {
                 typeof(ISemiconductorModuleContext),
                 typeof(bool),
+                typeof(DmmApertureTimeUnits),
                 typeof(double),
-                typeof(DCPowerMeasureApertureTimeUnits),
-                typeof(DCPowerMeasurementWhen),
-                typeof(DCPowerMeasurementSense),
                 typeof(double),
-                typeof(double)
+                typeof(double),
+                typeof(DMMMeasurementSettings?)
             };
             var method = classType.GetMethod(
                 "SetupNIDMMInstrumentation",
@@ -80,12 +80,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
             var parameters = method.GetParameters();
             AssertParameter(parameters[0], "tsmContext", false);
             AssertBoolParameter(parameters[1], "resetDevice", true, false);
-            AssertDoubleParameter(parameters[2], "apertureTime", true, 1);
-            AssertEnumParameter(parameters[3], "apertureTimeUnits", true, (int)DCPowerMeasureApertureTimeUnits.PowerLineCycles);
-            AssertEnumParameter(parameters[4], "measureWhen", true, (int)DCPowerMeasurementWhen.OnDemand);
-            AssertEnumParameter(parameters[5], "measurementSense", true, (int)DCPowerMeasurementSense.Remote);
-            AssertDoubleParameter(parameters[6], "sourceDelay", true, -1);
-            AssertDoubleParameter(parameters[7], "powerLineFrequency", true, -1);
+            AssertEnumParameter(parameters[2], "apertureTimeUnits", true, (int)DmmApertureTimeUnits.PowerLineCycles);
+            AssertDoubleParameter(parameters[3], "apertureTime", true, 1);
+            AssertDoubleParameter(parameters[4], "settleTime", true, 0.01);
+            AssertDoubleParameter(parameters[5], "powerLineFrequency", true, -1);
+            Assert.Equal("initialMeasurmentSettings", parameters[6].Name);
+            Assert.Null(parameters[6].DefaultValue);
+            Assert.True(parameters[6].IsOptional);
             Assert.Equal(typeof(void), method.ReturnType);
         }
 
