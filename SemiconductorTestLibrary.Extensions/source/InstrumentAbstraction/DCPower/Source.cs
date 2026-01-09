@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -903,7 +905,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
-            sessionInfo.ConfigureSourceSettings(settings, string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString], sitePinInformation: null);
+            var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
+            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo: null);
         }
 
         /// <summary>
@@ -911,61 +914,76 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
-        /// <param name="channelOutput">The <see cref="DCPowerOutput"/> object</param>
-        /// <param name="sitePinInformation">The <see cref="SitePinInfo"/> object</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInformation)
+        /// <param name="channelOutput">The <see cref="DCPowerOutput"/> object.</param>
+        /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
         {
-            string channelString = channelOutput.Name;
-            var sitePinInfoList = sitePinInformation != null ? new List<SitePinInfo>() { sitePinInformation } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
+            string channelString = string.IsNullOrEmpty(channelOutput.Name) ? sessionInfo.AllChannelsString : channelOutput.Name;
+            if (sitePinInfo != null && channelString.Split(',').Length > 1)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelString));
+            }
 
-            if (sitePinInformation != null && channelOutput.Name.Split(',').Length > 1)
-            {
-                // throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelOutput));
-            }
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
-            if (settings.LimitSymmetry.HasValue)
-            {
-                channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
-            }
-            if (settings.OutputFunction.HasValue)
-            {
-                channelOutput.Source.Output.Function = settings.OutputFunction.Value;
-            }
             if (settings.SourceDelayInSeconds.HasValue)
             {
                 channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
             }
-            if (settings.TransientResponse.HasValue)
+
+            sessionInfo.ConfigureTransientResponce(settings, channelString);
+            if (sessionInfo.HasGangedChannels)
             {
-                if (sessionInfo.AllInstrumentsAreTheSameModel)
+                var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
+                Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
-                    sessionInfo.Session.ConfigureTransientResponse(channelString, sessionInfo.ModelString, settings.TransientResponse.Value);
-                }
-                else
-                {
-                    foreach (var sitePinInfo in sitePinInfoList)
-                    {
-                        sessionInfo.Session.ConfigureTransientResponse(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, settings.TransientResponse.Value);
-                    }
-                }
+                    channelOutput.ConfigureLevelsAndLimits(settings, sitePin);
+                    channelOutput.ConfigureTriggerForGanging(sitePin);
+                });
             }
-            foreach (var sitePinInfo in sitePinInfoList)
+            else
             {
-                if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
-                {
-                    ConfigureVoltageSettings(channelOutput, settings, sitePinInfo);
-                }
-                else
-                {
-                    ConfigureCurrentSettings(channelOutput, settings, sitePinInfo);
-                }
-                ConfigureTriggerForGanging(sitePinInfo, channelOutput);
+                channelOutput.ConfigureLevelsAndLimits(settings);
             }
         }
 
         #endregion methods on DCPowerSessionInformation
 
         #region private and internal methods
+
+        private static void ConfigureTransientResponce(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
+        {
+            if (settings.TransientResponse.HasValue)
+            {
+                string channelStringToUse = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsString : channelString;
+                if (sessionInfo.AllInstrumentsAreTheSameModel)
+                {
+                    sessionInfo.Session.ConfigureTransientResponse(channelStringToUse, sessionInfo.ModelString, settings.TransientResponse.Value);
+                }
+                else
+                {
+                    foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => channelStringToUse.Contains(sitePin.IndividualChannelString)))
+                    {
+                        sessionInfo.Session.ConfigureTransientResponse(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, settings.TransientResponse.Value);
+                    }
+                }
+            }
+        }
+
+        private static void ConfigureLevelsAndLimits(this DCPowerOutput channelOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
+        {
+            if (settings.LimitSymmetry.HasValue)
+            {
+                channelOutput.Source.ComplianceLimitSymmetry = settings.LimitSymmetry.Value;
+            }
+            if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
+            {
+                ConfigureVoltageSettings(channelOutput, settings, sitePinInfo);
+            }
+            else if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCCurrent))
+            {
+                ConfigureCurrentSettings(channelOutput, settings, sitePinInfo);
+            }
+        }
 
         private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool waitForSourceCompletion = false)
         {
@@ -1129,6 +1147,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
                 channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure(gangingInfo.SourceTriggerName, DCPowerTriggerEdge.Rising);
+            }
+        }
+
+        private static void ConfigureTriggerForGanging(this DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
+        {
+            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            {
+                channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
+                channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure((sitePinInfo.CascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
