@@ -808,13 +808,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
-                    // Master channel does not need a trigger
-                    channelOutput.Triggers.SourceTrigger.Disable();
+                    // Master channel does not need a start trigger
+                    channelOutput.Triggers.StartTrigger.Disable();
                     channelOutput.Control.Commit();
                 }
                 else
                 {
-                    // Slave channels start on master's trigger
+                    // Slave channels start on master's start trigger
                     channelOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.DigitalEdge;
                     channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
                     channelOutput.Control.Initiate();
