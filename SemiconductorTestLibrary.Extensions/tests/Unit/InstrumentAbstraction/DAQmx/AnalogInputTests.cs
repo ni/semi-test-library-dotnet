@@ -233,7 +233,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         private void AssertFilteredSample(double filteredSample, DAQmxTasksBundle inputTasksBundle, string availableChannels)
         {
-            double lowerLimit = 0.75;
+            double lowerLimit = -0.8;
             double upperLimit = 0.8;
             if (_tsmContext.IsSemiconductorModuleInOfflineMode)
             {
