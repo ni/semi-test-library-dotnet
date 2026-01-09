@@ -1,7 +1,9 @@
 using System.Linq;
 using System.Reflection;
+using NationalInstruments.DAQmx;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.ModularInstruments.NIDmm;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.TestStandSteps;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
@@ -11,6 +13,192 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
 {
     public class SetupAndCleanupStepsSignatureTests
     {
+        [Fact]
+        public void GetSetupNIDAQmxAIVoltageTaskWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(string),
+                typeof(double),
+                typeof(double),
+                typeof(DAQmxTerminalConfiguration)
+            };
+            var method = classType.GetMethod(
+                "SetupNIDAQmxAIVoltageTask",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertStringParameter(parameters[1], "taskType", true, DefaultDAQmxTaskTypeStrings.AnalogInput);
+            AssertDoubleParameter(parameters[2], "maxiumValue", true, 10);
+            AssertDoubleParameter(parameters[3], "minimumValue", true, -10);
+            AssertEnumParameter(parameters[4], "inputTerminalConfiguration", true, (int)DAQmxTerminalConfiguration.Default);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllSetupNIDAQmxAIVoltageTaskOverloads_HasSingleOverload()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDAQmxAIVoltageTask");
+
+            Assert.Single(overloads);
+        }
+
+        [Fact]
+        public void GetSetupNIDAQmxAOFGenVoltageTaskWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(string),
+                typeof(AOFunctionGenerationType),
+                typeof(double),
+                typeof(double),
+                typeof(double),
+                typeof(DAQmxTerminalConfiguration)
+            };
+            var method = classType.GetMethod(
+                "SetupNIDAQmxAOFGenVoltageTask",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertStringParameter(parameters[1], "taskType", true, DefaultDAQmxTaskTypeStrings.AnalogOutputFunctionGeneration);
+            AssertEnumParameter(parameters[2], "waveformType", true, (int)AOFunctionGenerationType.Sine);
+            AssertDoubleParameter(parameters[3], "frequency", true, 1000.0);
+            AssertDoubleParameter(parameters[4], "amplitude", true, 5.0);
+            AssertDoubleParameter(parameters[5], "offset", true, 0.0);
+            AssertEnumParameter(parameters[6], "outputTerminalConfiguration", true, (int)DAQmxTerminalConfiguration.Default);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllSetupNIDAQmxAOFGenVoltageTaskOverloads_HasSingleOverload()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDAQmxAOFGenVoltageTask");
+
+            Assert.Single(overloads);
+        }
+
+        [Fact]
+        public void GetSetupNIDAQmxAOVoltageTaskWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(string),
+                typeof(double),
+                typeof(double),
+                typeof(DAQmxTerminalConfiguration)
+            };
+            var method = classType.GetMethod(
+                "SetupNIDAQmxAOVoltageTask",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertStringParameter(parameters[1], "taskType", true, DefaultDAQmxTaskTypeStrings.AnalogOutput);
+            AssertDoubleParameter(parameters[2], "maxiumValue", true, 10);
+            AssertDoubleParameter(parameters[3], "minimumValue", true, -10);
+            AssertEnumParameter(parameters[4], "outputTerminalConfiguration", true, (int)DAQmxTerminalConfiguration.Default);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllSetupNIDAQmxAOVoltageTaskOverloads_HasSingleOverload()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDAQmxAOVoltageTask");
+
+            Assert.Single(overloads);
+        }
+
+        [Fact]
+        public void GetSetupNIDAQmxDITaskWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(string),
+                typeof(ChannelLineGrouping)
+            };
+            var method = classType.GetMethod(
+                "SetupNIDAQmxDITask",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertStringParameter(parameters[1], "taskType", true, DefaultDAQmxTaskTypeStrings.DigitalInput);
+            AssertEnumParameter(parameters[2], "channelLineGrouping", true, (int)ChannelLineGrouping.OneChannelForEachLine);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllSetupNIDAQmxDITaskOverloads_HasSingleOverload()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDAQmxDITask");
+
+            Assert.Single(overloads);
+        }
+
+        [Fact]
+        public void GetSetupNIDAQmxDOTaskWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(string),
+                typeof(ChannelLineGrouping)
+            };
+            var method = classType.GetMethod(
+                "SetupNIDAQmxDOTask",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertStringParameter(parameters[1], "taskType", true, DefaultDAQmxTaskTypeStrings.DigitalOutput);
+            AssertEnumParameter(parameters[2], "channelLineGrouping", true, (int)ChannelLineGrouping.OneChannelForEachLine);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllSetupNIDAQmxDOTaskOverloads_HasSingleOverload()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDAQmxDOTask");
+
+            Assert.Single(overloads);
+        }
+
         [Fact]
         public void GetSetupNIDCPowerInstrumentationWithParameters_HasCorrectSignature()
         {
