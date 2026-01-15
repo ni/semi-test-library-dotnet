@@ -81,17 +81,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
             Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
         }
 
-        internal static void AssertParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional)
-        {
-            Assert.Equal(expectedName, parameterInfo.Name);
-            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
-        }
-
         internal static void AssertStructParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, object expectedDefaultValue)
         {
             Assert.Equal(expectedName, parameterInfo.Name);
             Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
             Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
+        }
+
+        internal static void AssertParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional)
+        {
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
         }
 
         #endregion
