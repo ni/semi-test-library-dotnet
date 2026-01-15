@@ -272,7 +272,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
             AssertDoubleParameter(parameters[3], "apertureTime", true, 1);
             AssertDoubleParameter(parameters[4], "settleTime", true, 0.01);
             AssertDoubleParameter(parameters[5], "powerLineFrequency", true, -1);
-            AssertNullableParameter(parameters[6], "initialMeasurmentSettings", true, true);
+            AssertStructParameter(parameters[6], "initialMeasurmentSettings", true, null);
             Assert.Equal("initialMeasurmentSettings", parameters[6].Name);
             Assert.Equal(typeof(void), method.ReturnType);
         }

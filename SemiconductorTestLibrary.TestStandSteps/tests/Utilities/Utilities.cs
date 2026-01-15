@@ -87,14 +87,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
             Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
         }
 
-        internal static void AssertNullableParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, bool expectedNullDefaultValue)
+        internal static void AssertStructParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, object expectedDefaultValue)
         {
             Assert.Equal(expectedName, parameterInfo.Name);
             Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
-            if (expectedNullDefaultValue)
-            {
-                Assert.Null(parameterInfo.DefaultValue);
-            }
+            Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
         }
 
         #endregion
