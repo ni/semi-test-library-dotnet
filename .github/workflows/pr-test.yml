@@ -34,11 +34,47 @@ jobs:
               exit 1
             fi
 
-        - name: Trigger Azure Pipeline for Unit Test
-          uses: enfa/azure-pipeline-github-action@v1.0.0
-          with:
-            azure-devops-project-url: https://ni.visualstudio.com/DevCentral
-            azure-pipeline-name: 'Pre - Mixed Signal Test Library Extensions'
-            azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-            azure-pipeline-variables: '{"GITHUB_MixedSignalTestLibrary_REPO_OWNER": "${{ env.GITHUB_MixedSignalTestLibrary_REPO_OWNER }}", "GITHUB_MixedSignalTestLibrary_REPO_NAME": "${{ env.GITHUB_MixedSignalTestLibrary_REPO_NAME }}", "GITHUB_MixedSignalTestLibrary_BRANCH_NAME": "${{ env.GITHUB_MixedSignalTestLibrary_BRANCH_NAME }}"}'
-            azure-pipeline-sourcebranch: "refs/heads/main"
+        - name: Trigger Pre - Mixed Signal Test Library Extensions Azure Pipeline for Unit Test
+          run: |
+            ORG="ni"
+            PROJECT="DevCentral"
+            PIPELINE_ID="21753"
+            BRANCH="main"
+            PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
+
+            BODY=$(jq -n \
+              --arg ref "refs/heads/$BRANCH" \
+              --arg owner "${{ env.GITHUB_MixedSignalTestLibrary_REPO_OWNER }}" \
+              --arg repo "${{ env.GITHUB_MixedSignalTestLibrary_REPO_NAME }}" \
+              --arg branch "${{ env.GITHUB_MixedSignalTestLibrary_BRANCH_NAME }}" \
+              '{
+                resources: {
+                  repositories: {
+                    self: {
+                      refName: $ref
+                    }
+                  }
+                },
+                variables: {
+                  GITHUB_MixedSignalTestLibrary_REPO_OWNER: { value: $owner },
+                  GITHUB_MixedSignalTestLibrary_REPO_NAME: { value: $repo },
+                  GITHUB_MixedSignalTestLibrary_BRANCH_NAME: { value: $branch }
+                }
+              }')
+
+            RESPONSE=$(curl -sS -X POST \
+              -u ":$PAT" \
+              -H "Content-Type: application/json" \
+              -d "$BODY" \
+              "https://dev.azure.com/$ORG/$PROJECT/_apis/pipelines/$PIPELINE_ID/runs?api-version=7.0")
+
+            echo "Response: $RESPONSE"
+            BUILD_ID=$(echo "$RESPONSE" | jq -r '.id')
+
+            if [ -z "$BUILD_ID" ] || [ "$BUILD_ID" = "null" ]; then
+              echo "Failed to trigger Azure DevOps Unit Test pipeline"
+              exit 1
+            fi
+
+            PIPELINE_URL="https://dev.azure.com/$ORG/$PROJECT/_build/results?buildId=$BUILD_ID"
+            echo "Azure DevOps Unit Test pipeline triggered: $PIPELINE_URL"
