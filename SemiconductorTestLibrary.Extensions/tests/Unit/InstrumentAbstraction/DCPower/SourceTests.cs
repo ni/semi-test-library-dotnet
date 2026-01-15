@@ -1592,6 +1592,130 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
+        public void DifferentSMUDevices_ClearAdvancedSequences_ActiveSequencesCleared(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "TestSequence";
+            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
+
+            sessionsBundle.ClearAdvancedSequences();
+
+            var ex = Assert.Throws<NISemiconductorTestException>(() =>
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    var activeSequenceName = sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence;
+                });
+            });
+            Assert.Contains("A sequence must have at least one step.", ex.Message);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_DeleteAdvancedSequences_SequenceDeletedSuccessfully(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "TestSequence";
+            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
+
+            sessionsBundle.DeleteAdvancedSequences(sequenceName);
+
+            var ex = Assert.Throws<NISemiconductorTestException>(() =>
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
+                });
+            });
+            Assert.Contains("The active advanced sequence does not exist.", ex.Message);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ClearThenDeleteAdvancedSequence_SequenceDeletedSuccessfully(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "TestSequence";
+            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
+
+            sessionsBundle.ClearAdvancedSequences();
+            sessionsBundle.DeleteAdvancedSequences(sequenceName);
+
+            var ex = Assert.Throws<NISemiconductorTestException>(() =>
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
+                });
+            });
+            Assert.Contains("The active advanced sequence does not exist.", ex.Message);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_DeleteMultipleAdvancedSequences_AllSequencesDeleted(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName1 = "Sequence1";
+            string sequenceName2 = "Sequence2";
+            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName1, stepProperties, setAsActiveSequence: false);
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName2, stepProperties, setAsActiveSequence: false);
+
+            sessionsBundle.DeleteAdvancedSequences(sequenceName1);
+            sessionsBundle.DeleteAdvancedSequences(sequenceName2);
+
+            var ex1 = Assert.Throws<NISemiconductorTestException>(() =>
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName1;
+                });
+            });
+            var ex2 = Assert.Throws<NISemiconductorTestException>(() =>
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName1;
+                });
+            });
+            Assert.Contains("The active advanced sequence does not exist.", ex1.Message);
+            Assert.Contains("The active advanced sequence does not exist.", ex2.Message);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
         public void DifferentSMUDevices_ConfigureSequenceWithSiteData_CorrectVoltageMeasurementsFetched(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
