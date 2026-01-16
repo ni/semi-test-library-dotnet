@@ -511,10 +511,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 LevelRange = currentLevelRange,
                 LimitRange = voltageLimitRange
             };
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
-            });
+            sessionsBundle.ForceCurrent(settings, waitForSourceCompletion);
         }
 
         /// <summary>
@@ -540,8 +537,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -567,8 +565,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -594,8 +593,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -607,11 +607,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false)
         {
-            sessionsBundle.Do(sessionInfo =>
+            settings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
+            if (sessionsBundle.HasGangedChannels)
             {
-                settings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
-            });
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
+                });
+                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
+                });
+            }
         }
 
         /// <summary>
@@ -1498,6 +1509,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Commit();
+        }
+
+        private static void InitiateGangedLeaderAndNonGangedChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    channelOutput.InitiateChannels(waitForSourceCompletion);
+                }
+            });
+        }
+
+        private static void ConfigureAllChannelsAndInitiateGangedFollowerChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
+            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            {
+                channelOutput.InitiateChannels();
+            }
         }
 
         private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false, double timeoutInSeconds = 5)
