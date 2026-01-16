@@ -35,6 +35,10 @@
 			<PinReference pin="VCC4" />
 			<PinReference pin="VCC5" />
 		</PinGroup>
+      <PinGroup name="TwoPinsGangedGroup">
+			<PinReference pin="VCC4" />
+			<PinReference pin="VCC5" />
+		</PinGroup>
 		<PinGroup name="ThreePinsGangedGroup">
 			<PinReference pin="VCC1" />
 			<PinReference pin="VCC2" />

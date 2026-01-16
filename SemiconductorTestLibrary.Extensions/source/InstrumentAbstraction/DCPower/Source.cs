@@ -1601,7 +1601,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric && settings.Limit.HasValue)
                 || (settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric && (settings.LimitHigh.HasValue || settings.LimitLow.HasValue)))
             {
-                dcOutput.Source.Voltage.CurrentLimitRange = settings.LimitRange ?? CalculateLimitRangeFromLimit(settings) / currentLimitDivisor;
+                dcOutput.Source.Voltage.CurrentLimitRange = (settings.LimitRange ?? CalculateLimitRangeFromLimit(settings)) / currentLimitDivisor;
             }
         }
 
