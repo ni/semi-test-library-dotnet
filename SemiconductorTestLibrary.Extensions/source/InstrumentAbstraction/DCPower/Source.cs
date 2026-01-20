@@ -1142,7 +1142,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                sessionsBundle.ConfigureAdvanceSequenceCore(sequenceName, channelOutput, sitePinInfo.ModelString, perStepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
+                ConfigureAdvanceSequenceCore(sequenceName, channelOutput, sitePinInfo.ModelString, perStepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
             });
         }
 
@@ -1158,7 +1158,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var stepProperties = perStepProperties.GetValue(sitePinInfo.SiteNumber);
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                sessionsBundle.ConfigureAdvanceSequenceCore(sequenceName, channelOutput, sitePinInfo.ModelString, stepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
+                ConfigureAdvanceSequenceCore(sequenceName, channelOutput, sitePinInfo.ModelString, stepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
             });
         }
 
@@ -1174,12 +1174,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var stepProperties = perStepProperties.GetValue(sitePinInfo);
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                sessionsBundle.ConfigureAdvanceSequenceCore(sequenceName, channelOutput, sitePinInfo.ModelString, stepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
+                ConfigureAdvanceSequenceCore(sequenceName, channelOutput, sitePinInfo.ModelString, stepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
             });
         }
 
         private static void ConfigureAdvanceSequenceCore(
-            this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
             DCPowerOutput channelOutput,
             string modelString,
