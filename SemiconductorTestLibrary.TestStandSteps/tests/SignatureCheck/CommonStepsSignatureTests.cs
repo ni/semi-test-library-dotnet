@@ -178,5 +178,73 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
 
             Assert.Single(overloads);
         }
+
+        [Fact]
+        public void GetAcquireAnalogInputWaveformsWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(CommonSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(string[]),
+                typeof(int)
+            };
+            var method = classType.GetMethod(
+                "AcquireAnalogInputWaveforms",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertParameter(parameters[1], "pinsOrPinGroups", false);
+            AssertIntParameter(parameters[2], "samplesPerChannel", true, 1000);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllAcquireAnalogInputWaveformsOverloads_HasSingleOverload()
+        {
+            var classType = typeof(CommonSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "AcquireAnalogInputWaveforms");
+
+            Assert.Single(overloads);
+        }
+
+        [Fact]
+        public void GetBurstPatternWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(CommonSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(string[]),
+                typeof(string)
+            };
+            var method = classType.GetMethod(
+                "BurstPattern",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertParameter(parameters[1], "pinsOrPinGroups", false);
+            AssertParameter(parameters[2], "patternName", false);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllBurstPatternOverloads_HasSingleOverload()
+        {
+            var classType = typeof(CommonSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "BurstPattern");
+
+            Assert.Single(overloads);
+        }
     }
 }
