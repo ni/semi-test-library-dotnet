@@ -638,7 +638,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     if (stepProperties.VoltageLimit.HasValue)
                     {
-                        channelOutput.Source.Voltage.CurrentLimit = stepProperties.VoltageLimit.Value;
+                        channelOutput.Source.Voltage.CurrentLimit = stepProperties.CurrentLimit.Value;
                     }
                 },
                 "CurrentLimit",
@@ -649,7 +649,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     if (stepProperties.VoltageLimitRange.HasValue)
                     {
-                        channelOutput.Source.Voltage.CurrentLimitRange = stepProperties.VoltageLimitRange.Value;
+                        channelOutput.Source.Voltage.CurrentLimitRange = stepProperties.CurrentLimitRange.Value;
                     }
                 },
                 "CurrentLimitRange",
@@ -683,7 +683,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     if (stepProperties.CurrentLimit.HasValue)
                     {
-                        channelOutput.Source.Current.VoltageLimit = stepProperties.CurrentLimit.Value;
+                        channelOutput.Source.Current.VoltageLimit = stepProperties.VoltageLimit.Value;
                     }
                 },
                 "VoltageLimit",
@@ -694,7 +694,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     if (stepProperties.CurrentLimitRange.HasValue)
                     {
-                        channelOutput.Source.Current.VoltageLimitRange = stepProperties.CurrentLimitRange.Value;
+                        channelOutput.Source.Current.VoltageLimitRange = stepProperties.VoltageLimitRange.Value;
                     }
                 },
                 "VoltageLimitRange",
