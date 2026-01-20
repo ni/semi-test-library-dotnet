@@ -1,12 +1,11 @@
-﻿using NationalInstruments.ModularInstruments.NIDCPower;
-using NationalInstruments.SemiconductorTestLibrary.Common;
-using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
+using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -851,13 +850,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
             var sequenceName = $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
 
-            var validProperties = getValidProperties(voltageSequence);
+            // var validProperties = getValidProperties(voltageSequence);
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
                 var perChannelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
-                channelOutput.ConfigureAdvancedSequence(sequenceName, voltageSequence, sequenceLoopCount);
+                // channelOutput.ConfigureAdvancedSequenceCore(sequenceName, voltageSequence, sequenceLoopCount);
                 channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
@@ -874,7 +873,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
             });
         }
-
 
         /// <summary>
         /// Behaves the same as the ForceCurrent() method, but has two voltage limit inputs for setting separate high and low voltage limits.
@@ -1730,23 +1728,89 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 : Math.Max(Math.Abs(settings.LimitHigh.Value), Math.Abs(settings.LimitLow.Value));
         }
 
-        private static DCPowerSourceSettings[] GetValidProperties(DCPowerSourceSettings[] dCPowerSourceSettings)
+        private static DCPowerAdvancedSequenceStepProperties[] GetValidProperties(DCPowerSourceSettings[] dCPowerSourceSettings)
         {
-            var validProperties = new HashSet<DCPowerSourceSettings>();
-            foreach (var prop in dCPowerSourceSettings)
+            NormalizeDCPowerSourceSettings(dCPowerSourceSettings);
+            var advancedSequenceStepProperties = new DCPowerAdvancedSequenceStepProperties[dCPowerSourceSettings.Length];
+            for (int i = 0; i < dCPowerSourceSettings.Length; i++)
             {
-                if (prop != null)
+                advancedSequenceStepProperties[i] = new DCPowerAdvancedSequenceStepProperties
                 {
-                    validProperties.Add(prop);
-                }
-                else
+                    OutputFunction = dCPowerSourceSettings[i].OutputFunction,
+                    TransientResponse = dCPowerSourceSettings[i].TransientResponse,
+                    SourceDelay = dCPowerSourceSettings[i].SourceDelayInSeconds
+                };
+                if (dCPowerSourceSettings[i].OutputFunction == DCPowerSourceOutputFunction.DCVoltage)
                 {
-
+                    advancedSequenceStepProperties[i].VoltageLevel = dCPowerSourceSettings[i].Level;
+                    advancedSequenceStepProperties[i].CurrentLimit = dCPowerSourceSettings[i].Limit;
                 }
             }
-            return validProperties.ToArray();
+            return advancedSequenceStepProperties;
         }
 
+        private static void NormalizeDCPowerSourceSettings(DCPowerSourceSettings[] dCPowerSourceSettings)
+        {
+            var nullProperties = NullProperties(dCPowerSourceSettings);
+            foreach (var prop in dCPowerSourceSettings)
+            {
+                if (prop.OutputFunction.HasValue && nullProperties.Contains("OutputFunction"))
+                {
+                    prop.OutputFunction = null;
+                }
+                if (prop.LimitSymmetry.HasValue && nullProperties.Contains("LimitSymmetry"))
+                {
+                    prop.LimitSymmetry = null;
+                }
+                if (prop.Level.HasValue && nullProperties.Contains("Level"))
+                {
+                    prop.Level = null;
+                }
+                if (prop.Limit.HasValue && nullProperties.Contains("Limit"))
+                {
+                    prop.Limit = null;
+                }
+                if (prop.LimitHigh.HasValue && nullProperties.Contains("LimitHigh"))
+                {
+                    prop.LimitHigh = null;
+                }
+                if (prop.LimitLow.HasValue && nullProperties.Contains("LimitLow"))
+                {
+                    prop.LimitLow = null;
+                }
+                if (prop.LevelRange.HasValue && nullProperties.Contains("LevelRange"))
+                {
+                    prop.LevelRange = null;
+                }
+                if (prop.LimitRange.HasValue && nullProperties.Contains("LimitRange"))
+                {
+                    prop.LimitRange = null;
+                }
+                if (prop.SourceDelayInSeconds.HasValue && nullProperties.Contains("SourceDelayInSeconds"))
+                {
+                    prop.SourceDelayInSeconds = null;
+                }
+                if (prop.TransientResponse.HasValue && nullProperties.Contains("TransientResponse"))
+                {
+                    prop.TransientResponse = null;
+                }
+            }
+        }
+
+        private static HashSet<string> NullProperties(DCPowerSourceSettings[] dCPowerSourceSettings)
+        {
+            var nullProperties = new HashSet<string>();
+            var properties = typeof(DCPowerSourceSettings).GetProperties();
+            foreach (var prop in properties)
+            {
+                bool isNull = dCPowerSourceSettings.Any(s => prop.GetValue(s) == null);
+                if (isNull)
+                {
+                    nullProperties.Add(prop.Name);
+                }
+            }
+            return nullProperties;
+        }
         #endregion private and internal methods
     }
 }
