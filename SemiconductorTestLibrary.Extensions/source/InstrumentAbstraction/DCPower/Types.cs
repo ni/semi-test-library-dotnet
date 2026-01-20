@@ -212,7 +212,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public DCPowerMeasurementAutorangeApertureTimeMode? AutorangeApertureTimeMode { get; set; }
 
         /// <summary>
-        /// Specifies the algorithm the hardware uses for measurement autoranging.
+        /// Specifies the algorithm the hardware uses for measurement AutoRanging.
         /// </summary>
         public DCPowerMeasurementAutorangeBehavior? AutorangeBehavior { get; set; }
 
@@ -250,6 +250,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Specifies the type of remote sensing for the specified channels.
         /// </summary>
         public DCPowerMeasurementSense? Sense { get; set; }
+
+        /// <summary>
+        /// Specifies the mode used to determine the threshold for autoranging during DC power measurement.
+        /// </summary>
+        public DCPowerMeasurementAutorangeThresholdMode? AutorangeThresholdMode { get; set; }
 
         #endregion
 
@@ -525,9 +530,94 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public double? OutputResistance { get; set; }
 
         /// <summary>
-        /// Specifies whether compliance limits are applied symmetrically about 0 V and 0 A or asymmetrically.
+        /// Specifies whether compliance limits are applied symmetrically.
         /// </summary>
         public DCPowerComplianceLimitSymmetry? ComplianceLimitSymmetry { get; set; }
+
+        /// <summary>
+        /// Specifies the conduction voltage mode for DC power operations.
+        /// </summary>
+        public DCPowerConductionVoltageMode? ConductionVoltageMode { get; set; }
+
+        /// <summary>
+        /// Voltage threshold at which conduction is considered to be off.
+        /// </summary>
+        public double? ConductionVoltageOffThreshold { get; set; }
+
+        /// <summary>
+        /// Voltage threshold at which conduction is considered to be on.
+        /// </summary>
+        public double? ConductionVoltageOnThreshold { get; set; }
+
+        /// <summary>
+        /// Frequency at which constant power compensation is applied.
+        /// </summary>
+        public double? ConstantPowerCompensationFrequency { get; set; }
+
+        /// <summary>
+        /// Specifies the current limit for constant power operation.
+        /// </summary>
+        public double? ConstantPowerCurrentLimit { get; set; }
+
+        /// <summary>
+        /// Constant power gain bandwidth value.
+        /// </summary>
+        public double? ConstantPowerGainBandwidth { get; set; }
+
+        /// <summary>
+        /// Constant power level value.
+        /// </summary>
+        public double? ConstantPowerLevel { get; set; }
+
+        /// <summary>
+        /// Range of constant power levels.
+        /// </summary>
+        public double? ConstantPowerLevelRange { get; set; }
+
+        /// <summary>
+        /// Pole-zero ratio for constant power calculations.
+        /// </summary>
+        public double? ConstantPowerPoleZeroRatio { get; set; }
+
+        /// <summary>
+        /// Frequency used for constant resistance compensation.
+        /// </summary>
+        public double? ConstantResistanceCompensationFrequency { get; set; }
+
+        /// <summary>
+        /// Specifies the maximum allowable current for constant resistance mode.
+        /// </summary>
+        public double? ConstantResistanceCurrentLimit { get; set; }
+
+        /// <summary>
+        /// Gain bandwidth for constant resistance.
+        /// </summary>
+        public double? ConstantResistanceGainBandwidth { get; set; }
+
+        /// <summary>
+        /// Specifies a constant resistance level value.
+        /// </summary>
+        public double? ConstantResistanceLevel { get; set; }
+
+        /// <summary>
+        /// Constant resistance level range.
+        /// </summary>
+        public double? ConstantResistanceLevelRange { get; set; }
+
+        /// <summary>
+        /// Ratio of the pole to zero for constant resistance.
+        /// </summary>
+        public double? ConstantResistancePoleZeroRatio { get; set; }
+
+        /// <summary>
+        /// Units for the minimum aperture time used during AutoRanging.
+        /// </summary>
+        public DCPowerMeasureApertureTimeUnits? AutorangeMinimumApertureTimeUnits { get; set; }
+
+        /// <summary>
+        /// Specifies whether the output is shorted.
+        /// </summary>
+        public bool? OutputShorted { get; set; }
 
         #endregion
 
@@ -577,6 +667,95 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         public double? LcrImpedanceRange { get; set; }
 
+        /// <summary>
+        /// Actual load reactance value for the LCR.
+        /// </summary>
+        public double? LcrActualLoadReactance { get; set; }
+
+        /// <summary>
+        /// Actual load resistance measured in the LCR.
+        /// </summary>
+        public double? LcrActualLoadResistance { get; set; }
+
+        /// <summary>
+        /// Current range value for LCR.
+        /// </summary>
+        public double? LcrCurrentRange { get; set; }
+
+        /// <summary>
+        /// DC bias current range for LCR.
+        /// </summary>
+        public double? LcrDcBiasCurrentRange { get; set; }
+
+        /// <summary>
+        /// DC bias transient response settings for LCR.
+        /// </summary>
+        public DCPowerLCRDCBiasTransientResponse? LcrDcBiasTransientResponse { get; set; }
+
+        /// <summary>
+        /// DC bias voltage range for LCR measurements.
+        /// </summary>
+        public double? LcrDcBiasVoltageRange { get; set; }
+
+        /// <summary>
+        /// Specifies whether the LCR impedance measurement uses AutoRanging.
+        /// </summary>
+        public DCPowerLCRImpedanceAutorange? LcrImpedanceAutoRange { get; set; }
+
+        /// <summary>
+        /// Specifies the load capacitance value for LCR.
+        /// </summary>
+        public double? LcrLoadCapacitance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the inductance value of the LCR load.
+        /// </summary>
+        public double? LcrLoadInductance { get; set; }
+
+        /// <summary>
+        /// Load resistance value for the LCR.
+        /// </summary>
+        public double? LcrLoadResistance { get; set; }
+
+        /// <summary>
+        /// Specifies the measured load reactance for LCR.
+        /// </summary>
+        public double? LcrMeasuredLoadReactance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the measured load resistance value from the LCR measurement.
+        /// </summary>
+        public double? LcrMeasuredLoadResistance { get; set; }
+
+        /// <summary>
+        /// Measured open conductance value from the LCR.
+        /// </summary>
+        public double? LcrOpenConductance { get; set; }
+
+        /// <summary>
+        /// Open-circuit susceptance value for the LCR component.
+        /// </summary>
+        public double? LcrOpenSusceptance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the short-circuit reactance value for the LCR component.
+        /// </summary>
+        public double? LcrShortReactance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the measured short resistance value from the LCR.
+        /// </summary>
+        public double? LcrShortResistance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the delay mode for the LCR source.
+        /// </summary>
+        public DCPowerLCRSourceDelayMode? LcrSourceDelayMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the voltage range used for LCR measurements.
+        /// </summary>
+        public double? LcrVoltageRange { get; set; }
         /// <summary>
         /// Specifies how the impedance range for LCR measurements is determined.
         /// </summary>

@@ -412,6 +412,150 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     properties.Add(DCPowerAdvancedSequenceProperty.InstrumentMode);
                 }
+                if (stepProperties.AutorangeThresholdMode.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.AutorangeThresholdMode);
+                }
+                if (stepProperties.ConductionVoltageMode.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConductionVoltageMode);
+                }
+                if (stepProperties.ConductionVoltageOffThreshold.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConductionVoltageOffThreshold);
+                }
+                if (stepProperties.ConductionVoltageOnThreshold.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConductionVoltageOnThreshold);
+                }
+                if (stepProperties.ConstantPowerCompensationFrequency.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantPowerCompensationFrequency);
+                }
+                if (stepProperties.ConstantPowerCurrentLimit.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantPowerCurrentLimit);
+                }
+                if (stepProperties.ConstantPowerGainBandwidth.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantPowerGainBandwidth);
+                }
+                if (stepProperties.ConstantPowerLevel.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantPowerLevel);
+                }
+                if (stepProperties.ConstantPowerLevelRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantPowerLevelRange);
+                }
+                if (stepProperties.ConstantPowerPoleZeroRatio.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantPowerPoleZeroRatio);
+                }
+                if (stepProperties.ConstantResistanceCompensationFrequency.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantResistanceCompensationFrequency);
+                }
+                if (stepProperties.ConstantResistanceCurrentLimit.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantResistanceCurrentLimit);
+                }
+                if (stepProperties.ConstantResistanceGainBandwidth.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantResistanceGainBandwidth);
+                }
+                if (stepProperties.ConstantResistanceLevel.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantResistanceLevel);
+                }
+                if (stepProperties.ConstantResistanceLevelRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantResistanceLevelRange);
+                }
+                if (stepProperties.ConstantResistancePoleZeroRatio.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.ConstantResistancePoleZeroRatio);
+                }
+                if (stepProperties.AutorangeMinimumApertureTimeUnits.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.AutorangeMinimumApertureTimeUnits);
+                }
+                if (stepProperties.OutputShorted.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.OutputShorted);
+                }
+                if (stepProperties.LcrActualLoadReactance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrActualLoadReactance);
+                }
+                if (stepProperties.LcrActualLoadResistance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrActualLoadResistance);
+                }
+                if (stepProperties.LcrCurrentRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrCurrentRange);
+                }
+                if (stepProperties.LcrDcBiasCurrentRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrDcBiasCurrentRange);
+                }
+                if (stepProperties.LcrDcBiasTransientResponse.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrDcBiasTransientResponse);
+                }
+                if (stepProperties.LcrDcBiasVoltageRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrDcBiasVoltageRange);
+                }
+                if (stepProperties.LcrImpedanceAutoRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrImpedanceAutoRange);
+                }
+                if (stepProperties.LcrLoadCapacitance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrLoadCapacitance);
+                }
+                if (stepProperties.LcrLoadInductance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrLoadInductance);
+                }
+                if (stepProperties.LcrLoadResistance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrLoadResistance);
+                }
+                if (stepProperties.LcrMeasuredLoadReactance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrMeasuredLoadReactance);
+                }
+                if (stepProperties.LcrMeasuredLoadResistance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrMeasuredLoadResistance);
+                }
+                if (stepProperties.LcrOpenConductance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrOpenConductance);
+                }
+                if (stepProperties.LcrOpenSusceptance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrOpenSusceptance);
+                }
+                if (stepProperties.LcrShortReactance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrShortReactance);
+                }
+                if (stepProperties.LcrShortResistance.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrShortResistance);
+                }
+                if (stepProperties.LcrSourceDelayMode.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrSourceDelayMode);
+                }
+                if (stepProperties.LcrVoltageRange.HasValue)
+                {
+                    properties.Add(DCPowerAdvancedSequenceProperty.LcrVoltageRange);
+                }
             }
             return properties.ToArray();
         }
@@ -922,6 +1066,775 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 },
                 "LcrLoadCompensationEnabled",
                 modelString);
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.AutorangeThresholdMode.HasValue)
+                    {
+                        channelOutput.Measurement.AutorangeThresholdMode = stepProperties.AutorangeThresholdMode.Value;
+                    }
+                },
+                "AutorangeThresholdMode",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.AutorangeApertureTimeMode.HasValue)
+                    {
+                        channelOutput.Measurement.AutorangeApertureTimeMode = stepProperties.AutorangeApertureTimeMode.Value;
+                    }
+                },
+                "AutorangeApertureTimeMode",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.AutorangeBehavior.HasValue)
+                    {
+                        channelOutput.Measurement.AutorangeBehavior = stepProperties.AutorangeBehavior.Value;
+                    }
+                },
+                "AutorangeBehavior",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.AutorangeMaximumDelayAfterRangeChange.HasValue)
+                    {
+                        channelOutput.Measurement.AutorangeMaximumDelayAfterRangeChange = stepProperties.AutorangeMaximumDelayAfterRangeChange.Value;
+                    }
+                },
+                "AutorangeMaximumDelayAfterRangeChange",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.AutorangeMinimumApertureTime.HasValue)
+                    {
+                        channelOutput.Measurement.AutorangeMinimumApertureTime = stepProperties.AutorangeMinimumApertureTime.Value;
+                    }
+                },
+                "AutorangeMinimumApertureTime",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.AutorangeMinimumCurrentRange.HasValue)
+                    {
+                        channelOutput.Measurement.AutorangeMinimumCurrentRange = stepProperties.AutorangeMinimumCurrentRange.Value;
+                    }
+                },
+                "AutorangeMinimumCurrentRange",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.AutorangeMinimumVoltageRange.HasValue)
+                    {
+                        channelOutput.Measurement.AutorangeMinimumVoltageRange = stepProperties.AutorangeMinimumVoltageRange.Value;
+                    }
+                },
+                "AutorangeMinimumVoltageRange",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.AutorangeMinimumApertureTimeUnits.HasValue)
+                    {
+                        channelOutput.Measurement.AutorangeMinimumApertureTimeUnits = stepProperties.AutorangeMinimumApertureTimeUnits.Value;
+                    }
+                },
+                "AutorangeMinimumApertureTimeUnits",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.VoltageLimitHigh.HasValue)
+                    {
+                        channelOutput.Source.Voltage.CurrentLimitHigh = stepProperties.VoltageLimitHigh.Value;
+                    }
+                },
+                "CurrentLimitHigh",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.VoltageLimitLow.HasValue)
+                    {
+                        channelOutput.Source.Voltage.CurrentLimitLow = stepProperties.VoltageLimitLow.Value;
+                    }
+                },
+                "CurrentLimitLow",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.VoltageCompensationFrequency.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.Voltage.CompensationFrequency = stepProperties.VoltageCompensationFrequency.Value;
+                    }
+                },
+                "VoltageCompensationFrequency",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.VoltageGainBandwidth.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.Voltage.GainBandwidth = stepProperties.VoltageGainBandwidth.Value;
+                    }
+                },
+                "VoltageGainBandwidth",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.VoltagePoleZeroRatio.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.Voltage.PoleZeroRatio = stepProperties.VoltagePoleZeroRatio.Value;
+                    }
+                },
+                "VoltagePoleZeroRatio",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.CurrentLimitHigh.HasValue)
+                    {
+                        channelOutput.Source.Voltage.CurrentLimitHigh = stepProperties.CurrentLimitHigh.Value;
+                    }
+                },
+                "VoltageLimitHigh",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.CurrentLimitLow.HasValue)
+                    {
+                        channelOutput.Source.Voltage.CurrentLimitLow = stepProperties.CurrentLimitLow.Value;
+                    }
+                },
+                "VoltageLimitLow",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.CurrentCompensationFrequency.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.Current.CompensationFrequency = stepProperties.CurrentCompensationFrequency.Value;
+                    }
+                },
+                "CurrentCompensationFrequency",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.CurrentGainBandwidth.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.Current.GainBandwidth = stepProperties.CurrentGainBandwidth.Value;
+                    }
+                },
+                "CurrentGainBandwidth",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.CurrentPoleZeroRatio.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.Current.PoleZeroRatio = stepProperties.CurrentPoleZeroRatio.Value;
+                    }
+                },
+                "CurrentPoleZeroRatio",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.CurrentLevelRisingSlewRate.HasValue)
+                    {
+                        channelOutput.Source.Current.CurrentLevelRisingSlewRate = stepProperties.CurrentLevelRisingSlewRate.Value;
+                    }
+                },
+                "CurrentLevelRisingSlewRate",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.CurrentLevelFallingSlewRate.HasValue)
+                    {
+                        channelOutput.Source.Current.CurrentLevelFallingSlewRate = stepProperties.CurrentLevelFallingSlewRate.Value;
+                    }
+                },
+                "CurrentLevelFallingSlewRate",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseVoltageLimitHigh.HasValue)
+                    {
+                        channelOutput.Source.PulseCurrent.VoltageLimitHigh = stepProperties.PulseVoltageLimitHigh.Value;
+                    }
+                },
+                "PulseVoltageLimitHigh",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseVoltageLimitLow.HasValue)
+                    {
+                        channelOutput.Source.PulseCurrent.VoltageLimitLow = stepProperties.PulseVoltageLimitLow.Value;
+                    }
+                },
+                "PulseVoltageLimitLow",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseBiasVoltageLimit.HasValue)
+                    {
+                        channelOutput.Source.PulseCurrent.BiasVoltageLimit = stepProperties.PulseBiasVoltageLimit.Value;
+                    }
+                },
+                "PulseBiasVoltageLimit",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseBiasVoltageLimitHigh.HasValue)
+                    {
+                        channelOutput.Source.PulseCurrent.BiasVoltageLimitHigh = stepProperties.PulseBiasVoltageLimitHigh.Value;
+                    }
+                },
+                "PulseBiasVoltageLimitHigh",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseBiasVoltageLimitLow.HasValue)
+                    {
+                        channelOutput.Source.PulseCurrent.BiasVoltageLimitLow = stepProperties.PulseBiasVoltageLimitLow.Value;
+                    }
+                },
+                "PulseBiasVoltageLimitLow",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseCurrentLimitHigh.HasValue)
+                    {
+                        channelOutput.Source.PulseVoltage.CurrentLimitHigh = stepProperties.PulseCurrentLimitHigh.Value;
+                    }
+                },
+                "PulseCurrentLimitHigh",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseCurrentLimitLow.HasValue)
+                    {
+                        channelOutput.Source.PulseVoltage.CurrentLimitLow = stepProperties.PulseCurrentLimitLow.Value;
+                    }
+                },
+                "PulseCurrentLimitLow",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseBiasCurrentLimit.HasValue)
+                    {
+                        channelOutput.Source.PulseVoltage.BiasCurrentLimit = stepProperties.PulseBiasCurrentLimit.Value;
+                    }
+                },
+                "PulseBiasCurrentLimit",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseBiasCurrentLimitHigh.HasValue)
+                    {
+                        channelOutput.Source.PulseVoltage.BiasCurrentLimitHigh = stepProperties.PulseBiasCurrentLimitHigh.Value;
+                    }
+                },
+                "PulseBiasCurrentLimitHigh",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseBiasCurrentLimitLow.HasValue)
+                    {
+                        channelOutput.Source.PulseVoltage.BiasCurrentLimitLow = stepProperties.PulseBiasCurrentLimitLow.Value;
+                    }
+                },
+                "PulseBiasCurrentLimitLow",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseOnTime.HasValue)
+                    {
+                        channelOutput.Source.PulseOnTime = stepProperties.PulseOnTime.Value;
+                    }
+                },
+                "PulseOnTime",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseOffTime.HasValue)
+                    {
+                        channelOutput.Source.PulseOffTime = stepProperties.PulseOffTime.Value;
+                    }
+                },
+                "PulseOffTime",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.PulseBiasDelay.HasValue)
+                    {
+                        channelOutput.Source.PulseBiasDelay = PrecisionTimeSpan.FromSeconds(stepProperties.PulseBiasDelay.Value);
+                    }
+                },
+                "PulseBiasDelay",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.SequenceStepDeltaTime.HasValue)
+                    {
+                        channelOutput.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(stepProperties.SequenceStepDeltaTime.Value);
+                    }
+                },
+                "SequenceStepDeltaTime",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.OutputResistance.HasValue)
+                    {
+                        channelOutput.Source.Output.Resistance = stepProperties.OutputResistance.Value;
+                    }
+                },
+                "OutputResistance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConductionVoltageMode.HasValue)
+                    {
+                        channelOutput.Source.ConductionVoltageMode = stepProperties.ConductionVoltageMode.Value;
+                    }
+                },
+                "ConductionVoltageMode",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConductionVoltageOffThreshold.HasValue)
+                    {
+                        channelOutput.Source.ConductionVoltageOffThreshold = stepProperties.ConductionVoltageOffThreshold.Value;
+                    }
+                },
+                "ConductionVoltageOffThreshold",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConductionVoltageOnThreshold.HasValue)
+                    {
+                        channelOutput.Source.ConductionVoltageOnThreshold = stepProperties.ConductionVoltageOnThreshold.Value;
+                    }
+                },
+                "ConductionVoltageOnThreshold",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantPowerCompensationFrequency.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.ConstantPower.CompensationFrequency = stepProperties.ConstantPowerCompensationFrequency.Value;
+                    }
+                },
+                "ConstantPowerCompensationFrequency",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantPowerCurrentLimit.HasValue)
+                    {
+                        channelOutput.Source.ConstantPower.CurrentLimit = stepProperties.ConstantPowerCurrentLimit.Value;
+                    }
+                },
+                "ConstantPowerCurrentLimit",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantPowerGainBandwidth.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.ConstantPower.GainBandwidth = stepProperties.ConstantPowerGainBandwidth.Value;
+                    }
+                },
+                "ConstantPowerGainBandwidth",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantPowerLevel.HasValue)
+                    {
+                        channelOutput.Source.ConstantPower.Level = stepProperties.ConstantPowerLevel.Value;
+                    }
+                },
+                "ConstantPowerLevel",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantPowerLevelRange.HasValue)
+                    {
+                        channelOutput.Source.ConstantPower.LevelRange = stepProperties.ConstantPowerLevelRange.Value;
+                    }
+                },
+                "ConstantPowerLevelRange",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantPowerPoleZeroRatio.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.ConstantPower.PoleZeroRatio = stepProperties.ConstantPowerPoleZeroRatio.Value;
+                    }
+                },
+                "ConstantPowerPoleZeroRatio",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantResistanceCompensationFrequency.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.ConstantResistance.CompensationFrequency = stepProperties.ConstantResistanceCompensationFrequency.Value;
+                    }
+                },
+                "ConstantResistanceCompensationFrequency",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantResistanceCurrentLimit.HasValue)
+                    {
+                        channelOutput.Source.ConstantResistance.CurrentLimit = stepProperties.ConstantResistanceCurrentLimit.Value;
+                    }
+                },
+                "ConstantResistanceCurrentLimit",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantResistanceGainBandwidth.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.ConstantResistance.GainBandwidth = stepProperties.ConstantResistanceGainBandwidth.Value;
+                    }
+                },
+                "ConstantResistanceGainBandwidth",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantResistanceLevel.HasValue)
+                    {
+                        channelOutput.Source.ConstantResistance.Level = stepProperties.ConstantResistanceLevel.Value;
+                    }
+                },
+                "ConstantResistanceLevel",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantResistanceLevelRange.HasValue)
+                    {
+                        channelOutput.Source.ConstantResistance.LevelRange = stepProperties.ConstantResistanceLevelRange.Value;
+                    }
+                },
+                "ConstantResistanceLevelRange",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.ConstantResistancePoleZeroRatio.HasValue)
+                    {
+                        channelOutput.Source.CustomTransientResponse.ConstantResistance.PoleZeroRatio = stepProperties.ConstantResistancePoleZeroRatio.Value;
+                    }
+                },
+                "ConstantResistancePoleZeroRatio",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.OutputShorted.HasValue)
+                    {
+                        channelOutput.Source.OutputShorted = stepProperties.OutputShorted.Value;
+                    }
+                },
+                "OutputShorted",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrActualLoadReactance.HasValue)
+                    {
+                        channelOutput.LCR.Compensation.ActualLoadReactance = stepProperties.LcrActualLoadReactance.Value;
+                    }
+                },
+                "LcrActualLoadReactance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrActualLoadResistance.HasValue)
+                    {
+                        channelOutput.LCR.Compensation.ActualLoadResistance = stepProperties.LcrActualLoadResistance.Value;
+                    }
+                },
+                "LcrActualLoadResistance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrCurrentRange.HasValue)
+                    {
+                        channelOutput.LCR.Advanced.CurrentRange = stepProperties.LcrCurrentRange.Value;
+                    }
+                },
+                "LcrCurrentRange",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrDcBiasCurrentRange.HasValue)
+                    {
+                        channelOutput.LCR.Advanced.DCBiasCurrentRange = stepProperties.LcrDcBiasCurrentRange.Value;
+                    }
+                },
+                "LcrDcBiasCurrentRange",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrDcBiasTransientResponse.HasValue)
+                    {
+                        channelOutput.LCR.Advanced.DCBiasTransientResponse = stepProperties.LcrDcBiasTransientResponse.Value;
+                    }
+                },
+                "LcrDcBiasTransientResponse",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrDcBiasVoltageRange.HasValue)
+                    {
+                        channelOutput.LCR.Advanced.DCBiasVoltageRange = stepProperties.LcrDcBiasVoltageRange.Value;
+                    }
+                },
+                "LcrDcBiasVoltageRange",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrImpedanceAutoRange.HasValue)
+                    {
+                        channelOutput.LCR.ImpedanceAutoRange = stepProperties.LcrImpedanceAutoRange.Value;
+                    }
+                },
+                "LcrImpedanceAutoRange",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrLoadCapacitance.HasValue)
+                    {
+                        channelOutput.LCR.LoadCapacitance = stepProperties.LcrLoadCapacitance.Value;
+                    }
+                },
+                "LcrLoadCapacitance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrLoadInductance.HasValue)
+                    {
+                        channelOutput.LCR.LoadInductance = stepProperties.LcrLoadInductance.Value;
+                    }
+                },
+                "LcrLoadInductance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrLoadResistance.HasValue)
+                    {
+                        channelOutput.LCR.LoadResistance = stepProperties.LcrLoadResistance.Value;
+                    }
+                },
+                "LcrLoadResistance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrMeasuredLoadReactance.HasValue)
+                    {
+                        channelOutput.LCR.Compensation.MeasuredLoadReactance = stepProperties.LcrMeasuredLoadReactance.Value;
+                    }
+                },
+                "LcrMeasuredLoadReactance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrMeasuredLoadResistance.HasValue)
+                    {
+                        channelOutput.LCR.Compensation.MeasuredLoadResistance = stepProperties.LcrMeasuredLoadResistance.Value;
+                    }
+                },
+                "LcrMeasuredLoadResistance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrOpenConductance.HasValue)
+                    {
+                        channelOutput.LCR.Compensation.OpenConductance = stepProperties.LcrOpenConductance.Value;
+                    }
+                },
+                "LcrOpenConductance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrOpenSusceptance.HasValue)
+                    {
+                        channelOutput.LCR.Compensation.OpenSusceptance = stepProperties.LcrOpenSusceptance.Value;
+                    }
+                },
+                "LcrOpenSusceptance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrShortReactance.HasValue)
+                    {
+                        channelOutput.LCR.Compensation.ShortReactance = stepProperties.LcrShortReactance.Value;
+                    }
+                },
+                "LcrShortReactance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrShortResistance.HasValue)
+                    {
+                        channelOutput.LCR.Compensation.ShortResistance = stepProperties.LcrShortResistance.Value;
+                    }
+                },
+                "LcrShortResistance",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrSourceDelayMode.HasValue)
+                    {
+                        channelOutput.LCR.SourceDelayMode = stepProperties.LcrSourceDelayMode.Value;
+                    }
+                },
+                "LcrSourceDelayMode",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.LcrVoltageRange.HasValue)
+                    {
+                        channelOutput.LCR.Advanced.VoltageRange = stepProperties.LcrVoltageRange.Value;
+                    }
+                },
+                "LcrVoltageRange",
+                modelString);
+
+            TrySetProperty(
+                () =>
+                {
+                    if (stepProperties.InstrumentMode.HasValue)
+                    {
+                        channelOutput.InstrumentMode = stepProperties.InstrumentMode.Value;
+                    }
+                },
+                "InstrumentMode",
+                modelString);
         }
 
         /// <summary>
@@ -933,7 +1846,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 setPropertyAction();
             }
-            catch (Exception ex) when (ex is Ivi.Driver.IviCDriverException || ex is NotSupportedException)
+            catch (Exception ex) when (ex is Ivi.Driver.IviCDriverException)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPowerDeviceNotSupported, propertyName, modelString));
             }
