@@ -1,9 +1,5 @@
 ﻿using System.Linq;
 using System.Reflection;
-using NationalInstruments.DAQmx;
-using NationalInstruments.ModularInstruments.NIDCPower;
-using NationalInstruments.ModularInstruments.NIDmm;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.TestStandSteps;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
@@ -140,7 +136,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetDutDutPowerUpWithParameters_HasCorrectSignature()
+        public void GetDutPowerUpWithParameters_HasCorrectSignature()
         {
             var classType = typeof(CommonSteps);
             var parameterTypes = new[]
@@ -171,7 +167,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetAllDutDutPowerUpOverloads_HasSingleOverload()
+        public void GetAllDutPowerUpOverloads_HasSingleOverload()
         {
             var classType = typeof(CommonSteps);
             var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "DutPowerUp");
