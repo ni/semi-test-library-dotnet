@@ -54,5 +54,129 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
 
             Assert.Single(overloads);
         }
+
+        [Fact]
+        public void GetContinuityTestWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(CommonSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(string[]),
+                typeof(double[]),
+                typeof(string[]),
+                typeof(double[]),
+                typeof(double[]),
+                typeof(double[]),
+                typeof(double),
+                typeof(double)
+            };
+            var method = classType.GetMethod(
+                "ContinuityTest",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertParameter(parameters[1], "supplyPinsOrPinGroups", false);
+            AssertParameter(parameters[2], "currentLimitsPerSupplyPinOrPinGroup", false);
+            AssertParameter(parameters[3], "continuityPinsOrPinGroups", false);
+            AssertParameter(parameters[4], "currentLevelPerContinuityPinOrPinGroup", false);
+            AssertParameter(parameters[5], "voltageLimitHighPerContinuityPinOrPinGroup", false);
+            AssertParameter(parameters[6], "voltageLimitLowPerContinuityPinOrPinGroup", false);
+            AssertParameter(parameters[7], "apertureTime", false);
+            AssertParameter(parameters[8], "settlingTime", false);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllContinuityTestOverloads_HasSingleOverload()
+        {
+            var classType = typeof(CommonSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "ContinuityTest");
+
+            Assert.Single(overloads);
+        }
+
+        [Fact]
+        public void GetDutPowerDownWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(CommonSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(string[]),
+                typeof(double),
+                typeof(bool),
+                typeof(bool)
+            };
+            var method = classType.GetMethod(
+                "DutPowerDown",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertParameter(parameters[1], "dutSupplyPinsOrPinGroups", false);
+            AssertDoubleParameter(parameters[2], "settlingTime", true, 0);
+            AssertBoolParameter(parameters[3], "powerDownSuppliesSerially", true, false);
+            AssertBoolParameter(parameters[4], "forceLowestCurrentLimit", true, true);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllDutPowerDownOverloads_HasSingleOverload()
+        {
+            var classType = typeof(CommonSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "DutPowerDown");
+
+            Assert.Single(overloads);
+        }
+
+        [Fact]
+        public void GetDutDutPowerUpWithParameters_HasCorrectSignature()
+        {
+            var classType = typeof(CommonSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(string[]),
+                typeof(double[]),
+                typeof(double[]),
+                typeof(double),
+                typeof(bool)
+            };
+            var method = classType.GetMethod(
+                "DutPowerUp",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertParameter(parameters[1], "dutSupplyPinsOrPinGroups", false);
+            AssertParameter(parameters[2], "perSupplyPinOrPinGroupVoltages", false);
+            AssertParameter(parameters[3], "perSupplyPinOrPinGroupCurrentLimits", false);
+            AssertDoubleParameter(parameters[4], "settlingTime", true, 0);
+            AssertBoolParameter(parameters[5], "powerUpSuppliesSerially", true, false);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllDutDutPowerUpOverloads_HasSingleOverload()
+        {
+            var classType = typeof(CommonSteps);
+            var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "DutPowerUp");
+
+            Assert.Single(overloads);
+        }
     }
 }
