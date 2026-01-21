@@ -14,6 +14,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 {
     [Collection("NonParallelizable")]
     [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public sealed class AnalogOutputTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
@@ -148,7 +149,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             tasksBundle.WriteAnalogWaveform(data, autoStart);
         }
 
-        [Fact(Skip = "Fails without the fix in Abstractions.")]
+        [Fact]
         public void PinMapWithMismatchChannelListOrder_WriteSucceeds()
         {
             var sessionManager = Initialize("DAQmxChannelListOrderTests.pinmap");
