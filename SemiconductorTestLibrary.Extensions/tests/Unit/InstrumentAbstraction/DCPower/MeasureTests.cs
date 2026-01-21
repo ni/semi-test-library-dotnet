@@ -830,6 +830,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
         }
 
+        [Theory]
+        [InlineData("AllPinsGangedGroup")]
+        [InlineData("TwoPinsGangedGroup")]
+        [InlineData("ThreePinsGangedGroup")]
+        public void GangPinGroupAndForceCurrent_MeasureCurrent_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
+
+            var results = sessionsBundle.MeasureCurrent();
+
+            sessionsBundle.UngangPinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, leaderPin);
+        }
+
         private int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.AggregateSitePinList
@@ -863,15 +877,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             return sessionsBundle;
         }
 
-        private DCPowerSessionsBundle GangAndForceCurrent(string pinGroupName)
+        private DCPowerSessionsBundle GangAndForceCurrent(string pinGroupName, out string leaderPin)
         {
             _tsmContext = CreateTSMContext("SMUGangPinGroup_SessionPerChannel.pinmap");
             InitializeAndClose.Initialize(_tsmContext);
             var sessionManager = new TSMSessionManager(_tsmContext);
             var sessionsBundle = sessionManager.DCPower(pinGroupName);
+            leaderPin = sessionsBundle.AggregateSitePinList.First().PinName;
             sessionsBundle.GangPinGroup(pinGroupName);
             sessionsBundle.ConfigureSourceDelay(0);
-            sessionsBundle.ConfigureSourceSettings(new DCPowerSourceSettings { Level = 5, OutputFunction = DCPowerSourceOutputFunction.DCCurrent });
+            // sessionsBundle.ConfigureSourceSettings(new DCPowerSourceSettings { Level = 5, OutputFunction = DCPowerSourceOutputFunction.DCVoltage });
+            sessionsBundle.ForceCurrent(currentLevel: 3, waitForSourceCompletion: true);
             return sessionsBundle;
         }
 
