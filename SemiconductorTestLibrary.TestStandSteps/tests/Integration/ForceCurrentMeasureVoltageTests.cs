@@ -30,7 +30,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             ForceCurrentMeasureVoltage(
                 tsmContext,
                 pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
-                currentLevel: 0.005,
+                currentLevel: 5,
                 voltageLimit: 3.3,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
@@ -61,7 +61,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             ForceCurrentMeasureVoltage(
                 tsmContext,
                 pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
-                currentLevel: 0.005,
+                currentLevel: 5,
                 voltageLimit: 1.3,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
@@ -92,7 +92,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             ForceCurrentMeasureVoltage(
                 tsmContext,
                 pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
-                currentLevel: 0.005,
+                currentLevel: 5,
                 voltageLimit: -1.3,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
@@ -123,7 +123,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             ForceCurrentMeasureVoltage(
                 tsmContext,
                 pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
-                currentLevel: 0.005,
+                currentLevel: 5,
                 voltageLimit: -3.3,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
@@ -153,7 +153,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             void ForceCurrentMeasureVoltageMethod() => ForceCurrentMeasureVoltage(
                 tsmContext,
                 pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
-                currentLevel: 0.005,
+                currentLevel: 5,
                 voltageLimit: 8,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
@@ -179,7 +179,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             ForceCurrentMeasureVoltage(
                 tsmContext,
                 pinsOrPinGroups: new[] { "MergedPowerPins" },
-                currentLevel: 0.005,
+                currentLevel: 5,
                 voltageLimit: 3.3,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);

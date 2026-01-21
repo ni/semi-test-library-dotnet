@@ -11,6 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class CommonSteps
     {
+        // TODO: Testcase:10 Adding new required paramter.
         /// <summary>
         /// Performs a single leakage measurement using the following test method:
         /// 1. The test first configures the instruments connected to the specified pins and ensures they are forcing 0V.
@@ -33,6 +34,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="currentLimit">The current limit in Amperes.</param>
         /// <param name="apertureTime">The measurement aperture time in seconds.</param>
         /// <param name="settlingTime">The amount of time to wait before measuring the current, in seconds.</param>
+        /// <param name="newRequiredParameter">The amount of time to wait before measuring the current, in seconds.</param>
         /// <param name="serialOperationEnabled">Whether to enforce testing sequentially across pins or pin groups.</param>
         public static void LeakageTest(
             ISemiconductorModuleContext tsmContext,
@@ -41,6 +43,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             double currentLimit,
             double apertureTime,
             double settlingTime,
+            double newRequiredParameter,
             bool serialOperationEnabled = false)
         {
             try

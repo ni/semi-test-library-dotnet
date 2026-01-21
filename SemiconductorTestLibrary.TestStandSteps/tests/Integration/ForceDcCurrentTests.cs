@@ -28,8 +28,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 tsmContext,
                 pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
                 currentLevel: 0.005,
-                voltageLimit: 1.3,
-                settlingTime: 5e-5);
+                voltageLimit: 1.3);
 
             var dcPower = new TSMSessionManager(tsmContext).DCPower("VCC1");
             dcPower.Do(sessionInfo =>
@@ -56,8 +55,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 tsmContext,
                 pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
                 currentLevel: 0.005,
-                voltageLimit: 3.3,
-                settlingTime: 5e-5);
+                voltageLimit: 3.3);
 
             var dcPower = new TSMSessionManager(tsmContext).DCPower("VCC1");
             dcPower.Do(sessionInfo =>
@@ -84,8 +82,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 tsmContext,
                 pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
                 currentLevel: 0.005,
-                voltageLimit: -1.3,
-                settlingTime: 5e-5);
+                voltageLimit: -1.3);
 
             var dcPower = new TSMSessionManager(tsmContext).DCPower("VCC1");
             dcPower.Do(sessionInfo =>
@@ -112,8 +109,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 tsmContext,
                 pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
                 currentLevel: 0.005,
-                voltageLimit: -3.3,
-                settlingTime: 5e-5);
+                voltageLimit: -3.3);
 
             var dcPower = new TSMSessionManager(tsmContext).DCPower("VCC1");
             dcPower.Do(sessionInfo =>
@@ -139,8 +135,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 tsmContext,
                 pinsOrPinGroups: new[] { "VCC1", "DigitalPins" },
                 currentLevel: 0.005,
-                voltageLimit: 8,
-                settlingTime: 5e-5);
+                voltageLimit: 8);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceDcCurrentMethod);
             Assert.Contains("An exception occurred while processing pins/sites:", exception.Message);

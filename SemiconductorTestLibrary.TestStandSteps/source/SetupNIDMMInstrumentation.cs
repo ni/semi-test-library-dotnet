@@ -10,6 +10,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class SetupAndCleanupSteps
     {
+        // TODO: Testcase:15 Updating Default value of Double type.
         /// <summary>
         /// Initializes NI DMM instrument sessions associated with the pin map.
         /// If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset as the session is initialized (default = False).
@@ -32,7 +33,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             DmmApertureTimeUnits apertureTimeUnits = DmmApertureTimeUnits.PowerLineCycles,
             double apertureTime = 1,
             double settleTime = 0.01,
-            double powerLineFrequency = -1,
+            double powerLineFrequency = 1,
             DMMMeasurementSettings? initialMeasurmentSettings = null)
         {
             try

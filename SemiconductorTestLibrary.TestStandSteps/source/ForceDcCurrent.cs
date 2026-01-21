@@ -11,6 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class CommonSteps
     {
+        /// TODO: Testcase:7 Removing optional parameter.
         /// <summary>
         /// Forces the specified DC current on all pins and/or pin groups specified. Both DCPower and Digital PPMU pins are supported.
         /// If a value is provided to the settlingTimeInSeconds input, the method will wait the specified amount of settling time before continuing.
@@ -23,13 +24,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="pinsOrPinGroups">The pins or pin groups to force DC voltage on.</param>
         /// <param name="currentLevel">The DC current level to force, in amperes.</param>
         /// <param name="voltageLimit">The voltage limit in volts.</param>
-        /// <param name="settlingTime">The amount of time to wait before continuing, in seconds.</param>
         public static void ForceDcCurrent(
             ISemiconductorModuleContext tsmContext,
             string[] pinsOrPinGroups,
             double currentLevel,
-            double voltageLimit,
-            double settlingTime = 0)
+            double voltageLimit)
         {
             try
             {
@@ -43,7 +42,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         {
                             var dcPower = sessionManager.DCPower(dcPowerPins);
                             var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
-                            dcPower.ConfigureSourceDelay(settlingTime);
+                            // dcPower.ConfigureSourceDelay(settlingTime);
                             dcPower.ForceCurrent(currentLevel, absoluteValueOfVoltageLimit);
                             dcPower.ConfigureSourceDelay(originalSourceDelays);
                         }
@@ -55,7 +54,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         {
                             var digital = sessionManager.Digital(digitalPins);
                             digital.ForceCurrent(currentLevel, voltageLimitLow: Math.Max(-2, -absoluteValueOfVoltageLimit), voltageLimitHigh: absoluteValueOfVoltageLimit);
-                            PreciseWait(settlingTime);
+                            // PreciseWait(settlingTime);
                         }
                     });
             }

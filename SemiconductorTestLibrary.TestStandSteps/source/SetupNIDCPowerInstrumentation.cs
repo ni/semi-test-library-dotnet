@@ -10,6 +10,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class SetupAndCleanupSteps
     {
+        // TODO: Testcase:13 Updating Default value of Bool type.
         /// <summary>
         /// Initializes the NI DCPower instrument sessions associated with the pin map.
         /// If the <paramref name="resetDevice"/> input is set to True, then the instrument will be reset as the session is initialized (default = False).
@@ -30,7 +31,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="powerLineFrequency">The power line frequency.</param>
         public static void SetupNIDCPowerInstrumentation(
             ISemiconductorModuleContext tsmContext,
-            bool resetDevice = false,
+            bool resetDevice = true,
             double apertureTime = 1,
             DCPowerMeasureApertureTimeUnits apertureTimeUnits = DCPowerMeasureApertureTimeUnits.PowerLineCycles,
             DCPowerMeasurementWhen measureWhen = DCPowerMeasurementWhen.OnDemand,
