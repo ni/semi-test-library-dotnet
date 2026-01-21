@@ -74,6 +74,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
             Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
         }
 
+        internal static void AssertIntParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, int expectedDefaultValue)
+        {
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+            Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
+        }
+
         internal static void AssertStringParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, string expectedDefaultValue)
         {
             Assert.Equal(expectedName, parameterInfo.Name);
