@@ -863,6 +863,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             return sessionsBundle;
         }
 
+        private DCPowerSessionsBundle GangAndForceCurrent(string pinGroupName)
+        {
+            _tsmContext = CreateTSMContext("SMUGangPinGroup_SessionPerChannel.pinmap");
+            InitializeAndClose.Initialize(_tsmContext);
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            var sessionsBundle = sessionManager.DCPower(pinGroupName);
+            sessionsBundle.GangPinGroup(pinGroupName);
+            sessionsBundle.ConfigureSourceDelay(0);
+            sessionsBundle.ConfigureSourceSettings(new DCPowerSourceSettings { Level = 5, OutputFunction = DCPowerSourceOutputFunction.DCCurrent });
+            return sessionsBundle;
+        }
+
         private void AssertResultAssociatedWithPinGroupName(PinSiteData<double> results, string pinGroup, string primaryPin)
         {
             foreach (var siteNumber in results.SiteNumbers)
