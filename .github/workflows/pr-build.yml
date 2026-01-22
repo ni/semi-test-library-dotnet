@@ -94,14 +94,14 @@ jobs:
             PROJECT="DevCentral"
             PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
 
-            TIMEOUT=1200   # 20 minutes
-            INTERVAL=30    # check every 30 seconds
+            TIMEOUT=10800   # 3 hour
+            INTERVAL=240    # 4 minutes
             ELAPSED=0
             STATUS="inProgress"
 
             while [ "$STATUS" = "inProgress" ] || [ "$STATUS" = "notStarted" ]; do
               if [[ "$ELAPSED" -ge "$TIMEOUT" ]]; then
-                echo "::error ::Timeout reached after 20 minutes while waiting for Azure DevOps pipeline to complete."
+                echo "::error ::Timeout reached after 3 hours while waiting for Azure DevOps pipeline to complete."
                 exit 1
               fi
 
