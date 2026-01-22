@@ -82,4 +82,6 @@ jobs:
             fi
 
             PIPELINE_URL="https://dev.azure.com/$ORG/$PROJECT/_build/results?buildId=$BUILD_ID"
-            echo "Azure DevOps Pre Build pipeline triggered. Build ID: $BUILD_ID"
+            echo "Azure DevOps pipeline triggered: $PIPELINE_URL"
+
+            echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT

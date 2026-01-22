@@ -66,3 +66,39 @@ jobs:
 
             PIPELINE_URL="https://dev.azure.com/$ORG/$PROJECT/_build/results?buildId=$BUILD_ID"
             echo "Azure DevOps pipeline triggered: $PIPELINE_URL"
+
+            echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+
+        - name: Wait for Pipeline to Complete
+          id: wait_pipeline
+          run: |
+            BUILD_ID="${{ steps.trigger_pipeline.outputs.build_id }}"
+            ORG="ni"
+            PROJECT="DevCentral"
+            PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
+
+            TIMEOUT=1200   # 20 minutes
+            INTERVAL=30    # check every 30 seconds
+            ELAPSED=0
+            STATUS="inProgress"
+
+            while [ "$STATUS" = "inProgress" ] || [ "$STATUS" = "notStarted" ]; do
+              if [[ "$ELAPSED" -ge "$TIMEOUT" ]]; then
+                echo "::error ::Timeout reached after 20 minutes while waiting for Azure DevOps pipeline to complete."
+                exit 1
+              fi
+
+              RESPONSE=$(curl -sS -u ":$PAT" \
+                "https://dev.azure.com/$ORG/$PROJECT/_apis/build/builds/$BUILD_ID?api-version=6.0")
+              STATUS=$(echo "$RESPONSE" | jq -r '.status')
+              echo "Current build status: $STATUS"
+
+              sleep $INTERVAL
+              ELAPSED=$((ELAPSED + INTERVAL))
+            done
+
+            RESULT=$(echo "$RESPONSE" | jq -r '.result')
+            echo "Build result: $RESULT"
+            if [ "$RESULT" != "succeeded" ]; then
+              exit 1
+            fi
