@@ -79,6 +79,47 @@
             </summary>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown if any exceptions have been collected.</exception>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo">
+            <summary>
+            Defines an object that contains the ganging information for an individual pin per site.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.IsFollower">
+            <summary>
+            Gets a value indicating whether the channel is a follower channel in a ganged group.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.ChannelsCount">
+            <summary>
+            Number of pins or channels in ganged pin group.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.SourceTriggerName">
+            <summary>
+            Name of the trigger line to use for the synchronization of outputs.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.MeasureTriggerName">
+            <summary>
+            Name of the trigger line to use for the synchronization of measurements.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Int32)">
+            <summary>
+            Constructs a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo"/> object for a leader channel.
+            </summary>
+            <param name="groupName">Name of the pin group to be ganged.</param>
+            <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Int32,System.String,System.String)">
+            <summary>
+            Constructs a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo"/> object for a follower channel.
+            </summary>
+            <param name="groupName">Name of the pin group to be ganged.</param>
+            <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
+            <param name="sourceTriggerName">Name of the trigger line to use for the synchronization of outputs.</param>
+            <param name="measureTriggerName">Name of the trigger line to use for the synchronization of measurements.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo">
             <summary>
             Defines an object that contains the merging information for an individual pin per site.
@@ -136,6 +177,24 @@
             <summary>
             Defines utility methods for handling parallel execution.
             </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.PinSiteResultsFilling`1">
+            <summary>
+            Represents a method that processes a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> and updates a shared results dictionary.
+            </summary>
+            <typeparam name="T">The type of the result object to be stored in the results dictionary.</typeparam>
+            <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.</param>
+            <param name="pinSiteResults">A dictionary where the key is pin name and the value is another dictionary with site numbers as keys and values of type T. This dictionary is updated by the delegate to store the processed results.</param>
+            <param name="result">Resulting value of any type of operation done and to be added to the <paramref name="pinSiteResults"/> dictionary.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.SitePinResultsFilling`1">
+            <summary>
+            Represents a method that processes a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> and updates a shared results dictionary.
+            </summary>
+            <typeparam name="T">The type of the result object to be stored in the results dictionary.</typeparam>
+            <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.</param>
+            <param name="sitePinResults">A dictionary where the key is site number and the value is another dictionary with pin names as keys and values of type T. This dictionary is updated by the delegate to store the processed results.</param>
+            <param name="result">Resulting value of any type of operation done and to be added to the <paramref name="sitePinResults"/> dictionary.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0},System.String)">
             <summary>
@@ -207,7 +266,7 @@
             <param name="caseDescription">An optional description of the function being performed.</param>
             <returns>Two arrays of the operation results for all sessions.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[]},System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[]},System.String,NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.PinSiteResultsFilling{``1})">
             <summary>
             Does an operation on all sessions in parallel with the same inputs and returns per-site per-pin results.
             </summary>
@@ -216,10 +275,11 @@
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info.</param>
             <param name="caseDescription">An optional description of the function being performed.</param>
+            <param name="customPinSiteResultsFilling">The custom logic for filling results dictionary.</param>
             <returns>The per-site per-pin results of the operation.</returns>
             <remarks>The output parameter of the <paramref name="function"/> is the <b>per-instrument all channels</b> result.</remarks>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1},System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,``1},System.String,NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.PinSiteResultsFilling{``1})">
             <summary>
             Does an operation on all sessions and channels in parallel and returns per-site per-pin results.
             </summary>
@@ -228,10 +288,11 @@
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info. The second parameter is the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> associated with a single channel.</param>
             <param name="caseDescription">An optional description of the function being performed.</param>
+            <param name="customPinSiteResultsFilling">The custom logic for filling pin site results dictionary.</param>
             <returns>The per-site per-pin results of the operation.</returns>
             <remarks>The output parameter of the <paramref name="function"/> is the <b>per-instrument per channel</b> result.</remarks>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``3(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{``1[],``2[]}},System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``3(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Tuple{``1[],``2[]}},System.String,NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.PinSiteResultsFilling{``1},NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.PinSiteResultsFilling{``2})">
             <summary>
             Does an operation on all sessions in parallel with the same inputs and returns per-site per-pin results.
             </summary>
@@ -241,10 +302,12 @@
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info.</param>
             <param name="caseDescription">An optional description of the function being performed.</param>
+            <param name="customPinSiteResultsFilling1">The custom logic for filling pin site results dictionary for first array item.</param>
+            <param name="customPinSiteResultsFilling2">The custom logic for filling pin site results dictionary for second array item.</param>
             <returns>The per-site per-pin results of the operation.</returns>
             <remarks>The output parameter of the <paramref name="function"/> is the <b>per-instrument all channels</b> result.</remarks>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[0:,0:]},System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,``1[0:,0:]},System.String,NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.PinSiteResultsFilling{``1[]})">
             <summary>
             Does an operation on all sessions in parallel with the same inputs and returns per-site per-pin results.
             </summary>
@@ -253,10 +316,11 @@
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info.</param>
             <param name="caseDescription">An optional description of the function being performed.</param>
+            <param name="customPinSiteResultsFilling"> The custom logic for filling pin site results dictionary.</param>
             <returns>The per-site per-pin results of the operation.</returns>
             <remarks>The output parameter of the <paramref name="function"/> is the <b>per-instrument all channels</b> result.</remarks>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Int32,``1[]},System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndReturnPerSitePerPinResults``2(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Int32,``1[]},System.String,NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.PinSiteResultsFilling{``1})">
             <summary>
             Does an operation on all sessions in parallel with the same inputs and returns per-site per-pin results.
             </summary>
@@ -265,6 +329,7 @@
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info. The second parameter is the session index. The output parameter is the per-instrument result.</param>
             <param name="caseDescription">An optional description of the action being performed.</param>
+            <param name="customPinSiteResultsFilling">The custom logic for filling pin site results dictionary.</param>
             <returns>The per-site per-pin results of the operation.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Double},System.String,System.String)">
@@ -517,22 +582,24 @@
             </summary>
             <param name="actions">The methods to invoke in parallel.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPerSitePerPinResults``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][],NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.SitePinResultsFilling{``0})">
             <summary>
             Converts per-instrument per-channel results to per-site per-pin results.
             </summary>
             <typeparam name="T">The type of the per-instrument per-channel result.</typeparam>
             <param name="allSessionInfo">An enumerable of session info.</param>
             <param name="perInstrumentPerChannelResults">The per-instrument per-channel results to convert.</param>
+            <param name="customSitePinResultsFilling">The custom logic for filling site pin results dictionary.</param>
             <returns>The converted per-site per-pin results.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][])">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.PerInstrumentPerChannelResultsToPinSiteData``1(System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionInformation},``0[][],NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.PinSiteResultsFilling{``0})">
             <summary>
             Converts per-instrument per-channel results to PinSiteData.
             </summary>
             <typeparam name="T">The type of the per-instrument per-channel result.</typeparam>
             <param name="allSessionInfo">An enumerable of session info.</param>
             <param name="perInstrumentPerChannelResults">The per-instrument per-channel results to convert.</param>
+            <param name="customPinSiteResultsFilling">The custom logic for filling pin site results dictionary.</param>
             <returns>The converted PinSiteData.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.ToJaggedArray``1(``0[0:,0:])">
@@ -570,6 +637,31 @@
             <param name="pins">The filtered pins.</param>
             <param name="pinIndexes">The index of each of the filtered pins in the input pins or pin groups array.</param>
             <param name="pinsFlattened">The filtered pins in flattened format.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.IsFollowerOfGangedChannels(NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo)">
+            <summary>
+            Checks if the cascading info represents a follower channel in ganged channels.
+            </summary>
+            <param name="cascadingInfo">Cascading information.</param>
+            <returns>True if the cascadingInfo represtents ganging follower channel.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.VoltageOrCurrentPinSiteResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,``0}},``0)">
+            <summary>
+            Associates a pin site result with a pin or pin group name in the provided pin site results dictionary.
+            </summary>
+            <typeparam name="T">The type of the result to associate.</typeparam>
+            <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object containing pin and site information.</param>
+            <param name="pinSiteResults">The dictionary to update with the result, where the key is the pin or pin group name and the value is a dictionary mapping site numbers to results.</param>
+            <param name="result">The result to associate with the pin site.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.VoltageOrCurrentSitePinResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.Int32,System.Collections.Generic.IDictionary{System.String,``0}},``0)">
+            <summary>
+            Associates a site pin result with a pin or pin group name in the provided site pin results dictionary.
+            </summary>
+            <typeparam name="T">The type of the result to associate.</typeparam>
+            <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object containing pin and site information.</param>
+            <param name="sitePinResults">The dictionary to update with the result, where the key is the site number and the value is a dictionary mapping pin or pin group names to results.</param>
+            <param name="result">The result to associate with the site pin.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType">
             <summary>
@@ -3120,6 +3212,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.AssociatedSitePinList">
             <inheritdoc/>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.HasGangedChannels">
+            <summary>
+            Gets a value indicating whether the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/> contains any ganged channels.
+            </summary>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDCPower.NIDCPower,System.String)">
             <summary>
             Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> instrument session.
@@ -3149,9 +3246,43 @@
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.BuildTerminalName(System.String,System.String)">
+            <summary>
+            Builds the terminal name for the specified trigger or event type.
+            </summary>
+            <param name="channelString">The channel string.</param>
+            <param name="triggerOrEventTypeName">The trigger or event type.</param>
+            <returns>The built terminal name.</returns>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle">
             <summary>
             Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/> objects.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType">
+            <summary>
+            Specifies the type of cascading action to perform in an operation that supports merging or ganging
+            entities.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Merge">
+            <summary>
+            Performs merge operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Unmerge">
+            <summary>
+            Performs unmerge operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Gang">
+            <summary>
+            Performs gang operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Ungang">
+            <summary>
+            Performs ungang operation.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.TSMContext">
@@ -3162,6 +3293,11 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.AggregateSitePinList">
             <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.HasGangedChannels">
+            <summary>
+            Gets a value indicating whether the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> contains any ganged channels.
+            </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation})">
             <summary>
@@ -3221,6 +3357,30 @@
             Unmerges the channels that are part of the connections in specified pin group.
             </summary>
             <param name="mergedChannelsPinGroupName">Pin Group that is to be unmerged.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.GangPinGroup(System.String[])">
+            <summary>
+            Performs the ganging operation on all the pin groups specified.
+            </summary>
+            <param name="gangedChannelsPinGroupNames">Pin Groups that are to be ganged.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UngangPinGroup(System.String[])">
+            <summary>
+            Performs the unganging operation on all the pin groups specified.
+            </summary>
+            <param name="gangedChannelsPinGroupNames">Pin Groups that are to be unganged.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.GangPinGroup(System.String)">
+            <summary>
+            Gangs the channels that are part of the specified pin group on all sites in the bundle.
+            </summary>
+            <param name="gangedChannelsPinGroupName">Pin Groups that are to be ganged.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UngangPinGroup(System.String)">
+            <summary>
+            Ungangs the channels that are part of the connections in specified pin group on all sites in the bundle.
+            </summary>
+            <param name="gangedChannelsPinGroupName">Pin Groups that are to be ganged.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose">
             <summary>
@@ -4475,9 +4635,9 @@
               Looks up a localized string similar to Detected a mismatch in PXI module. All pins in the merged pin group must be connected to the same PXI module for each site.
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_MissingMergePinInBundle">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_MissingCascadePinInBundle">
             <summary>
-              Looks up a localized string similar to Pin(s) {0} from the merged pin group &quot;{1}&quot; is/are not present in the DCPower bundle. Ensure that all pins required for merging and unmerging are included in the DCPower bundle..
+              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are not present in the DCPower bundle. Ensure that all pins required for cascading or uncascading are included in the DCPower bundle..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_NotUsingChannelGroups">
@@ -4485,14 +4645,14 @@
               Looks up a localized string similar to Convert DCPower instruments to use channel groups in the pinmap..
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupAlreadyMerged">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupAlreadyCascaded">
             <summary>
-              Looks up a localized string similar to Unmerge PinGroup &quot;{0}&quot; first, before trying to merge PinGroup &quot;{1}&quot;..
+              Looks up a localized string similar to Uncascade PinGroup &quot;{0}&quot; first, before trying to cascade PinGroup &quot;{1}&quot;..
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupNotMerged">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupNotCascaded">
             <summary>
-              Looks up a localized string similar to PinGroup &quot;{0}&quot; is not merged. Unmerge operation is invalid. .
+              Looks up a localized string similar to PinGroup &quot;{0}&quot; is not cascaded. Uncascade operation is invalid. .
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_InvalidTSMContext">
