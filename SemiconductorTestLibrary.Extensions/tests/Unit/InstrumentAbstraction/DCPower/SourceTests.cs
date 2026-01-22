@@ -1592,7 +1592,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ClearAdvancedSequences_ActiveSequencesCleared(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevicesAndConfigureAdvanceSequence_ClearAdvancedSequences_ActiveSequencesCleared(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -1620,7 +1620,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_DeleteAdvancedSequences_SequenceDeletedSuccessfully(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevicesAndConfigureAdvanceSequence_DeleteAdvancedSequences_SequenceDeletedSuccessfully(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -1648,7 +1648,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ClearThenDeleteAdvancedSequence_SequenceDeletedSuccessfully(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevicesAndConfigureAdvanceSequence_ClearThenDeleteAdvancedSequence_SequenceDeletedSuccessfully(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -1677,7 +1677,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_DeleteMultipleAdvancedSequences_AllSequencesDeleted(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevicesAndConfigureMultipleAdvanceSequenceAsInactive_DeleteMultipleAdvancedSequences_AllSequencesDeleted(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
