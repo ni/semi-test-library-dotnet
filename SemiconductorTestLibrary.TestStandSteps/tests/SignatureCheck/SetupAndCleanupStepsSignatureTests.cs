@@ -316,12 +316,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetAllSetupNIDigitalPatternInstrumentationOverloads_HasSingleOverload()
+        public void GetAllSetupNIDigitalPatternInstrumentationOverloads_HasExpectedOverloadCount()
         {
+            int expectedOverloadCount = 3;
             var classType = typeof(SetupAndCleanupSteps);
             var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDigitalPatternInstrumentation");
 
-            Assert.Single(overloads);
+            Assert.Equal(expectedOverloadCount, overloads.Count());
         }
 
         [Fact]
