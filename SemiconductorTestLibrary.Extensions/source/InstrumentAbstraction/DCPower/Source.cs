@@ -537,9 +537,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.ConfigureAllChannelsAndInitiateFollowerChannels(settings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
-            sessionsBundle.InitiateLeaderAndNonGangedChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -565,9 +565,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.ConfigureAllChannelsAndInitiateFollowerChannels(settings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
-            sessionsBundle.InitiateLeaderAndNonGangedChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -593,9 +593,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.ConfigureAllChannelsAndInitiateFollowerChannels(settings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
-            sessionsBundle.InitiateLeaderAndNonGangedChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -612,9 +612,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    sessionInfo.ConfigureAllChannelsAndInitiateFollowerChannels(settings, sitePinInfo);
+                    sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
                 });
-                sessionsBundle.InitiateLeaderAndNonGangedChannels(waitForSourceCompletion);
+                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
             }
             else
             {
@@ -638,9 +638,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
                 perSiteSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.ConfigureAllChannelsAndInitiateFollowerChannels(perSiteSettings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSiteSettings, sitePinInfo);
             });
-            sessionsBundle.InitiateLeaderAndNonGangedChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -656,9 +656,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perPinSettings = settings[sitePinInfo.PinName];
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.ConfigureAllChannelsAndInitiateFollowerChannels(perPinSettings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perPinSettings, sitePinInfo);
             });
-            sessionsBundle.InitiateLeaderAndNonGangedChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -674,9 +674,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo);
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.ConfigureAllChannelsAndInitiateFollowerChannels(perSitePinPairSettings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
             });
-            sessionsBundle.InitiateLeaderAndNonGangedChannels(waitForSourceCompletion);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -1511,7 +1511,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Commit();
         }
 
-        private static void InitiateLeaderAndNonGangedChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false)
+        private static void InitiateGangedLeaderAndNonGangedChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -1523,7 +1523,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        private static void ConfigureAllChannelsAndInitiateFollowerChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo)
+        private static void ConfigureAllChannelsAndInitiateGangedFollowerChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo)
         {
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
