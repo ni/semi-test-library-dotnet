@@ -1335,6 +1335,30 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedVoltageLimitLow, channelOutput.Source.Current.VoltageLimitLow);
         }
 
+        private void AssertCurrentSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, double gangedChannelLevel, double normalChannelLevel, double voltageLimit)
+        {
+            if (sitePinInfo.CascadingInfo is GangingInfo)
+            {
+                AssertCurrentSettings(channelOutput, gangedChannelLevel, voltageLimit);
+            }
+            else
+            {
+                AssertCurrentSettings(channelOutput, normalChannelLevel, voltageLimit);
+            }
+        }
+
+        private void AssertVoltageSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, double voltageLevel, double gangedChannelLimit, double normalChannelLimit)
+        {
+            if (sitePinInfo.CascadingInfo is GangingInfo)
+            {
+                AssertVoltageSettings(channelOutput, voltageLevel, gangedChannelLimit);
+            }
+            else
+            {
+                AssertVoltageSettings(channelOutput, voltageLevel, normalChannelLimit);
+            }
+        }
+
         private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString)
         {
             Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
@@ -1343,10 +1367,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private string GetTriggerName(SitePinInfo sitePinInfo, string leaderChannelString)
         {
             var channel = sitePinInfo.IndividualChannelString;
+            var leaderChannel = leaderChannelString.Split('/');
+            var leaderChannelSlot = leaderChannel[0];
+            var leaderChannelNumber = leaderChannel[leaderChannel.Length - 1];
 
             if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
             {
-                return $"/{leaderChannelString}/Engine0/SourceTrigger";
+                return $"/{leaderChannelSlot}/Engine{leaderChannelNumber}/SourceTrigger";
             }
             if (channel.Contains("SMU_4147"))
             {
