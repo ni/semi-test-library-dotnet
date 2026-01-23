@@ -638,8 +638,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
                 perSiteSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(perSiteSettings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSiteSettings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -655,8 +656,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perPinSettings = settings[sitePinInfo.PinName];
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(perPinSettings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perPinSettings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -672,8 +674,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo);
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.Force(perSitePinPairSettings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -869,10 +872,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 LevelRange = currentLevelRange,
                 LimitRange = voltageLimitRange
             };
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Force(settings, waitForSourceCompletion: waitForSourceCompletion);
-            });
+            sessionsBundle.ForceCurrent(settings, waitForSourceCompletion);
         }
 
         /// <summary>
