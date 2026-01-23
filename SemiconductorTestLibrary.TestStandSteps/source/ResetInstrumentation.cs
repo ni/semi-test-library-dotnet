@@ -25,46 +25,46 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         public static void ResetInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,
-            NIInstrumentType instrumentType = NIInstrumentType.All)
+            TestStandSteps.NIInstrumentType instrumentType = TestStandSteps.NIInstrumentType.All)
         {
             try
             {
-                var instrumentTypes = instrumentType != NIInstrumentType.All
-                    ? new NIInstrumentType[] { instrumentType }
-                    : new NIInstrumentType[]
+                var instrumentTypes = instrumentType != TestStandSteps.NIInstrumentType.All
+                    ? new TestStandSteps.NIInstrumentType[] { instrumentType }
+                    : new TestStandSteps.NIInstrumentType[]
                     {
-                        NIInstrumentType.NIDCPower,
-                        NIInstrumentType.NIDigitalPattern,
-                        NIInstrumentType.NIRelayDriver,
-                        NIInstrumentType.NIDMM,
-                        NIInstrumentType.NIFGen,
-                        NIInstrumentType.NIScope,
-                        NIInstrumentType.NISync
+                        TestStandSteps.NIInstrumentType.NIDCPower,
+                        TestStandSteps.NIInstrumentType.NIDigitalPattern,
+                        TestStandSteps.NIInstrumentType.NIRelayDriver,
+                        TestStandSteps.NIInstrumentType.NIDMM,
+                        TestStandSteps.NIInstrumentType.NIFGen,
+                        TestStandSteps.NIInstrumentType.NIScope,
+                        TestStandSteps.NIInstrumentType.NISync
                     };
 
                 Parallel.ForEach(instrumentTypes, type =>
                 {
                     switch (type)
                     {
-                        case NIInstrumentType.NIDCPower:
+                        case TestStandSteps.NIInstrumentType.NIDCPower:
                             InstrumentAbstraction.DCPower.InitializeAndClose.Reset(tsmContext, resetDevice);
                             break;
-                        case NIInstrumentType.NIDigitalPattern:
+                        case TestStandSteps.NIInstrumentType.NIDigitalPattern:
                             InstrumentAbstraction.Digital.InitializeAndClose.Reset(tsmContext, resetDevice);
                             break;
-                        case NIInstrumentType.NIRelayDriver:
+                        case TestStandSteps.NIInstrumentType.NIRelayDriver:
                             InstrumentAbstraction.Relay.InitializeAndClose.Reset(tsmContext);
                             break;
-                        case NIInstrumentType.NIDMM:
+                        case TestStandSteps.NIInstrumentType.NIDMM:
                             InstrumentAbstraction.DMM.InitializeAndClose.Reset(tsmContext);
                             break;
-                        case NIInstrumentType.NIFGen:
+                        case TestStandSteps.NIInstrumentType.NIFGen:
                             InstrumentAbstraction.Fgen.InitializeAndClose.Reset(tsmContext, resetDevice);
                             break;
-                        case NIInstrumentType.NIScope:
+                        case TestStandSteps.NIInstrumentType.NIScope:
                             InstrumentAbstraction.Scope.InitializeAndClose.Reset(tsmContext, resetDevice);
                             break;
-                        case NIInstrumentType.NISync:
+                        case TestStandSteps.NIInstrumentType.NISync:
                             InstrumentAbstraction.Sync.InitializeAndClose.Reset(tsmContext);
                             break;
                         default:
