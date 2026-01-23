@@ -64,7 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             resetDevice,
             levelsSheetToApply,
             timingSheetToApply,
-            false);
+            applySourceWaveformData: false);
         }
 
         /// <summary>
@@ -78,10 +78,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         {
             SetupNIDigitalPatternInstrumentation(
             tsmContext,
-            false,
-            string.Empty,
-            string.Empty,
-            false);
+            resetDevice: false,
+            levelsSheetToApply: string.Empty,
+            timingSheetToApply: string.Empty,
+            applySourceWaveformData: false);
         }
     }
 }
