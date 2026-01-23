@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Threading.Tasks;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -76,6 +77,34 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             {
                 NISemiconductorTestException.Throw(e);
             }
+        }
+
+        /// <summary>
+        /// This method is deprecated, Use <see cref="ResetInstrumentation(ISemiconductorModuleContext, bool, TestStandSteps.NIInstrumentType)"/> instead.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="resetDevice">Whether to perform a hard reset on the device.</param>
+        /// <param name="instrumentType">The type of instrument to reset.</param>
+        [Obsolete("This method is deprecated, Use ResetInstrumentation(ISemiconductorModuleContext, bool, TestStandSteps.NIInstrumentType)", error: false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void ResetInstrumentation(
+            ISemiconductorModuleContext tsmContext,
+            bool resetDevice = false,
+            NIInstrumentType instrumentType = NIInstrumentType.All)
+        {
+            ResetInstrumentation(
+            tsmContext,
+            resetDevice,
+            (TestStandSteps.NIInstrumentType)instrumentType);
+        }
+
+        /// <summary>
+        /// Resets all the supported instrument sessions associated with the pin map. To reset specific type of instruments, use <see cref="ResetInstrumentation(ISemiconductorModuleContext, bool, TestStandSteps.NIInstrumentType)"/> instead.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        public static void ResetInstrumentation(ISemiconductorModuleContext tsmContext)
+        {
+            ResetInstrumentation(tsmContext, false, TestStandSteps.NIInstrumentType.All);
         }
     }
 }

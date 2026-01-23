@@ -85,6 +85,37 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         }
 
         /// <summary>
+        /// This method is deprecated, Use <see cref="CleanupInstrumentation(ISemiconductorModuleContext, bool, TestStandSteps.NIInstrumentType)"/> instead.
+        /// </summary>
+        /// <remarks>
+        /// This method makes a callback to correct overload  method.
+        /// </remarks>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="resetDevice">Whether to reset device during initialization.</param>
+        /// <param name="instrumentType">The type of instrument to close.</param>
+        [Obsolete("Use other overload 'CleanupInstrumentation(ISemiconductorModuleContext, bool, TestStandSteps.NIInstrumentType)' instead.", error: false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void CleanupInstrumentation(
+            ISemiconductorModuleContext tsmContext,
+            bool resetDevice = false,
+            NIInstrumentType instrumentType = NIInstrumentType.All)
+        {
+            CleanupInstrumentation(tsmContext, resetDevice, (TestStandSteps.NIInstrumentType)instrumentType);
+        }
+
+        /// <summary>
+        /// Closes any open instrument sessions associated with the pin map. To close instruments of specific types, use <see cref="CleanupInstrumentation(ISemiconductorModuleContext, bool, TestStandSteps.NIInstrumentType)"/> instead.
+        /// </summary>
+        /// <remarks>
+        /// This method makes a callback to new overload  method.
+        /// </remarks>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        public static void CleanupInstrumentation(ISemiconductorModuleContext tsmContext)
+        {
+            CleanupInstrumentation(tsmContext, false, TestStandSteps.NIInstrumentType.All);
+        }
+
+        /// <summary>
         /// This enum is deprecated. Use <see cref="TestStandSteps.NIInstrumentType"/> instead.
         /// </summary>
         [Obsolete("This enum is deprecated. Use TestStandSteps.NIInstrumentType instead.", error: false)]
