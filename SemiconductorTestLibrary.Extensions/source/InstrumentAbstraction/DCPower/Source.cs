@@ -1640,6 +1640,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
+        private static double CalculateLimitRangeFromLimit(DCPowerSourceSettings settings)
+        {
+            return settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric
+                ? Math.Abs(settings.Limit.Value)
+                : Math.Max(Math.Abs(settings.LimitHigh.Value), Math.Abs(settings.LimitLow.Value));
+        }
+
         private static void ConfigureTriggerForGanging(this DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
         {
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
@@ -1647,13 +1654,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
                 channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure((sitePinInfo.CascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
             }
-        }
-
-        private static double CalculateLimitRangeFromLimit(DCPowerSourceSettings settings)
-        {
-            return settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric
-                ? Math.Abs(settings.Limit.Value)
-                : Math.Max(Math.Abs(settings.LimitHigh.Value), Math.Abs(settings.LimitLow.Value));
         }
 
         #endregion private and internal methods
