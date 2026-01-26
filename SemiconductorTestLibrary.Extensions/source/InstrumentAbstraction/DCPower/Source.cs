@@ -212,7 +212,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
                 });
                 sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
-                return;
             }
             else
             {

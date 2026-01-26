@@ -1080,7 +1080,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceVoltageWithSymmetricLimit_CurrentLimitedDividedCorrectly()
+        public void DifferentSMUDevicesGanged_ForceVoltageWithSymmetricLimit_CurrentLimitDividedCorrectly()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -1197,6 +1197,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             sessionsBundle.ForceVoltage(new DCPowerSourceSettings() { Level = 3.6, Limit = 3 });
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
@@ -2377,8 +2378,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int digits = 6)
         {
-            Assert.Equal(Math.Round(expectedVoltageLevel, digits), Math.Ceiling(channelOutput.Source.Voltage.VoltageLevel), digits);
-            Assert.Equal(Math.Round(expectedCurrentLimit, digits), Math.Round(channelOutput.Source.Voltage.CurrentLimit), digits);
+            Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, digits);
+            Assert.Equal(expectedCurrentLimit, channelOutput.Source.Voltage.CurrentLimit, digits);
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double? expectedVoltageLevel = null, double? expectedCurrentLimitHigh = null, double? expectedCurrentLimitLow = null, double? expectedCurrentLimit = null, double? expectedCurrentLimitRange = null)
