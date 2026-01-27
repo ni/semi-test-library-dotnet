@@ -16,6 +16,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
     {
         [Fact]
         public void GetSetupNIDAQmxAIVoltageTaskWithParameters_HasCorrectSignature()
+        public void GetSetupNIDAQmxAIVoltageTaskWithParameters_HasCorrectSignature()
         {
             var classType = typeof(SetupAndCleanupSteps);
             var parameterTypes = new[]
@@ -317,7 +318,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetSetupNIDigitalPatternInstrumentationDeprecatedOverloadWithParameters_HasCorrectSignature()
+        public void GetDeprecatedSetupNIDigitalPatternInstrumentationWithParameters_HasCorrectSignature()
         {
             var classType = typeof(SetupAndCleanupSteps);
             var parameterTypes = new[]
