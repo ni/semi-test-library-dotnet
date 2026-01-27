@@ -943,7 +943,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             leaderPin = sessionsBundle.AggregateSitePinList.First().PinName;
             sessionsBundle.GangPinGroup(pinGroupName);
             sessionsBundle.ConfigureSourceDelay(0);
-            // sessionsBundle.ConfigureSourceSettings(new DCPowerSourceSettings { Level = 5, OutputFunction = DCPowerSourceOutputFunction.DCVoltage });
             sessionsBundle.ForceCurrent(currentLevel: 3, waitForSourceCompletion: true);
             return sessionsBundle;
         }
