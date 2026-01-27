@@ -524,6 +524,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithNotSupportedProperties_ThrowsException(bool setAsActiveSequence)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var steps = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputShorted = true, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            const string sequenceName = "AdvancedSequenceException";
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureAdvancedSequence(
+                sequenceName,
+                steps,
+                setAsActiveSequence: setAsActiveSequence,
+                commitFirstElementAsInitialState: false));
+
+            Assert.Contains("The specified instrument (NI PXIe-4147) does not support one or more of the requested advanced sequence properties.", exception.Message);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
         public void DifferentSMUDevices_ForceCurrentSequenceSynchronized_CorrectValueAreSet(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
