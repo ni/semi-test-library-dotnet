@@ -108,10 +108,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 LevelRange = voltageLevelRange,
                 LimitRange = currentLimitRange
             };
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
-            });
+            sessionsBundle.ForceVoltage(settings, waitForSourceCompletion);
         }
 
         /// <summary>
@@ -137,8 +134,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -164,8 +162,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -191,8 +190,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.Force(settings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -204,11 +204,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false)
         {
-            sessionsBundle.Do(sessionInfo =>
+            settings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
+            if (sessionsBundle.HasGangedChannels)
             {
-                settings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
-            });
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
+                });
+                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
+                });
+            }
         }
 
         /// <summary>
@@ -224,8 +235,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
                 perSiteSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.Force(perSiteSettings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSiteSettings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -241,8 +253,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perPinSettings = settings[sitePinInfo.PinName];
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.Force(perPinSettings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perPinSettings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -258,8 +271,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo);
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.Force(perSitePinPairSettings, sitePinInfo, waitForSourceCompletion);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
 
         /// <summary>
@@ -379,10 +393,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 LevelRange = voltageLevelRange,
                 LimitRange = currentLimitRange
             };
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
-            });
+            sessionsBundle.ForceVoltage(settings, waitForSourceCompletion);
         }
 
         /// <summary>
