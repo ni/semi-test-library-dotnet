@@ -16,7 +16,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
     {
         [Fact]
         public void GetSetupNIDAQmxAIVoltageTaskWithParameters_HasCorrectSignature()
-        public void GetSetupNIDAQmxAIVoltageTaskWithParameters_HasCorrectSignature()
         {
             var classType = typeof(SetupAndCleanupSteps);
             var parameterTypes = new[]
