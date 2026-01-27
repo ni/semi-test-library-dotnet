@@ -435,6 +435,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     new DCPowerAdvancedSequenceStepProperties { CurrentLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
                     new DCPowerAdvancedSequenceStepProperties { CurrentLevel = 2.2, OutputFunction = DCPowerSourceOutputFunction.DCCurrent }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
                 }
             });
             const string sequenceName = "PerSiteAdvancedSequence";
@@ -487,6 +497,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     {
                         new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
                         new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                    },
+                    [2] = new List<DCPowerAdvancedSequenceStepProperties>
+                    {
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                    },
+                    [3] = new List<DCPowerAdvancedSequenceStepProperties>
+                    {
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
                     }
                 }
             };
@@ -496,7 +516,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sequenceName,
                 pinSiteData,
                 setAsActiveSequence: setAsActiveSequence,
-                commitFirstElementAsInitialState: false);
+                commitFirstElementAsInitialState: true);
 
             if (setAsActiveSequence && !_tsmContext.IsSemiconductorModuleInOfflineMode)
             {
@@ -508,7 +528,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                         [1] = new double[] { 2.0, 2.2 }
                     }
                 });
-                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteNumber => data.GetValue(siteNumber, "VDD"), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
+                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteNumber => data.GetValue(siteNumber, "VDD"), siteCount: 2, precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
             }
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
