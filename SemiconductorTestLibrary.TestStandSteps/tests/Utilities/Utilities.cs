@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
-using NationalInstruments.SemiconductorTestLibrary.TestStandSteps;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using Xunit;
 
@@ -101,18 +99,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
         {
             Assert.Equal(expectedName, parameterInfo.Name);
             Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
-        }
-
-        internal static MethodInfo GetSetupNIDigitalPatternInstrumentation(Type[] parameterTypes)
-        {
-            var classType = typeof(SetupAndCleanupSteps);
-            var method = classType.GetMethod(
-                "SetupNIDigitalPatternInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
-            return method;
         }
 
         #endregion
