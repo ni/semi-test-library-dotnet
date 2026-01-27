@@ -93,16 +93,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             aiTasksBundle.Stop();
             var maxValueOfFilteredSamples = filteredSiteData.GetValue(filteredSiteData.SiteNumbers[0], "AIPin").Max();
 
-            if (IsOffline())
-            {
-                // Limits are based on the expected value returned by the driver when in Offline Mode.
-                Assert.True(maxValueOfFilteredSamples > -1.0 && maxValueOfFilteredSamples < 1.0);
-            }
-            else
-            {
-                // When run on tester, limits are set based on the limits provided.
-                AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
-            }
+            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
@@ -231,16 +222,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var filteredWaveformSamples = filteredSite.GetValue(filteredSite.SiteNumbers[0], "AIPin").Samples;
             var maxValueOfFilteredSamples = filteredWaveformSamples.Max(filteredSample => filteredSample.Value);
 
-            if (IsOffline())
-            {
-                // Limits are based on the expected value returned by the driver when in Offline Mode.
-                Assert.True(maxValueOfFilteredSamples > -1.0 && maxValueOfFilteredSamples < 1.0);
-            }
-            else
-            {
-                // When run on tester, limits are set based on the limits provided.
-                AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
-            }
+            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
