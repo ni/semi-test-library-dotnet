@@ -60,11 +60,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             string timingSheetToApply = "")
         {
             SetupNIDigitalPatternInstrumentation(
-            tsmContext,
-            resetDevice,
-            levelsSheetToApply,
-            timingSheetToApply,
-            applySourceWaveformData: false);
+                tsmContext,
+                resetDevice,
+                levelsSheetToApply,
+                timingSheetToApply,
+                applySourceWaveformData: false);
         }
 
         /// <summary>
@@ -77,11 +77,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         public static void SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext)
         {
             SetupNIDigitalPatternInstrumentation(
-            tsmContext,
-            resetDevice: false,
-            levelsSheetToApply: string.Empty,
-            timingSheetToApply: string.Empty,
-            applySourceWaveformData: false);
+                tsmContext,
+                resetDevice: false,
+                levelsSheetToApply: string.Empty,
+                timingSheetToApply: string.Empty,
+                applySourceWaveformData: false);
         }
     }
 }
