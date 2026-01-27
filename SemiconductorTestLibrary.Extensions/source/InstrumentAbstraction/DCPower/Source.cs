@@ -1144,8 +1144,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool commitFirstElementAsInitialState)
         {
             channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
-            var advancedSequenceProperties = Utilities.ExtractAdvancedSequencePropertiesArray(perStepProperties);
-            channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, true);
+            var advancedSequenceProperties = Utilities.GetAdvancedSequencePropertiesToConfigure(perStepProperties);
+            channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, setAsActiveSequence: true);
             int startIndex = 0;
             if (commitFirstElementAsInitialState && perStepProperties.Count > 0)
             {
