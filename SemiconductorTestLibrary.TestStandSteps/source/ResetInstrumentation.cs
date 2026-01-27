@@ -92,10 +92,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             bool resetDevice = false,
             NIInstrumentType instrumentType = NIInstrumentType.All)
         {
-            ResetInstrumentation(
-            tsmContext,
-            resetDevice,
-            (TestStandSteps.NIInstrumentType)instrumentType);
+            ResetInstrumentation(tsmContext, resetDevice, (TestStandSteps.NIInstrumentType)instrumentType);
         }
 
         /// <summary>

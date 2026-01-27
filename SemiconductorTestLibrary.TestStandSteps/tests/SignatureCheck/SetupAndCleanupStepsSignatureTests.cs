@@ -476,7 +476,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetCleanupInstrumentationDeprecatedOverloadWithParameters_HasCorrectSignature()
+        public void GetDeprecatedCleanupInstrumentationWithParameters_HasCorrectSignature()
         {
 #pragma warning disable CS0618
             var classType = typeof(SetupAndCleanupSteps);
@@ -547,7 +547,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetResetInstrumentationDeprecatedOverloadWithParameters_HasCorrectSignature()
+        public void GetDeprecatedResetInstrumentationWithParameters_HasCorrectSignature()
         {
 #pragma warning disable CS0618 // 'NIInstrumentType' is obsolete
             var classType = typeof(SetupAndCleanupSteps);
@@ -558,6 +558,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 binder: null,
                 parameterTypes,
                 modifiers: null);
+
             Assert.NotNull(method);
             var parameters = method.GetParameters();
             AssertParameter(parameters[0], "tsmContext", false);
