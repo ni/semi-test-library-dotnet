@@ -19,11 +19,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     {
         private ISemiconductorModuleContext _tsmContext;
 
-        public bool IsOffline()
-        {
-            return _tsmContext.IsSemiconductorModuleInOfflineMode;
-        }
-
         public TSMSessionManager Initialize(string pinMapFileName)
         {
             _tsmContext = CreateTSMContext(pinMapFileName);
