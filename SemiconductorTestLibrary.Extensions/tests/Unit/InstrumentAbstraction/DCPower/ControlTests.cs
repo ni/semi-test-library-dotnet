@@ -109,7 +109,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
 
-            sessionsBundle.ClearAdvancedSequences();
+            sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.InitiateAdvancedSequence(sequenceName);
 
             sessionsBundle.Do(sessionInfo =>

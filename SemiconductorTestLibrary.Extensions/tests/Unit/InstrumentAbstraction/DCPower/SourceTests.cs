@@ -1624,7 +1624,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
 
-            sessionsBundle.ClearAdvancedSequences();
+            sessionsBundle.ClearActiveAdvancedSequence();
 
             var ex = Assert.Throws<NISemiconductorTestException>(() =>
             {
@@ -1652,7 +1652,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
 
-            sessionsBundle.DeleteAdvancedSequences(sequenceName);
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
             var ex = Assert.Throws<NISemiconductorTestException>(() =>
             {
@@ -1680,8 +1680,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
 
-            sessionsBundle.ClearAdvancedSequences();
-            sessionsBundle.DeleteAdvancedSequences(sequenceName);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
             var ex = Assert.Throws<NISemiconductorTestException>(() =>
             {
@@ -1711,8 +1711,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureAdvancedSequence(sequenceName1, stepProperties, setAsActiveSequence: false);
             sessionsBundle.ConfigureAdvancedSequence(sequenceName2, stepProperties, setAsActiveSequence: false);
 
-            sessionsBundle.DeleteAdvancedSequences(sequenceName1);
-            sessionsBundle.DeleteAdvancedSequences(sequenceName2);
+            sessionsBundle.DeleteAdvancedSequence(sequenceName1);
+            sessionsBundle.DeleteAdvancedSequence(sequenceName2);
 
             var ex1 = Assert.Throws<NISemiconductorTestException>(() =>
             {
