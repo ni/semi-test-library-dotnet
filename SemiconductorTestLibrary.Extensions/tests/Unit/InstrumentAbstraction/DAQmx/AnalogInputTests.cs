@@ -28,7 +28,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             _tsmContext = CreateTSMContext(pinMapFileName);
             InitializeAndClose.CreateDAQmxAIVoltageTasks(_tsmContext);
-
             return new TSMSessionManager(_tsmContext);
         }
 
