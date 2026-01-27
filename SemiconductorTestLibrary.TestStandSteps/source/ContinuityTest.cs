@@ -15,6 +15,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class CommonSteps
     {
+        // TODO: Testcase:3 Changing required parameter to optional
         /// <summary>
         /// Performs a basic continuity test. It serially checks either upper or lower protection diodes DUT pins,
         /// regardless of if they are mapped to digital or SMU instruments. The test will first set 0V on all the pins
@@ -42,7 +43,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             double[] voltageLimitHighPerContinuityPinOrPinGroup,
             double[] voltageLimitLowPerContinuityPinOrPinGroup,
             double apertureTime,
-            double settlingTime)
+            double settlingTime = 10)
         {
             VerifySizeOfArrayInputs(
                 $"{nameof(supplyPinsOrPinGroups)} and {nameof(currentLimitsPerSupplyPinOrPinGroup)}",

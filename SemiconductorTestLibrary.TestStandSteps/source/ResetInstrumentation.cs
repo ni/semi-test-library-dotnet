@@ -8,6 +8,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class SetupAndCleanupSteps
     {
+        // TODO: Testcase:11 Reordering paramters.
         /// <summary>
         /// Resets the instrument sessions for the specified <paramref name="instrumentType"/> associated with the pin map
         /// by invoking the Reset() method of the supported instrument driver.
@@ -24,8 +25,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="instrumentType">The type of instrument to reset.</param>
         public static void ResetInstrumentation(
             ISemiconductorModuleContext tsmContext,
-            bool resetDevice = false,
-            NIInstrumentType instrumentType = NIInstrumentType.All)
+            NIInstrumentType instrumentType = NIInstrumentType.All,
+            bool resetDevice = false)
         {
             try
             {

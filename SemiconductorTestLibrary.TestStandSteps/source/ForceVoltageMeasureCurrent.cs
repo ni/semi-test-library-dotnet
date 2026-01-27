@@ -11,6 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class CommonSteps
     {
+        // TODO: Testcase:9 Adding new optional parameter
         /// <summary>
         /// Forces the specified DC voltage on all pins and/or pin groups specified, waits the specified amount of settling time,
         /// and then measures the current on those pins and publishes the results to TestStand. Both DCPower and Digital PPMU pins are supported.
@@ -24,12 +25,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="currentLimit">The current limit in amperes.</param>
         /// <param name="apertureTime">The measurement aperture time in seconds.</param>
         /// <param name="settlingTime">The amount of time to wait before continuing, in seconds.</param>
+        /// /// <param name="newParameter">New optional parameter.</param>
         public static void ForceVoltageMeasureCurrent(
             ISemiconductorModuleContext tsmContext,
             string[] pinsOrPinGroups,
             double voltageLevel,
             double currentLimit,
             double settlingTime = 0,
+            double newParameter = 0,
             double apertureTime = -1)
         {
             try

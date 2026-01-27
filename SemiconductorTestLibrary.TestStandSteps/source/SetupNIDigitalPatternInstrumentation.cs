@@ -6,6 +6,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class SetupAndCleanupSteps
     {
+        // TODO: Testcase:14 Updating Default value of String type.
         /// <summary>
         /// Initializes an NI Digital Pattern instrument sessions associated with the pin map.
         /// It loads in all digital project files associated with the digital project configured for the test program,
@@ -23,7 +24,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,
             string levelsSheetToApply = "",
-            string timingSheetToApply = "",
+            string timingSheetToApply = "NonEmptyValue",
             bool applySourceWaveformData = false)
         {
             try

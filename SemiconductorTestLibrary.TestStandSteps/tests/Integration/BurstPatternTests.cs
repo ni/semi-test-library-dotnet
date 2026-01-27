@@ -22,7 +22,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             SetupNIDigitalPatternInstrumentation(tsmContext);
             string[] digitalPins = new string[] { "PA_EN", "C0", "C1" };
 
-            BurstPattern(
+            BurstPatternTwice(
                 tsmContext,
                 pinsOrPinGroups: digitalPins,
                 patternName: "TX_RF");

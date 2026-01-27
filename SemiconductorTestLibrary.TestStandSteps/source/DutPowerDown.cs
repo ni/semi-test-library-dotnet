@@ -11,6 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class CommonSteps
     {
+        // TODO: Testcase:4 Changed optional parameter to required.
         /// <summary>
         /// Forces DC voltage to Zero on the specified DUT supply pins. If the <paramref name="powerDownSuppliesSerially"/> Boolean is set to True,
         /// the DUT supplies will be powered down sequentially in the order provided, and the <paramref name="settlingTime"/> input will be used after power down each pin.
@@ -28,7 +29,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         public static void DutPowerDown(
             ISemiconductorModuleContext tsmContext,
             string[] dutSupplyPinsOrPinGroups,
-            double settlingTime = 0,
+            double settlingTime,
             bool powerDownSuppliesSerially = false,
             bool forceLowestCurrentLimit = true)
         {

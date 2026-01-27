@@ -8,6 +8,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class SetupAndCleanupSteps
     {
+        // TODO: Testcase:16 Updating Default value of Enum type.
         /// <summary>
         /// Initializes an NI DAQmx Analog Output Function Generation Task associated with the pin map.
         /// The value of <paramref name="taskType"/> string must match that of the DAQmx task definition within the pin map (default ="AOFuncGen").
@@ -28,7 +29,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             double frequency = 1000.0,
             double amplitude = 5.0,
             double offset = 0.0,
-            DAQmxTerminalConfiguration outputTerminalConfiguration = DAQmxTerminalConfiguration.Default)
+            DAQmxTerminalConfiguration outputTerminalConfiguration = DAQmxTerminalConfiguration.Rse)
         {
             try
             {

@@ -11,6 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class CommonSteps
     {
+        /// TODO: Testcase:6 Change datatype of parameter
         /// <summary>
         /// Forces the specified DC current on all pins and/or pin groups specified, waits the specified amount of settling time,
         /// and then measures the voltage on those pins and publishes the results to TestStand.
@@ -33,7 +34,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         public static void ForceCurrentMeasureVoltage(
             ISemiconductorModuleContext tsmContext,
             string[] pinsOrPinGroups,
-            double currentLevel,
+            int currentLevel,
             double voltageLimit,
             double settlingTime = 0,
             double apertureTime = -1)

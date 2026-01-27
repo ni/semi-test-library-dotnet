@@ -6,6 +6,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class SetupAndCleanupSteps
     {
+        // TODO: Testcase:19 Changing access scope to private.
         /// <summary>
         /// Initializes NI Scope instrument sessions associated with the pin map.
         /// If the <paramref name="resetDevice"/> input is set to True, then the instrument
@@ -13,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="resetDevice">Whether to reset device during initialization.</param>
-        public static void SetupNIScopeInstrumentation(
+        private static void SetupNIScopeInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false)
         {

@@ -7,6 +7,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class SetupAndCleanupSteps
     {
+        // TODO: Testcase:12 Updating Default value of Struct type.
         /// <summary>
         /// Initializes an NI DAQmx Analog Input Task associated with the pin map.
         /// The value of <paramref name="taskType"/> string must match that of the DAQmx task definition within the pin map (default ="AI").
@@ -19,7 +20,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="inputTerminalConfiguration">The terminal configuration of the analog input channel.</param>
         public static void SetupNIDAQmxAIVoltageTask(
             ISemiconductorModuleContext tsmContext,
-            string taskType = DefaultDAQmxTaskTypeStrings.AnalogInput,
+            string taskType = DefaultDAQmxTaskTypeStrings.AnalogOutput,
             double maxiumValue = 10,
             double minimumValue = -10,
             DAQmxTerminalConfiguration inputTerminalConfiguration = DAQmxTerminalConfiguration.Default)

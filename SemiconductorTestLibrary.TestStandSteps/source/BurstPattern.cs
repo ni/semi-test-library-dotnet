@@ -8,13 +8,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
     public static partial class CommonSteps
     {
+        // TODO: Testcase:2 Method name changed
         /// <summary>
         /// Bursts a pattern and publishes the pass/fail results as well as the fail count.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinsOrPinGroups">The pins or pin groups.</param>
         /// <param name="patternName">The name of the pattern to burst.</param>
-        public static void BurstPattern(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, string patternName)
+        public static void BurstPatternTwice(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, string patternName)
         {
             try
             {

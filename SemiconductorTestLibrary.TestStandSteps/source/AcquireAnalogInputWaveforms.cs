@@ -12,6 +12,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
     /// </summary>
     public static partial class CommonSteps
     {
+        // TODO: Testcase:1 Default value changed.
         /// <summary>
         /// Acquires an analog waveform for each of the specified pins and pin groups. This step performs a simple acquisition of an analog signal,
         /// computes the minimums and maximums of the acquired waveforms, and then publishes the results.
@@ -20,7 +21,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinsOrPinGroups">The pins or pin groups.</param>
         /// <param name="samplesPerChannel">The number of samples to read on each NI-DAQmx analog input channel.</param>
-        public static void AcquireAnalogInputWaveforms(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, int samplesPerChannel = 1000)
+        public static void AcquireAnalogInputWaveforms(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups, int samplesPerChannel = 0)
         {
             try
             {

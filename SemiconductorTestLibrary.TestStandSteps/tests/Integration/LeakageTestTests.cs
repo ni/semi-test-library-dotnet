@@ -31,7 +31,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                voltageLevel: 3.3,
                currentLimit: 0.005,
                apertureTime: 5e-5,
-               settlingTime: 5e-5);
+               settlingTime: 5e-5,
+               0);
 
             string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
             AssertPublishedData(tsmContext, allPins, publishedDataReader);
@@ -51,7 +52,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                voltageLevel: -1.1,
                currentLimit: 0.005,
                apertureTime: 5e-5,
-               settlingTime: 5e-5);
+               settlingTime: 5e-5,
+               0);
 
             string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
             AssertPublishedData(tsmContext, allPins, publishedDataReader);
@@ -70,7 +72,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                voltageLevel: 1.1,
                currentLimit: 0.005,
                apertureTime: 5e-5,
-               settlingTime: 5e-5);
+               settlingTime: 5e-5,
+               0);
 
             string[] allPins = new string[] { "PA_EN", "C0", "C1" };
             AssertPublishedData(tsmContext, allPins, publishedDataReader);
@@ -90,7 +93,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                voltageLevel: 60,
                currentLimit: 0.005,
                apertureTime: 5e-5,
-               settlingTime: 5e-5);
+               settlingTime: 5e-5,
+               0);
 
             var exception = Assert.Throws<NISemiconductorTestException>(LeakageTestMethod);
             Assert.Contains("Requested value is not a supported value for this property.", exception.Message);
