@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using Xunit;
 
@@ -6,6 +7,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
 {
     internal static class Utilities
     {
+        #region Integration Tests
+
         internal static void AssertPublishedDataCountPerPins(int expectedCount, string[] pins, IPublishedData[] publishedData)
         {
             foreach (var pinName in pins)
@@ -45,5 +48,59 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
                 Assert.Equal(expectedId, data.PublishedDataId);
             }
         }
+
+        #endregion
+
+        #region Signature Check
+
+        internal static void AssertEnumParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, int expectedDefaultValue)
+        {
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+            Assert.Equal(expectedDefaultValue, (int)parameterInfo.DefaultValue);
+        }
+
+        internal static void AssertBoolParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, bool expectedDefaultValue)
+        {
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+            Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
+        }
+
+        internal static void AssertDoubleParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, double expectedDefaultValue)
+        {
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+            Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
+        }
+
+        internal static void AssertIntParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, int expectedDefaultValue)
+        {
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+            Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
+        }
+
+        internal static void AssertStringParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, string expectedDefaultValue)
+        {
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+            Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
+        }
+
+        internal static void AssertStructParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional, object expectedDefaultValue)
+        {
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+            Assert.Equal(expectedDefaultValue, parameterInfo.DefaultValue);
+        }
+
+        internal static void AssertParameter(ParameterInfo parameterInfo, string expectedName, bool expectedIsOptional)
+        {
+            Assert.Equal(expectedName, parameterInfo.Name);
+            Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+        }
+
+        #endregion
     }
 }

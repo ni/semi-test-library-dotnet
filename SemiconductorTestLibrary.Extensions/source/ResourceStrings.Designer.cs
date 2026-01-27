@@ -115,6 +115,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The channelOutput contains more than one channel &quot;{0}&quot;. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
+        /// </summary>
+        internal static string DCPower_MultipleChannelOutputsDetected {
+            get {
+                return ResourceManager.GetString("DCPower_MultipleChannelOutputsDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The state of the sequencer flag ({0}) is not the same for all underlying instrument sessions..
         /// </summary>
         internal static string Digital_SequencerFlagNotDistinct {
