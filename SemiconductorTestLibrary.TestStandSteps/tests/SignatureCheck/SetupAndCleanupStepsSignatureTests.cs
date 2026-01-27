@@ -290,7 +290,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         [Fact]
         public void GetSetupNIDigitalPatternInstrumentationWithParameters_HasCorrectSignature()
         {
-            var classType = typeof(SetupAndCleanupSteps);
             var parameterTypes = new[]
             {
                 typeof(ISemiconductorModuleContext),
@@ -299,12 +298,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(string),
                 typeof(bool)
             };
-            var method = classType.GetMethod(
-                "SetupNIDigitalPatternInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetSetupNIDigitalPatternInstrumentation(parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -319,7 +313,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         [Fact]
         public void GetSetupNIDigitalPatternInstrumentationDeprecatedOverloadWithParameters_HasCorrectSignature()
         {
-            var classType = typeof(SetupAndCleanupSteps);
             var parameterTypes = new[]
             {
                 typeof(ISemiconductorModuleContext),
@@ -327,12 +320,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(string),
                 typeof(string)
             };
-            var method = classType.GetMethod(
-                "SetupNIDigitalPatternInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetSetupNIDigitalPatternInstrumentation(parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -347,17 +335,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         [Fact]
         public void GetSetupNIDigitalPatternInstrumentationWithNoOptionalParameters_HasCorrectSignature()
         {
-            var classType = typeof(SetupAndCleanupSteps);
             var parameterTypes = new[]
             {
                 typeof(ISemiconductorModuleContext)
             };
-            var method = classType.GetMethod(
-                "SetupNIDigitalPatternInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetSetupNIDigitalPatternInstrumentation(parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
