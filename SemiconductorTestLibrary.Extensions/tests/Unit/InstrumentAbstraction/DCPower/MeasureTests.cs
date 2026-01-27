@@ -93,7 +93,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesGanged_GetPowerLineFrequency_ValuesAreReturnedInPrimaryPinName()
+        public void SMUDevicesGanged_GetPowerLineFrequency_ValuesDontHavePinGroupName()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -550,7 +550,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesGanged_GetApertureTimeInSeconds_ValuesAreReturnedInPrimaryPinName()
+        public void SMUDevicesGanged_GetApertureTimeInSeconds_ValuesDontHavePinGroupName()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");

@@ -2051,7 +2051,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesGanged_GetSourceDelayInSeconds_ValuesAreReturnedInPrimaryPinName()
+        public void SMUDevicesGanged_GetSourceDelayInSeconds_ValuesDontHavePinGroupName()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -2193,7 +2193,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesGanged_GetCurrentLimits_ValuesAreReturnedInPrimaryPinName()
+        public void SMUDevicesGanged_GetCurrentLimits_ValuesDontHavePinGroupName()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
