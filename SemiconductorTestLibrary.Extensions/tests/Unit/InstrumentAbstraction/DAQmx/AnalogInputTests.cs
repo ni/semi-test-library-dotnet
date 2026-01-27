@@ -88,7 +88,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             aiTasksBundle.Stop();
             var maxValueOfFilteredSamples = filteredSiteData.GetValue(filteredSiteData.SiteNumbers[0], "AIPin").Max();
 
-            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
+            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, channelLists[0]);
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
@@ -217,7 +217,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var filteredWaveformSamples = filteredSite.GetValue(filteredSite.SiteNumbers[0], "AIPin").Samples;
             var maxValueOfFilteredSamples = filteredWaveformSamples.Max(filteredSample => filteredSample.Value);
 
-            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, 0.75, 0.8);
+            AssertFilteredSample(maxValueOfFilteredSamples, aiTasksBundle, channelLists[0]);
             InitializeAndClose.ClearDAQmxAOVoltageTasks(_tsmContext);
         }
 
