@@ -1979,7 +1979,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             return nullProperties;
         }
-        
+
         private static void ConfigureTriggerForGanging(this DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
         {
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
