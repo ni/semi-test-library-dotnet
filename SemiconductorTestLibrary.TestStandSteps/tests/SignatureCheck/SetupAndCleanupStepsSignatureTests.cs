@@ -526,12 +526,54 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetAllCleanupInstrumentationOverloads_HasSingleOverload()
+        public void GetDeprecatedCleanupInstrumentationWithParameters_HasCorrectSignature()
         {
+#pragma warning disable CS0618
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[] { typeof(ISemiconductorModuleContext), typeof(bool), typeof(SetupAndCleanupSteps.NIInstrumentType) };
+            var method = classType.GetMethod(
+                "CleanupInstrumentation",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertBoolParameter(parameters[1], "resetDevice", true, false);
+            AssertEnumParameter(parameters[2], "instrumentType", true, (int)SetupAndCleanupSteps.NIInstrumentType.All);
+            Assert.Equal(typeof(void), method.ReturnType);
+            Assert.NotNull(method.GetCustomAttribute<ObsoleteAttribute>());
+#pragma warning restore CS0618
+        }
+
+        [Fact]
+        public void GetCleanupInstrumentationWithNoOptionalParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[] { typeof(ISemiconductorModuleContext) };
+            var method = classType.GetMethod(
+                "CleanupInstrumentation",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllCleanupInstrumentationOverloads_HasExpectedOverloadCount()
+        {
+            int expectedOverloadCount = 3;
             var classType = typeof(SetupAndCleanupSteps);
             var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "CleanupInstrumentation");
 
-            Assert.Single(overloads);
+            Assert.Equal(expectedOverloadCount, overloads.Count());
         }
 
         [Fact]
@@ -555,12 +597,54 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetAllResetInstrumentationOverloads_HasSingleOverload()
+        public void GetDeprecatedResetInstrumentationWithParameters_HasCorrectSignature()
         {
+#pragma warning disable CS0618 // 'NIInstrumentType' is obsolete
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[] { typeof(ISemiconductorModuleContext), typeof(bool), typeof(SetupAndCleanupSteps.NIInstrumentType) };
+            var method = classType.GetMethod(
+                "ResetInstrumentation",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertBoolParameter(parameters[1], "resetDevice", true, false);
+            AssertEnumParameter(parameters[2], "instrumentType", true, (int)SetupAndCleanupSteps.NIInstrumentType.All);
+            Assert.Equal(typeof(void), method.ReturnType);
+            Assert.NotNull(method.GetCustomAttribute<ObsoleteAttribute>());
+#pragma warning restore CS0618
+        }
+
+        [Fact]
+        public void GetResetInstrumentationWithNoOptionalParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[] { typeof(ISemiconductorModuleContext) };
+            var method = classType.GetMethod(
+                "ResetInstrumentation",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllResetInstrumentationOverloads_HasExpectedOverloadCount()
+        {
+            int expectedOverloadCount = 3;
             var classType = typeof(SetupAndCleanupSteps);
             var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "ResetInstrumentation");
 
-            Assert.Single(overloads);
+            Assert.Equal(expectedOverloadCount, overloads.Count());
         }
     }
 }
