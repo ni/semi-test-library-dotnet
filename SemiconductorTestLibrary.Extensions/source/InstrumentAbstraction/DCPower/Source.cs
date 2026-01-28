@@ -30,6 +30,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #endregion
 
         private const double DefaultSequenceTimeout = 5.0;
+        private const int AttributeIdNotRecognized = -1074135028;
 
         #region methods on DCPowerSessionsBundle
 
@@ -1191,24 +1192,31 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence,
             bool commitFirstElementAsInitialState)
         {
-            channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
-            var advancedSequenceProperties = Utilities.ExtractAdvancedSequencePropertiesArray(perStepProperties);
-            channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, true);
-            int startIndex = 0;
-            if (commitFirstElementAsInitialState && perStepProperties.Count > 0)
+            try
             {
-                channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(true);
-                Utilities.ApplyStepProperties(channelOutput, perStepProperties[0], modelString);
-                startIndex = 1;
+                channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
+                var advancedSequenceProperties = Utilities.GetAdvancedSequencePropertiesToConfigure(perStepProperties);
+                channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, setAsActiveSequence: true);
+                int startIndex = 0;
+                if (commitFirstElementAsInitialState && perStepProperties.Count > 0)
+                {
+                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(true);
+                    Utilities.ApplyStepProperties(channelOutput, perStepProperties[0]);
+                    startIndex = 1;
+                }
+                for (int i = startIndex; i < perStepProperties.Count; i++)
+                {
+                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
+                    Utilities.ApplyStepProperties(channelOutput, perStepProperties[i]);
+                }
+                if (!setAsActiveSequence)
+                {
+                    channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
+                }
             }
-            for (int i = startIndex; i < perStepProperties.Count; i++)
+            catch (Exception ex) when (ex is Ivi.Driver.OperationNotSupportedException operationNotSupported && operationNotSupported.InnerException != null && operationNotSupported.InnerException is Ivi.Driver.IviCDriverException cDriverException && cDriverException.ErrorCode == AttributeIdNotRecognized)
             {
-                channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
-                Utilities.ApplyStepProperties(channelOutput, perStepProperties[i], modelString);
-            }
-            if (!setAsActiveSequence)
-            {
-                channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPowerDeviceNotSupported, modelString), ex);
             }
         }
 
@@ -1436,10 +1444,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Clears the active advanced sequence for all channels in the specified sessions bundle.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        public static void ClearAdvancedSequences(this DCPowerSessionsBundle sessionsBundle)
+        public static void ClearActiveAdvancedSequence(this DCPowerSessionsBundle sessionsBundle)
         {
             sessionsBundle.Do(sessionInfo =>
             {
+                sessionInfo.AllChannelsOutput.Control.Abort();
                 sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
             });
         }
@@ -1449,10 +1458,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name = "sessionsBundle" > The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sequenceName">The name of the advanced sequence to delete.</param>
-        public static void DeleteAdvancedSequences(this DCPowerSessionsBundle sessionsBundle, string sequenceName)
+        public static void DeleteAdvancedSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName)
         {
             sessionsBundle.Do(sessionInfo =>
             {
+                sessionInfo.AllChannelsOutput.Control.Abort();
                 sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.DeleteAdvancedSequence(sequenceName);
             });
         }

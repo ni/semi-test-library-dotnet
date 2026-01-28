@@ -75,13 +75,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceTimeoutInSeconds">The maximum time, in seconds, to wait for the sequence to complete. Used only if <paramref name="waitForSequenceCompletion"/> is <see langword="true"/>. Must be greater then zero.</param>
         public static void InitiateAdvancedSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, bool waitForSequenceCompletion = false, double sequenceTimeoutInSeconds = 5.0)
         {
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.Do(sessionInfo =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
+                var allChannelOutput = sessionInfo.AllChannelsOutput;
+                allChannelOutput.Control.Abort();
+                allChannelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
                 if (waitForSequenceCompletion)
                 {
-                    channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+                    allChannelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
                 }
             });
         }

@@ -115,7 +115,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The property &apos;{0}&apos; is not supported by the instrument model &apos;{1}&apos;..
+        ///   Looks up a localized string similar to The specified instrument ({0}) does not support one or more of the requested advanced sequence properties..
         /// </summary>
         internal static string DCPowerDeviceNotSupported {
             get {
