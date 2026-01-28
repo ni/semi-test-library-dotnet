@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using Xunit;
@@ -99,6 +100,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
         {
             Assert.Equal(expectedName, parameterInfo.Name);
             Assert.Equal(expectedIsOptional, parameterInfo.IsOptional);
+        }
+
+        internal static MethodInfo GetMethod(Type classType, string methodName, Type[] parameterTypes)
+        {
+            var method = classType.GetMethod(
+                methodName,
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+            return method;
         }
 
         #endregion
