@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeriesDevice.RSeries7822RCustomInstrument
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.RSeries7822RCustomInstrument
 {
     /// <summary>
     /// Factory class responsible for creating instances of the RSeries7822R custom instrument.
@@ -56,7 +56,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Throw error when there are more than 1 channel group for any given instrument.
             if (instrumentNames.Distinct().Count() < instrumentNames.Length)
             {
-                throw new InvalidCustomInstrumentPinMapDefinitionException("At least one instrument definition does not satify the single channel group constraint");
+                throw new InvalidPinMapDefinitionException("At least one instrument definition does not satify the single channel group constraint");
             }
         }
     }
