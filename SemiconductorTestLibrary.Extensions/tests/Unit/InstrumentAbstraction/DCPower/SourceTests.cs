@@ -481,7 +481,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerPinPerSiteValues_Succeeds(bool pinMapWithChannelGroup)
@@ -508,7 +507,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
             };
 
-            // Same sequence for all sites/pins (PinSiteData shape is what this overload is testing).
             var sequence = new PinSiteData<DCPowerSourceSettings[]>(
                 new[] { "VDD" },
                 new[]

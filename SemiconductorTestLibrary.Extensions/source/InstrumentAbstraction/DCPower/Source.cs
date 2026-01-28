@@ -1883,7 +1883,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 : Math.Max(Math.Abs(settings.LimitHigh.Value), Math.Abs(settings.LimitLow.Value));
         }
 
-        private static List<DCPowerAdvancedSequenceStepProperties> GetValidProperties(DCPowerSourceSettings[] dCPowerSourceSettings)
+       internal static List<DCPowerAdvancedSequenceStepProperties> GetValidProperties(DCPowerSourceSettings[] dCPowerSourceSettings)
         {
             NormalizeDCPowerSourceSettings(dCPowerSourceSettings);
             var advancedSequenceStepProperties = new List<DCPowerAdvancedSequenceStepProperties>();
