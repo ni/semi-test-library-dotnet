@@ -141,6 +141,9 @@
   <data name="Digital_TimeSetPeriodNotDistinct" xml:space="preserve">
     <value>The value of the time set period ({0}) is not the same for all underlying instrument sessions.</value>
   </data>
+  <data name="DCPower_MultipleChannelOutputsDetected" xml:space="preserve">
+    <value>The channelOutput contains more than one channel "{0}". This method overload only supports single channel operation when a valid SitePinInfo object is passed."</value>
+  </data>
   <data name="CreateRamp_InvalidNumberOfPoints" xml:space="preserve">
     <value>Number of points must be greater than one. </value>
   </data>

@@ -16,6 +16,13 @@
     <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="NationalInstruments.DAQmx">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies (64-bit)\Current\NationalInstruments.DAQmx.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
