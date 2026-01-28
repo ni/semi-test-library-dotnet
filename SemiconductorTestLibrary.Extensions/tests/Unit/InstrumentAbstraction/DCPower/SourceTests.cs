@@ -384,6 +384,151 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerSiteValues_Succeeds(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            var sequence = new SiteData<DCPowerSourceSettings[]>(new[]
+            {
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 2.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 2.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 3.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 3.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 4.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 4.5,
+                        Limit = 0.1
+                    }
+                }
+            });
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                var siteData = new SiteData<double[]>(new[]
+                {
+                    new double[] { 1.0, 1.5 },
+                    new double[] { 2.0, 2.5 }
+                });
+                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => siteData.GetValue(siteIndex), precision: 1, itemsToFetch: 2, checkForCurrentMeasurement: false);
+            }
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerSourceMode.Sequence, output.Source.Mode);
+            });
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerPinPerSiteValues_Succeeds(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+
+            var vddSequence = new DCPowerSourceSettings[]
+            {
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1.0,
+                    Limit = 0.1
+                },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 2.0,
+                    Limit = 0.1
+                }
+            };
+
+            // Same sequence for all sites/pins (PinSiteData shape is what this overload is testing).
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(
+                new[] { "VDD" },
+                new[]
+                {
+                    new SiteData<DCPowerSourceSettings[]>(sites, vddSequence)
+                });
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerSourceMode.Sequence, output.Source.Mode);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
         public void DifferentSMUDevices_ConfigureAdvancedSequence_CorrectValueAreSet(bool setAsActiveSequence)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);

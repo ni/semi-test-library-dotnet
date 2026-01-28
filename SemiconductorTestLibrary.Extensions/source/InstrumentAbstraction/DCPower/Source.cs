@@ -1889,12 +1889,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var advancedSequenceStepProperties = new List<DCPowerAdvancedSequenceStepProperties>();
             for (int i = 0; i < dCPowerSourceSettings.Length; i++)
             {
-                advancedSequenceStepProperties[i] = new DCPowerAdvancedSequenceStepProperties
+                var dCPowerAdvancedSequenceStepProperties = new DCPowerAdvancedSequenceStepProperties
                 {
                     OutputFunction = dCPowerSourceSettings[i].OutputFunction,
                     TransientResponse = dCPowerSourceSettings[i].TransientResponse,
                     SourceDelay = dCPowerSourceSettings[i].SourceDelayInSeconds
                 };
+                advancedSequenceStepProperties.Add(dCPowerAdvancedSequenceStepProperties);
                 if (dCPowerSourceSettings[i].OutputFunction == DCPowerSourceOutputFunction.DCVoltage)
                 {
                     advancedSequenceStepProperties[i].VoltageLevel = dCPowerSourceSettings[i].Level;
