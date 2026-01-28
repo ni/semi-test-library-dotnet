@@ -28,6 +28,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         private delegate double? ValueProvider(SitePinInfo sitePinInfo);
 
+        private delegate DCPowerSourceSettings[] AdvancedSequenceProvider(SitePinInfo sitePinInfo);
+
         #endregion
 
         private const double DefaultSequenceTimeout = 5.0;
@@ -853,6 +855,112 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
 
             // Start master
+            masterChannelOutput.Control.Initiate();
+
+            if (waitForSequenceCompletion)
+            {
+                masterChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+            }
+        }
+
+        /// <summary>
+        /// Synchronizes and forces an advanced sequence across all sessions in the bundle.
+        /// </summary>
+        /// <param name="sessionsBundle">The bundle of DC power sessions to synchronize.</param>
+        /// <param name="sequence">The sequence of voltage source settings to apply.</param>
+        /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
+        /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
+        /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
+        public static void ForceAdvancedSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            DCPowerSourceSettings[] sequence,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            AdvancedSequenceProvider getSequence = _ => sequence;
+
+            sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+                getSequence,
+                sequenceLoopCount,
+                waitForSequenceCompletion,
+                sequenceTimeoutInSeconds);
+        }
+
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
+        public static void ForceAdvancedSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<DCPowerSourceSettings[]> sequence,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            AdvancedSequenceProvider getVoltageSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
+
+            sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+                getVoltageSequence,
+                sequenceLoopCount,
+                waitForSequenceCompletion,
+                sequenceTimeoutInSeconds);
+        }
+
+        /// <summary>
+        /// Synchronizes and forces an advanced voltage sequence across all sessions in the bundle using per-pin per-site settings.
+        /// </summary>
+        /// <param name="sessionsBundle">The bundle of DC power sessions to synchronize.</param>
+        /// <param name="sequence">The per-pin per-site sequence of voltage source settings to apply. All properties across DCPowerSourceSettings elements must be consistent.</param>
+        /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
+        /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
+        /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
+        public static void ForceAdvancedSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<DCPowerSourceSettings[]> sequence,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            AdvancedSequenceProvider getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
+
+            sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+                getSequence,
+                sequenceLoopCount,
+                waitForSequenceCompletion,
+                sequenceTimeoutInSeconds);
+        }
+
+        private static void ForceAdvancedSequenceSynchronizedCore(
+            this DCPowerSessionsBundle sessionsBundle,
+            AdvancedSequenceProvider getSequence,
+            int sequenceLoopCount,
+            bool waitForSequenceCompletion,
+            double sequenceTimeoutInSeconds)
+        {
+            var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
+            var sequenceName = $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
+
+            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            {
+                var perSitePinSequence = getSequence(sitePinInfo);
+                var validProperties = GetValidProperties(perSitePinSequence);
+                var perChannelString = sitePinInfo.IndividualChannelString;
+                var channelOutput = sessionInfo.Session.Outputs[perChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.Source.SequenceLoopCount = sequenceLoopCount;
+                ConfigureAdvanceSequenceCore(sequenceName, channelOutput, sitePinInfo.ModelString, validProperties, setAsActiveSequence: true, commitFirstElementAsInitialState: false);
+                if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
+                {
+                    channelOutput.Triggers.StartTrigger.Disable();
+                    channelOutput.Control.Commit();
+                }
+                else
+                {
+                    // Slave channels start on master's start trigger
+                    channelOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.DigitalEdge;
+                    channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
+                    channelOutput.Control.Initiate();
+                }
+            });
+
             masterChannelOutput.Control.Initiate();
 
             if (waitForSequenceCompletion)
@@ -1773,6 +1881,104 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return settings.LimitSymmetry == DCPowerComplianceLimitSymmetry.Symmetric
                 ? Math.Abs(settings.Limit.Value)
                 : Math.Max(Math.Abs(settings.LimitHigh.Value), Math.Abs(settings.LimitLow.Value));
+        }
+
+       internal static List<DCPowerAdvancedSequenceStepProperties> GetValidProperties(DCPowerSourceSettings[] dCPowerSourceSettings)
+        {
+            NormalizeDCPowerSourceSettings(dCPowerSourceSettings);
+            var advancedSequenceStepProperties = new List<DCPowerAdvancedSequenceStepProperties>();
+            for (int i = 0; i < dCPowerSourceSettings.Length; i++)
+            {
+                var dCPowerAdvancedSequenceStepProperties = new DCPowerAdvancedSequenceStepProperties
+                {
+                    OutputFunction = dCPowerSourceSettings[i].OutputFunction,
+                    TransientResponse = dCPowerSourceSettings[i].TransientResponse,
+                    SourceDelay = dCPowerSourceSettings[i].SourceDelayInSeconds
+                };
+                advancedSequenceStepProperties.Add(dCPowerAdvancedSequenceStepProperties);
+                if (dCPowerSourceSettings[i].OutputFunction == DCPowerSourceOutputFunction.DCVoltage)
+                {
+                    advancedSequenceStepProperties[i].VoltageLevel = dCPowerSourceSettings[i].Level;
+                    advancedSequenceStepProperties[i].VoltageLevelRange = dCPowerSourceSettings[i].LevelRange;
+                    advancedSequenceStepProperties[i].CurrentLimit = dCPowerSourceSettings[i].Limit;
+                    advancedSequenceStepProperties[i].CurrentLimitHigh = dCPowerSourceSettings[i].LimitHigh;
+                    advancedSequenceStepProperties[i].CurrentLimitLow = dCPowerSourceSettings[i].LimitLow;
+                    advancedSequenceStepProperties[i].CurrentLimitRange = dCPowerSourceSettings[i].LimitRange;
+                }
+                else if (dCPowerSourceSettings[i].OutputFunction == DCPowerSourceOutputFunction.DCCurrent)
+                {
+                    advancedSequenceStepProperties[i].CurrentLevel = dCPowerSourceSettings[i].Level;
+                    advancedSequenceStepProperties[i].CurrentLevelRange = dCPowerSourceSettings[i].LevelRange;
+                    advancedSequenceStepProperties[i].VoltageLimit = dCPowerSourceSettings[i].Limit;
+                    advancedSequenceStepProperties[i].VoltageLimitHigh = dCPowerSourceSettings[i].LimitHigh;
+                    advancedSequenceStepProperties[i].VoltageLimitLow = dCPowerSourceSettings[i].LimitLow;
+                    advancedSequenceStepProperties[i].VoltageLimitRange = dCPowerSourceSettings[i].LimitRange;
+                }
+            }
+            return advancedSequenceStepProperties;
+        }
+
+        private static void NormalizeDCPowerSourceSettings(DCPowerSourceSettings[] dCPowerSourceSettings)
+        {
+            var nullProperties = NullProperties(dCPowerSourceSettings);
+            foreach (var prop in dCPowerSourceSettings)
+            {
+                if (prop.OutputFunction.HasValue && nullProperties.Contains("OutputFunction"))
+                {
+                    prop.OutputFunction = null;
+                }
+                if (prop.LimitSymmetry.HasValue && nullProperties.Contains("LimitSymmetry"))
+                {
+                    prop.LimitSymmetry = null;
+                }
+                if (prop.Level.HasValue && nullProperties.Contains("Level"))
+                {
+                    prop.Level = null;
+                }
+                if (prop.Limit.HasValue && nullProperties.Contains("Limit"))
+                {
+                    prop.Limit = null;
+                }
+                if (prop.LimitHigh.HasValue && nullProperties.Contains("LimitHigh"))
+                {
+                    prop.LimitHigh = null;
+                }
+                if (prop.LimitLow.HasValue && nullProperties.Contains("LimitLow"))
+                {
+                    prop.LimitLow = null;
+                }
+                if (prop.LevelRange.HasValue && nullProperties.Contains("LevelRange"))
+                {
+                    prop.LevelRange = null;
+                }
+                if (prop.LimitRange.HasValue && nullProperties.Contains("LimitRange"))
+                {
+                    prop.LimitRange = null;
+                }
+                if (prop.SourceDelayInSeconds.HasValue && nullProperties.Contains("SourceDelayInSeconds"))
+                {
+                    prop.SourceDelayInSeconds = null;
+                }
+                if (prop.TransientResponse.HasValue && nullProperties.Contains("TransientResponse"))
+                {
+                    prop.TransientResponse = null;
+                }
+            }
+        }
+
+        private static HashSet<string> NullProperties(DCPowerSourceSettings[] dCPowerSourceSettings)
+        {
+            var nullProperties = new HashSet<string>();
+            var properties = typeof(DCPowerSourceSettings).GetProperties();
+            foreach (var prop in properties)
+            {
+                bool isNull = dCPowerSourceSettings.Any(s => prop.GetValue(s) == null);
+                if (isNull)
+                {
+                    nullProperties.Add(prop.Name);
+                }
+            }
+            return nullProperties;
         }
 
         private static void ConfigureTriggerForGanging(this DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
