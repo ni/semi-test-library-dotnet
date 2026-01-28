@@ -164,11 +164,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 channelOutput.Source.Voltage.VoltageLevelRange = stepProperties.VoltageLevelRange.Value;
             }
-            if (stepProperties.VoltageLimit.HasValue)
+            if (stepProperties.CurrentLimit.HasValue)
             {
                 channelOutput.Source.Voltage.CurrentLimit = stepProperties.CurrentLimit.Value;
             }
-            if (stepProperties.VoltageLimitRange.HasValue)
+            if (stepProperties.CurrentLimitRange.HasValue)
             {
                 channelOutput.Source.Voltage.CurrentLimitRange = stepProperties.CurrentLimitRange.Value;
             }
@@ -181,11 +181,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 channelOutput.Source.Current.CurrentLevelRange = stepProperties.CurrentLevelRange.Value;
             }
-            if (stepProperties.CurrentLimit.HasValue)
+            if (stepProperties.VoltageLimit.HasValue)
             {
                 channelOutput.Source.Current.VoltageLimit = stepProperties.VoltageLimit.Value;
             }
-            if (stepProperties.CurrentLimitRange.HasValue)
+            if (stepProperties.VoltageLimitRange.HasValue)
             {
                 channelOutput.Source.Current.VoltageLimitRange = stepProperties.VoltageLimitRange.Value;
             }
@@ -358,11 +358,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             if (stepProperties.VoltageLimitHigh.HasValue)
             {
-                channelOutput.Source.Voltage.CurrentLimitHigh = stepProperties.VoltageLimitHigh.Value;
+                channelOutput.Source.Current.VoltageLimitHigh = stepProperties.VoltageLimitHigh.Value;
             }
             if (stepProperties.VoltageLimitLow.HasValue)
             {
-                channelOutput.Source.Voltage.CurrentLimitLow = stepProperties.VoltageLimitLow.Value;
+                channelOutput.Source.Current.VoltageLimitLow = stepProperties.VoltageLimitLow.Value;
             }
             if (stepProperties.VoltageCompensationFrequency.HasValue)
             {
