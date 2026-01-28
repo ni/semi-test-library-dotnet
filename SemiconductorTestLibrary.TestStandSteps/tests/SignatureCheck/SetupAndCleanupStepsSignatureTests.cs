@@ -317,12 +317,62 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetAllSetupNIDigitalPatternInstrumentationOverloads_HasSingleOverload()
+        public void GetDeprecatedSetupNIDigitalPatternInstrumentationWithParameters_HasCorrectSignature()
         {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(bool),
+                typeof(string),
+                typeof(string)
+            };
+            var method = classType.GetMethod(
+                "SetupNIDigitalPatternInstrumentation",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertBoolParameter(parameters[1], "resetDevice", true, false);
+            AssertStringParameter(parameters[2], "levelsSheetToApply", true, string.Empty);
+            AssertStringParameter(parameters[3], "timingSheetToApply", true, string.Empty);
+            Assert.Equal(typeof(void), method.ReturnType);
+            Assert.NotNull(method.GetCustomAttribute<ObsoleteAttribute>());
+        }
+
+        [Fact]
+        public void GetSetupNIDigitalPatternInstrumentationWithNoOptionalParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext)
+            };
+            var method = classType.GetMethod(
+                "SetupNIDigitalPatternInstrumentation",
+                BindingFlags.Public | BindingFlags.Static,
+                binder: null,
+                parameterTypes,
+                modifiers: null);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllSetupNIDigitalPatternInstrumentationOverloads_HasExpectedOverloadCount()
+        {
+            int expectedOverloadCount = 3;
             var classType = typeof(SetupAndCleanupSteps);
             var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDigitalPatternInstrumentation");
 
-            Assert.Single(overloads);
+            Assert.Equal(expectedOverloadCount, overloads.Count());
         }
 
         [Fact]
