@@ -1,13 +1,25 @@
 name: Comment on Fixed Issues About New Release
 
 on:
-  create:
-    branches:
-      - 'releases/*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. 25.0.0)'
+        required: true
+        type: string
+
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+
+permissions:
+  issues: write
+  contents: read
 
 jobs:
   comment-on-issues:
-    if: startsWith(github.ref, 'refs/heads/releases/')
     runs-on: ubuntu-latest
     steps:
       - name: Process issues for new release
@@ -15,8 +27,7 @@ jobs:
         with:
           script: |
             const { owner, repo } = context.repo;
-            const branchRef = context.ref;
-            const version = branchRef.replace('refs/heads/releases/', '');
+            const version = "${{ inputs.version }}";
             const releaseLink = `https://github.com/${owner}/${repo}/tree/releases/${version}`;
             const targetUser = "github-actions[bot]";
             const triggerText = "The corresponding work item has been closed. The fix should be available in the next release.";
