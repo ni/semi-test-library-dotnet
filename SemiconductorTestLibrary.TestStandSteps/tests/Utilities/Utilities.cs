@@ -104,13 +104,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
 
         internal static MethodInfo GetMethod(Type classType, string methodName, Type[] parameterTypes)
         {
-            var method = classType.GetMethod(
+            return classType.GetMethod(
                 methodName,
                 BindingFlags.Public | BindingFlags.Static,
                 binder: null,
                 parameterTypes,
                 modifiers: null);
-            return method;
         }
 
         #endregion
