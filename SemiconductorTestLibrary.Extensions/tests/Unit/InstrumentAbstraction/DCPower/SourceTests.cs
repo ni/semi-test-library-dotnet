@@ -2050,6 +2050,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", sourceDelays.PinNames);
         }
 
+        [Fact]
+        public void SMUDevicesGanged_GetSourceDelayInSeconds_ValuesDontHavePinGroupName()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup("AllPinsGangedGroup");
+
+            var sourceDelays = sessionsBundle.GetSourceDelayInSeconds();
+
+            Assert.Equal(5, sourceDelays.PinNames.Length);
+            Assert.DoesNotContain("AllPinsGangedGroup", sourceDelays.PinNames);
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -2177,6 +2190,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Single(currentLimits.PinNames);
             Assert.Equal("VCCPrimary", currentLimits.PinNames[0]);
             Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", currentLimits.PinNames);
+        }
+
+        [Fact]
+        public void SMUDevicesGanged_GetCurrentLimits_ValuesDontHavePinGroupName()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup("AllPinsGangedGroup");
+
+            var currentLimits = sessionsBundle.GetCurrentLimits();
+
+            Assert.Equal(5, currentLimits.PinNames.Length);
+            Assert.DoesNotContain("AllPinsGangedGroup", currentLimits.PinNames);
         }
 
         [Theory]
