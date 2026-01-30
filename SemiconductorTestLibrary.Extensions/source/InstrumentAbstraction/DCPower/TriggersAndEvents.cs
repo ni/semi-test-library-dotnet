@@ -266,6 +266,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, (sitePinInfo.CascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
                 // Configure Measure trigger for follower channels
                 channelOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, (sitePinInfo.CascadingInfo as GangingInfo).MeasureTriggerName, DCPowerTriggerEdge.Rising);
+                channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger; // Need to validate this setting
+            }
+            else
+            {
+                channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
             }
         }
 
