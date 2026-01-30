@@ -4,6 +4,7 @@ using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -15,11 +16,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #region methods on DCPowerSessionsBundle
 
         /// <summary>
-        /// Exports the selected DCPowerSignalSource to the target output terminal.
+        /// Exports the selected DCPowerSignalSource to the target dcPowerOutput terminal.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="signalSource">The signal source to export.</param>
-        /// <param name="outputTerminal">The output terminal the signal routes to.</param>
+        /// <param name="outputTerminal">The dcPowerOutput terminal the signal routes to.</param>
         public static void ExportSignal(this DCPowerSessionsBundle sessionsBundle, DCPowerSignalSource signalSource, string outputTerminal)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -172,32 +173,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Hence, need the ability to check the operation against each channel when configuring triggers.
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
-                if (!triggerTypesUnsupported.Contains(triggerType))
-                {
-                    var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-                    output.Control.Abort();
-                    switch (triggerType)
-                    {
-                        case TriggerType.MeasureTrigger:
-                            output.Triggers.MeasureTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
-                            break;
-                        case TriggerType.PulseTrigger:
-                            output.Triggers.PulseTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
-                            break;
-                        case TriggerType.SequenceAdvanceTrigger:
-                            output.Triggers.SequenceAdvanceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
-                            break;
-                        case TriggerType.SourceTrigger:
-                            output.Triggers.SourceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
-                            break;
-                        case TriggerType.StartTrigger:
-                            output.Triggers.StartTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+                ConfigureTriggerDigitalEdge(output, triggerType, tiggerTerminal, triggerEdge, pinSiteInfo.ModelString);
             });
         }
 
@@ -278,5 +255,53 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         #endregion  methods on DCPowerSessionsBundle
+
+        #region methods on DCPowerOutput
+
+        internal static void ConfigureTriggerForGanging(this DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
+        {
+            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            {
+                // Configure Source trigger for follower channels
+                channelOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, (sitePinInfo.CascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
+                // Configure Measure trigger for follower channels
+                channelOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, (sitePinInfo.CascadingInfo as GangingInfo).MeasureTriggerName, DCPowerTriggerEdge.Rising);
+            }
+        }
+
+        private static void ConfigureTriggerDigitalEdge(this DCPowerOutput dcPowerOutput, TriggerType triggerType, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string instrumentModel = "")
+        {
+            var triggerTypesUnsupported = GetUnsupportedTriggerTypes(instrumentModel);
+            if (!triggerTypesUnsupported.Contains(triggerType))
+            {
+                dcPowerOutput.Control.Abort();
+                switch (triggerType)
+                {
+                    case TriggerType.MeasureTrigger:
+                        dcPowerOutput.Triggers.MeasureTrigger.Type = DCPowerMeasureTriggerType.DigitalEdge;
+                        dcPowerOutput.Triggers.MeasureTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+                        break;
+                    case TriggerType.PulseTrigger:
+                        dcPowerOutput.Triggers.PulseTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+                        break;
+                    case TriggerType.SequenceAdvanceTrigger:
+                        dcPowerOutput.Triggers.SequenceAdvanceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+                        break;
+                    case TriggerType.SourceTrigger:
+                        dcPowerOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
+                        // Need to set the Type first before configuring. Also need to verify if this is required for other trigger types as well.
+                        dcPowerOutput.Triggers.SourceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+                        break;
+                    case TriggerType.StartTrigger:
+                        dcPowerOutput.Triggers.StartTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        #endregion methods on DCPowerOutput
+
     }
 }

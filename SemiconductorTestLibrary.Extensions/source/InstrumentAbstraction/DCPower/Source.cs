@@ -1658,15 +1658,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 : Math.Max(Math.Abs(settings.LimitHigh.Value), Math.Abs(settings.LimitLow.Value));
         }
 
-        private static void ConfigureTriggerForGanging(this DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
-        {
-            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
-            {
-                channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
-                channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure((sitePinInfo.CascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
-            }
-        }
-
         #endregion private and internal methods
     }
 }
