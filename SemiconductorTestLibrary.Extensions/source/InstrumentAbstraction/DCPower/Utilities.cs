@@ -5,11 +5,13 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using NationalInstruments.ModularInstruments.NIDCPower;
-using NationalInstruments.SemiconductorTestLibrary.Common;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
-    internal static class Utilities
+    /// <summary>
+    /// Provides general helper methods.
+    /// </summary>
+    public static class Utilities
     {
         private static readonly Dictionary<TriggerType, IList<string>> _triggerTypeToUnsupportedModelStringMap = new Dictionary<TriggerType, IList<string>>
         {
@@ -83,31 +85,29 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Caches mappings between properties of DCPowerAdvancedSequenceStepProperties and their corresponding DCPowerAdvancedSequenceProperty enum values.
         /// </summary>
-        /// <remarks>
-        /// This cache is populated on first access and eliminates the expensive reflection operations (GetProperties() and Enum.TryParse()) from being executed repeatedly. The cache includes
-        /// properties that have a matching enum value.
-        /// Thread Safety: Uses LazyThreadSafetyMode.ExecutionAndPublication to ensure the initialization function executes only once across all threads, with all threads seeing the same cached result.
-        /// This makes it safe for parallel access without additional locking.
-        /// </remarks>
-        private static readonly Lazy<(PropertyInfo Property, DCPowerAdvancedSequenceProperty EnumValue)[]> _propertyMappingsCache =
-            new Lazy<(PropertyInfo Property, DCPowerAdvancedSequenceProperty EnumValue)[]>(
-                () =>
-                typeof(DCPowerAdvancedSequenceStepProperties)
-                    .GetProperties()
-                    .Select(prop => (
-                        Property: prop,
-                        EnumValue: Enum.TryParse(prop.Name, out DCPowerAdvancedSequenceProperty enumValue) ? enumValue : (DCPowerAdvancedSequenceProperty?)null))
-                    .Where(x => x.EnumValue.HasValue)
-                    .Select(x => (x.Property, x.EnumValue.Value))
-                    .ToArray(),
-                LazyThreadSafetyMode.ExecutionAndPublication);
+        internal static (PropertyInfo Property, DCPowerAdvancedSequenceProperty EnumValue)[] PropertyMappingsCache;
 
-        public static string ExcludeSpecificChannel(this string channelString, string channelToExclude)
+        /// <summary>
+        /// Initializes the cache for DC power advanced sequence property mappings, so that it can be called in while SetupDCPowerInstrumentation reducing the first-call latency when the cache is needed later.
+        /// </summary>
+        public static void CreateDCPowerAdvancedSequencePropertyMappingsCache()
+        {
+            PropertyMappingsCache = typeof(DCPowerAdvancedSequenceStepProperties)
+                .GetProperties()
+                .Select(prop => (
+                    Property: prop,
+                    EnumValue: Enum.TryParse(prop.Name, out DCPowerAdvancedSequenceProperty enumValue) ? enumValue : (DCPowerAdvancedSequenceProperty?)null))
+                .Where(x => x.EnumValue.HasValue)
+                .Select(x => (x.Property, x.EnumValue.Value))
+                .ToArray();
+        }
+
+        internal static string ExcludeSpecificChannel(this string channelString, string channelToExclude)
         {
             return string.Join(",", channelString.Split(',').Where(s => !s.Contains($"/{channelToExclude}")));
         }
 
-        public static IEnumerable<TriggerType> GetUnsupportedTriggerTypes(string modelString)
+        internal static IEnumerable<TriggerType> GetUnsupportedTriggerTypes(string modelString)
         {
             foreach (TriggerType triggerType in _triggerTypeToUnsupportedModelStringMap.Keys)
             {
@@ -118,24 +118,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        public static DCPowerAdvancedSequenceProperty[] GetAdvancedSequencePropertiesToConfigure(IEnumerable<DCPowerAdvancedSequenceStepProperties> perStepProperties)
-        {
-            var result = new HashSet<DCPowerAdvancedSequenceProperty>();
-            foreach (var stepProperties in perStepProperties)
-            {
-                foreach (var (property, enumValue) in _propertyMappingsCache.Value)
-                {
-                    if (property.GetValue(stepProperties) != null)
-                    {
-                        result.Add(enumValue);
-                    }
-                }
-            }
-
-            return result.ToArray();
-        }
-
-        public static void ApplyStepProperties(
+        internal static void ApplyStepProperties(
             DCPowerOutput channelOutput,
             DCPowerAdvancedSequenceStepProperties stepProperties)
         {

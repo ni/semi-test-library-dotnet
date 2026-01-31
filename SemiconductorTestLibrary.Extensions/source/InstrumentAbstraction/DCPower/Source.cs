@@ -1173,18 +1173,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             try
             {
                 channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
-                var advancedSequenceProperties = Utilities.GetAdvancedSequencePropertiesToConfigure(perStepProperties);
+                var advancedSequenceProperties = GetAdvancedSequencePropertiesToConfigure(perStepProperties);
                 channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, setAsActiveSequence: true);
-                int startIndex = 0;
-                if (commitFirstElementAsInitialState && perStepProperties.Count > 0)
+                for (int i = 0; i < perStepProperties.Count; i++)
                 {
-                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(true);
-                    Utilities.ApplyStepProperties(channelOutput, perStepProperties[0]);
-                    startIndex = 1;
-                }
-                for (int i = startIndex; i < perStepProperties.Count; i++)
-                {
-                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
+                    if (i == 0 && commitFirstElementAsInitialState)
+                    {
+                        channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(true);
+                    }
+                    else
+                    {
+                        channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
+                    }
                     Utilities.ApplyStepProperties(channelOutput, perStepProperties[i]);
                 }
                 if (!setAsActiveSequence)
@@ -1192,7 +1192,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
                 }
             }
-            catch (Exception ex) when (ex is Ivi.Driver.OperationNotSupportedException operationNotSupported && operationNotSupported.InnerException != null && operationNotSupported.InnerException is Ivi.Driver.IviCDriverException cDriverException && cDriverException.ErrorCode == AttributeIdNotRecognized)
+            catch (Exception ex) when (ex is Ivi.Driver.OperationNotSupportedException operationNotSupported && operationNotSupported.InnerException is Ivi.Driver.IviCDriverException cDriverException && cDriverException.ErrorCode == AttributeIdNotRecognized)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPowerDeviceNotSupported, modelString), ex);
             }
@@ -1561,6 +1561,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #endregion methods on DCPowerSessionInformation
 
         #region private and internal methods
+
+        private static DCPowerAdvancedSequenceProperty[] GetAdvancedSequencePropertiesToConfigure(IEnumerable<DCPowerAdvancedSequenceStepProperties> perStepProperties)
+        {
+            var result = new HashSet<DCPowerAdvancedSequenceProperty>();
+            foreach (var stepProperties in perStepProperties)
+            {
+                foreach (var (property, enumValue) in Utilities.PropertyMappingsCache)
+                {
+                    if (property.GetValue(stepProperties) != null)
+                    {
+                        result.Add(enumValue);
+                    }
+                }
+            }
+
+            return result.ToArray();
+        }
 
         private static void ConfigureTransientResponce(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {

@@ -5,6 +5,8 @@ using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using ExtensionUtilities = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
+using CommonUtilities = NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 {
@@ -47,7 +49,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 var dcPower = sessionManager.DCPower(dutPins.Concat(systemPins).ToArray());
                 if (powerLineFrequency < 0)
                 {
-                    Utilities.TryDeterminePowerLineFrequency(ref powerLineFrequency, tsmContext.IsSemiconductorModuleInOfflineMode);
+                    CommonUtilities.TryDeterminePowerLineFrequency(ref powerLineFrequency, tsmContext.IsSemiconductorModuleInOfflineMode);
                 }
                 if (powerLineFrequency >= 0)
                 {
@@ -65,6 +67,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                     Sense = measurementSense,
                 };
                 dcPower.ConfigureMeasureSettings(measureSettings);
+                ExtensionUtilities.CreateDCPowerAdvancedSequencePropertyMappingsCache();
             }
             catch (Exception e)
             {
