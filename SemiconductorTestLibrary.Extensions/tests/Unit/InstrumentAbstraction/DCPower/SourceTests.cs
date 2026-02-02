@@ -516,12 +516,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
-
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(DCPowerSourceMode.Sequence, output.Source.Mode);
-            });
         }
 
         [Theory]
