@@ -560,7 +560,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var steps = new List<DCPowerAdvancedSequenceStepProperties>
             {
-                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputShorted = true, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, LcrVoltageRange = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
             };
             const string sequenceName = "AdvancedSequenceException";
             var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureAdvancedSequence(
