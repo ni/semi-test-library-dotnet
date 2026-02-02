@@ -1190,7 +1190,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
                 }
-                Utilities.ApplyStepProperties(channelOutput, perStepProperties[i]);
+                perStepProperties[i].ApplyTo(channelOutput);
             }
             if (!setAsActiveSequence)
             {

@@ -5,7 +5,7 @@ using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using ExtensionUtilities = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
+using DCPowerUtilities = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 using CommonUtilities = NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -67,7 +67,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                     Sense = measurementSense,
                 };
                 dcPower.ConfigureMeasureSettings(measureSettings);
-                ExtensionUtilities.CreateDCPowerAdvancedSequencePropertyMappingsCache();
+                DCPowerUtilities.CreateDCPowerAdvancedSequencePropertyMappingsCache();
             }
             catch (Exception e)
             {

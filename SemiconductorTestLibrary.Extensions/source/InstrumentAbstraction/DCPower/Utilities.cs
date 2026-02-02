@@ -118,9 +118,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        internal static void ApplyStepProperties(
-            DCPowerOutput channelOutput,
-            DCPowerAdvancedSequenceStepProperties stepProperties)
+        internal static void ApplyTo(this DCPowerAdvancedSequenceStepProperties stepProperties, DCPowerOutput channelOutput)
         {
             // Measurement Properties
             if (stepProperties.ApertureTime.HasValue)
