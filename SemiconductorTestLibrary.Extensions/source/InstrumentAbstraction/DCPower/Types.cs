@@ -750,6 +750,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #endregion
 
         #endregion
+
         /// <summary>
         /// Default constructor for DCPowerAdvancedSequenceStepProperties.
         /// </summary>
@@ -758,6 +759,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         #region Apply To Method
+
         internal void ApplyTo(DCPowerOutput channelOutput)
         {
             // Measurement Properties
@@ -1174,6 +1176,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.InstrumentMode = InstrumentMode.Value;
             }
         }
+
         #endregion
     }
 
