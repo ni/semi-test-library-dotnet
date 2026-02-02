@@ -11,6 +11,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using DCPowerUtilities = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
 {
@@ -389,6 +390,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
 
+            DCPowerUtilities.CreateDCPowerAdvancedSequencePropertyMappingsCache();
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var steps = new List<DCPowerAdvancedSequenceStepProperties>
             {
@@ -426,6 +428,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
 
+            DCPowerUtilities.CreateDCPowerAdvancedSequencePropertyMappingsCache();
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var perSiteSteps = new SiteData<IList<DCPowerAdvancedSequenceStepProperties>>(new[]
             {
@@ -486,6 +489,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower(pinNames);
 
+            DCPowerUtilities.CreateDCPowerAdvancedSequencePropertyMappingsCache();
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var perSiteSteps = new Dictionary<string, IDictionary<int, IList<DCPowerAdvancedSequenceStepProperties>>>
             {
@@ -552,6 +556,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
 
+            DCPowerUtilities.CreateDCPowerAdvancedSequencePropertyMappingsCache();
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var steps = new List<DCPowerAdvancedSequenceStepProperties>
             {

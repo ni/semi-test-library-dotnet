@@ -1170,31 +1170,31 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence,
             bool commitFirstElementAsInitialState)
         {
+            channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
+            var advancedSequenceProperties = GetAdvancedSequencePropertiesToConfigure(perStepProperties);
             try
             {
-                channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
-                var advancedSequenceProperties = GetAdvancedSequencePropertiesToConfigure(perStepProperties);
                 channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, setAsActiveSequence: true);
-                for (int i = 0; i < perStepProperties.Count; i++)
-                {
-                    if (i == 0 && commitFirstElementAsInitialState)
-                    {
-                        channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(true);
-                    }
-                    else
-                    {
-                        channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
-                    }
-                    Utilities.ApplyStepProperties(channelOutput, perStepProperties[i]);
-                }
-                if (!setAsActiveSequence)
-                {
-                    channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
-                }
             }
             catch (Exception ex) when (ex is Ivi.Driver.OperationNotSupportedException operationNotSupported && operationNotSupported.InnerException is Ivi.Driver.IviCDriverException cDriverException && cDriverException.ErrorCode == AttributeIdNotRecognized)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPowerDeviceNotSupported, modelString), ex);
+            }
+            for (int i = 0; i < perStepProperties.Count; i++)
+            {
+                if (i == 0 && commitFirstElementAsInitialState)
+                {
+                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(true);
+                }
+                else
+                {
+                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
+                }
+                Utilities.ApplyStepProperties(channelOutput, perStepProperties[i]);
+            }
+            if (!setAsActiveSequence)
+            {
+                channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
             }
         }
 
