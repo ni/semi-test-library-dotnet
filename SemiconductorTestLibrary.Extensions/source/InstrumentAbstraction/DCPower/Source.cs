@@ -967,6 +967,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 masterChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
             }
+            // deleting the advanced sequence after use
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
 
         /// <summary>
