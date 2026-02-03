@@ -31,6 +31,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #endregion
 
         private const double DefaultSequenceTimeout = 5.0;
+        private const int AttributeIdNotRecognized = -1074135028;
 
         #region methods on DCPowerSessionsBundle
 
@@ -1108,6 +1109,96 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Creates and configures an advanced sequence with per-step property configurations.
+        /// </summary>
+        /// <param name="sessionsBundle">The DCPower sessions bundle.</param>
+        /// <param name="sequenceName">The name of the advanced sequence to create.</param>
+        /// <param name="perStepProperties">A list of property configurations for each step in the sequence.</param>
+        /// <param name="setAsActiveSequence">If true, leaves the sequence active after configuration. If false (default), clears the active sequence to allow configuring multiple sequences without activation. Default is false.</param>
+        /// <param name="commitFirstElementAsInitialState">If true, uses the first element in perStepProperties as a commit step. Default is false.</param>
+        public static void ConfigureAdvancedSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            IList<DCPowerAdvancedSequenceStepProperties> perStepProperties,
+            bool setAsActiveSequence = false,
+            bool commitFirstElementAsInitialState = false)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                ConfigureAdvanceSequenceCore(sequenceName, channelOutput, sitePinInfo.ModelString, perStepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureAdvancedSequence(DCPowerSessionsBundle, string, IList{DCPowerAdvancedSequenceStepProperties}, bool, bool)"/>
+        public static void ConfigureAdvancedSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            SiteData<IList<DCPowerAdvancedSequenceStepProperties>> perStepProperties,
+            bool setAsActiveSequence = false,
+            bool commitFirstElementAsInitialState = false)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var stepProperties = perStepProperties.GetValue(sitePinInfo.SiteNumber);
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                ConfigureAdvanceSequenceCore(sequenceName, channelOutput, sitePinInfo.ModelString, stepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureAdvancedSequence(DCPowerSessionsBundle, string, IList{DCPowerAdvancedSequenceStepProperties}, bool, bool)"/>
+        public static void ConfigureAdvancedSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            PinSiteData<IList<DCPowerAdvancedSequenceStepProperties>> perStepProperties,
+            bool setAsActiveSequence = false,
+            bool commitFirstElementAsInitialState = false)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var stepProperties = perStepProperties.GetValue(sitePinInfo);
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                ConfigureAdvanceSequenceCore(sequenceName, channelOutput, sitePinInfo.ModelString, stepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
+            });
+        }
+
+        private static void ConfigureAdvanceSequenceCore(
+            string sequenceName,
+            DCPowerOutput channelOutput,
+            string modelString,
+            IList<DCPowerAdvancedSequenceStepProperties> perStepProperties,
+            bool setAsActiveSequence,
+            bool commitFirstElementAsInitialState)
+        {
+            channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
+            var advancedSequenceProperties = GetAdvancedSequencePropertiesToConfigure(perStepProperties);
+            try
+            {
+                channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, setAsActiveSequence: true);
+            }
+            catch (Exception ex) when (ex is Ivi.Driver.OperationNotSupportedException operationNotSupported && operationNotSupported.InnerException is Ivi.Driver.IviCDriverException cDriverException && cDriverException.ErrorCode == AttributeIdNotRecognized)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPowerDeviceNotSupported, modelString), ex);
+            }
+            for (int i = 0; i < perStepProperties.Count; i++)
+            {
+                if (i == 0 && commitFirstElementAsInitialState)
+                {
+                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(true);
+                }
+                else
+                {
+                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
+                }
+                perStepProperties[i].ApplyTo(channelOutput);
+            }
+            if (!setAsActiveSequence)
+            {
+                channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
+            }
+        }
+
+        /// <summary>
         /// Gets the current limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -1470,6 +1561,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #endregion methods on DCPowerSessionInformation
 
         #region private and internal methods
+
+        private static DCPowerAdvancedSequenceProperty[] GetAdvancedSequencePropertiesToConfigure(IEnumerable<DCPowerAdvancedSequenceStepProperties> perStepProperties)
+        {
+            var result = new HashSet<DCPowerAdvancedSequenceProperty>();
+            foreach (var stepProperties in perStepProperties)
+            {
+                foreach (var (property, enumValue) in Utilities.PropertyMappingsCache)
+                {
+                    if (property.GetValue(stepProperties) != null)
+                    {
+                        result.Add(enumValue);
+                    }
+                }
+            }
+
+            return result.ToArray();
+        }
 
         private static void ConfigureTransientResponce(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {

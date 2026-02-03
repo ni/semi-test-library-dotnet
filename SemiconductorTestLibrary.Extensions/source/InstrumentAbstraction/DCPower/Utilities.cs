@@ -1,9 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Threading;
+using NationalInstruments.ModularInstruments.NIDCPower;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
-    internal static class Utilities
+    /// <summary>
+    /// Provides general helper methods.
+    /// </summary>
+    public static class Utilities
     {
         private static readonly Dictionary<TriggerType, IList<string>> _triggerTypeToUnsupportedModelStringMap = new Dictionary<TriggerType, IList<string>>
         {
@@ -74,12 +82,32 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         };
 
-        public static string ExcludeSpecificChannel(this string channelString, string channelToExclude)
+        /// <summary>
+        /// Caches mappings between properties of DCPowerAdvancedSequenceStepProperties and their corresponding DCPowerAdvancedSequenceProperty enum values.
+        /// </summary>
+        internal static (PropertyInfo Property, DCPowerAdvancedSequenceProperty EnumValue)[] PropertyMappingsCache;
+
+        /// <summary>
+        /// Initializes the cache for DC power advanced sequence property mappings, so that it can be called in while SetupDCPowerInstrumentation reducing the first-call latency when the cache is needed later.
+        /// </summary>
+        public static void CreateDCPowerAdvancedSequencePropertyMappingsCache()
+        {
+            PropertyMappingsCache = typeof(DCPowerAdvancedSequenceStepProperties)
+                .GetProperties()
+                .Select(prop => (
+                    Property: prop,
+                    EnumValue: Enum.TryParse(prop.Name, out DCPowerAdvancedSequenceProperty enumValue) ? enumValue : (DCPowerAdvancedSequenceProperty?)null))
+                .Where(x => x.EnumValue.HasValue)
+                .Select(x => (x.Property, x.EnumValue.Value))
+                .ToArray();
+        }
+
+        internal static string ExcludeSpecificChannel(this string channelString, string channelToExclude)
         {
             return string.Join(",", channelString.Split(',').Where(s => !s.Contains($"/{channelToExclude}")));
         }
 
-        public static IEnumerable<TriggerType> GetUnsupportedTriggerTypes(string modelString)
+        internal static IEnumerable<TriggerType> GetUnsupportedTriggerTypes(string modelString)
         {
             foreach (TriggerType triggerType in _triggerTypeToUnsupportedModelStringMap.Keys)
             {
