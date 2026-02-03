@@ -645,18 +645,44 @@
             <param name="cascadingInfo">Cascading information.</param>
             <returns>True if the cascadingInfo represtents ganging follower channel.</returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.VoltageOrCurrentPinSiteResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,``0}},``0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.VoltagePinSiteResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,``0}},``0)">
             <summary>
             Associates a pin site result with a pin or pin group name in the provided pin site results dictionary.
+            Voltage result of primary pin is returned with pin group name in case of merging.
+            Voltage result of individual pins are averaged and returned with pin group name in case of ganging.
             </summary>
             <typeparam name="T">The type of the result to associate.</typeparam>
             <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object containing pin and site information.</param>
             <param name="pinSiteResults">The dictionary to update with the result, where the key is the pin or pin group name and the value is a dictionary mapping site numbers to results.</param>
             <param name="result">The result to associate with the pin site.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.VoltageOrCurrentSitePinResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.Int32,System.Collections.Generic.IDictionary{System.String,``0}},``0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.CurrentPinSiteResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,``0}},``0)">
+            <summary>
+            Associates a pin site result with a pin or pin group name in the provided pin site results dictionary.
+            Current result of primary pin is returned with pin group name in case of merging.
+            Current result of individual pins are accumulated and returned with pin group name in case of ganging.
+            </summary>
+            <typeparam name="T">The type of the result to associate.</typeparam>
+            <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object containing pin and site information.</param>
+            <param name="pinSiteResults">The dictionary to update with the result, where the key is the pin or pin group name and the value is a dictionary mapping site numbers to results.</param>
+            <param name="result">The result to associate with the pin site.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.VoltageSitePinResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.Int32,System.Collections.Generic.IDictionary{System.String,``0}},``0)">
             <summary>
             Associates a site pin result with a pin or pin group name in the provided site pin results dictionary.
+            Voltage result of primary pin is returned with pin group name in case of merging.
+            Voltage result of individual pins are averaged and returned with pin group name in case of ganging.
+            </summary>
+            <typeparam name="T">The type of the result to associate.</typeparam>
+            <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object containing pin and site information.</param>
+            <param name="sitePinResults">The dictionary to update with the result, where the key is the site number and the value is a dictionary mapping pin or pin group names to results.</param>
+            <param name="result">The result to associate with the site pin.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.CurrentSitePinResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.Int32,System.Collections.Generic.IDictionary{System.String,``0}},``0)">
+            <summary>
+            Associates a site pin result with a pin or pin group name in the provided site pin results dictionary.
+            Current result of primary pin is returned with pin group name in case of merging.
+            Current result of individual pins are accumulated and returned with pin group name in case of ganging.
             </summary>
             <typeparam name="T">The type of the result to associate.</typeparam>
             <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object containing pin and site information.</param>
