@@ -904,14 +904,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceTimeoutInSeconds);
         }
 
-        /// <summary>
-        /// Synchronizes and forces an advanced voltage sequence across all sessions in the bundle using per-pin per-site settings.
-        /// </summary>
-        /// <param name="sessionsBundle">The bundle of DC power sessions to synchronize.</param>
-        /// <param name="sequence">The per-pin per-site sequence of voltage source settings to apply. All properties across DCPowerSourceSettings elements must be consistent.</param>
-        /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
-        /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
-        /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerSourceSettings[]> sequence,
