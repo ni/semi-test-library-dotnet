@@ -194,6 +194,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public class DCPowerAdvancedSequenceStepProperties
     {
+        #region Class Properties
+
         #region Measurement Properties
 
         /// <summary>
@@ -550,74 +552,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public double? ConductionVoltageOnThreshold { get; set; }
 
         /// <summary>
-        /// Frequency at which constant power compensation is applied.
-        /// </summary>
-        public double? ConstantPowerCompensationFrequency { get; set; }
-
-        /// <summary>
-        /// Specifies the current limit for constant power operation.
-        /// </summary>
-        public double? ConstantPowerCurrentLimit { get; set; }
-
-        /// <summary>
-        /// Constant power gain bandwidth value.
-        /// </summary>
-        public double? ConstantPowerGainBandwidth { get; set; }
-
-        /// <summary>
-        /// Constant power level value.
-        /// </summary>
-        public double? ConstantPowerLevel { get; set; }
-
-        /// <summary>
-        /// Range of constant power levels.
-        /// </summary>
-        public double? ConstantPowerLevelRange { get; set; }
-
-        /// <summary>
-        /// Pole-zero ratio for constant power calculations.
-        /// </summary>
-        public double? ConstantPowerPoleZeroRatio { get; set; }
-
-        /// <summary>
-        /// Frequency used for constant resistance compensation.
-        /// </summary>
-        public double? ConstantResistanceCompensationFrequency { get; set; }
-
-        /// <summary>
-        /// Specifies the maximum allowable current for constant resistance mode.
-        /// </summary>
-        public double? ConstantResistanceCurrentLimit { get; set; }
-
-        /// <summary>
-        /// Gain bandwidth for constant resistance.
-        /// </summary>
-        public double? ConstantResistanceGainBandwidth { get; set; }
-
-        /// <summary>
-        /// Specifies a constant resistance level value.
-        /// </summary>
-        public double? ConstantResistanceLevel { get; set; }
-
-        /// <summary>
-        /// Constant resistance level range.
-        /// </summary>
-        public double? ConstantResistanceLevelRange { get; set; }
-
-        /// <summary>
-        /// Ratio of the pole to zero for constant resistance.
-        /// </summary>
-        public double? ConstantResistancePoleZeroRatio { get; set; }
-
-        /// <summary>
         /// Units for the minimum aperture time used during AutoRanging.
         /// </summary>
         public DCPowerMeasureApertureTimeUnits? AutorangeMinimumApertureTimeUnits { get; set; }
-
-        /// <summary>
-        /// Specifies whether the output is shorted.
-        /// </summary>
-        public bool? OutputShorted { get; set; }
 
         #endregion
 
@@ -812,12 +749,435 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #endregion
 
+        #endregion
+
         /// <summary>
         /// Default constructor for DCPowerAdvancedSequenceStepProperties.
         /// </summary>
         public DCPowerAdvancedSequenceStepProperties()
         {
         }
+
+        #region Apply To Method
+
+        internal void ApplyTo(DCPowerOutput channelOutput)
+        {
+            // Measurement Properties
+            if (ApertureTime.HasValue)
+            {
+                channelOutput.Measurement.ApertureTime = ApertureTime.Value;
+            }
+            if (DCNoiseRejection.HasValue)
+            {
+                channelOutput.Measurement.NoiseRejection = DCNoiseRejection.Value;
+            }
+            if (Autorange.HasValue)
+            {
+                channelOutput.Measurement.Autorange = Autorange.Value;
+            }
+            if (Sense.HasValue)
+            {
+                channelOutput.Measurement.Sense = Sense.Value;
+            }
+            if (VoltageLevel.HasValue)
+            {
+                channelOutput.Source.Voltage.VoltageLevel = VoltageLevel.Value;
+            }
+            if (VoltageLevelRange.HasValue)
+            {
+                channelOutput.Source.Voltage.VoltageLevelRange = VoltageLevelRange.Value;
+            }
+            if (CurrentLimit.HasValue)
+            {
+                channelOutput.Source.Voltage.CurrentLimit = CurrentLimit.Value;
+            }
+            if (CurrentLimitRange.HasValue)
+            {
+                channelOutput.Source.Voltage.CurrentLimitRange = CurrentLimitRange.Value;
+            }
+            // DC Current Properties
+            if (CurrentLevel.HasValue)
+            {
+                channelOutput.Source.Current.CurrentLevel = CurrentLevel.Value;
+            }
+            if (CurrentLevelRange.HasValue)
+            {
+                channelOutput.Source.Current.CurrentLevelRange = CurrentLevelRange.Value;
+            }
+            if (VoltageLimit.HasValue)
+            {
+                channelOutput.Source.Current.VoltageLimit = VoltageLimit.Value;
+            }
+            if (VoltageLimitRange.HasValue)
+            {
+                channelOutput.Source.Current.VoltageLimitRange = VoltageLimitRange.Value;
+            }
+            if (PulseVoltageLevel.HasValue)
+            {
+                channelOutput.Source.PulseVoltage.VoltageLevel = PulseVoltageLevel.Value;
+            }
+            if (PulseVoltageLevelRange.HasValue)
+            {
+                channelOutput.Source.PulseVoltage.VoltageLevelRange = PulseVoltageLevelRange.Value;
+            }
+            if (PulseVoltageLimit.HasValue)
+            {
+                channelOutput.Source.PulseVoltage.CurrentLimit = PulseVoltageLimit.Value;
+            }
+            if (PulseVoltageLimitRange.HasValue)
+            {
+                channelOutput.Source.PulseVoltage.CurrentLimitRange = PulseVoltageLimitRange.Value;
+            }
+
+            // Pulse Current Properties
+
+            if (PulseCurrentLevel.HasValue)
+            {
+                channelOutput.Source.PulseCurrent.CurrentLevel = PulseCurrentLevel.Value;
+            }
+            if (PulseCurrentLevelRange.HasValue)
+            {
+                channelOutput.Source.PulseCurrent.CurrentLevelRange = PulseCurrentLevelRange.Value;
+            }
+            if (PulseCurrentLimit.HasValue)
+            {
+                channelOutput.Source.PulseCurrent.VoltageLimit = PulseCurrentLimit.Value;
+            }
+            if (PulseCurrentLimitRange.HasValue)
+            {
+                channelOutput.Source.PulseCurrent.VoltageLimitRange = PulseCurrentLimitRange.Value;
+            }
+            if (PulseBiasVoltageLevel.HasValue)
+            {
+                channelOutput.Source.PulseVoltage.BiasVoltageLevel = PulseBiasVoltageLevel.Value;
+            }
+            if (PulseBiasCurrentLevel.HasValue)
+            {
+                channelOutput.Source.PulseCurrent.BiasCurrentLevel = PulseBiasCurrentLevel.Value;
+            }
+            if (SourceDelay.HasValue)
+            {
+                channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(SourceDelay.Value);
+            }
+            if (TransientResponse.HasValue)
+            {
+                channelOutput.Source.TransientResponse = TransientResponse.Value;
+            }
+            if (MeasureRecordLength.HasValue)
+            {
+                channelOutput.Measurement.RecordLength = MeasureRecordLength.Value;
+            }
+            if (OutputEnabled.HasValue)
+            {
+                channelOutput.Source.Output.Enabled = OutputEnabled.Value;
+            }
+            if (OutputFunction.HasValue)
+            {
+                channelOutput.Source.Output.Function = OutputFunction.Value;
+            }
+            if (ComplianceLimitSymmetry.HasValue)
+            {
+                channelOutput.Source.ComplianceLimitSymmetry = ComplianceLimitSymmetry.Value;
+            }
+            if (OvpEnabled.HasValue)
+            {
+                channelOutput.Source.OvpEnabled = OvpEnabled.Value;
+            }
+            if (OvpLimit.HasValue)
+            {
+                channelOutput.Source.OvpLimit = OvpLimit.Value;
+            }
+            if (LcrCurrentAmplitude.HasValue)
+            {
+                channelOutput.LCR.CurrentAmplitude = LcrCurrentAmplitude.Value;
+            }
+            if (LcrVoltageAmplitude.HasValue)
+            {
+                channelOutput.LCR.VoltageAmplitude = LcrVoltageAmplitude.Value;
+            }
+            if (LcrFrequency.HasValue)
+            {
+                channelOutput.LCR.Frequency = LcrFrequency.Value;
+            }
+            if (LcrDcBiasCurrentLevel.HasValue)
+            {
+                channelOutput.LCR.DCBiasCurrentLevel = LcrDcBiasCurrentLevel.Value;
+            }
+            if (LcrDcBiasVoltageLevel.HasValue)
+            {
+                channelOutput.LCR.DCBiasVoltageLevel = LcrDcBiasVoltageLevel.Value;
+            }
+            if (LcrImpedanceRange.HasValue)
+            {
+                channelOutput.LCR.ImpedanceRange = LcrImpedanceRange.Value;
+            }
+            if (LcrImpedanceRangeSource.HasValue)
+            {
+                channelOutput.LCR.ImpedanceRangeSource = LcrImpedanceRangeSource.Value;
+            }
+            if (LcrMeasurementTime.HasValue)
+            {
+                channelOutput.LCR.MeasurementTime = LcrMeasurementTime.Value;
+            }
+            if (LcrCustomMeasurementTime.HasValue)
+            {
+                channelOutput.LCR.CustomMeasurementTime = LcrCustomMeasurementTime.Value;
+            }
+            if (LcrSourceApertureTime.HasValue)
+            {
+                channelOutput.LCR.Advanced.SourceApertureTime = LcrSourceApertureTime.Value;
+            }
+            if (LcrStimulusFunction.HasValue)
+            {
+                channelOutput.LCR.StimulusFunction = LcrStimulusFunction.Value;
+            }
+            if (LcrDcBiasSource.HasValue)
+            {
+                channelOutput.LCR.DCBiasSource = LcrDcBiasSource.Value;
+            }
+            if (LcrOpenCompensationEnabled.HasValue)
+            {
+                channelOutput.LCR.Compensation.OpenCompensationEnabled = LcrOpenCompensationEnabled.Value;
+            }
+            if (LcrShortCompensationEnabled.HasValue)
+            {
+                channelOutput.LCR.Compensation.ShortCompensationEnabled = LcrShortCompensationEnabled.Value;
+            }
+            if (LcrLoadCompensationEnabled.HasValue)
+            {
+                channelOutput.LCR.Compensation.LoadCompensationEnabled = LcrLoadCompensationEnabled.Value;
+            }
+            if (AutorangeThresholdMode.HasValue)
+            {
+                channelOutput.Measurement.AutorangeThresholdMode = AutorangeThresholdMode.Value;
+            }
+            if (AutorangeApertureTimeMode.HasValue)
+            {
+                channelOutput.Measurement.AutorangeApertureTimeMode = AutorangeApertureTimeMode.Value;
+            }
+            if (AutorangeBehavior.HasValue)
+            {
+                channelOutput.Measurement.AutorangeBehavior = AutorangeBehavior.Value;
+            }
+            if (AutorangeMaximumDelayAfterRangeChange.HasValue)
+            {
+                channelOutput.Measurement.AutorangeMaximumDelayAfterRangeChange = AutorangeMaximumDelayAfterRangeChange.Value;
+            }
+            if (AutorangeMinimumApertureTime.HasValue)
+            {
+                channelOutput.Measurement.AutorangeMinimumApertureTime = AutorangeMinimumApertureTime.Value;
+            }
+            if (AutorangeMinimumCurrentRange.HasValue)
+            {
+                channelOutput.Measurement.AutorangeMinimumCurrentRange = AutorangeMinimumCurrentRange.Value;
+            }
+            if (AutorangeMinimumVoltageRange.HasValue)
+            {
+                channelOutput.Measurement.AutorangeMinimumVoltageRange = AutorangeMinimumVoltageRange.Value;
+            }
+            if (AutorangeMinimumApertureTimeUnits.HasValue)
+            {
+                channelOutput.Measurement.AutorangeMinimumApertureTimeUnits = AutorangeMinimumApertureTimeUnits.Value;
+            }
+            if (VoltageLimitHigh.HasValue)
+            {
+                channelOutput.Source.Current.VoltageLimitHigh = VoltageLimitHigh.Value;
+            }
+            if (VoltageLimitLow.HasValue)
+            {
+                channelOutput.Source.Current.VoltageLimitLow = VoltageLimitLow.Value;
+            }
+            if (VoltageCompensationFrequency.HasValue)
+            {
+                channelOutput.Source.CustomTransientResponse.Voltage.CompensationFrequency = VoltageCompensationFrequency.Value;
+            }
+            if (VoltageGainBandwidth.HasValue)
+            {
+                channelOutput.Source.CustomTransientResponse.Voltage.GainBandwidth = VoltageGainBandwidth.Value;
+            }
+            if (VoltagePoleZeroRatio.HasValue)
+            {
+                channelOutput.Source.CustomTransientResponse.Voltage.PoleZeroRatio = VoltagePoleZeroRatio.Value;
+            }
+            if (CurrentLimitHigh.HasValue)
+            {
+                channelOutput.Source.Voltage.CurrentLimitHigh = CurrentLimitHigh.Value;
+            }
+            if (CurrentLimitLow.HasValue)
+            {
+                channelOutput.Source.Voltage.CurrentLimitLow = CurrentLimitLow.Value;
+            }
+            if (CurrentCompensationFrequency.HasValue)
+            {
+                channelOutput.Source.CustomTransientResponse.Current.CompensationFrequency = CurrentCompensationFrequency.Value;
+            }
+            if (CurrentGainBandwidth.HasValue)
+            {
+                channelOutput.Source.CustomTransientResponse.Current.GainBandwidth = CurrentGainBandwidth.Value;
+            }
+            if (CurrentPoleZeroRatio.HasValue)
+            {
+                channelOutput.Source.CustomTransientResponse.Current.PoleZeroRatio = CurrentPoleZeroRatio.Value;
+            }
+            if (CurrentLevelRisingSlewRate.HasValue)
+            {
+                channelOutput.Source.Current.CurrentLevelRisingSlewRate = CurrentLevelRisingSlewRate.Value;
+            }
+            if (CurrentLevelFallingSlewRate.HasValue)
+            {
+                channelOutput.Source.Current.CurrentLevelFallingSlewRate = CurrentLevelFallingSlewRate.Value;
+            }
+            if (PulseVoltageLimitHigh.HasValue)
+            {
+                channelOutput.Source.PulseCurrent.VoltageLimitHigh = PulseVoltageLimitHigh.Value;
+            }
+            if (PulseVoltageLimitLow.HasValue)
+            {
+                channelOutput.Source.PulseCurrent.VoltageLimitLow = PulseVoltageLimitLow.Value;
+            }
+            if (PulseBiasVoltageLimit.HasValue)
+            {
+                channelOutput.Source.PulseCurrent.BiasVoltageLimit = PulseBiasVoltageLimit.Value;
+            }
+            if (PulseBiasVoltageLimitHigh.HasValue)
+            {
+                channelOutput.Source.PulseCurrent.BiasVoltageLimitHigh = PulseBiasVoltageLimitHigh.Value;
+            }
+            if (PulseBiasVoltageLimitLow.HasValue)
+            {
+                channelOutput.Source.PulseCurrent.BiasVoltageLimitLow = PulseBiasVoltageLimitLow.Value;
+            }
+            if (PulseCurrentLimitHigh.HasValue)
+            {
+                channelOutput.Source.PulseVoltage.CurrentLimitHigh = PulseCurrentLimitHigh.Value;
+            }
+            if (PulseCurrentLimitLow.HasValue)
+            {
+                channelOutput.Source.PulseVoltage.CurrentLimitLow = PulseCurrentLimitLow.Value;
+            }
+            if (PulseBiasCurrentLimit.HasValue)
+            {
+                channelOutput.Source.PulseVoltage.BiasCurrentLimit = PulseBiasCurrentLimit.Value;
+            }
+            if (PulseBiasCurrentLimitHigh.HasValue)
+            {
+                channelOutput.Source.PulseVoltage.BiasCurrentLimitHigh = PulseBiasCurrentLimitHigh.Value;
+            }
+            if (PulseBiasCurrentLimitLow.HasValue)
+            {
+                channelOutput.Source.PulseVoltage.BiasCurrentLimitLow = PulseBiasCurrentLimitLow.Value;
+            }
+            if (PulseOnTime.HasValue)
+            {
+                channelOutput.Source.PulseOnTime = PulseOnTime.Value;
+            }
+            if (PulseOffTime.HasValue)
+            {
+                channelOutput.Source.PulseOffTime = PulseOffTime.Value;
+            }
+            if (PulseBiasDelay.HasValue)
+            {
+                channelOutput.Source.PulseBiasDelay = PrecisionTimeSpan.FromSeconds(PulseBiasDelay.Value);
+            }
+            if (SequenceStepDeltaTime.HasValue)
+            {
+                channelOutput.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(SequenceStepDeltaTime.Value);
+            }
+            if (OutputResistance.HasValue)
+            {
+                channelOutput.Source.Output.Resistance = OutputResistance.Value;
+            }
+            if (ConductionVoltageMode.HasValue)
+            {
+                channelOutput.Source.ConductionVoltageMode = ConductionVoltageMode.Value;
+            }
+            if (ConductionVoltageOffThreshold.HasValue)
+            {
+                channelOutput.Source.ConductionVoltageOffThreshold = ConductionVoltageOffThreshold.Value;
+            }
+            if (ConductionVoltageOnThreshold.HasValue)
+            {
+                channelOutput.Source.ConductionVoltageOnThreshold = ConductionVoltageOnThreshold.Value;
+            }
+            if (LcrActualLoadReactance.HasValue)
+            {
+                channelOutput.LCR.Compensation.ActualLoadReactance = LcrActualLoadReactance.Value;
+            }
+            if (LcrActualLoadResistance.HasValue)
+            {
+                channelOutput.LCR.Compensation.ActualLoadResistance = LcrActualLoadResistance.Value;
+            }
+            if (LcrCurrentRange.HasValue)
+            {
+                channelOutput.LCR.Advanced.CurrentRange = LcrCurrentRange.Value;
+            }
+            if (LcrDcBiasCurrentRange.HasValue)
+            {
+                channelOutput.LCR.Advanced.DCBiasCurrentRange = LcrDcBiasCurrentRange.Value;
+            }
+            if (LcrDcBiasTransientResponse.HasValue)
+            {
+                channelOutput.LCR.Advanced.DCBiasTransientResponse = LcrDcBiasTransientResponse.Value;
+            }
+            if (LcrDcBiasVoltageRange.HasValue)
+            {
+                channelOutput.LCR.Advanced.DCBiasVoltageRange = LcrDcBiasVoltageRange.Value;
+            }
+            if (LcrImpedanceAutoRange.HasValue)
+            {
+                channelOutput.LCR.ImpedanceAutoRange = LcrImpedanceAutoRange.Value;
+            }
+            if (LcrLoadCapacitance.HasValue)
+            {
+                channelOutput.LCR.LoadCapacitance = LcrLoadCapacitance.Value;
+            }
+            if (LcrLoadInductance.HasValue)
+            {
+                channelOutput.LCR.LoadInductance = LcrLoadInductance.Value;
+            }
+            if (LcrLoadResistance.HasValue)
+            {
+                channelOutput.LCR.LoadResistance = LcrLoadResistance.Value;
+            }
+            if (LcrMeasuredLoadReactance.HasValue)
+            {
+                channelOutput.LCR.Compensation.MeasuredLoadReactance = LcrMeasuredLoadReactance.Value;
+            }
+            if (LcrMeasuredLoadResistance.HasValue)
+            {
+                channelOutput.LCR.Compensation.MeasuredLoadResistance = LcrMeasuredLoadResistance.Value;
+            }
+            if (LcrOpenConductance.HasValue)
+            {
+                channelOutput.LCR.Compensation.OpenConductance = LcrOpenConductance.Value;
+            }
+            if (LcrOpenSusceptance.HasValue)
+            {
+                channelOutput.LCR.Compensation.OpenSusceptance = LcrOpenSusceptance.Value;
+            }
+            if (LcrShortReactance.HasValue)
+            {
+                channelOutput.LCR.Compensation.ShortReactance = LcrShortReactance.Value;
+            }
+            if (LcrShortResistance.HasValue)
+            {
+                channelOutput.LCR.Compensation.ShortResistance = LcrShortResistance.Value;
+            }
+            if (LcrSourceDelayMode.HasValue)
+            {
+                channelOutput.LCR.SourceDelayMode = LcrSourceDelayMode.Value;
+            }
+            if (LcrVoltageRange.HasValue)
+            {
+                channelOutput.LCR.Advanced.VoltageRange = LcrVoltageRange.Value;
+            }
+            if (InstrumentMode.HasValue)
+            {
+                channelOutput.InstrumentMode = InstrumentMode.Value;
+            }
+        }
+
+        #endregion
     }
 
     /// <summary>
