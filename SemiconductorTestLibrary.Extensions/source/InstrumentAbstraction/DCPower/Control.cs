@@ -80,6 +80,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var allChannelOutput = sessionInfo.AllChannelsOutput;
                 allChannelOutput.Control.Abort();
                 allChannelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
+                allChannelOutput.Control.Initiate();
                 if (waitForSequenceCompletion)
                 {
                     allChannelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));

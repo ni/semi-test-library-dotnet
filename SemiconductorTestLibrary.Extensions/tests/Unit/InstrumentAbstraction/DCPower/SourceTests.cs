@@ -11,6 +11,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
 {
@@ -526,6 +527,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
 
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var steps = new List<DCPowerAdvancedSequenceStepProperties>
             {
@@ -563,6 +565,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
 
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var perSiteSteps = new SiteData<IList<DCPowerAdvancedSequenceStepProperties>>(new[]
             {
@@ -623,6 +626,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower(pinNames);
 
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var perSiteSteps = new Dictionary<string, IDictionary<int, IList<DCPowerAdvancedSequenceStepProperties>>>
             {
@@ -689,10 +693,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
 
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var steps = new List<DCPowerAdvancedSequenceStepProperties>
             {
-                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputShorted = true, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, LcrVoltageRange = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
             };
             const string sequenceName = "AdvancedSequenceException";
             var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureAdvancedSequence(
@@ -2373,6 +2378,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", sourceDelays.PinNames);
         }
 
+        [Fact]
+        public void SMUDevicesGanged_GetSourceDelayInSeconds_ValuesDontHavePinGroupName()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup("AllPinsGangedGroup");
+
+            var sourceDelays = sessionsBundle.GetSourceDelayInSeconds();
+
+            Assert.Equal(5, sourceDelays.PinNames.Length);
+            Assert.DoesNotContain("AllPinsGangedGroup", sourceDelays.PinNames);
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -2500,6 +2518,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Single(currentLimits.PinNames);
             Assert.Equal("VCCPrimary", currentLimits.PinNames[0]);
             Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", currentLimits.PinNames);
+        }
+
+        [Fact]
+        public void SMUDevicesGanged_GetCurrentLimits_ValuesDontHavePinGroupName()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup("AllPinsGangedGroup");
+
+            var currentLimits = sessionsBundle.GetCurrentLimits();
+
+            Assert.Equal(5, currentLimits.PinNames.Length);
+            Assert.DoesNotContain("AllPinsGangedGroup", currentLimits.PinNames);
         }
 
         [Theory]
