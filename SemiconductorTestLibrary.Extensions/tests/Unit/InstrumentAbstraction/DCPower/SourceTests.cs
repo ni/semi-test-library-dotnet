@@ -2627,6 +2627,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
             string sequenceName = "TestSequence";
             var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
             {
@@ -2655,6 +2656,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
             string sequenceName = "TestSequence";
             var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
             {
@@ -2683,6 +2685,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
             string sequenceName = "TestSequence";
             var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
             {
@@ -2712,6 +2715,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
             string sequenceName1 = "Sequence1";
             string sequenceName2 = "Sequence2";
             var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>

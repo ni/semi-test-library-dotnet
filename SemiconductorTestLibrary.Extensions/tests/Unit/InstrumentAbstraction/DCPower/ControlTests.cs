@@ -7,6 +7,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
 {
@@ -50,6 +51,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
             string sequenceName = "TestSequence";
             var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
             {
@@ -74,6 +76,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
             string sequenceName1 = "Sequence1";
             string sequenceName2 = "Sequence2";
             var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
@@ -100,6 +103,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
             string sequenceName = "Sequence";
             var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
             {
