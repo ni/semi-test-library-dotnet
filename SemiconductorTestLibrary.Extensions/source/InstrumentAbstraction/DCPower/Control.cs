@@ -64,6 +64,29 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.AllChannelsOutput.Control.Initiate();
             });
         }
+
+        /// <summary>
+        /// Initiates the specified advanced sequence on all sessions in the bundle.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object..</param>
+        /// <param name="sequenceName">The name of the advanced sequence to initiate.</param>
+        /// <param name="waitForSequenceCompletion"><see langword="true"/> to wait for the sequence to complete before returning; <see langword="false"/> to
+        /// return immediately after initiating the sequence.</param>
+        /// <param name="sequenceTimeoutInSeconds">The maximum time, in seconds, to wait for the sequence to complete. Used only if <paramref name="waitForSequenceCompletion"/> is <see langword="true"/>. Must be greater then zero.</param>
+        public static void InitiateAdvancedSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, bool waitForSequenceCompletion = false, double sequenceTimeoutInSeconds = 5.0)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                var allChannelOutput = sessionInfo.AllChannelsOutput;
+                allChannelOutput.Control.Abort();
+                allChannelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
+                allChannelOutput.Control.Initiate();
+                if (waitForSequenceCompletion)
+                {
+                    allChannelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+                }
+            });
+        }
         #endregion methods on DCPowerSessionsBundle
     }
 }
