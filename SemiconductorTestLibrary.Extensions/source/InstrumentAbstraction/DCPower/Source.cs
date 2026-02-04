@@ -1418,6 +1418,32 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
+        /// <summary>
+        /// Clears the active advanced sequence for all channels in the specified sessions bundle.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        public static void ClearActiveAdvancedSequence(this DCPowerSessionsBundle sessionsBundle)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.AllChannelsOutput.Control.Abort();
+                sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
+            });
+        }
+
+        /// <summary>
+        /// Deletes the advanced sequence with the specified name from all sessions in the <see cref="DCPowerSessionsBundle"/>.
+        /// </summary>
+        /// <param name = "sessionsBundle" > The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequenceName">The name of the advanced sequence to delete.</param>
+        public static void DeleteAdvancedSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.AllChannelsOutput.Control.Abort();
+                sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.DeleteAdvancedSequence(sequenceName);
+            });
+        }
         #endregion methods on DCPowerSessionsBundle
 
         #region methods on DCPowerOutput
