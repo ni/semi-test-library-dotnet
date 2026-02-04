@@ -265,8 +265,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 // Configure Source trigger for follower channels
                 channelOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, (sitePinInfo.CascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
                 // Configure Measure trigger for follower channels
+                channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
                 channelOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, (sitePinInfo.CascadingInfo as GangingInfo).MeasureTriggerName, DCPowerTriggerEdge.Rising);
-                channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger; // Need to validate this setting
             }
             else
             {
@@ -283,7 +283,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 switch (triggerType)
                 {
                     case TriggerType.MeasureTrigger:
-                        dcPowerOutput.Triggers.MeasureTrigger.Type = DCPowerMeasureTriggerType.DigitalEdge;
                         dcPowerOutput.Triggers.MeasureTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
                         break;
                     case TriggerType.PulseTrigger:
@@ -293,8 +292,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         dcPowerOutput.Triggers.SequenceAdvanceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
                         break;
                     case TriggerType.SourceTrigger:
-                        dcPowerOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
-                        // Need to set the Type first before configuring. Also need to verify if this is required for other trigger types as well.
                         dcPowerOutput.Triggers.SourceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
                         break;
                     case TriggerType.StartTrigger:

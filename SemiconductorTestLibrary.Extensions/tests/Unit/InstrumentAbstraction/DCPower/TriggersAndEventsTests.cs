@@ -331,7 +331,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             // sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             // {
             //     var inputTerminal = $"/{sessionInfo.Session.Outputs[sitePinInfo.InstrumentChannelString].Name.Split('/')[0]}/{triggerLine}";
-            //     AssertTriggerSettings(sessionInfo, sitePinInfo.InstrumentChannelString, DCPowerSourceTriggerType.DigitalEdge, inputTerminal, DCPowerTriggerEdge.Falling);
+            //     AssertSourceTriggerSettings(sessionInfo, sitePinInfo.InstrumentChannelString, DCPowerSourceTriggerType.DigitalEdge, inputTerminal, DCPowerTriggerEdge.Falling);
             // });
         }
 
