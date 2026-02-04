@@ -115,6 +115,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The specified instrument ({0}) does not support one or more of the requested advanced sequence properties..
+        /// </summary>
+        internal static string DCPowerDeviceNotSupported {
+            get {
+                return ResourceManager.GetString("DCPowerDeviceNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The channelOutput contains more than one channel &quot;{0}&quot;. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
         /// </summary>
         internal static string DCPower_MultipleChannelOutputsDetected {
