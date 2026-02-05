@@ -257,19 +257,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region methods on DCPowerOutput
 
-        internal static void ConfigureTriggerForGanging(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
+        internal static void ConfigureSourceTriggerForGanging(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
         {
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
                 // Configure Source trigger for follower channels
                 dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, (sitePinInfo.CascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
+            }
+        }
+
+        internal static void ConfigureMeasureTriggerForGanging(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
+        {
+            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            {
                 // Configure Measure trigger for follower channels
-                dcPowerOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+                dcPowerOutput.ConfigureMeasureWhen(sitePinInfo.ModelString, DCPowerMeasurementWhen.OnMeasureTrigger);
                 dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, (sitePinInfo.CascadingInfo as GangingInfo).MeasureTriggerName, DCPowerTriggerEdge.Rising);
             }
             else
             {
-                dcPowerOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+                dcPowerOutput.ConfigureMeasureWhen(sitePinInfo.ModelString, DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             }
         }
 

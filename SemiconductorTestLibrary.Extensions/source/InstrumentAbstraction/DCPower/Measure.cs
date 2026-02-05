@@ -481,14 +481,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measureWhen">The measurement when to set.</param>
         public static void ConfigureMeasureWhen(this NIDCPower session, string channelString, string modelString, DCPowerMeasurementWhen measureWhen)
         {
-            if (modelString == DCPowerModelStrings.PXI_4110
-                || modelString == DCPowerModelStrings.PXI_4130
-                || session.Outputs[channelString].Measurement.MeasureWhen == measureWhen)
-            {
-                // The 4110 and 4130 support OnDemand only.
-                return;
-            }
-            session.Outputs[channelString].Measurement.MeasureWhen = measureWhen;
+            session.Outputs[channelString].ConfigureMeasureWhen(modelString, measureWhen);
         }
 
         /// <summary>
@@ -605,6 +598,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         #endregion methods on DCPowerSessionInformation
+
+        internal static void ConfigureMeasureWhen(this DCPowerOutput dCPowerOutput, string modelString, DCPowerMeasurementWhen measureWhen)
+        {
+            if (modelString == DCPowerModelStrings.PXI_4110
+                || modelString == DCPowerModelStrings.PXI_4130
+                || dCPowerOutput.Measurement.MeasureWhen == measureWhen)
+            {
+                // The 4110 and 4130 support OnDemand only.
+                return;
+            }
+            dCPowerOutput.Measurement.MeasureWhen = measureWhen;
+        }
 
         #region private methods
 

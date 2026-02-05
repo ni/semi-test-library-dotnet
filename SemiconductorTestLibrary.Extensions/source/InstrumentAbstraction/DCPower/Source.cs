@@ -1575,7 +1575,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
                     channelOutput.ConfigureLevelsAndLimits(settings, sitePin);
-                    channelOutput.ConfigureTriggerForGanging(sitePin);
+                    channelOutput.ConfigureSourceTriggerForGanging(sitePin);
+                    channelOutput.ConfigureMeasureTriggerForGanging(sitePin);
                 });
             }
             else
@@ -1652,6 +1653,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
+            channelOutput.ConfigureMeasureTriggerForGanging(sitePinInfo);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Commit();
         }
