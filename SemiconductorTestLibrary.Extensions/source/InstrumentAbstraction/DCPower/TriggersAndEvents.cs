@@ -15,11 +15,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #region methods on DCPowerSessionsBundle
 
         /// <summary>
-        /// Exports the selected DCPowerSignalSource to the target dcPowerOutput terminal.
+        /// Exports the selected DCPowerSignalSource to the target output terminal.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="signalSource">The signal source to export.</param>
-        /// <param name="outputTerminal">The dcPowerOutput terminal the signal routes to.</param>
+        /// <param name="outputTerminal">The output terminal the signal routes to.</param>
         public static void ExportSignal(this DCPowerSessionsBundle sessionsBundle, DCPowerSignalSource signalSource, string outputTerminal)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -173,7 +173,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-                ConfigureTriggerDigitalEdge(output, triggerType, tiggerTerminal, triggerEdge, pinSiteInfo.ModelString);
+                output.ConfigureTriggerDigitalEdge(triggerType, tiggerTerminal, triggerEdge, pinSiteInfo.ModelString);
             });
         }
 
@@ -257,19 +257,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region methods on DCPowerOutput
 
-        internal static void ConfigureTriggerForGanging(this DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
+        internal static void ConfigureTriggerForGanging(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
         {
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
                 // Configure Source trigger for follower channels
-                channelOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, (sitePinInfo.CascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, (sitePinInfo.CascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
                 // Configure Measure trigger for follower channels
-                channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
-                channelOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, (sitePinInfo.CascadingInfo as GangingInfo).MeasureTriggerName, DCPowerTriggerEdge.Rising);
+                dcPowerOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, (sitePinInfo.CascadingInfo as GangingInfo).MeasureTriggerName, DCPowerTriggerEdge.Rising);
             }
             else
             {
-                channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+                dcPowerOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
             }
         }
 
@@ -303,6 +303,5 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         #endregion methods on DCPowerOutput
-
     }
 }
