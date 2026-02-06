@@ -1576,7 +1576,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     channelOutput.ConfigureLevelsAndLimits(settings, sitePin);
                     channelOutput.ConfigureSourceTriggerForGanging(sitePin);
-                    channelOutput.ConfigureMeasureTriggerForGanging(sitePin);
                 });
             }
             else
@@ -1641,7 +1640,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool waitForSourceCompletion = false)
+        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool waitForSourceCompletion = false)
         {
             var channelString = sitePinInfo?.IndividualChannelString ?? sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
@@ -1649,11 +1648,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.InitiateChannels(waitForSourceCompletion);
         }
 
-        private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo = null)
+        private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
         {
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
-            channelOutput.ConfigureMeasureTriggerForGanging(sitePinInfo);
+            var measurementSettings = new DCPowerMeasureSettings
+            {
+            };
+
+            sessionInfo.ConfigureMeasureSettings(sessionInfo.AllChannelsString, sessionInfo.ModelString, measurementSettings, sitePinInfo);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Commit();
         }

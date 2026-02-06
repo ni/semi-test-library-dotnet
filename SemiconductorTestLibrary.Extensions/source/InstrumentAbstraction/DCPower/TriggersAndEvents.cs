@@ -268,15 +268,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         internal static void ConfigureMeasureTriggerForGanging(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
         {
-            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            var gangingInfo = sitePinInfo.CascadingInfo as GangingInfo;
+            if (IsFollowerOfGangedChannels(gangingInfo))
             {
                 // Configure Measure trigger for follower channels
-                dcPowerOutput.ConfigureMeasureWhen(sitePinInfo.ModelString, DCPowerMeasurementWhen.OnMeasureTrigger);
-                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, (sitePinInfo.CascadingInfo as GangingInfo).MeasureTriggerName, DCPowerTriggerEdge.Rising);
-            }
-            else
-            {
-                dcPowerOutput.ConfigureMeasureWhen(sitePinInfo.ModelString, DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, (gangingInfo).MeasureTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 

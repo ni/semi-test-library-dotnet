@@ -30,7 +30,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionInfo.AbortAndConfigure((channelString, modelString) =>
                 {
-                    sessionInfo.Session.ConfigureMeasureSettings(channelString, modelString, sessionInfo.PowerLineFrequency, settings);
+                    sessionInfo.ConfigureMeasureSettings(channelString, modelString, sessionInfo.PowerLineFrequency, settings);
                 });
             });
         }
@@ -41,7 +41,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo.SiteNumber));
+                sessionInfo.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -51,7 +51,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo));
+                sessionInfo.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo));
             });
         }
 
@@ -65,7 +65,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings[sitePinInfo.PinName]);
+                sessionInfo.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings[sitePinInfo.PinName]);
             });
         }
 
@@ -76,13 +76,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measureWhen">The MeasurementWhen property to set.</param>
         public static void ConfigureMeasureWhen(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementWhen measureWhen)
         {
-            sessionsBundle.Do(sessionInfo =>
+            if (sessionsBundle.HasGangedChannels)
             {
-                sessionInfo.AbortAndConfigure((channelString, modelString) =>
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen);
+                    sessionInfo.Session.ConfigureMeasureWhen(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, measureWhen, sitePinInfo.CascadingInfo);
                 });
-            });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AbortAndConfigure((channelString, modelString) =>
+                    {
+                        sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen, cascadingInfo: null);
+                    });
+                });
+            }
         }
 
         /// <summary>
@@ -479,9 +489,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="channelString">The channel string.</param>
         /// <param name="modelString">The DCPower instrument model.</param>
         /// <param name="measureWhen">The measurement when to set.</param>
-        public static void ConfigureMeasureWhen(this NIDCPower session, string channelString, string modelString, DCPowerMeasurementWhen measureWhen)
+        /// <param name="cascadingInfo">The cascading info for the channel.</param>
+        public static void ConfigureMeasureWhen(this NIDCPower session, string channelString, string modelString, DCPowerMeasurementWhen measureWhen, CascadingInfo cascadingInfo)
         {
-            session.Outputs[channelString].ConfigureMeasureWhen(modelString, measureWhen);
+            session.Outputs[channelString].ConfigureMeasureWhen(modelString, measureWhen, cascadingInfo);
         }
 
         /// <summary>
@@ -599,13 +610,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #endregion methods on DCPowerSessionInformation
 
-        internal static void ConfigureMeasureWhen(this DCPowerOutput dCPowerOutput, string modelString, DCPowerMeasurementWhen measureWhen)
+        private static void ConfigureMeasureWhen(this DCPowerOutput dCPowerOutput, string modelString, DCPowerMeasurementWhen measureWhen, CascadingInfo cascadingInfo)
         {
             if (modelString == DCPowerModelStrings.PXI_4110
-                || modelString == DCPowerModelStrings.PXI_4130
-                || dCPowerOutput.Measurement.MeasureWhen == measureWhen)
+                || modelString == DCPowerModelStrings.PXI_4130)
             {
                 // The 4110 and 4130 support OnDemand only.
+                return;
+            }
+            if (IsFollowerOfGangedChannels(cascadingInfo))
+            {
+                // Followers of ganged channels must use OnMeasureTrigger.
+                dCPowerOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+                return;
+            }
+            else if (cascadingInfo is GangingInfo)
+            {
+                // Masters of ganged channels must use AutomaticallyAfterSourceComplete.
+                dCPowerOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
                 return;
             }
             dCPowerOutput.Measurement.MeasureWhen = measureWhen;
@@ -630,27 +652,43 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureMeasureSettings(this NIDCPower session, string channelString, string modelString, double powerLineFrequency, DCPowerMeasureSettings settings)
+        internal static void ConfigureMeasureSettings(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, DCPowerMeasureSettings settings, SitePinInfo sitePinInfo)
         {
+            if (sessionInfo.HasGangedChannels)
+            {
+                var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
+                Parallel.ForEach(sitePinInfoList, sitePin =>
+                {
+                    var isFollower = sitePin.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower;
+                    var measureWhen = isFollower ? DCPowerMeasurementWhen.OnMeasureTrigger : DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+                    sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen, sitePin.CascadingInfo);
+                sessionInfo.Session.Outputs[channelString].ConfigureMeasureTriggerForGanging(sitePin);
+                });
+            }
+            else if (settings.MeasureWhen.HasValue)
+            {
+                sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, settings.MeasureWhen.Value, cascadingInfo: null);
+            }
+        }
+
+        internal static void ConfigureMeasureSettings(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, double powerLineFrequency, DCPowerMeasureSettings settings)
+        {
+            sessionInfo.ConfigureMeasureSettings(channelString, modelString, settings, sitePinInfo: null);
             if (settings.ApertureTime.HasValue)
             {
-                session.ConfigureApertureTime(channelString, modelString, powerLineFrequency, settings.ApertureTime.Value, settings.ApertureTimeUnits);
+                sessionInfo.Session.ConfigureApertureTime(channelString, modelString, powerLineFrequency, settings.ApertureTime.Value, settings.ApertureTimeUnits);
             }
             if (settings.ApertureTimeUnits.HasValue)
             {
-                session.ConfigureApertureTimeUnits(channelString, modelString, settings.ApertureTimeUnits.Value);
-            }
-            if (settings.MeasureWhen.HasValue)
-            {
-                session.ConfigureMeasureWhen(channelString, modelString, settings.MeasureWhen.Value);
+                sessionInfo.Session.ConfigureApertureTimeUnits(channelString, modelString, settings.ApertureTimeUnits.Value);
             }
             if (settings.Sense.HasValue)
             {
-                session.ConfigureMeasurementSense(channelString, modelString, settings.Sense.Value);
+                sessionInfo.Session.ConfigureMeasurementSense(channelString, modelString, settings.Sense.Value);
             }
             if (settings.RecordLength.HasValue)
             {
-                session.Outputs[channelString].Measurement.RecordLength = settings.RecordLength.Value;
+                sessionInfo.Session.Outputs[channelString].Measurement.RecordLength = settings.RecordLength.Value;
             }
         }
 
