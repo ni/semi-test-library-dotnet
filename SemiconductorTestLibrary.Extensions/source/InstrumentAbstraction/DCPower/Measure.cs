@@ -652,17 +652,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        internal static void ConfigureMeasureSettings(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, DCPowerMeasureSettings settings, SitePinInfo sitePinInfo)
+        internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, DCPowerMeasureSettings settings, SitePinInfo sitePinInfo)
         {
             if (sessionInfo.HasGangedChannels)
             {
                 var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
-                    var isFollower = sitePin.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower;
-                    var measureWhen = isFollower ? DCPowerMeasurementWhen.OnMeasureTrigger : DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
-                    sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen, sitePin.CascadingInfo);
-                sessionInfo.Session.Outputs[channelString].ConfigureMeasureTriggerForGanging(sitePin);
+                    var cascadingInfo = sitePin.CascadingInfo;
+                    var measureWhen = IsFollowerOfGangedChannels(cascadingInfo) ? DCPowerMeasurementWhen.OnMeasureTrigger : DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+                    sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen, cascadingInfo);
+                sessionInfo.Session.Outputs[channelString].ConfigureMeasureTriggerForCascading(cascadingInfo);
                 });
             }
             else if (settings.MeasureWhen.HasValue)
@@ -673,7 +673,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         internal static void ConfigureMeasureSettings(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, double powerLineFrequency, DCPowerMeasureSettings settings)
         {
-            sessionInfo.ConfigureMeasureSettings(channelString, modelString, settings, sitePinInfo: null);
+            sessionInfo.ConfigureMeasureWhen(channelString, modelString, settings, sitePinInfo: null);
             if (settings.ApertureTime.HasValue)
             {
                 sessionInfo.Session.ConfigureApertureTime(channelString, modelString, powerLineFrequency, settings.ApertureTime.Value, settings.ApertureTimeUnits);

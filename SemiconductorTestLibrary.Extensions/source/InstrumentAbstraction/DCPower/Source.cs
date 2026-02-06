@@ -1575,7 +1575,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
                     channelOutput.ConfigureLevelsAndLimits(settings, sitePin);
-                    channelOutput.ConfigureSourceTriggerForGanging(sitePin);
+                    channelOutput.ConfigureSourceTriggerForCascading(sitePin.CascadingInfo);
                 });
             }
             else
@@ -1652,11 +1652,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
-            var measurementSettings = new DCPowerMeasureSettings
-            {
-            };
-
-            sessionInfo.ConfigureMeasureSettings(sessionInfo.AllChannelsString, sessionInfo.ModelString, measurementSettings, sitePinInfo);
+            var measurementSettings = new DCPowerMeasureSettings();
+            sessionInfo.ConfigureMeasureWhen(sessionInfo.AllChannelsString, sessionInfo.ModelString, measurementSettings, sitePinInfo);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Commit();
         }
