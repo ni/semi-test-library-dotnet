@@ -25,13 +25,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private const string FourPinsGangedGroup = "FourPinsGangedGroup";
         private const string AllPinsGangedGroup = "AllPinsGangedGroup";
 
-        private const string AllPinsGroup = "AllPinsGroup";
-        // private const string TwoPinsGroup = "TwoPinsGroup";
-        // private const string ThreePinsGroup = "ThreePinsGroup";
-        // private const string FourPinsGroup = "FourPinsGroup";
-
-        private const int IterationCount = 1000;
-
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
             return Initialize(pinMapWithChannelGroup ? "DifferentSMUDevicesWithChannelGroup.pinmap" : "DifferentSMUDevices.pinmap");
@@ -2718,20 +2711,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerInstrument.pinmap")]
         public void PinsOfCascadedPinGroup_GangPinGroupAndForceCurrentMultipleTimes(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -2767,20 +2750,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerInstrument.pinmap")]
         public void PinsOfCascadedPinGroup_GangPinGroupAndForceVoltage(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -2804,20 +2777,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerInstrument.pinmap")]
         public void PinsOfCascadedPinGroup_GangPinGroupAndForceVoltageMultipleTimes(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -2853,20 +2816,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerInstrument.pinmap")]
         public void PinsOfCascadedPinGroup_ForceCurrent(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -2889,20 +2842,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerInstrument.pinmap")]
         public void PinsOfCascadedPinGroup_ForceCurrentMultipleTimes(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -2937,20 +2880,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerInstrument.pinmap")]
         public void PinsOfCascadedPinGroup_ForceVoltage(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -2973,21 +2906,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_2Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_2Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
-        [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
-        public void PinsOfCascadedPinGroup_ForceVoltageThreeTimes(string pinMapFileName)
+        [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerInstrument.pinmap")]
+        public void PinsOfCascadedPinGroup_ForceVoltageMultipleTimes(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
@@ -3013,6 +2936,293 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                     Level = 3,
                     Limit = 0.05
+                });
+                stopwatch.Stop();
+            }
+            Console.WriteLine(pinMapFileName);
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
+        }
+
+        private const string AllPinsGroup = "AllPinsGroup";
+        private const string TwoPinsGroup = "TwoPinsGroup";
+        private const string ThreePinsGroup = "ThreePinsGroup";
+        // private const string FourPinsGroup = "FourPinsGroup";
+
+        private const int IterationCount = 1000;
+
+        [Theory]
+        [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_2Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_4Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
+        public void PinsOfCascadedPinGroup_GangThreePinsGroupAndForceCurrent(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGroup);
+
+            var stopwatch = new Stopwatch();
+            for (int i = 0; i < IterationCount; i++)
+            {
+                stopwatch.Start();
+                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 0.3,
+                    Limit = 3
+                });
+                stopwatch.Stop();
+            }
+            Console.WriteLine(pinMapFileName);
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
+        }
+
+        [Theory]
+        [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_2Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_4Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
+        public void PinsOfCascadedPinGroup_GangThreePinsGroupAndForceCurrentMultipleTimes(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGroup);
+
+            var stopwatch = new Stopwatch();
+            for (int i = 0; i < IterationCount; i++)
+            {
+                stopwatch.Start();
+                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 0.3,
+                    Limit = 3
+                });
+                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 0.3,
+                    Limit = 3
+                });
+                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 0.3,
+                    Limit = 3
+                });
+                stopwatch.Stop();
+            }
+            Console.WriteLine(pinMapFileName);
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
+        }
+
+        [Theory]
+        [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_2Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_4Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
+        public void PinsOfCascadedPinGroup_GangThreePinsGroupAndForceVoltage(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGroup);
+
+            var stopwatch = new Stopwatch();
+            for (int i = 0; i < IterationCount; i++)
+            {
+                stopwatch.Start();
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
+                });
+                stopwatch.Stop();
+            }
+            Console.WriteLine(pinMapFileName);
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
+        }
+
+        [Theory]
+        [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_2Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_4Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
+        public void PinsOfCascadedPinGroup_GangThreePinsGroupAndForceVoltageMultipleTimes(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGroup);
+
+            var stopwatch = new Stopwatch();
+            for (int i = 0; i < IterationCount; i++)
+            {
+                stopwatch.Start();
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
+                });
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
+                });
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
+                });
+                stopwatch.Stop();
+            }
+            Console.WriteLine(pinMapFileName);
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
+        }
+
+        [Theory]
+        [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerInstrument.pinmap")]
+        public void PinsOfCascadedPinGroup_GangTwoPinsGroupAndForceCurrent(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGroup);
+
+            var stopwatch = new Stopwatch();
+            for (int i = 0; i < IterationCount; i++)
+            {
+                stopwatch.Start();
+                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 0.3,
+                    Limit = 3
+                });
+                stopwatch.Stop();
+            }
+            Console.WriteLine(pinMapFileName);
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
+        }
+
+        [Theory]
+        [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerInstrument.pinmap")]
+        public void PinsOfCascadedPinGroup_GangTwoPinsGroupAndForceCurrentMultipleTimes(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGroup);
+
+            var stopwatch = new Stopwatch();
+            for (int i = 0; i < IterationCount; i++)
+            {
+                stopwatch.Start();
+                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 0.3,
+                    Limit = 3
+                });
+                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 0.3,
+                    Limit = 3
+                });
+                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 0.3,
+                    Limit = 3
+                });
+                stopwatch.Stop();
+            }
+            Console.WriteLine(pinMapFileName);
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
+        }
+
+        [Theory]
+        [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerInstrument.pinmap")]
+        public void PinsOfCascadedPinGroup_GangTwoPinsGroupAndForceVoltage(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGroup);
+
+            var stopwatch = new Stopwatch();
+            for (int i = 0; i < IterationCount; i++)
+            {
+                stopwatch.Start();
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
+                });
+                stopwatch.Stop();
+            }
+            Console.WriteLine(pinMapFileName);
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
+        }
+
+        [Theory]
+        [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerChannel.pinmap")]
+        [InlineData("SMU_4Pins_2Site_SessionPerInstrument.pinmap")]
+        public void PinsOfCascadedPinGroup_GangTwoPinsGroupAndForceVoltageMultipleTimes(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGroup);
+
+            var stopwatch = new Stopwatch();
+            for (int i = 0; i < IterationCount; i++)
+            {
+                stopwatch.Start();
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
+                });
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
+                });
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
                 });
                 stopwatch.Stop();
             }
