@@ -25,6 +25,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private const string FourPinsGangedGroup = "FourPinsGangedGroup";
         private const string AllPinsGangedGroup = "AllPinsGangedGroup";
 
+        private const string AllPinsGroup = "AllPinsGroup";
+        // private const string TwoPinsGroup = "TwoPinsGroup";
+        // private const string ThreePinsGroup = "ThreePinsGroup";
+        // private const string FourPinsGroup = "FourPinsGroup";
+
+        private const int IterationCount = 1000;
+
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
             return Initialize(pinMapWithChannelGroup ? "DifferentSMUDevicesWithChannelGroup.pinmap" : "DifferentSMUDevices.pinmap");
@@ -2691,11 +2698,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void PinsOfCascadedPinGroup_GangPinGroupAndForceCurrent(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(AllPinsGroup);
 
             var stopwatch = new Stopwatch();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
                 sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
@@ -2707,7 +2714,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 stopwatch.Stop();
             }
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
@@ -2728,11 +2735,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void PinsOfCascadedPinGroup_GangPinGroupAndForceCurrentMultipleTimes(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(AllPinsGroup);
 
             var stopwatch = new Stopwatch();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
                 sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
@@ -2756,7 +2763,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 stopwatch.Stop();
             }
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
@@ -2777,23 +2784,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void PinsOfCascadedPinGroup_GangPinGroupAndForceVoltage(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(AllPinsGroup);
 
             var stopwatch = new Stopwatch();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
                 {
-                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
-                    Limit = 3
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
                 });
                 stopwatch.Stop();
             }
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
@@ -2814,35 +2821,35 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void PinsOfCascadedPinGroup_GangPinGroupAndForceVoltageMultipleTimes(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            sessionsBundle.GangPinGroup(AllPinsGroup);
 
             var stopwatch = new Stopwatch();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
                 {
-                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
-                    Limit = 3
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
                 });
-                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
                 {
-                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
-                    Limit = 3
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
                 });
-                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
                 {
-                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
-                    Limit = 3
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.3
                 });
                 stopwatch.Stop();
             }
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
@@ -2863,22 +2870,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void PinsOfCascadedPinGroup_ForceCurrent(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
 
             var stopwatch = new Stopwatch();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
                 sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
+                    Level = 0.05,
                     Limit = 3
                 });
                 stopwatch.Stop();
             }
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
@@ -2899,34 +2906,34 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void PinsOfCascadedPinGroup_ForceCurrentMultipleTimes(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
 
             var stopwatch = new Stopwatch();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
                 sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
+                    Level = 0.05,
                     Limit = 3
                 });
                 sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
+                    Level = 0.05,
                     Limit = 3
                 });
                 sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
+                    Level = 0.05,
                     Limit = 3
                 });
                 stopwatch.Stop();
             }
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
@@ -2947,22 +2954,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void PinsOfCascadedPinGroup_ForceVoltage(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
 
             var stopwatch = new Stopwatch();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
                 {
-                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
-                    Limit = 3
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.05
                 });
                 stopwatch.Stop();
             }
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
@@ -2980,37 +2987,37 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("SMU_8Pins_4Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_8Pins_8Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_8Pins_8Site_SessionPerInstrument.pinmap")]
-        public void PinsOfCascadedPinGroup_ForceVoltageMultipleTimes(string pinMapFileName)
+        public void PinsOfCascadedPinGroup_ForceVoltageThreeTimes(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
 
             var stopwatch = new Stopwatch();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
                 {
-                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
-                    Limit = 3
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.05
                 });
-                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
                 {
-                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
-                    Limit = 3
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.05
                 });
-                sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
+                sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
                 {
-                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
-                    Limit = 3
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
+                    Limit = 0.05
                 });
                 stopwatch.Stop();
             }
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
     }
 }
