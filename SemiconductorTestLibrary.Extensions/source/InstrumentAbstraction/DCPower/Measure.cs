@@ -624,12 +624,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 dCPowerOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
                 return;
             }
-            else if (cascadingInfo is GangingInfo)
-            {
-                // Masters of ganged channels must use AutomaticallyAfterSourceComplete.
-                dCPowerOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
-                return;
-            }
             dCPowerOutput.Measurement.MeasureWhen = measureWhen;
         }
 
