@@ -270,7 +270,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perSitePinPairSettings = settings.GetValue(sitePinInfo);
+                var perSitePinPairSettings = settings.GetCascadedValue(sitePinInfo, out int gangSize).Clone();
+                perSitePinPairSettings.Limit = perSitePinPairSettings.Limit.HasValue ? perSitePinPairSettings.Limit.Value * gangSize : (double?)null;
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
             });
