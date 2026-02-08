@@ -1269,7 +1269,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             string sequenceName,
             DCPowerOutput channelOutput,
             string modelString,
-            IList<DCPowerAdvancedSequenceStepProperties> perStepProperties,
+            IEnumerable<DCPowerAdvancedSequenceStepProperties> perStepProperties,
             bool setAsActiveSequence,
             bool commitFirstElementAsInitialState)
         {
@@ -1283,7 +1283,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPowerDeviceNotSupported, modelString), ex);
             }
-            for (int i = 0; i < perStepProperties.Count; i++)
+            for (int i = 0; i < perStepProperties.Count(); i++)
             {
                 if (i == 0 && commitFirstElementAsInitialState)
                 {
@@ -1293,7 +1293,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
                 }
-                perStepProperties[i].ApplyTo(channelOutput);
+                perStepProperties.ElementAt(i).ApplyTo(channelOutput);
             }
             if (!setAsActiveSequence)
             {
@@ -1895,10 +1895,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 : Math.Max(Math.Abs(settings.LimitHigh.Value), Math.Abs(settings.LimitLow.Value));
         }
 
-       internal static List<DCPowerAdvancedSequenceStepProperties> GetValidProperties(DCPowerSourceSettings[] dCPowerSourceSettings)
-        {
+       internal static IEnumerable<DCPowerAdvancedSequenceStepProperties> GetValidProperties(DCPowerSourceSettings[] dCPowerSourceSettings)
+       {
             NormalizeDCPowerSourceSettings(dCPowerSourceSettings);
-            var advancedSequenceStepProperties = new List<DCPowerAdvancedSequenceStepProperties>();
             for (int i = 0; i < dCPowerSourceSettings.Length; i++)
             {
                 var dCPowerAdvancedSequenceStepProperties = new DCPowerAdvancedSequenceStepProperties
@@ -1907,28 +1906,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     TransientResponse = dCPowerSourceSettings[i].TransientResponse,
                     SourceDelay = dCPowerSourceSettings[i].SourceDelayInSeconds
                 };
-                advancedSequenceStepProperties.Add(dCPowerAdvancedSequenceStepProperties);
                 if (dCPowerSourceSettings[i].OutputFunction == DCPowerSourceOutputFunction.DCVoltage)
                 {
-                    advancedSequenceStepProperties[i].VoltageLevel = dCPowerSourceSettings[i].Level;
-                    advancedSequenceStepProperties[i].VoltageLevelRange = dCPowerSourceSettings[i].LevelRange;
-                    advancedSequenceStepProperties[i].CurrentLimit = dCPowerSourceSettings[i].Limit;
-                    advancedSequenceStepProperties[i].CurrentLimitHigh = dCPowerSourceSettings[i].LimitHigh;
-                    advancedSequenceStepProperties[i].CurrentLimitLow = dCPowerSourceSettings[i].LimitLow;
-                    advancedSequenceStepProperties[i].CurrentLimitRange = dCPowerSourceSettings[i].LimitRange;
+                    dCPowerAdvancedSequenceStepProperties.VoltageLevel = dCPowerSourceSettings[i].Level;
+                    dCPowerAdvancedSequenceStepProperties.VoltageLevelRange = dCPowerSourceSettings[i].LevelRange;
+                    dCPowerAdvancedSequenceStepProperties.CurrentLimit = dCPowerSourceSettings[i].Limit;
+                    dCPowerAdvancedSequenceStepProperties.CurrentLimitHigh = dCPowerSourceSettings[i].LimitHigh;
+                    dCPowerAdvancedSequenceStepProperties.CurrentLimitLow = dCPowerSourceSettings[i].LimitLow;
+                    dCPowerAdvancedSequenceStepProperties.CurrentLimitRange = dCPowerSourceSettings[i].LimitRange;
                 }
                 else if (dCPowerSourceSettings[i].OutputFunction == DCPowerSourceOutputFunction.DCCurrent)
                 {
-                    advancedSequenceStepProperties[i].CurrentLevel = dCPowerSourceSettings[i].Level;
-                    advancedSequenceStepProperties[i].CurrentLevelRange = dCPowerSourceSettings[i].LevelRange;
-                    advancedSequenceStepProperties[i].VoltageLimit = dCPowerSourceSettings[i].Limit;
-                    advancedSequenceStepProperties[i].VoltageLimitHigh = dCPowerSourceSettings[i].LimitHigh;
-                    advancedSequenceStepProperties[i].VoltageLimitLow = dCPowerSourceSettings[i].LimitLow;
-                    advancedSequenceStepProperties[i].VoltageLimitRange = dCPowerSourceSettings[i].LimitRange;
+                    dCPowerAdvancedSequenceStepProperties.CurrentLevel = dCPowerSourceSettings[i].Level;
+                    dCPowerAdvancedSequenceStepProperties.CurrentLevelRange = dCPowerSourceSettings[i].LevelRange;
+                    dCPowerAdvancedSequenceStepProperties.VoltageLimit = dCPowerSourceSettings[i].Limit;
+                    dCPowerAdvancedSequenceStepProperties.VoltageLimitHigh = dCPowerSourceSettings[i].LimitHigh;
+                    dCPowerAdvancedSequenceStepProperties.VoltageLimitLow = dCPowerSourceSettings[i].LimitLow;
+                    dCPowerAdvancedSequenceStepProperties.VoltageLimitRange = dCPowerSourceSettings[i].LimitRange;
                 }
+                yield return dCPowerAdvancedSequenceStepProperties;
             }
-            return advancedSequenceStepProperties;
-        }
+       }
 
         private static void NormalizeDCPowerSourceSettings(DCPowerSourceSettings[] dCPowerSourceSettings)
         {
