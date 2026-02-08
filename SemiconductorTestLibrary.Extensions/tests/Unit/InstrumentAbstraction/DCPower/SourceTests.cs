@@ -389,6 +389,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
 
             var sequence = new SiteData<DCPowerSourceSettings[]>(new[]
             {
@@ -489,6 +490,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
             var sites = GetActiveSites(sessionsBundle);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
 
             var vddSequence = new DCPowerSourceSettings[]
             {
