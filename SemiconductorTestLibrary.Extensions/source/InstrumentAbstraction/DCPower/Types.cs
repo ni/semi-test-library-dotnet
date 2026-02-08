@@ -31,6 +31,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     public class DCPowerSourceSettings
     {
         /// <summary>
+        /// Clones the current DCPower source settings.
+        /// </summary>
+        public DCPowerSourceSettings Clone()
+        {
+            return (DCPowerSourceSettings)this.MemberwiseClone();
+        }
+
+        /// <summary>
         /// The output function.
         /// </summary>
         public DCPowerSourceOutputFunction? OutputFunction { get; set; } = DCPowerSourceOutputFunction.DCVoltage;
