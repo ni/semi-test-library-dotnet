@@ -1895,36 +1895,36 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 : Math.Max(Math.Abs(settings.LimitHigh.Value), Math.Abs(settings.LimitLow.Value));
         }
 
-       internal static IEnumerable<DCPowerAdvancedSequenceStepProperties> GetValidProperties(DCPowerSourceSettings[] dCPowerSourceSettings)
+       internal static IEnumerable<DCPowerAdvancedSequenceStepProperties> GetValidProperties(DCPowerSourceSettings[] dcPowerSourceSettings)
        {
-            NormalizeDCPowerSourceSettings(dCPowerSourceSettings);
-            for (int i = 0; i < dCPowerSourceSettings.Length; i++)
+            NormalizeDCPowerSourceSettings(dcPowerSourceSettings);
+            for (int i = 0; i < dcPowerSourceSettings.Length; i++)
             {
-                var dCPowerAdvancedSequenceStepProperties = new DCPowerAdvancedSequenceStepProperties
+                var dcPowerAdvancedSequenceStepProperties = new DCPowerAdvancedSequenceStepProperties
                 {
-                    OutputFunction = dCPowerSourceSettings[i].OutputFunction,
-                    TransientResponse = dCPowerSourceSettings[i].TransientResponse,
-                    SourceDelay = dCPowerSourceSettings[i].SourceDelayInSeconds
+                    OutputFunction = dcPowerSourceSettings[i].OutputFunction,
+                    TransientResponse = dcPowerSourceSettings[i].TransientResponse,
+                    SourceDelay = dcPowerSourceSettings[i].SourceDelayInSeconds
                 };
-                if (dCPowerSourceSettings[i].OutputFunction == DCPowerSourceOutputFunction.DCVoltage)
+                if (dcPowerSourceSettings[i].OutputFunction == DCPowerSourceOutputFunction.DCVoltage)
                 {
-                    dCPowerAdvancedSequenceStepProperties.VoltageLevel = dCPowerSourceSettings[i].Level;
-                    dCPowerAdvancedSequenceStepProperties.VoltageLevelRange = dCPowerSourceSettings[i].LevelRange;
-                    dCPowerAdvancedSequenceStepProperties.CurrentLimit = dCPowerSourceSettings[i].Limit;
-                    dCPowerAdvancedSequenceStepProperties.CurrentLimitHigh = dCPowerSourceSettings[i].LimitHigh;
-                    dCPowerAdvancedSequenceStepProperties.CurrentLimitLow = dCPowerSourceSettings[i].LimitLow;
-                    dCPowerAdvancedSequenceStepProperties.CurrentLimitRange = dCPowerSourceSettings[i].LimitRange;
+                    dcPowerAdvancedSequenceStepProperties.VoltageLevel = dcPowerSourceSettings[i].Level;
+                    dcPowerAdvancedSequenceStepProperties.VoltageLevelRange = dcPowerSourceSettings[i].LevelRange;
+                    dcPowerAdvancedSequenceStepProperties.CurrentLimit = dcPowerSourceSettings[i].Limit;
+                    dcPowerAdvancedSequenceStepProperties.CurrentLimitHigh = dcPowerSourceSettings[i].LimitHigh;
+                    dcPowerAdvancedSequenceStepProperties.CurrentLimitLow = dcPowerSourceSettings[i].LimitLow;
+                    dcPowerAdvancedSequenceStepProperties.CurrentLimitRange = dcPowerSourceSettings[i].LimitRange;
                 }
-                else if (dCPowerSourceSettings[i].OutputFunction == DCPowerSourceOutputFunction.DCCurrent)
+                else if (dcPowerSourceSettings[i].OutputFunction == DCPowerSourceOutputFunction.DCCurrent)
                 {
-                    dCPowerAdvancedSequenceStepProperties.CurrentLevel = dCPowerSourceSettings[i].Level;
-                    dCPowerAdvancedSequenceStepProperties.CurrentLevelRange = dCPowerSourceSettings[i].LevelRange;
-                    dCPowerAdvancedSequenceStepProperties.VoltageLimit = dCPowerSourceSettings[i].Limit;
-                    dCPowerAdvancedSequenceStepProperties.VoltageLimitHigh = dCPowerSourceSettings[i].LimitHigh;
-                    dCPowerAdvancedSequenceStepProperties.VoltageLimitLow = dCPowerSourceSettings[i].LimitLow;
-                    dCPowerAdvancedSequenceStepProperties.VoltageLimitRange = dCPowerSourceSettings[i].LimitRange;
+                    dcPowerAdvancedSequenceStepProperties.CurrentLevel = dcPowerSourceSettings[i].Level;
+                    dcPowerAdvancedSequenceStepProperties.CurrentLevelRange = dcPowerSourceSettings[i].LevelRange;
+                    dcPowerAdvancedSequenceStepProperties.VoltageLimit = dcPowerSourceSettings[i].Limit;
+                    dcPowerAdvancedSequenceStepProperties.VoltageLimitHigh = dcPowerSourceSettings[i].LimitHigh;
+                    dcPowerAdvancedSequenceStepProperties.VoltageLimitLow = dcPowerSourceSettings[i].LimitLow;
+                    dcPowerAdvancedSequenceStepProperties.VoltageLimitRange = dcPowerSourceSettings[i].LimitRange;
                 }
-                yield return dCPowerAdvancedSequenceStepProperties;
+                yield return dcPowerAdvancedSequenceStepProperties;
             }
        }
 
