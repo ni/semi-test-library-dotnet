@@ -918,9 +918,68 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceTimeoutInSeconds);
         }
 
+        /// <summary>
+        /// Synchronizes and forces an advanced sequence across all sessions in the bundle.
+        /// </summary>
+        /// <param name="sessionsBundle">The bundle of DC power sessions to synchronize.</param>
+        /// <param name="sequence">The sequence of voltage source settings to apply.</param>
+        /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
+        /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
+        /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
+        public static void ForceAdvancedSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            DCPowerAdvancedSequenceStepProperties[] sequence,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            SequenceProvider<DCPowerAdvancedSequenceStepProperties> getSequence = _ => sequence;
+
+            sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+                getSequence,
+                sequenceLoopCount,
+                waitForSequenceCompletion,
+                sequenceTimeoutInSeconds);
+        }
+
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
+        public static void ForceAdvancedSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            SequenceProvider<DCPowerAdvancedSequenceStepProperties> getVoltageSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
+
+            sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+                getVoltageSequence,
+                sequenceLoopCount,
+                waitForSequenceCompletion,
+                sequenceTimeoutInSeconds);
+        }
+
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
+        public static void ForceAdvancedSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            SequenceProvider<DCPowerAdvancedSequenceStepProperties> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
+
+            sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+                getSequence,
+                sequenceLoopCount,
+                waitForSequenceCompletion,
+                sequenceTimeoutInSeconds);
+        }
+
         private static void ForceAdvancedSequenceSynchronizedCore(
             this DCPowerSessionsBundle sessionsBundle,
-            SequenceProvider<DCPowerSourceSettings> getSequence,
+            SequenceProvider<DCPowerSourceSettings> getSequence = null,
+            SequenceProvider<DCPowerAdvancedSequenceStepProperties> getAdvancedSequence = null,
             int sequenceLoopCount,
             bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds)
