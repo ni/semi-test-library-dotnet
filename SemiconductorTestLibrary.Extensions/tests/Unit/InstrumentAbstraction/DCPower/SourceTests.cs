@@ -2972,7 +2972,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
+                    Level = 0.05,
                     Limit = 3
                 });
                 stopwatch.Stop();
@@ -3003,19 +3003,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
+                    Level = 0.05,
                     Limit = 3
                 });
                 sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
+                    Level = 0.05,
                     Limit = 3
                 });
                 sessionsBundle.ForceCurrent(new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                    Level = 0.3,
+                    Level = 0.05,
                     Limit = 3
                 });
                 stopwatch.Stop();
@@ -3047,7 +3047,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                     Level = 3,
-                    Limit = 0.3
+                    Limit = 0.05
                 });
                 stopwatch.Stop();
             }
@@ -3078,19 +3078,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                     Level = 3,
-                    Limit = 0.3
+                    Limit = 0.05
                 });
                 sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                     Level = 3,
-                    Limit = 0.3
+                    Limit = 0.05
                 });
                 sessionsBundle.ForceVoltage(new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                     Level = 3,
-                    Limit = 0.3
+                    Limit = 0.05
                 });
                 stopwatch.Stop();
             }
