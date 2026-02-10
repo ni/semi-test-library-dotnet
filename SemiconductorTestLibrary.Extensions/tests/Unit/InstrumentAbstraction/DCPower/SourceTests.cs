@@ -10,8 +10,8 @@ using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
-using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
 {
@@ -1555,6 +1555,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void DifferentSMUDevicesGangedAndFilteredByPin_ForceVoltage_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+            var filteredBundle = sessionsBundle.FilterByPin("VCC1");
+
+            void ForceVoltageOnFilteredBundle()
+            {
+                filteredBundle.ForceVoltage(3.0, 1.0);
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageOnFilteredBundle);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.Message);
+        }
+
+        [Fact]
         public void DifferentSMUDevicesGanged_ForceCurrentWithPerSiteSettingsObject_CorrectCurrentsForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -1675,6 +1692,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(-1, channelOutput.Source.Current.VoltageLimitLow);
                 AssertTriggerSettings(sessionInfo.AssociatedSitePinList[0], channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGangedAndFilteredByPin_ForceCurrent_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+            var filteredBundle = sessionsBundle.FilterByPin("VCC1");
+
+            void ForceCurrentOnFilteredBundle()
+            {
+                filteredBundle.ForceCurrent(1.0, 3.0);
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceCurrentOnFilteredBundle);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.Message);
         }
 
         [Theory]
@@ -2097,6 +2131,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 AssertVoltageSettings(channelOutput, 4, 0.6);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGangedAndFilteredByPin_ConfigureSourceSettings_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+            var filteredBundle = sessionsBundle.FilterByPin("VCC1");
+
+            void ConfigureSourceSettings()
+            {
+                filteredBundle.ConfigureSourceSettings(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 1,
+                    Limit = 1,
+                });
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureSourceSettings);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.Message);
         }
 
         [Fact]
