@@ -2977,10 +2977,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 return $"/{leaderChannelSlot}/Engine{leaderChannelNumber}/MeasureTrigger";
             }
-            if (gangingInfo != null && !gangingInfo.IsFollower && channel.Contains("SMU_4147"))
-            {
-                return $"/{channel.Remove(channel.Length - 2)}/Engine{leaderChannelNumber}/SourceCompleteEvent";
-            }
             return string.Empty;
         }
 

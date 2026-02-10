@@ -1652,8 +1652,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
-            var measurementSettings = new DCPowerMeasureSettings();
-            sessionInfo.ConfigureMeasureWhen(sessionInfo.AllChannelsString, sessionInfo.ModelString, measurementSettings, sitePinInfo);
+            sessionInfo.ConfigureMeasureWhen(sessionInfo.AllChannelsString, sessionInfo.ModelString, null, sitePinInfo);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Commit();
         }
