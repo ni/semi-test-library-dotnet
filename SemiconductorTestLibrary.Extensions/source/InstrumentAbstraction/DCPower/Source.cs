@@ -1892,9 +1892,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 : Math.Max(Math.Abs(settings.LimitHigh.Value), Math.Abs(settings.LimitLow.Value));
         }
 
-       internal static IEnumerable<DCPowerAdvancedSequenceStepProperties> GetValidProperties(DCPowerSourceSettings[] dcPowerSourceSettings)
-       {
-            NormalizeDCPowerSourceSettings(dcPowerSourceSettings);
+        internal static IEnumerable<DCPowerAdvancedSequenceStepProperties> GetValidProperties(DCPowerSourceSettings[] dcPowerSourceSettings)
+        {
+            ValidateAdvancedSequenceProperties(dcPowerSourceSettings);
+
             for (int i = 0; i < dcPowerSourceSettings.Length; i++)
             {
                 var dcPowerAdvancedSequenceStepProperties = new DCPowerAdvancedSequenceStepProperties
@@ -1923,69 +1924,95 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
                 yield return dcPowerAdvancedSequenceStepProperties;
             }
-       }
-
-        private static void NormalizeDCPowerSourceSettings(DCPowerSourceSettings[] dCPowerSourceSettings)
-        {
-            var nullProperties = NullProperties(dCPowerSourceSettings);
-            foreach (var prop in dCPowerSourceSettings)
-            {
-                if (prop.OutputFunction.HasValue && nullProperties.Contains("OutputFunction"))
-                {
-                    prop.OutputFunction = null;
-                }
-                if (prop.LimitSymmetry.HasValue && nullProperties.Contains("LimitSymmetry"))
-                {
-                    prop.LimitSymmetry = null;
-                }
-                if (prop.Level.HasValue && nullProperties.Contains("Level"))
-                {
-                    prop.Level = null;
-                }
-                if (prop.Limit.HasValue && nullProperties.Contains("Limit"))
-                {
-                    prop.Limit = null;
-                }
-                if (prop.LimitHigh.HasValue && nullProperties.Contains("LimitHigh"))
-                {
-                    prop.LimitHigh = null;
-                }
-                if (prop.LimitLow.HasValue && nullProperties.Contains("LimitLow"))
-                {
-                    prop.LimitLow = null;
-                }
-                if (prop.LevelRange.HasValue && nullProperties.Contains("LevelRange"))
-                {
-                    prop.LevelRange = null;
-                }
-                if (prop.LimitRange.HasValue && nullProperties.Contains("LimitRange"))
-                {
-                    prop.LimitRange = null;
-                }
-                if (prop.SourceDelayInSeconds.HasValue && nullProperties.Contains("SourceDelayInSeconds"))
-                {
-                    prop.SourceDelayInSeconds = null;
-                }
-                if (prop.TransientResponse.HasValue && nullProperties.Contains("TransientResponse"))
-                {
-                    prop.TransientResponse = null;
-                }
-            }
         }
 
-        private static HashSet<string> NullProperties(DCPowerSourceSettings[] dCPowerSourceSettings)
+        /*
+        private static void ValidateDCPowerSourceSettingsProperties(DCPowerSourceSettings[] dcPowerSourceSettings)
         {
-            var nullProperties = new HashSet<string>();
-            var properties = typeof(DCPowerSourceSettings).GetProperties();
-            foreach (var prop in properties)
+            List<string> invalidProperties = new List<string>();
+
+            if (dcPowerSourceSettings.Any(setting => setting.OutputFunction.HasValue) && dcPowerSourceSettings.Any(setting => !setting.OutputFunction.HasValue))
             {
-                bool isNull = dCPowerSourceSettings.Any(s => prop.GetValue(s) == null);
-                if (isNull)
+                invalidProperties.Add("OutputFunction");
+            }
+            if (dcPowerSourceSettings.Any(setting => setting.LimitSymmetry.HasValue) && dcPowerSourceSettings.Any(setting => !setting.LimitSymmetry.HasValue))
+            {
+                invalidProperties.Add("LimitSymmetry");
+            }
+            if (dcPowerSourceSettings.Any(setting => setting.Level.HasValue) && dcPowerSourceSettings.Any(setting => !setting.Level.HasValue))
+            {
+                invalidProperties.Add("Level");
+            }
+            if (dcPowerSourceSettings.Any(setting => setting.Limit.HasValue) && dcPowerSourceSettings.Any(setting => !setting.Limit.HasValue))
+            {
+                invalidProperties.Add("Limit");
+            }
+            if (dcPowerSourceSettings.Any(setting => setting.LimitHigh.HasValue) && dcPowerSourceSettings.Any(setting => !setting.LimitHigh.HasValue))
+            {
+                invalidProperties.Add("LimitHigh");
+            }
+            if (dcPowerSourceSettings.Any(setting => setting.LimitLow.HasValue) && dcPowerSourceSettings.Any(setting => !setting.LimitLow.HasValue))
+            {
+                invalidProperties.Add("LimitLow");
+            }
+            if (dcPowerSourceSettings.Any(setting => setting.LevelRange.HasValue) && dcPowerSourceSettings.Any(setting => !setting.LevelRange.HasValue))
+            {
+                invalidProperties.Add("LevelRange");
+            }
+            if (dcPowerSourceSettings.Any(setting => setting.LimitRange.HasValue) && dcPowerSourceSettings.Any(setting => !setting.LimitRange.HasValue))
+            {
+                invalidProperties.Add("LimitRange");
+            }
+            if (dcPowerSourceSettings.Any(setting => setting.SourceDelayInSeconds.HasValue) && dcPowerSourceSettings.Any(setting => !setting.SourceDelayInSeconds.HasValue))
+            {
+                invalidProperties.Add("SourceDelayInSeconds");
+            }
+            if (dcPowerSourceSettings.Any(setting => setting.TransientResponse.HasValue) && dcPowerSourceSettings.Any(setting => !setting.TransientResponse.HasValue))
+            {
+                invalidProperties.Add("TransientResponse");
+            }
+
+            if (invalidProperties.Count > 0)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_InconsistentAdvancedSequenceProperties, string.Join(", ", invalidProperties.Select(property => $"\"{property}\""))));
+            }
+        }
+        */
+        private static void ValidateAdvancedSequenceProperties<T>(T[] sequenceProperties) where T : class
+        {
+            var properties = typeof(T).GetProperties();
+
+            var invalidProperties = new List<string>();
+
+            foreach (var property in properties)
+            {
+                var hasValue = false;
+                var missingValue = false;
+
+                foreach (var setting in sequenceProperties)
                 {
-                    nullProperties.Add(prop.Name);
+                    var value = property.GetValue(setting);
+                    if (value != null)
+                    {
+                        hasValue = true;
+                    }
+                    else
+                    {
+                        missingValue = true;
+                    }
+
+                    if (hasValue && missingValue)
+                    {
+                        invalidProperties.Add(property.Name);
+                        break;
+                    }
                 }
             }
-            return nullProperties;
+
+            if (invalidProperties.Count > 0)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_InconsistentAdvancedSequenceProperties, string.Join(", ", invalidProperties.Select(p => $"\"{p}\""))));
+            }
         }
 
         private static void ConfigureTriggerForGanging(this DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
