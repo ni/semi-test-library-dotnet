@@ -80,7 +80,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    sessionInfo.Session.ConfigureMeasureWhen(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, measureWhen, sitePinInfo.CascadingInfo);
+                    var tempMeasureWhen = measureWhen;
+                    if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                    {
+                        tempMeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+                    }
+                    sessionInfo.Session.ConfigureMeasureWhen(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, tempMeasureWhen);
                 });
             }
             else
@@ -89,7 +94,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     sessionInfo.AbortAndConfigure((channelString, modelString) =>
                     {
-                        sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen, cascadingInfo: null);
+                        sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen);
                     });
                 });
             }
@@ -489,10 +494,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="channelString">The channel string.</param>
         /// <param name="modelString">The DCPower instrument model.</param>
         /// <param name="measureWhen">The measurement when to set.</param>
-        /// <param name="cascadingInfo">The cascading info for the channel.</param>
-        public static void ConfigureMeasureWhen(this NIDCPower session, string channelString, string modelString, DCPowerMeasurementWhen measureWhen, CascadingInfo cascadingInfo)
+        public static void ConfigureMeasureWhen(this NIDCPower session, string channelString, string modelString, DCPowerMeasurementWhen measureWhen)
         {
-            session.Outputs[channelString].ConfigureMeasureWhen(modelString, measureWhen, cascadingInfo);
+            session.Outputs[channelString].ConfigureMeasureWhen(modelString, measureWhen);
         }
 
         /// <summary>
@@ -610,18 +614,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #endregion methods on DCPowerSessionInformation
 
-        private static void ConfigureMeasureWhen(this DCPowerOutput dCPowerOutput, string modelString, DCPowerMeasurementWhen measureWhen, CascadingInfo cascadingInfo)
+        private static void ConfigureMeasureWhen(this DCPowerOutput dCPowerOutput, string modelString, DCPowerMeasurementWhen measureWhen)
         {
             if (modelString == DCPowerModelStrings.PXI_4110
-                || modelString == DCPowerModelStrings.PXI_4130)
+                || modelString == DCPowerModelStrings.PXI_4130
+                || dCPowerOutput.Measurement.MeasureWhen == measureWhen)
             {
                 // The 4110 and 4130 support OnDemand only.
-                return;
-            }
-            if (IsFollowerOfGangedChannels(cascadingInfo))
-            {
-                // Followers of ganged channels must use OnMeasureTrigger.
-                dCPowerOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
                 return;
             }
             dCPowerOutput.Measurement.MeasureWhen = measureWhen;
@@ -655,13 +654,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     var cascadingInfo = sitePin.CascadingInfo;
                     var measureWhen = IsFollowerOfGangedChannels(cascadingInfo) ? DCPowerMeasurementWhen.OnMeasureTrigger : DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
-                    sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen, cascadingInfo);
+                    sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen);
                 sessionInfo.Session.Outputs[channelString].ConfigureMeasureTriggerForCascading(cascadingInfo);
                 });
             }
             else if (settings.MeasureWhen.HasValue)
             {
-                sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, settings.MeasureWhen.Value, cascadingInfo: null);
+                sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, settings.MeasureWhen.Value);
             }
         }
 
