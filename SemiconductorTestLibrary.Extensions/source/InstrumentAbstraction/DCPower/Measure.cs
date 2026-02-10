@@ -676,22 +676,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         internal static void ConfigureMeasureSettings(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, double powerLineFrequency, DCPowerMeasureSettings settings)
         {
+            var session = sessionInfo.Session;
             sessionInfo.ConfigureMeasureWhen(channelString, modelString, settings, sitePinInfo: null);
             if (settings.ApertureTime.HasValue)
             {
-                sessionInfo.Session.ConfigureApertureTime(channelString, modelString, powerLineFrequency, settings.ApertureTime.Value, settings.ApertureTimeUnits);
+                session.ConfigureApertureTime(channelString, modelString, powerLineFrequency, settings.ApertureTime.Value, settings.ApertureTimeUnits);
             }
             if (settings.ApertureTimeUnits.HasValue)
             {
-                sessionInfo.Session.ConfigureApertureTimeUnits(channelString, modelString, settings.ApertureTimeUnits.Value);
+                session.ConfigureApertureTimeUnits(channelString, modelString, settings.ApertureTimeUnits.Value);
             }
             if (settings.Sense.HasValue)
             {
-                sessionInfo.Session.ConfigureMeasurementSense(channelString, modelString, settings.Sense.Value);
+                session.ConfigureMeasurementSense(channelString, modelString, settings.Sense.Value);
             }
             if (settings.RecordLength.HasValue)
             {
-                sessionInfo.Session.Outputs[channelString].Measurement.RecordLength = settings.RecordLength.Value;
+                session.Outputs[channelString].Measurement.RecordLength = settings.RecordLength.Value;
             }
         }
 
