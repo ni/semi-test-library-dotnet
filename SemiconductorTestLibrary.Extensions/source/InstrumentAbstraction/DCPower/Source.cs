@@ -1575,7 +1575,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
                     channelOutput.ConfigureLevelsAndLimits(settings, sitePin);
-                    channelOutput.ConfigureSourceTriggerForCascading(sitePin.CascadingInfo);
+                    channelOutput.ConfigureSourceTriggerForCascading(sitePin);
                 });
             }
             else

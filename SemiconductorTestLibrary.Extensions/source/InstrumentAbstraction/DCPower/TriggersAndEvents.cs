@@ -257,21 +257,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region methods on DCPowerOutput
 
-        internal static void ConfigureSourceTriggerForCascading(this DCPowerOutput dcPowerOutput, CascadingInfo cascadingInfo)
+        internal static void ConfigureSourceTriggerForCascading(this DCPowerOutput dcPowerOutput, SitePinInfo sitePin)
         {
-            if (IsFollowerOfGangedChannels(cascadingInfo))
+            var gangingInfo = sitePin?.CascadingInfo as GangingInfo;
+            if (IsFollowerOfGangedChannels(gangingInfo))
             {
                 // Configure Source trigger for follower channels
-                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, (cascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, gangingInfo.SourceTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
-        internal static void ConfigureMeasureTriggerForCascading(this DCPowerOutput dcPowerOutput, CascadingInfo cascadingInfo)
+        internal static void ConfigureMeasureTriggerForCascading(this DCPowerOutput dcPowerOutput, SitePinInfo sitePin)
         {
-            if (IsFollowerOfGangedChannels(cascadingInfo))
+            var gangingInfo = sitePin?.CascadingInfo as GangingInfo;
+            if (IsFollowerOfGangedChannels(gangingInfo))
             {
                 // Configure Measure trigger for follower channels
-                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, (cascadingInfo as GangingInfo).MeasureTriggerName, DCPowerTriggerEdge.Rising);
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, gangingInfo.MeasureTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 

@@ -647,20 +647,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, DCPowerMeasureSettings settings, SitePinInfo sitePinInfo)
         {
+            var output = sessionInfo.Session.Outputs[channelString];
             if (sessionInfo.HasGangedChannels)
             {
                 var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
-                    var cascadingInfo = sitePin.CascadingInfo;
-                    var measureWhen = IsFollowerOfGangedChannels(cascadingInfo) ? DCPowerMeasurementWhen.OnMeasureTrigger : DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
-                    sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen);
-                sessionInfo.Session.Outputs[channelString].ConfigureMeasureTriggerForCascading(cascadingInfo);
+                    if (sitePin.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
+                    {
+                        output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
+                    }
+                    else if (settings.MeasureWhen.HasValue)
+                    {
+                        output.ConfigureMeasureWhen(modelString, settings.MeasureWhen.Value);
+                    }
+                    else if (sitePin.CascadingInfo is GangingInfo)
+                    {
+                        output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+                    }
+                    output.ConfigureMeasureTriggerForCascading(sitePin);
                 });
             }
             else if (settings.MeasureWhen.HasValue)
             {
-                sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, settings.MeasureWhen.Value);
+                output.ConfigureMeasureWhen(modelString, settings.MeasureWhen.Value);
             }
         }
 
