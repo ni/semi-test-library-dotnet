@@ -270,7 +270,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perSitePinPairSettings = settings.GetCascadedValue(sitePinInfo, out int gangSize);
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo, out int gangSize);
                 if (gangSize > 1)
                 {
                     perSitePinPairSettings = perSitePinPairSettings.Clone();
@@ -605,7 +605,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = (currentLevels.GetCascadedValue(sitePinInfo, out int gangSize)) * gangSize,
+                    Level = (currentLevels.GetValue(sitePinInfo, out int cascadingFactor)) * cascadingFactor,
                     Limit = voltageLimit,
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
@@ -689,11 +689,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perSitePinPairSettings = settings.GetCascadedValue(sitePinInfo, out int gangSize);
-                if (gangSize > 1)
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo, out int cascadingFactor);
+                if (cascadingFactor > 1)
                 {
                     perSitePinPairSettings = perSitePinPairSettings.Clone();
-                    perSitePinPairSettings.Level = perSitePinPairSettings.Level.HasValue ? perSitePinPairSettings.Level.Value * gangSize : (double?)null;
+                    perSitePinPairSettings.Level = perSitePinPairSettings.Level.HasValue ? perSitePinPairSettings.Level.Value * cascadingFactor : (double?)null;
                 }
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
