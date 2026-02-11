@@ -1731,7 +1731,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGangedAndFilteredByFewPins_ForceCurrent_ThrowsException()
+        public void DifferentSMUDevicesGanged_ForceCurrentOnFilteredBundleWithFewPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -1748,7 +1748,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceCurrentonSubSetbundle_ThrowsException()
+        public void DifferentSMUDevicesGanged_ForceCurrentonSubSetbundleWithTwoPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
