@@ -46,7 +46,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             if (tsmContext.IsSemiconductorModuleInOfflineMode)
             {
                 // Limits are based on the expected value returned by the driver when in Offline Mode.
-                AssertPublishedDataValueInRange(publishedDataMinimum, minimumValue, -0.9 * minimumValue);
+                AssertPublishedDataValueInRange(publishedDataMinimum, minimumValue, 0.9 * minimumValue);
             }
             else
             {
