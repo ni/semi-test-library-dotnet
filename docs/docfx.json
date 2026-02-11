@@ -6,7 +6,7 @@
           "src": "../SemiconductorTestLibrary.Extensions",
           "files": [
             "**/NationalInstruments.SemiconductorTestLibrary.Abstractions.dll",
-            "**/*.csproj"
+            "**/SemiconductorTestLibrary.Extensions.csproj"
           ],
           "exclude": [ "**/obj/**", "**/[Tt]ests/**" ]
         }
@@ -23,7 +23,7 @@
         {
           "src": "../SemiconductorTestLibrary.TestStandSteps",
           "files": [
-            "**/*.csproj"
+            "**/SemiconductorTestLibrary.TestStandSteps.csproj"
           ],
           "exclude": [ "**/obj/**", "**/[Tt]ests/**" ]
         }
