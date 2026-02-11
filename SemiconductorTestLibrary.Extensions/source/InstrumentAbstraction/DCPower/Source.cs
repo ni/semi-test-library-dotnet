@@ -1652,7 +1652,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
-            sessionInfo.ConfigureMeasureWhen(sessionInfo.AllChannelsString, sessionInfo.ModelString, null, sitePinInfo);
+            sessionInfo.ConfigureMeasureWhenAndTriggerForCascading(sessionInfo.AllChannelsString, sessionInfo.ModelString, sitePinInfo);
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Commit();
         }

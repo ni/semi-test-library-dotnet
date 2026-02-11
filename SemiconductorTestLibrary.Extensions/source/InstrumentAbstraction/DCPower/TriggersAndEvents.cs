@@ -272,7 +272,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var gangingInfo = sitePin?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
-                // Configure Measure trigger for follower channels
+                // Configure Measure trigger and MeasureWhen for follower channels
                 dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, gangingInfo.MeasureTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
