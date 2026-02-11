@@ -16,8 +16,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         [Fact]
         public void InitializeDAQmxAIVoltageTask_RunDAQmxTestAcquireAnalogInputWaveforms_CorrectDataPublished()
         {
+            double maximumValue = 10;
+            double minimumValue = -10;
             var tsmContext = CreateTSMContext("DAQmxMultiChannelTests.pinmap", out var publishedDataReader);
-            SetupNIDAQmxAIVoltageTask(tsmContext);
+            SetupNIDAQmxAIVoltageTask(tsmContext, "AI", maximumValue, minimumValue);
 
             AcquireAnalogInputWaveforms(
                 tsmContext,
@@ -31,12 +33,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             if (tsmContext.IsSemiconductorModuleInOfflineMode)
             {
                 // Limits are based on the expected value returned by the driver when in Offline Mode.
-                AssertPublishedDataValueInRange(publishedDataMaximum, 9, 10);
+                AssertPublishedDataValueInRange(publishedDataMaximum, 0.9 * maximumValue, maximumValue);
             }
             else
             {
                 // When run on tester, limits are set based on the maximum voltage limits provided.
-                AssertPublishedDataValueInRange(publishedDataMaximum, 0, 0.001);
+                AssertPublishedDataValueInRange(publishedDataMaximum, minimumValue, maximumValue);
             }
             // Validate Minimum Value.
             var publishedDataMinimum = publishedData.Where(d => d.PublishedDataId == "Minimum").ToArray();
@@ -44,12 +46,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             if (tsmContext.IsSemiconductorModuleInOfflineMode)
             {
                 // Limits are based on the expected value returned by the driver when in Offline Mode.
-                AssertPublishedDataValueInRange(publishedDataMinimum, -10, -9);
+                AssertPublishedDataValueInRange(publishedDataMinimum, minimumValue, -0.9 * minimumValue);
             }
             else
             {
                 // When run on tester, limits are set based on the maximum voltage limits provided.
-                AssertPublishedDataValueInRange(publishedDataMinimum, -0.001, 0);
+                AssertPublishedDataValueInRange(publishedDataMinimum, minimumValue, maximumValue);
             }
         }
     }
