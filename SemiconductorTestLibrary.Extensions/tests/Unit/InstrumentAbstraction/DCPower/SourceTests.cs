@@ -1369,6 +1369,42 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void DifferentSMUDevicesGanged_ForceVoltageOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ForceVoltageOnFilteredBundle()
+            {
+                filteredBundle.ForceVoltage(2.0, 3.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageOnFilteredBundle);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceVoltageonSubSetbundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subSetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ForceVoltageOnsubSetBundle()
+            {
+                subSetBundle.ForceVoltage(2.0, 3.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageOnsubSetBundle);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
         public void DifferentSMUDevicesGanged_ForceCurrentWithSingleSettingsObject_CorrectCurrentForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -1695,12 +1731,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGangedAndFilteredByPin_ForceCurrent_ThrowsException()
+        public void DifferentSMUDevicesGangedAndFilteredByFewPins_ForceCurrent_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
-            var filteredBundle = sessionsBundle.FilterByPin("VCC1");
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
 
             void ForceCurrentOnFilteredBundle()
             {
@@ -1709,6 +1745,24 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceCurrentOnFilteredBundle);
             Assert.Contains("not present in the DCPowerSessionsBundle", exception.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentonSubSetbundle_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+            var subSetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+
+            void ForceCurrentOnsubSetBundle()
+            {
+                subSetBundle.ForceCurrent(1.0, 3.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceCurrentOnsubSetBundle);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Theory]
