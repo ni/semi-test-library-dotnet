@@ -939,7 +939,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0,
-            int pointsToFetch = 1,
+            int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
             SequenceProvider<DCPowerSourceSettings> getSequence = _ => sequence;
@@ -950,7 +950,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
                 out var result,
-                fetchResult: true);
+                fetchResult: true,
+                pointsToFetch,
+                measurementTimeoutInSeconds);
 
             return result;
         }
@@ -962,7 +964,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0,
-            int pointsToFetch = 1,
+            int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
             SequenceProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
@@ -973,7 +975,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
                 out var result,
-                fetchResult: true);
+                fetchResult: true,
+                pointsToFetch,
+                measurementTimeoutInSeconds);
 
             return result;
         }
@@ -985,7 +989,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0,
-            int pointsToFetch = 1,
+            int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
             SequenceProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
@@ -996,7 +1000,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
                 out var result,
-                fetchResult: true);
+                fetchResult: true,
+                pointsToFetch,
+                measurementTimeoutInSeconds);
 
             return result;
         }
@@ -1009,7 +1015,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double sequenceTimeoutInSeconds,
             out PinSiteData<SingleDCPowerFetchResult[]> result,
             bool fetchResult = false,
-            int pointsToFetch = 1,
+            int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
@@ -1025,6 +1031,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 if (fetchResult)
                 {
+                    if (pointsToFetch == null)
+                    {
+                        pointsToFetch = validProperties.Count();
+                    }
                     channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
                 }
                 channelOutput.Source.SequenceLoopCount = sequenceLoopCount;
@@ -1052,7 +1062,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             if (fetchResult)
             {
-                result = sessionsBundle.FetchMeasurement(pointsToFetch, measurementTimeoutInSeconds);
+                result = sessionsBundle.FetchMeasurement((int)pointsToFetch, measurementTimeoutInSeconds);
             }
 
             // deleting the advanced sequence after use
