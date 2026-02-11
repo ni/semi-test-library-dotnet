@@ -270,8 +270,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perSitePinPairSettings = settings.GetCascadedValue(sitePinInfo, out int gangSize).Clone();
-                perSitePinPairSettings.Limit = perSitePinPairSettings.Limit.HasValue ? perSitePinPairSettings.Limit.Value * gangSize : (double?)null;
+                var perSitePinPairSettings = settings.GetCascadedValue(sitePinInfo, out int gangSize);
+                if (gangSize > 1)
+                {
+                    perSitePinPairSettings = perSitePinPairSettings.Clone();
+                    perSitePinPairSettings.Limit = perSitePinPairSettings.Limit.HasValue ? perSitePinPairSettings.Limit.Value * gangSize : (double?)null;
+                }
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
             });
@@ -597,7 +601,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                // double currentLevel = (currentLevels.GetCascadedValue(sitePinInfo, out int gangSize)) * gangSize;
                 var settings = new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
@@ -686,8 +689,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perSitePinPairSettings = settings.GetCascadedValue(sitePinInfo, out int gangSize).Clone();
-                perSitePinPairSettings.Level = perSitePinPairSettings.Level.HasValue ? perSitePinPairSettings.Level.Value * gangSize : (double?)null;
+                var perSitePinPairSettings = settings.GetCascadedValue(sitePinInfo, out int gangSize);
+                if (gangSize > 1)
+                {
+                    perSitePinPairSettings = perSitePinPairSettings.Clone();
+                    perSitePinPairSettings.Level = perSitePinPairSettings.Level.HasValue ? perSitePinPairSettings.Level.Value * gangSize : (double?)null;
+                }
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
             });
