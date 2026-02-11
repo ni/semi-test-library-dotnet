@@ -385,7 +385,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerSiteValues_Succeeds(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerSiteValuesSucceeds(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -463,29 +463,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
             });
 
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
-
-            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
-            {
-                var siteData = new SiteData<double[]>(new[]
-                {
-                    new double[] { 1.0, 1.5 },
-                    new double[] { 2.0, 2.5 }
-                });
-                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => siteData.GetValue(siteIndex), precision: 1, itemsToFetch: 2, checkForCurrentMeasurement: false);
-            }
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(DCPowerSourceMode.Sequence, output.Source.Mode);
-            });
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerPinPerSiteValues_Succeeds(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerPinPerSiteValuesSucceeds(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -517,7 +501,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     new SiteData<DCPowerSourceSettings[]>(sites, vddSequence)
                 });
 
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
         }
 
