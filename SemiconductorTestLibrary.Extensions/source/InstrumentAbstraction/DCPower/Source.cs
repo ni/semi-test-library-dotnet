@@ -2035,58 +2035,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        /*
-        private static void ValidateDCPowerSourceSettingsProperties(DCPowerSourceSettings[] dcPowerSourceSettings)
-        {
-            List<string> invalidProperties = new List<string>();
-
-            if (dcPowerSourceSettings.Any(setting => setting.OutputFunction.HasValue) && dcPowerSourceSettings.Any(setting => !setting.OutputFunction.HasValue))
-            {
-                invalidProperties.Add("OutputFunction");
-            }
-            if (dcPowerSourceSettings.Any(setting => setting.LimitSymmetry.HasValue) && dcPowerSourceSettings.Any(setting => !setting.LimitSymmetry.HasValue))
-            {
-                invalidProperties.Add("LimitSymmetry");
-            }
-            if (dcPowerSourceSettings.Any(setting => setting.Level.HasValue) && dcPowerSourceSettings.Any(setting => !setting.Level.HasValue))
-            {
-                invalidProperties.Add("Level");
-            }
-            if (dcPowerSourceSettings.Any(setting => setting.Limit.HasValue) && dcPowerSourceSettings.Any(setting => !setting.Limit.HasValue))
-            {
-                invalidProperties.Add("Limit");
-            }
-            if (dcPowerSourceSettings.Any(setting => setting.LimitHigh.HasValue) && dcPowerSourceSettings.Any(setting => !setting.LimitHigh.HasValue))
-            {
-                invalidProperties.Add("LimitHigh");
-            }
-            if (dcPowerSourceSettings.Any(setting => setting.LimitLow.HasValue) && dcPowerSourceSettings.Any(setting => !setting.LimitLow.HasValue))
-            {
-                invalidProperties.Add("LimitLow");
-            }
-            if (dcPowerSourceSettings.Any(setting => setting.LevelRange.HasValue) && dcPowerSourceSettings.Any(setting => !setting.LevelRange.HasValue))
-            {
-                invalidProperties.Add("LevelRange");
-            }
-            if (dcPowerSourceSettings.Any(setting => setting.LimitRange.HasValue) && dcPowerSourceSettings.Any(setting => !setting.LimitRange.HasValue))
-            {
-                invalidProperties.Add("LimitRange");
-            }
-            if (dcPowerSourceSettings.Any(setting => setting.SourceDelayInSeconds.HasValue) && dcPowerSourceSettings.Any(setting => !setting.SourceDelayInSeconds.HasValue))
-            {
-                invalidProperties.Add("SourceDelayInSeconds");
-            }
-            if (dcPowerSourceSettings.Any(setting => setting.TransientResponse.HasValue) && dcPowerSourceSettings.Any(setting => !setting.TransientResponse.HasValue))
-            {
-                invalidProperties.Add("TransientResponse");
-            }
-
-            if (invalidProperties.Count > 0)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_InconsistentAdvancedSequenceProperties, string.Join(", ", invalidProperties.Select(property => $"\"{property}\""))));
-            }
-        }
-        */
         private static void ValidateAdvancedSequenceProperties<T>(T[] sequenceProperties) where T : class
         {
             var properties = typeof(T).GetProperties();
