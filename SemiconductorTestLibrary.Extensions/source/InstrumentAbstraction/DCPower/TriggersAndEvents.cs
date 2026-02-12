@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
@@ -266,7 +269,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        internal static void ConfigureMeasureTriggerForCascading(this DCPowerOutput dcPowerOutput, SitePinInfo sitePin)
+        internal static void ConfigureMeasureTriggerForCascading(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, SitePinInfo sitePinInfo)
+        {
+            var output = sessionInfo.Session.Outputs[channelString];
+            if (sessionInfo.HasGangedChannels)
+            {
+                var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
+                Parallel.ForEach(sitePinInfoList, sitePin =>
+                {
+                    output.ConfigureMeasureTriggerForCascading(sitePin);
+                });
+            }
+        }
+
+        private static void ConfigureMeasureTriggerForCascading(this DCPowerOutput dcPowerOutput, SitePinInfo sitePin)
         {
             var gangingInfo = sitePin?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
