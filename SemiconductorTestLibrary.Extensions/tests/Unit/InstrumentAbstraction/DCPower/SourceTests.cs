@@ -385,7 +385,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerSiteValues_Succeeds(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerSiteValuesSucceeds(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -463,29 +463,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
             });
 
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
-
-            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
-            {
-                var siteData = new SiteData<double[]>(new[]
-                {
-                    new double[] { 1.0, 1.5 },
-                    new double[] { 2.0, 2.5 }
-                });
-                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => siteData.GetValue(siteIndex), precision: 1, itemsToFetch: 2, checkForCurrentMeasurement: false);
-            }
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(DCPowerSourceMode.Sequence, output.Source.Mode);
-            });
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerPinPerSiteValues_Succeeds(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerPinPerSiteValuesSucceeds(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -517,8 +501,222 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     new SiteData<DCPowerSourceSettings[]>(sites, vddSequence)
                 });
 
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetch_CorrectResultFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequence = new[]
+            {
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1.0,
+                    Limit = 0.1
+                },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1.5,
+                    Limit = 0.1
+                },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 2.0,
+                    Limit = 0.1
+                }
+            };
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 3,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                    Assert.NotNull(measurement);
+                });
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteSequence_CorrectResultFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequencePerSite = new SiteData<DCPowerSourceSettings[]>(new[]
+            {
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 2.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 2.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 3.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 3.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 4.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 4.5,
+                        Limit = 0.1
+                    }
+                }
+            });
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequencePerSite,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                    Assert.NotNull(measurement);
+                });
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetch_WithPerPinPerSiteSequence_ReturnsExpectedPoints(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(
+                new[] { "VDD" },
+                new[]
+                {
+                    new SiteData<DCPowerSourceSettings[]>(
+                        sites,
+                        new[]
+                        {
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.0,
+                                Limit = 0.1
+                            },
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.5,
+                                Limit = 0.1
+                            }
+                        })
+                });
+
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                    Assert.NotNull(measurement);
+                });
+            }
         }
 
         [Theory]
