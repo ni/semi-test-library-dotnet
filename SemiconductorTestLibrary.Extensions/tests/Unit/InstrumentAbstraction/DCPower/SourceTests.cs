@@ -762,7 +762,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithInconsistencesPerSiteAdvancedStepProperties_ThrowsExceptions(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithInconsistencesPerSiteDCPowerAdvancedSequenceStepProperties_ThrowsExceptions(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -804,7 +804,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteAdvancedStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteDCPowerAdvancedSequenceStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -852,7 +852,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithAdvancedStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithDCPowerAdvancedSequenceStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -903,7 +903,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerPinPerSiteAdvancedStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerPinPerSiteDCPowerAdvancedSequenceStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
