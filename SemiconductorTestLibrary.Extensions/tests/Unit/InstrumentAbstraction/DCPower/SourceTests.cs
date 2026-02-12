@@ -462,7 +462,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     }
                 }
             });
-
             sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
         }
 
@@ -493,15 +492,60 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     Limit = 0.1
                 }
             };
-
             var sequence = new PinSiteData<DCPowerSourceSettings[]>(
                 new[] { "VDD" },
                 new[]
                 {
                     new SiteData<DCPowerSourceSettings[]>(sites, vddSequence)
                 });
-
             sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithInconsistenceProperties_ThrowsException(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(
+                new[] { "VDD" },
+                new[]
+                {
+                    new SiteData<DCPowerSourceSettings[]>(
+                        sites,
+                        new[]
+                        {
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.0,
+                                Limit = 0.1,
+                                TransientResponse = DCPowerSourceTransientResponse.Fast
+                            },
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.5
+                            }
+                        })
+                });
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0));
+
+            Assert.Contains("Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence", exception.Message);
         }
 
         [Theory]
@@ -554,7 +598,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     {
                         Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
                     }
-                    Assert.NotNull(measurement);
                 });
             }
         }
@@ -593,14 +636,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     {
                         OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                         LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 2.0,
+                        Level = 1.0,
                         Limit = 0.1
                     },
                     new DCPowerSourceSettings
                     {
                         OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                         LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 2.5,
+                        Level = 1.5,
                         Limit = 0.1
                     }
                 },
@@ -610,14 +653,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     {
                         OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                         LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 3.0,
+                        Level = 1.0,
                         Limit = 0.1
                     },
                     new DCPowerSourceSettings
                     {
                         OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                         LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 3.5,
+                        Level = 1.5,
                         Limit = 0.1
                     }
                 },
@@ -627,14 +670,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     {
                         OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                         LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 4.0,
+                        Level = 1.0,
                         Limit = 0.1
                     },
                     new DCPowerSourceSettings
                     {
                         OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                         LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 4.5,
+                        Level = 1.5,
                         Limit = 0.1
                     }
                 }
@@ -656,7 +699,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     {
                         Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
                     }
-                    Assert.NotNull(measurement);
                 });
             }
         }
@@ -664,7 +706,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetch_WithPerPinPerSiteSequence_ReturnsExpectedPoints(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerPinPerSiteSequence_CorrectResultFetched(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -696,7 +738,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                             }
                         })
                 });
-
             var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
                 sequenceLoopCount: 1,
@@ -714,7 +755,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     {
                         Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
                     }
-                    Assert.NotNull(measurement);
                 });
             }
         }
