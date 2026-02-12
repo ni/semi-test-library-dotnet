@@ -722,6 +722,59 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteAdvancedStepProperties_ReturnsExpectedPoints(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+
+            var sequencePerSite = new SiteData<DCPowerAdvancedSequenceStepProperties[]>(
+                sites,
+                sites.Select(_ => new[]
+                {
+                    new DCPowerAdvancedSequenceStepProperties
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        VoltageLevel = 1.0,
+                        CurrentLimit = 0.1
+                    },
+                    new DCPowerAdvancedSequenceStepProperties
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        VoltageLevel = 1.5,
+                        CurrentLimit = 0.1
+                    }
+                }).ToArray());
+
+            const int pointsToFetch = 2;
+
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequencePerSite,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: pointsToFetch,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                });
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
         public void DifferentSMUDevices_ConfigureAdvancedSequence_CorrectValueAreSet(bool setAsActiveSequence)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
