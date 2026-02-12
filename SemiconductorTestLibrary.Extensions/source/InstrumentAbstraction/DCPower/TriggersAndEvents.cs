@@ -262,7 +262,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var gangingInfo = sitePin?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
-                // Configure Source trigger for follower channels
                 dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, gangingInfo.SourceTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
@@ -272,7 +271,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var gangingInfo = sitePin?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
-                // Configure Measure trigger and MeasureWhen for follower channels
                 dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, gangingInfo.MeasureTriggerName, DCPowerTriggerEdge.Rising);
             }
         }

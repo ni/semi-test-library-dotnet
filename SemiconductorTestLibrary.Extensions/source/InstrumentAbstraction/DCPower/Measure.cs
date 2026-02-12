@@ -76,28 +76,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measureWhen">The MeasurementWhen property to set.</param>
         public static void ConfigureMeasureWhen(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementWhen measureWhen)
         {
-            if (sessionsBundle.HasGangedChannels)
+            sessionsBundle.Do(sessionInfo =>
             {
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                sessionInfo.AbortAndConfigure((channelString, modelString) =>
                 {
-                    var tempMeasureWhen = measureWhen;
-                    if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
-                    {
-                        tempMeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
-                    }
-                    sessionInfo.Session.ConfigureMeasureWhen(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, tempMeasureWhen);
+                    sessionInfo.ConfigureMeasureWhen(channelString, modelString, measureWhen);
                 });
-            }
-            else
-            {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    sessionInfo.AbortAndConfigure((channelString, modelString) =>
-                    {
-                        sessionInfo.Session.ConfigureMeasureWhen(channelString, modelString, measureWhen);
-                    });
-                });
-            }
+            });
         }
 
         /// <summary>
@@ -641,7 +626,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
-                    if (sitePin.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
+                    if (IsFollowerOfGangedChannels(sitePin.CascadingInfo))
                     {
                         output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
                     }
@@ -684,7 +669,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
-                    if (sitePin.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
+                    if (IsFollowerOfGangedChannels(sitePin.CascadingInfo))
                     {
                         // For ganged channels that are followers, set MeasureWhen to OnMeasureTrigger. Skipping this for now.
                         // output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
