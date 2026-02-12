@@ -1387,7 +1387,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceVoltageonSubSetbundleWithTwoPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ForceVoltageOnSubSetBundleWithTwoPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -1743,12 +1743,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 filteredBundle.ForceCurrent(1.0, 3.0);
             }
 
-            var exception = Assert.Throws<NISemiconductorTestException>(ForceCurrentOnFilteredBundle);
-            Assert.Contains("not present in the DCPowerSessionsBundle", exception.Message);
+            var exception = Assert.Throws<AggregateException>(ForceCurrentOnFilteredBundle);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceCurrentonSubSetbundleWithTwoPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ForceCurrentOnSubSetBundleWithTwoPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
