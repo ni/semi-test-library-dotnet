@@ -762,14 +762,54 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteAdvancedStepProperties_ReturnsExpectedPoints(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithInconsistencesPerSiteAdvancedStepProperties_ThrowsExceptions(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
             var sites = GetActiveSites(sessionsBundle);
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
 
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var sequencePerSite = new SiteData<DCPowerAdvancedSequenceStepProperties[]>(
+                sites,
+                sites.Select(_ => new[]
+                {
+                    new DCPowerAdvancedSequenceStepProperties
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        VoltageLevel = 1.0,
+                        CurrentLimit = 0.1,
+                        CurrentLevel = 0.05,
+                        TransientResponse = DCPowerSourceTransientResponse.Slow,
+                        CurrentLevelRange = 0.2,
+                        VoltageLevelRange = 5.0
+                    },
+                    new DCPowerAdvancedSequenceStepProperties
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        VoltageLevel = 1.5,
+                        CurrentLimit = 0.1
+                    }
+                }).ToArray());
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequencePerSite,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0));
+
+            Assert.Contains("Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence", exception.Message);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteAdvancedStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
 
             var sequencePerSite = new SiteData<DCPowerAdvancedSequenceStepProperties[]>(
                 sites,
@@ -788,15 +828,116 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                         CurrentLimit = 0.1
                     }
                 }).ToArray());
-
-            const int pointsToFetch = 2;
-
             var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequencePerSite,
                 sequenceLoopCount: 1,
                 waitForSequenceCompletion: true,
                 sequenceTimeoutInSeconds: 10.0,
-                pointsToFetch: pointsToFetch,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                });
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithAdvancedStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequence = new[]
+            {
+                new DCPowerAdvancedSequenceStepProperties
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    VoltageLevel = 1.0,
+                    CurrentLimit = 0.1
+                },
+                new DCPowerAdvancedSequenceStepProperties
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    VoltageLevel = 1.5,
+                    CurrentLimit = 0.1
+                },
+                new DCPowerAdvancedSequenceStepProperties
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    VoltageLevel = 2.0,
+                    CurrentLimit = 0.1
+                }
+            };
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 3,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                });
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerPinPerSiteAdvancedStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequence = new PinSiteData<DCPowerAdvancedSequenceStepProperties[]>(
+                new[] { "VDD" },
+                new[]
+                {
+                    new SiteData<DCPowerAdvancedSequenceStepProperties[]>(
+                        sites,
+                        new[]
+                        {
+                            new DCPowerAdvancedSequenceStepProperties
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                VoltageLevel = 1.0,
+                                CurrentLimit = 0.1
+                            },
+                            new DCPowerAdvancedSequenceStepProperties
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                VoltageLevel = 1.5,
+                                CurrentLimit = 0.1
+                            }
+                        })
+                });
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
                 measurementTimeoutInSeconds: 10.0);
 
             if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
