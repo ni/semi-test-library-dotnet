@@ -646,19 +646,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
-                if (!measureWhen.HasValue)
-                {
-                    // For follower channels of ganged channels, default to OnMeasureTrigger.
-                    output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
-                }
-                else if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
-                {
-                    output.ConfigureMeasureWhen(modelString, measureWhen.Value);
-                }
-                else if (measureWhen == DCPowerMeasurementWhen.OnDemand || measureWhen == DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)
+                if (measureWhen.HasValue && measureWhen.Value != DCPowerMeasurementWhen.OnMeasureTrigger)
                 {
                     // ToDo: throw exception here as it is error case if it is set to on demand.
                     output.ConfigureMeasureWhen(modelString, measureWhen.Value);
+                }
+                else
+                {
+                    output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
                 }
             }
             else if (measureWhen.HasValue)
