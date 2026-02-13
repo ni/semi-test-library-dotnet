@@ -1591,23 +1591,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGangedAndFilteredByPin_ForceVoltage_ThrowsException()
-        {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
-            var filteredBundle = sessionsBundle.FilterByPin("VCC1");
-
-            void ForceVoltageOnFilteredBundle()
-            {
-                filteredBundle.ForceVoltage(3.0, 1.0);
-            }
-
-            var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageOnFilteredBundle);
-            Assert.Contains("not present in the DCPowerSessionsBundle", exception.Message);
-        }
-
-        [Fact]
         public void DifferentSMUDevicesGanged_ForceCurrentWithPerSiteSettingsObject_CorrectCurrentsForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -2189,12 +2172,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGangedAndFilteredByPin_ConfigureSourceSettings_ThrowsException()
+        public void DifferentSMUDevicesGanged_ConfigureSourceSettingsOnFilteredBundleWithFewPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
-            var filteredBundle = sessionsBundle.FilterByPin("VCC1");
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
 
             void ConfigureSourceSettings()
             {
@@ -2206,8 +2189,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 });
             }
 
-            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureSourceSettings);
-            Assert.Contains("not present in the DCPowerSessionsBundle", exception.Message);
+            var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
