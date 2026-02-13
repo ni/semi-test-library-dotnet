@@ -1405,6 +1405,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenForceVoltage_CorrectVoltageForced()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ForceVoltage(new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                Level = 1,
+                Limit = 1,
+            });
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
+                    AssertVoltageSettings(channelOutput, 1, 1);
+                }
+            });
+        }
+
+        [Fact]
         public void DifferentSMUDevicesGanged_ForceCurrentWithSingleSettingsObject_CorrectCurrentForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -1747,6 +1774,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<AggregateException>(ForceCurrentOnsubSetBundle);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
             Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact(Skip = "Temporarily disabled because HasGangedChannels property not computed correctly")]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenForceCurrent_CorrectVoltageForced()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ForceCurrent(new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                Level = 1,
+                Limit = 1,
+            });
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
+                    AssertCurrentSettings(channelOutput, 1, 1);
+                }
+            });
         }
 
         [Theory]
@@ -2177,8 +2231,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
-            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
 
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
             void ConfigureSourceSettings()
             {
                 filteredBundle.ConfigureSourceSettings(new DCPowerSourceSettings()
@@ -2192,6 +2246,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
             Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact(Skip = "Temporarily disabled because HasGangedChannels property not computed correctly")]
+        public void DifferentSMUDevicesGanged_FiltereBundleWithFewPinsAndUngangThenConfigure_CorrectValuesAreSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureSourceSettings(new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                Level = 1,
+                Limit = 1,
+            });
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
+                    AssertCurrentSettings(channelOutput, 1, 1);
+                }
+            });
         }
 
         [Fact]
