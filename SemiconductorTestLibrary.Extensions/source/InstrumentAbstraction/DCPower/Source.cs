@@ -19,9 +19,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #region Custom Delegates
 
         /// <summary>
-        /// Delegate to retrieve a sequence of double values for a given site-pin pair.
+        /// Provides a sequence of items of type T based on the specified site pin information.
         /// </summary>
+        /// <typeparam name="T">The type of items returned in the sequence.</typeparam>
+        /// <param name="sitePinInfo">The site pin information used to generate the sequence.</param>
+        /// <returns>An array of type T containing the generated sequence based on the provided site pin information.</returns>
         private delegate T[] SequenceProvider<T>(SitePinInfo sitePinInfo);
+
         /// <summary>
         /// Delegate to retrieve a single double value (limit, range, etc.) for a given site-pin pair.
         /// </summary>
@@ -845,7 +849,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 else
                 {
                     // Slave channels start on master's start trigger
-                    channelOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.DigitalEdge;
                     channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
                     channelOutput.Control.Initiate();
                 }
@@ -881,8 +884,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getSequence,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
-                sequenceTimeoutInSeconds,
-                out _);
+                sequenceTimeoutInSeconds);
         }
 
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
@@ -899,8 +901,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getVoltageSequence,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
-                sequenceTimeoutInSeconds,
-                out _);
+                sequenceTimeoutInSeconds);
         }
 
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
@@ -917,12 +918,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getSequence,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
-                sequenceTimeoutInSeconds,
-                out _);
+                sequenceTimeoutInSeconds);
         }
 
         /// <summary>
-        /// Synchronizes and forces an advanced sequence across all sessions in the bundle.
+        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and return measurements.
         /// </summary>
         /// <param name="sessionsBundle">The bundle of DC power sessions to synchronize.</param>
         /// <param name="sequence">The sequence of source settings to apply.</param>
@@ -944,17 +944,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             SequenceProvider<DCPowerSourceSettings> getSequence = _ => sequence;
 
-            sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+            return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
-                out var result,
                 fetchResult: true,
                 pointsToFetch,
                 measurementTimeoutInSeconds);
-
-            return result;
         }
 
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/>
@@ -969,17 +966,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             SequenceProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
 
-            sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+            return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
-                out var result,
                 fetchResult: true,
                 pointsToFetch,
                 measurementTimeoutInSeconds);
-
-            return result;
         }
 
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/>
@@ -994,17 +988,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             SequenceProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
 
-            sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+            return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
-                out var result,
                 fetchResult: true,
                 pointsToFetch,
                 measurementTimeoutInSeconds);
-
-            return result;
         }
 
         /// <summary>
@@ -1160,14 +1151,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int sequenceLoopCount,
             bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds,
-            out PinSiteData<SingleDCPowerFetchResult[]> result,
             bool fetchResult = false,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10) where T : class
         {
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
             var sequenceName = $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
-            result = null;
+            PinSiteData<SingleDCPowerFetchResult[]> result = null;
 
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
@@ -1180,7 +1170,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     if (pointsToFetch == null)
                     {
-                        pointsToFetch = validProperties.Count();
+                        pointsToFetch = perSitePinSequence.Length;
                     }
                     channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
                 }
@@ -1194,7 +1184,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 else
                 {
                     // Slave channels start on master's start trigger
-                    channelOutput.Triggers.StartTrigger.Type = DCPowerStartTriggerType.DigitalEdge;
                     channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
                     channelOutput.Control.Initiate();
                 }
@@ -1209,11 +1198,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             if (fetchResult)
             {
-                result = sessionsBundle.FetchMeasurement((int)pointsToFetch, measurementTimeoutInSeconds);
+                result = sessionsBundle.FetchMeasurement(pointsToFetch.Value, measurementTimeoutInSeconds);
             }
 
             // deleting the advanced sequence after use
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
+
+            return result;
         }
 
         /// <summary>
@@ -2203,22 +2194,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             foreach (var property in properties)
             {
-                var hasValue = false;
-                var missingValue = false;
+                int state = 0; // 1 => when value is null, 2 =>when value is non-null; 3 => both (mixed)
 
                 foreach (var setting in sequenceProperties)
                 {
-                    var value = property.GetValue(setting);
-                    if (value != null)
-                    {
-                        hasValue = true;
-                    }
-                    else
-                    {
-                        missingValue = true;
-                    }
+                    // below is the bitwise OR operation to set the state variable as 0|1 = 1, 0|2 = 2, 1|2 =3
+                    state |= (property.GetValue(setting) is null) ? 1 : 2;
 
-                    if (hasValue && missingValue)
+                    if (state == 3)
                     {
                         invalidProperties.Add(property.Name);
                         break;
