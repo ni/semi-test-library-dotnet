@@ -922,7 +922,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and fetch measurements.
+        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and return measurements.
         /// </summary>
         /// <param name="sessionsBundle">The bundle of DC power sessions to synchronize.</param>
         /// <param name="sequence">The sequence of source settings to apply.</param>
