@@ -89,6 +89,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public DCPowerSourceTransientResponse? TransientResponse { get; set; }
 
         /// <summary>
+        /// This indicates the data is for a pin which is part of Cascaded group.
+        /// </summary>
+        public bool? IsCascadingPinData { get; set; }
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         public DCPowerSourceSettings()
