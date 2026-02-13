@@ -709,8 +709,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
             var sites = GetActiveSites(sessionsBundle);
-
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
 
             var sequence = new PinSiteData<DCPowerSourceSettings[]>(
                 new[] { "VDD" },

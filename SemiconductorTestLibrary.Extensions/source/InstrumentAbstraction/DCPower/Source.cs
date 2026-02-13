@@ -922,7 +922,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Synchronizes and forces an advanced sequence across all sessions in the bundle.
+        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and fetch measurements.
         /// </summary>
         /// <param name="sessionsBundle">The bundle of DC power sessions to synchronize.</param>
         /// <param name="sequence">The sequence of source settings to apply.</param>
@@ -944,7 +944,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             SequenceProvider<DCPowerSourceSettings> getSequence = _ => sequence;
 
-            var result = sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+            return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -952,8 +952,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 fetchResult: true,
                 pointsToFetch,
                 measurementTimeoutInSeconds);
-
-            return result;
         }
 
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/>
@@ -968,7 +966,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             SequenceProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
 
-            var result = sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+            return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -976,8 +974,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 fetchResult: true,
                 pointsToFetch,
                 measurementTimeoutInSeconds);
-
-            return result;
         }
 
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/>
@@ -992,7 +988,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             SequenceProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
 
-            var result = sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
+            return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -1000,8 +996,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 fetchResult: true,
                 pointsToFetch,
                 measurementTimeoutInSeconds);
-
-            return result;
         }
 
         private static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedCore(
