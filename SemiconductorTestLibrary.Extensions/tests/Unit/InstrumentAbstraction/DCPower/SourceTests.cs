@@ -1878,15 +1878,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
-            var settings = new DCPowerMeasureSettings()
-            {
-            };
+            var settings = new DCPowerMeasureSettings();
             sessionsBundle.ConfigureMeasureSettings(settings);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(GetMeasureTriggerName(sitePinInfo, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
+                Assert.Equal(GetTriggerName(sitePinInfo, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0", "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
             });
         }
 
