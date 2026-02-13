@@ -268,25 +268,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        internal static void ConfigureMeasureTriggerForCascading(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, SitePinInfo sitePinInfo)
+        internal static void ConfigureMeasureTriggerForCascading(this DCPowerSessionInformation sessionInfo, string channelString)
         {
-            var output = sessionInfo.Session.Outputs[channelString];
             if (sessionInfo.HasGangedChannels)
             {
-                var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
+                var sitePinInfoList = sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
-                    output.ConfigureMeasureTriggerForCascading(sitePin);
+                    sessionInfo.ConfigureMeasureTriggerForCascading(sitePin);
                 });
             }
         }
 
-        private static void ConfigureMeasureTriggerForCascading(this DCPowerOutput dcPowerOutput, SitePinInfo sitePin)
+        internal static void ConfigureMeasureTriggerForCascading(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo)
         {
-            var gangingInfo = sitePin?.CascadingInfo as GangingInfo;
+            var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
-                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, gangingInfo.MeasureTriggerName, DCPowerTriggerEdge.Rising);
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, gangingInfo.MeasureTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 

@@ -630,7 +630,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 session.ConfigureApertureTimeUnits(channelString, modelString, settings.ApertureTimeUnits.Value);
             }
             sessionInfo.ConfigureMeasureWhen(channelString, modelString, settings.MeasureWhen);
-            sessionInfo.ConfigureMeasureTriggerForCascading(channelString, modelString, sitePinInfo: null);
+            sessionInfo.ConfigureMeasureTriggerForCascading(channelString);
             if (settings.Sense.HasValue)
             {
                 session.ConfigureMeasurementSense(channelString, modelString, settings.Sense.Value);
@@ -641,45 +641,46 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, string modelString, DCPowerMeasurementWhen measureWhen)
+        internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, string modelString, DCPowerMeasurementWhen? measureWhen)
         {
             var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
-                if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+                if (!measureWhen.HasValue)
                 {
-                    output.ConfigureMeasureWhen(modelString, measureWhen);
-                }
-                else
-                    { // error case, ToDo: throw exception.
+                    // For follower channels of ganged channels, default to OnMeasureTrigger.
                     output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
                 }
+                else if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+                {
+                    output.ConfigureMeasureWhen(modelString, measureWhen.Value);
+                }
+                else if (measureWhen == DCPowerMeasurementWhen.OnDemand || measureWhen == DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)
+                {
+                    // ToDo: throw exception here as it is error case if it is set to on demand.
+                    output.ConfigureMeasureWhen(modelString, measureWhen.Value);
+                }
             }
-            else
+            else if (measureWhen.HasValue)
             {
-                output.ConfigureMeasureWhen(modelString, measureWhen);
+                output.ConfigureMeasureWhen(modelString, measureWhen.Value);
             }
         }
 
-        internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, DCPowerMeasurementWhen? measureWhen)
+        private static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, DCPowerMeasurementWhen? measureWhen)
         {
             var output = sessionInfo.Session.Outputs[channelString];
-            var tempMeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
-            if (measureWhen.HasValue)
-            {
-                tempMeasureWhen = measureWhen.Value;
-            }
             if (sessionInfo.HasGangedChannels)
             {
                 var sitePinInfoList = sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
-                    sessionInfo.ConfigureMeasureWhen(sitePin, sessionInfo.ModelString, tempMeasureWhen);
+                    sessionInfo.ConfigureMeasureWhen(sitePin, sessionInfo.ModelString, measureWhen);
                 });
             }
             else if (measureWhen.HasValue)
             {
-                output.ConfigureMeasureWhen(modelString, tempMeasureWhen);
+                output.ConfigureMeasureWhen(modelString, measureWhen.Value);
             }
         }
 

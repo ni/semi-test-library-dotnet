@@ -1653,11 +1653,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Abort();
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
             var dcpowerMeasureSettings = new DCPowerMeasureSettings();
-            if (sitePinInfo != null && IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            if (sitePinInfo != null)
             {
                 // Configure measure when and trigger for cascading directly using sitePinInfo
                 sessionInfo.ConfigureMeasureWhen(sitePinInfo, sitePinInfo.ModelString, DCPowerMeasurementWhen.OnMeasureTrigger);
-                sessionInfo.ConfigureMeasureTriggerForCascading(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sitePinInfo);
+                sessionInfo.ConfigureMeasureTriggerForCascading(sitePinInfo);
             }
             else
             {
