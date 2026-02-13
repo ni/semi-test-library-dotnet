@@ -175,8 +175,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Hence, need the ability to check the operation against each channel when configuring triggers.
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-                output.ConfigureTriggerDigitalEdge(triggerType, tiggerTerminal, triggerEdge, pinSiteInfo.ModelString);
+                ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, tiggerTerminal, triggerEdge);
             });
         }
 
@@ -289,6 +288,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, gangingInfo.MeasureTriggerName, DCPowerTriggerEdge.Rising);
             }
+        }
+
+        private static void ConfigureTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, TriggerType triggerType, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
+        {
+            var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            output.ConfigureTriggerDigitalEdge(triggerType, tiggerTerminal, triggerEdge, sitePinInfo.ModelString);
         }
 
         private static void ConfigureTriggerDigitalEdge(this DCPowerOutput dcPowerOutput, TriggerType triggerType, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string instrumentModel = "")
