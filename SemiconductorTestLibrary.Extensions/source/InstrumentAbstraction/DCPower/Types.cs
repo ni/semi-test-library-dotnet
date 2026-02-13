@@ -91,7 +91,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// This indicates the data is for a pin which is part of Cascaded group.
         /// </summary>
-        public bool? IsCascadingPinData { get; set; }
+        public bool IsCascadingPinData { get; set; }
 
         /// <summary>
         /// Default constructor.
