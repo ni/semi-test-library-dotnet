@@ -2940,15 +2940,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         private void AssertSourceTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString)
         {
-            Assert.Equal(GetSourceTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
         }
         private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString)
         {
-            Assert.Equal(GetSourceTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
-            Assert.Equal(GetMeasureTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
+            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
         }
 
-        private string GetSourceTriggerName(SitePinInfo sitePinInfo, string leaderChannelString)
+        private string GetTriggerName(SitePinInfo sitePinInfo, string leaderChannelString, string triggerType = "Source")
         {
             var channel = sitePinInfo.IndividualChannelString;
             var leaderChannel = leaderChannelString.Split('/');
@@ -2957,25 +2957,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
             {
-                return $"/{leaderChannelSlot}/Engine{leaderChannelNumber}/SourceTrigger";
+                return $"/{leaderChannelSlot}/Engine{leaderChannelNumber}/{triggerType}Trigger";
             }
-            if (channel.Contains("SMU_4147"))
+            if (channel.Contains("SMU_4147") && triggerType == "Source")
             {
                 return $"/{channel.Remove(channel.Length - 2)}/Immediate";
-            }
-            return string.Empty;
-        }
-
-        private string GetMeasureTriggerName(SitePinInfo sitePinInfo, string leaderChannelString)
-        {
-            var channel = sitePinInfo.IndividualChannelString;
-            var leaderChannel = leaderChannelString.Split('/');
-            var leaderChannelSlot = leaderChannel[0];
-            var leaderChannelNumber = leaderChannel[leaderChannel.Length - 1];
-            var gangingInfo = sitePinInfo.CascadingInfo as GangingInfo;
-            if (gangingInfo != null && gangingInfo.IsFollower)
-            {
-                return $"/{leaderChannelSlot}/Engine{leaderChannelNumber}/MeasureTrigger";
             }
             return string.Empty;
         }
