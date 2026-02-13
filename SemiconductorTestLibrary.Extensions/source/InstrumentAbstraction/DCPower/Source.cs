@@ -1145,7 +1145,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return result;
         }
 
-        private static void ForceAdvancedSequenceSynchronizedCore<T>(
+        private static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedCore<T>(
             this DCPowerSessionsBundle sessionsBundle,
             SequenceProvider<T> getSequence,
             int sequenceLoopCount,
