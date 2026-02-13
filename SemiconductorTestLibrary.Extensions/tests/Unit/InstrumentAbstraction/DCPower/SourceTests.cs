@@ -1387,19 +1387,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceVoltageOnSubSetBundleWithTwoPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ForceVoltageOnSubsetBundleWithTwoPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
-            var subSetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
-            void ForceVoltageOnsubSetBundle()
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ForceVoltageOnSubsetBundle()
             {
-                subSetBundle.ForceVoltage(2.0, 3.0);
+                subsetBundle.ForceVoltage(2.0, 3.0);
             }
 
-            var exception = Assert.Throws<AggregateException>(ForceVoltageOnsubSetBundle);
+            var exception = Assert.Throws<AggregateException>(ForceVoltageOnSubsetBundle);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
             Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
         }
@@ -1746,8 +1746,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
-            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
 
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
             void ForceCurrentOnFilteredBundle()
             {
                 filteredBundle.ForceCurrent(1.0, 3.0);
@@ -1759,19 +1759,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceCurrentOnSubSetBundleWithTwoPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ForceCurrentOnSubsetBundleWithTwoPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
-            var subSetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
 
-            void ForceCurrentOnsubSetBundle()
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ForceCurrentOnSubsetBundle()
             {
-                subSetBundle.ForceCurrent(1.0, 3.0);
+                subsetBundle.ForceCurrent(1.0, 3.0);
             }
 
-            var exception = Assert.Throws<AggregateException>(ForceCurrentOnsubSetBundle);
+            var exception = Assert.Throws<AggregateException>(ForceCurrentOnSubsetBundle);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
             Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
         }
@@ -2236,6 +2236,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ConfigureSourceSettings()
             {
                 filteredBundle.ConfigureSourceSettings(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 1,
+                    Limit = 1,
+                });
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureSourceSettingsOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureSourceSettings()
+            {
+                subsetBundle.ConfigureSourceSettings(new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                     Level = 1,
