@@ -218,7 +218,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionsBundle.Do(sessionInfo =>
                 {
-                    sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
+                    sessionInfo.Force(settings, waitForSourceCompletion);
                 });
             }
         }
@@ -632,7 +632,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionsBundle.Do(sessionInfo =>
                 {
-                    sessionInfo.Force(settings, sitePinInfo: null, waitForSourceCompletion);
+                    sessionInfo.Force(settings, waitForSourceCompletion);
                 });
             }
         }
@@ -1640,11 +1640,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool waitForSourceCompletion = false)
+        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, bool waitForSourceCompletion = false)
         {
-            var channelString = sitePinInfo?.IndividualChannelString ?? sessionInfo.AllChannelsString;
+            var channelString = sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
-            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
+            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo: null);
             channelOutput.InitiateChannels(waitForSourceCompletion);
         }
 
@@ -1661,7 +1661,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             else
             {
-                sessionInfo.ConfigureMeasureSettings(sessionInfo.AllChannelsString, sessionInfo.ModelString, sessionInfo.PowerLineFrequency, dcpowerMeasureSettings);
+            sessionInfo.ConfigureMeasureSettings(sessionInfo.AllChannelsString, sessionInfo.ModelString, sessionInfo.PowerLineFrequency, dcpowerMeasureSettings);
             }
             channelOutput.Source.Output.Enabled = true;
             channelOutput.Control.Commit();
