@@ -667,7 +667,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, DCPowerMeasurementWhen? measureWhen)
+        internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, DCPowerMeasurementWhen? measureWhen)
         {
             var output = sessionInfo.Session.Outputs[channelString];
             if (sessionInfo.HasGangedChannels)
