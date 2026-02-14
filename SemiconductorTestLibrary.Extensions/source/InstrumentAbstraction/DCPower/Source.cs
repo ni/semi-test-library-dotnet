@@ -273,7 +273,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perSitePinPairSettings = settings.GetValue(sitePinInfo);
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo, out bool isCascadingPinData);
+                if (isCascadingPinData)
+                {
+                    perSitePinPairSettings = perSitePinPairSettings.Clone();
+                    perSitePinPairSettings.IsCascadingPinData = isCascadingPinData;
+                }
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
             });
@@ -603,7 +608,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = currentLevels.GetValue(sitePinInfo),
+                    Level = (currentLevels.GetValue(sitePinInfo, out bool isCascadingPinData)),
+                    IsCascadingPinData = isCascadingPinData,
                     Limit = voltageLimit,
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
@@ -687,7 +693,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perSitePinPairSettings = settings.GetValue(sitePinInfo);
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo, out bool isCascadingPinData);
+                if (isCascadingPinData)
+                {
+                    perSitePinPairSettings = perSitePinPairSettings.Clone();
+                    perSitePinPairSettings.IsCascadingPinData = isCascadingPinData;
+                }
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
             });
@@ -2053,6 +2064,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
         {
             var currentLimitDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
+            if (settings.IsCascadingPinData)
+            {
+                currentLimitDivisor = 1;
+            }
             dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
             if (settings.Level.HasValue)
             {
@@ -2088,6 +2103,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
         {
             var currentLevelDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
+            if (settings.IsCascadingPinData)
+            {
+                currentLevelDivisor = 1;
+            }
             dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
             if (settings.Level.HasValue)
             {
