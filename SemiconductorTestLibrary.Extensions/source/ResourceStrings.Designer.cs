@@ -115,11 +115,11 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The specified instrument ({0}) does not support one or more of the requested advanced sequence properties..
+        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}.
         /// </summary>
-        internal static string DCPowerDeviceNotSupported {
+        internal static string DCPower_InconsistentAdvancedSequenceProperties {
             get {
-                return ResourceManager.GetString("DCPowerDeviceNotSupported", resourceCulture);
+                return ResourceManager.GetString("DCPower_InconsistentAdvancedSequenceProperties", resourceCulture);
             }
         }
         
@@ -129,6 +129,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string DCPower_MultipleChannelOutputsDetected {
             get {
                 return ResourceManager.GetString("DCPower_MultipleChannelOutputsDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified instrument ({0}) does not support one or more of the requested advanced sequence properties..
+        /// </summary>
+        internal static string DCPowerDeviceNotSupported {
+            get {
+                return ResourceManager.GetString("DCPowerDeviceNotSupported", resourceCulture);
             }
         }
         
