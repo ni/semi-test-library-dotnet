@@ -1659,7 +1659,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             else
             {
-                var channelString = sessionInfo.AllChannelsString;
+                var channelString = channelOutput.Name;
                 sessionInfo.ConfigureMeasureWhen(channelString, sessionInfo.ModelString, measureWhen: null);
                 sessionInfo.ConfigureMeasureTriggerForCascading(channelString);
             }
