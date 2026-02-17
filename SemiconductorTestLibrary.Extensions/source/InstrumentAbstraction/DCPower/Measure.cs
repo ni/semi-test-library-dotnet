@@ -649,7 +649,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 if (measureWhen.HasValue && measureWhen.Value != DCPowerMeasurementWhen.OnMeasureTrigger)
                 {
                     // ToDo: throw exception here as it is error case if it is set to on demand.
-                    output.ConfigureMeasureWhen(modelString, measureWhen.Value);
                 }
                 else
                 {
