@@ -124,6 +124,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The specified setting {0} is not valid for MeasureWhen  property of ganged channels..
+        /// </summary>
+        internal static string DCPower_InvalidMeasureWhen {
+            get {
+                return ResourceManager.GetString("DCPower_InvalidMeasureWhen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The channelOutput contains more than one channel &quot;{0}&quot;. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
         /// </summary>
         internal static string DCPower_MultipleChannelOutputsDetected {
