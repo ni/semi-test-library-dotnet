@@ -19,6 +19,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     public sealed class MeasureTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
+        private const string AllPinsGangedGroup = "AllPinsGangedGroup";
 
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
@@ -732,6 +733,53 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             // 4110
             Assert.Equal(300, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Measurement.SamplesToAverage);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToOnMeasureTrigger_MeasureWhenSetCorrectlyForAllChannels()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnMeasureTrigger);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                Assert.Equal(DCPowerMeasurementWhen.OnMeasureTrigger, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToOnDemand_ThrowsExceptionForFollowerChannels()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            void ConfigureMeasureWhen()
+            {
+                sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureMeasureWhen);
+            Assert.Contains("not a valid MeasureWhen property for ganged follower channels", exception.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToAutomaticallyAfterSourceComplete_ThrowsExceptionForFollowerChannels()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            void ConfigureMeasureWhen()
+            {
+                sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureMeasureWhen);
+            Assert.Contains("not a valid MeasureWhen property for ganged follower channels", exception.Message);
         }
 
         [Theory]

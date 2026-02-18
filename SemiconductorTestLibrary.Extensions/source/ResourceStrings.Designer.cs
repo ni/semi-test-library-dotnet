@@ -124,7 +124,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The specified setting {0} is not valid for MeasureWhen  property of ganged channels..
+        ///   Looks up a localized string similar to The specified setting {0} is not a valid MeasureWhen property for ganged follower channels..
         /// </summary>
         internal static string DCPower_InvalidMeasureWhen {
             get {
