@@ -651,10 +651,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_InvalidMeasureWhen, measureWhen.Value));
                 }
-                else
-                {
-                    output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
-                }
+                var measureWhenToApply = measureWhen ?? DCPowerMeasurementWhen.OnMeasureTrigger;
+                output.ConfigureMeasureWhen(modelString, measureWhenToApply);
             }
             else if (measureWhen.HasValue)
             {
