@@ -6,8 +6,22 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
+    /// <summary>
+    /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
+    /// Specifically, how to force voltage on pins mapped to DCPower instruments.
+    /// Note that DCPower Instruments include both Source Measurement Units (SMUs) and Programmable Power Supplies (PPS) devices.
+    /// This class and its methods are intended for example purposes only and are not meant to be ran standalone.
+    /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
+    /// with any dependent instrument sessions have already been initiated and configured.
+    /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
+    /// </summary>
     internal static class ForceSynchronizedVoltageRampAndFetch
     {
+        /// <summary>
+        /// This example demonstrates how to forces a hardware-timed sequence of voltage sequence, created using <see cref="HelperMethods.CreateRampSequence(double, double, int)"/> on the specified pins across all sites using.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="smuPinNames">The SMU pins to force voltage sequence on</param>
         internal static void SameValueToAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -20,6 +34,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             tsmContext.PublishResults(result, publishedDataId: "ForceSynchronizedVoltageRampAndFetch");
         }
 
+        /// <summary>
+        /// This example demonstrates how to forces a hardware-timed sequence of voltage sequence, created using <see cref="HelperMethods.CreateRampSequence(int[], double, double, int)"/> per site across all the SMU pins.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="smuPinNames">The SMU pins to force voltage sequence on</param>
         internal static void DifferentValuesPerSiteAcrossAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -33,6 +52,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             tsmContext.PublishResults(result, publishedDataId: "ForceSynchronizedVoltageRampAndFetch");
         }
 
+        /// <summary>
+        /// This example demonstrates how to forces a hardware-timed sequence of voltage sequence, created using <see cref="HelperMethods.CreateRampSequence(string[], int[], double, double, int)"/> across all the pins.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="smuPinNames">The SMU pins to force voltage sequence on</param>
         internal static void DifferentLevelsPerSmuPin(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
