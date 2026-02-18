@@ -31,14 +31,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     public class DCPowerSourceSettings
     {
         /// <summary>
-        /// Clones the current DCPower source settings.
-        /// </summary>
-        public DCPowerSourceSettings Clone()
-        {
-            return (DCPowerSourceSettings)this.MemberwiseClone();
-        }
-
-        /// <summary>
         /// The output function.
         /// </summary>
         public DCPowerSourceOutputFunction? OutputFunction { get; set; } = DCPowerSourceOutputFunction.DCVoltage;
@@ -87,11 +79,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// The transient response.
         /// </summary>
         public DCPowerSourceTransientResponse? TransientResponse { get; set; }
-
-        /// <summary>
-        /// This indicates the data is for a pin which is part of Cascaded group.
-        /// </summary>
-        public bool IsCascadingPinData { get; set; }
 
         /// <summary>
         /// Default constructor.
