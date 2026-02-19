@@ -126,6 +126,9 @@
   <data name="DAQmx_SampleClockRateNotDistinct" xml:space="preserve">
     <value>The value for the sample clock rate is not the same for all underlying instrument sessions.</value>
   </data>
+    <data name="DCPowerDeviceNotSupported" xml:space="preserve">
+    <value>The specified instrument ({0}) does not support one or more of the requested advanced sequence properties.</value>
+  </data>
   <data name="Digital_SequencerFlagNotDistinct" xml:space="preserve">
     <value>The state of the sequencer flag ({0}) is not the same for all underlying instrument sessions.</value>
   </data>
@@ -149,9 +152,6 @@
   </data>
   <data name="DCPower_MultipleChannelOutputsDetected" xml:space="preserve">
     <value>The channelOutput contains more than one channel "{0}". This method overload only supports single channel operation when a valid SitePinInfo object is passed."</value>
-  </data>
-  <data name="DCPowerDeviceNotSupported" xml:space="preserve">
-    <value>The specified instrument ({0}) does not support one or more of the requested advanced sequence properties.</value>
   </data>
   <data name="DCPower_InconsistentAdvancedSequenceProperties" xml:space="preserve">
     <value>Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}</value>
