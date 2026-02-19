@@ -647,7 +647,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
-                if (measureWhen.HasValue && measureWhen.Value == DCPowerMeasurementWhen.OnDemand)
+                if (measureWhen.HasValue && measureWhen.Value != DCPowerMeasurementWhen.OnMeasureTrigger)
                 {
                     throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_InvalidMeasureWhen, measureWhen.Value));
                 }
