@@ -36,6 +36,26 @@
             <param name="isShadowOfSharedChannel">Indicates whether the channel is a shadow of a shared channel.</param>
             <param name="channelSharedTo">A collection of site-pin pairs that are shared to the same channel.</param>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo">
+            <inheritdoc/>
+            <remarks>
+            Additionally contains 'AssignedTmuContext' property to store and retrieve TMU context.
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.AssignedTmuContext">
+            <summary>
+            Gets or sets the Assigned TMU context.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.#ctor(System.String)">
+            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.#ctor(System.String)"/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.#ctor(System.Int32,System.String)">
+            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.#ctor(System.Int32,System.String)"/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.#ctor(System.Int32,System.String,System.String,System.String)">
+            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.#ctor(System.Int32,System.String,System.String,System.String)"/>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.ExceptionCollector">
             <summary>
             Collects and manages exceptions that occur during operations, allowing them to be aggregated and thrown as a single <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/>.
