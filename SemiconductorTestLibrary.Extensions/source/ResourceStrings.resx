@@ -126,7 +126,7 @@
   <data name="DAQmx_SampleClockRateNotDistinct" xml:space="preserve">
     <value>The value for the sample clock rate is not the same for all underlying instrument sessions.</value>
   </data>
-    <data name="DCPowerDeviceNotSupported" xml:space="preserve">
+   <data name="DCPowerDeviceNotSupported" xml:space="preserve">
     <value>The specified instrument ({0}) does not support one or more of the requested advanced sequence properties.</value>
   </data>
   <data name="Digital_SequencerFlagNotDistinct" xml:space="preserve">
