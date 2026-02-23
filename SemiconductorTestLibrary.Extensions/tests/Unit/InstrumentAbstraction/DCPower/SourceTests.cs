@@ -151,6 +151,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceVoltageSequenceSynchronized_CorrectValuesAreSet(bool pinMapWithChannelGroup)
@@ -168,6 +169,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceVoltageSequenceSynchronizedWithPerPinPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
@@ -213,6 +215,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceVoltageSequenceSynchronizedWithPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
@@ -1284,6 +1287,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceVoltageSequence_CorrectValueAreSet(bool pinMapWithChannelGroup)
@@ -1309,6 +1313,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceVoltageSequenceSiteData_CorrectValueAreSet(bool pinMapWithChannelGroup)
@@ -1340,6 +1345,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceVoltageSequencePinSiteData_CorrectValueAreSet(bool pinMapWithChannelGroup)
@@ -1373,6 +1379,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceVoltageSequenceWithDefaultParameters_SequenceAppliedSuccessfully(bool pinMapWithChannelGroup)
@@ -2374,6 +2381,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceCurrentSequenceSucceeds(bool pinMapWithChannelGroup)
