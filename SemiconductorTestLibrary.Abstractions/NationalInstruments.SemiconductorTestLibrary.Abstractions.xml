@@ -665,6 +665,19 @@
             <param name="cascadingInfo">Cascading information.</param>
             <returns>True if the cascadingInfo represtents ganging follower channel.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.GetValue``1(System.Collections.Generic.IDictionary{System.String,``0},NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Boolean@)">
+            <summary>
+            Gets the data for the pin name or cascaded pin group name associated with the pinData dictionary.
+            </summary>
+            <remarks>If the value is not found using the pin name, the method attempts to retrieve it
+            using the pin group name if cascading information is available. The out parameter <paramref
+            name="valueAssociatedWithPinGroupName"/> can be used to determine which key was used to obtain the
+            value.</remarks>
+            <param name="pinData">The PinData object containing the data to search.</param>
+            <param name="sitePinInfo">The associated SitePinInfo object.</param>
+            <param name="valueAssociatedWithPinGroupName">Returns, true if the data is associated with pin group name.</param>
+            <returns>The value associated with the specified pin name or pin group name of type <typeparamref name="T"/>.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.VoltagePinSiteResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,``0}},``0)">
             <summary>
             Associates a pin site result with a pin or pin group name in the provided pin site results dictionary.
@@ -892,9 +905,17 @@
             <param name="pinName">The specified pin name.</param>
             <returns>The data for the specified site number and pin name.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Boolean@)">
+            <summary>
+            Gets the data for the site number-pin name pair associated with the given <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.This overload method returns one more parameter "valueAssociatedWithPinGroupName", which indicates the data is associated with pin group name.
+            </summary>
+            <param name="sitePinInfo">The associated SitePinInfo object.</param>
+            <returns>The data for the site number and pin name of the SitePinInfo object provided.</returns>
+            <param name="valueAssociatedWithPinGroupName">Returns true if the data is associated with pin group name.</param>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo)">
             <summary>
-            Gets the data for the site number-pin name pair associated with the given <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> objet.
+            Gets the data for the site number-pin name pair associated with the given <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.
             </summary>
             <param name="sitePinInfo">The associated SitePinInfo object.</param>
             <returns>The data for the site number and pin name of the SitePinInfo object provided.</returns>
