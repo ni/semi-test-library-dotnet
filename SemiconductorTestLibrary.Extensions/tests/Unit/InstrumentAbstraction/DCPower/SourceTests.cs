@@ -1161,7 +1161,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForcePerPinCurrentsWithSymmetricLimitOnGroup_CorrectCurrentsForced()
+        public void DifferentSMUDevicesGanged_ForcePerPinCurrentsWithSymmetricLimitOnPinGroupName_CorrectCurrentsForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -1363,7 +1363,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinSettingsObjectOnGroup_SameVoltageForcedAndCurrentLimitDividedEqually()
+        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinSettingsObjectOnPinGroupName_SameVoltageForcedAndCurrentLimitDividedEqually()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -1738,7 +1738,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceCurrentWithPerPinSettingsObjectOnGroup_CorrectCurrentsForced()
+        public void DifferentSMUDevicesGanged_ForceCurrentWithPerPinSettingsObjectOnPinGroupName_CorrectCurrentsForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -2097,7 +2097,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentSourceSettingsWithPinSiteDataOnGroup_CorrectValuesAreSetAndCurrentLevelDivided()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentSourceSettingsWithPinSiteDataOnPinGroupName_CorrectValuesAreSetAndCurrentLevelDivided()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -2204,7 +2204,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigurePerPinCurrentSourceSettingsOnGroup_CorrectValuesAreSetAndCurrentLevelDivided()
+        public void DifferentSMUDevicesGanged_ConfigurePerPinCurrentSourceSettingsOnPinGroupName_CorrectValuesAreSetAndCurrentLevelDivided()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -2326,7 +2326,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureVoltageSourceSettingsWithPinSiteDataOnGroup_CorrectValuesAreSetAndCurrentLimitDivided()
+        public void DifferentSMUDevicesGanged_ConfigureVoltageSourceSettingsWithPinSiteDataOnPinGroupName_CorrectValuesAreSetAndCurrentLimitDivided()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -2390,7 +2390,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigurePerPinVoltageSourceSettingsOnGroup_CorrectValuesAreSetAndCurrentLimitDivided()
+        public void DifferentSMUDevicesGanged_ConfigurePerPinVoltageSourceSettingsOnPinGroupName_CorrectValuesAreSetAndCurrentLimitDivided()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");

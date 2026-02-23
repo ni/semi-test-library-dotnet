@@ -84,16 +84,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                bool isCascadingPinData = false;
-                if (settings.TryGetValue(sitePinInfo.PinName, out var pinSetting))
-                {
-                    isCascadingPinData = sitePinInfo.CascadingInfo is GangingInfo;
-                }
-                else
-                {
-                    pinSetting = settings[GetPinOrPinGroupName(sitePinInfo)];
-                }
-                sessionInfo.ConfigureSourceSettings(pinSetting, channelOutput, sitePinInfo, isCascadingPinData);
+                var perPinSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
+                var isCascadingPinData = !isGroupData && sitePinInfo.CascadingInfo is GangingInfo;
+                sessionInfo.ConfigureSourceSettings(perPinSettings, channelOutput, sitePinInfo, isCascadingPinData);
             });
         }
 
@@ -263,15 +256,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                bool isCascadingPinData = false;
-                if (settings.TryGetValue(sitePinInfo.PinName, out var perPinSettings))
-                {
-                    isCascadingPinData = sitePinInfo.CascadingInfo is GangingInfo;
-                }
-                else
-                {
-                    perPinSettings = settings[GetPinOrPinGroupName(sitePinInfo)];
-                }
+                var perPinSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
+                var isCascadingPinData = !isGroupData && sitePinInfo.CascadingInfo is GangingInfo;
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perPinSettings, sitePinInfo, isCascadingPinData);
             });
@@ -560,15 +546,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                bool isCascadingPinData = false;
-                if (currentLevels.TryGetValue(sitePinInfo.PinName, out var currentLevel))
-                {
-                    isCascadingPinData = sitePinInfo.CascadingInfo is GangingInfo;
-                }
-                else
-                {
-                    currentLevel = currentLevels[GetPinOrPinGroupName(sitePinInfo)];
-                }
+                var currentLevel = currentLevels.GetValue(sitePinInfo, out bool isGroupData);
+                var isCascadingPinData = !isGroupData && sitePinInfo.CascadingInfo is GangingInfo;
                 var settings = new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
@@ -697,15 +676,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                bool isCascadingPinData = false;
-                if (settings.TryGetValue(sitePinInfo.PinName, out var perPinSettings))
-                {
-                    isCascadingPinData = sitePinInfo.CascadingInfo is GangingInfo;
-                }
-                else
-                {
-                    perPinSettings = settings[GetPinOrPinGroupName(sitePinInfo)];
-                }
+                var perPinSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
+                var isCascadingPinData = !isGroupData && sitePinInfo.CascadingInfo is GangingInfo;
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
                 sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perPinSettings, sitePinInfo, isCascadingPinData);
             });
