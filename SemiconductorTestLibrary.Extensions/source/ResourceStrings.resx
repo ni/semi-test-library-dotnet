@@ -156,7 +156,4 @@
   <data name="DCPower_InconsistentAdvancedSequenceProperties" xml:space="preserve">
     <value>Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}</value>
   </data>
-  <data name="DCPower_InvalidMeasureWhen" xml:space="preserve">
-    <value>The specified setting {0} is not a valid MeasureWhen property for ganged follower channels. "OnMeasureTrigger" is the only setting allowed.</value>
-  </data>
 </root>
