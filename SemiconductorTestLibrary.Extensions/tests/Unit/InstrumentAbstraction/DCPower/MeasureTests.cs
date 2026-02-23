@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -11,6 +10,7 @@ using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
@@ -19,7 +19,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     public sealed class MeasureTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
+
         private const string AllPinsGangedGroup = "AllPinsGangedGroup";
+        private const string TwoPinsGangedGroup = "TwoPinsGangedGroup";
 
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
@@ -467,6 +469,42 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureMeasureSettingsOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureMeasureSettings()
+            {
+                filteredBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = 0.01 });
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureMeasureSettings);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureMeasureSettingsOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureMeasureSettings()
+            {
+                subsetBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings { ApertureTime = 0.01 });
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureMeasureSettings);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
         [Theory]
         [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
@@ -751,7 +789,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToAutomaticallyAfterSourceComplete_MeasureWhenSetCorrectlyForAllChannels()
+        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToAutomaticallyAfterSourceComplete_MeasureWhenSetAccordingly()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -761,24 +799,73 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                Assert.Equal(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
+                if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                {
+                    Assert.Equal(DCPowerMeasurementWhen.OnMeasureTrigger, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
+                }
+                else
+                {
+                    Assert.Equal(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
+                }
             });
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToOnDemand_ThrowsExceptionForFollowerChannels()
+        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToOnDemand_MeasureWhenSetAccordingly()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                {
+                    Assert.Equal(DCPowerMeasurementWhen.OnMeasureTrigger, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
+                }
+                else
+                {
+                    Assert.Equal(DCPowerMeasurementWhen.OnDemand, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
+                }
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
             void ConfigureMeasureWhen()
             {
-                sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+                filteredBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
             }
 
-            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureMeasureWhen);
-            Assert.Contains("not a valid MeasureWhen property for ganged follower channels", exception.Message);
+            var exception = Assert.Throws<AggregateException>(ConfigureMeasureWhen);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureMeasureWhen()
+            {
+                subsetBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureMeasureWhen);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Theory]
