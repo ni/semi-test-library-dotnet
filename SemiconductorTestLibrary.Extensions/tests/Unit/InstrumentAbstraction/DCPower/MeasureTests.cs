@@ -777,7 +777,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToOnMeasureTrigger_MeasureWhenSetCorrectlyForAllChannels()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnMeasureTrigger);
@@ -814,7 +814,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToOnDemand_MeasureWhenSetAccordingly()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
@@ -866,6 +866,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<AggregateException>(ConfigureMeasureWhen);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
             Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToAutomaticallyAfterSourceComplete_ThrowsExceptionForFollowerChannels()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            void ConfigureMeasureWhen()
+            {
+                sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureMeasureWhen);
+            Assert.Contains("not a valid MeasureWhen property for ganged follower channels", exception.Message);
         }
 
         [Theory]
