@@ -648,14 +648,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, string modelString, DCPowerMeasurementWhen? measureWhen)
         {
-            var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            if (measureWhen.HasValue)
             {
-                output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
-            }
-            else if (measureWhen.HasValue)
-            {
-                output.ConfigureMeasureWhen(modelString, measureWhen.Value);
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                {
+                    output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
+                }
+                else
+                {
+                    output.ConfigureMeasureWhen(modelString, measureWhen.Value);
+                }
             }
         }
 
