@@ -774,7 +774,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToOnMeasureTrigger_MeasureWhenSetCorrectlyForAllChannels()
+        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToOnMeasureTrigger_MeasureWhenSetToOnMeasureTrigger()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
