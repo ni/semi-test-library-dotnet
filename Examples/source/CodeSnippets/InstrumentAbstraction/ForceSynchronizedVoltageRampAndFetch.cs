@@ -18,10 +18,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     internal static class ForceSynchronizedVoltageRampAndFetch
     {
         /// <summary>
-        /// This example demonstrates how to forces a hardware-timed sequence of voltage sequence, created using <see cref="HelperMethods.CreateRampSequence(double, double, int)"/> on the specified pins across all sites using.
+        /// This example demonstrates how to force a hardware-timed sequence of voltage sequence, created using <see cref="HelperMethods.CreateRampSequence(double, double, int)"/> on the specified pins across all sites using.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="smuPinNames">The SMU pins to force voltage sequence on</param>
+        /// <param name="smuPinNames">The SMU pins to force voltage sequence on.</param>
         internal static void SameValueToAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -31,14 +31,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ForceVoltageSequenceSynchronized(voltageSequence);
 
             var result = dcPowerPins.FetchMeasurement(pointsToFetch: 10);
-            tsmContext.PublishResults(result, publishedDataId: "ForceSynchronizedVoltageRampAndFetch");
         }
 
         /// <summary>
-        /// This example demonstrates how to forces a hardware-timed sequence of voltage sequence, created using <see cref="HelperMethods.CreateRampSequence(int[], double, double, int)"/> per site across all the SMU pins.
+        /// This example demonstrates how to force a hardware-timed sequence of voltage sequence, created using <see cref="HelperMethods.CreateRampSequence(int[], double, double, int)"/> per site across all the SMU pins.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="smuPinNames">The SMU pins to force voltage sequence on</param>
+        /// <param name="smuPinNames">The SMU pins to force voltage sequence on.</param>
         internal static void DifferentValuesPerSiteAcrossAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -49,14 +48,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ForceVoltageSequenceSynchronized(voltageSequence);
 
             var result = dcPowerPins.FetchMeasurement(pointsToFetch: 10);
-            tsmContext.PublishResults(result, publishedDataId: "ForceSynchronizedVoltageRampAndFetch");
         }
 
         /// <summary>
-        /// This example demonstrates how to forces a hardware-timed sequence of voltage sequence, created using <see cref="HelperMethods.CreateRampSequence(string[], int[], double, double, int)"/> across all the pins.
+        /// This example demonstrates how to force a hardware-timed sequence of voltage sequence, created using <see cref="HelperMethods.CreateRampSequence(string[], int[], double, double, int)"/> across all the pins.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="smuPinNames">The SMU pins to force voltage sequence on</param>
+        /// <param name="smuPinNames">The SMU pins to force voltage sequence on.</param>
         internal static void DifferentLevelsPerSmuPin(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -67,7 +65,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ForceVoltageSequenceSynchronized(voltageSequence);
 
             var result = dcPowerPins.FetchMeasurement(pointsToFetch: 10);
-            tsmContext.PublishResults(result, publishedDataId: "ForceSynchronizedVoltageRampAndFetch");
         }
     }
 }
