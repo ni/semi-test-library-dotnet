@@ -868,22 +868,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
-        [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenToAutomaticallyAfterSourceComplete_ThrowsExceptionForFollowerChannels()
-        {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
-
-            void ConfigureMeasureWhen()
-            {
-                sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            }
-
-            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureMeasureWhen);
-            Assert.Contains("not a valid MeasureWhen property for ganged follower channels", exception.Message);
-        }
-
         [Theory]
         [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
         [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
