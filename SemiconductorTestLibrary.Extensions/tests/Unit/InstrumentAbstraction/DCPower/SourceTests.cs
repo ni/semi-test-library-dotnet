@@ -2432,7 +2432,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ConfigureSourceSettingsWithMultipleChannelOutput()
             {
                 var sessionInfo = sessionsBundle.InstrumentSessions.First();
-                sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsOutput, sessionsBundle.AggregateSitePinList.First(), isCascadingPinData: false);
+                sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsOutput, sessionsBundle.AggregateSitePinList.First(), isPerPinData: false);
             }
 
             var exception = Assert.Throws<NISemiconductorTestException>(ConfigureSourceSettingsWithMultipleChannelOutput);
