@@ -15,14 +15,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     /// with any dependent instrument sessions have already been initiated and configured.
     /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
-    internal static class ForceVoltageRamp
+    public static class ForceVoltageRamp
     {
         /// <summary>
         /// This example demonstrates how to force the same voltage sequence created using <see cref="HelperMethods.CreateRampSequence(double, double, int)"/> on the specified pins across all sites using.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">The SMU pins to force voltage sequence on</param>
-        internal static void SameValueToAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        public static void SameValueToAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 1);
