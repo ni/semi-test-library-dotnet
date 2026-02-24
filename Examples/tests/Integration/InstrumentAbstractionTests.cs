@@ -19,10 +19,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 
             ForceVoltageRampMeasureCurrent.ForceVoltageRampMeasureCurrentExample(tsmContext, pins, publishedDataID);
 
+            CleanupInstrumentation(tsmContext);
             var publishedData = publishedDataReader.GetAndClearPublishedData();
-
             Assert.NotEmpty(publishedData);
             Assert.Equal(publishedDataID, publishedData[0].PublishedDataId);
+        }
+
+        [Fact]
+        public void Initialize_ConfigureUpfrontAndInitiateAdvancedSequenceLaterSucceeds()
+        {
+            var tsmContext = CreateTSMContext("HLSTestPinMap.pinmap", out var publishedDataReader);
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
+            string[] pins = { "VDD", "VCC" };
+
+            ConfigureUpfrontAndInitiateAdvancedSequenceLater.ConfigureUpfrontAndInitiateAdvancedSequenceLaterExample(tsmContext, pins);
+            CleanupInstrumentation(tsmContext);
         }
     }
 }

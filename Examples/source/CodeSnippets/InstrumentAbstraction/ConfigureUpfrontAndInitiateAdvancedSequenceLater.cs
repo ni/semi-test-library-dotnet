@@ -15,9 +15,19 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     /// with any dependent instrument sessions have been already initiated and configured.
     /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
-    internal static class ConfigureUpfrontAndInitiateAdvancedSequenceLater
+    public static class ConfigureUpfrontAndInitiateAdvancedSequenceLater
     {
-        internal static void ConfigureUpfrontAndInitiateAdvancedSequenceLaterExample(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        /// <summary>
+        /// Configures measurement and source settings for specified SMU pins and sets up an advanced sequence that can
+        /// be initiated later in the test flow.
+        /// </summary>
+        /// <remarks>This example demonstrates how to configure measurement and source settings, as well
+        /// as an advanced sequence, upfront without immediately activating the sequence. The advanced sequence can be
+        /// initiated at a later point in the test flow, allowing for flexible test execution and reducing the need for
+        /// repeated configuration.</remarks>
+        /// <param name="tsmContext">The semiconductor module context.</param>
+        /// <param name="smuPinNames">An array of SMU pin names to be configured for measurement, source, and advanced sequence settings.</param>
+        public static void ConfigureUpfrontAndInitiateAdvancedSequenceLaterExample(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
@@ -44,6 +54,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.InitiateAdvancedSequence(advanceSequenceName);
         }
 
+        /// <summary>
+        /// Configures multiple advanced sequences for specified SMU pins and initiates one of the sequences later in the test flow. This enables upfront configuration of test sequences for flexible execution.
+        /// </summary>
+        /// <remarks>This method allows advanced sequences to be configured in advance without immediately
+        /// activating them. Sequences can then be initiated as needed during the test flow, reducing reconfiguration
+        /// overhead and enabling more efficient test execution. Ensure that the provided pin names are valid and that
+        /// the advanced sequences are properly defined before initiation.</remarks>
+        /// <param name="tsmContext">The context of the semiconductor module.</param>
+        /// <param name="smuPinNames">An array of SMU pin names to be configured for advanced sequences.</param>
         internal static void ConfigureMultipleAdvanceSequencesUpfrontAndInitiateAdvancedSequencesLaterExample(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -70,9 +89,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var advanceSequenceSettingsForSecondAdvancedSequences = new DCPowerAdvancedSequenceStepProperties[4];
             for (int i = 0; i < voltages.Length; i++)
             {
-                var stepSetting = new DCPowerAdvancedSequenceStepProperties();
-                stepSetting.VoltageLevel = voltages[i];
-                stepSetting.ApertureTime = apertureTimes[i];
+                var stepSetting = new DCPowerAdvancedSequenceStepProperties
+                {
+                    VoltageLevel = voltages[i],
+                    ApertureTime = apertureTimes[i]
+                };
                 advanceSequenceSettingsForSecondAdvancedSequences[i] = stepSetting;
             }
 

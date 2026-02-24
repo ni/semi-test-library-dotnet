@@ -34,7 +34,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             dcPowerPins.ForceVoltageSequence(voltageSequence, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 20);
 
-            var measurement = dcPowerPins.FetchMeasurement(pointsToFetch: voltageSequence.Length).Select(x => x[0].VoltageMeasurement);
+            var measurement = dcPowerPins.FetchMeasurement(pointsToFetch: voltageSequence.Length).Select(x => x[0].CurrentMeasurement);
             tsmContext.PublishResults(measurement, publishedDataID);
         }
     }
