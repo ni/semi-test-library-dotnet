@@ -1,5 +1,6 @@
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -15,9 +16,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     /// with any dependent instrument sessions have been already initiated and configured.
     /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
-    internal static class ForceVoltageRampMeasureCurrent
+    public static class ForceVoltageRampMeasureCurrent
     {
-        internal static void ForceVoltageRampMeasureCurrentExample(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        /// <summary>
+        /// Applies a voltage ramp to specified SMU pins and measures the resulting current.
+        /// </summary>
+        /// <param name="tsmContext">Context for the semiconductor module operations.</param>
+        /// <param name="smuPinNames">Names of the SMU pins to apply the voltage ramp and measure current.</param>
+        /// <param name="publishedDataID">ID for the published data.</param>
+        public static void ForceVoltageRampMeasureCurrentExample(ISemiconductorModuleContext tsmContext, string[] smuPinNames, string publishedDataID = "ForceVoltageRampMeasureCurrent")
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
@@ -26,7 +33,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
 
             dcPowerPins.ForceVoltageSequence(voltageSequence, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 20);
-            dcPowerPins.MeasureCurrent();
+
+            var measurement = dcPowerPins.FetchMeasurement(pointsToFetch: voltageSequence.Length).Select(x => x[0].VoltageMeasurement);
+            tsmContext.PublishResults(measurement, publishedDataID);
         }
     }
 }
