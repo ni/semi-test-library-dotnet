@@ -27,7 +27,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
 
             dcPowerPins.ForceVoltageSequence(voltageSequence, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 20);
-            dcPowerPins.MeasureCurrent();
+            var measurement = dcPowerPins.MeasureCurrent();
+
+            const string publishedId = "Current";
+            tsmContext.PublishResults(measurement, publishedId);
         }
     }
 }
