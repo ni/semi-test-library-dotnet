@@ -25,8 +25,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
 
             dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
-
-            dcPowerPins.ForceVoltageSequence(voltageSequence, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 20);
+            // dcPowerPins.DisableTriggers();
+            dcPowerPins.ForceVoltageSequence(voltageSequence);
             var measurement = dcPowerPins.MeasureCurrent();
 
             const string publishedId = "Current";

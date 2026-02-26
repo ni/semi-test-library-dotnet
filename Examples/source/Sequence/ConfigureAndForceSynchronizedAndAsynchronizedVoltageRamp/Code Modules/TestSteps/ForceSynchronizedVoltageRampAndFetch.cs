@@ -28,9 +28,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
 
-            dcPowerPins.ForceVoltageSequenceSynchronized(voltageSequence);
+            dcPowerPins.ForceVoltageSequenceSynchronized(voltageSequence, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10);
 
-            var result = dcPowerPins.FetchMeasurement(pointsToFetch: 10);
+            var result = dcPowerPins.FetchMeasurement(pointsToFetch: 10).Select(x => x[0].VoltageMeasurement);
+            tsmContext.PublishResults(result, "Voltage");
+            dcPowerPins.DisableTriggers();
         }
 
         /// <summary>
