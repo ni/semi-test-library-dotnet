@@ -6,19 +6,18 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
-
     /// <summary>
-    /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
-    /// Specifically, how to measure current for pins mapped to DCPower Instruments.
-    /// Note that DCPower Instruments include both Source Measurement Units (SMUs) and Programmable Power Supplies (PPS) devices.
-    /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
-    /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
-    /// with any dependent instrument sessions have been already initiated and configured.
-    /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
+    /// This class provides example methods to demonstrate how to use the extension method required for Hardware Level Sequencing from the Semiconductor Test Library.
     /// </summary>
-    public static class ForceVoltageRampMeasureCurrent
+    public static partial class TestSteps
     {
-        public static void ForceVoltageRampMeasureCurrentExample(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        /// <summary>
+        /// Applies a voltage ramp to specified SMU pins and measures the resulting current, publishing the measurement
+        /// results.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="smuPinNames">Array of SMU pin names to which the voltage ramp is applied.</param>
+        public static void ForceVoltageRampMeasureCurrent(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
@@ -27,10 +26,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
             // dcPowerPins.DisableTriggers();
             dcPowerPins.ForceVoltageSequence(voltageSequence);
-            var measurement = dcPowerPins.MeasureCurrent();
 
             const string publishedId = "Current";
-            tsmContext.PublishResults(measurement, publishedId);
+            dcPowerPins.MeasureAndPublishCurrent(publishedId, out _);
         }
     }
 }
