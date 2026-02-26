@@ -1936,7 +1936,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
                     channelOutput.ConfigureLevelsAndLimits(settings, sitePin, isPerPinData);
-                    channelOutput.ConfigureTriggerForGanging(sitePin);
+                    channelOutput.ConfigureSourceTriggerForCascading(sitePin);
                 });
             }
             else
@@ -2001,11 +2001,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool waitForSourceCompletion = false, bool isPerPinData = false)
+        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, bool waitForSourceCompletion = false, bool isPerPinData = false)
         {
             var channelString = sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
-            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo, isPerPinData);
+            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo: null, isPerPinData);
             channelOutput.InitiateChannels(waitForSourceCompletion);
         }
 
