@@ -631,6 +631,193 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void SharedPins_ApplyPerInstrumentSessionTDROffsetsWithInvalidOffsetCount_ThrowsNISemiconductorTestException()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
+            var expectedInstrument0Count = instrumentSessions[0].AssociatedSitePinList.Count(sitePin => !sitePin.SkipOperations);
+            var expectedInstrument1Count = instrumentSessions[1].AssociatedSitePinList.Count(sitePin => !sitePin.SkipOperations);
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), expectedInstrument0Count).ToArray(),
+                Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), expectedInstrument1Count - 1).ToArray()
+            };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "ArgumentException", "Invalid offset count for instrument index" };
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ApplyTDROffsets(offsets));
+
+            foreach (var expectedPhrase in expectedPhrases)
+            {
+                Assert.Contains(expectedPhrase, exception.Message);
+            }
+        }
+
+        [Fact]
+        public void SharedPins_SaveInstrumentSessionTDROffsetsWithInvalidOffsetCount_ThrowsArgumentException()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
+            var expectedInstrument0Count = instrumentSessions[0].AssociatedSitePinList.Count(sitePin => !sitePin.SkipOperations);
+            var expectedInstrument1Count = instrumentSessions[1].AssociatedSitePinList.Count(sitePin => !sitePin.SkipOperations);
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), expectedInstrument0Count).ToArray(),
+                Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), expectedInstrument1Count - 1).ToArray()
+            };
+            var fileName = Path.GetTempFileName();
+            var exception = Assert.Throws<ArgumentException>(() => sessionsBundle.SaveTDROffsetsToFile(offsets, fileName));
+
+            Assert.Contains("Invalid offset count", exception.Message);
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
+        public void SharedPins_SaveInstrumentSessionTDROffsetsToAndFromFileWithAllSitePinOffsets_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[instrumentSessions.Count][];
+            for (int instrumentIndex = 0; instrumentIndex < instrumentSessions.Count; instrumentIndex++)
+            {
+                var associatedSitePinList = instrumentSessions[instrumentIndex].AssociatedSitePinList.ToList();
+                offsets[instrumentIndex] = new Ivi.Driver.PrecisionTimeSpan[associatedSitePinList.Count];
+                for (int sitePinIndex = 0; sitePinIndex < associatedSitePinList.Count; sitePinIndex++)
+                {
+                    offsets[instrumentIndex][sitePinIndex] = Ivi.Driver.PrecisionTimeSpan.FromSeconds((sitePinIndex + 1) * 1e-8);
+                }
+
+                var sitePinToOffsetIndex = associatedSitePinList
+                    .Select((sitePin, offsetIndex) => new { sitePin.SitePinString, OffsetIndex = offsetIndex })
+                    .ToDictionary(item => item.SitePinString, item => item.OffsetIndex);
+                var sharedChannelGroups = associatedSitePinList
+                    .Where(sitePin => !string.IsNullOrEmpty(sitePin.IndividualChannelString))
+                    .GroupBy(sitePin => sitePin.IndividualChannelString)
+                    .Where(group => group.Count() > 1)
+                    .ToList();
+
+                foreach (var sharedChannelGroup in sharedChannelGroups)
+                {
+                    var sharedSitePins = sharedChannelGroup.ToList();
+                    var primaryOffset = offsets[instrumentIndex][sitePinToOffsetIndex[sharedSitePins[0].SitePinString]];
+                    foreach (var shadowSitePin in sharedSitePins.Skip(1))
+                    {
+                        offsets[instrumentIndex][sitePinToOffsetIndex[shadowSitePin.SitePinString]] = primaryOffset;
+                    }
+                }
+            }
+            var fileName = Path.GetTempFileName();
+            sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
+            sessionsBundle.LoadTDROffsetsFromFile(fileName, out var offsetsFromFile);
+
+            Assert.Equal(instrumentSessions.Count, offsetsFromFile.Length);
+            for (int instrumentIndex = 0; instrumentIndex < instrumentSessions.Count; instrumentIndex++)
+            {
+                var filteredCount = instrumentSessions[instrumentIndex].AssociatedSitePinList.Count(sitePin => !sitePin.SkipOperations);
+                Assert.Equal(filteredCount, offsetsFromFile[instrumentIndex].Length);
+            }
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
+        public void SharedPins_ApplyPerInstrumentSessionTDROffsetsWithInstrumentCountMismatch_ThrowsArgumentException()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[1][]
+            {
+                new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8) }
+            };
+            var expectedPhrases = new string[] { "number of instrument session offsets provided", "does not match the number of instrument sessions" };
+            var exception = Assert.Throws<ArgumentException>(() => sessionsBundle.ApplyTDROffsets(offsets));
+
+            foreach (var expectedPhrase in expectedPhrases)
+            {
+                Assert.Contains(expectedPhrase, exception.Message);
+            }
+        }
+
+        [Fact]
+        public void SharedPins_ApplyPerInstrumentSessionTDROffsetsWithSharedChannelMismatch_ThrowsNISemiconductorTestException()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
+            var instrument0SitePins = instrumentSessions[0].AssociatedSitePinList.ToList();
+            var instrument1SitePins = instrumentSessions[1].AssociatedSitePinList.ToList();
+            var instrument0Offsets = Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), instrument0SitePins.Count).ToArray();
+            var instrument1Offsets = Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), instrument1SitePins.Count).ToArray();
+            var sharedSitePinGroup = instrument1SitePins
+                .Where(sitePin => !string.IsNullOrEmpty(sitePin.IndividualChannelString))
+                .GroupBy(sitePin => sitePin.IndividualChannelString)
+                .First(group => group.Count() > 1)
+                .ToList();
+            var primarySharedSitePin = sharedSitePinGroup[0];
+            var firstShadowSitePin = sharedSitePinGroup[1];
+            var sitePinToOffsetIndex = instrument1SitePins
+                .Select((sitePin, offsetIndex) => new { sitePin.SitePinString, OffsetIndex = offsetIndex })
+                .ToDictionary(item => item.SitePinString, item => item.OffsetIndex);
+            instrument1Offsets[sitePinToOffsetIndex[primarySharedSitePin.SitePinString]] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.3e-8);
+            instrument1Offsets[sitePinToOffsetIndex[firstShadowSitePin.SitePinString]] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.4e-8);
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                instrument0Offsets,
+                instrument1Offsets
+            };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "ArgumentException", "Inconsistent offsets for shared channel" };
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ApplyTDROffsets(offsets));
+
+            foreach (var expectedPhrase in expectedPhrases)
+            {
+                Assert.Contains(expectedPhrase, exception.Message);
+            }
+        }
+
+        [Fact]
+        public void SharedPins_SaveInstrumentSessionTDROffsetsWithSharedChannelMismatch_ThrowsArgumentException()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
+            var instrument0SitePins = instrumentSessions[0].AssociatedSitePinList.ToList();
+            var instrument1SitePins = instrumentSessions[1].AssociatedSitePinList.ToList();
+            var instrument0Offsets = Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), instrument0SitePins.Count).ToArray();
+            var instrument1Offsets = Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), instrument1SitePins.Count).ToArray();
+            var sharedSitePinGroup = instrument1SitePins
+                .Where(sitePin => !string.IsNullOrEmpty(sitePin.IndividualChannelString))
+                .GroupBy(sitePin => sitePin.IndividualChannelString)
+                .First(group => group.Count() > 1)
+                .ToList();
+            var primarySharedSitePin = sharedSitePinGroup[0];
+            var firstShadowSitePin = sharedSitePinGroup[1];
+            var sitePinToOffsetIndex = instrument1SitePins
+                .Select((sitePin, offsetIndex) => new { sitePin.SitePinString, OffsetIndex = offsetIndex })
+                .ToDictionary(item => item.SitePinString, item => item.OffsetIndex);
+            instrument1Offsets[sitePinToOffsetIndex[primarySharedSitePin.SitePinString]] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.3e-8);
+            instrument1Offsets[sitePinToOffsetIndex[firstShadowSitePin.SitePinString]] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.4e-8);
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                instrument0Offsets,
+                instrument1Offsets
+            };
+            var fileName = Path.GetTempFileName();
+            var exception = Assert.Throws<ArgumentException>(() => sessionsBundle.SaveTDROffsetsToFile(offsets, fileName));
+
+            Assert.Contains("Inconsistent offsets for shared channel", exception.Message);
+
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
         public void TwoDevicesWorkForTwoSitesSeparately_SaveInstrumentSessionTDROffsetsToAndFromFile_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");

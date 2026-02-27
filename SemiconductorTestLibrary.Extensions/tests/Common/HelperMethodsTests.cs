@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using Xunit;
 
@@ -94,6 +93,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
                 HelperMethods.CreateRampSequence(0.0, outputStop, 10));
 
             Assert.Contains("Output Stop value must be a finite number", exception.Message);
+        }
+
+        [Fact]
+        public void CreateFormattedArgumentException_SetsParameterNameAndFormatsMessage()
+        {
+            var messageFormat = "Invalid value {0}";
+            var parameterName = "offsets";
+            var formattedValue = "Invalid value 3";
+            var exception = HelperMethods.CreateFormattedArgumentException(messageFormat, parameterName, 3);
+
+            Assert.Equal(parameterName, exception.ParamName);
+            Assert.Contains(formattedValue, exception.Message);
         }
     }
 }

@@ -160,11 +160,38 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The offset count for instrument index ({0}) is invalid. Expected either ({1}) offsets for primary and non-shared channels or ({2}) offsets for all site-pin channels, including shared shadows, but received ({3})..
+        /// </summary>
+        internal static string Digital_TDROffsetsCountMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TDROffsetsCountMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of instrument session offsets provided ({0}) does not match the number of instrument sessions in the bundle ({1})..
+        /// </summary>
+        internal static string Digital_TDROffsetsInstrumentCountMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TDROffsetsInstrumentCountMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TDR offsets for following channels are missing from {0}: {1}..
         /// </summary>
         internal static string Digital_TDROffsetsMissing {
             get {
                 return ResourceManager.GetString("Digital_TDROffsetsMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inconsistent offsets for shared channel on instrument index ({0}). Primary channel ({1}) offset ({2}) must match shared shadow channel ({3}) offset ({4})..
+        /// </summary>
+        internal static string Digital_TDROffsetsSharedChannelMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TDROffsetsSharedChannelMismatch", resourceCulture);
             }
         }
         

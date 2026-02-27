@@ -24,6 +24,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         }
 
         /// <summary>
+        /// Creates an <see cref="ArgumentException"/> with an invariant-culture formatted message.
+        /// </summary>
+        /// <param name="messageFormat">The message format string.</param>
+        /// <param name="parameterName">The parameter name associated with the exception.</param>
+        /// <param name="formatArguments">Optional format arguments for the message format string.</param>
+        /// <returns>A formatted <see cref="ArgumentException"/> instance.</returns>
+        public static ArgumentException CreateFormattedArgumentException(string messageFormat, string parameterName, params object[] formatArguments)
+        {
+            return new ArgumentException(
+                string.Format(CultureInfo.InvariantCulture, messageFormat, formatArguments),
+                parameterName);
+        }
+
+        /// <summary>
         /// Creates a ramp sequence of double values from outputStart to outputStop with the specified number of points.
         /// </summary>
         /// <param name="outputStart">The starting value of the ramp.</param>
