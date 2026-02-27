@@ -644,7 +644,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), expectedInstrument0Count).ToArray(),
                 Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), expectedInstrument1Count - 1).ToArray()
             };
-            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "ArgumentException", "Invalid offset count for instrument index" };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "ArgumentException", "offset count for instrument index" };
             var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ApplyTDROffsets(offsets));
 
             foreach (var expectedPhrase in expectedPhrases)
@@ -670,7 +670,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var fileName = Path.GetTempFileName();
             var exception = Assert.Throws<ArgumentException>(() => sessionsBundle.SaveTDROffsetsToFile(offsets, fileName));
 
-            Assert.Contains("Invalid offset count", exception.Message);
+            Assert.Contains("offset count for instrument index", exception.Message);
 
             RemoveTemporaryFile(fileName);
         }
