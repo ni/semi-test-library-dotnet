@@ -1974,7 +1974,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinPerSiteSettingsGroupObject_SameVoltageForcedAndCurrentLimitDividedEqually()
+        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinPerSiteSettingsOnPinGroupName_SameVoltageForcedAndCurrentLimitDividedEqually()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
