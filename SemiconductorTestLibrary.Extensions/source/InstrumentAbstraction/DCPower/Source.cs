@@ -56,14 +56,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings)"/>
-        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings, bool isPerPinData = false)
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings, bool applyToIndividualPins = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo.SiteNumber), channelOutput, sitePinInfo, isPerPinData);
+                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo.SiteNumber), channelOutput, sitePinInfo, applyToIndividualPins);
             });
         }
 
@@ -145,7 +145,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, isPerPinData: false);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, applyToIndividualPins: false);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -174,7 +174,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, isPerPinData: false);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, applyToIndividualPins: false);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -189,7 +189,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimitRange">The current limit range to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
-        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
+        /// <param name="applyToIndividualPins">Indicates whether the provided current limit and current range are intended to be applied to individual pins within a ganged group (cascading pin data), which affects how channels are configured and initiated for ganged groups. This should be set to true when providing pin-specific current limits in a scenario where some of the targeted pins are part of a ganged group, and false otherwise.</param>
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false, bool applyToIndividualPins = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -203,7 +204,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
                 };
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, isPerPinData: false);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, applyToIndividualPins);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -215,8 +216,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="settings">The settings to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
-        /// <param name="isPerPinData">Indicates whether the provided settings are intended to be applied to individual pins within a ganged group (cascading pin data), which affects how channels are configured and initiated for ganged groups. This should be set to true when providing pin-unique settings in a scenario where some of the targeted pins are part of a ganged group, and false when providing site-unique or uniform settings for pins that may be in a ganged group.</param>
-        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false, bool isPerPinData = false)
+        /// <param name="applyToIndividualPins">Indicates whether the provided settings are intended to be applied to individual pins within a ganged group (cascading pin data), which affects how channels are configured and initiated for ganged groups. This should be set to true when providing pin-unique settings in a scenario where some of the targeted pins are part of a ganged group, and false when providing site-unique or uniform settings for pins that may be in a ganged group.</param>
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false, bool applyToIndividualPins = false)
         {
             settings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
             if (sessionsBundle.HasGangedChannels)
@@ -224,7 +225,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, isPerPinData);
+                    sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, applyToIndividualPins);
                 });
                 sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
             }
@@ -244,15 +245,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="settings">The per-site settings to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
-        /// <param name="isPerPinData">Indicates whether the provided settings are intended to be applied to individual pins within a ganged group (cascading pin data), which affects how channels are configured and initiated for ganged groups. This should be set to true when providing pin-unique settings in a scenario where some of the targeted pins are part of a ganged group, and false when providing site-unique or uniform settings for pins that may be in a ganged group.</param>
-        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false, bool isPerPinData = false)
+        /// <param name="applyToIndividualPins">Indicates whether the provided settings are intended to be applied to individual pins within a ganged group (cascading pin data), which affects how channels are configured and initiated for ganged groups. This should be set to true when providing pin-unique settings in a scenario where some of the targeted pins are part of a ganged group, and false when providing site-unique or uniform settings for pins that may be in a ganged group.</param>
+        public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false, bool applyToIndividualPins = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
                 perSiteSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSiteSettings, sitePinInfo, isPerPinData);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSiteSettings, sitePinInfo, applyToIndividualPins);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -598,7 +599,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, isPerPinData: false);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, applyToIndividualPins: false);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -622,7 +623,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = (currentLevels.GetValue(sitePinInfo, out bool isGroupData)),
+                    Level = currentLevels.GetValue(sitePinInfo, out bool isGroupData),
                     Limit = voltageLimit,
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
@@ -639,8 +640,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="settings">The settings to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
-        /// <param name="isPerPinData">Set this to true if the settings contains Data for Pin which belongs to cascaded channels. This will ensure the method treats the settings as pin-unique when configuring channels of ganged groups, which is necessary to properly handle scenarios where pins within a ganged group have different settings provided through pin-unique data.</param>
-        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false, bool isPerPinData = false)
+        /// <param name="applyToIndividualPins">Set this to true if the settings contains Data for Pin which belongs to cascaded channels. This will ensure the method treats the settings as pin-unique when configuring channels of ganged groups, which is necessary to properly handle scenarios where pins within a ganged group have different settings provided through pin-unique data.</param>
+        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool waitForSourceCompletion = false, bool applyToIndividualPins = false)
         {
             settings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
             if (sessionsBundle.HasGangedChannels)
@@ -648,7 +649,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, isPerPinData);
+                    sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, applyToIndividualPins);
                 });
                 sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
             }
@@ -668,14 +669,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="settings">The per-site settings to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
-        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)
+        /// <param name="applyToIndividualPins">Set this to true if the settings contains Data for Pin which belongs to cascaded channels. This will ensure the method treats the settings as pin-unique when configuring channels of ganged groups, which is necessary to properly handle scenarios where pins within a ganged group have different settings provided through pin-unique data.</param>
+        public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false, bool applyToIndividualPins = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perSiteSettings = settings.GetValue(sitePinInfo.SiteNumber);
                 perSiteSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSiteSettings, sitePinInfo, sitePinInfo.CascadingInfo is GangingInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSiteSettings, sitePinInfo, applyToIndividualPins);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -1900,11 +1902,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
         /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
-        /// <param name="isPerPinData">Whether the provided site pin info is for cascading pin data. Default is false.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "", bool isPerPinData = false)
+        /// <param name="applyToIndividualPins">Whether the provided site pin info is for cascading pin data. Default is false.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "", bool applyToIndividualPins = false)
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
-            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo: null, isPerPinData);
+            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo: null, applyToIndividualPins);
         }
 
         /// <summary>
@@ -1914,8 +1916,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="settings">The source settings to configure.</param>
         /// <param name="channelOutput">The <see cref="DCPowerOutput"/> object.</param>
         /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
-        /// <param name="isPerPinData">Whether the provided site pin info is for cascading pin data. Default is false.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo, bool isPerPinData)
+        /// <param name="applyToIndividualPins">Whether the provided site pin info is for cascading pin data. Default is false.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo, bool applyToIndividualPins)
         {
             string channelString = string.IsNullOrEmpty(channelOutput.Name) ? sessionInfo.AllChannelsString : channelOutput.Name;
             if (sitePinInfo != null && channelString.Split(',').Length > 1)
@@ -1935,7 +1937,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
-                    channelOutput.ConfigureLevelsAndLimits(settings, sitePin, isPerPinData);
+                    channelOutput.ConfigureLevelsAndLimits(settings, sitePin, applyToIndividualPins);
                     channelOutput.ConfigureSourceTriggerForCascading(sitePin);
                 });
             }
@@ -1985,7 +1987,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureLevelsAndLimits(this DCPowerOutput channelOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool isPerPinData = false)
+        private static void ConfigureLevelsAndLimits(this DCPowerOutput channelOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool applyToIndividualPins = false)
         {
             if (settings.LimitSymmetry.HasValue)
             {
@@ -1993,26 +1995,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
             {
-                ConfigureVoltageSettings(channelOutput, settings, sitePinInfo, isPerPinData);
+                ConfigureVoltageSettings(channelOutput, settings, sitePinInfo, applyToIndividualPins);
             }
             else if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCCurrent))
             {
-                ConfigureCurrentSettings(channelOutput, settings, sitePinInfo, isPerPinData);
+                ConfigureCurrentSettings(channelOutput, settings, sitePinInfo, applyToIndividualPins);
             }
         }
 
-        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, bool waitForSourceCompletion = false, bool isPerPinData = false)
+        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, bool waitForSourceCompletion = false, bool applyToIndividualPins = false)
         {
             var channelString = sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
-            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo: null, isPerPinData);
+            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo: null, applyToIndividualPins);
             channelOutput.InitiateChannels(waitForSourceCompletion);
         }
 
-        private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo, bool isPerPinData)
+        private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo, bool applyToIndividualPins)
         {
             channelOutput.Control.Abort();
-            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo, isPerPinData);
+            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo, applyToIndividualPins);
             if (sitePinInfo != null)
             {
                 sessionInfo.ConfigureMeasureWhen(sitePinInfo, sitePinInfo.ModelString, DCPowerMeasurementWhen.OnMeasureTrigger);
@@ -2040,10 +2042,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        private static void ConfigureAllChannelsAndInitiateGangedFollowerChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool isPerPinData)
+        private static void ConfigureAllChannelsAndInitiateGangedFollowerChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool applyToIndividualPins)
         {
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo, isPerPinData);
+            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo, applyToIndividualPins);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
                 channelOutput.InitiateChannels();
@@ -2087,10 +2089,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionInfo.AllChannelsString.StartsWith(sitePinInfo.IndividualChannelString, StringComparison.InvariantCulture);
         }
 
-        private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool isPerPinData)
+        private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool applyToIndividualPins)
         {
             var currentLimitDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
-            if (isPerPinData)
+            if (applyToIndividualPins)
             {
                 currentLimitDivisor = 1;
             }
@@ -2126,10 +2128,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool isPerPinData)
+        private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool applyToIndividualPins)
         {
             var currentLevelDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
-            if (isPerPinData)
+            if (applyToIndividualPins)
             {
                 currentLevelDivisor = 1;
             }

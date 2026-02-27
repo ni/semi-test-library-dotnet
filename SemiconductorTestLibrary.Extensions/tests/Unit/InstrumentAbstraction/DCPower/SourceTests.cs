@@ -1767,14 +1767,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
-                if (sitePinInfo.SiteNumber == 0)
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.2, expectedVoltageLimit: 3);
-                }
-                else
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.6, expectedVoltageLimit: 3);
-                }
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.2 : 0.6, expectedVoltageLimit: 3);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1800,14 +1793,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
-                if (sitePinInfo.SiteNumber == 0)
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.5, expectedVoltageLimit: 4.5);
-                }
-                else
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.6, expectedVoltageLimit: 4.5);
-                }
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.5 : 0.6, expectedVoltageLimit: 4.5);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1829,14 +1815,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
-                if (sitePinInfo.SiteNumber == 0)
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.5, expectedVoltageLimit: 4.5);
-                }
-                else
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.6, expectedVoltageLimit: 4.5);
-                }
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.5 : 0.6, expectedVoltageLimit: 4.5);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -3216,7 +3195,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ConfigureSourceSettingsWithMultipleChannelOutput()
             {
                 var sessionInfo = sessionsBundle.InstrumentSessions.First();
-                sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsOutput, sessionsBundle.AggregateSitePinList.First(), isPerPinData: false);
+                sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsOutput, sessionsBundle.AggregateSitePinList.First(), applyToIndividualPins: false);
             }
 
             var exception = Assert.Throws<NISemiconductorTestException>(ConfigureSourceSettingsWithMultipleChannelOutput);
