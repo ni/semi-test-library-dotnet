@@ -75,7 +75,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo, out bool isGroupdata), channelOutput, sitePinInfo, !isGroupdata);
+                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo, out bool isGroupData), channelOutput, sitePinInfo, !isGroupData);
             });
         }
 
@@ -2092,11 +2092,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool applyToIndividualPins)
         {
-            var currentLimitDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
-            if (applyToIndividualPins)
-            {
-                currentLimitDivisor = 1;
-            }
+            var currentLimitDivisor = applyToIndividualPins ? 1 : ((sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1);
             dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
             if (settings.Level.HasValue)
             {
@@ -2131,11 +2127,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool applyToIndividualPins)
         {
-            var currentLevelDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
-            if (applyToIndividualPins)
-            {
-                currentLevelDivisor = 1;
-            }
+            var currentLevelDivisor = applyToIndividualPins ? 1 : ((sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1);
             dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
             if (settings.Level.HasValue)
             {
