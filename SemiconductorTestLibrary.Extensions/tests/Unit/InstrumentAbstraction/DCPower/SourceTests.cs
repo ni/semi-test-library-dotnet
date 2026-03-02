@@ -2703,12 +2703,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(AllPinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
             }
             Console.WriteLine("Test: PinsOfCascadedPinGroup_GangPinGroupAndForceCurrent");
@@ -2750,12 +2751,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(AllPinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
@@ -2799,12 +2801,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(AllPinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
             }
             Console.WriteLine("Test: PinsOfCascadedPinGroup_GangPinGroupAndForceVoltage");
@@ -2846,12 +2849,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(AllPinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
@@ -2894,12 +2898,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
             }
             Console.WriteLine("Test: PinsOfCascadedPinGroup_ForceCurrent");
@@ -2940,12 +2945,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
@@ -2988,12 +2994,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
             }
             Console.WriteLine("Test: PinsOfCascadedPinGroup_ForceVoltage");
@@ -3034,13 +3041,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
-            var voltageSettings = new DCPowerSourceSettings();
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
@@ -3076,13 +3083,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(ThreePinsGroup);
-            var currentSettings = new DCPowerSourceSettings();
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
             }
             Console.WriteLine("Test: PinsOfCascadedPinGroup_GangThreePinsGroupAndForceCurrent");
@@ -3109,12 +3116,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(ThreePinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
@@ -3143,13 +3151,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(ThreePinsGroup);
-            var voltageSettings = new DCPowerSourceSettings()
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
             }
             Console.WriteLine("Test: PinsOfCascadedPinGroup_GangThreePinsGroupAndForceVoltage");
@@ -3176,12 +3184,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(ThreePinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
@@ -3204,12 +3213,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(TwoPinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
             }
             Console.WriteLine("Test: PinsOfCascadedPinGroup_GangTwoPinsGroupAndForceCurrent");
@@ -3230,12 +3240,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(TwoPinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
@@ -3258,12 +3269,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(TwoPinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
             }
             Console.WriteLine("Test: PinsOfCascadedPinGroup_GangTwoPinsGroupAndForceVoltage");
@@ -3284,12 +3296,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(AllPinsGroup);
             sessionsBundle.GangPinGroup(TwoPinsGroup);
+            bool containsGangedChannels = false;
 
             var stopwatch = new Stopwatch();
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                var containsGangedChannels = sessionsBundle.HasGangedChannels;
+                containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
