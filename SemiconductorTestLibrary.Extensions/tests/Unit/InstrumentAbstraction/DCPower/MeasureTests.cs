@@ -488,7 +488,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureMeasureSettingsOnFilteredBundleWithFewPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ConfigureMeasureSettingsOnFilteredBundleWithMissingGangedPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -506,7 +506,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureMeasureSettingsOnSubsetBundleWithTwoPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ConfigureMeasureSettingsOnSubsetBundleWithMissingGangedPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -851,7 +851,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenOnFilteredBundleWithFewPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenOnFilteredBundleWithMissingGangedPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -869,7 +869,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenOnSubsetBundleWithTwoPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ConfigureMeasureWhenOnSubsetBundleWithMissingGangedPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
