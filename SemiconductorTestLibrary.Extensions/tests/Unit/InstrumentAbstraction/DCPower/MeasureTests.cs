@@ -477,7 +477,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
-            var settings = new DCPowerMeasureSettings();
+            var settings = new DCPowerMeasureSettings() { ApertureTime = 0.1 };
             sessionsBundle.ConfigureMeasureSettings(settings);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
