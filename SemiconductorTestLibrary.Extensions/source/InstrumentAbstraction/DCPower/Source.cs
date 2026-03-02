@@ -91,8 +91,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                var perPinSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
-                sessionInfo.ConfigureSourceSettings(perPinSettings, channelOutput, sitePinInfo, !isGroupData);
+                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo, out bool isGroupData), channelOutput, sitePinInfo, !isGroupData);
             });
         }
 
