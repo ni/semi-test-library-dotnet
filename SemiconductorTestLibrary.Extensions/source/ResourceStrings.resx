@@ -135,8 +135,17 @@
   <data name="Digital_SequencerRegisterNotDistinct" xml:space="preserve">
     <value>The state of the sequencer register ({0}) is not the same for all underlying instrument sessions.</value>
   </data>
+  <data name="Digital_TDROffsetsCountMismatch" xml:space="preserve">
+    <value>The offset count for instrument index ({0}) is invalid. Expected either ({1}) offsets for primary and non-shared channels or ({2}) offsets for all site-pin channels, including shared shadows, but received ({3}).</value>
+  </data>
+  <data name="Digital_TDROffsetsInstrumentCountMismatch" xml:space="preserve">
+    <value>The number of instrument session offsets provided ({0}) does not match the number of instrument sessions in the bundle ({1}).</value>
+  </data>
   <data name="Digital_TDROffsetsMissing" xml:space="preserve">
     <value>TDR offsets for following channels are missing from {0}: {1}.</value>
+  </data>
+  <data name="Digital_TDROffsetsSharedChannelMismatch" xml:space="preserve">
+    <value>Inconsistent offsets for shared channel on instrument index ({0}). Primary channel ({1}) offset ({2}) must match shared shadow channel ({3}) offset ({4}).</value>
   </data>
   <data name="Digital_TimeSetPeriodNotDistinct" xml:space="preserve">
     <value>The value of the time set period ({0}) is not the same for all underlying instrument sessions.</value>
