@@ -22,9 +22,9 @@
 		<Connection pin="AOPin" siteNumber="1" instrument="DAQ_6363_C1_S08_AOTask" channel="DAQ_6363_C1_S08/ao1" />
 		<Connection pin="DOPin1" siteNumber="0" instrument="DAQ_6363_C1_S08_DOTask" channel=" DAQ_6363_C1_S08/port1/line1" />
 		<Connection pin="DOPin1" siteNumber="1" instrument="DAQ_6363_C1_S08_DOTask" channel="DAQ_6363_C1_S08/port1/line2" />
-		<Connection pin="DOPin2" siteNumber="0" instrument="DAQ_6363_C2_S12_DOTask1" channel="DAQ_6363_C2_S12/port0/line1" />
-		<Connection pin="DOPin2" siteNumber="1" instrument="DAQ_6363_C2_S12_DOTask1" channel="DAQ_6363_C2_S12/port0/line2" />
 		<Connection pin="DOPin3" siteNumber="0" instrument="DAQ_6363_C2_S12_DOTask2" channel="DAQ_6363_C2_S12/port0/line11" />
 		<Connection pin="DOPin3" siteNumber="1" instrument="DAQ_6363_C2_S12_DOTask2" channel="DAQ_6363_C2_S12/port0/line22" />
+		<Connection pin="DOPin2" siteNumber="0" instrument="DAQ_6363_C2_S12_DOTask1" channel="DAQ_6363_C2_S12/port0/line1" />
+		<Connection pin="DOPin2" siteNumber="1" instrument="DAQ_6363_C2_S12_DOTask1" channel="DAQ_6363_C2_S12/port0/line2" />
 	</Connections>
 </PinMap>
