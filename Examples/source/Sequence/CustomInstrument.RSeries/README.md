@@ -1,8 +1,8 @@
 # Custom Instrument RSeries Sequence Example
 
-This example demonstrates how to use the **Custom Instrument** feature of the Semiconductor Test Library to interact with an R Series device through the STL.
+This example demonstrates how to use the **Custom Instrument** feature of the Semiconductor Test Library (STL) to interact with an R Series device.
 
-R-Series devices are FPGA-based instruments whose functionality is defined by custom LabVIEW FPGA code deployed via a compiled FPGA bitfile. Since they are not natively supported in TSM, these devices must be specified as a Custom Instrument in the Pin Map file and accessed through an STL Custom Instrument interface.
+R-Series devices are FPGA-based instruments whose functionality is defined by custom LabVIEW FPGA code deployed via a compiled FPGA bitfile. Since they are not natively supported by TSM, these devices must be specified as a Custom Instrument in the Pin Map file and accessed through an STL Custom Instrument interface.
 
 This example uses a **PXIe‑7822R** R Series device to demonstrate basic digital read and write operations. The **PXIe‑7822R** provides **128 digital I/O physical channels** organized across four connectors. Each connector is further divided into **four digital ports**, with each port containing eight channels (8-bit width). Two of the four connectors are used by the example, one for each site.
 
@@ -13,7 +13,7 @@ For site 0, Connector 0 is used:
 | Port 0 | 0:7      | Digital Output | DigitalInput_A0:DigitalInput_A7   |
 | Port 1 | 8:15     | Digital Output | DigitalInput_B0:DigitalInput_B7   |
 | Port 2 | 16:23    | Digital Input  | DigitalOutput_A0:DigitalOutput_A7 |
-| Port 3 | 32:31    | Digital Input  | DigitalOutput_B0:DigitalOutput_B8 |
+| Port 3 | 24:31    | Digital Input  | DigitalOutput_B0:DigitalOutput_B7 |
 
 For site 1, Connector 1 is used and configured the same way.
 
