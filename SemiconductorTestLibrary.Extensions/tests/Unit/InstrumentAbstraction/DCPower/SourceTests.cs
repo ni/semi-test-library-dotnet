@@ -2670,6 +2670,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -2716,11 +2717,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceCurrent(currentSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangPinGroupAndForceCurrent");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -2769,11 +2772,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceCurrent(currentSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangPinGroupAndForceCurrentMultipleTimes");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -2820,11 +2825,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceVoltage(voltageSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangPinGroupAndForceVoltage");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -2873,11 +2880,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceVoltage(voltageSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangPinGroupAndForceVoltageMultipleTimes");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -2923,11 +2932,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceCurrent(currentSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_ForceCurrent");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -2975,11 +2986,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceCurrent(currentSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_ForceCurrentMultipleTimes");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -3025,11 +3038,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceVoltage(voltageSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_ForceVoltage");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_2Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_2Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -3077,8 +3092,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceVoltage(voltageSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_ForceVoltageMultipleTimes");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         private const string AllPinsGroup = "AllPinsGroup";
@@ -3086,9 +3102,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private const string ThreePinsGroup = "ThreePinsGroup";
         // private const string FourPinsGroup = "FourPinsGroup";
 
-        private const int IterationCount = 10000;
+        private const int IterationCount = 1000;
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_8Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -3120,11 +3137,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceCurrent(currentSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangThreePinsGroupAndForceCurrent");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_8Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -3158,11 +3177,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceCurrent(currentSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangThreePinsGroupAndForceCurrentMultipleTimes");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_8Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -3194,11 +3215,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceVoltage(voltageSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangThreePinsGroupAndForceVoltage");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_8Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_8Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_8Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -3232,11 +3255,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceVoltage(voltageSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangThreePinsGroupAndForceVoltageMultipleTimes");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_4Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -3262,11 +3287,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceCurrent(currentSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangTwoPinsGroupAndForceCurrent");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_4Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -3294,11 +3321,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceCurrent(currentSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangTwoPinsGroupAndForceCurrentMultipleTimes");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_4Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -3324,11 +3353,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceVoltage(voltageSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangTwoPinsGroupAndForceVoltage");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
 
         [Theory]
+        [Trait("Type", "Ganging")]
         [InlineData("SMU_4Pins_1Site_SessionPerChannel.pinmap")]
         [InlineData("SMU_4Pins_1Site_SessionPerInstrument.pinmap")]
         [InlineData("SMU_4Pins_1Site_SessionForAllInstruments.pinmap")]
@@ -3356,8 +3387,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceVoltage(voltageSettings);
                 stopwatch.Stop();
             }
+            Console.WriteLine("Test: PinsOfCascadedPinGroup_GangTwoPinsGroupAndForceVoltageMultipleTimes");
             Console.WriteLine(pinMapFileName);
-            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds / 10} us");
+            Console.WriteLine($"Average time: {stopwatch.ElapsedMilliseconds} us");
         }
     }
 }
