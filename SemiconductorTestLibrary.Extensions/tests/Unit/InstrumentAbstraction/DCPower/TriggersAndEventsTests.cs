@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -255,7 +256,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void ConfigureTrigger_StartTrigger_SoftwarelEdgeAndDisable(string pinMapFileName)
+        public void ConfigureTrigger_StartTrigger_SoftwareEdgeAndDisableStartTrigger(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
@@ -277,9 +278,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertStartTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerStartTriggerType.SoftwareEdge);
             });
-
             // Test Clear Trigger
-            sessionsBundle.DisableTriggers();
+            sessionsBundle.DisableTriggers(new List<TriggerType> { TriggerType.StartTrigger });
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 AssertStartTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerStartTriggerType.None);

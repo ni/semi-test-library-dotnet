@@ -420,18 +420,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimit">Current limit for the sequence.</param>
         /// <param name="voltageLevelRange">Voltage level range.</param>
         /// <param name="currentLimitRange">Current limit range.</param>
-        /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
+        /// <param name="sourceDelayInSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/> to avoid unintended retriggering.
+        /// </remarks>
         public static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] voltageSequence,
             double? currentLimit = null,
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
@@ -448,7 +451,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getCurrentLimit,
                 getVoltageLevelRange,
                 getCurrentLimitRange,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -462,7 +465,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             SiteData<double> currentLimits = null,
             SiteData<double> voltageLevelRanges = null,
             SiteData<double> currentLimitRanges = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
@@ -479,7 +482,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getCurrentLimitForSite,
                 getVoltageLevelRangeForSite,
                 getCurrentLimitRangeForSite,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -493,7 +496,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             PinSiteData<double> currentLimits = null,
             PinSiteData<double> voltageLevelRanges = null,
             PinSiteData<double> currentLimitRanges = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
@@ -510,7 +513,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getCurrentLimitForSitePin,
                 getVoltageLevelRangeForSitePin,
                 getCurrentLimitRangeForSitePin,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -721,18 +724,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
         /// <param name="currentLevelRange">Current level range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
-        /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
+        /// <param name="sourceDelayInSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        /// /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/> to avoid unintended retriggering.
+        /// </remarks>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] currentSequence,
             double? voltageLimit = null,
             double? currentLevelRange = null,
             double? voltageLimitRange = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
@@ -749,7 +755,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getVoltageLimit,
                 getCurrentLevelRange,
                 getVoltageLimitRange,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -763,7 +769,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             SiteData<double> voltageLimits = null,
             SiteData<double> currentLevelRanges = null,
             SiteData<double> voltageLimitRanges = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
@@ -780,7 +786,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getVoltageLimitForSite,
                 getCurrentLevelRangeForSite,
                 getVoltageLimitRangeForSite,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -794,7 +800,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             PinSiteData<double> voltageLimits = null,
             PinSiteData<double> currentLevelRanges = null,
             PinSiteData<double> voltageLimitRanges = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
@@ -811,7 +817,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getVoltageLimitForSitePin,
                 getCurrentLevelRangeForSitePin,
                 getVoltageLimitRangeForSitePin,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -890,6 +896,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
+        /// /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/> to avoid unintended retriggering.
+        /// </remarks>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
@@ -952,6 +961,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
         /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
+        /// /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/> to avoid unintended retriggering.
+        /// </remarks>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
@@ -1025,6 +1037,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
+        /// /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/> to avoid unintended retriggering.
+        /// </remarks>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,
@@ -1087,6 +1102,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
         /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
+        /// /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/> to avoid unintended retriggering.
+        /// </remarks>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,

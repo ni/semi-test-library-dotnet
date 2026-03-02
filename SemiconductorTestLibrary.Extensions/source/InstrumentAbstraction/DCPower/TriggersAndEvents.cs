@@ -118,7 +118,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <para> Note that MeasureTrigger is not supported. It does not need to be disabled.</para>
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        public static void DisableTriggers(this DCPowerSessionsBundle sessionsBundle)
+        /// <param name="triggerTypes">Optional list of trigger types to disable. If null or empty, all supported triggers are disabled.</param>
+        public static void DisableTriggers(this DCPowerSessionsBundle sessionsBundle, List<TriggerType> triggerTypes = null)
         {
             // Need to loop over each channel because not all channels in the sessionInfo.ChannelString are guaranteed to be
             // mapped to the same model, and therefore not all channels in the sessionInfo.ChannelString may support this operation.
@@ -126,7 +127,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
-                var triggerTypesToDisable = new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger };
+                var triggerTypesToDisable = (triggerTypes == null || triggerTypes.Count == 0) ? new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger } : triggerTypes;
                 var supportedTriggerTypesToDisable = triggerTypesToDisable.Except(triggerTypesUnsupported);
                 if (supportedTriggerTypesToDisable.Any())
                 {
