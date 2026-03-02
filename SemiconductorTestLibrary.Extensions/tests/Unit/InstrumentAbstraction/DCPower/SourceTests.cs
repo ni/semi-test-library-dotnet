@@ -3117,7 +3117,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             for (int i = 0; i < IterationCount; i++)
             {
                 stopwatch.Start();
-                sessionsBundle.ForceCurrent(currentSettings);
+                var containsGangedChannels = sessionsBundle.HasGangedChannels;
                 stopwatch.Stop();
             }
             Console.WriteLine(pinMapFileName);
