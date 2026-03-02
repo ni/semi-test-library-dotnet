@@ -2566,23 +2566,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureMeasureSettings_TriggerValuesSet()
-        {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
-            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
-
-            var settings = new DCPowerMeasureSettings();
-            sessionsBundle.ConfigureMeasureSettings(settings);
-
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(GetTriggerName(sitePinInfo, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0", "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
-            });
-        }
-
-        [Fact]
         public void DifferentSMUDevicesGanged_ConfigureCurrentSourceSettingsWithSiteData_CorrectValuesAreSetAndCurrentLevelDivided()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -3711,24 +3694,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
             Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
-        }
-
-        private string GetTriggerName(SitePinInfo sitePinInfo, string leaderChannelString, string triggerType = "Source")
-        {
-            var channel = sitePinInfo.IndividualChannelString;
-            var leaderChannel = leaderChannelString.Split('/');
-            var leaderChannelSlot = leaderChannel[0];
-            var leaderChannelNumber = leaderChannel[leaderChannel.Length - 1];
-
-            if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
-            {
-                return $"/{leaderChannelSlot}/Engine{leaderChannelNumber}/{triggerType}Trigger";
-            }
-            if (channel.Contains("SMU_4147") && triggerType == "Source")
-            {
-                return $"/{channel.Remove(channel.Length - 2)}/Immediate";
-            }
-            return string.Empty;
         }
 
         private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
