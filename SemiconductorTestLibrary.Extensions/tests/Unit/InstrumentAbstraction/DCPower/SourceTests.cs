@@ -2736,7 +2736,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
                 AssertCurrentSettings(channelOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.1 : 0.2, expectedVoltageLimit: sitePinInfo.SiteNumber == 0 ? 7 : 5);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
@@ -2768,7 +2768,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
                 AssertCurrentSettings(sitePinInfo, channelOutput, 0.25, 1, 6);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
@@ -2803,7 +2803,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
                 AssertCurrentSettings(sitePinInfo, channelOutput, 0.75, 0.75, 6);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
@@ -2881,7 +2881,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
                 AssertCurrentSettings(sitePinInfo, channelOutput, 1, 2, 7);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
@@ -2931,7 +2931,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
                 AssertVoltageSettings(sitePinInfo, channelOutput, 4, 0.25, 1);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
@@ -2965,7 +2965,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
                 AssertVoltageSettings(sitePinInfo, channelOutput, 3, 1, 1);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
@@ -3130,7 +3130,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
                 AssertVoltageSettings(channelOutput, 4, 0.6);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
