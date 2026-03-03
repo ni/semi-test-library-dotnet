@@ -2174,14 +2174,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
-                if (sitePinInfo.SiteNumber == 0)
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 4.0, expectedCurrentLimit: 0.9);
-                }
-                else
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 2.5, expectedCurrentLimit: 0.9);
-                }
+                AssertVoltageSettings(channelOutput, expectedVoltageLevel: sitePinInfo.SiteNumber == 0 ? 4.0 : 2.5, expectedCurrentLimit: 0.9);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
