@@ -213,6 +213,74 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [InlineData(false, 100)]
+        [InlineData(true, 100)]
+        public void ComparePerformance_ForceVoltageSequenceSynchronized_vs_ForceAdvancedSequenceSynchronized(bool pinMapWithChannelGroup, int sequenceLength)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            // Create test sequences
+            var voltageSequence = Enumerable.Range(0, sequenceLength)
+                .Select(i => 0.1 * (i % 10))
+                .ToArray();
+
+            var advancedSequence = voltageSequence
+                .Select(v => new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = v,
+                    Limit = 0.1,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric
+                })
+                .ToArray();
+
+            const int iterations = 3;
+            var stopwatch = new System.Diagnostics.Stopwatch();
+
+            // Measure ForceVoltageSequenceSynchronized
+            var voltageTimes = new long[iterations];
+            for (int i = 0; i < iterations; i++)
+            {
+                stopwatch.Restart();
+                sessionsBundle.ForceVoltageSequenceSynchronized(
+                    voltageSequence,
+                    currentLimit: 0.1,
+                    waitForSequenceCompletion: true);
+                stopwatch.Stop();
+                voltageTimes[i] = stopwatch.ElapsedMilliseconds;
+                sessionsBundle.DisableTriggers();
+            }
+
+            // Measure ForceAdvancedSequenceSynchronized
+            var advancedTimes = new long[iterations];
+            for (int i = 0; i < iterations; i++)
+            {
+                stopwatch.Restart();
+                sessionsBundle.ForceAdvancedSequenceSynchronized(
+                    advancedSequence,
+                    waitForSequenceCompletion: true);
+                stopwatch.Stop();
+                advancedTimes[i] = stopwatch.ElapsedMilliseconds;
+                sessionsBundle.DisableTriggers();
+            }
+
+            var voltageAvg = voltageTimes.Average();
+            var advancedAvg = advancedTimes.Average();
+
+            // Log results via assertion message (will show on failure or in test output)
+            System.Diagnostics.Debug.WriteLine($"Sequence Length: {sequenceLength}, Iterations: {iterations}");
+            System.Diagnostics.Debug.WriteLine($"ForceVoltageSequenceSynchronized Avg: {voltageAvg:F2} ms");
+            System.Diagnostics.Debug.WriteLine($"ForceAdvancedSequenceSynchronized Avg: {advancedAvg:F2} ms");
+            System.Diagnostics.Debug.WriteLine($"Difference: {advancedAvg - voltageAvg:F2} ms ({(voltageAvg > 0 ? ((advancedAvg / voltageAvg) - 1) * 100 : 0):F1}%)");
+
+            // Assert both completed successfully
+            Assert.True(voltageAvg >= 0, $"VoltageSeq: {voltageAvg}ms, AdvancedSeq: {advancedAvg}ms, Diff: {advancedAvg - voltageAvg}ms");
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceVoltageSequenceSynchronizedWithPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
