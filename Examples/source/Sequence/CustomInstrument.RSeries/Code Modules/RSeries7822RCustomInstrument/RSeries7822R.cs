@@ -88,28 +88,28 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         }
 
         /// <summary>
-        /// RSeries card write channel data operation.
+        /// RSeries card write port data operation.
         /// </summary>
-        /// <param name="channelString">Channel name.</param>
-        /// <param name="pinSiteSpecificData">Channel data to write.</param>
+        /// <param name="portName">Port name.</param>
+        /// <param name="portData">Channel data to write.</param>
         /// <exception cref="Exception">Thrown when FPGA 'WriteData' fails.</exception>
-        public void WriteChannelData(string channelString, double pinSiteSpecificData)
+        public void WritePortData(string portName, double portData)
         {
-            _status = RSeries7822RDriverAPI.WriteData(_referenceId, channelString, (byte)pinSiteSpecificData);
-            ValidateStatus($"Error in WriteData method, ErrorCode:{_status}, Channel Name:{channelString}, Channel Data:{pinSiteSpecificData}");
+            _status = RSeries7822RDriverAPI.WriteData(_referenceId, portName, (byte)portData);
+            ValidateStatus($"Error in WriteData method, ErrorCode:{_status}, Port Name:{portName}, Port Data:{portData}");
         }
 
         /// <summary>
-        /// RSeries card read channel data operation.
+        /// RSeries card read port data operation.
         /// </summary>
-        /// <param name="channelString">Channel name.</param>
-        /// <returns>Channel data.</returns>
+        /// <param name="portName">Port name.</param>
+        /// <returns>Port data.</returns>
         /// <exception cref="Exception">Thrown when FPGA 'ReadData' fails.</exception>
-        public double MeasureChannelData(string channelString)
+        public double MeasurePortData(string portName)
         {
-            _status = RSeries7822RDriverAPI.ReadData(_referenceId, channelString, out byte data);
-            ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, Channel name:{channelString}");
-            return data;
+            _status = RSeries7822RDriverAPI.ReadData(_referenceId, portName, out byte portData);
+            ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, Port name:{portName}");
+            return portData;
         }
 
         private void ValidateStatus(string exceptionMessage)

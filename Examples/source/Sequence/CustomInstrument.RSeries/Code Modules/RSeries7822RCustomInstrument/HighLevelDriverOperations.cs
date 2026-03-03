@@ -23,7 +23,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 string channelString = sitePinInfo.IndividualChannelString;
 
                 // Perform write data operation on the driver session.
-                session.WriteChannelData(channelString, pinSiteSpecificData);
+                session.WritePortData(channelString, pinSiteSpecificData);
             });
         }
 
@@ -40,7 +40,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 string channelString = sitePinInfo.IndividualChannelString;
 
                 // Perform measure data operation on the driver session.
-                return session.MeasureChannelData(channelString);
+                return session.MeasurePortData(channelString);
             });
         }
 

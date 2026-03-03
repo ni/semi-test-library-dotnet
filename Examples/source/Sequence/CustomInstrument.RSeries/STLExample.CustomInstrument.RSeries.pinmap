@@ -1,23 +1,150 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.1">
 	<Pins>
-		<DUTPin name="DigitalInput_A" />
-		<DUTPin name="DigitalInput_B" />
-		<DUTPin name="DigitalOutput_A" />
-		<DUTPin name="DigitalOutput_B" />
+		<DUTPin name="DigitalInput_A0" />
+		<DUTPin name="DigitalInput_A1" />
+		<DUTPin name="DigitalInput_A2" />
+		<DUTPin name="DigitalInput_A3" />
+		<DUTPin name="DigitalInput_A4" />
+		<DUTPin name="DigitalInput_A5" />
+		<DUTPin name="DigitalInput_A6" />
+		<DUTPin name="DigitalInput_A7" />
+		<DUTPin name="DigitalInput_B0" />
+		<DUTPin name="DigitalInput_B1" />
+		<DUTPin name="DigitalInput_B2" />
+		<DUTPin name="DigitalInput_B3" />
+		<DUTPin name="DigitalInput_B4" />
+		<DUTPin name="DigitalInput_B5" />
+		<DUTPin name="DigitalInput_B6" />
+		<DUTPin name="DigitalInput_B7" />
+		<DUTPin name="DigitalOutput_A0" />
+		<DUTPin name="DigitalOutput_A1" />
+		<DUTPin name="DigitalOutput_A2" />
+		<DUTPin name="DigitalOutput_A3" />
+		<DUTPin name="DigitalOutput_A4" />
+		<DUTPin name="DigitalOutput_A5" />
+		<DUTPin name="DigitalOutput_A6" />
+		<DUTPin name="DigitalOutput_A7" />
+		<DUTPin name="DigitalOutput_B0" />
+		<DUTPin name="DigitalOutput_B1" />
+		<DUTPin name="DigitalOutput_B2" />
+		<DUTPin name="DigitalOutput_B3" />
+		<DUTPin name="DigitalOutput_B4" />
+		<DUTPin name="DigitalOutput_B5" />
+		<DUTPin name="DigitalOutput_B6" />
+		<DUTPin name="DigitalOutput_B7" />
 	</Pins>
-	<PinGroups></PinGroups>
+	<PinGroups>
+		<PinGroup name="DigitalInput_A">
+			<PinReference pin="DigitalInput_A0" />
+			<PinReference pin="DigitalInput_A1" />
+			<PinReference pin="DigitalInput_A2" />
+			<PinReference pin="DigitalInput_A3" />
+			<PinReference pin="DigitalInput_A4" />
+			<PinReference pin="DigitalInput_A5" />
+			<PinReference pin="DigitalInput_A6" />
+			<PinReference pin="DigitalInput_A7" />
+		</PinGroup>
+		<PinGroup name="DigitalInput_B">
+			<PinReference pin="DigitalInput_B0" />
+			<PinReference pin="DigitalInput_B1" />
+			<PinReference pin="DigitalInput_B2" />
+			<PinReference pin="DigitalInput_B3" />
+			<PinReference pin="DigitalInput_B4" />
+			<PinReference pin="DigitalInput_B5" />
+			<PinReference pin="DigitalInput_B6" />
+			<PinReference pin="DigitalInput_B7" />
+		</PinGroup>
+		<PinGroup name="DigitalOutput_A">
+			<PinReference pin="DigitalOutput_A0" />
+			<PinReference pin="DigitalOutput_A1" />
+			<PinReference pin="DigitalOutput_A2" />
+			<PinReference pin="DigitalOutput_A3" />
+			<PinReference pin="DigitalOutput_A4" />
+			<PinReference pin="DigitalOutput_A5" />
+			<PinReference pin="DigitalOutput_A6" />
+			<PinReference pin="DigitalOutput_A7" />
+		</PinGroup>
+		<PinGroup name="DigitalOutput_B">
+			<PinReference pin="DigitalOutput_B0" />
+			<PinReference pin="DigitalOutput_B1" />
+			<PinReference pin="DigitalOutput_B2" />
+			<PinReference pin="DigitalOutput_B3" />
+			<PinReference pin="DigitalOutput_B4" />
+			<PinReference pin="DigitalOutput_B5" />
+			<PinReference pin="DigitalOutput_B6" />
+			<PinReference pin="DigitalOutput_B7" />
+		</PinGroup>
+    </PinGroups>
 	<Instruments>
 		<Instrument name="RIO_7822R_C1_S06" instrumentTypeId="PXI_RSeries_7822R">
-			<ChannelGroup id="DigitalIO">
-				<Channel id="Connector0_DIOPORT0" />
-				<Channel id="Connector0_DIOPORT1" />
-				<Channel id="Connector0_DIOPORT2" />
-				<Channel id="Connector0_DIOPORT3" />
-				<Channel id="Connector1_DIOPORT0" />
-				<Channel id="Connector1_DIOPORT1" />
-				<Channel id="Connector1_DIOPORT2" />
-				<Channel id="Connector1_DIOPORT3" />
+			<ChannelGroup id="Connector0">
+				<Channel id="Connector0_Port0_DIO0" />
+				<Channel id="Connector0_Port0_DIO1" />
+				<Channel id="Connector0_Port0_DIO2" />
+				<Channel id="Connector0_Port0_DIO3" />
+				<Channel id="Connector0_Port0_DIO4" />
+				<Channel id="Connector0_Port0_DIO5" />
+				<Channel id="Connector0_Port0_DIO6" />
+				<Channel id="Connector0_Port0_DIO7" />
+				<Channel id="Connector0_Port1_DIO8" />
+				<Channel id="Connector0_Port1_DIO9" />
+				<Channel id="Connector0_Port1_DIO10" />
+				<Channel id="Connector0_Port1_DIO11" />
+				<Channel id="Connector0_Port1_DIO12" />
+				<Channel id="Connector0_Port1_DIO13" />
+				<Channel id="Connector0_Port1_DIO14" />
+				<Channel id="Connector0_Port1_DIO15" />
+				<Channel id="Connector0_Port2_DIO16" />
+				<Channel id="Connector0_Port2_DIO17" />
+				<Channel id="Connector0_Port2_DIO18" />
+				<Channel id="Connector0_Port2_DIO19" />
+				<Channel id="Connector0_Port2_DIO20" />
+				<Channel id="Connector0_Port2_DIO21" />
+				<Channel id="Connector0_Port2_DIO22" />
+				<Channel id="Connector0_Port2_DIO23" />
+				<Channel id="Connector0_Port3_DIO24" />
+				<Channel id="Connector0_Port3_DIO25" />
+				<Channel id="Connector0_Port3_DIO26" />
+				<Channel id="Connector0_Port3_DIO27" />
+				<Channel id="Connector0_Port3_DIO28" />
+				<Channel id="Connector0_Port3_DIO29" />
+				<Channel id="Connector0_Port3_DIO30" />
+				<Channel id="Connector0_Port3_DIO31" />
+			</ChannelGroup>
+			<ChannelGroup id="Connector1">
+				<Channel id="Connector1_Port0_DIO0" />
+				<Channel id="Connector1_Port0_DIO1" />
+				<Channel id="Connector1_Port0_DIO2" />
+				<Channel id="Connector1_Port0_DIO3" />
+				<Channel id="Connector1_Port0_DIO4" />
+				<Channel id="Connector1_Port0_DIO5" />
+				<Channel id="Connector1_Port0_DIO6" />
+				<Channel id="Connector1_Port0_DIO7" />
+				<Channel id="Connector1_Port1_DIO8" />
+				<Channel id="Connector1_Port1_DIO9" />
+				<Channel id="Connector1_Port1_DIO10" />
+				<Channel id="Connector1_Port1_DIO11" />
+				<Channel id="Connector1_Port1_DIO12" />
+				<Channel id="Connector1_Port1_DIO13" />
+				<Channel id="Connector1_Port1_DIO14" />
+				<Channel id="Connector1_Port1_DIO15" />
+				<Channel id="Connector1_Port2_DIO16" />
+				<Channel id="Connector1_Port2_DIO17" />
+				<Channel id="Connector1_Port2_DIO18" />
+				<Channel id="Connector1_Port2_DIO19" />
+				<Channel id="Connector1_Port2_DIO20" />
+				<Channel id="Connector1_Port2_DIO21" />
+				<Channel id="Connector1_Port2_DIO22" />
+				<Channel id="Connector1_Port2_DIO23" />
+				<Channel id="Connector1_Port3_DIO24" />
+				<Channel id="Connector1_Port3_DIO25" />
+				<Channel id="Connector1_Port3_DIO26" />
+				<Channel id="Connector1_Port3_DIO27" />
+				<Channel id="Connector1_Port3_DIO28" />
+				<Channel id="Connector1_Port3_DIO29" />
+				<Channel id="Connector1_Port3_DIO30" />
+				<Channel id="Connector1_Port3_DIO31" />
 			</ChannelGroup>
 		</Instrument>
 	</Instruments>
@@ -26,13 +153,69 @@
 		<Site siteNumber="1" />
 	</Sites>
 	<Connections>
-		<Connection pin="DigitalInput_A" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_DIOPORT0" />
-		<Connection pin="DigitalInput_A" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_DIOPORT0" />
-		<Connection pin="DigitalInput_B" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_DIOPORT1" />
-		<Connection pin="DigitalInput_B" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_DIOPORT1" />
-		<Connection pin="DigitalOutput_A" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_DIOPORT2" />
-		<Connection pin="DigitalOutput_A" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_DIOPORT2" />
-		<Connection pin="DigitalOutput_B" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_DIOPORT3" />
-		<Connection pin="DigitalOutput_B" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_DIOPORT3" />
+		<Connection pin="DigitalInput_A0" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port0_DIO0" />
+		<Connection pin="DigitalInput_A1" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port0_DIO1" />
+		<Connection pin="DigitalInput_A2" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port0_DIO2" />
+		<Connection pin="DigitalInput_A3" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port0_DIO3" />
+		<Connection pin="DigitalInput_A4" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port0_DIO4" />
+		<Connection pin="DigitalInput_A5" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port0_DIO5" />
+		<Connection pin="DigitalInput_A6" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port0_DIO6" />
+		<Connection pin="DigitalInput_A7" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port0_DIO7" />
+		<Connection pin="DigitalInput_B0" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port1_DIO8" />
+		<Connection pin="DigitalInput_B1" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port1_DIO9" />
+		<Connection pin="DigitalInput_B2" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port1_DIO10" />
+		<Connection pin="DigitalInput_B3" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port1_DIO11" />
+		<Connection pin="DigitalInput_B4" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port1_DIO12" />
+		<Connection pin="DigitalInput_B5" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port1_DIO13" />
+		<Connection pin="DigitalInput_B6" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port1_DIO14" />
+		<Connection pin="DigitalInput_B7" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port1_DIO15" />
+		<Connection pin="DigitalOutput_A0" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port2_DIO16" />
+		<Connection pin="DigitalOutput_A1" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port2_DIO17" />
+		<Connection pin="DigitalOutput_A2" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port2_DIO18" />
+		<Connection pin="DigitalOutput_A3" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port2_DIO19" />
+		<Connection pin="DigitalOutput_A4" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port2_DIO20" />
+		<Connection pin="DigitalOutput_A5" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port2_DIO21" />
+		<Connection pin="DigitalOutput_A6" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port2_DIO22" />
+		<Connection pin="DigitalOutput_A7" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port2_DIO23" />
+		<Connection pin="DigitalOutput_B0" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port3_DIO24" />
+		<Connection pin="DigitalOutput_B1" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port3_DIO25" />
+		<Connection pin="DigitalOutput_B2" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port3_DIO26" />
+		<Connection pin="DigitalOutput_B3" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port3_DIO27" />
+		<Connection pin="DigitalOutput_B4" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port3_DIO28" />
+		<Connection pin="DigitalOutput_B5" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port3_DIO29" />
+		<Connection pin="DigitalOutput_B6" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port3_DIO30" />
+		<Connection pin="DigitalOutput_B7" siteNumber="0" instrument="RIO_7822R_C1_S06" channel="Connector0_Port3_DIO31" />
+		<Connection pin="DigitalInput_A0" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port0_DIO0" />
+		<Connection pin="DigitalInput_A1" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port0_DIO1" />
+		<Connection pin="DigitalInput_A2" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port0_DIO2" />
+		<Connection pin="DigitalInput_A3" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port0_DIO3" />
+		<Connection pin="DigitalInput_A4" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port0_DIO4" />
+		<Connection pin="DigitalInput_A5" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port0_DIO5" />
+		<Connection pin="DigitalInput_A6" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port0_DIO6" />
+		<Connection pin="DigitalInput_A7" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port0_DIO7" />
+		<Connection pin="DigitalInput_B0" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port1_DIO8" />
+		<Connection pin="DigitalInput_B1" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port1_DIO9" />
+		<Connection pin="DigitalInput_B2" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port1_DIO10" />
+		<Connection pin="DigitalInput_B3" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port1_DIO11" />
+		<Connection pin="DigitalInput_B4" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port1_DIO12" />
+		<Connection pin="DigitalInput_B5" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port1_DIO13" />
+		<Connection pin="DigitalInput_B6" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port1_DIO14" />
+		<Connection pin="DigitalInput_B7" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port1_DIO15" />
+		<Connection pin="DigitalOutput_A0" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port2_DIO16" />
+		<Connection pin="DigitalOutput_A1" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port2_DIO17" />
+		<Connection pin="DigitalOutput_A2" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port2_DIO18" />
+		<Connection pin="DigitalOutput_A3" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port2_DIO19" />
+		<Connection pin="DigitalOutput_A4" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port2_DIO20" />
+		<Connection pin="DigitalOutput_A5" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port2_DIO21" />
+		<Connection pin="DigitalOutput_A6" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port2_DIO22" />
+		<Connection pin="DigitalOutput_A7" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port2_DIO23" />
+		<Connection pin="DigitalOutput_B0" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port3_DIO24" />
+		<Connection pin="DigitalOutput_B1" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port3_DIO25" />
+		<Connection pin="DigitalOutput_B2" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port3_DIO26" />
+		<Connection pin="DigitalOutput_B3" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port3_DIO27" />
+		<Connection pin="DigitalOutput_B4" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port3_DIO28" />
+		<Connection pin="DigitalOutput_B5" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port3_DIO29" />
+		<Connection pin="DigitalOutput_B6" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port3_DIO30" />
+		<Connection pin="DigitalOutput_B7" siteNumber="1" instrument="RIO_7822R_C1_S06" channel="Connector1_Port3_DIO31" />
 	</Connections>
 </PinMap>
