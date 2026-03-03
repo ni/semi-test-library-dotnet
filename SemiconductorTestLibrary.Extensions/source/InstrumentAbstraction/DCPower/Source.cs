@@ -729,7 +729,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
-        /// /// <remarks>
+        /// <remarks>
         /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/> to avoid unintended retriggering.
         /// </remarks>
         public static void ForceCurrentSequenceSynchronized(
@@ -896,7 +896,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
-        /// /// <remarks>
+        /// <remarks>
         /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/> to avoid unintended retriggering.
         /// </remarks>
         public static void ForceAdvancedSequenceSynchronized(
@@ -961,7 +961,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
         /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
-        /// /// <remarks>
+        /// <remarks>
         /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/> to avoid unintended retriggering.
         /// </remarks>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
@@ -1037,7 +1037,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
-        /// /// <remarks>
+        /// <remarks>
         /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/> to avoid unintended retriggering.
         /// </remarks>
         public static void ForceAdvancedSequenceSynchronized(
@@ -1102,7 +1102,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
         /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
-        /// /// <remarks>
+        /// <remarks>
         /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/> to avoid unintended retriggering.
         /// </remarks>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
