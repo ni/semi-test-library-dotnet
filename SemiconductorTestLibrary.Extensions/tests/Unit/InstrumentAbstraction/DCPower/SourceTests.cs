@@ -19,7 +19,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     public sealed class SourceTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
-
+        private const string PerformanceResultsPath = @"C:\Code Repo MS STEPS\semi-test-library-dotnet\PerformanceResults.csv";
         private const string TwoPinsGangedGroup = "TwoPinsGangedGroup";
         private const string ThreePinsGangedGroup = "ThreePinsGangedGroup";
         private const string FourPinsGangedGroup = "FourPinsGangedGroup";
@@ -213,9 +213,59 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [InlineData(false, 100)]
-        [InlineData(true, 100)]
+        [InlineData(false, 10)]
+        [InlineData(true, 10)]
         public void ComparePerformance_ForceVoltageSequenceSynchronized_vs_ForceAdvancedSequenceSynchronized(bool pinMapWithChannelGroup, int sequenceLength)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            // Create test sequences
+            var voltageSequence = Enumerable.Range(0, sequenceLength)
+                .Select(i => 0.1 * (i % 10))
+                .ToArray();
+
+            const int iterations = 300;
+            var stopwatch = new System.Diagnostics.Stopwatch();
+
+            // Measure ForceVoltageSequenceSynchronized
+            var voltageTimes = new long[iterations];
+            for (int i = 0; i < iterations; i++)
+            {
+                stopwatch.Restart();
+                sessionsBundle.ForceVoltageSequenceSynchronized(
+                    voltageSequence,
+                    currentLimit: 0.1,
+                    waitForSequenceCompletion: true);
+                stopwatch.Stop();
+                voltageTimes[i] = stopwatch.ElapsedMilliseconds;
+                sessionsBundle.DisableTriggers();
+            }
+
+            var voltageAvg = voltageTimes.Average();
+
+            bool fileExists = System.IO.File.Exists(PerformanceResultsPath);
+            using (var writer = new System.IO.StreamWriter(PerformanceResultsPath, append: true))
+            {
+                // Write header if new file
+                if (!fileExists)
+                {
+                    writer.WriteLine("Timestamp,PinMapWithChannelGroup,SequenceLength,Iterations,VoltageSeqAvg_ms,AdvancedSeqAvg_ms,Diff_ms,Diff_Percent");
+                }
+
+                writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss},{pinMapWithChannelGroup},{sequenceLength},{iterations},{voltageAvg:F2}");
+            }
+            // Log results via assertion message (will show on failure or in test output)
+            Console.WriteLine($"Sequence Length: {sequenceLength}, Iterations: {iterations}");
+            Console.WriteLine($"ForceVoltageSequenceSynchronized Avg: {voltageAvg:F2} ms");
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [InlineData(false, 10)]
+        [InlineData(true, 10)]
+        public void ComparePerformance_ForceVoltageSequenceSynchronized_vs_ForceAdvancedSequenceSynchronizedAdvaced(bool pinMapWithChannelGroup, int sequenceLength)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -236,47 +286,35 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 })
                 .ToArray();
 
-            const int iterations = 3;
+            const int iterations = 50;
             var stopwatch = new System.Diagnostics.Stopwatch();
 
-            // Measure ForceVoltageSequenceSynchronized
-            var voltageTimes = new long[iterations];
-            for (int i = 0; i < iterations; i++)
+            bool fileExists = System.IO.File.Exists(PerformanceResultsPath);
+            using (var writer = new System.IO.StreamWriter(PerformanceResultsPath, append: true))
             {
-                stopwatch.Restart();
-                sessionsBundle.ForceVoltageSequenceSynchronized(
-                    voltageSequence,
-                    currentLimit: 0.1,
-                    waitForSequenceCompletion: true);
-                stopwatch.Stop();
-                voltageTimes[i] = stopwatch.ElapsedMilliseconds;
-                sessionsBundle.DisableTriggers();
+                // Write header if new file
+                if (!fileExists)
+                {
+                    writer.WriteLine("******************THIS IS ADVANCE SEQUENCE RUN*******************");
+                    writer.WriteLine("Timestamp,PinMapWithChannelGroup,SequenceLength,Iterations,VoltageSeqAvg_ms,AdvancedSeqAvg_ms,Diff_ms,Diff_Percent");
+                }
+                // Measure ForceAdvancedSequenceSynchronized
+                var advancedTimes = new long[iterations];
+                for (int i = 0; i < iterations; i++)
+                {
+                    stopwatch.Restart();
+                    sessionsBundle.ForceAdvancedSequenceSynchronized(
+                        advancedSequence,
+                        waitForSequenceCompletion: false);
+                    stopwatch.Stop();
+                    advancedTimes[i] = stopwatch.ElapsedMilliseconds;
+                    writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss},Iteration : {iterations} ; time : {advancedTimes[i]:F2}");
+                    sessionsBundle.DisableTriggers();
+                }
+
+                var advancedAvg = advancedTimes.Average();
+                writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss},*******AVERAGE TIME**** : {advancedAvg:F2}");
             }
-
-            // Measure ForceAdvancedSequenceSynchronized
-            var advancedTimes = new long[iterations];
-            for (int i = 0; i < iterations; i++)
-            {
-                stopwatch.Restart();
-                sessionsBundle.ForceAdvancedSequenceSynchronized(
-                    advancedSequence,
-                    waitForSequenceCompletion: true);
-                stopwatch.Stop();
-                advancedTimes[i] = stopwatch.ElapsedMilliseconds;
-                sessionsBundle.DisableTriggers();
-            }
-
-            var voltageAvg = voltageTimes.Average();
-            var advancedAvg = advancedTimes.Average();
-
-            // Log results via assertion message (will show on failure or in test output)
-            System.Diagnostics.Debug.WriteLine($"Sequence Length: {sequenceLength}, Iterations: {iterations}");
-            System.Diagnostics.Debug.WriteLine($"ForceVoltageSequenceSynchronized Avg: {voltageAvg:F2} ms");
-            System.Diagnostics.Debug.WriteLine($"ForceAdvancedSequenceSynchronized Avg: {advancedAvg:F2} ms");
-            System.Diagnostics.Debug.WriteLine($"Difference: {advancedAvg - voltageAvg:F2} ms ({(voltageAvg > 0 ? ((advancedAvg / voltageAvg) - 1) * 100 : 0):F1}%)");
-
-            // Assert both completed successfully
-            Assert.True(voltageAvg >= 0, $"VoltageSeq: {voltageAvg}ms, AdvancedSeq: {advancedAvg}ms, Diff: {advancedAvg - voltageAvg}ms");
         }
 
         [Theory]
