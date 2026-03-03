@@ -817,14 +817,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
-                {
-                    Assert.Equal(DCPowerMeasurementWhen.OnMeasureTrigger, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
-                }
-                else
-                {
-                    Assert.Equal(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
-                }
+                var expectedMeasureWhen = IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo) ? DCPowerMeasurementWhen.OnMeasureTrigger : DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(expectedMeasureWhen, channelOutput.Measurement.MeasureWhen);
             });
         }
 
@@ -839,14 +834,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
-                {
-                    Assert.Equal(DCPowerMeasurementWhen.OnMeasureTrigger, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
-                }
-                else
-                {
-                    Assert.Equal(DCPowerMeasurementWhen.OnDemand, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
-                }
+                var expectedMeasureWhen = IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo) ? DCPowerMeasurementWhen.OnMeasureTrigger : DCPowerMeasurementWhen.OnDemand;
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(expectedMeasureWhen, channelOutput.Measurement.MeasureWhen);
             });
         }
 
