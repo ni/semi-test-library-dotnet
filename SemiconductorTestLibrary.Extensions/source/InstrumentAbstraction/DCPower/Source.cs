@@ -1997,11 +1997,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
             {
-                ConfigureVoltageSettings(channelOutput, settings, sitePinInfo, applyToIndividualPin);
+                ConfigureVoltageSettings(channelOutput, settings, sitePinInfo, !applyToIndividualPin);
             }
             else if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCCurrent))
             {
-                ConfigureCurrentSettings(channelOutput, settings, sitePinInfo, applyToIndividualPin);
+                ConfigureCurrentSettings(channelOutput, settings, sitePinInfo, !applyToIndividualPin);
             }
         }
 
@@ -2091,9 +2091,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionInfo.AllChannelsString.StartsWith(sitePinInfo.IndividualChannelString, StringComparison.InvariantCulture);
         }
 
-        private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool applyToIndividualPin)
+        private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool needDataAdjustment)
         {
-            var currentLimitDivisor = applyToIndividualPin ? 1 : ((sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1);
+            var currentLimitDivisor = needDataAdjustment && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
             dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
             if (settings.Level.HasValue)
             {
@@ -2126,9 +2126,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool applyToIndividualPin)
+        private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool needDataAdjustment)
         {
-            var currentLevelDivisor = applyToIndividualPin ? 1 : ((sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1);
+            var currentLevelDivisor = needDataAdjustment && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
             dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
             if (settings.Level.HasValue)
             {
