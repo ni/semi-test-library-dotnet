@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ResourceStrings {
@@ -129,6 +129,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string DCPower_MultipleChannelOutputsDetected {
             get {
                 return ResourceManager.GetString("DCPower_MultipleChannelOutputsDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The PinSiteData contains more than one value for ganged pin group &quot;{0}&quot;. For Ganged Pin group Voltage levels must be same on all Pins of the PinGroup.&quot;.
+        /// </summary>
+        internal static string DCPower_MultipleVoltageforGangedChannelsDetected {
+            get {
+                return ResourceManager.GetString("DCPower_MultipleVoltageforGangedChannelsDetected", resourceCulture);
             }
         }
         

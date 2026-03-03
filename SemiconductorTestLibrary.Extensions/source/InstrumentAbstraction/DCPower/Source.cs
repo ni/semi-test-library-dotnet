@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Ivi.Driver;
+
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
+
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -194,7 +199,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="applyToIndividualPin">Indicates whether the provided current limit and range values should be applied to each individual pin within a ganged group. Set this to true to apply pin-specific values to pins in a ganged group, or false to apply values at the group level.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false, bool applyToIndividualPin = false)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            if (hasGangedChannels)
+            {
+                sessionsBundle.ValidateVoltageLevelsForGangedPins(voltageLevels);
+            }
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -1807,6 +1817,34 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.AllChannelsOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             });
         }
+
+        private static void ValidateVoltageLevelsForGangedPins(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels)
+        {
+            var sitePinGroupToVoltageLevelMap = new Dictionary<string, double>();
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo)
+                    {
+                        var voltageLevel = voltageLevels.GetValue(sitePinInfo, out bool isGroupData);
+                        string sitePinGroupName = $"Site{sitePinInfo.SiteNumber}" + gangingInfo.GroupName;
+                        lock (sitePinGroupToVoltageLevelMap)
+                        {
+                            if (sitePinGroupToVoltageLevelMap.ContainsKey(sitePinGroupName))
+                            {
+                                if (sitePinGroupToVoltageLevelMap[sitePinGroupName] != voltageLevel)
+                                {
+                                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleVoltageforGangedChannelsDetected, sitePinGroupName));
+                                }
+                            }
+                            else
+                            {
+                                sitePinGroupToVoltageLevelMap.Add(sitePinGroupName, voltageLevel);
+                            }
+                        }
+                    }
+                });
+        }
+
         #endregion methods on DCPowerSessionsBundle
 
         #region methods on DCPowerOutput
