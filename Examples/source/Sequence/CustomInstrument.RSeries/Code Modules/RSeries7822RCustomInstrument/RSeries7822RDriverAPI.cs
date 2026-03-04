@@ -20,10 +20,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         public static extern int EnableLoopBack(ulong referenceID, ulong enable);
 
         [DllImport(NativeDLLName, CallingConvention = CallingConvention.StdCall)]
-        public static extern int WriteData(ulong referenceID, uint portNumber, byte portData);
+        public static extern int WriteData(ulong referenceID, string portName, byte portData);
 
         [DllImport(NativeDLLName, CallingConvention = CallingConvention.StdCall)]
-        public static extern int ReadData(ulong referenceID, uint portNumber, out byte portData);
+        public static extern int ReadData(ulong referenceID, string portName, out byte portData);
 
         [DllImport(NativeDLLName, CallingConvention = CallingConvention.StdCall)]
         public static extern int CloseFPGA(ulong referenceID);

@@ -160,7 +160,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         {
             foreach (var portState in OutputPortStates)
             {
-                _status = RSeries7822RDriverAPI.WriteData(_referenceId, (uint)portState.Key.PortNumber, portState.Value);
+                string portName = $"{portState.Key.ConnectorNumber}_{portState.Key.PortNumber}";
+                _status = RSeries7822RDriverAPI.WriteData(_referenceId, portName, portState.Value);
                 ValidateStatus($"Error in WriteData method, ErrorCode:{_status}, PortNumber:{portState.Key}, PortData:{portState.Value}");
             }
         }
@@ -206,7 +207,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 var key = PortConfigurations.ElementAt(i).Key;
                 int connectorNumber = key.Item2;
                 int portNumber = key.Item2;
-                _status = RSeries7822RDriverAPI.ReadData(_referenceId, (uint)portNumber, out byte data);
+                string portName = $"{connectorNumber}_{portNumber}";
+                _status = RSeries7822RDriverAPI.ReadData(_referenceId, portName, out byte data);
                 ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, PortNumber:{portNumber}");
                 portsData[connectorNumber][portNumber] = data;
             }
