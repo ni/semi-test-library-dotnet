@@ -195,18 +195,16 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <exception cref="Exception">Thrown when FPGA 'ReadData' fails.</exception>
         public byte[][] ReadPortData()
         {
-            var numberOfConnectors = ChannelInfoMap.Values.Select(x => x.ConnectorNumber).Distinct().Count();
-
             // Get Input ports only.
             var inputPorts = PortConfigurations
                 .Where(kvp => kvp.Value == PortConfiguration.Input)
                 .Select(kvp => kvp.Key)
                 .ToList();
+            var numberOfConnectors = inputPorts.Select(x => x.Item1).Distinct().Count();
             var numberOfInputPorts = inputPorts.Select(x => x.Item2).Distinct().Count();
 
             // Initialize jagged array for storing port data.
             var portsData = new byte[numberOfConnectors][];
-            portsData.Select(x => x = new byte[numberOfInputPorts]);
 
             // Read port date from R series device and store values in jagged array.
             for (int i = 0; i < inputPorts.Count; i++)
@@ -217,7 +215,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 string portName = $"{connectorNumber}_{portNumber}";
                 _status = RSeries7822RDriverAPI.ReadData(_referenceId, portName, out byte data);
                 ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, PortNumber:{portNumber}");
-                portsData[connectorNumber][portNumber] = data;
+
+                // Allocate new byte array for each connector
+                if (portsData[connectorNumber] == null)
+                {
+                    portsData[connectorNumber] = new byte[numberOfInputPorts];
+                }
+                // Get the index of the connectorNumber and portNumber relative to the inputPorts array.
+                int connectorNumberIndex = connectorNumber % numberOfConnectors;
+                int portNumberIndex = portNumber % numberOfInputPorts;
+                // Fill the array with the specific port's data
+                portsData[connectorNumberIndex][portNumberIndex] = data;
             }
 
             return portsData;

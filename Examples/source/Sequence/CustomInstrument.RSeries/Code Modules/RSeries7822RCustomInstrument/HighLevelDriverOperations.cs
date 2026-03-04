@@ -51,10 +51,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 {
                     var channelString = sessionInfo.AssociatedSitePinList[i].IndividualChannelString;
                     var channelInfo = session.ChannelInfoMap[channelString];
-                    var connectorNumber = channelInfo.ConnectorNumber;
-                    var portNumber = channelInfo.PortNumber;
+                    var connectorNumberIndex = channelInfo.ConnectorNumber % portData.Length;
+                    var portNumberIndex = channelInfo.PortNumber % portData[connectorNumberIndex].Length;
                     var channelIndex = channelInfo.ChannelNumber % 8;
-                    results[i] = ((portData[connectorNumber][portNumber] >> channelIndex) & 1) != 0;
+                    results[i] = ((portData[connectorNumberIndex][portNumberIndex] >> channelIndex) & 1) != 0;
                 }
                 return results;
             });
