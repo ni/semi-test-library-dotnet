@@ -53,8 +53,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Packs per-pin output values into a single byte based on pin groups passed in via the digitalOutputPins input parameter,
             PinSiteData<byte> results = ConvertGroupedChannelDataToByte(tsmContext, dutDigitalOutputPorts, perPinData);
 
-            // Publish measured data.
-            tsmContext.PublishResults(results, publishedDataID);
+            // Publish pin-based data.
+            tsmContext.PublishResults(perPinData, publishedDataID);
+            // Publish port-based data.
+            foreach (var portName in dutDigitalOutputPorts)
+            {
+                tsmContext.PublishResults(perPinData.ExtractPin(portName), publishedDataID);
+            }
         }
 
         /// <summary>
@@ -107,42 +112,43 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="dutDigitalOutputPorts">The pin group names corresponding to the DUT digital output ports.</param>
-        /// <param name="perPinData"></param>
+        /// <param name="perPinData">Per site data values for each pin within the DUT's digital output ports</param>
         /// <returns>A new <see cref="PinSiteData{T}"/> object of <see cref="byte"/>s representing the port values corresponding to the DUT's digital output ports.</returns>
         private static PinSiteData<byte> ConvertGroupedChannelDataToByte(ISemiconductorModuleContext tsmContext, string[] dutDigitalOutputPorts, PinSiteData<bool> perPinData)
         {
-            Dictionary<string, IDictionary<int, byte>> tempResults = new Dictionary<string, IDictionary<int, byte>>();
+            Dictionary<string, IDictionary<int, byte>> results = new Dictionary<string, IDictionary<int, byte>>();
             foreach (var targetPinGroup in dutDigitalOutputPorts)
             {
-                var pinsInTargetPinGroup = tsmContext.GetPinsInPinGroup(targetPinGroup);
+                string[] pinsInTargetPinGroup = tsmContext.GetPinsInPinGroup(targetPinGroup);
 
-                foreach (var pin in perPinData.PinNames)
+                foreach (string pin in perPinData.PinNames)
                 {
                     if (pinsInTargetPinGroup.Contains(pin))
                     {
                         int bitIndex = Array.IndexOf(pinsInTargetPinGroup, pin);
-                        if (!tempResults.TryGetValue(targetPinGroup, out var perSiteStates))
+                        if (!results.TryGetValue(targetPinGroup, out var perSiteStates))
                         {
                             perSiteStates = new Dictionary<int, byte>();
+                            results.Add(targetPinGroup, perSiteStates);
                         }
 
                         foreach (var site in perPinData.SiteNumbers)
                         {
-                            var value = perPinData.GetValue(site, pin);
+                            bool value = perPinData.GetValue(site, pin);
 
-                            byte state;
-                            if (!perSiteStates.TryGetValue(site, out state))
+                            if (!perSiteStates.TryGetValue(site, out byte state))
                             {
                                 // Initialize internal port state
                                 state = 0;
+                                results[targetPinGroup].Add(site, state);
                             }
 
-                            tempResults[targetPinGroup][site] = UpdateBitInByte(state, value, bitIndex);
+                            results[targetPinGroup][site] = UpdateBitInByte(state, value, bitIndex);
                         }
                     }
                 }
             }
-            return new PinSiteData<byte>(tempResults);
+            return new PinSiteData<byte>(results);
         }
     }
 }
