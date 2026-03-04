@@ -2222,8 +2222,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageTest);
-            Assert.Contains("The PinSiteData contains more than one value for ganged pin group \"Site0AllPinsGangedGroup\"", exception.Message);
-            Assert.Contains("The PinSiteData contains more than one value for ganged pin group \"Site1AllPinsGangedGroup\"", exception.Message);
+            Assert.Contains("The PinSiteData contains different voltage levels for ganged pins in the \"Site0AllPinsGangedGroup\" group. All pins within a ganged group must have the same voltage level.", exception.Message);
+            Assert.Contains("The PinSiteData contains different voltage levels for ganged pins in the \"Site1AllPinsGangedGroup\" group. All pins within a ganged group must have the same voltage level.", exception.Message);
         }
 
         [Fact]

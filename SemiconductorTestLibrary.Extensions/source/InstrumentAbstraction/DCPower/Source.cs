@@ -1842,12 +1842,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         string sitePinGroupName = $"Site{sitePinInfo.SiteNumber}" + gangingInfo.GroupName;
                         lock (sitePinGroupToVoltageLevelMap)
                         {
-                            if (sitePinGroupToVoltageLevelMap.ContainsKey(sitePinGroupName))
+                            if (sitePinGroupToVoltageLevelMap.TryGetValue(sitePinGroupName, out var groupVoltageLevel) && groupVoltageLevel != voltageLevel)
                             {
-                                if (sitePinGroupToVoltageLevelMap[sitePinGroupName] != voltageLevel)
-                                {
-                                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleVoltageforGangedChannelsDetected, sitePinGroupName));
-                                }
+                                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleVoltageforGangedChannelsDetected, sitePinGroupName));
                             }
                             else
                             {

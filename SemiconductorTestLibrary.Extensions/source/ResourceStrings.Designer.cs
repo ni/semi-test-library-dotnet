@@ -133,7 +133,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The PinSiteData contains more than one value for ganged pin group &quot;{0}&quot;. For Ganged Pin group Voltage levels must be same on all Pins of the PinGroup.&quot;.
+        ///   Looks up a localized string similar to The PinSiteData contains different voltage levels for ganged pins in the &quot;{0}&quot; group. All pins within a ganged group must have the same voltage level..
         /// </summary>
         internal static string DCPower_MultipleVoltageforGangedChannelsDetected {
             get {
