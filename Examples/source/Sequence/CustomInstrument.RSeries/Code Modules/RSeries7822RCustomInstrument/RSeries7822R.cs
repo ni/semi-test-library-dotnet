@@ -112,6 +112,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 if (!portAlreadyConfigured)
                 {
                     portConfiguration = (portNumber < 2) ? PortConfiguration.Output : PortConfiguration.Input;
+                    PortConfigurations.Add((connectorNumber, portNumber), portConfiguration);
                 }
             }
 
@@ -204,8 +205,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 
             for (int i = 0; i < inputPorts.Count; i++)
             {
-                var key = PortConfigurations.ElementAt(i).Key;
-                int connectorNumber = key.Item2;
+                var key = inputPorts[i];
+                int connectorNumber = key.Item1;
                 int portNumber = key.Item2;
                 string portName = $"{connectorNumber}_{portNumber}";
                 _status = RSeries7822RDriverAPI.ReadData(_referenceId, portName, out byte data);
