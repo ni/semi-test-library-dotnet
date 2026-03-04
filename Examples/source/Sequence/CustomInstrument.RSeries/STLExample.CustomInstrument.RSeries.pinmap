@@ -75,10 +75,10 @@
 			<PinReference pin="DigitalOutput_B6" />
 			<PinReference pin="DigitalOutput_B7" />
 		</PinGroup>
-    </PinGroups>
+	</PinGroups>
 	<Instruments>
 		<Instrument name="RIO_7822R_C1_S06" instrumentTypeId="PXI_RSeries_7822R">
-			<ChannelGroup id="Connector0">
+			<ChannelGroup id="DigitalIO">
 				<Channel id="Connector0_Port0_DIO0" />
 				<Channel id="Connector0_Port0_DIO1" />
 				<Channel id="Connector0_Port0_DIO2" />
@@ -111,8 +111,6 @@
 				<Channel id="Connector0_Port3_DIO29" />
 				<Channel id="Connector0_Port3_DIO30" />
 				<Channel id="Connector0_Port3_DIO31" />
-			</ChannelGroup>
-			<ChannelGroup id="Connector1">
 				<Channel id="Connector1_Port0_DIO0" />
 				<Channel id="Connector1_Port0_DIO1" />
 				<Channel id="Connector1_Port0_DIO2" />
