@@ -82,18 +82,21 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             OutputPortStates = new Dictionary<ChannelInfo, byte>();
             PortConfigurations = new Dictionary<(int, int), PortConfiguration>();
             string[] channels = ChannelList.Split(',');
+            var connectorStringId = "Connector";
+            var channelStringId = "DIO";
             for (int i = 0; i < channels.Length; i++)
             {
-                var channelInfoString = channels[i];
-                var channelInfoSegments = channels[i].Split('_');
-                var channelString = channelInfoSegments.FirstOrDefault(s => s.StartsWith("DIO", StringComparison.Ordinal));
+                // The format of the channel strings is expected to have been validated prior to this point.
+                string channelInfoString = channels[i];
+                var channelInfoSegments = channels[i].Split('_').Select(x => x.Trim());
+                string channelString = channelInfoSegments.FirstOrDefault(s => s.StartsWith(channelStringId, StringComparison.Ordinal));
                 int channelNumber = int.Parse(
-                    channelString.Substring(channelString.LastIndexOf(channelString, StringComparison.Ordinal) + 3),
+                    channelString.Substring(channelStringId.Length),
                     NumberStyles.Integer,
                     NumberFormatInfo.InvariantInfo);
-                var connectorString = channelInfoSegments.FirstOrDefault(s => s.StartsWith("Connector", StringComparison.Ordinal));
+                string connectorString = channelInfoSegments.FirstOrDefault(s => s.StartsWith(connectorStringId, StringComparison.Ordinal));
                 int connectorNumber = int.Parse(
-                    connectorString.Substring(connectorString.LastIndexOf(connectorString, StringComparison.Ordinal) + 3),
+                    connectorString.Substring(connectorStringId.Length),
                     NumberStyles.Integer,
                     NumberFormatInfo.InvariantInfo);
                 // Ports are 8 bits wide
