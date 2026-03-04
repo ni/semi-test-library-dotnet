@@ -196,13 +196,19 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         public byte[][] ReadPortData()
         {
             var numberOfConnectors = ChannelInfoMap.Values.Select(x => x.ConnectorNumber).Distinct().Count();
-            var portsData = new byte[numberOfConnectors][];
 
+            // Get Input ports only.
             var inputPorts = PortConfigurations
                 .Where(kvp => kvp.Value == PortConfiguration.Input)
                 .Select(kvp => kvp.Key)
                 .ToList();
+            var numberOfInputPorts = inputPorts.Select(x => x.Item2).Distinct().Count();
 
+            // Initialize jagged array for storing port data.
+            var portsData = new byte[numberOfConnectors][];
+            portsData.Select(x => x = new byte[numberOfInputPorts]);
+
+            // Read port date from R series device and store values in jagged array.
             for (int i = 0; i < inputPorts.Count; i++)
             {
                 var key = inputPorts[i];
@@ -213,6 +219,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, PortNumber:{portNumber}");
                 portsData[connectorNumber][portNumber] = data;
             }
+
             return portsData;
         }
 
