@@ -34,7 +34,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Need to expand the pin groups representing the DUT's digital input ports into individual pins as well as their associated data,
             // which is necessary to construct the appropriate PinSiteData object.
             ExpandDataForPinGroups(tsmContext, dutDigitalInputPorts, portData, out List<bool> expandedPinData, out List<string> expandedInputPins);
-            var pinSitePinData = new PinSiteData<bool>(expandedInputPins.ToArray(), sites, expandedPinData.ToArray());
+            var portDataToWrite = new PinSiteData<bool>(expandedInputPins.ToArray(), sites, expandedPinData.ToArray());
 
             // Create TSM session manager.
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -44,19 +44,19 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             var digitalOutputBundle = sessionManager.CustomInstrument(RSeries7822RFactory.CustomInstrumentTypeId, dutDigitalOutputPorts);
 
             // Write data to DUT's digital input pins, wait for settling time and read data on digital output pins.
-            digitalInputBundle.WriteData(pinSitePinData);
+            digitalInputBundle.WriteData(portDataToWrite);
             Utilities.PreciseWait(settlingTime);
 
             // Read data from DUT's digital output pins
             PinSiteData<bool> perPinData = digitalOutputBundle.ReadData();
 
             // Packs per-pin output values into a single byte based on pin groups passed in via the digitalOutputPins input parameter,
-            PinSiteData<byte> results = ConvertGroupedChannelDataToByte(tsmContext, dutDigitalOutputPorts, perPinData);
+            PinSiteData<byte> perPortData = ConvertGroupedChannelDataToByte(tsmContext, dutDigitalOutputPorts, perPinData);
 
             // Publish port-based data.
             foreach (var portName in dutDigitalOutputPorts)
             {
-                tsmContext.PublishResults(results.ExtractPin(portName).Select(x => (int)x), publishedDataID);
+                tsmContext.PublishResults(perPortData.ExtractPin(portName).Select(x => (int)x), $"{publishedDataID}_{portName}");
             }
         }
 
