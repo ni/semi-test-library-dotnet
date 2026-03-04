@@ -16,14 +16,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     public static class TestStep
     {
         /// <summary>
-        /// Demonstrates the use of extension methods to perform a digital read/write test by writing data to the DUT digital input ports, reading from the digital output ports, and publishing the resulting output data from the DUT.
+        /// Demonstrates the use of extension methods to perform a digital read/write test by writing data to the DUT digital input ports,
+        /// reading from the digital output ports, and publishing the resulting output data from the DUT.
+        /// Data is published as port values, where the published data id matches the dutDigitalOutputPorts values.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="dutDigitalInputPorts">The pin group names corresponding to the DUT digital input ports.</param>
         /// <param name="dutDigitalOutputPorts">The pin group names corresponding to the DUT digital output ports.</param>
         /// <param name="portData">The byte data to be written to the DUT's digital input ports.</param>
-        /// <param name="publishedDataID">The data id to use for publishing the values read-back from the DUT's digital output ports.</param>
-        public static void DigitalReadWriteTest(ISemiconductorModuleContext tsmContext, string[] dutDigitalInputPorts, string[] dutDigitalOutputPorts, byte[] portData, string publishedDataID)
+        public static void DigitalReadWriteTest(ISemiconductorModuleContext tsmContext, string[] dutDigitalInputPorts, string[] dutDigitalOutputPorts, byte[] portData)
         {
             // The amount of time in seconds to wait for the DUT's output to settle.
             double settlingTime = 0.2;
@@ -56,7 +57,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Publish port-based data.
             foreach (var portName in dutDigitalOutputPorts)
             {
-                tsmContext.PublishResults(perPortData.ExtractPin(portName).Select(x => (int)x), $"{publishedDataID}_{portName}");
+                tsmContext.PublishResults(perPortData.ExtractPin(portName).Select(x => (int)x), portName);
             }
         }
 
