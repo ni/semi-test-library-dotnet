@@ -56,7 +56,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Publish port-based data.
             foreach (var portName in dutDigitalOutputPorts)
             {
-                tsmContext.PublishResults(results.ExtractPin(portName), publishedDataID);
+                tsmContext.PublishResults(results.ExtractPin(portName).Select(x => (int)x), publishedDataID);
             }
         }
 
