@@ -81,7 +81,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             ChannelInfoMap = new Dictionary<string, ChannelInfo>();
             OutputPortStates = new Dictionary<ChannelInfo, byte>();
             PortConfigurations = new Dictionary<(int, int), PortConfiguration>();
-            string[] channels = ChannelList.Split(',');
+            string[] channels = ChannelList.Split(',').Select(x => x.Trim()).ToArray();
             var connectorStringId = "Connector";
             var channelStringId = "DIO";
             for (int i = 0; i < channels.Length; i++)
