@@ -53,8 +53,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Packs per-pin output values into a single byte based on pin groups passed in via the digitalOutputPins input parameter,
             PinSiteData<byte> results = ConvertGroupedChannelDataToByte(tsmContext, dutDigitalOutputPorts, perPinData);
 
-            // Publish pin-based data.
-            tsmContext.PublishResults(perPinData, publishedDataID);
             // Publish port-based data.
             foreach (var portName in dutDigitalOutputPorts)
             {
