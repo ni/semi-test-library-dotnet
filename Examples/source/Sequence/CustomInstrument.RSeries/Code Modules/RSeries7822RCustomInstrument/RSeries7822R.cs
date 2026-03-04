@@ -161,7 +161,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         {
             foreach (var portState in OutputPortStates)
             {
-                string portName = $"{portState.Key.ConnectorNumber}_{portState.Key.PortNumber}";
+                string portName = $"Connector{portState.Key.ConnectorNumber}_DIOPORT{portState.Key.PortNumber}";
                 _status = RSeries7822RDriverAPI.WriteData(_referenceId, portName, portState.Value);
                 ValidateStatus($"Error in WriteData method, ErrorCode:{_status}, PortNumber:{portState.Key}, PortData:{portState.Value}");
             }
@@ -212,7 +212,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 var key = inputPorts[i];
                 int connectorNumber = key.Item1;
                 int portNumber = key.Item2;
-                string portName = $"{connectorNumber}_{portNumber}";
+                string portName = $"Connector{connectorNumber}_DIOPORT{portNumber}";
                 _status = RSeries7822RDriverAPI.ReadData(_referenceId, portName, out byte data);
                 ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, PortNumber:{portNumber}");
 
