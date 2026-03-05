@@ -45,14 +45,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
-        /// <param name="needDataAdjustment">Indicates whether the provided settings should be divided equally to each individual pin within a ganged group. Set this to false to apply pin-specific values to pins in a ganged group, or true to apply values at the group level. This parameter is only applicable when the sessions bundle contains ganged channels; for non-ganged channels, settings will always be applied at the individual pin level.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, bool needDataAdjustment = true)
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings, string.Empty, needDataAdjustment);
+                sessionInfo.ConfigureSourceSettings(settings, string.Empty);
             });
         }
 
