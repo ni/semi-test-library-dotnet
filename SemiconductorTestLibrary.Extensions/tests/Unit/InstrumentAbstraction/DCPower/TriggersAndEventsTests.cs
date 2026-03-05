@@ -247,6 +247,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
         public void Initialize_ConfigureSourceSettingsAndConfigureStartAndPulseTriggerSoftwareEdge_OnlySoftwareTriggerIsDisabled(string pinMapFileName)
         {
@@ -264,12 +265,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureSourceSettings(settings);
             sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.StartTrigger);
-            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.PulseTrigger);
+            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(DCPowerPulseTriggerType.SoftwareEdge, output.Triggers.PulseTrigger.Type);
+                Assert.Equal(DCPowerSourceTriggerType.SoftwareEdge, output.Triggers.SourceTrigger.Type);
                 Assert.Equal(DCPowerStartTriggerType.SoftwareEdge, output.Triggers.StartTrigger.Type);
             });
             // Test Clear Trigger
@@ -277,7 +278,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(DCPowerPulseTriggerType.SoftwareEdge, output.Triggers.PulseTrigger.Type);
+                Assert.Equal(DCPowerSourceTriggerType.SoftwareEdge, output.Triggers.SourceTrigger.Type);
                 Assert.Equal(DCPowerStartTriggerType.None, output.Triggers.StartTrigger.Type);
             });
         }
@@ -404,6 +405,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
+                sessionInfo.Session.Measurement.Configuration.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Commit();
                 var inputTerminal = $"/{sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Name.Split('/')[0]}/{triggerLine}";
                 AssertMeasureTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerMeasureTriggerType.DigitalEdge, inputTerminal, DCPowerTriggerEdge.Rising);
             });
