@@ -254,9 +254,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void ConfigureTrigger_StartTrigger_SoftwareEdgeAndDisableStartTrigger(string pinMapFileName)
+        public void ConfigureTrigger_StartTriggerAndPulseTrigger_SoftwareEdgeAndDisableStartTrigger(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
@@ -274,15 +273,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             // Test Software Edge Trigger
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.StartTrigger);
+            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.PulseTrigger);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                AssertStartTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerStartTriggerType.SoftwareEdge);
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerPulseTriggerType.SoftwareEdge, output.Triggers.PulseTrigger.Type);
+                Assert.Equal(DCPowerStartTriggerType.SoftwareEdge, output.Triggers.StartTrigger.Type);
             });
             // Test Clear Trigger
             sessionsBundle.DisableTriggers(new List<TriggerType> { TriggerType.StartTrigger });
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                AssertStartTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerStartTriggerType.None);
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerPulseTriggerType.SoftwareEdge, output.Triggers.PulseTrigger.Type);
+                Assert.Equal(DCPowerStartTriggerType.None, output.Triggers.StartTrigger.Type);
+                Assert.True(output.Triggers.PulseTrigger.Type != DCPowerPulseTriggerType.None, "Only Start Trigger should be disabled");
             });
         }
 
