@@ -24,18 +24,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         }
 
         /// <summary>
-        /// Creates an invariant-culture formatted validation message.
+        /// Creates an invariant-culture formatted validation exception.
         /// </summary>
         /// <param name="messageFormat">The message format string.</param>
         /// <param name="parameterName">The parameter name associated with the exception.</param>
         /// <param name="formatArguments">Optional format arguments for the message format string.</param>
-        /// <returns>The formatted validation message including parameter name.</returns>
-        public static string FormatValidationMessage(string messageFormat, string parameterName, params object[] formatArguments)
+        /// <returns>A validation exception containing the formatted message and parameter name.</returns>
+        public static NISemiconductorTestException CreateValidationException(string messageFormat, string parameterName, params object[] formatArguments)
         {
             var parameterNamePrefix = "Parameter name:";
             var formattedMessage = string.Format(CultureInfo.InvariantCulture, messageFormat, formatArguments);
 
-            return $"{formattedMessage}{Environment.NewLine}{parameterNamePrefix} {parameterName}";
+            return new NISemiconductorTestException($"{formattedMessage}{Environment.NewLine}{parameterNamePrefix} {parameterName}");
         }
 
         /// <summary>

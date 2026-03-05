@@ -96,15 +96,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
         }
 
         [Fact]
-        public void FormatValidationMessage_SetsParameterNameAndFormatsMessage()
+        public void CreateValidationException_ReturnsFormattedValidationException()
         {
             var messageFormat = "Invalid value {0}";
             var parameterName = "offsets";
             var formattedValue = "Invalid value 3";
-            var message = HelperMethods.FormatValidationMessage(messageFormat, parameterName, 3);
+            var exception = HelperMethods.CreateValidationException(messageFormat, parameterName, 3);
 
-            Assert.Contains(formattedValue, message);
-            Assert.Contains("Parameter name: offsets", message);
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains(formattedValue, exception.Message);
+            Assert.Contains("Parameter name: offsets", exception.Message);
         }
     }
 }
