@@ -51,7 +51,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings, string.Empty);
+                sessionInfo.ConfigureSourceSettings(settings);
             });
         }
 
