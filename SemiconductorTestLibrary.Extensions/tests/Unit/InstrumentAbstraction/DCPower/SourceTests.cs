@@ -1867,8 +1867,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 ["VCC1"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 },
                 ["VCC2"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 },
                 ["VCC3"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 },
-                ["VCC4"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 },
-                ["VCC5"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 }
+                ["VCC4"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 },
+                ["VCC5"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 }
             };
             sessionsBundle.ForceVoltage(settings);
 
@@ -1876,7 +1876,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                AssertVoltageSettings(channelOutput, expectedVoltageLevel: 4, expectedCurrentLimit: sitePinInfo.CascadingInfo is GangingInfo ? 1 : 2);
+                AssertVoltageSettings(channelOutput, expectedVoltageLevel: 4, expectedCurrentLimit: 1);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1891,8 +1891,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var settings = new Dictionary<string, DCPowerSourceSettings>()
             {
                 [ThreePinsGangedGroup] = new DCPowerSourceSettings() { Level = 4, Limit = 3 },
-                ["VCC4"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 },
-                ["VCC5"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 }
+                ["VCC4"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 },
+                ["VCC5"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 }
             };
             sessionsBundle.ForceVoltage(settings);
 
@@ -1900,7 +1900,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                AssertVoltageSettings(channelOutput, expectedVoltageLevel: 4, expectedCurrentLimit: sitePinInfo.CascadingInfo is GangingInfo ? 1 : 2);
+                AssertVoltageSettings(channelOutput, expectedVoltageLevel: 4, expectedCurrentLimit: 1);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
