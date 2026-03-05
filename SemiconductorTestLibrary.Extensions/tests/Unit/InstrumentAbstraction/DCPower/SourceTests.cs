@@ -2065,7 +2065,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
-                AssertCurrentSettings(channelOutput, sitePinInfo.CascadingInfo is GangingInfo ? 0.5 : 2, 2.6);
+                AssertCurrentSettings(sitePinInfo, channelOutput, 0.5, 2, 2.6);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -2322,7 +2322,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                AssertCurrentSettings(channelOutput, expectedCurrentLevel: sitePinInfo.CascadingInfo is GangingInfo ? 0.25 : 1.0, expectedVoltageLimit: 6);
+                AssertCurrentSettings(sitePinInfo, channelOutput, 0.25, 1.0, 6);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
