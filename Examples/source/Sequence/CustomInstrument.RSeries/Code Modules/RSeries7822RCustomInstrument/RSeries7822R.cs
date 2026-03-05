@@ -56,7 +56,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <remarks>
         /// Store the current state of each port. This information is needed to perform driver operation on specific port.
         /// </remarks>
-        internal Dictionary<ChannelInfo, byte> OutputPortStates { get; private set; }
+        internal Dictionary<(int, int), byte> OutputPortStates { get; private set; }
 
         /// <summary>
         /// The configuration of each port of the device, which can either be set as an Output or an Input.
@@ -79,7 +79,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Organize internal tracking information of each channel based on port and connector.
             // This will be used for easy lookup within class methods.
             ChannelInfoMap = new Dictionary<string, ChannelInfo>();
-            OutputPortStates = new Dictionary<ChannelInfo, byte>();
+            OutputPortStates = new Dictionary<(int, int), byte>();
             PortConfigurations = new Dictionary<(int, int), PortConfiguration>();
             string[] channels = ChannelList.Split(',').Select(x => x.Trim()).ToArray();
             var connectorStringId = "Connector";
@@ -113,6 +113,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 {
                     portConfiguration = (portNumber < 2) ? PortConfiguration.Output : PortConfiguration.Input;
                     PortConfigurations.Add((connectorNumber, portNumber), portConfiguration);
+                    if (portConfiguration == PortConfiguration.Output)
+                    {
+                        OutputPortStates.Add((connectorNumber, portNumber), 0);
+                    }
                 }
             }
 
@@ -161,7 +165,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         {
             foreach (var portState in OutputPortStates)
             {
-                string portName = $"Connector{portState.Key.ConnectorNumber}_DIOPORT{portState.Key.PortNumber}";
+                string portName = $"Connector{portState.Key.Item1}_DIOPORT{portState.Key.Item2}";
                 _status = RSeries7822RDriverAPI.WriteData(_referenceId, portName, portState.Value);
                 ValidateStatus($"Error in WriteData method, ErrorCode:{_status}, PortNumber:{portState.Key}, PortData:{portState.Value}");
             }
@@ -177,15 +181,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         public void SetOutputState(string channel, bool value)
         {
             var channelInfo = ChannelInfoMap[channel];
-            byte state;
-            if (!OutputPortStates.TryGetValue(channelInfo, out state))
-            {
-                // Initialize port state
-                state = 0;
-            }
-            byte newState = UpdateBitInByte(state, value,  channelInfo.PortIndex);
+            var key = (channelInfo.ConnectorNumber, channelInfo.PortNumber);
+            byte currentState = OutputPortStates[key];
+            byte newState = UpdateBitInByte(currentState, value, channelInfo.PortIndex);
 
-            OutputPortStates[channelInfo] = newState;
+            OutputPortStates[key] = newState;
         }
 
         /// <summary>
