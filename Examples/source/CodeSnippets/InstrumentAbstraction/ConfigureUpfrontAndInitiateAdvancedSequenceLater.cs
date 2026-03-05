@@ -43,15 +43,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
                 [1] = new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, ApertureTime = 2.1, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
                 [2] = new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, ApertureTime = 2.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
             };
-
             dcPowerPins.ConfigureAdvancedSequence(advanceSequenceName, advanceSequenceSettings, setAsActiveSequence: false);
 
             // Configure the source settings upfront
             dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 10, TransientResponse = DCPowerSourceTransientResponse.Normal });
 
             dcPowerPins.Commit();
+
             // Initiate the advanced sequence that was configured earlier
             dcPowerPins.InitiateAdvancedSequence(advanceSequenceName);
+
+            // Clear the active advanced sequence post usage
+            dcPowerPins.ClearActiveAdvancedSequence();
+            // Then delete the advanced sequence, this will also switch the Source.Mode back to SinglePoint
+            dcPowerPins.DeleteAdvancedSequence(advanceSequenceName);
         }
 
         /// <summary>
@@ -108,6 +113,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Initiate the advanced sequence that was configured earlier
             dcPowerPins.InitiateAdvancedSequence(firstAdvanceSequence);
+
+            // Clear the active advanced sequence post usage
+            dcPowerPins.ClearActiveAdvancedSequence();
+            // Then delete all the advanced sequence, this will also switch the Source.Mode back to SinglePoint
+            dcPowerPins.DeleteAdvancedSequence(firstAdvanceSequence);
+            dcPowerPins.DeleteAdvancedSequence(secondAdvanceSequence);
         }
     }
 }

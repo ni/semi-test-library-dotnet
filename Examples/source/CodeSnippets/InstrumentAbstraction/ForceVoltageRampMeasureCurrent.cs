@@ -27,7 +27,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         public static void ForceVoltageRampMeasureCurrentExample(ISemiconductorModuleContext tsmContext, string[] smuPinNames, string publishedDataID = "ForceVoltageRampMeasureCurrent")
         {
             var sessionManager = new TSMSessionManager(tsmContext);
+
+            // Create a voltage ramp sequence from 0 to 3 volts with 10 points, which will create a sequence like [0V, 0.33V, 0.66V, ..., 3V]
             var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
+
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
 
             dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
