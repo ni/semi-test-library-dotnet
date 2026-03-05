@@ -255,7 +255,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void ConfigureTrigger_StartTriggerAndPulseTrigger_SoftwareEdgeAndDisableStartTrigger(string pinMapFileName)
+        public void ConfigureTrigger_StartTriggerAndPulseTrigger_OnlyStartTriggerIsDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
