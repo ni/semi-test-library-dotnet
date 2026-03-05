@@ -56,14 +56,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings)"/>
-        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings, bool needDataAdjustment = true)
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo.SiteNumber), channelOutput, sitePinInfo, needDataAdjustment);
+                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo.SiteNumber), channelOutput, sitePinInfo);
             });
         }
 
