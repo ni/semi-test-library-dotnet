@@ -57,6 +57,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Publish port-based data.
             foreach (var portName in dutDigitalOutputPorts)
             {
+                // TSM cannot publish a single value for all pins in a pin group nor can it publish byte data types directly.
+                // Therefore, the site data must first be extracted by the pin group name and cast as a int before publishing,
+                // which is done using the ExtractPin and Select methods, respectively.
+                // This must be repeated for each port's data.
                 tsmContext.PublishResults(perPortData.ExtractPin(portName).Select(x => (int)x), portName);
             }
         }
