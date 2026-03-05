@@ -96,15 +96,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
         }
 
         [Fact]
-        public void CreateFormattedArgumentException_SetsParameterNameAndFormatsMessage()
+        public void FormatValidationMessage_SetsParameterNameAndFormatsMessage()
         {
             var messageFormat = "Invalid value {0}";
             var parameterName = "offsets";
             var formattedValue = "Invalid value 3";
-            var exception = HelperMethods.CreateFormattedArgumentException(messageFormat, parameterName, 3);
+            var message = HelperMethods.FormatValidationMessage(messageFormat, parameterName, 3);
 
-            Assert.Equal(parameterName, exception.ParamName);
-            Assert.Contains(formattedValue, exception.Message);
+            Assert.Contains(formattedValue, message);
+            Assert.Contains("Parameter name: offsets", message);
         }
     }
 }

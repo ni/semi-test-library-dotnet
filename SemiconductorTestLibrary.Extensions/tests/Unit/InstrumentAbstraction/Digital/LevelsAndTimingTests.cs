@@ -644,7 +644,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), expectedInstrument0Count).ToArray(),
                 Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), expectedInstrument1Count - 1).ToArray()
             };
-            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "ArgumentException", "offset count for instrument index" };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "offset count for instrument index" };
             var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ApplyTDROffsets(offsets));
 
             foreach (var expectedPhrase in expectedPhrases)
@@ -654,7 +654,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedPins_SaveInstrumentSessionTDROffsetsWithInvalidOffsetCount_ThrowsArgumentException()
+        public void SharedPins_SaveInstrumentSessionTDROffsetsWithInvalidOffsetCount_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
 
@@ -668,7 +668,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Enumerable.Repeat(Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), expectedInstrument1Count - 1).ToArray()
             };
             var fileName = Path.GetTempFileName();
-            var exception = Assert.Throws<ArgumentException>(() => sessionsBundle.SaveTDROffsetsToFile(offsets, fileName));
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.SaveTDROffsetsToFile(offsets, fileName));
 
             Assert.Contains("offset count for instrument index", exception.Message);
 
@@ -726,7 +726,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedPins_ApplyPerInstrumentSessionTDROffsetsWithInstrumentCountMismatch_ThrowsArgumentException()
+        public void SharedPins_ApplyPerInstrumentSessionTDROffsetsWithInstrumentCountMismatch_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
 
@@ -736,7 +736,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new[] { Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8) }
             };
             var expectedPhrases = new string[] { "number of instrument session offsets provided", "does not match the number of instrument sessions" };
-            var exception = Assert.Throws<ArgumentException>(() => sessionsBundle.ApplyTDROffsets(offsets));
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ApplyTDROffsets(offsets));
 
             foreach (var expectedPhrase in expectedPhrases)
             {
@@ -772,7 +772,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 instrument0Offsets,
                 instrument1Offsets
             };
-            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "ArgumentException", "Inconsistent offsets for shared channel" };
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "Inconsistent offsets for shared channel" };
             var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ApplyTDROffsets(offsets));
 
             foreach (var expectedPhrase in expectedPhrases)
@@ -782,7 +782,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedPins_SaveInstrumentSessionTDROffsetsWithSharedChannelMismatch_ThrowsArgumentException()
+        public void SharedPins_SaveInstrumentSessionTDROffsetsWithSharedChannelMismatch_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
 
@@ -810,7 +810,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 instrument1Offsets
             };
             var fileName = Path.GetTempFileName();
-            var exception = Assert.Throws<ArgumentException>(() => sessionsBundle.SaveTDROffsetsToFile(offsets, fileName));
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.SaveTDROffsetsToFile(offsets, fileName));
 
             Assert.Contains("Inconsistent offsets for shared channel", exception.Message);
 

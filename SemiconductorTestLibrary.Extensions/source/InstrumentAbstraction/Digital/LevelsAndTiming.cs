@@ -417,7 +417,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         ///
         /// If offsets are supplied for all site-pin channels, all channels mapped to the same shared channel must have identical offset values.
         /// </remarks>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="NISemiconductorTestException">
         /// This exception will be thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
         /// if per-session channel counts are invalid, or if shared-channel offsets are inconsistent.
         /// </exception>
@@ -430,13 +430,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 var instrumentOffsets = offsets[instrumentIndex];
                 var associatedSitePinList = sessionInfo.AssociatedSitePinList.ToList();
-                var filteredSitePinList = associatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
-                var sitePinToOffsetIndex = ValidateAndGetSitePinToOffsetIndexMap(
+                ValidateAndGetFilteredSitePinsAndOffsetIndexMap(
                     associatedSitePinList,
-                    filteredSitePinList,
                     instrumentOffsets,
                     instrumentIndex,
-                    nameof(offsets));
+                    nameof(offsets),
+                    out var filteredSitePinList,
+                    out var sitePinToOffsetIndex);
                 for (int pinSetIndex = 0; pinSetIndex < filteredSitePinList.Count; pinSetIndex++)
                 {
                     var currentSitePin = filteredSitePinList[pinSetIndex];
@@ -544,7 +544,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// 1) offsets only for primary and non-shared channels, or
         /// 2) offsets for all site-pin channels, including shadows of shared channels.
         /// </remarks>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="NISemiconductorTestException">
         /// This exception will be thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
         /// if per-session channel counts are invalid, or if shared-channel offsets are inconsistent.
         /// </exception>
@@ -557,13 +557,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 for (int instrumentIndex = 0; instrumentIndex < offsets.Length; instrumentIndex++)
                 {
                     var associatedSitePinList = instrumentSessions[instrumentIndex].AssociatedSitePinList.ToList();
-                    var filteredSitePinList = associatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
-                    var sitePinToOffsetIndex = ValidateAndGetSitePinToOffsetIndexMap(
+                    ValidateAndGetFilteredSitePinsAndOffsetIndexMap(
                         associatedSitePinList,
-                        filteredSitePinList,
                         offsets[instrumentIndex],
                         instrumentIndex,
-                        nameof(offsets));
+                        nameof(offsets),
+                        out var filteredSitePinList,
+                        out var sitePinToOffsetIndex);
                     for (int channelIndex = 0; channelIndex < filteredSitePinList.Count; channelIndex++)
                     {
                         var currentSitePin = filteredSitePinList[channelIndex];
@@ -681,12 +681,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             if (inputInstrumentCount != expectedInstrumentCount)
             {
-                throw HelperMethods.CreateFormattedArgumentException(
-                    ResourceStrings.Digital_TDROffsetsInstrumentCountMismatch,
-                    parameterName,
-                    inputInstrumentCount,
-                    expectedInstrumentCount);
+                throw new NISemiconductorTestException(
+                    HelperMethods.FormatValidationMessage(
+                        ResourceStrings.Digital_TDROffsetsInstrumentCountMismatch,
+                        parameterName,
+                        inputInstrumentCount,
+                        expectedInstrumentCount));
             }
+        }
+
+        private static void ValidateAndGetFilteredSitePinsAndOffsetIndexMap(
+            IList<SitePinInfo> associatedSitePinList,
+            IviDriverPrecisionTimeSpan[] instrumentOffsets,
+            int instrumentIndex,
+            string parameterName,
+            out IList<SitePinInfo> filteredSitePinList,
+            out IDictionary<string, int> sitePinToOffsetIndex)
+        {
+            filteredSitePinList = associatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+            sitePinToOffsetIndex = ValidateAndGetSitePinToOffsetIndexMap(
+                associatedSitePinList,
+                filteredSitePinList,
+                instrumentOffsets,
+                instrumentIndex,
+                parameterName);
         }
 
         private static IDictionary<string, int> ValidateAndGetSitePinToOffsetIndexMap(
@@ -714,13 +732,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 return sitePinToOffsetIndex;
             }
 
-            throw HelperMethods.CreateFormattedArgumentException(
-                ResourceStrings.Digital_TDROffsetsCountMismatch,
-                parameterName,
-                instrumentIndex,
-                filteredSitePinList.Count,
-                associatedSitePinList.Count,
-                instrumentOffsets.Length);
+            throw new NISemiconductorTestException(
+                HelperMethods.FormatValidationMessage(
+                    ResourceStrings.Digital_TDROffsetsCountMismatch,
+                    parameterName,
+                    instrumentIndex,
+                    filteredSitePinList.Count,
+                    associatedSitePinList.Count,
+                    instrumentOffsets.Length));
         }
 
         private static IDictionary<string, int> CreateSitePinToOffsetIndexMap(IList<SitePinInfo> sitePinList)
@@ -752,14 +771,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     var shadowOffset = instrumentOffsets[shadowOffsetIndex];
                     if (!primaryOffset.Equals(shadowOffset))
                     {
-                        throw HelperMethods.CreateFormattedArgumentException(
-                            ResourceStrings.Digital_TDROffsetsSharedChannelMismatch,
-                            parameterName,
-                            instrumentIndex,
-                            primarySitePin.SitePinString,
-                            primaryOffset.ToDecimal(),
-                            shadowSitePin.SitePinString,
-                            shadowOffset.ToDecimal());
+                        throw new NISemiconductorTestException(
+                            HelperMethods.FormatValidationMessage(
+                                ResourceStrings.Digital_TDROffsetsSharedChannelMismatch,
+                                parameterName,
+                                instrumentIndex,
+                                primarySitePin.SitePinString,
+                                primaryOffset.ToDecimal(),
+                                shadowSitePin.SitePinString,
+                                shadowOffset.ToDecimal()));
                     }
                 }
             }

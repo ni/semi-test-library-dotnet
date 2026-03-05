@@ -24,17 +24,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         }
 
         /// <summary>
-        /// Creates an <see cref="ArgumentException"/> with an invariant-culture formatted message.
+        /// Creates an invariant-culture formatted validation message.
         /// </summary>
         /// <param name="messageFormat">The message format string.</param>
         /// <param name="parameterName">The parameter name associated with the exception.</param>
         /// <param name="formatArguments">Optional format arguments for the message format string.</param>
-        /// <returns>A formatted <see cref="ArgumentException"/> instance.</returns>
-        public static ArgumentException CreateFormattedArgumentException(string messageFormat, string parameterName, params object[] formatArguments)
+        /// <returns>The formatted validation message including parameter name.</returns>
+        public static string FormatValidationMessage(string messageFormat, string parameterName, params object[] formatArguments)
         {
-            return new ArgumentException(
-                string.Format(CultureInfo.InvariantCulture, messageFormat, formatArguments),
-                parameterName);
+            var parameterNamePrefix = "Parameter name:";
+            var formattedMessage = string.Format(CultureInfo.InvariantCulture, messageFormat, formatArguments);
+
+            return $"{formattedMessage}{Environment.NewLine}{parameterNamePrefix} {parameterName}";
         }
 
         /// <summary>
