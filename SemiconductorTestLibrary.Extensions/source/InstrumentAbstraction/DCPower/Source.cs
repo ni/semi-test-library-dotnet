@@ -1895,11 +1895,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
         /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
-        /// <param name="needDataAdjustment">Indicates whether the provided current level, limit and range values should be divided equally to each individual pin within a ganged group. Set this to false to apply pin-specific values to pins in a ganged group, or true to apply values at the group level.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "", bool needDataAdjustment = true)
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
-            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo: null, needDataAdjustment);
+            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo: null);
         }
 
         /// <summary>
