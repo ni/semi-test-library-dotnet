@@ -96,12 +96,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces voltage on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
+        /// Forces voltage on the target pins at the specified voltage. Must at least provide a voltage value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage voltage range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageLevel">The voltage level to force.</param>
+        /// <param name="voltageLevel">The voltage voltage to force.</param>
         /// <param name="currentLimit">The current limit to use.</param>
-        /// <param name="voltageLevelRange">The voltage level range to use.</param>
+        /// <param name="voltageLevelRange">The voltage voltage range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
@@ -121,12 +121,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces voltage on the target pins at the specified pin-unique level. Must at least provide a level value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
+        /// Forces voltage on the target pins at the specified pin-unique voltage. Must at least provide a voltage value, and the method will assume all other properties that have been previously set.  Optionally, can also provide a specific current limit, current limit range, voltage voltage range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels to force for different pins.</param>
         /// <param name="currentLimit">The current limit to use.</param>
-        /// <param name="voltageLevelRange">The voltage level range to use.</param>
+        /// <param name="voltageLevelRange">The voltage voltage range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
@@ -150,12 +150,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces voltage on the target pins at the specified site-unique level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
+        /// Forces voltage on the target pins at the specified site-unique voltage. Must at least provide a voltage value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage voltage range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels to force for different sites.</param>
         /// <param name="currentLimit">The current limit to use.</param>
-        /// <param name="voltageLevelRange">The voltage level range to use.</param>
+        /// <param name="voltageLevelRange">The voltage voltage range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
@@ -179,18 +179,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces voltage on the target pins at the specified pin- and site-unique level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
+        /// Forces voltage on the target pins at the specified pin- and site-unique voltage. Must at least provide a voltage value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage voltage range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLevels">The voltage levels to force for different site-pin pairs.</param>
         /// <param name="currentLimit">The current limit to use.</param>
-        /// <param name="voltageLevelRange">The voltage level range to use.</param>
+        /// <param name="voltageLevelRange">The voltage voltage range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.ValidateVoltagesForGangedPins<PinSiteData<double>>(voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -298,7 +299,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageSequence">The array of voltage values to force in sequence.</param>
         /// <param name="currentLimit">The current limit to use for the sequence.</param>
-        /// <param name="voltageLevelRange">The voltage level range to use for the sequence.</param>
+        /// <param name="voltageLevelRange">The voltage voltage range to use for the sequence.</param>
         /// <param name="currentLimitRange">The current limit range to use for the sequence.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
@@ -390,10 +391,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Behaves the same as the ForceVoltage() method, but as two current limit inputs for setting separate high and low current limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageLevel">The voltage level to force.</param>
+        /// <param name="voltageLevel">The voltage voltage to force.</param>
         /// <param name="currentLimitHigh">The current high limit to use.</param>
         /// <param name="currentLimitLow">The current low limit to use.</param>
-        /// <param name="voltageLevelRange">The voltage level range to use.</param>
+        /// <param name="voltageLevelRange">The voltage voltage range to use.</param>
         /// <param name="currentLimitRange">The current limit range to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
@@ -418,7 +419,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageSequence">The voltage sequence to force for all site-pin pairs.</param>
         /// <param name="currentLimit">Current limit for the sequence.</param>
-        /// <param name="voltageLevelRange">Voltage level range.</param>
+        /// <param name="voltageLevelRange">Voltage voltage range.</param>
         /// <param name="currentLimitRange">Current limit range.</param>
         /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
@@ -518,12 +519,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces current on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
+        /// Forces current on the target pins at the specified voltage. Must at least provide a voltage value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current voltage range, voltage limit range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLevel">The current level to force.</param>
+        /// <param name="currentLevel">The current voltage to force.</param>
         /// <param name="voltageLimit">The voltage limit to use.</param>
-        /// <param name="currentLevelRange">The current level range to use.</param>
+        /// <param name="currentLevelRange">The current voltage range to use.</param>
         /// <param name="voltageLimitRange">The voltage limit range to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
@@ -542,12 +543,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces current on the target pins at the specified pin-unique level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
+        /// Forces current on the target pins at the specified pin-unique voltage. Must at least provide a voltage value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current voltage range, voltage limit range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLevels">The current level to force for different pins.</param>
+        /// <param name="currentLevels">The current voltage to force for different pins.</param>
         /// <param name="voltageLimit">The voltage limit to use.</param>
-        /// <param name="currentLevelRange">The current level range to use.</param>
+        /// <param name="currentLevelRange">The current voltage range to use.</param>
         /// <param name="voltageLimitRange">The voltage limit range to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
@@ -571,12 +572,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces current on the target pins at the specified site-unique level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
+        /// Forces current on the target pins at the specified site-unique voltage. Must at least provide a voltage value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current voltage range, voltage limit range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLevels">The current level to force for different sites.</param>
+        /// <param name="currentLevels">The current voltage to force for different sites.</param>
         /// <param name="voltageLimit">The voltage limit to use.</param>
-        /// <param name="currentLevelRange">The current level range to use.</param>
+        /// <param name="currentLevelRange">The current voltage range to use.</param>
         /// <param name="voltageLimitRange">The voltage limit range to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
@@ -600,12 +601,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces current on the target pins at the specified pin- and site-unique level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
+        /// Forces current on the target pins at the specified pin- and site-unique voltage. Must at least provide a voltage value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current voltage range, voltage limit range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLevels">The current level to force for different site-pin pairs.</param>
+        /// <param name="currentLevels">The current voltage to force for different site-pin pairs.</param>
         /// <param name="voltageLimit">The voltage limit to use.</param>
-        /// <param name="currentLevelRange">The current level range to use.</param>
+        /// <param name="currentLevelRange">The current voltage range to use.</param>
         /// <param name="voltageLimitRange">The voltage limit range to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
@@ -719,7 +720,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentSequence">The current sequence to force for all site-pin pairs.</param>
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
-        /// <param name="currentLevelRange">Current level range.</param>
+        /// <param name="currentLevelRange">Current voltage range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
         /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
@@ -1218,10 +1219,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Behaves the same as the ForceCurrent() method, but has two voltage limit inputs for setting separate high and low voltage limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLevel">The current level to force.</param>
+        /// <param name="currentLevel">The current voltage to force.</param>
         /// <param name="voltageLimitHigh">The voltage high limit to use.</param>
         /// <param name="voltageLimitLow">The voltage low limit to use.</param>
-        /// <param name="currentLevelRange">The current level range to use.</param>
+        /// <param name="currentLevelRange">The current voltage range to use.</param>
         /// <param name="voltageLimitRange">The voltage limit range to use.</param>
         /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
@@ -1246,7 +1247,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentSequence">Array of current levels to source step-by-step.</param>
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
-        /// <param name="currentLevelRange">Current level range.</param>
+        /// <param name="currentLevelRange">Current voltage range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
@@ -1565,7 +1566,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Checks if the output function is set to DCVoltage and the level(s) are set to the expected values.
+        /// Checks if the output function is set to DCVoltage and the voltage(s) are set to the expected values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="failedChannels">Returns the channels that fail the check.</param>
@@ -1798,6 +1799,46 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.AllChannelsOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             });
         }
+
+        private static void ValidateVoltagesForGangedPins<T>(
+            this DCPowerSessionsBundle sessionsBundle, T voltages)
+        {
+            var sitePinGroupToVoltageMap = new Dictionary<string, double>();
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo)
+                {
+                    double voltage = double.NaN;
+                    bool isGroupData;
+                    // Switch on the actual runtime type
+                    if (typeof(T) == typeof(PinSiteData<double>))
+                    {
+                        // Handle PinSiteData<double>-specific logic here
+                        voltage = ((PinSiteData<double>)(object)voltages).GetValue(sitePinInfo, out isGroupData);
+                    }
+                    else if (typeof(T) == typeof(int))
+                    {
+                        // Handle int-specific logic if needed
+                        var intValue = (int)(object)voltages;
+                        // Do something specific for int
+                    }
+                    string sitePinGroupName = $"Site{sitePinInfo.SiteNumber}" + gangingInfo.GroupName;
+                    lock (sitePinGroupToVoltageMap)
+                    {
+                        if (sitePinGroupToVoltageMap.TryGetValue(sitePinGroupName, out var groupVoltage) && groupVoltage != voltage)
+                        {
+                            throw new NISemiconductorTestException(
+                                string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleVoltageforGangedChannelsDetected, sitePinGroupName));
+                        }
+                        else if (!sitePinGroupToVoltageMap.ContainsKey(sitePinGroupName))
+                        {
+                            sitePinGroupToVoltageMap.Add(sitePinGroupName, voltage);
+                        }
+                    }
+                }
+            });
+        }
+
         #endregion methods on DCPowerSessionsBundle
 
         #region methods on DCPowerOutput
