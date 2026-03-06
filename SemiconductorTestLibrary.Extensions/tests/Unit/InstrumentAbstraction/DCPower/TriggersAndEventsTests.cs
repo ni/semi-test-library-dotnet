@@ -40,12 +40,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void Initialize_ConfigureSourceSettingsAndConfigurePulseTriggerDigitalEdge_PulseTriggerIsDisabled(string pinMapFileName)
+        public void SourceSettingsAndSequenceConfigured_ConfigureAndDisablePulseTriggerDigitalEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
             var triggerLine = "PXI_Trig0";
-
             // Setup Source Settings
             var settings = new DCPowerSourceSettings()
             {
@@ -55,6 +54,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
+
             // Test Digital Edge Trigger - Raising (default)
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.PulseTrigger, triggerLine);
 
@@ -69,27 +69,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertPulseTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerPulseTriggerType.None);
             });
-
-            // Test Digital Edge Trigger - Falling (Cannot get this to work. May not be supported?)
-            // sessionsBundle.DisableTriggers();
-            // sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.PulseTrigger, triggerLine, DCPowerTriggerEdge.Falling);
-
-            // sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            // {
-            //     var inputTerminal = $"/{sessionInfo.Session.Outputs[sitePinInfo.InstrumentChannelString].Name.Split('/')[0]}/{triggerLine}";
-            //     AssertPulseTriggerSettings(sessionInfo, sitePinInfo.InstrumentChannelString, DCPowerPulseTriggerType.DigitalEdge, inputTerminal, DCPowerTriggerEdge.Falling);
-            // });
         }
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void Initialize_ConfigureSourceSettingsAndConfigurePuleTriggerSoftwareEdge_PulseTriggerIsDisabled(string pinMapFileName)
+        public void SourceSettingsAndSequenceConfigured_ConfigureAndDisablePulseTriggerSOftwareEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
-
             // Setup Source Settings
             var settings = new DCPowerSourceSettings()
             {
@@ -99,6 +88,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
+
             // Test Software Edge Trigger
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.PulseTrigger);
 
@@ -119,12 +109,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void Initialize_ConfigureSourceSettingsAndConfigureStartTriggerDigitalEdge_StartTriggerIsDisabled(string pinMapFileName)
+        public void SourceSettingsAndSequenceConfigured_ConfigureAndDisableStartTriggerDigitalEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
             var triggerLine = "PXI_Trig0";
-
             // Setup Source Settings
             var settings = new DCPowerSourceSettings()
             {
@@ -135,6 +124,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             sessionsBundle.ConfigureSourceSettings(settings);
             sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+
             // Test Digital Edge Trigger - Raising (default)
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.StartTrigger, triggerLine);
 
@@ -149,16 +139,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertStartTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerStartTriggerType.None);
             });
-
-            // Test Digital Edge Trigger - Falling (Cannot get this to work. May not be supported?)
-            // sessionsBundle.DisableTriggers();
-            // sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.StartTrigger, triggerLine, DCPowerTriggerEdge.Falling);
-
-            // sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            // {
-            //     var inputTerminal = $"/{sessionInfo.Session.Outputs[sitePinInfo.InstrumentChannelString].Name.Split('/')[0]}/{triggerLine}";
-            //     AssertStartTriggerSettings(sessionInfo, sitePinInfo.InstrumentChannelString, DCPowerStartTriggerType.DigitalEdge, inputTerminal, DCPowerTriggerEdge.Falling);
-            // });
         }
 
         [Theory]
@@ -166,11 +146,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void Initialize_ConfigureSourceSettingsAndConfigureSequenceAdvanceTriggerSoftwareEdge_SequenceAdvanceTriggerIsDisabled(string pinMapFileName)
+        public void SourceSettingsAndSequenceConfigured_ConfigureAndDisableSequenceAdvanceTriggerSoftwareEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
-
             // Setup Source Settings
             var settings = new DCPowerSourceSettings()
             {
@@ -181,6 +160,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             sessionsBundle.ConfigureSourceSettings(settings);
             sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+
             // Test Software Edge Trigger
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SequenceAdvanceTrigger);
 
@@ -201,12 +181,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void Initialize_ConfigureSourceSettingsAndConfigureSequenceAdvanceTriggerDigitalEdge_SequenceAdvanceTriggerIsDisabled(string pinMapFileName)
+        public void SourceSettingsAndSequenceConfigured_ConfigureAndDisableSequenceAdvanceTriggerDigitalEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
             var triggerLine = "PXI_Trig0";
-
             // Setup Source Settings
             var settings = new DCPowerSourceSettings()
             {
@@ -217,6 +196,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             sessionsBundle.ConfigureSourceSettings(settings);
             sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+
             // Test Digital Edge Trigger - Raising (default)
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.SequenceAdvanceTrigger, triggerLine);
 
@@ -225,23 +205,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var inputTerminal = $"/{sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Name.Split('/')[0]}/{triggerLine}";
                 AssertSequenceAdvanceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSequenceAdvanceTriggerType.DigitalEdge, inputTerminal);
             });
-
             // Test Clear Trigger
             sessionsBundle.DisableTriggers();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 AssertSequenceAdvanceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSequenceAdvanceTriggerType.None);
             });
-
-            // Test Digital Edge Trigger - Falling (Cannot get this to work. May not be supported?)
-            // sessionsBundle.DisableTriggers();
-            // sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.SequenceAdvanceTrigger, triggerLine, DCPowerTriggerEdge.Falling);
-
-            // sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            // {
-            //     var inputTerminal = $"/{sessionInfo.Session.Outputs[sitePinInfo.InstrumentChannelString].Name.Split('/')[0]}/{triggerLine}";
-            //     AssertSequenceAdvanceTriggerSettings(sessionInfo, sitePinInfo.InstrumentChannelString, DCPowerSequenceAdvanceTriggerType.DigitalEdge, inputTerminal, DCPowerTriggerEdge.Falling);
-            // });
         }
 
         [Theory]
@@ -249,11 +218,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void Initialize_ConfigureSourceSettingsAndConfigureStartAndPulseTriggerSoftwareEdge_OnlySoftwareTriggerIsDisabled(string pinMapFileName)
+        public void SourceSettingsAndSequenceConfigured_ConfigureStartAndPulseTriggerAndDisableStartTrigger_TriggerConfiguredAndOnlySoftwareTriggerIsDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
-
             // Setup Source Settings
             var settings = new DCPowerSourceSettings()
             {
@@ -264,6 +232,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             sessionsBundle.ConfigureSourceSettings(settings);
             sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.StartTrigger);
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
 
@@ -288,12 +257,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void Initialize_ConfigureSourceSettingsAndConfigureSourceTriggerDigitalEdge_SourceTriggerIsDisabled(string pinMapFileName)
+        public void SourceSettingsAndSequenceConfigured_ConfigureAndDisableSourceTriggerDigitalEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
             var triggerLine = "PXI_Trig0";
-
             // Setup Source Settings
             var settings = new DCPowerSourceSettings()
             {
@@ -304,6 +272,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             sessionsBundle.ConfigureSourceSettings(settings);
             sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, triggerLine);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -311,23 +280,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var inputTerminal = $"/{sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Name.Split('/')[0]}/{triggerLine}";
                 AssertSourceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSourceTriggerType.DigitalEdge, inputTerminal);
             });
-
             // Test Clear Trigger
             sessionsBundle.DisableTriggers();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 AssertSourceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSourceTriggerType.None);
             });
-
-            // Test Digital Edge Trigger - Falling (Cannot get this to work. May not be supported?)
-            // sessionsBundle.DisableTriggers();
-            // sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, triggerLine, DCPowerTriggerEdge.Falling);
-
-            // sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            // {
-            //     var inputTerminal = $"/{sessionInfo.Session.Outputs[sitePinInfo.InstrumentChannelString].Name.Split('/')[0]}/{triggerLine}";
-            //     AssertSourceTriggerSettings(sessionInfo, sitePinInfo.InstrumentChannelString, DCPowerSourceTriggerType.DigitalEdge, inputTerminal, DCPowerTriggerEdge.Falling);
-            // });
         }
 
         [Theory]
@@ -335,11 +293,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void Initialize_ConfigureSourceSettingsAndConfigureSourceTriggerSoftwareEdge_SourceTriggerIsDisabled(string pinMapFileName)
+        public void SourceSettingsAndSequenceConfigured_ConfigureAndDisableSourceTriggerSoftwareEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
-
             // Setup Source Settings
             var settings = new DCPowerSourceSettings()
             {
@@ -350,6 +307,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             sessionsBundle.ConfigureSourceSettings(settings);
             sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+
             // Test Software Edge Trigger
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
 
@@ -371,7 +329,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        public void Initialize_ConfigureMeasureTriggerSoftwareEdge_MeasureTriggerIsConfigured(string pinMapFileName)
+        public void Initialize_ConfigureMeasureTriggerSoftwareEdge_MeasureTriggerConfigured(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
@@ -395,7 +353,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        public void Initialize_ConfigureMeasureTriggerDigitalEdge_MeasureTriggerIsConfigured(string pinMapFileName)
+        public void Initialize_ConfigureMeasureTriggerDigitalEdge_MeasureTriggerConfigured(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
