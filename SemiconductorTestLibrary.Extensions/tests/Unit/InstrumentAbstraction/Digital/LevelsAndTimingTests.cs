@@ -787,16 +787,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
             var offsets = new Ivi.Driver.PrecisionTimeSpan[][]
             {
-                new Ivi.Driver.PrecisionTimeSpan[instrumentSessions[0].AssociatedSitePinList.Count],
-                new Ivi.Driver.PrecisionTimeSpan[instrumentSessions[1].AssociatedSitePinList.Count]
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8) // site0/C0
+                },
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site0/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.3e-8), // site1/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.4e-8), // site1/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site2/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8) // site2/C1
+                }
             };
-            offsets[0][0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8); // site0/C0
-            offsets[1][0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8); // site0/C1
-            offsets[1][1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.3e-8); // site1/C1
-            offsets[1][2] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.4e-8); // site1/C0
             var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "Inconsistent offsets for shared channel" };
 
             Action action = () => sessionsBundle.ApplyTDROffsets(offsets);
@@ -814,16 +819,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
             var offsets = new Ivi.Driver.PrecisionTimeSpan[][]
             {
-                new Ivi.Driver.PrecisionTimeSpan[instrumentSessions[0].AssociatedSitePinList.Count],
-                new Ivi.Driver.PrecisionTimeSpan[instrumentSessions[1].AssociatedSitePinList.Count]
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8) // site0/C0
+                },
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site0/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.3e-8), // site1/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.4e-8), // site1/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site2/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8) // site2/C1
+                }
             };
-            offsets[0][0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8); // site0/C0
-            offsets[1][0] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8); // site0/C1
-            offsets[1][1] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.3e-8); // site1/C1
-            offsets[1][2] = Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.4e-8); // site1/C0
             var fileName = Path.GetTempFileName();
 
             Action action = () => sessionsBundle.SaveTDROffsetsToFile(offsets, fileName);
