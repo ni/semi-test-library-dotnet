@@ -406,20 +406,43 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         /// <summary>
         /// Applies the correction for propagation delay offsets to a digital pattern instrument.
-        /// Use this method to apply per-instrument session per-pin offsets.
+        /// Use this method to apply per-instrument session per-channel offsets.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="offsets">Offsets to apply. Where the first dimension represents instrument sessions and the second dimension represents pins.</param>
+        /// <param name="offsets">Offsets to apply. The first dimension represents instrument sessions, and the second dimension represents channels.</param>
+        /// <remarks>
+        /// For each instrument session, this method supports either:
+        /// 1) offsets only for primary and non-shared channels, or
+        /// 2) offsets for all site-pin channels, including shadows of shared channels.
+        ///
+        /// If offsets are supplied for all site-pin channels, all channels mapped to the same shared channel must have identical offset values.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">
+        /// This exception will be thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
+        /// if per-session channel counts are invalid, or if shared-channel offsets are inconsistent.
+        /// </exception>
         public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, IviDriverPrecisionTimeSpan[][] offsets)
         {
+            var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
+            ValidateInstrumentOffsetsCount(offsets.Length, instrumentSessions.Count);
+
             sessionsBundle.Do((DigitalSessionInformation sessionInfo, int instrumentIndex) =>
             {
-                var filteredSitePinList = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+                var instrumentOffsets = offsets[instrumentIndex];
+                var associatedSitePinList = sessionInfo.AssociatedSitePinList.ToList();
+                ValidateAndGetFilteredSitePinsAndOffsetIndexMap(
+                    associatedSitePinList,
+                    instrumentOffsets,
+                    instrumentIndex,
+                    out var filteredSitePinList,
+                    out var sitePinToOffsetIndex);
                 for (int pinSetIndex = 0; pinSetIndex < filteredSitePinList.Count; pinSetIndex++)
                 {
+                    var currentSitePin = filteredSitePinList[pinSetIndex];
+                    var offsetIndex = sitePinToOffsetIndex[currentSitePin.SitePinString];
                     sessionInfo.Session.PinAndChannelMap
-                        .GetPinSet(filteredSitePinList[pinSetIndex].SitePinString)
-                        .ApplyTdrOffsets(new IviDriverPrecisionTimeSpan[] { offsets[instrumentIndex][pinSetIndex] });
+                        .GetPinSet(currentSitePin.SitePinString)
+                        .ApplyTdrOffsets(new IviDriverPrecisionTimeSpan[] { instrumentOffsets[offsetIndex] });
                 }
             });
         }
@@ -510,22 +533,39 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <summary>
         /// Saves TDR offsets to a file.
         /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="offsets">The per-instrument session per-channel offsets to save. The first dimension represents instrument sessions and the second dimension represents channels.</param>
+        /// <param name="filePath">The path of the file to save the offsets to.</param>
         /// <remarks>
         /// The resulting file is pinmap specific. It is recommended that the filename provided contains the same name as the pinmap, as well as timestamp.
+        ///
+        /// For each instrument session, this method supports either:
+        /// 1) offsets only for primary and non-shared channels, or
+        /// 2) offsets for all site-pin channels, including shadows of shared channels.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="offsets">The per-instrument session per-pin offsets to save. Where the first dimension represents instrument sessions and the second dimension represents pins.</param>
-        /// <param name="filePath">The path of the file to save the offsets to.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// This exception will be thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
+        /// if per-session channel counts are invalid, or if shared-channel offsets are inconsistent.
+        /// </exception>
         public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, IviDriverPrecisionTimeSpan[][] offsets, string filePath)
         {
+            var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
+            ValidateInstrumentOffsetsCount(offsets.Length, instrumentSessions.Count);
             using (var file = new StreamWriter(filePath))
             {
                 for (int instrumentIndex = 0; instrumentIndex < offsets.Length; instrumentIndex++)
                 {
-                    var filteredSitePinList = sessionsBundle.InstrumentSessions.ElementAt(instrumentIndex).AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+                    var associatedSitePinList = instrumentSessions[instrumentIndex].AssociatedSitePinList.ToList();
+                    ValidateAndGetFilteredSitePinsAndOffsetIndexMap(
+                        associatedSitePinList,
+                        offsets[instrumentIndex],
+                        instrumentIndex,
+                        out var filteredSitePinList,
+                        out var sitePinToOffsetIndex);
                     for (int channelIndex = 0; channelIndex < filteredSitePinList.Count; channelIndex++)
                     {
-                        file.WriteLine($"{filteredSitePinList[channelIndex].SitePinString}:{offsets[instrumentIndex][channelIndex].ToDecimal()}");
+                        var currentSitePin = filteredSitePinList[channelIndex];
+                        file.WriteLine($"{currentSitePin.SitePinString}:{offsets[instrumentIndex][sitePinToOffsetIndex[currentSitePin.SitePinString]].ToDecimal()}");
                     }
                 }
             }
@@ -633,6 +673,114 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             }
 
             return offsetsFromFile;
+        }
+
+        private static void ValidateInstrumentOffsetsCount(int inputInstrumentCount, int expectedInstrumentCount)
+        {
+            if (inputInstrumentCount != expectedInstrumentCount)
+            {
+                throw new NISemiconductorTestException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        ResourceStrings.Digital_TDROffsetsInstrumentCountMismatch,
+                        inputInstrumentCount,
+                        expectedInstrumentCount));
+            }
+        }
+
+        private static void ValidateAndGetFilteredSitePinsAndOffsetIndexMap(
+            IList<SitePinInfo> associatedSitePinList,
+            IviDriverPrecisionTimeSpan[] instrumentOffsets,
+            int instrumentIndex,
+            out IList<SitePinInfo> filteredSitePinList,
+            out IDictionary<string, int> sitePinToOffsetIndex)
+        {
+            filteredSitePinList = associatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+            sitePinToOffsetIndex = ValidateAndGetSitePinToOffsetIndexMap(
+                associatedSitePinList,
+                filteredSitePinList,
+                instrumentOffsets,
+                instrumentIndex);
+        }
+
+        private static IDictionary<string, int> ValidateAndGetSitePinToOffsetIndexMap(
+            IList<SitePinInfo> associatedSitePinList,
+            IList<SitePinInfo> filteredSitePinList,
+            IviDriverPrecisionTimeSpan[] instrumentOffsets,
+            int instrumentIndex)
+        {
+            // Check whether offsets are provided for filtered entries only (entries where SkipOperations is false).
+            if (instrumentOffsets.Length == filteredSitePinList.Count)
+            {
+                return CreateSitePinToOffsetIndexMap(filteredSitePinList);
+            }
+
+            // Check whether offsets are provided for all associated (site-pin) entries, including shared-channel shadows.
+            if (instrumentOffsets.Length == associatedSitePinList.Count)
+            {
+                var sitePinToOffsetIndex = CreateSitePinToOffsetIndexMap(associatedSitePinList);
+                ValidateSharedChannelOffsets(
+                    associatedSitePinList,
+                    instrumentOffsets,
+                    sitePinToOffsetIndex,
+                    instrumentIndex);
+
+                return sitePinToOffsetIndex;
+            }
+
+            throw new NISemiconductorTestException(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    ResourceStrings.Digital_TDROffsetsCountMismatch,
+                    instrumentIndex,
+                    filteredSitePinList.Count,
+                    associatedSitePinList.Count,
+                    instrumentOffsets.Length));
+        }
+
+        private static IDictionary<string, int> CreateSitePinToOffsetIndexMap(IList<SitePinInfo> sitePinList)
+        {
+            return sitePinList
+                .Select((sitePin, offsetIndex) => new { sitePin.SitePinString, OffsetIndex = offsetIndex })
+                .ToDictionary(item => item.SitePinString, item => item.OffsetIndex);
+        }
+
+        private static void ValidateSharedChannelOffsets(
+            IList<SitePinInfo> associatedSitePinList,
+            IviDriverPrecisionTimeSpan[] instrumentOffsets,
+            IDictionary<string, int> sitePinToOffsetIndex,
+            int instrumentIndex)
+        {
+            var sharedChannelGroups = associatedSitePinList
+                .Where(sitePin => !string.IsNullOrEmpty(sitePin.IndividualChannelString))
+                .GroupBy(sitePin => sitePin.IndividualChannelString)
+                .Where(group => group.Count() > 1);
+
+            foreach (var sharedChannelGroup in sharedChannelGroups)
+            {
+                var sharedSitePins = sharedChannelGroup.ToList();
+                var primarySitePin = sharedSitePins[0];
+                var primaryOffset = instrumentOffsets[sitePinToOffsetIndex[primarySitePin.SitePinString]];
+
+                // For a shared channel, all entries in the group (primary and shadow channels) must have the same offset.
+                foreach (var shadowSitePin in sharedSitePins.Skip(1))
+                {
+                    var shadowOffsetIndex = sitePinToOffsetIndex[shadowSitePin.SitePinString];
+                    var shadowOffset = instrumentOffsets[shadowOffsetIndex];
+                    if (!primaryOffset.Equals(shadowOffset))
+                    {
+                        throw new NISemiconductorTestException(
+                            string.Format(
+                                CultureInfo.InvariantCulture,
+                                ResourceStrings.Digital_TDROffsetsSharedChannelMismatch,
+                                instrumentIndex,
+                                primarySitePin.SitePinString,
+                                primaryOffset.ToDecimal(),
+                                shadowSitePin.SitePinString,
+                                shadowOffset.ToDecimal()));
+                    }
+                }
+            }
         }
 
         #endregion private methods
