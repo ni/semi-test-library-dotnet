@@ -2296,36 +2296,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceCurrentWithPerPinPerSiteSettingsObjectOnPinGroupName_CorrectCurrentsForced()
-        {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            sessionsBundle.GangPinGroup(FourPinsGangedGroup);
-
-            var settings = new PinSiteData<DCPowerSourceSettings>(
-                new string[]
-                {
-                    FourPinsGangedGroup,
-                    "VCC5"
-                },
-                new int[] { 0, 1 },
-                new DCPowerSourceSettings
-                {
-                    Level = 1,
-                    Limit = 6
-                });
-            sessionsBundle.ForceCurrent(settings);
-
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                AssertCurrentSettings(sitePinInfo, channelOutput, 0.25, 1.0, 6);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
-            });
-        }
-
-        [Fact]
         public void DifferentSMUDevicesGanged_ForceCurrentWithPerPinPerSiteSettingsObject_CorrectCurrentsForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -2354,6 +2324,36 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
                 AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.75, expectedVoltageLimit: 6);
+                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentWithPerPinPerSiteSettingsObjectOnPinGroupName_CorrectCurrentsForced()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(FourPinsGangedGroup);
+
+            var settings = new PinSiteData<DCPowerSourceSettings>(
+                new string[]
+                {
+                    FourPinsGangedGroup,
+                    "VCC5"
+                },
+                new int[] { 0, 1 },
+                new DCPowerSourceSettings
+                {
+                    Level = 1,
+                    Limit = 6
+                });
+            sessionsBundle.ForceCurrent(settings);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
+                AssertCurrentSettings(sitePinInfo, channelOutput, 0.25, 1.0, 6);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
