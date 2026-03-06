@@ -136,7 +136,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            sessionsBundle.ValidateLevelsForCascadedPins<IDictionary<string, double>>(voltageLevels);
+            sessionsBundle.ValidateCascadedPinGroupValues<IDictionary<string, double>>(voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -166,7 +166,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            sessionsBundle.ValidateLevelsForCascadedPins<SiteData<double>>(voltageLevels);
+            sessionsBundle.ValidateCascadedPinGroupValues<SiteData<double>>(voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -196,7 +196,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            sessionsBundle.ValidateLevelsForCascadedPins<PinSiteData<double>>(voltageLevels);
+            sessionsBundle.ValidateCascadedPinGroupValues<PinSiteData<double>>(voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -270,7 +270,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            sessionsBundle.ValidateLevelsForCascadedPins<IDictionary<string, DCPowerSourceSettings>>(settings);
+            sessionsBundle.ValidateCascadedPinGroupValues<IDictionary<string, DCPowerSourceSettings>>(settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perPinSettings = settings[sitePinInfo.PinName];
@@ -290,7 +290,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            sessionsBundle.ValidateLevelsForCascadedPins<PinSiteData<DCPowerSourceSettings>>(settings);
+            sessionsBundle.ValidateCascadedPinGroupValues<PinSiteData<DCPowerSourceSettings>>(settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo);
@@ -562,7 +562,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> currentLevels, double? voltageLimit = null, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            sessionsBundle.ValidateLevelsForCascadedPins<IDictionary<string, double>>(currentLevels);
+            sessionsBundle.ValidateCascadedPinGroupValues<IDictionary<string, double>>(currentLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -621,7 +621,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevels, double? voltageLimit = null, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            // sessionsBundle.ValidateLevelsForCascadedPins<PinSiteData<double>>(currentLevels);
+            // sessionsBundle.ValidateCascadedPinGroupValues<PinSiteData<double>>(currentLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -695,7 +695,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            // sessionsBundle.ValidateLevelsForCascadedPins<IDictionary<string, DCPowerSourceSettings>>(settings);
+            // sessionsBundle.ValidateCascadedPinGroupValues<IDictionary<string, DCPowerSourceSettings>>(settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perPinSettings = settings[sitePinInfo.PinName];
@@ -715,7 +715,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceCurrent(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            // sessionsBundle.ValidateLevelsForCascadedPins<PinSiteData<DCPowerSourceSettings>>(settings);
+            // sessionsBundle.ValidateCascadedPinGroupValues<PinSiteData<DCPowerSourceSettings>>(settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo);
@@ -1811,44 +1811,36 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        private static void ValidateLevelsForCascadedPins<T>(
-            this DCPowerSessionsBundle sessionsBundle, T voltages)
+        private static void ValidateCascadedPinGroupValues<T>(
+            this DCPowerSessionsBundle sessionsBundle, T pinValues)
         {
-            var sitePinGroupToLevel = new Dictionary<string, double>();
+            var sitePinGroupToValue = new Dictionary<string, double>();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo)
                 {
-                    double level = double.NaN;
-                    bool isGroupData;
-                    // Switch on the actual runtime type
-                    if (typeof(T) == typeof(PinSiteData<double>))
-                    {
-                        // Handle PinSiteData<double>-specific logic here
-                        level = ((PinSiteData<double>)(object)voltages).GetValue(sitePinInfo, out isGroupData);
-                    }
-                    else if (typeof(T) == typeof(int))
-                    {
-                        // Handle int-specific logic if needed
-                        var intValue = (int)(object)voltages;
-                        // Do something specific for int
-                    }
-                    VerifyGroupValueAgaintPinValue(sitePinGroupToLevel, sitePinInfo.SiteNumber, gangingInfo.GroupName, level);
+                    double pinValue = GetPinValueFrom(pinValues, sitePinInfo);
+                    VerifyGroupValueAgaintPinValue(sitePinGroupToValue, sitePinInfo.SiteNumber, gangingInfo.GroupName, pinValue);
                 }
             });
         }
-        private static void ValidateLevelsForCascadedPins(
-            this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> levels)
+
+        private static double GetPinValueFrom<T>(T pinValues, SitePinInfo sitePinInfo)
         {
-            var sitePinGroupToLevel = new Dictionary<string, double>();
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            double pinValue = double.NaN;
+            // Switch on the actual runtime type
+            if (typeof(T) == typeof(PinSiteData<double>))
             {
-                if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo)
-                {
-                    double level = levels.GetValue(sitePinInfo, out bool isGroupData);
-                    VerifyGroupValueAgaintPinValue(sitePinGroupToLevel, sitePinInfo.SiteNumber, gangingInfo.GroupName, level);
-                }
-            });
+                // Handle PinSiteData<double>-specific logic here
+                pinValue = ((PinSiteData<double>)(object)pinValues).GetValue(sitePinInfo, out _);
+            }
+            else if (typeof(T) == typeof(int))
+            {
+                // Handle int-specific logic if needed
+                pinValue = (int)(object)pinValues;
+                // Do something specific for int
+            }
+            return pinValue;
         }
 
         private static void VerifyGroupValueAgaintPinValue(Dictionary<string, double> sitePinGroupToValue, int siteNumber, string pinGroupName, double pinValue)
@@ -1858,7 +1850,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 if (sitePinGroupToValue.TryGetValue(sitePinGroupName, out var groupValue) && groupValue != pinValue)
                 {
-                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleVoltageforGangedChannelsDetected, sitePinGroupName));
+                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ForCascadedPinGroupMultipleValuesDetected, sitePinGroupName));
                 }
                 else if (!sitePinGroupToValue.ContainsKey(sitePinGroupName))
                 {
