@@ -424,7 +424,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, IviDriverPrecisionTimeSpan[][] offsets)
         {
             var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
-            ValidateInstrumentOffsetsCount(offsets.Length, instrumentSessions.Count, nameof(offsets));
+            ValidateInstrumentOffsetsCount(offsets.Length, instrumentSessions.Count);
 
             sessionsBundle.Do((DigitalSessionInformation sessionInfo, int instrumentIndex) =>
             {
@@ -434,7 +434,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     associatedSitePinList,
                     instrumentOffsets,
                     instrumentIndex,
-                    nameof(offsets),
                     out var filteredSitePinList,
                     out var sitePinToOffsetIndex);
                 for (int pinSetIndex = 0; pinSetIndex < filteredSitePinList.Count; pinSetIndex++)
@@ -551,7 +550,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, IviDriverPrecisionTimeSpan[][] offsets, string filePath)
         {
             var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
-            ValidateInstrumentOffsetsCount(offsets.Length, instrumentSessions.Count, nameof(offsets));
+            ValidateInstrumentOffsetsCount(offsets.Length, instrumentSessions.Count);
             using (var file = new StreamWriter(filePath))
             {
                 for (int instrumentIndex = 0; instrumentIndex < offsets.Length; instrumentIndex++)
@@ -561,7 +560,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                         associatedSitePinList,
                         offsets[instrumentIndex],
                         instrumentIndex,
-                        nameof(offsets),
                         out var filteredSitePinList,
                         out var sitePinToOffsetIndex);
                     for (int channelIndex = 0; channelIndex < filteredSitePinList.Count; channelIndex++)
@@ -677,7 +675,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return offsetsFromFile;
         }
 
-        private static void ValidateInstrumentOffsetsCount(int inputInstrumentCount, int expectedInstrumentCount, string parameterName)
+        private static void ValidateInstrumentOffsetsCount(int inputInstrumentCount, int expectedInstrumentCount)
         {
             if (inputInstrumentCount != expectedInstrumentCount)
             {
@@ -694,7 +692,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             IList<SitePinInfo> associatedSitePinList,
             IviDriverPrecisionTimeSpan[] instrumentOffsets,
             int instrumentIndex,
-            string parameterName,
             out IList<SitePinInfo> filteredSitePinList,
             out IDictionary<string, int> sitePinToOffsetIndex)
         {
@@ -703,16 +700,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 associatedSitePinList,
                 filteredSitePinList,
                 instrumentOffsets,
-                instrumentIndex,
-                parameterName);
+                instrumentIndex);
         }
 
         private static IDictionary<string, int> ValidateAndGetSitePinToOffsetIndexMap(
             IList<SitePinInfo> associatedSitePinList,
             IList<SitePinInfo> filteredSitePinList,
             IviDriverPrecisionTimeSpan[] instrumentOffsets,
-            int instrumentIndex,
-            string parameterName)
+            int instrumentIndex)
         {
             // Check whether offsets are provided for filtered entries only (entries where SkipOperations is false).
             if (instrumentOffsets.Length == filteredSitePinList.Count)
@@ -728,8 +723,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     associatedSitePinList,
                     instrumentOffsets,
                     sitePinToOffsetIndex,
-                    instrumentIndex,
-                    parameterName);
+                    instrumentIndex);
 
                 return sitePinToOffsetIndex;
             }
@@ -755,8 +749,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             IList<SitePinInfo> associatedSitePinList,
             IviDriverPrecisionTimeSpan[] instrumentOffsets,
             IDictionary<string, int> sitePinToOffsetIndex,
-            int instrumentIndex,
-            string parameterName)
+            int instrumentIndex)
         {
             var sharedChannelGroups = associatedSitePinList
                 .Where(sitePin => !string.IsNullOrEmpty(sitePin.IndividualChannelString))
