@@ -2179,6 +2179,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void DifferentSMUDevicesGanged_ForceDifferentPerPinVoltagesOnGangedPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var voltageLevels = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 2, [1] = 2.5 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 2, [1] = 2.5 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 4, [1] = 4 },
+                ["VCC5"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 }
+            });
+            void ForceVoltageTest()
+            {
+                sessionsBundle.ForceVoltage(voltageLevels, currentLimit: 4.5);
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageTest);
+            Assert.Contains("The PinSiteData contains different voltage levels for ganged pins in the \"Site0/AllPinsGangedGroup\" group. All pins within a ganged group must have the same voltage level.", exception.Message);
+            Assert.Contains("The PinSiteData contains different voltage levels for ganged pins in the \"Site1/AllPinsGangedGroup\" group. All pins within a ganged group must have the same voltage level.", exception.Message);
+        }
+
+        [Fact]
         public void DifferentSMUDevicesGangedinTwoPinGroups_ForceVoltageWithSingleSettingsObject_CorrectVoltageForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
