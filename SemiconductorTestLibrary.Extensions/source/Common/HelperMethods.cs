@@ -24,21 +24,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         }
 
         /// <summary>
-        /// Creates an invariant-culture formatted validation exception.
-        /// </summary>
-        /// <param name="messageFormat">The message format string.</param>
-        /// <param name="parameterName">The parameter name associated with the exception.</param>
-        /// <param name="formatArguments">Optional format arguments for the message format string.</param>
-        /// <returns>A validation exception containing the formatted message and parameter name.</returns>
-        public static NISemiconductorTestException CreateValidationException(string messageFormat, string parameterName, params object[] formatArguments)
-        {
-            var parameterNamePrefix = "Parameter name:";
-            var formattedMessage = string.Format(CultureInfo.InvariantCulture, messageFormat, formatArguments);
-
-            return new NISemiconductorTestException($"{formattedMessage}{Environment.NewLine}{parameterNamePrefix} {parameterName}");
-        }
-
-        /// <summary>
         /// Creates a ramp sequence of double values from outputStart to outputStop with the specified number of points.
         /// </summary>
         /// <param name="outputStart">The starting value of the ramp.</param>

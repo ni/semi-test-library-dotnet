@@ -681,11 +681,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             if (inputInstrumentCount != expectedInstrumentCount)
             {
-                throw HelperMethods.CreateValidationException(
-                    ResourceStrings.Digital_TDROffsetsInstrumentCountMismatch,
-                    parameterName,
-                    inputInstrumentCount,
-                    expectedInstrumentCount);
+                throw new NISemiconductorTestException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        ResourceStrings.Digital_TDROffsetsInstrumentCountMismatch,
+                        inputInstrumentCount,
+                        expectedInstrumentCount));
             }
         }
 
@@ -713,11 +714,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             int instrumentIndex,
             string parameterName)
         {
+            // Check whether offsets are provided for filtered entries only (entries where SkipOperations is false).
             if (instrumentOffsets.Length == filteredSitePinList.Count)
             {
                 return CreateSitePinToOffsetIndexMap(filteredSitePinList);
             }
 
+            // Check whether offsets are provided for all associated (site-pin) entries, including shared-channel shadows.
             if (instrumentOffsets.Length == associatedSitePinList.Count)
             {
                 var sitePinToOffsetIndex = CreateSitePinToOffsetIndexMap(associatedSitePinList);
@@ -731,13 +734,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 return sitePinToOffsetIndex;
             }
 
-            throw HelperMethods.CreateValidationException(
-                ResourceStrings.Digital_TDROffsetsCountMismatch,
-                parameterName,
-                instrumentIndex,
-                filteredSitePinList.Count,
-                associatedSitePinList.Count,
-                instrumentOffsets.Length);
+            throw new NISemiconductorTestException(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    ResourceStrings.Digital_TDROffsetsCountMismatch,
+                    instrumentIndex,
+                    filteredSitePinList.Count,
+                    associatedSitePinList.Count,
+                    instrumentOffsets.Length));
         }
 
         private static IDictionary<string, int> CreateSitePinToOffsetIndexMap(IList<SitePinInfo> sitePinList)
@@ -758,25 +762,29 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 .Where(sitePin => !string.IsNullOrEmpty(sitePin.IndividualChannelString))
                 .GroupBy(sitePin => sitePin.IndividualChannelString)
                 .Where(group => group.Count() > 1);
+
             foreach (var sharedChannelGroup in sharedChannelGroups)
             {
                 var sharedSitePins = sharedChannelGroup.ToList();
                 var primarySitePin = sharedSitePins[0];
                 var primaryOffset = instrumentOffsets[sitePinToOffsetIndex[primarySitePin.SitePinString]];
+
+                // For a shared channel, all entries in the group (primary and shadow channels) must have the same offset.
                 foreach (var shadowSitePin in sharedSitePins.Skip(1))
                 {
                     var shadowOffsetIndex = sitePinToOffsetIndex[shadowSitePin.SitePinString];
                     var shadowOffset = instrumentOffsets[shadowOffsetIndex];
                     if (!primaryOffset.Equals(shadowOffset))
                     {
-                        throw HelperMethods.CreateValidationException(
-                            ResourceStrings.Digital_TDROffsetsSharedChannelMismatch,
-                            parameterName,
-                            instrumentIndex,
-                            primarySitePin.SitePinString,
-                            primaryOffset.ToDecimal(),
-                            shadowSitePin.SitePinString,
-                            shadowOffset.ToDecimal());
+                        throw new NISemiconductorTestException(
+                            string.Format(
+                                CultureInfo.InvariantCulture,
+                                ResourceStrings.Digital_TDROffsetsSharedChannelMismatch,
+                                instrumentIndex,
+                                primarySitePin.SitePinString,
+                                primaryOffset.ToDecimal(),
+                                shadowSitePin.SitePinString,
+                                shadowOffset.ToDecimal()));
                     }
                 }
             }

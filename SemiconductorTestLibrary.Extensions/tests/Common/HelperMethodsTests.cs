@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using Xunit;
 
@@ -93,19 +94,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
                 HelperMethods.CreateRampSequence(0.0, outputStop, 10));
 
             Assert.Contains("Output Stop value must be a finite number", exception.Message);
-        }
-
-        [Fact]
-        public void CreateValidationException_ReturnsFormattedValidationException()
-        {
-            var messageFormat = "Invalid value {0}";
-            var parameterName = "offsets";
-            var formattedValue = "Invalid value 3";
-            var exception = HelperMethods.CreateValidationException(messageFormat, parameterName, 3);
-
-            Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains(formattedValue, exception.Message);
-            Assert.Contains("Parameter name: offsets", exception.Message);
         }
     }
 }
