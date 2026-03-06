@@ -1828,17 +1828,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private static double GetPinValueFrom<T>(T pinValues, SitePinInfo sitePinInfo)
         {
             double pinValue = double.NaN;
-            // Switch on the actual runtime type
             if (typeof(T) == typeof(PinSiteData<double>))
             {
-                // Handle PinSiteData<double>-specific logic here
                 pinValue = ((PinSiteData<double>)(object)pinValues).GetValue(sitePinInfo, out _);
             }
-            else if (typeof(T) == typeof(int))
+            else if (typeof(T) == typeof(SiteData<double>))
             {
-                // Handle int-specific logic if needed
-                pinValue = (int)(object)pinValues;
-                // Do something specific for int
+                pinValue = ((SiteData<double>)(object)pinValues).GetValue(sitePinInfo.SiteNumber);
+            }
+            else if (typeof(T) == typeof(IDictionary<string, double>))
+            {
+                pinValue = ((IDictionary<string, double>)(object)pinValues)[sitePinInfo.PinName];
+            }
+            else if (typeof(T) == typeof(PinSiteData<DCPowerSourceSettings>))
+            {
+                var settings = ((PinSiteData<DCPowerSourceSettings>)(object)pinValues).GetValue(sitePinInfo, out _);
+                pinValue = settings.Level ?? double.NaN;
+            }
+            else if (typeof(T) == typeof(IDictionary<string, DCPowerSourceSettings>))
+            {
+                var settings = ((IDictionary<string, DCPowerSourceSettings>)(object)pinValues)[sitePinInfo.PinName];
+                pinValue = settings.Level ?? double.NaN;
             }
             return pinValue;
         }
