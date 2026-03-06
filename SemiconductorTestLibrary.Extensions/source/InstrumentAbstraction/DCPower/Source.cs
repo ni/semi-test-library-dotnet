@@ -543,7 +543,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces current on the target pins at the specified pin-unique voltage. Must at least provide a voltage value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
+        /// Forces current on the target pins at the specified pin-unique level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevels">The current level to force for different pins.</param>
@@ -572,7 +572,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces current on the target pins at the specified site-unique voltage. Must at least provide a voltage value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
+        /// Forces current on the target pins at the specified site-unique level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevels">The current level to force for different sites.</param>
@@ -601,7 +601,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces current on the target pins at the specified pin- and site-unique voltage. Must at least provide a voltage value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
+        /// Forces current on the target pins at the specified pin- and site-unique level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific voltage limit, current level range, voltage limit range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevels">The current level to force for different site-pin pairs.</param>
@@ -720,7 +720,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentSequence">The current sequence to force for all site-pin pairs.</param>
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
-        /// <param name="currentLevelRange">Current voltage range.</param>
+        /// <param name="currentLevelRange">Current level range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
         /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
@@ -1247,7 +1247,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentSequence">Array of current levels to source step-by-step.</param>
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
-        /// <param name="currentLevelRange">Current voltage range.</param>
+        /// <param name="currentLevelRange">Current level range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
@@ -1566,7 +1566,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Checks if the output function is set to DCVoltage and the voltage(s) are set to the expected values.
+        /// Checks if the output function is set to DCVoltage and the level(s) are set to the expected values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="failedChannels">Returns the channels that fail the check.</param>
