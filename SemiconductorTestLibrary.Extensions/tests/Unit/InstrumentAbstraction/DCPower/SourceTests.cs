@@ -2722,7 +2722,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentSourceSettingsWithPinSiteData_CorrectValuesAreSetAndCurrentLevelDivided()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentSourceSettingsWithPinSiteData_CorrectValuesAreSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -2757,7 +2757,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigurePerPinCurrentSourceSettings_CorrectValuesAreSetAndCurrentLevelDivided()
+        public void DifferentSMUDevicesGanged_ConfigurePerPinCurrentSourceSettings_CorrectValuesAreSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
