@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
+
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
+
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -191,7 +194,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            sessionsBundle.ValidateVoltagesForGangedPins<PinSiteData<double>>(voltageLevels);
+            sessionsBundle.ValidateLevelsForCascadedPins<PinSiteData<double>>(voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -1800,21 +1803,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        private static void ValidateVoltagesForGangedPins<T>(
+        private static void ValidateLevelsForCascadedPins<T>(
             this DCPowerSessionsBundle sessionsBundle, T voltages)
         {
-            var sitePinGroupToVoltageMap = new Dictionary<string, double>();
+            var sitePinGroupToLevel = new Dictionary<string, double>();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo)
                 {
-                    double voltage = double.NaN;
+                    double level = double.NaN;
                     bool isGroupData;
                     // Switch on the actual runtime type
                     if (typeof(T) == typeof(PinSiteData<double>))
                     {
                         // Handle PinSiteData<double>-specific logic here
-                        voltage = ((PinSiteData<double>)(object)voltages).GetValue(sitePinInfo, out isGroupData);
+                        level = ((PinSiteData<double>)(object)voltages).GetValue(sitePinInfo, out isGroupData);
                     }
                     else if (typeof(T) == typeof(int))
                     {
@@ -1822,21 +1825,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         var intValue = (int)(object)voltages;
                         // Do something specific for int
                     }
-                    string sitePinGroupName = $"Site{sitePinInfo.SiteNumber}" + gangingInfo.GroupName;
-                    lock (sitePinGroupToVoltageMap)
-                    {
-                        if (sitePinGroupToVoltageMap.TryGetValue(sitePinGroupName, out var groupVoltage) && groupVoltage != voltage)
-                        {
-                            throw new NISemiconductorTestException(
-                                string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleVoltageforGangedChannelsDetected, sitePinGroupName));
-                        }
-                        else if (!sitePinGroupToVoltageMap.ContainsKey(sitePinGroupName))
-                        {
-                            sitePinGroupToVoltageMap.Add(sitePinGroupName, voltage);
-                        }
-                    }
+                    VerifyGroupLevelAgaintPinLevel(sitePinGroupToLevel, sitePinInfo.SiteNumber, gangingInfo.GroupName, level);
                 }
             });
+        }
+        private static void ValidateLevelsForCascadedPins(
+            this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> levels)
+        {
+            var sitePinGroupToLevel = new Dictionary<string, double>();
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo)
+                {
+                    double level = levels.GetValue(sitePinInfo, out bool isGroupData);
+                    VerifyGroupLevelAgaintPinLevel(sitePinGroupToLevel, sitePinInfo.SiteNumber, gangingInfo.GroupName, level);
+                }
+            });
+        }
+
+        private static void VerifyGroupLevelAgaintPinLevel(Dictionary<string, double> sitePinGroupToLevel, int siteNumber, string pinGroupName, double pinLevel)
+        {
+            string sitePinGroupName = $"Site{siteNumber}/" + pinGroupName;
+            lock (sitePinGroupToLevel)
+            {
+                if (sitePinGroupToLevel.TryGetValue(sitePinGroupName, out var groupLevel) && groupLevel != pinLevel)
+                {
+                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleVoltageforGangedChannelsDetected, sitePinGroupName));
+                }
+                else if (!sitePinGroupToLevel.ContainsKey(sitePinGroupName))
+                {
+                    sitePinGroupToLevel.Add(sitePinGroupName, pinLevel);
+                }
+            }
         }
 
         #endregion methods on DCPowerSessionsBundle
