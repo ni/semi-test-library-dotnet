@@ -643,7 +643,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<NISemiconductorTestException>(action);
             Assert.Contains("offset count for instrument index", exception.Message);
-
             RemoveTemporaryFile(fileName);
         }
 
@@ -666,7 +665,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Contains(expectedPhrase, exception.Message);
             }
-
             RemoveTemporaryFile(fileName);
         }
 
@@ -696,7 +694,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<NISemiconductorTestException>(action);
             Assert.Contains("Inconsistent offsets for shared channel", exception.Message);
-
             RemoveTemporaryFile(fileName);
         }
 
@@ -732,7 +729,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var filteredCount = instrumentSessions[instrumentIndex].AssociatedSitePinList.Count(sitePin => !sitePin.SkipOperations);
                 Assert.Equal(filteredCount, offsetsFromFile[instrumentIndex].Length);
             }
-
             RemoveTemporaryFile(fileName);
         }
 

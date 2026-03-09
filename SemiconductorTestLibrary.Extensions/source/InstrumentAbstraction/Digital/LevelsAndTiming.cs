@@ -423,8 +423,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, IviDriverPrecisionTimeSpan[][] offsets)
         {
-            var instrumentSessions = sessionsBundle.InstrumentSessions.ToList();
-            ValidateInstrumentOffsetsCount(offsets.Length, instrumentSessions.Count);
+            ValidateInstrumentOffsetsCount(offsets.Length, sessionsBundle.InstrumentSessions.Count());
 
             sessionsBundle.Do((DigitalSessionInformation sessionInfo, int instrumentIndex) =>
             {
@@ -438,10 +437,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     out var sitePinToOffsetIndex);
                 for (int pinSetIndex = 0; pinSetIndex < filteredSitePinList.Count; pinSetIndex++)
                 {
-                    var currentSitePin = filteredSitePinList[pinSetIndex];
-                    var offsetIndex = sitePinToOffsetIndex[currentSitePin.SitePinString];
+                    var currentSitePinString = filteredSitePinList[pinSetIndex].SitePinString;
+                    var offsetIndex = sitePinToOffsetIndex[currentSitePinString];
                     sessionInfo.Session.PinAndChannelMap
-                        .GetPinSet(currentSitePin.SitePinString)
+                        .GetPinSet(currentSitePinString)
                         .ApplyTdrOffsets(new IviDriverPrecisionTimeSpan[] { instrumentOffsets[offsetIndex] });
                 }
             });
@@ -564,8 +563,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                         out var sitePinToOffsetIndex);
                     for (int channelIndex = 0; channelIndex < filteredSitePinList.Count; channelIndex++)
                     {
-                        var currentSitePin = filteredSitePinList[channelIndex];
-                        file.WriteLine($"{currentSitePin.SitePinString}:{offsets[instrumentIndex][sitePinToOffsetIndex[currentSitePin.SitePinString]].ToDecimal()}");
+                        var currentSitePinString = filteredSitePinList[channelIndex].SitePinString;
+                        file.WriteLine($"{currentSitePinString}:{offsets[instrumentIndex][sitePinToOffsetIndex[currentSitePinString]].ToDecimal()}");
                     }
                 }
             }
