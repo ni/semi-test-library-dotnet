@@ -1868,10 +1868,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var settings = ((PinSiteData<DCPowerSourceSettings>)(object)pinValues).GetValue(sitePinInfo, out _);
                 pinValue = settings.Level ?? double.NaN;
             }
-            else if (currentType == typeof(SiteData<double>))
-            {
-                pinValue = ((SiteData<double>)(object)pinValues).GetValue(sitePinInfo.SiteNumber);
-            }
             return pinValue;
         }
 
