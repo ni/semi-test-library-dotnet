@@ -92,6 +92,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // This will be used for easy lookup within class methods.
             ChannelInfoMap = new Dictionary<string, ChannelInfo>();
             OutputPortStates = new Dictionary<(int, int), byte>();
+            InputPorts = new List<(int, int)>();
             string[] channels = ChannelList.Split(',').Select(x => x.Trim()).ToArray();
             foreach (string channelInfoString in channels)
             {
