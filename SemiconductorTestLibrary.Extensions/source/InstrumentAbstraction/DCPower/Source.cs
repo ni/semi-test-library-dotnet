@@ -1854,23 +1854,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 pinValue = ((PinSiteData<double>)(object)pinValues).GetValue(sitePinInfo, out _);
             }
-            else if (currentType == typeof(SiteData<double>))
-            {
-                pinValue = ((SiteData<double>)(object)pinValues).GetValue(sitePinInfo.SiteNumber);
-            }
             else if (currentType == typeof(IDictionary<string, double>))
             {
-                pinValue = ((IDictionary<string, double>)(object)pinValues)[sitePinInfo.PinName];
+                pinValue = ((IDictionary<string, double>)(object)pinValues).GetValue(sitePinInfo, out _);
             }
             else if (typeof(T) == typeof(IDictionary<string, DCPowerSourceSettings>))
             {
-                var settings = ((IDictionary<string, DCPowerSourceSettings>)(object)pinValues)[sitePinInfo.PinName];
+                var settings = ((IDictionary<string, DCPowerSourceSettings>)(object)pinValues).GetValue(sitePinInfo, out bool _);
                 pinValue = settings.Level ?? double.NaN;
             }
             else if (currentType == typeof(PinSiteData<DCPowerSourceSettings>))
             {
                 var settings = ((PinSiteData<DCPowerSourceSettings>)(object)pinValues).GetValue(sitePinInfo, out _);
                 pinValue = settings.Level ?? double.NaN;
+            }
+            else if (currentType == typeof(SiteData<double>))
+            {
+                pinValue = ((SiteData<double>)(object)pinValues).GetValue(sitePinInfo.SiteNumber);
             }
             return pinValue;
         }
