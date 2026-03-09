@@ -7,7 +7,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
     /// <summary>
-    /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
+    /// This class contains examples of how to use the Instrument Abstraction extensions(specifically extensions related to hardware level sequencing) from the Semiconductor Test Library.
     /// Specifically, how to measure current for pins mapped to DCPower Instruments.
     /// Note that DCPower Instruments include both Source Measurement Units (SMUs) and Programmable Power Supplies (PPS) devices.
     /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
@@ -53,7 +53,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Initiate the advanced sequence that was configured earlier
             dcPowerPins.InitiateAdvancedSequence(advanceSequenceName);
 
-            // Clear the active advanced sequence post usage
+            // Clear the active advanced sequence before deleting and post usage
             dcPowerPins.ClearActiveAdvancedSequence();
             // Then delete the advanced sequence, this will also switch the Source.Mode back to SinglePoint
             dcPowerPins.DeleteAdvancedSequence(advanceSequenceName);
@@ -114,7 +114,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Initiate the advanced sequence that was configured earlier
             dcPowerPins.InitiateAdvancedSequence(firstAdvanceSequence);
 
-            // Clear the active advanced sequence post usage
+            // Clear the active advanced sequence before deleting and post usage
             dcPowerPins.ClearActiveAdvancedSequence();
             // Then delete all the advanced sequence, this will also switch the Source.Mode back to SinglePoint
             dcPowerPins.DeleteAdvancedSequence(firstAdvanceSequence);

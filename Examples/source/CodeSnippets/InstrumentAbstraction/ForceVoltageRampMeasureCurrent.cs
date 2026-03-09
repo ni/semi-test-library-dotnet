@@ -8,7 +8,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
     /// <summary>
-    /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
+    /// This class contains examples of how to use the Instrument Abstraction extensions(specifically extensions related to hardware level sequencing) from the Semiconductor Test Library.
     /// Specifically, how to measure current for pins mapped to DCPower Instruments.
     /// Note that DCPower Instruments include both Source Measurement Units (SMUs) and Programmable Power Supplies (PPS) devices.
     /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
@@ -19,7 +19,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     public static class ForceVoltageRampMeasureCurrent
     {
         /// <summary>
-        /// Applies a voltage ramp to specified SMU pins and measures the resulting current.
+        /// Applies a voltage ramp to specified SMU pins using <see cref="Source.ForceVoltageSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/> and measures the resulting current.
         /// </summary>
         /// <param name="tsmContext">Context for the semiconductor module operations.</param>
         /// <param name="smuPinNames">Names of the SMU pins to apply the voltage ramp and measure current.</param>
