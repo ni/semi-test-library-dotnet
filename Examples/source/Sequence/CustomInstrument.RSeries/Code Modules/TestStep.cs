@@ -34,7 +34,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 
             // Need to expand the pin groups representing the DUT's digital input ports into individual pins as well as their associated data,
             // which is necessary to construct the appropriate PinSiteData object.
-            ExpandDataForPinGroups(tsmContext, dutDigitalInputPorts, portData, out List<bool> expandedPinData, out List<string> expandedInputPins);
+            ExpandPortDataToPinData(tsmContext, dutDigitalInputPorts, portData, out List<bool> expandedPinData, out List<string> expandedInputPins);
             var portDataToWrite = new PinSiteData<bool>(expandedInputPins.ToArray(), sites, expandedPinData.ToArray());
 
             // Create TSM session manager.
@@ -68,12 +68,18 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <summary>
         /// This method expands the pin groups representing the DUT's digital input ports into individual pins as well as their associated data.
         /// </summary>
+        /// <remarks>
+        /// The elements of the dutDigitalInputPorts input parameter must be passed as valid pin group names.
+        /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="dutDigitalInputPorts">The pin group names corresponding to the DUT digital input ports.</param>
         /// <param name="portData">The byte data to be written to the DUT's digital input ports.</param>
         /// <param name="expandedPinData">The expanded data values for each pin of the DUT's digital input ports.</param>
         /// <param name="expandedInputPins">The expanded pin names of each pin group corresponding to the DUT's digital input ports.</param>
-        private static void ExpandDataForPinGroups(
+        /// <exception cref="ArgumentException">
+        /// Returned if one or more elements of the dutDigitalInputPorts input parameter is an individual pin or not a valid pin group name.
+        /// </exception>
+        private static void ExpandPortDataToPinData(
             ISemiconductorModuleContext tsmContext,
             string[] dutDigitalInputPorts,
             byte[] portData,
@@ -82,27 +88,27 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         {
             expandedPinData = new List<bool>();
             expandedInputPins = new List<string>();
-            for (int pinIndex = 0; pinIndex < dutDigitalInputPorts.Length; pinIndex++)
+            for (int portIndex = 0; portIndex < dutDigitalInputPorts.Length; portIndex++)
             {
-                int pinValue = portData[pinIndex];
-                string pinOrPinGroup = dutDigitalInputPorts[pinIndex];
-                if (pinValue > 1)
+                int portValue = portData[portIndex];
+                string pinGroup = dutDigitalInputPorts[portIndex];
+
+                var expandedPins = tsmContext.FilterPinsByInstrumentType(new[] { pinGroup }, RSeries7822RFactory.CustomInstrumentTypeId);
+                // Throw an exception if the Length of expandedPins returned by FilterPinsByInstrumentType is 0 or 1.
+                // This implies that either the element of dutDigitalInputPorts is either an individual pin (if 1),
+                // or is not a valid pin group (if 0).
+                if (expandedPins.Length < 2)
                 {
-                    var expandedPins = tsmContext.FilterPinsByInstrumentType(new[] { pinOrPinGroup }, RSeries7822RFactory.CustomInstrumentTypeId);
-                    if (expandedPins.Length > 1)
-                    {
-                        for (int expandedPinIndex = 0; expandedPinIndex < expandedPins.Length; expandedPinIndex++)
-                        {
-                            expandedPinData.Add((pinValue & (1 << expandedPinIndex)) != 0);
-                        }
-                    }
-                    expandedInputPins.AddRange(expandedPins);
+                    throw new ArgumentException(
+                        $"{pinGroup} is not a valid pin group." +
+                        $"Each element of the dutDigitalInputPorts array input parameter must be valid pin group." +
+                        $"Using individual pin names are not valid.");
                 }
-                else
+                for (int expandedPinIndex = 0; expandedPinIndex < expandedPins.Length; expandedPinIndex++)
                 {
-                    expandedPinData.Add(portData[pinIndex] > 0);
-                    expandedInputPins.Add(pinOrPinGroup);
+                    expandedPinData.Add((portValue & (1 << expandedPinIndex)) != 0);
                 }
+                expandedInputPins.AddRange(expandedPins);
             }
         }
 

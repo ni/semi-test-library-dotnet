@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 using static NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.Common.Utilities;
-using static NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.RSeries7822RCustomInstrument.Types;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.RSeries7822RCustomInstrument
 {
@@ -13,6 +12,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     /// </summary>
     public class RSeries7822R : ICustomInstrument
     {
+        private const string ConnectorStringId = "Connector";
+        private const string ChannelStringId = "DIO";
         private readonly ulong _referenceId;
         private int _status;
 
@@ -47,6 +48,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// </summary>
         /// <remarks>
         /// Maps an individual channel string, from the pin map definition, to it's ConnectorNumber, PortNumber, and ChannelNumber.
+        /// Includes the configuration of each channel of the device, which can either be an Output or an Input, depending on the port.
         /// </remarks>
         internal Dictionary<string, ChannelInfo> ChannelInfoMap { get; }
 
@@ -56,12 +58,22 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <remarks>
         /// Store the current state of each port. This information is needed to perform driver operation on specific port.
         /// </remarks>
-        internal Dictionary<(int, int), byte> OutputPortStates { get; private set; }
+        private Dictionary<(int, int), byte> OutputPortStates { get; }
 
         /// <summary>
-        /// The configuration of each port of the device, which can either be set as an Output or an Input.
+        /// The internal tracked input ports.
         /// </summary>
-        internal Dictionary<(int, int), PortConfiguration> PortConfigurations { get; private set; }
+        private List<(int, int)> InputPorts { get; }
+
+        /// <summary>
+        /// The internal tracked number of connectors for input ports.
+        /// </summary>
+        private int InputConnectorCount { get; }
+
+        /// <summary>
+        /// The internal tracked number of connectors for input ports.
+        /// </summary>
+        private int InputPortCount { get; }
 
         /// <summary>
         /// Opens FPGA reference of the R series device.
@@ -80,23 +92,21 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // This will be used for easy lookup within class methods.
             ChannelInfoMap = new Dictionary<string, ChannelInfo>();
             OutputPortStates = new Dictionary<(int, int), byte>();
-            PortConfigurations = new Dictionary<(int, int), PortConfiguration>();
             string[] channels = ChannelList.Split(',').Select(x => x.Trim()).ToArray();
-            var connectorStringId = "Connector";
-            var channelStringId = "DIO";
-            for (int i = 0; i < channels.Length; i++)
+            foreach (string channelInfoString in channels)
             {
                 // The format of the channel strings is expected to have been validated prior to this point.
-                string channelInfoString = channels[i];
-                var channelInfoSegments = channels[i].Split('_').Select(x => x.Trim());
-                string channelString = channelInfoSegments.FirstOrDefault(s => s.StartsWith(channelStringId, StringComparison.Ordinal));
+                var channelInfoSegments = channelInfoString.Split('_').Select(x => x.Trim());
+                // This implementation intentionally allows the flexibility to specify the channels without or out the port.
+                // Such that, the port can be inferred and both of these values are acceptable: "Connector0_Port1_DIO5", "Connector0_DIO5".
+                string channelString = channelInfoSegments.First(s => s.StartsWith(ChannelStringId, StringComparison.Ordinal));
                 int channelNumber = int.Parse(
-                    channelString.Substring(channelStringId.Length),
+                    channelString.Substring(ChannelStringId.Length),
                     NumberStyles.Integer,
                     NumberFormatInfo.InvariantInfo);
-                string connectorString = channelInfoSegments.FirstOrDefault(s => s.StartsWith(connectorStringId, StringComparison.Ordinal));
+                string connectorString = channelInfoSegments.ElementAt(0);
                 int connectorNumber = int.Parse(
-                    connectorString.Substring(connectorStringId.Length),
+                    connectorString.Substring(ConnectorStringId.Length),
                     NumberStyles.Integer,
                     NumberFormatInfo.InvariantInfo);
                 // Ports are 8 bits wide
@@ -104,21 +114,27 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 // This is the specific bit in port that the channel maps to.
                 int portIndex = channelNumber % 8;
 
-                ChannelInfoMap.Add(channelInfoString, new ChannelInfo(connectorNumber, portNumber, channelNumber, portIndex));
-                // Statically set port configurations such that the first two ports of each connector are designated Output ports,
+                // Statically defines the port mode such that the first two ports of each connector are designated Output ports,
                 // while the second two ports of each connector are designated Input ports.
                 // This could otherwise be exposed as a configuration method for this class but is outside of the scope of the example.
-                bool portAlreadyConfigured = PortConfigurations.TryGetValue((connectorNumber, portNumber), out var portConfiguration);
-                if (!portAlreadyConfigured)
+                PortMode portMode = (portNumber < 2) ? PortMode.Output : PortMode.Input;
+                var connectorPort = (connectorNumber, portNumber);
+                if (portMode == PortMode.Output && !OutputPortStates.ContainsKey(connectorPort))
                 {
-                    portConfiguration = (portNumber < 2) ? PortConfiguration.Output : PortConfiguration.Input;
-                    PortConfigurations.Add((connectorNumber, portNumber), portConfiguration);
-                    if (portConfiguration == PortConfiguration.Output)
-                    {
-                        OutputPortStates.Add((connectorNumber, portNumber), 0);
-                    }
+                    OutputPortStates.Add(connectorPort, 0);
                 }
+                if (portMode == PortMode.Input && !InputPorts.Contains(connectorPort))
+                {
+                    InputPorts.Add(connectorPort);
+                }
+
+                ChannelInfoMap.Add(channelInfoString, new ChannelInfo(connectorNumber, portNumber, channelNumber, portIndex, portMode));
             }
+
+            // Cache the number of input connectors and ports so that this is only calculated only once, upfront,
+            // and can be efficiently retrieved by each invocation of the ReadPortData method.
+            InputConnectorCount = InputPorts.Select(x => x.Item1).Distinct().Count();
+            InputPortCount = InputPorts.Select(x => x.Item2).Distinct().Count();
 
             // Open FPGA reference by deploying BitFile on the RIO device of the given Instrument.
             string bitFilePath = RSeries7822RDriverAPI.BitFilePath();
@@ -165,7 +181,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         {
             foreach (var portState in OutputPortStates)
             {
-                string portName = $"Connector{portState.Key.Item1}_DIOPORT{portState.Key.Item2}";
+                string portName = BuildPortName(portState.Key.Item1, portState.Key.Item2);
                 _status = RSeries7822RDriverAPI.WriteData(_referenceId, portName, portState.Value);
                 ValidateStatus($"Error in WriteData method, ErrorCode:{_status}, PortNumber:{portState.Key}, PortData:{portState.Value}");
             }
@@ -195,35 +211,27 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <exception cref="Exception">Thrown when FPGA 'ReadData' fails.</exception>
         public byte[][] ReadPortData()
         {
-            // Get Input ports only.
-            var inputPorts = PortConfigurations
-                .Where(kvp => kvp.Value == PortConfiguration.Input)
-                .Select(kvp => kvp.Key)
-                .ToList();
-            var numberOfConnectors = inputPorts.Select(x => x.Item1).Distinct().Count();
-            var numberOfInputPorts = inputPorts.Select(x => x.Item2).Distinct().Count();
-
             // Initialize jagged array for storing port data.
-            var portsData = new byte[numberOfConnectors][];
+            var portsData = new byte[InputConnectorCount][];
 
             // Read port date from R series device and store values in jagged array.
-            for (int i = 0; i < inputPorts.Count; i++)
+            for (int i = 0; i < InputPorts.Count; i++)
             {
-                var key = inputPorts[i];
+                var key = InputPorts[i];
                 int connectorNumber = key.Item1;
                 int portNumber = key.Item2;
-                string portName = $"Connector{connectorNumber}_DIOPORT{portNumber}";
+                string portName = BuildPortName(connectorNumber, portNumber);
                 _status = RSeries7822RDriverAPI.ReadData(_referenceId, portName, out byte data);
                 ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, PortNumber:{portNumber}");
 
                 // Allocate new byte array for each connector
                 if (portsData[connectorNumber] == null)
                 {
-                    portsData[connectorNumber] = new byte[numberOfInputPorts];
+                    portsData[connectorNumber] = new byte[InputPortCount];
                 }
                 // Get the index of the connectorNumber and portNumber relative to the inputPorts array.
-                int connectorNumberIndex = connectorNumber % numberOfConnectors;
-                int portNumberIndex = portNumber % numberOfInputPorts;
+                int connectorNumberIndex = connectorNumber % InputConnectorCount;
+                int portNumberIndex = portNumber % InputPortCount;
                 // Fill the array with the specific port's data
                 portsData[connectorNumberIndex][portNumberIndex] = data;
             }
@@ -238,5 +246,43 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 throw new RSeries7822RDriverAPIException(exceptionMessage);
             }
         }
+
+        private string BuildPortName(int connectorNumber, int portNumber)
+        {
+            return $"Connector{connectorNumber}_DIOPORT{portNumber}";
+        }
+    }
+
+    internal struct ChannelInfo
+    {
+        public int ConnectorNumber;
+        public int ChannelNumber;
+        public int PortNumber;
+        public int PortIndex;
+        public PortMode Mode;
+
+        public ChannelInfo(int connectorNumber, int portNumber, int channelNumber, int portIndex, PortMode mode)
+        {
+            ConnectorNumber = connectorNumber;
+            PortNumber = portNumber;
+            ChannelNumber = channelNumber;
+            PortIndex = portIndex;
+            Mode = mode;
+        }
+    }
+
+    /// <summary>
+    /// Represents the possible configuration modes for the digital ports of an R Series device, either Input or Output.
+    /// </summary>
+    public enum PortMode
+    {
+        /// <summary>
+        /// Output mode.
+        /// </summary>
+        Output,
+        /// <summary>
+        /// Input mode.
+        /// </summary>
+        Input
     }
 }

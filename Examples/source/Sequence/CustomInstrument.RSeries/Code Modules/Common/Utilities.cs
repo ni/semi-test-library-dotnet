@@ -21,13 +21,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 
             int mask = 1 << bitIndex;
 
-            byte newValue = (byte)(bitValue
+            return (byte)(bitValue
                 // set bit
                 ? currentByteValue | mask
                 // clear bit
                 : currentByteValue & (byte)~mask);
-
-            return newValue;
         }
     }
 }
