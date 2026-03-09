@@ -127,7 +127,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
-                var triggerTypesToDisable = (triggerTypes == null || !triggerTypes.Any()) ? new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger } : triggerTypes;
+                var triggerTypesToDisable = (triggerTypes == null || triggerTypes.Any()) ? new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger } : triggerTypes;
                 var supportedTriggerTypesToDisable = triggerTypesToDisable.Except(triggerTypesUnsupported);
                 if (supportedTriggerTypesToDisable.Any())
                 {
