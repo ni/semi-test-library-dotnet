@@ -6,8 +6,8 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
-using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
 {
