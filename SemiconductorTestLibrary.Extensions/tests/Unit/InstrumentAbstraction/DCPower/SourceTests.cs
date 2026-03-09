@@ -1877,6 +1877,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinSettingsObject_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            var settings = new Dictionary<string, DCPowerSourceSettings>()
+            {
+                ["VCC1"] = new DCPowerSourceSettings() { Level = 2, Limit = 3 },
+                ["VCC2"] = new DCPowerSourceSettings() { Level = 3, Limit = 3 },
+                ["VCC3"] = new DCPowerSourceSettings() { Level = 4, Limit = 3 },
+                ["VCC4"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 },
+                ["VCC5"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 }
+            };
+            void ForceVoltageTest()
+            {
+                sessionsBundle.ForceVoltage(settings);
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageTest);
+            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site0/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site1/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+        }
+
+        [Fact]
         public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinPerSiteSettingsObject_SameVoltageForcedAndCurrentLimitDividedEqually()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -2075,6 +2100,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void DifferentSMUDevicesGanged_ForceDifferentPerPinVoltagesWithSymmetricLimit_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ForceVoltageTest()
+            {
+                sessionsBundle.ForceVoltage(voltageLevels: new Dictionary<string, double>() { ["VCC1"] = 1, ["VCC2"] = 2, ["VCC3"] = 3, ["VCC4"] = 2, ["VCC5"] = 2 }, currentLimit: 0.6);
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageTest);
+            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site0/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site1/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+        }
+
+        [Fact]
         public void DifferentSMUDevicesGanged_ForcePerSiteVoltagesWithSymmetricLimit_VoltagesForcedAndCurrentLimitDividedCorrectly()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -2154,8 +2196,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageTest);
-            Assert.Contains("The PinSiteData contains different voltage levels for ganged pins in the \"Site0/AllPinsGangedGroup\" group. All pins within a ganged group must have the same voltage level.", exception.Message);
-            Assert.Contains("The PinSiteData contains different voltage levels for ganged pins in the \"Site1/AllPinsGangedGroup\" group. All pins within a ganged group must have the same voltage level.", exception.Message);
+            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site0/AllPinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site1/AllPinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
         }
 
         [Fact]
