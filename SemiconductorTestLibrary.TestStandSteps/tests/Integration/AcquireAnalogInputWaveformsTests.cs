@@ -18,6 +18,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         {
             double maximumValue = 10;
             double minimumValue = -10;
+            double inputDCVoltage = 0;
+            double maximumPeakNoise = 0.01;
             var tsmContext = CreateTSMContext("DAQmxMultiChannelTests.pinmap", out var publishedDataReader);
             SetupNIDAQmxAIVoltageTask(tsmContext, "AI", maximumValue, minimumValue);
 
@@ -38,7 +40,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             else
             {
                 // When run on tester, limits are set based on the maximum voltage limits provided.
-                AssertPublishedDataValueInRange(publishedDataMaximum, minimumValue, maximumValue);
+                AssertPublishedDataValueInRange(publishedDataMaximum, inputDCVoltage - maximumPeakNoise, inputDCVoltage + maximumPeakNoise);
             }
             // Validate Minimum Value.
             var publishedDataMinimum = publishedData.Where(d => d.PublishedDataId == "Minimum").ToArray();
@@ -51,7 +53,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             else
             {
                 // When run on tester, limits are set based on the maximum voltage limits provided.
-                AssertPublishedDataValueInRange(publishedDataMinimum, minimumValue, maximumValue);
+                AssertPublishedDataValueInRange(publishedDataMinimum, inputDCVoltage - maximumPeakNoise, inputDCVoltage + maximumPeakNoise);
             }
         }
     }
