@@ -1874,7 +1874,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 if (sitePinGroupToValue.TryGetValue(sitePinGroupName, out var groupValue) && groupValue != pinValue)
                 {
-                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ForCascadedPinGroupMultipleValuesDetected, sitePinGroupName));
+                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleValuesDetectedForCascadedPinGroup, sitePinGroupName));
                 }
                 else if (!sitePinGroupToValue.ContainsKey(sitePinGroupName))
                 {

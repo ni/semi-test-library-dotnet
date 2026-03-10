@@ -1927,8 +1927,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageTest);
-            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site0/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
-            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site1/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site0/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site1/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
         }
 
         [Fact]

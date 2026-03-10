@@ -115,15 +115,6 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The PinSiteData contains different values for Cascaded pins in the &quot;{0}&quot; group. All pins within a Cascaded group must have the same value..
-        /// </summary>
-        internal static string DCPower_ForCascadedPinGroupMultipleValuesDetected {
-            get {
-                return ResourceManager.GetString("DCPower_ForCascadedPinGroupMultipleValuesDetected", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}.
         /// </summary>
         internal static string DCPower_InconsistentAdvancedSequenceProperties {
@@ -138,6 +129,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string DCPower_MultipleChannelOutputsDetected {
             get {
                 return ResourceManager.GetString("DCPower_MultipleChannelOutputsDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The parameter contains different values for Cascaded pins in the &quot;{0}&quot; group. All pins within a Cascaded group must have the same value..
+        /// </summary>
+        internal static string DCPower_MultipleValuesDetectedForCascadedPinGroup {
+            get {
+                return ResourceManager.GetString("DCPower_MultipleValuesDetectedForCascadedPinGroup", resourceCulture);
             }
         }
         
