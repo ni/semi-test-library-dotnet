@@ -135,9 +135,9 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         /// <summary>
         ///   Looks up a localized string similar to The parameter contains different values for Cascaded pins in the &quot;{0}&quot; group. All pins within a Cascaded group must have the same value..
         /// </summary>
-        internal static string DCPower_MultipleValuesDetectedForCascadedPinGroup {
+        internal static string DCPower_MultipleValuesDetectedForCascadedPinGroup1 {
             get {
-                return ResourceManager.GetString("DCPower_MultipleValuesDetectedForCascadedPinGroup", resourceCulture);
+                return ResourceManager.GetString("DCPower_MultipleValuesDetectedForCascadedPinGroup1", resourceCulture);
             }
         }
         
