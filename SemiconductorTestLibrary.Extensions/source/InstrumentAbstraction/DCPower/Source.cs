@@ -134,7 +134,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidateCascadedPinGroupPinValues<IDictionary<string, double>>(hasGangedChannels, voltageLevels);
+            sessionsBundle.ValidateCascadedPinGroupPinValues(hasGangedChannels, voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -194,7 +194,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidateCascadedPinGroupPinValues<PinSiteData<double>>(hasGangedChannels, voltageLevels);
+            sessionsBundle.ValidateCascadedPinGroupPinValues(hasGangedChannels, voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -269,7 +269,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidateCascadedPinGroupPinValues<IDictionary<string, DCPowerSourceSettings>>(hasGangedChannels, settings);
+            sessionsBundle.ValidateCascadedPinGroupPinValues(hasGangedChannels, settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perPinSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
@@ -290,7 +290,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidateCascadedPinGroupPinValues<PinSiteData<DCPowerSourceSettings>>(hasGangedChannels, settings);
+            sessionsBundle.ValidateCascadedPinGroupPinValues(hasGangedChannels, settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
@@ -1827,8 +1827,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        private static void ValidateCascadedPinGroupPinValues<T>(
-            this DCPowerSessionsBundle sessionsBundle, bool validateCascading, T pinValues)
+        private static void ValidateCascadedPinGroupPinValues<T>(this DCPowerSessionsBundle sessionsBundle, bool validateCascading, T pinValues)
         {
             if (validateCascading)
             {
@@ -1847,21 +1846,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private static double GetPinValueFrom<T>(T pinValues, SitePinInfo sitePinInfo)
         {
             double pinValue = double.NaN;
-            var currentType = typeof(T);
-            if (currentType == typeof(PinSiteData<double>))
+            if (pinValues is PinSiteData<double>)
             {
                 pinValue = ((PinSiteData<double>)(object)pinValues).GetValue(sitePinInfo, out _);
             }
-            else if (currentType == typeof(IDictionary<string, double>))
+            else if (pinValues is IDictionary<string, double>)
             {
                 pinValue = ((IDictionary<string, double>)(object)pinValues).GetValue(sitePinInfo, out _);
             }
-            else if (typeof(T) == typeof(IDictionary<string, DCPowerSourceSettings>))
+            else if (pinValues is IDictionary<string, DCPowerSourceSettings>)
             {
                 var settings = ((IDictionary<string, DCPowerSourceSettings>)(object)pinValues).GetValue(sitePinInfo, out bool _);
                 pinValue = settings.Level ?? double.NaN;
             }
-            else if (currentType == typeof(PinSiteData<DCPowerSourceSettings>))
+            else if (pinValues is PinSiteData<DCPowerSourceSettings>)
             {
                 var settings = ((PinSiteData<DCPowerSourceSettings>)(object)pinValues).GetValue(sitePinInfo, out _);
                 pinValue = settings.Level ?? double.NaN;
@@ -2036,7 +2034,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var result = new HashSet<DCPowerAdvancedSequenceProperty>();
             foreach (var stepProperties in perStepProperties)
             {
-                foreach (var (property, enumValue) in Utilities.GetPropertyMappingsCache())
+                foreach (var (property, enumValue) in Utilities.PropertyMappingsCache)
                 {
                     if (property.GetValue(stepProperties) != null)
                     {
