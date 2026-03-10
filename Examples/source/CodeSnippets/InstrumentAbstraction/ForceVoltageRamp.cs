@@ -21,7 +21,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// This example demonstrates how to force the same voltage sequence created using <see cref="HelperMethods.CreateRampSequence(double, double, int)"/> on the specified pins across all sites using.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="smuPinNames">The SMU pins to force voltage sequence on</param>
+        /// <param name="smuPinNames">The SMU pins to force voltage sequence on.</param>
         public static void SameValueToAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -36,7 +36,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// This example demonstrates how to force voltage sequence for different pins across all sites using <see cref="HelperMethods.CreateRampSequence(string[], int[], double, double, int)"/>.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="smuPinNames">The SMU pins to force voltage sequence on</param>
+        /// <param name="smuPinNames">The SMU pins to force voltage sequence on.</param>
         internal static void DifferentLevelsPerSmuPin(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -53,7 +53,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// This example demonstrates how to force voltage sequence for different sites using <see cref="HelperMethods.CreateRampSequence(int[], double, double, int)"/>.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="smuPinNames">The SMU pins to force voltage sequence on</param>
+        /// <param name="smuPinNames">The SMU pins to force voltage sequence on.</param>
         internal static void DifferentValuesPerSiteAcrossAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
