@@ -7,7 +7,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
     /// <summary>
-    /// This class contains examples of how to use the Instrument Abstraction extensions from the Semiconductor Test Library.
+    /// This class contains examples of how to use the Instrument Abstraction extensions(specifically extensions related to hardware level sequencing) from the Semiconductor Test Library.
     /// Specifically, how to force voltage on pins mapped to DCPower instruments.
     /// Note that DCPower Instruments include both Source Measurement Units (SMUs) and Programmable Power Supplies (PPS) devices.
     /// This class and its methods are intended for example purposes only and are not meant to be ran standalone.
@@ -25,9 +25,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         public static void SameValueToAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 1);
 
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
+            // Create a voltage ramp sequence from 0 to 3 volts with 10 points, which will create a sequence like [0V, 0.33V, 0.66V, ..., 3V]
+            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
             dcPowerPins.ForceVoltageSequence(voltageSequence);
         }
 
@@ -40,9 +41,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var activeSites = tsmContext.SiteNumbers.ToArray();
-            var voltageSequence = HelperMethods.CreateRampSequence(pinNames: smuPinNames, siteNumbers: activeSites, outputStart: 0, outputStop: 3, numberOfPoints: 1);
 
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
+            // Create a voltage ramp sequence for each pin and site from 0 to 3 volts with 10 points, which will create a sequence like:
+            // {Pin1: {Site1: [0V, 0.33V, 0.66V, ..., 3V]}}
+            var voltageSequence = HelperMethods.CreateRampSequence(pinNames: smuPinNames, siteNumbers: activeSites, outputStart: 0, outputStop: 3, numberOfPoints: 10);
             dcPowerPins.ForceVoltageSequence(voltageSequence);
         }
 
@@ -55,9 +58,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var activeSites = tsmContext.SiteNumbers.ToArray();
-            var voltageSequence = HelperMethods.CreateRampSequence(siteNumbers: activeSites, outputStart: 0, outputStop: 3, numberOfPoints: 1);
 
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
+            // Create a voltage ramp sequence for each site from 0 to 3 volts with 10 points, which will create a sequence like:
+            // {Site1: [0V, 0.33V, 0.66V, ..., 3V]}
+            var voltageSequence = HelperMethods.CreateRampSequence(siteNumbers: activeSites, outputStart: 0, outputStop: 3, numberOfPoints: 10);
             dcPowerPins.ForceVoltageSequence(voltageSequence);
         }
     }
