@@ -153,9 +153,6 @@
   <data name="DCPower_MultipleChannelOutputsDetected" xml:space="preserve">
     <value>The channelOutput contains more than one channel "{0}". This method overload only supports single channel operation when a valid SitePinInfo object is passed."</value>
   </data>
-  <data name="DCPower_MultipleValuesDetectedForCascadedPinGroup1" xml:space="preserve">
-    <value>The parameter contains different values for Cascaded pins in the "{0}" group. All pins within a Cascaded group must have the same value.</value>
-  </data>
   <data name="DCPower_InconsistentAdvancedSequenceProperties" xml:space="preserve">
     <value>Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}</value>
   </data>
