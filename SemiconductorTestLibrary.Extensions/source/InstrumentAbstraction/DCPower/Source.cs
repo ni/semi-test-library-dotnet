@@ -1874,11 +1874,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             string sitePinGroupName = $"Site{siteNumber}/" + pinGroupName;
             lock (sitePinGroupToValue)
             {
-                if (sitePinGroupToValue.TryGetValue(sitePinGroupName, out var groupValue) && groupValue != pinValue)
+                bool sitePinGroupExists = sitePinGroupToValue.TryGetValue(sitePinGroupName, out var groupValue);
+                if (sitePinGroupExists && groupValue != pinValue)
                 {
                     throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleValuesDetectedForCascadedPinGroup, sitePinGroupName));
                 }
-                else if (!sitePinGroupToValue.ContainsKey(sitePinGroupName))
+                else if (!sitePinGroupExists)
                 {
                     sitePinGroupToValue.Add(sitePinGroupName, pinValue);
                 }
@@ -2035,7 +2036,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var result = new HashSet<DCPowerAdvancedSequenceProperty>();
             foreach (var stepProperties in perStepProperties)
             {
-                foreach (var (property, enumValue) in Utilities.PropertyMappingsCache)
+                foreach (var (property, enumValue) in Utilities.GetPropertyMappingsCache())
                 {
                     if (property.GetValue(stepProperties) != null)
                     {
