@@ -136,7 +136,7 @@
     <value>The state of the sequencer register ({0}) is not the same for all underlying instrument sessions.</value>
   </data>
   <data name="Digital_TDROffsetsCountMismatch" xml:space="preserve">
-    <value>The offset count for instrument index ({0}) is invalid. Expected either ({1}) offsets for primary and non-shared channels or ({2}) offsets for all site-pin channels, including shared shadows, but received ({3}).</value>
+    <value>The offset count for instrument index ({0}) is invalid. Expected either ({1}) offset for primary and non-shared channels or ({2}) offsets for all site-pin channels, including shared shadows. Received ({3}) offsets instead.</value>
   </data>
   <data name="Digital_TDROffsetsInstrumentCountMismatch" xml:space="preserve">
     <value>The number of instrument session offsets provided ({0}) does not match the number of instrument sessions in the bundle ({1}).</value>

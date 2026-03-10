@@ -160,7 +160,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The offset count for instrument index ({0}) is invalid. Expected either ({1}) offsets for primary and non-shared channels or ({2}) offsets for all site-pin channels, including shared shadows, but received ({3})..
+        ///   Looks up a localized string similar to The offset count for instrument index ({0}) is invalid. Expected either ({1}) offset for primary and non-shared channels or ({2}) offsets for all site-pin channels, including shared shadows. Received ({3}) offsets instead..
         /// </summary>
         internal static string Digital_TDROffsetsCountMismatch {
             get {
