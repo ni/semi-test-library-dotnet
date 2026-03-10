@@ -15,6 +15,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         private const string ConnectorStringId = "Connector";
         private const string ChannelStringId = "DIO";
         private readonly ulong _referenceId;
+        private readonly int _inputConnectorCount;
+        private readonly int _inputPortCount;
         private int _status;
 
         /// <summary>
@@ -50,7 +52,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// Maps an individual channel string, from the pin map definition, to it's ConnectorNumber, PortNumber, and ChannelNumber.
         /// Includes the configuration of each channel of the device, which can either be an Output or an Input, depending on the port.
         /// </remarks>
-        internal Dictionary<string, ChannelInfo> ChannelInfoMap { get; }
+        internal Dictionary<string, ChannelInfo> ChannelInfoMap { get; } = new Dictionary<string, ChannelInfo>();
 
         /// <summary>
         /// The internal tracked states of all ports configured as output ports.
@@ -58,22 +60,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <remarks>
         /// Store the current state of each port. This information is needed to perform driver operation on specific port.
         /// </remarks>
-        private Dictionary<(int, int), byte> OutputPortStates { get; }
+        private Dictionary<(int, int), byte> OutputPortStates { get; } = new Dictionary<(int, int), byte>();
 
         /// <summary>
         /// The internal tracked input ports.
         /// </summary>
-        private List<(int, int)> InputPorts { get; }
-
-        /// <summary>
-        /// The internal tracked number of connectors for input ports.
-        /// </summary>
-        private int InputConnectorCount { get; }
-
-        /// <summary>
-        /// The internal tracked number of connectors for input ports.
-        /// </summary>
-        private int InputPortCount { get; }
+        private List<(int, int)> InputPorts { get; } = new List<(int, int)>();
 
         /// <summary>
         /// Opens FPGA reference of the R series device.
@@ -90,9 +82,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             ResourceName = InstrumentName;
             // Organize internal tracking information of each channel based on port and connector.
             // This will be used for easy lookup within class methods.
-            ChannelInfoMap = new Dictionary<string, ChannelInfo>();
-            OutputPortStates = new Dictionary<(int, int), byte>();
-            InputPorts = new List<(int, int)>();
             string[] channels = ChannelList.Split(',').Select(x => x.Trim()).ToArray();
             foreach (string channelInfoString in channels)
             {
@@ -134,8 +123,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 
             // Cache the number of input connectors and ports so that this is only calculated only once, upfront,
             // and can be efficiently retrieved by each invocation of the ReadPortData method.
-            InputConnectorCount = InputPorts.Select(x => x.Item1).Distinct().Count();
-            InputPortCount = InputPorts.Select(x => x.Item2).Distinct().Count();
+            _inputConnectorCount = InputPorts.Select(x => x.Item1).Distinct().Count();
+            _inputPortCount = InputPorts.Select(x => x.Item2).Distinct().Count();
 
             // Open FPGA reference by deploying BitFile on the RIO device of the given Instrument.
             string bitFilePath = RSeries7822RDriverAPI.BitFilePath();
@@ -213,7 +202,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         public byte[][] ReadPortData()
         {
             // Initialize jagged array for storing port data.
-            var portsData = new byte[InputConnectorCount][];
+            var portsData = new byte[_inputConnectorCount][];
 
             // Read port date from R series device and store values in jagged array.
             for (int i = 0; i < InputPorts.Count; i++)
@@ -228,11 +217,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 // Allocate new byte array for each connector
                 if (portsData[connectorNumber] == null)
                 {
-                    portsData[connectorNumber] = new byte[InputPortCount];
+                    portsData[connectorNumber] = new byte[_inputPortCount];
                 }
                 // Get the index of the connectorNumber and portNumber relative to the inputPorts array.
-                int connectorNumberIndex = connectorNumber % InputConnectorCount;
-                int portNumberIndex = portNumber % InputPortCount;
+                int connectorNumberIndex = connectorNumber % _inputConnectorCount;
+                int portNumberIndex = portNumber % _inputPortCount;
                 // Fill the array with the specific port's data
                 portsData[connectorNumberIndex][portNumberIndex] = data;
             }

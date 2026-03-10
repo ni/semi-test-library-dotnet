@@ -52,7 +52,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             PinSiteData<bool> perPinData = digitalOutputBundle.ReadData();
 
             // Packs per-pin output values into a single byte based on pin groups passed in via the digitalOutputPins input parameter,
-            PinSiteData<byte> perPortData = ConvertGroupedChannelDataToByte(tsmContext, dutDigitalOutputPorts, perPinData);
+            PinSiteData<byte> perPortData = ConvertDUTPortPinDataToByte(tsmContext, dutDigitalOutputPorts, perPinData);
 
             // Publish port-based data.
             foreach (var portName in dutDigitalOutputPorts)
@@ -83,8 +83,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             ISemiconductorModuleContext tsmContext,
             string[] dutDigitalInputPorts,
             byte[] portData,
-           out List<bool> expandedPinData,
-           out List<string> expandedInputPins)
+            out List<bool> expandedPinData,
+            out List<string> expandedInputPins)
         {
             expandedPinData = new List<bool>();
             expandedInputPins = new List<string>();
@@ -113,17 +113,16 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         }
 
         /// <summary>
-        /// Converts the individual pin data values into a byte values based on the pin groups corresponding to the DUT's digital output ports.
+        /// Converts the individual DUT pin data values into a byte values based on the pin groups corresponding to the DUT's digital output ports.
         /// </summary>
         /// <remarks>
-        /// Note that this conversion is necessary since the channel mapping of the DUT's port pins may not be exactly aligned with the ports of R series device.
-        /// This just so happens to be the case in this example's pin map.
+        /// Note that this conversion is necessary as the channel mapping of the DUT's port pins may not be exactly aligned with the ports of R series device.
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="dutDigitalOutputPorts">The pin group names corresponding to the DUT digital output ports.</param>
         /// <param name="perPinData">Per site data values for each pin within the DUT's digital output ports</param>
         /// <returns>A new <see cref="PinSiteData{T}"/> object of <see cref="byte"/>s representing the port values corresponding to the DUT's digital output ports.</returns>
-        private static PinSiteData<byte> ConvertGroupedChannelDataToByte(ISemiconductorModuleContext tsmContext, string[] dutDigitalOutputPorts, PinSiteData<bool> perPinData)
+        private static PinSiteData<byte> ConvertDUTPortPinDataToByte(ISemiconductorModuleContext tsmContext, string[] dutDigitalOutputPorts, PinSiteData<bool> perPinData)
         {
             Dictionary<string, IDictionary<int, byte>> results = new Dictionary<string, IDictionary<int, byte>>();
             foreach (var targetPinGroup in dutDigitalOutputPorts)
@@ -138,20 +137,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                         if (!results.TryGetValue(targetPinGroup, out var perSiteStates))
                         {
                             perSiteStates = new Dictionary<int, byte>();
-                            results.Add(targetPinGroup, perSiteStates);
+                            results[targetPinGroup] = perSiteStates;
                         }
 
                         foreach (var site in perPinData.SiteNumbers)
                         {
                             bool value = perPinData.GetValue(site, pin);
-
-                            if (!perSiteStates.TryGetValue(site, out byte state))
-                            {
-                                // Initialize internal port state
-                                state = 0;
-                                results[targetPinGroup].Add(site, state);
-                            }
-
+                            // The state value will default to 0 if absent.
+                            perSiteStates.TryGetValue(site, out byte state);
                             results[targetPinGroup][site] = UpdateBitInByte(state, value, bitIndex);
                         }
                     }
