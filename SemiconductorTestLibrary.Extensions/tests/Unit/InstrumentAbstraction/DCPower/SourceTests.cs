@@ -10,7 +10,6 @@ using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
-using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
 
@@ -2171,8 +2170,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageTest);
-            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site0/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
-            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site1/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site0/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site1/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
         }
 
         [Fact]
@@ -2248,8 +2247,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageTest);
-            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site0/AllPinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
-            Assert.Contains("The PinSiteData contains different values for Cascaded pins in the \"Site1/AllPinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site0/AllPinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site1/AllPinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
         }
 
         [Fact]
