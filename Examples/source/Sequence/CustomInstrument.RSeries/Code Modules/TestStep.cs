@@ -24,7 +24,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <param name="dutDigitalInputPorts">The pin group names corresponding to the DUT digital input ports.</param>
         /// <param name="dutDigitalOutputPorts">The pin group names corresponding to the DUT digital output ports.</param>
         /// <param name="portData">The byte data to be written to the DUT's digital input ports.</param>
-        public static void DigitalReadWriteTest(ISemiconductorModuleContext tsmContext, string[] dutDigitalInputPorts, string[] dutDigitalOutputPorts, byte[] portData)
+        public static void DigitalReadWriteTest(
+            ISemiconductorModuleContext tsmContext,
+            string[] dutDigitalInputPorts,
+            string[] dutDigitalOutputPorts,
+            byte[] portData)
         {
             // The amount of time in seconds to wait for the DUT's output to settle.
             double settlingTime = 0.2;
@@ -121,8 +125,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="dutDigitalOutputPorts">The pin group names corresponding to the DUT digital output ports.</param>
         /// <param name="perPinData">Per site data values for each pin within the DUT's digital output ports</param>
-        /// <returns>A new <see cref="PinSiteData{T}"/> object of <see cref="byte"/>s representing the port values corresponding to the DUT's digital output ports.</returns>
-        private static PinSiteData<byte> ConvertDUTPortPinDataToByte(ISemiconductorModuleContext tsmContext, string[] dutDigitalOutputPorts, PinSiteData<bool> perPinData)
+        /// <returns>
+        /// A new <see cref="PinSiteData{T}"/> object of <see cref="byte"/>s representing the port values corresponding to the DUT's digital output ports.
+        /// </returns>
+        private static PinSiteData<byte> ConvertDUTPortPinDataToByte(
+            ISemiconductorModuleContext tsmContext,
+            string[] dutDigitalOutputPorts,
+            PinSiteData<bool> perPinData)
         {
             Dictionary<string, IDictionary<int, byte>> results = new Dictionary<string, IDictionary<int, byte>>();
             foreach (var targetPinGroup in dutDigitalOutputPorts)
