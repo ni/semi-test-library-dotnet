@@ -383,6 +383,39 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Fact]
+        public void DifferentSMUDevices_ForceVoltageWithDifferentPerPinPerSiteSettingsOnGangedPins_ThrowsException()
+        {
+            var pinNames = new string[] { "VCC1", "VCC2", "VCC3" };
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            var settings = new PinSiteData<DCPowerSourceSettings>(pinNames, new int[] { 0, 1 }, new DCPowerSourceSettings[][]
+            {
+                new DCPowerSourceSettings[]
+                {
+                    new DCPowerSourceSettings() { Level = 1, Limit = 0.1 },
+                    new DCPowerSourceSettings() { Level = 1.5, Limit = 0.2 },
+                },
+                new DCPowerSourceSettings[]
+                {
+                    new DCPowerSourceSettings() { Level = 3, Limit = 0.1 },
+                    new DCPowerSourceSettings() { Level = 3.5, Limit = 0.2 },
+                },
+                new DCPowerSourceSettings[]
+                {
+                    new DCPowerSourceSettings() { Level = 3, Limit = 0.1 },
+                    new DCPowerSourceSettings() { Level = 3.5, Limit = 0.2 },
+                }
+            });
+            void ForceVoltageTest() => sessionsBundle.ForceVoltage(settings);
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+        }
+
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
@@ -1933,9 +1966,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceVoltage(settings);
             }
 
-            var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageTest);
-            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site0/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
-            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site1/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -2170,9 +2203,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceVoltage(voltageLevels: new Dictionary<string, double>() { ["VCC1"] = 1, ["VCC2"] = 2, ["VCC3"] = 3, ["VCC4"] = 2, ["VCC5"] = 2 }, currentLimit: 0.6);
             }
 
-            var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageTest);
-            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site0/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
-            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site1/ThreePinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -2247,9 +2280,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ForceVoltage(voltageLevels, currentLimit: 4.5);
             }
 
-            var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageTest);
-            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site0/AllPinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
-            Assert.Contains("The parameter contains different values for Cascaded pins in the \"Site1/AllPinsGangedGroup\" group. All pins within a Cascaded group must have the same value.", exception.Message);
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
