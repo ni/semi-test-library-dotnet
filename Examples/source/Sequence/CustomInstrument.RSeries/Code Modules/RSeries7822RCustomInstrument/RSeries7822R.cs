@@ -229,6 +229,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             return portsData;
         }
 
+        /// <summary>
+        /// Validates the status returned by the lower-level P/Invoke methods of the RSeries7822RDriverAPI.
+        /// Throws an exception with the exceptionMessage passed in when an error status is returned.
+        /// </summary>
+        /// <param name="exceptionMessage">The message to associate when an exception occurs.</param>
+        /// <exception cref="RSeries7822RDriverAPIException"></exception>
         private void ValidateStatus(string exceptionMessage)
         {
             if (_status != 0)
@@ -237,42 +243,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             }
         }
 
+        /// <summary>
+        /// Builds the connector-port name string required to pass to the lower-level P/Invoke methods of the RSeries7822RDriverAPI.
+        /// </summary>
+        /// <param name="connectorNumber">The connector number.</param>
+        /// <param name="portNumber">The port number.</param>
+        /// <returns>
+        /// The connector-port name string.
+        /// </returns>
         private string BuildPortName(int connectorNumber, int portNumber)
         {
             return $"Connector{connectorNumber}_DIOPORT{portNumber}";
         }
-    }
-
-    internal struct ChannelInfo
-    {
-        public int ConnectorNumber;
-        public int ChannelNumber;
-        public int PortNumber;
-        public int PortIndex;
-        public PortMode Mode;
-
-        public ChannelInfo(int connectorNumber, int portNumber, int channelNumber, int portIndex, PortMode mode)
-        {
-            ConnectorNumber = connectorNumber;
-            PortNumber = portNumber;
-            ChannelNumber = channelNumber;
-            PortIndex = portIndex;
-            Mode = mode;
-        }
-    }
-
-    /// <summary>
-    /// Represents the possible configuration modes for the digital ports of an R Series device, either Input or Output.
-    /// </summary>
-    public enum PortMode
-    {
-        /// <summary>
-        /// Output mode.
-        /// </summary>
-        Output,
-        /// <summary>
-        /// Input mode.
-        /// </summary>
-        Input
     }
 }
