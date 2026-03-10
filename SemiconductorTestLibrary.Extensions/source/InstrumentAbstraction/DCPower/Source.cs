@@ -134,7 +134,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidateCascadedPinGroupValues<IDictionary<string, double>>(hasGangedChannels, voltageLevels);
+            sessionsBundle.ValidateCascadedPinGroupPinValues<IDictionary<string, double>>(hasGangedChannels, voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -163,8 +163,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
-            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
-            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -195,7 +194,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidateCascadedPinGroupValues<PinSiteData<double>>(hasGangedChannels, voltageLevels);
+            sessionsBundle.ValidateCascadedPinGroupPinValues<PinSiteData<double>>(hasGangedChannels, voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -270,7 +269,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidateCascadedPinGroupValues<IDictionary<string, DCPowerSourceSettings>>(hasGangedChannels, settings);
+            sessionsBundle.ValidateCascadedPinGroupPinValues<IDictionary<string, DCPowerSourceSettings>>(hasGangedChannels, settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perPinSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
@@ -291,7 +290,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidateCascadedPinGroupValues<PinSiteData<DCPowerSourceSettings>>(hasGangedChannels, settings);
+            sessionsBundle.ValidateCascadedPinGroupPinValues<PinSiteData<DCPowerSourceSettings>>(hasGangedChannels, settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
@@ -1826,7 +1825,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        private static void ValidateCascadedPinGroupValues<T>(
+        private static void ValidateCascadedPinGroupPinValues<T>(
             this DCPowerSessionsBundle sessionsBundle, bool validateCascading, T pinValues)
         {
             if (validateCascading)
@@ -1837,7 +1836,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo)
                     {
                         double pinValue = GetPinValueFrom(pinValues, sitePinInfo);
-                        VerifyGroupValueAgaintPinValue(sitePinGroupToValue, sitePinInfo.SiteNumber, gangingInfo.GroupName, pinValue);
+                        VerifyGroupValueAgainstPinValue(sitePinGroupToValue, sitePinInfo.SiteNumber, gangingInfo.GroupName, pinValue);
                     }
                 });
             }
@@ -1868,7 +1867,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return pinValue;
         }
 
-        private static void VerifyGroupValueAgaintPinValue(Dictionary<string, double> sitePinGroupToValue, int siteNumber, string pinGroupName, double pinValue)
+        private static void VerifyGroupValueAgainstPinValue(Dictionary<string, double> sitePinGroupToValue, int siteNumber, string pinGroupName, double pinValue)
         {
             string sitePinGroupName = $"Site{siteNumber}/" + pinGroupName;
             lock (sitePinGroupToValue)
