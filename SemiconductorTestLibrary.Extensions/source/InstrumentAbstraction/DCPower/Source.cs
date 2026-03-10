@@ -1976,7 +1976,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var result = new HashSet<DCPowerAdvancedSequenceProperty>();
             foreach (var stepProperties in perStepProperties)
             {
-                foreach (var (property, enumValue) in Utilities.GetPropertyMappingsCache())
+                foreach (var (property, enumValue) in Utilities.PropertyMappingsCache)
                 {
                     if (property.GetValue(stepProperties) != null)
                     {
