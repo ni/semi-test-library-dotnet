@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4162_C5_S10" numberOfChannels="12">
+			<ChannelGroup name="SMU_4162_C5_S10_AllChannels" />
+		</NIDCPowerInstrument>
+	</Instruments>
+	<Pins>
+		<DUTPin name="VCC0" />
+		<DUTPin name="VCC1" />
+		<DUTPin name="VCC2" />
+		<DUTPin name="VCC3" />
+		<DUTPin name="VCC4" />
+		<DUTPin name="VCC5" />
+		<DUTPin name="VCC6" />
+		<DUTPin name="VCC7" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="AllPinsGroup">
+			<PinReference pin="VCC1" />
+			<PinReference pin="VCC2" />
+			<PinReference pin="VCC3" />
+			<PinReference pin="VCC4" />
+			<PinReference pin="VCC5" />
+			<PinReference pin="VCC6" />
+			<PinReference pin="VCC7" />
+			<PinReference pin="VCC0" />
+		</PinGroup>
+		<PinGroup name="FourPinsGroup">
+			<PinReference pin="VCC0" />
+			<PinReference pin="VCC1" />
+			<PinReference pin="VCC2" />
+			<PinReference pin="VCC3" />
+		</PinGroup>
+		<PinGroup name="ThreePinsGroup">
+			<PinReference pin="VCC5" />
+			<PinReference pin="VCC6" />
+			<PinReference pin="VCC7" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+	</Sites>
+	<Connections>
+		<Connection pin="VCC0" siteNumber="0" instrument="SMU_4162_C5_S10" channel="0" />
+		<Connection pin="VCC2" siteNumber="0" instrument="SMU_4162_C5_S10" channel="2" />
+		<Connection pin="VCC3" siteNumber="0" instrument="SMU_4162_C5_S10" channel="3" />
+		<Connection pin="VCC4" siteNumber="0" instrument="SMU_4162_C5_S10" channel="4" />
+		<Connection pin="VCC5" siteNumber="0" instrument="SMU_4162_C5_S10" channel="5" />
+		<Connection pin="VCC6" siteNumber="0" instrument="SMU_4162_C5_S10" channel="6" />
+		<Connection pin="VCC7" siteNumber="0" instrument="SMU_4162_C5_S10" channel="7" />
+		<Connection pin="VCC1" siteNumber="0" instrument="SMU_4162_C5_S10" channel="1" />
+	</Connections>
+</PinMap>
