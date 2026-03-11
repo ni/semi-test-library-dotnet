@@ -384,7 +384,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceVoltageWithDifferentPerPinPerSiteSettingsOnGangedPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ForceDifferentVoltageWithPerPinPerSiteSettingsOnGangedPins_ThrowsException()
         {
             var pinNames = new string[] { "VCC1", "VCC2", "VCC3" };
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -1947,7 +1947,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinSettingsObjectOnGangedPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ForceDifferentVoltageWithPerPinSettingsObjectOnGangedPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
