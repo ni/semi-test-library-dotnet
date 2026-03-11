@@ -4292,6 +4292,13 @@
             <param name="modelString">The model string of the DC Power instrument.</param>
             <returns>An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType"/> values that are unsupported for the given model string.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities.GetUnsupportedModels(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType[])">
+            <summary>
+            Returns the set of DC Power instrument model strings that are not supported for the specified trigger types.
+            </summary>
+            <param name="triggerTypes">The trigger types for which to retrieve unsupported model strings.</param>
+            <returns>An enumerable of model strings that are unsupported for the given trigger types.</returns>
+        </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities._propertyMappingsCache">
             <summary>
             Caches mappings between properties of DCPowerAdvancedSequenceStepProperties and their corresponding DCPowerAdvancedSequenceProperty enum values.
@@ -5540,29 +5547,24 @@
               Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are not present in the DCPowerSessionsBundle. Ensure that all pins required for cascading or uncascading are included in the bundle..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ModelNotSupportedForGanging">
+            <summary>
+              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are connected to SMU(s) that doesn&apos;t support Ganging..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_NotUsingChannelGroups">
             <summary>
               Looks up a localized string similar to Convert DCPower instruments to use channel groups in the pinmap..
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupAlreadyCascaded">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupContainsCascadedPin">
             <summary>
-              Looks up a localized string similar to Uncascade PinGroup &quot;{0}&quot; first, before trying to cascade PinGroup &quot;{1}&quot;..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupContainsGangedPin">
-            <summary>
-              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; are part of a ganged pin group. Cannot perform Merge operation on ganged pins..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupContainsMergedSecondaryChannel">
-            <summary>
-              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; are secondary pin(s) of a merged pin group. Cannot perform Gang operation on merged secondary pins..
+              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are part of a cascaded pin group. Cannot perform Merge or Gang operation on cascaded pins..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupNotCascaded">
             <summary>
-              Looks up a localized string similar to PinGroup &quot;{0}&quot; is not cascaded. Uncascade operation is invalid. .
+              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are not cascaded. Uncascade operation is invalid. .
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_InvalidTSMContext">
