@@ -19,8 +19,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         private const int ConnectorsPerDevice = 2;
         private const int PortsPerConnector = ChannelsPerConnector / ChannelsPerPort;
         private readonly ulong _referenceId;
-        private readonly int _inputConnectorCount;
-        private readonly int _inputPortCount;
         private int _status;
 
         /// <summary>
@@ -156,13 +154,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                     InputPorts.Add(connectorPort);
                 }
 
-                ChannelInfoMap.Add(channelInfoString, new ChannelInfo(connectorNumber, portNumber, channelNumber, portIndex, portMode));
+                ChannelInfoMap.Add(
+                    channelInfoString,
+                    new ChannelInfo(connectorNumber, portNumber, channelNumber, portIndex, portMode, channelNumber % ChannelsPerPort));
             }
-
-            // Cache the number of input connectors and ports so that this is only calculated only once, upfront,
-            // and can be efficiently retrieved by each invocation of the ReadPortData method.
-            _inputConnectorCount = InputPorts.Select(x => x.Item1).Distinct().Count();
-            _inputPortCount = InputPorts.Select(x => x.Item2).Distinct().Count();
 
             // Open FPGA reference by deploying BitFile on the RIO device of the given Instrument.
             string bitFilePath = RSeries7822RDriverAPI.BitFilePath();
@@ -235,33 +230,28 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <summary>
         /// RSeries card read channel data operation.
         /// </summary>
-        /// <returns>Port data, where the first dimension represents the connector and the second dimension represents the ports.</returns>
+        /// <returns>
+        /// An <see cref="IDictionary{TKey, TValue}"/> containing a single byte value for each
+        /// port of the R Series device. Each entry is keyed by a (connector, port) tuple,
+        /// where the first item identifies the connector number and the second item
+        /// identifies the port number.
+        /// </returns>
         /// <exception cref="Exception">Thrown when FPGA 'ReadData' fails.</exception>
-        public byte[][] ReadPortData()
+        public IDictionary<(int, int), byte> ReadPortData()
         {
             // Initialize jagged array for storing port data.
-            var portsData = new byte[_inputConnectorCount][];
+            var portsData = new Dictionary<(int, int), byte>();
 
             // Read port date from R series device and store values in jagged array.
-            for (int i = 0; i < InputPorts.Count; i++)
+            foreach (var inputPort in InputPorts)
             {
-                var key = InputPorts[i];
-                int connectorNumber = key.Item1;
-                int portNumber = key.Item2;
+                int connectorNumber = inputPort.Item1;
+                int portNumber = inputPort.Item2;
                 string portName = BuildPortName(connectorNumber, portNumber);
                 _status = RSeries7822RDriverAPI.ReadData(_referenceId, portName, out byte data);
                 ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, PortNumber:{portNumber}");
 
-                // Allocate new byte array for each connector
-                if (portsData[connectorNumber] == null)
-                {
-                    portsData[connectorNumber] = new byte[_inputPortCount];
-                }
-                // Get the index of the connectorNumber and portNumber relative to the inputPorts array.
-                int connectorNumberIndex = connectorNumber % _inputConnectorCount;
-                int portNumberIndex = portNumber % _inputPortCount;
-                // Fill the array with the specific port's data
-                portsData[connectorNumberIndex][portNumberIndex] = data;
+                portsData.Add((connectorNumber, portNumber), data);
             }
 
             return portsData;
