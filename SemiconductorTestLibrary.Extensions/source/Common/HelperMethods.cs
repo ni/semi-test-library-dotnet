@@ -86,5 +86,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         {
             return new PinSiteData<double[]>(pinNames, siteNumbers, CreateRampSequence(outputStart, outputStop, numberOfPoints));
         }
+
+        internal static string ExcludeSpecificChannel(this string channelString, string channelToExclude)
+        {
+            return string.Join(",", channelString.Split(',').Where(s => !s.Contains($"/{channelToExclude}")));
+        }
     }
 }
