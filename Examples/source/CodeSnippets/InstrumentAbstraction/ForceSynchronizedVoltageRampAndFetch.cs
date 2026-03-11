@@ -39,7 +39,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">The SMU pins to force voltage sequence on.</param>
-        internal static void DifferentValuesPerSiteAcrossAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        public static void DifferentValuesPerSiteAcrossAllSmuPins(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var activeSites = tsmContext.SiteNumbers.ToArray();
@@ -58,7 +58,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">The SMU pins to force voltage sequence on.</param>
-        internal static void DifferentLevelsPerSmuPin(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        public static void DifferentValuesPerSmuPin(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var activeSites = tsmContext.SiteNumbers.ToArray();
