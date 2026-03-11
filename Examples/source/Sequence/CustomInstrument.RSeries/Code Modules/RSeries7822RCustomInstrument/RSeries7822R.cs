@@ -63,12 +63,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <remarks>
         /// Store the current state of each port. This information is needed to perform driver operation on specific port.
         /// </remarks>
-        private IDictionary<(int, int), byte> OutputPortStates { get; } = new Dictionary<(int, int), byte>();
+        internal IDictionary<(int, int), byte> OutputPortStates { get; } = new Dictionary<(int, int), byte>();
 
         /// <summary>
         /// The internal tracked input ports.
         /// </summary>
-        private IList<(int, int)> InputPorts { get; } = new List<(int, int)>();
+        internal IList<(int, int)> InputPorts { get; } = new List<(int, int)>();
 
         /// <summary>
         /// Opens FPGA reference of the R series device.
