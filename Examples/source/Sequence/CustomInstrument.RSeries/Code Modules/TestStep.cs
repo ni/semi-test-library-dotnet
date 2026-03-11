@@ -154,7 +154,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                             bool value = perPinData.GetValue(site, pin);
                             // The state value will default to 0 if absent.
                             perSiteStates.TryGetValue(site, out byte state);
-                            results[targetPinGroup][site] = UpdateBitInByte(state, value, bitIndex);
+                            perSiteStates[site] = UpdateBitInByte(state, value, bitIndex);
                         }
                     }
                 }
