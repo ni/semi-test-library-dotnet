@@ -55,7 +55,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// Maps an individual channel string, from the pin map definition, to it's ConnectorNumber, PortNumber, and ChannelNumber.
         /// Includes the configuration of each channel of the device, which can either be an Output or an Input, depending on the port.
         /// </remarks>
-        internal Dictionary<string, ChannelInfo> ChannelInfoMap { get; } = new Dictionary<string, ChannelInfo>();
+        internal IDictionary<string, ChannelInfo> ChannelInfoMap { get; } = new Dictionary<string, ChannelInfo>();
 
         /// <summary>
         /// The internal tracked states of all ports configured as output ports.
@@ -63,12 +63,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <remarks>
         /// Store the current state of each port. This information is needed to perform driver operation on specific port.
         /// </remarks>
-        private Dictionary<(int, int), byte> OutputPortStates { get; } = new Dictionary<(int, int), byte>();
+        private IDictionary<(int, int), byte> OutputPortStates { get; } = new Dictionary<(int, int), byte>();
 
         /// <summary>
         /// The internal tracked input ports.
         /// </summary>
-        private List<(int, int)> InputPorts { get; } = new List<(int, int)>();
+        private IList<(int, int)> InputPorts { get; } = new List<(int, int)>();
 
         /// <summary>
         /// Opens FPGA reference of the R series device.
@@ -103,15 +103,16 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 // Ports are 8 bits wide.
                 // This implementation intentionally allows the flexibility to specify the channels without or out the port.
                 // Such that, the port can be inferred and both of these values are acceptable: "Connector0_Port1_DIO5", "Connector0_DIO5".
-                parseResult = TryParseStringSegment(channelInfoSegments, PortStringId, out int portNumber);
                 int expectedPortNumber = channelNumber / 8;
-                if (parseResult && portNumber != expectedPortNumber)
+                if (!TryParseStringSegment(channelInfoSegments, PortStringId, out int portNumber))
                 {
-                    throw new ArgumentException($"Invalid port number {portNumber} specified in channelList value: {channelInfoString}.");
-                }
-                if (!parseResult)
-                {
+                    // Port string ID not found in channelInfoSegments. Fallback to expected/inferred port number.
                     portNumber = expectedPortNumber;
+                }
+                else if (portNumber != expectedPortNumber)
+                {
+                    // Port string ID found in channelInfoSegments, but it is invalid.
+                    throw new ArgumentException($"Invalid port number {portNumber} specified in channelList value: {channelInfoString}.");
                 }
 
                 // This is the specific bit in port that the channel maps to.
