@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
 using static NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.Common.Utilities;
 
@@ -12,11 +13,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     /// </summary>
     public class RSeries7822R : ICustomInstrument
     {
-        private const string ConnectorStringId = "Connector";
-        private const string ChannelStringId = "DIO";
-        private const string PortStringId = "Port";
-        private const string ParseExceptionMsg = "The channelList must be a comma separated string of values, " +
-        "where each value is formatted as either: \"Connector0_Port1_DIO5\" or  \"Connector0_DIO5\".";
+        private const string ChannelStringPattern = @"^Connector(?<Connector>\d+)(?:_Port(?<Port>\d+))?_DIO(?<DIO>\d+)$";
+        private const int ChannelsPerConnector = 32;
+        private const int ChannelsPerPort = 8;
+        private const int ConnectorsPerDevice = 2;
+        private const int PortsPerConnector = ChannelsPerConnector / ChannelsPerPort;
         private readonly ulong _referenceId;
         private readonly int _inputConnectorCount;
         private readonly int _inputPortCount;
@@ -78,6 +79,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <param name="channelList">Channel List as defined in the Pin Map</param>
         public RSeries7822R(string instrumentName, string channelGroupId, string channelList)
         {
+            if (string.IsNullOrEmpty(instrumentName) && string.IsNullOrEmpty(channelGroupId) && string.IsNullOrEmpty(channelList))
+            {
+                throw new ArgumentException(
+                    $"One or more arguments passed into the {nameof(RSeries7822R)} constructor is either null or an empty string.");
+            }
+
             // Store instrument name, channel and channel group information in the class object.
             InstrumentName = instrumentName;
             ChannelGroupId = channelGroupId;
@@ -86,37 +93,54 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Organize internal tracking information of each channel based on port and connector.
             // This will be used for easy lookup within class methods.
             string[] channels = ChannelList.Split(',').Select(x => x.Trim()).ToArray();
+
+            var regex = new Regex(ChannelStringPattern, RegexOptions.Compiled);
             foreach (string channelInfoString in channels)
             {
-                var channelInfoSegments = channelInfoString.Split('_').Select(x => x.Trim());
-                bool parseResult;
-                parseResult = TryParseStringSegment(channelInfoSegments, ConnectorStringId, out int connectorNumber);
-                if (!parseResult)
+                var matches = regex.Match(channelInfoString);
+                if (!matches.Groups["Connector"].Success && !matches.Groups["DIO"].Success)
                 {
-                    throw new ArgumentException(ParseExceptionMsg);
+                    throw new ArgumentException($"Invalid value in channelList ({channelInfoString}). " +
+                        "The channelList must be a comma separated string of values, " +
+                        "where each value is formatted as either: \"Connector0_Port1_DIO5\" or  \"Connector0_DIO5\".");
                 }
-                parseResult = TryParseStringSegment(channelInfoSegments, ChannelStringId, out int channelNumber);
-                if (!parseResult)
+
+                int connectorNumber = int.Parse(matches.Groups["Connector"].Value, NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
+                var maxConnectorNumber = ConnectorsPerDevice - 1;
+                if (connectorNumber > maxConnectorNumber)
                 {
-                    throw new ArgumentException(ParseExceptionMsg);
+                    throw new ArgumentException($"Invalid connector number ({connectorNumber}) specified in channelList value: {channelInfoString}." +
+                        $"The connector number must be zero indexed and less than or equal to {maxConnectorNumber}");
                 }
-                // Ports are 8 bits wide.
-                // This implementation intentionally allows the flexibility to specify the channels without or out the port.
+
+                int channelNumber = int.Parse(matches.Groups["DIO"].Value, NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
+                var maxChannelNumber = ChannelsPerConnector - 1;
+                if (channelNumber > maxChannelNumber)
+                {
+                    throw new ArgumentException($"Invalid channel number ({channelNumber}) specified in channelList value: {channelInfoString}." +
+                        $"The channel number must be zero indexed and less than or equal to {maxChannelNumber}");
+                }
+
+                // Ports are expected to be 8 bits wide. This can be changed via the ChannelsPerPort constant.
+                // This implementation intentionally allows the flexibility to specify the channels with or without the port.
                 // Such that, the port can be inferred and both of these values are acceptable: "Connector0_Port1_DIO5", "Connector0_DIO5".
-                int expectedPortNumber = channelNumber / 8;
-                if (!TryParseStringSegment(channelInfoSegments, PortStringId, out int portNumber))
+                // If the port string is not provided within the channelInfoString, the expected/inferred port number will be used,
+                // which is based on how wide each port is.
+                // If the port string is provided within the channelInfoString, it will be used if valid.
+                int expectedPortNumber = channelNumber / ChannelsPerPort;
+                int portNumber = expectedPortNumber;
+                if (matches.Groups["Port"].Success)
                 {
-                    // Port string ID not found in channelInfoSegments. Fallback to expected/inferred port number.
-                    portNumber = expectedPortNumber;
+                    portNumber = int.Parse(matches.Groups["Port"].Value, NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
                 }
-                else if (portNumber != expectedPortNumber)
+                if (portNumber != expectedPortNumber || portNumber > (PortsPerConnector - 1))
                 {
                     // Port string ID found in channelInfoSegments, but it is invalid.
-                    throw new ArgumentException($"Invalid port number {portNumber} specified in channelList value: {channelInfoString}.");
+                    throw new ArgumentException($"Invalid port number ({portNumber}) specified in channelList value: {channelInfoString}.");
                 }
 
                 // This is the specific bit in port that the channel maps to.
-                int portIndex = channelNumber % 8;
+                int portIndex = channelNumber % ChannelsPerPort;
 
                 // Statically defines the port mode such that the first two ports of each connector are designated Output ports,
                 // while the second two ports of each connector are designated Input ports.
@@ -268,29 +292,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         private string BuildPortName(int connectorNumber, int portNumber)
         {
             return $"Connector{connectorNumber}_DIOPORT{portNumber}";
-        }
-
-
-        /// <summary>
-        /// Determines if any of the elements in inputStringSegments starts with the segmentId,
-        /// and parses the first matched segment for an integer number after the segmentId (e.g. segmentId5, number = 5).
-        /// The return value indicates whether the parse operation succeeded.
-        /// </summary>
-        /// <param name="inputStringSegments">Array of string segments to parse and validate.</param>
-        /// <param name="segmentId">The segment ID string to search for.</param>
-        /// <param name="number">The integer number parsed after the segmentId.</param>
-        /// <returns>
-        /// Returns false if no match is made, or there is no integer number after the segmentId. Otherwise, returns true.
-        /// </returns>
-        private static bool TryParseStringSegment(IEnumerable<string> inputStringSegments, string segmentId, out int number)
-        {
-            number = 0;
-            string inputString = inputStringSegments.FirstOrDefault(s => s.StartsWith(segmentId, StringComparison.Ordinal));
-            return !string.IsNullOrEmpty(inputString) && int.TryParse(
-                    inputString.Substring(segmentId.Length),
-                    NumberStyles.Integer,
-                    NumberFormatInfo.InvariantInfo,
-                    out number);
         }
     }
 }
