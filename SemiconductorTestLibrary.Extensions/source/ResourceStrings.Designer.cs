@@ -115,11 +115,29 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}.
+        /// </summary>
+        internal static string DCPower_InconsistentAdvancedSequenceProperties {
+            get {
+                return ResourceManager.GetString("DCPower_InconsistentAdvancedSequenceProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The channelOutput contains more than one channel &quot;{0}&quot;. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
         /// </summary>
         internal static string DCPower_MultipleChannelOutputsDetected {
             get {
                 return ResourceManager.GetString("DCPower_MultipleChannelOutputsDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified instrument ({0}) does not support one or more of the requested advanced sequence properties..
+        /// </summary>
+        internal static string DCPowerDeviceNotSupported {
+            get {
+                return ResourceManager.GetString("DCPowerDeviceNotSupported", resourceCulture);
             }
         }
         
@@ -142,11 +160,38 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The offset count for instrument index ({0}) is invalid. Expected either ({1}) offset for primary and non-shared channels or ({2}) offsets for all site-pin channels, including shared shadows. Received ({3}) offsets instead..
+        /// </summary>
+        internal static string Digital_TDROffsetsCountMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TDROffsetsCountMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of instrument session offsets provided ({0}) does not match the number of instrument sessions in the bundle ({1})..
+        /// </summary>
+        internal static string Digital_TDROffsetsInstrumentCountMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TDROffsetsInstrumentCountMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TDR offsets for following channels are missing from {0}: {1}..
         /// </summary>
         internal static string Digital_TDROffsetsMissing {
             get {
                 return ResourceManager.GetString("Digital_TDROffsetsMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inconsistent offsets for shared channel on instrument index ({0}). Primary channel ({1}) offset ({2}) must match shared shadow channel ({3}) offset ({4})..
+        /// </summary>
+        internal static string Digital_TDROffsetsSharedChannelMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TDROffsetsSharedChannelMismatch", resourceCulture);
             }
         }
         
