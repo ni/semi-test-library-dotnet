@@ -384,7 +384,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevices_ForceVoltageWithDifferentPerPinPerSiteSettingsOnGangedPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ForceVoltageWithDifferentPerPinPerSiteSettingsOnGangedPins_ThrowsException()
         {
             var pinNames = new string[] { "VCC1", "VCC2", "VCC3" };
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
