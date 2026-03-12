@@ -110,7 +110,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 }
                 for (int expandedPinIndex = 0; expandedPinIndex < expandedPins.Length; expandedPinIndex++)
                 {
-                    expandedPinData.Add((portValue & (1 << expandedPinIndex)) != 0);
+                    expandedPinData.Add(GetBitFromByte((byte)portValue, expandedPinIndex));
                 }
                 expandedInputPins.AddRange(expandedPins);
             }

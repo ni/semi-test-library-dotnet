@@ -1,6 +1,7 @@
 ﻿using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
+using static NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.Common.Utilities;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.RSeries7822RCustomInstrument
 {
@@ -51,8 +52,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 {
                     var channelString = sessionInfo.AssociatedSitePinList[i].IndividualChannelString;
                     var channelInfo = session.ChannelInfoMap[channelString];
-                    results[i] =
-                    ((portData[(channelInfo.ConnectorNumber, channelInfo.PortNumber)] >> channelInfo.ChannelIndex) & 1) != 0;
+                    results[i] = GetBitFromByte(
+                        portData[(channelInfo.ConnectorNumber, channelInfo.PortNumber)],
+                        channelInfo.ChannelIndex);
                 }
                 return results;
             });
