@@ -1,5 +1,4 @@
-﻿using NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.RSeries7822RCustomInstrument;
-using System;
+﻿using System;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.Common
 {
@@ -32,17 +31,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <summary>
         /// Gets the value of a specific bit within a byte.
         /// </summary>
-        /// <param name="currentByteValue">The current byte value.</param>
+        /// <param name="byteValue">The byte value.</param>
         /// <param name="bitIndex">The index of the bit within the byte.</param>
         /// <returns>The <see cref="bool"/> value of the bit.</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static bool GetBitFromByte(byte currentByteValue, int bitIndex)
+        public static bool GetBitFromByte(byte byteValue, int bitIndex)
         {
             if ((uint)bitIndex >= 8)
             {
                 throw new ArgumentOutOfRangeException(nameof(bitIndex));
             }
-            return (currentByteValue & (1 << bitIndex)) != 0;
+            return (byteValue & (1 << bitIndex)) != 0;
         }
     }
 }
