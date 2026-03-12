@@ -93,49 +93,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             string[] channels = ChannelList.Split(',').Select(x => x.Trim()).ToArray();
 
             var regex = new Regex(ChannelStringPattern, RegexOptions.Compiled);
-            foreach (string channelInfoString in channels)
+            foreach (string channelString in channels)
             {
-                var matches = regex.Match(channelInfoString);
-                if (!matches.Groups["Connector"].Success && !matches.Groups["DIO"].Success)
-                {
-                    throw new ArgumentException($"Invalid value in channelList ({channelInfoString}). " +
-                        "The channelList must be a comma separated string of values, " +
-                        "where each value is formatted as either: \"Connector0_Port1_DIO5\" or  \"Connector0_DIO5\".");
-                }
-
-                int connectorNumber = int.Parse(matches.Groups["Connector"].Value, NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
-                var maxConnectorNumber = ConnectorsPerDevice - 1;
-                if (connectorNumber > maxConnectorNumber)
-                {
-                    throw new ArgumentException($"Invalid connector number ({connectorNumber}) specified in channelList value: {channelInfoString}." +
-                        $"The connector number must be zero indexed and less than or equal to {maxConnectorNumber}");
-                }
-
-                int channelNumber = int.Parse(matches.Groups["DIO"].Value, NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
-                var maxChannelNumber = ChannelsPerConnector - 1;
-                if (channelNumber > maxChannelNumber)
-                {
-                    throw new ArgumentException($"Invalid channel number ({channelNumber}) specified in channelList value: {channelInfoString}." +
-                        $"The channel number must be zero indexed and less than or equal to {maxChannelNumber}");
-                }
-
-                // Ports are expected to be 8 bits wide. This can be changed via the ChannelsPerPort constant.
-                // This implementation intentionally allows the flexibility to specify the channels with or without the port.
-                // Such that, the port can be inferred and both of these values are acceptable: "Connector0_Port1_DIO5", "Connector0_DIO5".
-                // If the port string is not provided within the channelInfoString, the expected/inferred port number will be used,
-                // which is based on how wide each port is.
-                // If the port string is provided within the channelInfoString, it will be used if valid.
-                int expectedPortNumber = channelNumber / ChannelsPerPort;
-                int portNumber = expectedPortNumber;
-                if (matches.Groups["Port"].Success)
-                {
-                    portNumber = int.Parse(matches.Groups["Port"].Value, NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
-                }
-                if (portNumber != expectedPortNumber || portNumber > (PortsPerConnector - 1))
-                {
-                    // Port string ID found in channelInfoSegments, but it is invalid.
-                    throw new ArgumentException($"Invalid port number ({portNumber}) specified in channelList value: {channelInfoString}.");
-                }
+                // The channelString must be parsed and validated to extract individual integer values for the connector, port, and channel.
+                ParseAndValidateChannelString(channelString, regex, out int connectorNumber, out int portNumber, out int channelNumber);
 
                 // This is the specific bit in port that the channel maps to.
                 int portIndex = channelNumber % ChannelsPerPort;
@@ -155,7 +116,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 }
 
                 ChannelInfoMap.Add(
-                    channelInfoString,
+                    channelString,
                     new ChannelInfo(connectorNumber, portNumber, channelNumber, portIndex, portMode, channelNumber % ChannelsPerPort));
             }
 
@@ -239,10 +200,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <exception cref="Exception">Thrown when FPGA 'ReadData' fails.</exception>
         public IDictionary<(int, int), byte> ReadPortData()
         {
-            // Initialize jagged array for storing port data.
+            // Initialize dictionary object for storing port data.
             var portsData = new Dictionary<(int, int), byte>();
 
-            // Read port date from R series device and store values in jagged array.
+            // Read data from each input port of the R series device and add values to dictionary.
             foreach (var inputPort in InputPorts)
             {
                 int connectorNumber = inputPort.Item1;
@@ -255,6 +216,64 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             }
 
             return portsData;
+        }
+
+        /// <summary>
+        /// Parses and validates the channelString to extract the connectorNumber, portNumber, and channelNumber.
+        /// </summary>
+        /// <param name="channelString">
+        /// The string value representing the information associated with the channel.
+        /// The value of which is expected to be formatted as either:
+        /// "Connector{connectorNumber}_Port{portNumber}_DIO{channelNumber}" or  "Connector{connectorNumber}_DIO{channelNumber}".
+        /// </param>
+        /// <param name="regex">The <see cref="Regex"/> object representing the immutable regular expression used to parse the channelString.</param>
+        /// <param name="connectorNumber">The zero-based number that identifies the channel of the device within its associated connector.</param>
+        /// <param name="portNumber">The zero-based number for the port associated with the channel.</param>
+        /// <param name="channelNumber">The zero-based number that identifies the channel of the device within its associated connector.</param>
+        private void ParseAndValidateChannelString(string channelString, Regex regex, out int connectorNumber, out int portNumber, out int channelNumber)
+        {
+            var matches = regex.Match(channelString);
+            if (!matches.Groups["Connector"].Success && !matches.Groups["DIO"].Success)
+            {
+                throw new ArgumentException($"Invalid value in channelList ({channelString}). " +
+                    "The channelList must be a comma separated string of values, " +
+                    "where each value is formatted as either: \"Connector0_Port1_DIO5\" or  \"Connector0_DIO5\".");
+            }
+
+            connectorNumber = int.Parse(matches.Groups["Connector"].Value, NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
+            var maxConnectorNumber = ConnectorsPerDevice - 1;
+            if (connectorNumber > maxConnectorNumber)
+            {
+                throw new ArgumentException($"Invalid connector number ({connectorNumber}) specified in channelList value: {channelString}." +
+                    $"The connector number must be zero indexed and less than or equal to {maxConnectorNumber}");
+            }
+
+            channelNumber = int.Parse(matches.Groups["DIO"].Value, NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
+            var maxChannelNumber = ChannelsPerConnector - 1;
+            if (channelNumber > maxChannelNumber)
+            {
+                throw new ArgumentException($"Invalid channel number ({channelNumber}) specified in channelList value: {channelString}." +
+                    $"The channel number must be zero indexed and less than or equal to {maxChannelNumber}");
+            }
+
+            // Ports are expected to be 8 bits wide. This can be changed via the ChannelsPerPort constant.
+            // This implementation intentionally allows the flexibility to specify the channels with or without the port.
+            // Such that, the port can be inferred and both of these values are acceptable: "Connector0_Port1_DIO5", "Connector0_DIO5".
+            // If the port string is not provided within the channelInfoString, the expected/inferred port number will be used,
+            // which is based on how wide each port is.
+            // If the port string is provided within the channelInfoString, it will be used if valid.
+            int expectedPortNumber = channelNumber / ChannelsPerPort;
+            portNumber = expectedPortNumber;
+            if (matches.Groups["Port"].Success)
+            {
+                portNumber = int.Parse(matches.Groups["Port"].Value, NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
+
+                if (portNumber != expectedPortNumber || portNumber > (PortsPerConnector - 1))
+                {
+                    // Port string ID found in channelInfoSegments, but it is invalid.
+                    throw new ArgumentException($"Invalid port number ({portNumber}) specified in channelList value: {channelString}.");
+                }
+            }
         }
 
         /// <summary>
