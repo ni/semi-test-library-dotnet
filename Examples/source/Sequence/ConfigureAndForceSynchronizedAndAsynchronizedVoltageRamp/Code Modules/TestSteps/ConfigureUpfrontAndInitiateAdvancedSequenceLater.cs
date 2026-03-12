@@ -27,6 +27,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Configure the measure settings upfront
             dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
 
+            // Configure the source settings upfront
+            dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 10, TransientResponse = DCPowerSourceTransientResponse.Normal });
+
+            dcPowerPins.Commit();
+
             // configure the advanced sequence upfront, but do not set it as the active sequence. This allows you to initiate the advanced sequence later in your test flow without needing to reconfigure it.
             var advanceSequenceName = "MyAdvancedSequence";
             var advanceSequenceSettings = new List<DCPowerAdvancedSequenceStepProperties>
@@ -38,10 +43,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             dcPowerPins.ConfigureAdvancedSequence(advanceSequenceName, advanceSequenceSettings, setAsActiveSequence: false);
 
-            // Configure the source settings upfront
-            dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 10, TransientResponse = DCPowerSourceTransientResponse.Normal });
-
-            dcPowerPins.Commit();
             // Initiate the advanced sequence that was configured earlier
             dcPowerPins.InitiateAdvancedSequence(advanceSequenceName);
         }

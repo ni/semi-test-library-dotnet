@@ -1,8 +1,8 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+﻿using System.Collections.Generic;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using System.Linq;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
@@ -26,8 +26,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             dcPowerPins.MeasureAndPublishVoltage("Voltage", out _);
 
-            // Disabling all the trigger post using ForceVoltageSequenceSynchronized and fetching the measurements to clean up and avoid any unintended consequences on later test steps that may use the same pins.
-            dcPowerPins.DisableTriggers();
+            // Disabling StartTrigger post using ForceVoltageSequenceSynchronized and fetching the measurements to clean up and avoid any unintended consequences on later test steps that may use the same pins.
+            dcPowerPins.DisableTriggers(new List<TriggerType> { TriggerType.StartTrigger });
         }
     }
 }
