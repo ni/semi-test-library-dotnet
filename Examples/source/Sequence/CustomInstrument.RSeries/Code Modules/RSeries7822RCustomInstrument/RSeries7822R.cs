@@ -117,7 +117,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 
                 ChannelInfoMap.Add(
                     channelString,
-                    new ChannelInfo(connectorNumber, portNumber, channelNumber, portIndex, portMode, channelNumber % ChannelsPerPort));
+                    new ChannelInfo(connectorNumber, portNumber, channelNumber, portIndex, portMode));
             }
 
             // Open FPGA reference by deploying BitFile on the RIO device of the given Instrument.
