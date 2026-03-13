@@ -38,8 +38,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 
             // Need to expand the pin groups representing the DUT's digital input ports into individual pins as well as their associated data,
             // which is necessary to construct the appropriate PinSiteData object.
-            ExpandPortDataToPinData(tsmContext, dutDigitalInputPorts, portData, out List<bool> expandedPinData, out List<string> expandedInputPins);
-            var portDataToWrite = new PinSiteData<bool>(expandedInputPins.ToArray(), sites, expandedPinData.ToArray());
+            ExpandPortDataToPinData(tsmContext, dutDigitalInputPorts, portData, out bool[] expandedPinData, out string[] expandedInputPins);
+            var portDataToWrite = new PinSiteData<bool>(expandedInputPins, sites, expandedPinData);
 
             // Create TSM session manager.
             var sessionManager = new TSMSessionManager(tsmContext);
@@ -87,11 +87,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             ISemiconductorModuleContext tsmContext,
             string[] dutDigitalInputPorts,
             byte[] portData,
-            out List<bool> expandedPinData,
-            out List<string> expandedInputPins)
+            out bool[] expandedPinData,
+            out string[] expandedInputPins)
         {
-            expandedPinData = new List<bool>();
-            expandedInputPins = new List<string>();
+            var expandedPinDataList = new List<bool>();
+            var expandedInputPinsList = new List<string>();
             for (int portIndex = 0; portIndex < dutDigitalInputPorts.Length; portIndex++)
             {
                 int portValue = portData[portIndex];
@@ -110,10 +110,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 }
                 for (int expandedPinIndex = 0; expandedPinIndex < expandedPins.Length; expandedPinIndex++)
                 {
-                    expandedPinData.Add(GetBitFromByte((byte)portValue, expandedPinIndex));
+                    expandedPinDataList.Add(GetBitFromByte((byte)portValue, expandedPinIndex));
                 }
-                expandedInputPins.AddRange(expandedPins);
+                expandedInputPinsList.AddRange(expandedPins);
             }
+            expandedPinData = expandedPinDataList.ToArray();
+            expandedInputPins = expandedInputPinsList.ToArray();
         }
 
         /// <summary>
