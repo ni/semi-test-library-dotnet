@@ -98,8 +98,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 // The channelString must be parsed and validated to extract individual integer values for the connector, port, and channel.
                 ParseAndValidateChannelString(channelString, regex, out int connectorNumber, out int portNumber, out int channelNumber);
 
-                // This is the specific bit in port that the channel maps to.
-                int portIndex = channelNumber % ChannelsPerPort;
+                // This is the specific zero-based index or position within the port that the channel maps to.
+                int indexInPort = channelNumber % ChannelsPerPort;
 
                 // Statically defines the port mode such that the first two ports of each connector are designated Output ports,
                 // while the second two ports of each connector are designated Input ports.
@@ -117,7 +117,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 
                 ChannelInfoMap.Add(
                     channelString,
-                    new ChannelInfo(connectorNumber, portNumber, channelNumber, portIndex, portMode));
+                    new ChannelInfo(connectorNumber, portNumber, channelNumber, indexInPort, portMode));
             }
 
             // Open FPGA reference by deploying BitFile on the RIO device of the given Instrument.
@@ -183,7 +183,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             var channelInfo = ChannelInfoMap[channel];
             var key = (channelInfo.ConnectorNumber, channelInfo.PortNumber);
             byte currentState = OutputPortStates[key];
-            byte newState = UpdateBitInByte(currentState, value, channelInfo.PortIndex);
+            byte newState = UpdateBitInByte(currentState, value, channelInfo.IndexInPort);
 
             OutputPortStates[key] = newState;
         }

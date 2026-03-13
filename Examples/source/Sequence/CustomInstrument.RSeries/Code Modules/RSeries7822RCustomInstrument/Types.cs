@@ -21,9 +21,9 @@
         public int PortNumber;
 
         /// <summary>
-        /// The zero-based index of the channel within the associated port.
+        /// The zero-based index of the channel's position within the associated port.
         /// </summary>
-        public int PortIndex;
+        public int IndexInPort;
 
         /// <summary>
         /// The configured mode of the digital port associated with the channel, either Input or Output.
@@ -36,14 +36,14 @@
         /// <param name="connectorNumber">The zero-based number that identifies the channel of the device within its associated connector.</param>
         /// <param name="portNumber">The zero-based number for the port associated with the channel.</param>
         /// <param name="channelNumber">The zero-based number that identifies the channel of the device within its associated connector.</param>
-        /// <param name="portIndex">The zero-based index of the channel within the associated port.</param>
+        /// <param name="indexInPort">The zero-based index of the channel's position within the associated port.</param>
         /// <param name="mode">The configured mode of the digital port associated with the channel, either Input or Output.</param>
-        internal ChannelInfo(int connectorNumber, int portNumber, int channelNumber, int portIndex, PortMode mode)
+        internal ChannelInfo(int connectorNumber, int portNumber, int channelNumber, int indexInPort, PortMode mode)
         {
             ConnectorNumber = connectorNumber;
             PortNumber = portNumber;
             ChannelNumber = channelNumber;
-            PortIndex = portIndex;
+            IndexInPort = indexInPort;
             Mode = mode;
         }
     }
