@@ -12,8 +12,9 @@ Below are the key files along with their purpose.
 - `STLExample.MultiplexedConnection.seq`: Example TestStand sequence file.
 - `STLExample.MultiplexedConnection.pinmap`: Pin map used by the sequence.
 - `STLExample.MultiplexedConnection.offlinecfg`: Offline configuration file for instrument simulation in Offline Mode.
-- `Code Modules/SetupAndCleanupSteps/InitializeGenericMultiplexerSession.cs`: Example setup step method.
-- `Code Modules/TestSteps/TestStep.cs`: Example operational test step method.
+- `Code Modules/SetupAndCleanupSteps/InitializeGenericMultiplexerSession.cs`: Setup step method.
+- `Code Modules/SetupAndCleanupSteps/CleanupGenericMultiplexerSession.cs`: Cleanup step method.
+- `Code Modules/TestSteps/TestStep.cs`: Operational test step method.
 - `Code Modules/STLExample.MultiplexedConnection.csproj`: Example code module project file.
 
 ## Prerequisites
@@ -46,12 +47,13 @@ Explore `MainSequence` and the files under `Code Modules/TestSteps` to see the s
 
 ### MainSequence
 
-1. `MainSequence` (Semiconductor Action) calls `OneInstrumentChannelToManySitesForOneDutPin`.
+1. `MainSequence` calls `OneInstrumentChannelToManySitesForOneDutPin` to perform DMM reads per site and publish per-site results.
 
 ### Code Module
 
 1. `SetupAndCleanupSteps.InitializeGenericMultiplexerSession(ISemiconductorModuleContext tsmContext, string multiplexerTypeId)` initializes switch sessions for the multiplexer defined by `multiplexerTypeId`.
-2. `TestStep.OneInstrumentChannelToManySitesForOneDutPin(ISemiconductorModuleContext tsmContext, string dutPinName, string endOfTestingRelayConfigurationName = "")` queries per-site routes for `dutPinName`, applies relay configurations, performs per-site measurements, publishes results, and applies `endOfTestingRelayConfigurationName`.
+2. `SetupAndCleanupSteps.CleanupGenericMultiplexerSession(ISemiconductorModuleContext tsmContext, string multiplexerTypeId)` clears switch sessions for the multiplexer defined by `multiplexerTypeId`.
+3. `TestStep.OneInstrumentChannelToManySitesForOneDutPin(ISemiconductorModuleContext tsmContext, string dutPinName, string endOfTestingRelayConfigurationName = "")` queries per-site routes for `dutPinName`, applies relay configurations, performs per-site measurements, publishes results, and applies `endOfTestingRelayConfigurationName`.
 
 ## Using the Example
 
@@ -64,11 +66,12 @@ Complete the following steps to run this example.
    - Review relay configurations that correspond to each `routeName`.
    - Review site connections (pin, site, instrument, channel).
 3. Review the sequence callbacks to understand workflow ownership:
-   - `ProcessSetup`: Initializes Relay Module and DMM sessions using standard STL TestStandSteps, then calls `InitializeGenericMultiplexerSession` (Semiconductor Action).
-   - `MainSequence`: Calls `OneInstrumentChannelToManySitesForOneDutPin` (Semiconductor Action) to execute per-site routing/measurement.
-   - `ProcessCleanup`: Cleans up initialized instrument references using the standard STL TestStandSteps cleanup step.
+   - `ProcessSetup`: Initializes Relay Module and DMM sessions using standard STL TestStandSteps, then calls `InitializeGenericMultiplexerSession`.
+   - `MainSequence`: Calls `OneInstrumentChannelToManySitesForOneDutPin` to execute per-site routing/measurement.
+   - `ProcessCleanup`: Calls `CleanupGenericMultiplexerSession`, then cleans up initialized instrument references using the standard STL TestStandSteps cleanup step.
 4. The following are already configured in `MainSequence`:
    - Setup flow initializes Relay Module and DMM sessions.
    - `ProcessSetup` calls `InitializeGenericMultiplexerSession` with `multiplexerTypeId` set to `NIGenericMultiplexer`.
    - `MainSequence` calls `OneInstrumentChannelToManySitesForOneDutPin` with `dutPinName` set to `A` and `endOfTestingRelayConfigurationName` set to `DisconnectDmmFromPinAOnAllSites`.
+   - `ProcessCleanup` calls `CleanupGenericMultiplexerSession` with `multiplexerTypeId` set to `NIGenericMultiplexer`, then calls standard cleanup instrumentation.
 5. To run the test program, click the **Start/Resume Lot** button on the TSM toolbar.
