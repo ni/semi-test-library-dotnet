@@ -181,7 +181,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         public void SetOutputState(string channel, bool value)
         {
             var channelInfo = ChannelInfoMap[channel];
-            var key = (channelInfo.ConnectorNumber, channelInfo.PortNumber);
+            var key = channelInfo.ConnectorAndPortNumbers;
             byte currentState = OutputPortStates[key];
             byte newState = UpdateBitInByte(currentState, value, channelInfo.IndexInPort);
 

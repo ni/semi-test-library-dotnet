@@ -21,6 +21,11 @@
         public int PortNumber;
 
         /// <summary>
+        /// This is the combination of both the ConnectorNumber and PortNumber as a convenient tuple.
+        /// </summary>
+        public (int, int) ConnectorAndPortNumbers;
+
+        /// <summary>
         /// The zero-based index of the channel's position within the associated port.
         /// </summary>
         public int IndexInPort;
@@ -45,6 +50,7 @@
             ChannelNumber = channelNumber;
             IndexInPort = indexInPort;
             Mode = mode;
+            ConnectorAndPortNumbers = (connectorNumber, portNumber);
         }
     }
 

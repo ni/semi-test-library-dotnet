@@ -53,7 +53,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                     var channelString = sessionInfo.AssociatedSitePinList[i].IndividualChannelString;
                     var channelInfo = session.ChannelInfoMap[channelString];
                     results[i] = GetBitFromByte(
-                        portData[(channelInfo.ConnectorNumber, channelInfo.PortNumber)],
+                        portData[channelInfo.ConnectorAndPortNumbers],
                         channelInfo.IndexInPort);
                 }
                 return results;
