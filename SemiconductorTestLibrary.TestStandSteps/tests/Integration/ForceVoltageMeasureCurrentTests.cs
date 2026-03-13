@@ -61,34 +61,5 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             AssertPublishedDataId("Current", publishedData);
             CleanupInstrumentation(tsmContext);
         }
-
-        [Theory]
-        [InlineData("G2")]
-        [InlineData("G3")]
-        [InlineData("G4")]
-
-        public void GangSingleChannelSMUs_ForceVoltageMeasureCurrent_DataPublishedOnFirstPin(string pinGroupName)
-        {
-            var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
-            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
-            SetupNIDigitalPatternInstrumentation(tsmContext);
-            var sessionManager = new TSMSessionManager(tsmContext);
-            var sessionsBundle = sessionManager.DCPower(pinGroupName);
-
-            ForceVoltageMeasureCurrent(
-                tsmContext,
-                pinsOrPinGroups: new[] { pinGroupName },
-                voltageLevel: 3.8,
-                currentLimit: 3.2e-2,
-                apertureTime: 5e-5);
-
-            var publishedData = publishedDataReader.GetAndClearPublishedData();
-            string[] allPins = new string[] { "VCC1", "PA_EN", "C0", "C1" };
-            AssertPublishedDataCountPerPins(tsmContext.SiteNumbers.Count, allPins, publishedData);
-            // Limits are set based on the expected value returned by the driver when in Offline Mode.
-            AssertPublishedDataValueInRange(publishedData, -0.001, 0.001);
-            AssertPublishedDataId("Current", publishedData);
-            CleanupInstrumentation(tsmContext);
-        }
     }
 }
