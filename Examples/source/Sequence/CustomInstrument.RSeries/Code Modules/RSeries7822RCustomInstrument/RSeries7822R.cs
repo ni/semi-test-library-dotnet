@@ -212,7 +212,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 _status = RSeries7822RDriverAPI.ReadData(_referenceId, portName, out byte data);
                 ValidateStatus($"Error in ReadData method, ErrorCode:{_status}, PortNumber:{portNumber}");
 
-                portsData.Add((connectorNumber, portNumber), data);
+                portsData.Add(inputPort, data);
             }
 
             return portsData;
