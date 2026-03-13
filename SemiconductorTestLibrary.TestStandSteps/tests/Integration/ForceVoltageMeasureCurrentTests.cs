@@ -1,4 +1,5 @@
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
@@ -62,7 +63,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             CleanupInstrumentation(tsmContext);
         }
 
-        [Theory]
+        [Theory(Skip = "PinMap not available")]
         [InlineData("G2")]
         [InlineData("G3")]
         [InlineData("G4")]
