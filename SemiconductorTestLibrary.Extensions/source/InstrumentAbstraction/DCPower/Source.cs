@@ -2089,21 +2089,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return masterChannelSessionInfo.Session.Outputs[masterChannelString];
         }
 
-        internal static string BuildTerminalName(this DCPowerSessionInformation sessionInfo, string channelString, string triggerOrEventTypeName)
-        {
-            string resourceDescriptor = $"/{sessionInfo.Session.DriverOperation.IOResourceDescriptor.Split('/')[0]}";
-            string logicalTerminalName = $"/{triggerOrEventTypeName}";
-            if (sessionInfo.ModelString == DCPowerModelStrings.PXI_4132)
-            {
-                return $"{resourceDescriptor}{logicalTerminalName}";
-            }
-            else
-            {
-                string channelName = $"/Engine{channelString.Split('/')[1]}";
-                return $"{resourceDescriptor}{channelName}{logicalTerminalName}";
-            }
-        }
-
         internal static bool IsFirstChannelOfSession(this SitePinInfo sitePinInfo, DCPowerSessionInformation sessionInfo)
         {
             return sessionInfo.AllChannelsString.StartsWith(sitePinInfo.IndividualChannelString, StringComparison.InvariantCulture);
