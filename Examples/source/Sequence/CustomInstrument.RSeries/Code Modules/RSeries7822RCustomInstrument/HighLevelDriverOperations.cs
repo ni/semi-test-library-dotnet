@@ -46,9 +46,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
                 // Perform measure data operation on the driver session.
                 var portData = session.ReadPortData();
 
-                var channelCount = session.ChannelInfoMap.Count;
+                var channelCount = sessionInfo.AssociatedSitePinList.Count;
                 var results = new bool[channelCount];
-                for (int i = 0; i < sessionInfo.AssociatedSitePinList.Count; i++)
+                for (int i = 0; i < channelCount; i++)
                 {
                     var channelString = sessionInfo.AssociatedSitePinList[i].IndividualChannelString;
                     var channelInfo = session.ChannelInfoMap[channelString];
