@@ -5,23 +5,23 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
 {
     /// <summary>
-    /// This class provides example methods to demonstrate how to use the MergePinGroup and UnmergePinGroup
+    /// This class provides example methods to demonstrate how to use the GangPinGroup and UngangPinGroup
     /// DCPower Instrument Abstraction methods from the Semiconductor Test Library.
-    /// These methods can be used to merge DUT pins together to output higher current.
+    /// These methods can be used to gang DUT pins together to output higher current.
     /// These methods are only supported under the following conditions:
-    /// 1. The pin map must define a pin group to contain all the pins that are to be merged together.
-    /// 2. Each pin in the pin group must be mapped to an SMU channels of same module for a given site.
-    /// 3. The SMU module must support the niDCPower Merged Channels feature.
-    /// For example: PXIe-4147, PXIe-4162, and PXIe-4163.
+    /// 1. The pin map must define a pin group to contain all the pins that are to be ganged together.
+    /// 2. Each pin in the pin group must be mapped to an SMU channels of same module for a given site. (Ask Anish)
+    /// 3. The SMU module must support the niDCPower Ganged Channels feature.
+    /// For example: PXIe-4137, PXIe-4139, and PXIe-4150.
     /// 4. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
     /// The example methods of this class demonstrate how relay configurations can be applied
-    /// to ensures the SMUs channels are physically connected in parallel before the MergePinGroup operation,
-    /// and subsequently disconnected after the UnmergePinGroup operation.
+    /// to ensures the SMUs channels are physically connected in parallel before the GangPinGroup operation,
+    /// and subsequently disconnected after the UngangPinGroup operation.
     /// </summary>
     public static partial class TestSteps
     {
         /// <summary>
-        /// Powers down the merged pin group and then unmerges the pins, allowing each pin to operate independently afterwards.
+        /// Powers down the ganged pin group and then ungangs the pins, allowing each pin to operate independently afterwards.
         /// Use the disconnectedRelayConfiguration parameter to specify the appropriate relay configuration
         /// that will physically disconnect the pins in the pin group via external relays on the application load board.
         /// If the application load board is designed with the target pins permanently connected together,
@@ -29,7 +29,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
         /// The settlingTime parameter is only applicable when the disconnectedRelayConfiguration parameter is used.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="pinGroup">Name of the pin group to be merged.</param>
+        /// <param name="pinGroup">Name of the pin group to be ganged.</param>
         /// <param name="disconnectedRelayConfiguration">Relay configuration that physically disconnects the channels on the application load board, if required.</param>
         /// <param name="settlingTime">Settling time required for the relay configuration to be connected.</param>
         public static void SMUPowerDownAndUngangPinGroup(
