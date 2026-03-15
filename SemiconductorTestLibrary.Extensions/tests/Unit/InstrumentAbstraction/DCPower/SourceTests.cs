@@ -2235,28 +2235,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedSMUPinsGanged_ForcePerSiteVoltagesWithSymmetricLimit_ThrowsException()
+        public void SharedSMUPins_GangPinGroup_ThrowsException()
         {
             var sessionManager = Initialize("SharedPins_SMU4139_InvalidGang.pinmap");
             var sessionsBundle = sessionManager.DCPower("Va2");
-            sessionsBundle.GangPinGroup("Va2");
 
-            var voltageLevels = new SiteData<double>(new double[] { 1, 3 });
-            sessionsBundle.ForceVoltage(voltageLevels, currentLimit: 3);
-
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            void GangPinGroupTest()
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
-                if (sitePinInfo.SiteNumber == 0)
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 1, expectedCurrentLimit: 1.5);
-                }
-                else
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 3, expectedCurrentLimit: 1.5);
-                }
-            });
+                sessionsBundle.GangPinGroup("Va2");
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(GangPinGroupTest);
+            Assert.Contains("Cannot perform Merge or Gang operation on shared pins", exception.Message);
         }
 
         [Fact]
