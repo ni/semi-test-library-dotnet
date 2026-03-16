@@ -69,10 +69,10 @@ These files represent the driver used to control the PXIe-7822R R Series device 
 
 1. If you want to use the example you must have the following software installed:
     - STS Software 24.5.0 or later
-1. To run the example you must also have:
+2. To run the example you must also have:
     - A physical PXIe-7822R instrument with an alias of 'RIO_7822R_C1_S06' defined in NI MAX.
     - TestStand configured to use the Batch process model.
-1. To open, view, and compile the LabVIEW source files (GitHub only), you must have:
+3. To open, view, and compile the LabVIEW source files (GitHub only), you must have:
     - LabVIEW FPGA Module
     - Xilinx compiler / Compile worker with Xilinx cloud server
 
