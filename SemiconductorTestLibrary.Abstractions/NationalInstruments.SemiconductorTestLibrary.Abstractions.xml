@@ -3456,6 +3456,21 @@
             </summary>
             <param name="hasGangedChannels">Indicates whether the bundle has any ganged channels.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.ValidatePinValuesForCascading``1(System.Boolean,``0)">
+            <summary>
+            Validates that the pin values for cascaded pin groups in the specified sessions bundle are consistent when
+            cascading validation is enabled.
+            </summary>
+            <remarks>This method is intended for use in scenarios where pin groups are configured to
+            cascade multiple pins together. It ensures that, when cascading validation is enabled, all pins
+            within a cascaded group have consistent values.</remarks>
+            <typeparam name="T">The type of the object containing pin values to validate. Typically a structure or collection mapping pin or
+            group identifiers to their values.</typeparam>
+            <param name="hasCascadedChannels">A value indicating whether bundle has some cascaded channels or not. If set to <see langword="true"/>, the
+            method validates that the pin values for cascaded pin groups are consistent.</param>
+            <param name="pinValues">An object containing the pin values to validate. The structure and expected contents depend on the
+            implementation of the pin value retrieval logic.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose">
             <summary>
             Defines <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> sessions initialize and close APIs.
@@ -3481,6 +3496,839 @@
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="resetDevice">Whether to perform a hard reset on the device.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings">
+            <summary>
+            Defines DCPower settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings.SourceSettings">
+            <summary>
+            The source settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings.MeasureSettings">
+            <summary>
+            The measure settings.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings">
+            <summary>
+            Defines DCPower source settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.OutputFunction">
+            <summary>
+            The output function.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitSymmetry">
+            <summary>
+            The limit symmetry.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Level">
+            <summary>
+            The voltage or current level.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Limit">
+            <summary>
+            The current or voltage limit.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitHigh">
+            <summary>
+            The current or voltage high limit.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitLow">
+            <summary>
+            The current or voltage low limit.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LevelRange">
+            <summary>
+            The voltage or current level range.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitRange">
+            <summary>
+            The current or voltage limit range.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.SourceDelayInSeconds">
+            <summary>
+            The source delay in seconds.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.TransientResponse">
+            <summary>
+            The transient response.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings">
+            <summary>
+            Defines DCPower measure settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.ApertureTime">
+            <summary>
+            The aperture time.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.ApertureTimeUnits">
+            <summary>
+            The unit of aperture time.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.MeasureWhen">
+            <summary>
+            The measure when.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.Sense">
+            <summary>
+            The measurement sense.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.RecordLength">
+            <summary>
+            The record length.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings">
+            <summary>
+            Defines DCPower waveform acquisition settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTime">
+            <summary>
+            The aperture time.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTimeUnits">
+            <summary>
+            The aperture time units.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureWhen">
+            <summary>
+            The measure when.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureTriggerType">
+            <summary>
+            The measure trigger type.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.#ctor">
+            <summary>
+            Creates an object to define and set DCPower waveform acquisition specific settings.
+            This object is used to store waveform acquisition settings of a DCPower channel. <see cref="!:Measure.ConfigureAndStartWaveformAcquisition(DCPowerSessionsBundle, double, double)"/>
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults">
+            <summary>
+            Defines DCPower waveform results.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults.Result">
+            <summary>
+            The DCPower fetch result.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults.DeltaTime">
+            <summary>
+            The measurement record delta time.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults.#ctor(NationalInstruments.ModularInstruments.NIDCPower.DCPowerFetchResult,System.Double)">
+            <summary>
+            Constructs a DCPower waveform results object.
+            </summary>
+            <param name="result">The DCPower fetch result.</param>
+            <param name="deltaTime">The measurement record delta time.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties">
+            <summary>
+            Defines per-step properties for DCPower advanced sequence configuration.
+            Each nullable property corresponds to a DCPowerAdvancedSequenceProperty that can vary per step.
+            Properties are organized by functional category for ease of use.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.ApertureTime">
+            <summary>
+            Specifies the measurement aperture time, in seconds, for the channel configuration.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.Autorange">
+            <summary>
+            Specifies whether the hardware automatically selects the best range to measure the signal.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.AutorangeApertureTimeMode">
+            <summary>
+            Specifies whether the aperture time used for the measurement autorange algorithm is determined automatically or customized.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.AutorangeBehavior">
+            <summary>
+            Specifies the algorithm the hardware uses for measurement AutoRanging.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.AutorangeMaximumDelayAfterRangeChange">
+            <summary>
+            Balances between settling time and maximum measurement time by specifying the maximum time delay between when a range change occurs and when measurements resume.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.AutorangeMinimumApertureTime">
+            <summary>
+            Specifies the autorange aperture time.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.AutorangeMinimumCurrentRange">
+            <summary>
+            Specifies the lowest current range used during measurement autoranging.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.AutorangeMinimumVoltageRange">
+            <summary>
+            Specifies the lowest voltage range used during measurement autoranging.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.DCNoiseRejection">
+            <summary>
+            Specifies the relative weighting of samples in a measurement.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.MeasureRecordLength">
+            <summary>
+            Specifies how many measurements compose a measure record.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.Sense">
+            <summary>
+            Specifies the type of remote sensing for the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.AutorangeThresholdMode">
+            <summary>
+            Specifies the mode used to determine the threshold for autoranging during DC power measurement.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageLevel">
+            <summary>
+            Specifies the voltage level, in volts, that the device attempts to generate on the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageLevelRange">
+            <summary>
+            Specifies the voltage level range, in volts, for the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageLimit">
+            <summary>
+            Specifies the voltage limit for the output to not exceed when generating the desired current level.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageLimitHigh">
+            <summary>
+            Specifies the voltage limit high for the output to not exceed when generating the desired current level.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageLimitLow">
+            <summary>
+            Specifies the voltage limit low for the output to not exceed when generating the desired current level.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageLimitRange">
+            <summary>
+            Specifies the voltage limit range, in volts, for the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageCompensationFrequency">
+            <summary>
+            Specifies the frequency at which a pole-zero pair is added to the system.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageGainBandwidth">
+            <summary>
+            Specifies the frequency at which the unloaded loop gain extrapolates to 0 dB.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltagePoleZeroRatio">
+            <summary>
+            Specifies the ratio of the pole frequency to the zero frequency.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLevel">
+            <summary>
+            Specifies the current level, in amperes, that the device attempts to generate on the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLevelRange">
+            <summary>
+            Specifies the current level range, in amperes, for the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLimit">
+            <summary>
+            Specifies the current limit, in amperes, for the output not to exceed when generating the desired voltage level.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLimitHigh">
+            <summary>
+            Specifies the current limit high, in amperes, for the output not to exceed when generating the desired voltage level.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLimitLow">
+            <summary>
+            Specifies the current limit low, in amperes, for the output not to exceed when generating the desired voltage level.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLimitRange">
+            <summary>
+            Specifies the current limit range, in amperes, for the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentCompensationFrequency">
+            <summary>
+            Specifies the frequency at which a pole-zero pair is added to the system.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentGainBandwidth">
+            <summary>
+            Specifies the frequency at which the unloaded loop gain extrapolates to 0 dB.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentPoleZeroRatio">
+            <summary>
+            Specifies the ratio of the pole frequency to the zero frequency.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLevelRisingSlewRate">
+            <summary>
+            Specifies the rate of increase, in amps per microsecond, to apply to the absolute magnitude of the current level of a channel.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLevelFallingSlewRate">
+            <summary>
+            Specifies the rate of decrease, in amps per microsecond, to apply to the absolute magnitude of the current level of a channel.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseVoltageLevel">
+            <summary>
+            Specifies the voltage level, in volts, that the device attempts to generate during the on phase of a pulse.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseVoltageLevelRange">
+            <summary>
+            Specifies the pulse voltage level range, in volts, for the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseVoltageLimit">
+            <summary>
+            Specifies the pulse voltage limit, in volts, that the output cannot exceed when generating the desired pulse current during the on phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseVoltageLimitHigh">
+            <summary>
+            Specifies the pulse voltage limit high, in volts, that the output cannot exceed when generating the desired pulse current during the on phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseVoltageLimitLow">
+            <summary>
+            Specifies the pulse voltage limit low, in volts, that the output cannot exceed when generating the desired pulse current during the on phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseVoltageLimitRange">
+            <summary>
+            Specifies the pulse voltage limit range, in volts, for the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseBiasVoltageLevel">
+            <summary>
+            Specifies the voltage level, in volts, that the device attempts to generate during the off phase of a pulse.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseBiasVoltageLimit">
+            <summary>
+            Specifies the pulse voltage limit, in volts, that the output cannot exceed when generating the desired current during the off phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseBiasVoltageLimitHigh">
+            <summary>
+            Specifies the pulse voltage limit high, in volts, that the output cannot exceed during the off phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseBiasVoltageLimitLow">
+            <summary>
+            Specifies the pulse voltage limit low, in volts, that the output cannot exceed during the off phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseCurrentLevel">
+            <summary>
+            Specifies the pulse current level, in amperes, that the device attempts to generate during the on phase of a pulse.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseCurrentLevelRange">
+            <summary>
+            Specifies the pulse current level range, in amperes, for the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseCurrentLimit">
+            <summary>
+            Specifies the current limit, in amps, that the output cannot exceed when generating the desired voltage during the on phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseCurrentLimitHigh">
+            <summary>
+            Specifies the current limit high, in amps, that the output cannot exceed when generating the desired voltage during the on phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseCurrentLimitLow">
+            <summary>
+            Specifies the current limit low, in amps, that the output cannot exceed when generating the desired voltage during the on phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseCurrentLimitRange">
+            <summary>
+            Specifies the current limit range, in amperes, for the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseBiasCurrentLevel">
+            <summary>
+            Specifies the pulse bias current level, in amperes, that the device attempts to generate during the off phase of a pulse.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseBiasCurrentLimit">
+            <summary>
+            Specifies the current limit, in amperes, that the output cannot exceed when generating the desired voltage during the off phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseBiasCurrentLimitHigh">
+            <summary>
+            Specifies the current limit high, in amperes, that the output cannot exceed during the off phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseBiasCurrentLimitLow">
+            <summary>
+            Specifies the current limit low, in amperes, that the output cannot exceed during the off phase.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseOnTime">
+            <summary>
+            Specifies the length, in seconds, of the on phase of a pulse.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseOffTime">
+            <summary>
+            Specifies the length, in seconds, of the off phase of a pulse.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseBiasDelay">
+            <summary>
+            Specifies the time, in seconds, when the device generates the PulseCompleteEvent.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.SourceDelay">
+            <summary>
+            Specifies the time, in seconds, when the device generates the SourceCompleteEvent.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.SequenceStepDeltaTime">
+            <summary>
+            Specifies the amount of time, in seconds, between the start of two consecutive steps in a sequence.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.TransientResponse">
+            <summary>
+            Specifies the transient response.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.OutputEnabled">
+            <summary>
+            Enables the output.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.OutputFunction">
+            <summary>
+            Specifies the method to generate on the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.OutputResistance">
+            <summary>
+            Specifies the output resistance that the device attempts to generate for the specified channels.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.ComplianceLimitSymmetry">
+            <summary>
+            Specifies whether compliance limits are applied symmetrically.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.ConductionVoltageMode">
+            <summary>
+            Specifies the conduction voltage mode for DC power operations.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.ConductionVoltageOffThreshold">
+            <summary>
+            Voltage threshold at which conduction is considered to be off.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.ConductionVoltageOnThreshold">
+            <summary>
+            Voltage threshold at which conduction is considered to be on.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.AutorangeMinimumApertureTimeUnits">
+            <summary>
+            Units for the minimum aperture time used during AutoRanging.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.OvpEnabled">
+            <summary>
+            Gets or sets whether to enable or disable overvoltage protection (OVP).
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.OvpLimit">
+            <summary>
+            Determines the voltage limit, in volts, beyond which overvoltage protection (OVP) engages.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrCurrentAmplitude">
+            <summary>
+            Specifies the amplitude, in amps (A RMS), of the AC current test signal applied to the DUT for LCR measurements.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrVoltageAmplitude">
+            <summary>
+            Specifies the amplitude, in volts (V RMS), of the AC voltage test signal applied to the DUT for LCR measurements.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrFrequency">
+            <summary>
+            Specifies the frequency used by the AC stimulus in LCR mode.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrDcBiasCurrentLevel">
+            <summary>
+            Specifies the bias current level in LCR mode in amps when DCBiasSource is set to Current.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrDcBiasVoltageLevel">
+            <summary>
+            Specifies the bias voltage level in LCR mode in volts when DCBiasSource is set to Voltage.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrImpedanceRange">
+            <summary>
+            Specifies the impedance of the load when the ImpedanceAutoRange attribute is set to Off in LCR mode.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrActualLoadReactance">
+            <summary>
+            Actual load reactance value for the LCR.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrActualLoadResistance">
+            <summary>
+            Actual load resistance measured in the LCR.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrCurrentRange">
+            <summary>
+            Current range value for LCR.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrDcBiasCurrentRange">
+            <summary>
+            DC bias current range for LCR.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrDcBiasTransientResponse">
+            <summary>
+            DC bias transient response settings for LCR.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrDcBiasVoltageRange">
+            <summary>
+            DC bias voltage range for LCR measurements.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrImpedanceAutoRange">
+            <summary>
+            Specifies whether the LCR impedance measurement uses AutoRanging.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrLoadCapacitance">
+            <summary>
+            Specifies the load capacitance value for LCR.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrLoadInductance">
+            <summary>
+            Gets or sets the inductance value of the LCR load.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrLoadResistance">
+            <summary>
+            Load resistance value for the LCR.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrMeasuredLoadReactance">
+            <summary>
+            Specifies the measured load reactance for LCR.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrMeasuredLoadResistance">
+            <summary>
+            Gets or sets the measured load resistance value from the LCR measurement.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrOpenConductance">
+            <summary>
+            Measured open conductance value from the LCR.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrOpenSusceptance">
+            <summary>
+            Open-circuit susceptance value for the LCR component.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrShortReactance">
+            <summary>
+            Gets or sets the short-circuit reactance value for the LCR component.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrShortResistance">
+            <summary>
+            Gets or sets the measured short resistance value from the LCR.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrSourceDelayMode">
+            <summary>
+            Gets or sets the delay mode for the LCR source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrVoltageRange">
+            <summary>
+            Gets or sets the voltage range used for LCR measurements.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrImpedanceRangeSource">
+            <summary>
+            Specifies how the impedance range for LCR measurements is determined.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrMeasurementTime">
+            <summary>
+            Specifies the aperture time of LCR measurements.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrCustomMeasurementTime">
+            <summary>
+            Specifies the LCR measurement aperture time for a channel, in seconds, when the MeasurementTime property is set to Custom.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrSourceApertureTime">
+            <summary>
+            Specifies the LCR source aperture time for a channel, in seconds.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrStimulusFunction">
+            <summary>
+            Specifies whether AC Voltage or AC Current stimulus is used in LCR mode.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrDcBiasSource">
+            <summary>
+            Specifies how to set the DC bias in LCR mode.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrOpenCompensationEnabled">
+            <summary>
+            Specifies whether to apply open LCR compensation data to LCR measurements.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrShortCompensationEnabled">
+            <summary>
+            Specifies whether to apply short LCR compensation data to LCR measurements.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrLoadCompensationEnabled">
+            <summary>
+            Specifies whether to apply load LCR compensation data to LCR measurements.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.InstrumentMode">
+            <summary>
+            Specifies the mode of operation for an instrument channel for instruments that support multiple modes.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.#ctor">
+            <summary>
+            Default constructor for DCPowerAdvancedSequenceStepProperties.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.ApplyTo(NationalInstruments.ModularInstruments.NIDCPower.DCPowerOutput)">
+            <summary>
+            Applies the advanced sequence step properties to the specified <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerOutput"/> channel output.
+            Each property that has a value will be set on the corresponding property of the channel output.
+            </summary>
+            <param name="channelOutput">The <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerOutput"/> instance to apply the properties to.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult">
+            <summary>
+            Structure that defines the result of a single fetch operation.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult.#ctor(System.Double,System.Double,System.Boolean)">
+            <summary>
+            Constructs a SingleDCPowerFetchResult object.
+            </summary>
+            <param name="voltageMeasurement">Voltage measurement value</param>
+            <param name="currentMeasurement">Current measurement value.</param>
+            <param name="inCompliance">Whether the output is in compliance mode when measurement is taken.</param>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult.VoltageMeasurement">
+            <summary>
+            Voltage measurement value.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult.CurrentMeasurement">
+            <summary>
+            Current measurement value.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult.InCompliance">
+            <summary>
+            Whether the output was in compliance mode when measurement was taken.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType">
+            <summary>
+            Defines DCPower trigger type.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.MeasureTrigger">
+            <summary>
+            The measure trigger.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.PulseTrigger">
+            <summary>
+            The pulse trigger.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SequenceAdvanceTrigger">
+            <summary>
+            The sequence advance trigger.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.SourceTrigger">
+            <summary>
+            The source trigger.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.StartTrigger">
+            <summary>
+            The start trigger.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType.ShutdownTrigger">
+            <summary>
+            The shutdown trigger.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType">
+            <summary>
+            Defines DCPower event type.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.MeasureCompleteEvent">
+            <summary>
+            The measure complete event.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.PulseCompleteEvent">
+            <summary>
+            The pulse complete event.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.ReadyForPulseTriggerEvent">
+            <summary>
+            The ready for pulse trigger event.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.SequenceEngineDoneEvent">
+            <summary>
+            The sequence engine done event.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.SequenceIterationCompleteEvent">
+            <summary>
+            The sequence iteration complete event.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.SourceCompleteEvent">
+            <summary>
+            The source complete event.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities">
+            <summary>
+            Provides general helper methods.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities.GetUnsupportedTriggerTypes(System.String)">
+            <summary>
+            Returns the set of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType"/> values that are not supported for the specified DCPower model string.
+            </summary>
+            <remarks>
+            Refer to the NI-DCPower User Manual for details on the trigger types supported by each instrument model.
+            </remarks>
+            <param name="modelString">The model string of the DC Power instrument.</param>
+            <returns>An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType"/> values that are unsupported for the given model string.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities.GetUnsupportedModels(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType[])">
+            <summary>
+            Returns the set of DC Power instrument model strings that are not supported for the specified trigger types.
+            </summary>
+            <param name="triggerTypes">The trigger types for which to retrieve unsupported model strings.</param>
+            <returns>An enumerable of model strings that are unsupported for the given trigger types.</returns>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities._propertyMappingsCache">
+            <summary>
+            Caches mappings between properties of DCPowerAdvancedSequenceStepProperties and their corresponding DCPowerAdvancedSequenceProperty enum values.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities.GetPropertyMappingsCache">
+            <summary>
+            Gets the cached mappings between properties of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties"/> and their corresponding <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerAdvancedSequenceProperty"/> enum values.
+            </summary>
+            <returns>An array of tuples containing the property info and its associated enum value.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities.CreateDCPowerAdvancedSequencePropertyMappingsCache">
+            <summary>
+            Initializes the cache for DC power advanced sequence property mappings, so that it can be called in while SetupDCPowerInstrumentation reducing the first-call latency when the cache is needed later.
+            </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation">
             <summary>
@@ -4714,29 +5562,29 @@
               Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are not present in the DCPowerSessionsBundle. Ensure that all pins required for cascading or uncascading are included in the bundle..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ModelNotSupportedForGanging">
+            <summary>
+              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are connected to SMU(s) that doesn&apos;t support Ganging..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_MultipleValuesDetectedForCascadedPinGroup">
+            <summary>
+              Looks up a localized string similar to The parameter contains different values for Cascaded pins in the &quot;{0}&quot; group. All pins within a Cascaded group must have the same value..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_NotUsingChannelGroups">
             <summary>
               Looks up a localized string similar to Convert DCPower instruments to use channel groups in the pinmap..
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupAlreadyCascaded">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupContainsCascadedPin">
             <summary>
-              Looks up a localized string similar to Uncascade PinGroup &quot;{0}&quot; first, before trying to cascade PinGroup &quot;{1}&quot;..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupContainsGangedPin">
-            <summary>
-              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; are part of a ganged pin group. Cannot perform Merge operation on ganged pins..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupContainsMergedSecondaryChannel">
-            <summary>
-              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; are secondary pin(s) of a merged pin group. Cannot perform Gang operation on merged secondary pins..
+              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are part of a cascaded pin group. Cannot perform Merge or Gang operation on cascaded pins..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupNotCascaded">
             <summary>
-              Looks up a localized string similar to PinGroup &quot;{0}&quot; is not cascaded. Uncascade operation is invalid. .
+              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are not cascaded. Uncascade operation is invalid. .
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_InvalidTSMContext">

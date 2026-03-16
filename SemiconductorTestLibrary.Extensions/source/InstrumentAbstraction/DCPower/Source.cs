@@ -132,7 +132,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -190,7 +192,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -263,7 +267,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perPinSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
@@ -282,7 +288,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
@@ -1226,6 +1234,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 result = sessionsBundle.FetchMeasurement(pointsToFetch.Value, measurementTimeoutInSeconds);
             }
 
+            // clearing the advanced sequence after use
+            sessionsBundle.ClearActiveAdvancedSequence();
             // deleting the advanced sequence after use
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
@@ -1981,7 +1991,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var result = new HashSet<DCPowerAdvancedSequenceProperty>();
             foreach (var stepProperties in perStepProperties)
             {
-                foreach (var (property, enumValue) in Utilities.PropertyMappingsCache)
+                foreach (var (property, enumValue) in Utilities.GetPropertyMappingsCache())
                 {
                     if (property.GetValue(stepProperties) != null)
                     {
@@ -2092,21 +2102,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var masterChannelString = masterChannelSessionInfo.AssociatedSitePinList.First().IndividualChannelString;
             terminalName = masterChannelSessionInfo.BuildTerminalName(masterChannelString, triggerOrEventTypeName);
             return masterChannelSessionInfo.Session.Outputs[masterChannelString];
-        }
-
-        internal static string BuildTerminalName(this DCPowerSessionInformation sessionInfo, string channelString, string triggerOrEventTypeName)
-        {
-            string resourceDescriptor = $"/{sessionInfo.Session.DriverOperation.IOResourceDescriptor.Split('/')[0]}";
-            string logicalTerminalName = $"/{triggerOrEventTypeName}";
-            if (sessionInfo.ModelString == DCPowerModelStrings.PXI_4132)
-            {
-                return $"{resourceDescriptor}{logicalTerminalName}";
-            }
-            else
-            {
-                string channelName = $"/Engine{channelString.Split('/')[1]}";
-                return $"{resourceDescriptor}{channelName}{logicalTerminalName}";
-            }
         }
 
         internal static bool IsFirstChannelOfSession(this SitePinInfo sitePinInfo, DCPowerSessionInformation sessionInfo)

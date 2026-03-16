@@ -383,7 +383,41 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceDifferentVoltageWithPerPinPerSiteSettingsOnGangedPins_ThrowsException()
+        {
+            var pinNames = new string[] { "VCC1", "VCC2", "VCC3" };
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            var settings = new PinSiteData<DCPowerSourceSettings>(pinNames, new int[] { 0, 1 }, new DCPowerSourceSettings[][]
+            {
+                new DCPowerSourceSettings[]
+                {
+                    new DCPowerSourceSettings() { Level = 1, Limit = 0.1 },
+                    new DCPowerSourceSettings() { Level = 1.5, Limit = 0.2 },
+                },
+                new DCPowerSourceSettings[]
+                {
+                    new DCPowerSourceSettings() { Level = 3, Limit = 0.1 },
+                    new DCPowerSourceSettings() { Level = 3.5, Limit = 0.2 },
+                },
+                new DCPowerSourceSettings[]
+                {
+                    new DCPowerSourceSettings() { Level = 3, Limit = 0.1 },
+                    new DCPowerSourceSettings() { Level = 3.5, Limit = 0.2 },
+                }
+            });
+            void ForceVoltageTest() => sessionsBundle.ForceVoltage(settings);
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+        }
+
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerSiteValuesSucceeds(bool pinMapWithChannelGroup)
@@ -467,6 +501,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerPinPerSiteValuesSucceeds(bool pinMapWithChannelGroup)
@@ -503,6 +538,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithInconsistenceProperties_ThrowsException(bool pinMapWithChannelGroup)
@@ -548,6 +584,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetch_CorrectResultFetched(bool pinMapWithChannelGroup)
@@ -602,6 +639,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteSequence_CorrectResultFetched(bool pinMapWithChannelGroup)
@@ -703,6 +741,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerPinPerSiteSequence_CorrectResultFetched(bool pinMapWithChannelGroup)
@@ -758,6 +797,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithInconsistencesPerSiteDCPowerAdvancedSequenceStepProperties_ThrowsExceptions(bool pinMapWithChannelGroup)
@@ -1907,7 +1947,32 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinPerSiteSettingsObject_SameVoltageForcedAndCurrentLimitApplied()
+        public void DifferentSMUDevicesGanged_ForceDifferentVoltageWithPerPinSettingsObjectOnGangedPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            var settings = new Dictionary<string, DCPowerSourceSettings>()
+            {
+                ["VCC1"] = new DCPowerSourceSettings() { Level = 2, Limit = 3 },
+                ["VCC2"] = new DCPowerSourceSettings() { Level = 3, Limit = 3 },
+                ["VCC3"] = new DCPowerSourceSettings() { Level = 4, Limit = 3 },
+                ["VCC4"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 },
+                ["VCC5"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 }
+            };
+            void ForceVoltageTest()
+            {
+                sessionsBundle.ForceVoltage(settings);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinPerSiteSettingsObject_SameVoltageForcedAndCurrentLimitDividedEqually()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -2025,7 +2090,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
-        [Fact(Skip = "Temporarily disabled because HasGangedChannels property not computed correctly")]
+        [Fact]
         public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenForceVoltage_CorrectVoltageForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -2127,6 +2192,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void DifferentSMUDevicesGanged_ForceDifferentPerPinVoltagesWithSymmetricLimitOnGangedPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ForceVoltageTest()
+            {
+                sessionsBundle.ForceVoltage(voltageLevels: new Dictionary<string, double>() { ["VCC1"] = 1, ["VCC2"] = 2, ["VCC3"] = 3, ["VCC4"] = 2, ["VCC5"] = 2 }, currentLimit: 0.6);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
         public void DifferentSMUDevicesGanged_ForcePerSiteVoltagesWithSymmetricLimit_VoltagesForcedAndCurrentLimitDividedCorrectly()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -2176,6 +2258,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 AssertVoltageSettings(channelOutput, expectedVoltageLevel: sitePinInfo.SiteNumber == 0 ? 4.0 : 2.5, expectedCurrentLimit: 0.9);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceDifferentPerPinVoltagesOnGangedPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var voltageLevels = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 2, [1] = 2.5 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 2, [1] = 2.5 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 4, [1] = 4 },
+                ["VCC5"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 }
+            });
+            void ForceVoltageTest()
+            {
+                sessionsBundle.ForceVoltage(voltageLevels, currentLimit: 4.5);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -2415,7 +2522,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
-        [Fact(Skip = "Temporarily disabled because HasGangedChannels property not computed correctly")]
+        [Fact]
         public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenForceCurrent_CorrectCurrentForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -3040,7 +3147,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
-        [Fact(Skip = "Temporarily disabled because HasGangedChannels property not computed correctly")]
+        [Fact]
         public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigure_CorrectValuesAreSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -3452,6 +3559,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevicesAndConfigureAdvanceSequence_ClearAdvancedSequences_ActiveSequencesCleared(bool pinMapWithChannelGroup)
@@ -3510,6 +3618,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevicesAndConfigureAdvanceSequence_ClearThenDeleteAdvancedSequence_SequenceDeletedSuccessfully(bool pinMapWithChannelGroup)
