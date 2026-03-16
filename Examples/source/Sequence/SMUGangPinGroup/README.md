@@ -8,11 +8,11 @@ There are two scenarios demonstrated by this example:
 
 ### Case A: Ganging Pin Group with 4 channels
 
-Within the accompanying pin map file, there is one pin group named "Vcc4ch". The pins in this pin group map to four channels, each channel belonging to a different single-channel PXIe-4137 module. Note that the first pin in the pin group is considered the primary channel when performing the ganging operation, in this case channel 0 of `SMU_4137_C1_S02` for site 0 and channel 0 of `SMU_4137_C1_S06` for site 1. The pin group name is then passed as parameter to the `SMUGangPinsFIMVThenUngang` method by the GangAndFIMV - 4 Channels step in the MainSequence of the sequence file.
+Within the accompanying pin map file, there is one pin group named "Vcc4ch". The pins in this pin group map to four channels, each channel belonging to a different single-channel PXIe-4137 module. Note that the first pin in the pin group is considered the primary channel during the ganging operation; in this case, channel 0 of `SMU_4137_C1_S02` for site 0 and channel 0 of `SMU_4137_C1_S06` for site 1. The pin group name is then passed as a parameter to the `SMUGangPinsFIMVThenUngang` method by the GangAndFIMV - 4 Channels step in the MainSequence of the sequence file.
 
 ### Case B: Ganging Pin Group with 2 channels
 
-Within the accompanying pin map file, there is one pin group named "Vcc2ch". The pins in this pin group map to two channels, each channel belonging to a different single-channel PXIe-4137 module. Note that the first pin in the pin group is considered the primary channel when performing the ganging operation, in this case channel 0 of `SMU_4137_C1_S02` for site 0 and channel 0 of `SMU_4137_C1_S06` for site 1. The pin group name is then passed as parameter to the same `SMUGangPinsFIMVThenUngang` method as before, but by the GangAndFIMV - 2 Channels step in the MainSequence of the sequence file.
+Within the accompanying pin map file, there is one pin group named "Vcc2ch". The pins in this pin group map to two channels, each channel belonging to a different single-channel PXIe-4137 module. Note that the first pin in the pin group is considered the primary channel during the ganging operation; in this case, channel 0 of `SMU_4137_C1_S02` for site 0 and channel 0 of `SMU_4137_C1_S06` for site 1. The pin group name is then passed as a parameter to the same `SMUGangPinsFIMVThenUngang` method as before, but by the GangAndFIMV - 2 Channels step in the MainSequence of the sequence file.
 
 ## 2. Ganging and Unganging Pin Groups at the Sequence level
 
@@ -25,24 +25,24 @@ These two functions are called at different places within the test program to ei
 
 ### Case C: Ganging Pin Group Dynamically at the Sequence Level
 
-The two functions are called before and after the step `Force Voltage Measure Current (FVMI)`. It uses the same pin group name "Vcc4ch". This is considered a dynamic gang as the ganging operation is performed only for certain steps within MainSequence, where the pins in pin group can be individually utilized for other steps in MainSequence.
+The two functions are called before and after the step `Force Voltage Measure Current (FVMI)`. It uses the same pin group name "Vcc4ch". This is considered a dynamic gang, as the ganging operation is performed only for certain steps within MainSequence, where the pins in the pin group can be individually utilized for other steps in MainSequence.
 
 ### Case D: Ganging Pin Group Statically at the Sequence Level
 
-The same two functions are called in `ProcessSetup` and `ProcessCleanup` sequences, respectively, but target a different pin group name "Vref8ch". This demonstrates when the pins of the pin group are aways configured to be ganged together throughout testing, thus they only need to be ganged once at the very beginning of the test program and unganged at the very end of test program. This is considered a static gang as the ganging operation is performed only once and remain ganged throughout testing.
+The same two functions are called in `ProcessSetup` and `ProcessCleanup` sequences, respectively, but target a different pin group name "Vref8ch". This demonstrates when the pins of the pin group are always configured to be ganged together throughout testing; thus, they only need to be ganged once at the very beginning of the test program and unganged at the very end of the test program. This is considered a static gang, as the ganging operation is performed only once and remains ganged throughout testing.
 
 ### Prerequisites
 
-1. If you want to use the example you must have the following software installed:
+1. If you want to use the example, you must have the following software installed:
    - STS Software 24.5.0 or later
-2. To run the example you must also have:
-   - 16 NI-DCPower instruments (NI-PXIe 4137) should be available, named sequentially from `SMU_4137_C1_S02` to `SMU_4137_C1_S17` as defined in NI-MAX.
+2. To run the example, you should also have:
+   - 16 NI-DCPower instruments (NI-PXIe 4137) available, named sequentially from `SMU_4137_C1_S02` to `SMU_4137_C1_S17`, as defined in NI-MAX.
    - TestStand configured to use the Batch process model.
 
 > **NOTE**
 >
 > You can view the example sequence file in the TestStand Sequence Editor and C# code source files in Visual Studio or any text editor without meeting the #2 requirement.
-> To run the example though, you must have the required instruments physically installed in your system or simulated using Offline Mode.
+> To run the example, however, you must have the required instruments physically installed in your system or simulated using Offline Mode.
 >
 > Complete the following steps to simulate the instruments in Offline Mode:
 >
@@ -55,11 +55,11 @@ The same two functions are called in `ProcessSetup` and `ProcessCleanup` sequenc
 Complete the following steps to use this example. You can also run this example in offline mode to see it in action.
 
 1. Select **Semiconductor Module -> Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the STLExample.SMUGangPinGroup.pinmap file in the Pin Map Editor.
-The pin map file defines the following information:
+The pin map file defines the following:
    - 16 NI-DCPower instruments (NI-PXIe 4137) named sequentially from `SMU_4137_C1_S02` to `SMU_4137_C1_S17`.
-   - Four DUT pins named `Vcc0`, `Vcc1`, `Vcc2` and `Vcc3`.
-   - Eight System pins named `Vref0`, `Vref1`, `Vref2`, `Vref3`, `Vref4`, `Vref5`, `Vref6` and `Vref7`.
-   - Three pin groups named `Vcc2ch`, `Vcc4ch` and `Vref8ch`.
+   - Four DUT pins named `Vcc0`, `Vcc1`, `Vcc2`, and `Vcc3`.
+   - Eight System pins named `Vref0`, `Vref1`, `Vref2`, `Vref3`, `Vref4`, `Vref5`, `Vref6`, and `Vref7`.
+   - Three pin groups named `Vcc2ch`, `Vcc4ch`, and `Vref8ch`.
    - Two sites on the tester.
    - A series of connections for each site, in which each connection specifies a DUT pin, a site number, an instrument, and an instrument channel.
 2. Complete the following steps to review the `MainSequence`, `ProcessSetup`, and `ProcessCleanup` sequences that this test program uses.
