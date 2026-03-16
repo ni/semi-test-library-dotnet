@@ -233,7 +233,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         private void ParseAndValidateChannelString(string channelString, Regex regex, out int connectorNumber, out int portNumber, out int channelNumber)
         {
             var matches = regex.Match(channelString);
-            if (!matches.Groups["Connector"].Success && !matches.Groups["DIO"].Success)
+            if (!matches.Groups["Connector"].Success || !matches.Groups["DIO"].Success)
             {
                 throw new ArgumentException($"Invalid value in channelList ({channelString}). " +
                     "The channelList must be a comma separated string of values, " +
