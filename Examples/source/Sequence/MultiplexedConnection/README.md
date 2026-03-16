@@ -52,7 +52,7 @@ Explore `MainSequence` and the files under `Code Modules/TestSteps` to see the s
 
 1. `SetupAndCleanupSteps.InitializeGenericMultiplexerSession(ISemiconductorModuleContext tsmContext, string multiplexerTypeId)` gets switch names from `tsmContext` for `multiplexerTypeId` and initializes a session for each switch.
 2. `SetupAndCleanupSteps.CleanupGenericMultiplexerSession(ISemiconductorModuleContext tsmContext, string multiplexerTypeId)` gets all switch sessions from `tsmContext` and closes each session.
-3. `TestStep.OneInstrumentChannelToManySitesForOneDutPin(ISemiconductorModuleContext tsmContext, string dutPinName, string endOfTestingRelayConfigurationName = "")` queries per-site routes for `dutPinName`, applies relay configurations, performs per-site measurements, publishes results, and applies `endOfTestingRelayConfigurationName`.
+3. `TestStep.OneInstrumentChannelToManySitesForOneDutPin(ISemiconductorModuleContext tsmContext, string dutPinName, string endOfTestingRelayConfigurationName = "", string multiplexerTypeId = "NIGenericMultiplexer")` queries per-site routes for `dutPinName`, applies relay configurations, performs per-site measurements, publishes results, and applies `endOfTestingRelayConfigurationName`. By default it uses `NIGenericMultiplexer`, and callers can override `multiplexerTypeId` when needed.
 
 ## Using the Example
 
@@ -73,4 +73,5 @@ Complete the following steps to run this example.
    - `ProcessSetup` calls `InitializeGenericMultiplexerSession` with `multiplexerTypeId` set to `NIGenericMultiplexer`.
    - `MainSequence` calls `OneInstrumentChannelToManySitesForOneDutPin` with `dutPinName` set to `A` and `endOfTestingRelayConfigurationName` set to `DisconnectDmmFromPinAOnAllSites`.
    - `ProcessCleanup` calls `CleanupGenericMultiplexerSession` with `multiplexerTypeId` set to `NIGenericMultiplexer`, then calls standard cleanup instrumentation.
+   - To use a different multiplexer type, pass `multiplexerTypeId` with the matching type ID from the pin map.
 5. To run the test program, click the **Start/Resume Lot** button on the TSM toolbar.

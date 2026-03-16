@@ -49,7 +49,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.MultiplexedConne
         {
             try
             {
-                var sessions = tsmContext.GetAllSwitchSessions();
+                var sessions = tsmContext.GetAllSwitchSessions(multiplexerTypeId);
 
                 foreach (var session in sessions)
                 {

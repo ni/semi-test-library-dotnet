@@ -19,18 +19,24 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.MultiplexedConne
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="dutPinName">The DUT pin name mapped through the multiplexed connection.</param>
         /// <param name="endOfTestingRelayConfigurationName">Relay configuration to apply after all site-specific measurements are complete.</param>
+        /// <param name="multiplexerTypeId">The multiplexer type identifier in the pin map. Defaults to <c>NIGenericMultiplexer</c>.</param>
         /// <remarks>
-        /// The method queries site-specific routes from TSM, applies each route using relay configurations,
+        /// The method queries site-specific routes from TSM for the requested multiplexer type ID, applies each route using relay configurations,
         /// performs a DMM read for each site context, and publishes the measurement result.
         /// </remarks>
         public static void OneInstrumentChannelToManySitesForOneDutPin(
             ISemiconductorModuleContext tsmContext,
             string dutPinName,
-            string endOfTestingRelayConfigurationName = "")
+            string endOfTestingRelayConfigurationName = "",
+            string multiplexerTypeId = "NIGenericMultiplexer")
         {
             // Retrieve site-specific route names for the requested DUT pin.
             // Route names are defined in the pin map and map to relay configurations.
-            tsmContext.GetSwitchSessions(dutPinName, out ISemiconductorModuleContext[] tsmContexts, out string[] routes);
+            tsmContext.GetSwitchSessions(
+                dutPinName,
+                multiplexerTypeId,
+                out ISemiconductorModuleContext[] tsmContexts,
+                out string[] routes);
 
             // Execute one site at a time because this flow shares a single instrument channel.
             for (int i = 0; i < tsmContexts.Length; i++)
