@@ -354,6 +354,7 @@
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{F158AB81-9DE8-41BF-8B72-67F7E705D37D}</Property>
+				<Property Name="Bld_version.build" Type="Int">1</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">RSeries7822RDriverAPI.dll</Property>
 				<Property Name="Destination[0].path" Type="Path">../NI_AB_PROJECTNAME.dll</Property>
@@ -367,7 +368,7 @@
 				<Property Name="Dll_headerGUID" Type="Str">{0122F12D-6B84-4015-B6BE-3A6F56CCB4F8}</Property>
 				<Property Name="Dll_libGUID" Type="Str">{DAD5E5D7-B780-4CB8-B2FE-E76025814BBF}</Property>
 				<Property Name="Dll_privateExecSys" Type="Bool">true</Property>
-				<Property Name="Source[0].itemID" Type="Str">{45F6D065-35CE-427B-A1C6-92C84B876409}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{49A40F26-F53D-479D-B784-0975268C7000}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].Container.applyInclusion" Type="Bool">true</Property>
 				<Property Name="Source[1].Container.depDestIndex" Type="Int">0</Property>
@@ -481,7 +482,7 @@
 				<Property Name="Source[5].ExportedVI.VIProtoInfo[2]VIProtoInputIdx" Type="Int">10</Property>
 				<Property Name="Source[5].ExportedVI.VIProtoInfo[2]VIProtoLenInput" Type="Int">-1</Property>
 				<Property Name="Source[5].ExportedVI.VIProtoInfo[2]VIProtoLenOutput" Type="Int">-1</Property>
-				<Property Name="Source[5].ExportedVI.VIProtoInfo[2]VIProtoName" Type="Str">ChannelName</Property>
+				<Property Name="Source[5].ExportedVI.VIProtoInfo[2]VIProtoName" Type="Str">PortName</Property>
 				<Property Name="Source[5].ExportedVI.VIProtoInfo[2]VIProtoOutputIdx" Type="Int">-1</Property>
 				<Property Name="Source[5].ExportedVI.VIProtoInfo[2]VIProtoPassBy" Type="Int">1</Property>
 				<Property Name="Source[5].ExportedVI.VIProtoInfo[3]CallingConv" Type="Int">0</Property>
@@ -490,10 +491,10 @@
 				<Property Name="Source[5].ExportedVI.VIProtoInfo[3]VIProtoInputIdx" Type="Int">9</Property>
 				<Property Name="Source[5].ExportedVI.VIProtoInfo[3]VIProtoLenInput" Type="Int">-1</Property>
 				<Property Name="Source[5].ExportedVI.VIProtoInfo[3]VIProtoLenOutput" Type="Int">-1</Property>
-				<Property Name="Source[5].ExportedVI.VIProtoInfo[3]VIProtoName" Type="Str">ChannelData</Property>
+				<Property Name="Source[5].ExportedVI.VIProtoInfo[3]VIProtoName" Type="Str">PortData</Property>
 				<Property Name="Source[5].ExportedVI.VIProtoInfo[3]VIProtoOutputIdx" Type="Int">-1</Property>
 				<Property Name="Source[5].ExportedVI.VIProtoInfo[3]VIProtoPassBy" Type="Int">1</Property>
-				<Property Name="Source[5].ExportedVI.VIProtoInfoCPTM" Type="Bin">)Q#!!!!!!!=!$U!$!!F&amp;=H*P=G.P:'5!"!!!!"&gt;!#!!15G6G:8*F&lt;G.F)%F%)'^V&gt;!!!%U!&amp;!!R$;'&amp;O&lt;G6M)%2B&gt;'%!!":!-0````]-1WBB&lt;GZF&lt;#"O97VF!!!41!A!$&amp;*F:G6S:7ZD:3"*2!!!6!$Q!!Q!!!!"!!%!!A!"!!%!!1!"!!%!!Q!%!!5$!!"Y!!!*!!!!!!!!!!!!!!!*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)!!!##!!!!!A!!!!!!1!'</Property>
+				<Property Name="Source[5].ExportedVI.VIProtoInfoCPTM" Type="Bin">)Q#!!!!!!!=!%5!$!!J&amp;=H*P=C"D&lt;W2F!!!%!!!!&amp;U!)!""3:7:F=G6O9W5A351A&lt;X6U!!!01!5!#6"P=H1A2'&amp;U91!31$$`````#6"P=H1A&lt;G&amp;N:1!41!A!$&amp;*F:G6S:7ZD:3"*2!!!6!$Q!!Q!!!!"!!%!!A!"!!%!!1!"!!%!!Q!%!!5$!!"Y!!!*!!!!!!!!!!!!!!!*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)!!!##!!!!!A!!!!!!1!'</Property>
 				<Property Name="Source[5].ExportedVI.VIProtoInfoVIProtoItemCount" Type="Int">4</Property>
 				<Property Name="Source[5].itemID" Type="Ref">/My Computer/APIs/WriteData.vi</Property>
 				<Property Name="Source[5].sourceInclusion" Type="Str">TopLevel</Property>
@@ -517,7 +518,7 @@
 				<Property Name="Source[6].ExportedVI.VIProtoInfo[2]VIProtoInputIdx" Type="Int">10</Property>
 				<Property Name="Source[6].ExportedVI.VIProtoInfo[2]VIProtoLenInput" Type="Int">-1</Property>
 				<Property Name="Source[6].ExportedVI.VIProtoInfo[2]VIProtoLenOutput" Type="Int">-1</Property>
-				<Property Name="Source[6].ExportedVI.VIProtoInfo[2]VIProtoName" Type="Str">ChannelName</Property>
+				<Property Name="Source[6].ExportedVI.VIProtoInfo[2]VIProtoName" Type="Str">PortName</Property>
 				<Property Name="Source[6].ExportedVI.VIProtoInfo[2]VIProtoOutputIdx" Type="Int">-1</Property>
 				<Property Name="Source[6].ExportedVI.VIProtoInfo[2]VIProtoPassBy" Type="Int">1</Property>
 				<Property Name="Source[6].ExportedVI.VIProtoInfo[3]CallingConv" Type="Int">0</Property>
@@ -526,10 +527,10 @@
 				<Property Name="Source[6].ExportedVI.VIProtoInfo[3]VIProtoInputIdx" Type="Int">-1</Property>
 				<Property Name="Source[6].ExportedVI.VIProtoInfo[3]VIProtoLenInput" Type="Int">-1</Property>
 				<Property Name="Source[6].ExportedVI.VIProtoInfo[3]VIProtoLenOutput" Type="Int">-1</Property>
-				<Property Name="Source[6].ExportedVI.VIProtoInfo[3]VIProtoName" Type="Str">ChannelData</Property>
+				<Property Name="Source[6].ExportedVI.VIProtoInfo[3]VIProtoName" Type="Str">PortData</Property>
 				<Property Name="Source[6].ExportedVI.VIProtoInfo[3]VIProtoOutputIdx" Type="Int">2</Property>
 				<Property Name="Source[6].ExportedVI.VIProtoInfo[3]VIProtoPassBy" Type="Int">0</Property>
-				<Property Name="Source[6].ExportedVI.VIProtoInfoCPTM" Type="Bin">)Q#!!!!!!!=!$U!$!!F&amp;=H*P=G.P:'5!"!!!!".!"1!-1WBB&lt;GZF&lt;#"%982B!!!81!A!%&amp;*F:G6S:7ZD:3"*2#"P&gt;81!!":!-0````]-1WBB&lt;GZF&lt;#"O97VF!!!41!A!$&amp;*F:G6S:7ZD:3"*2!!!6!$Q!!Q!!!!"!!)!!Q!"!!%!!1!"!!%!!1!%!!5$!!"Y!!!*!!!!!!!!!!E!!!!*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!##!!!!!A!!!!!!1!'</Property>
+				<Property Name="Source[6].ExportedVI.VIProtoInfoCPTM" Type="Bin">)Q#!!!!!!!=!%5!$!!J&amp;=H*P=C"D&lt;W2F!!!%!!!!$U!&amp;!!F1&lt;X*U)'2B&gt;'%!&amp;U!)!""3:7:F=G6O9W5A351A&lt;X6U!!!31$$`````#6"P=H1A&lt;G&amp;N:1!41!A!$&amp;*F:G6S:7ZD:3"*2!!!6!$Q!!Q!!!!"!!)!!Q!"!!%!!1!"!!%!!1!%!!5$!!"Y!!!*!!!!!!!!!!E!!!!*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!##!!!!!A!!!!!!1!'</Property>
 				<Property Name="Source[6].ExportedVI.VIProtoInfoVIProtoItemCount" Type="Int">4</Property>
 				<Property Name="Source[6].itemID" Type="Ref">/My Computer/APIs/ReadData.vi</Property>
 				<Property Name="Source[6].sourceInclusion" Type="Str">TopLevel</Property>
