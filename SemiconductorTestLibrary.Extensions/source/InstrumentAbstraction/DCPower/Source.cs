@@ -1308,7 +1308,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var settings = new DCPowerSourceSettings()
             {
-                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                 Limit = voltageLimit,
                 LevelRange = currentLevelRange,
@@ -1351,7 +1351,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var settings = new DCPowerSourceSettings()
             {
-                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                 Limit = voltageLimit,
                 LevelRange = currentLevelRange,
@@ -1380,7 +1380,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var settings = new DCPowerSourceSettings()
             {
-                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                 Limit = voltageLimit,
                 LevelRange = currentLevelRange,
