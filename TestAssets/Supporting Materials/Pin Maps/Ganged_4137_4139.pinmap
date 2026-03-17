@@ -54,13 +54,13 @@
 		<Site siteNumber="1" />
 	</Sites>
 	<Connections>
-		<Connection pin="Vaa" siteNumber="0" instrument="SMU_4137_C5_S02" channel="0" />
-		<Connection pin="Vab" siteNumber="0" instrument="SMU_4137_C5_S03" channel="0" />
+		<Connection pin="Vaa" siteNumber="0" instrument="SMU_4139_C2_S17" channel="0" />
+		<Connection pin="Vab" siteNumber="0" instrument="SMU_4139_C5_S17" channel="0" />
 		<Connection pin="Vac" siteNumber="0" instrument="SMU_4137_C5_S04" channel="0" />
 		<Connection pin="Vad" siteNumber="0" instrument="SMU_4137_C5_S05" channel="0" />
 		<Connection pin="Vaa" siteNumber="1" instrument="SMU_4139_C1_S05" channel="0" />
 		<Connection pin="Vab" siteNumber="1" instrument="SMU_4139_C2_S08" channel="0" />
-		<Connection pin="Vac" siteNumber="1" instrument="SMU_4139_C2_S17" channel="0" />
-		<Connection pin="Vad" siteNumber="1" instrument="SMU_4139_C5_S17" channel="0" />
+		<Connection pin="Vac" siteNumber="1" instrument="SMU_4137_C5_S02" channel="0" />
+		<Connection pin="Vad" siteNumber="1" instrument="SMU_4137_C5_S03" channel="0" />
 	</Connections>
 </PinMap>
