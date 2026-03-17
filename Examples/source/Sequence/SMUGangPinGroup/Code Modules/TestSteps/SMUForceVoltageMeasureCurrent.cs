@@ -9,7 +9,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
     {
         /// <summary>
         /// Forces the specified DC voltage on all pins and/or pin groups specified, waits the specified amount of settling time,
-        /// and then measures the current on those pins and publishes the results to TestStand. Both DCPower and Digital PPMU pins are supported.
+        /// and then measures the current on those pins and publishes the results to TestStand.
         /// Both the <paramref name="settlingTime"/> and <paramref name="apertureTime"/> inputs are expected to be provided in Seconds.
         /// By default the <paramref name="apertureTime"/> input is set to -1, which will cause this input to be ignored
         /// and the device will use any pre-configured aperture time set by a proceeding set, such as the Setup NI-DCPower Instrumentation step.

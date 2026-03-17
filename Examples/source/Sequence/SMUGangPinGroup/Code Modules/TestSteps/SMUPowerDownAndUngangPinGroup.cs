@@ -10,7 +10,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
     /// These methods can be used to gang DUT pins together to output higher current.
     /// These methods are only supported under the following conditions:
     /// 1. The pin map must define a pin group to contain all the pins that are to be ganged together.
-    /// 2. The SMU module must support the start trigger, source trigger and measure trigger feature.
+    /// 2. The SMU module must support the source trigger and measure trigger feature.
     /// For example: PXIe-4137, PXIe-4139, PXIe-4147, PXIe-4150, PXIe-4162, and PXIe-4163.
     /// 3. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
     /// The example methods of this class demonstrate how relay configurations can be applied
@@ -21,20 +21,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
     {
         /// <summary>
         /// Powers down the ganged pin group and then ungangs the pins, allowing each pin to operate independently afterwards.
-        /// Use the disconnectedRelayConfiguration parameter to specify the appropriate relay configuration
+        /// Use the relayConfigurationToDisconnect parameter to specify the appropriate relay configuration
         /// that will physically disconnect the pins in the pin group via external relays on the application load board.
         /// If the application load board is designed with the target pins permanently connected together,
-        /// do not specify a value for the disconnectedRelayConfiguration parameter.
-        /// The settlingTime parameter is only applicable when the disconnectedRelayConfiguration parameter is used.
+        /// do not specify a value for the relayConfigurationToDisconnect parameter.
+        /// The settlingTime parameter is only applicable when the relayConfigurationToDisconnect parameter is used.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinGroup">Name of the pin group to be ganged.</param>
-        /// <param name="disconnectedRelayConfiguration">Relay configuration that physically disconnects the channels on the application load board, if required.</param>
+        /// <param name="relayConfigurationToDisconnect">Relay configuration that physically disconnects the channels on the application load board, if required.</param>
         /// <param name="settlingTime">Settling time required for the relay configuration to be connected.</param>
         public static void SMUPowerDownAndUngangPinGroup(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
-            string disconnectedRelayConfiguration = "",
+            string relayConfigurationToDisconnect = "",
             double settlingTime = 0.001)
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
@@ -47,9 +47,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
             smuBundle.UngangPinGroup(pinGroup);
 
             // Configure the appropriate relays required to physically disconnect the pins externally.
-            if (!string.IsNullOrEmpty(disconnectedRelayConfiguration))
+            if (!string.IsNullOrEmpty(relayConfigurationToDisconnect))
             {
-                tsmContext.ApplyRelayConfiguration(disconnectedRelayConfiguration, waitSeconds: settlingTime);
+                tsmContext.ApplyRelayConfiguration(relayConfigurationToDisconnect, waitSeconds: settlingTime);
             }
         }
     }

@@ -10,7 +10,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
     /// These methods can be used to gang DUT pins together to output higher current.
     /// These methods are only supported under the following conditions:
     /// 1. The pin map must define a pin group to contain all the pins that are to be ganged together.
-    /// 2. The SMU module must support the start trigger, source trigger and measure trigger feature.
+    /// 2. The SMU module must support the source trigger and measure trigger feature.
     /// For example: PXIe-4137, PXIe-4139, PXIe-4147, PXIe-4150, PXIe-4162, and PXIe-4163.
     /// 3. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
     /// The example methods of this class demonstrate how relay configurations can be applied
@@ -21,34 +21,33 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
     {
         /// <summary>
         /// Gangs the pins in specified pin group, allowing them to operate in unison to achieve a higher current output.
-        /// Use the connectedRelayConfiguration parameter to specify the appropriate relay configuration
+        /// Use the relayConfigurationToConnect parameter to specify the appropriate relay configuration
         /// that will physically connect the pins in the pin group together via external relays on the application load board.
         /// If the application load board is designed with the target pins permanently connected together,
-        /// do not specify a value for the connectedRelayConfiguration parameter.
-        /// The settlingTime parameter is only applicable when the connectedRelayConfiguration parameter is used.
+        /// do not specify a value for the relayConfigurationToConnect parameter.
+        /// The settlingTime parameter is only applicable when the relayConfigurationToConnect parameter is used.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinGroup">Name of the pin group to be ganged.</param>
-        /// <param name="connectedRelayConfiguration">Relay configuration that physically connects all the channels in parallel on the application load board, if required.</param>
+        /// <param name="relayConfigurationToConnect">Relay configuration that physically connects all the channels in parallel on the application load board, if required.</param>
         /// <param name="settlingTime">Settling time required for the relay configuration to be connected.</param>
         public static void SMUGangPinGroup(
             ISemiconductorModuleContext tsmContext,
             string pinGroup,
-            string connectedRelayConfiguration = "",
+            string relayConfigurationToConnect = "",
             double settlingTime = 0.001)
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle smuBundle = sessionManager.DCPower(pinGroup);
 
             // Configure the appropriate relays required to physically connect the pins externally.
-            if (!string.IsNullOrEmpty(connectedRelayConfiguration))
+            if (!string.IsNullOrEmpty(relayConfigurationToConnect))
             {
-                tsmContext.ApplyRelayConfiguration(connectedRelayConfiguration, waitSeconds: settlingTime);
+                tsmContext.ApplyRelayConfiguration(relayConfigurationToConnect, waitSeconds: settlingTime);
             }
 
             // Use the GangPinGroup method on the sessions bundle to perform the gang operation.
-            // After which, the pins in the pin group will able to operate in unison when performing subsequent operations on the pin group,
-            // whether in this or a proceeding code module.
+            // After which, the pins in the pin group will be able to operate in unison when performing subsequent operations on the pin group.
             smuBundle.GangPinGroup(pinGroup);
         }
     }

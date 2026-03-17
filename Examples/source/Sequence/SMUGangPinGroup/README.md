@@ -8,11 +8,11 @@ There are two scenarios demonstrated by this example:
 
 ### Case A: Ganging Pin Group with 4 channels
 
-Within the accompanying pin map file, there is one pin group named "Vcc4ch". The pins in this pin group map to four channels, each channel belonging to a different single-channel PXIe-4137 module. Note that the first pin in the pin group is considered the primary channel during the ganging operation; in this case, channel 0 of `SMU_4137_C1_S02` for site 0 and channel 0 of `SMU_4137_C1_S06` for site 1. The pin group name is then passed as a parameter to the `SMUGangPinsFIMVThenUngang` method by the GangAndFIMV - 4 Channels step in the MainSequence of the sequence file.
+Within the accompanying pin map file, there is one pin group named "Vcc4ch". The pins in this pin group map to four channels, each channel belonging to a different single-channel PXIe-4137 module. The pin group name is then passed as a parameter to the `SMUGangPinsFIMVThenUngang` method by the GangAndFIMV - 4 Channels step in the MainSequence of the sequence file.
 
 ### Case B: Ganging Pin Group with 2 channels
 
-Within the accompanying pin map file, there is one pin group named "Vcc2ch". The pins in this pin group map to two channels, each channel belonging to a different single-channel PXIe-4137 module. Note that the first pin in the pin group is considered the primary channel during the ganging operation; in this case, channel 0 of `SMU_4137_C1_S02` for site 0 and channel 0 of `SMU_4137_C1_S06` for site 1. The pin group name is then passed as a parameter to the same `SMUGangPinsFIMVThenUngang` method as before, but by the GangAndFIMV - 2 Channels step in the MainSequence of the sequence file.
+Within the accompanying pin map file, there is one pin group named "Vcc2ch". The pins in this pin group map to two channels, each channel belonging to a different single-channel PXIe-4137 module. The pin group name is then passed as a parameter to the same `SMUGangPinsFIMVThenUngang` method as before, but by the GangAndFIMV - 2 Channels step in the MainSequence of the sequence file.
 
 ## 2. Ganging and Unganging Pin Groups at the Sequence level
 
@@ -63,7 +63,7 @@ The pin map file defines the following:
    - Two sites on the tester.
    - A series of connections for each site, in which each connection specifies a DUT pin, a site number, an instrument, and an instrument channel.
 2. Complete the following steps to review the `MainSequence`, `ProcessSetup`, and `ProcessCleanup` sequences that this test program uses.
-   1. On the `Sequences` pane, select the MainSequence sequence and review the objectives each step performs and optionally review the C#/.NET code associated with each step:
+   1. On the `Sequences` pane, select the `MainSequence` sequence and review the objectives each step performs and optionally review the C#/.NET code associated with each step:
       - In the Setup & Cleanup step group, there are no steps.
       - In the Main step group, the example demonstrates:
          - Ganging & unganging at code level for the `Vcc4ch` pin group.
