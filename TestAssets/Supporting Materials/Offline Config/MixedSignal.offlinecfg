@@ -96,7 +96,7 @@
 		<PXI Name="DSA_4467_C6_S15" Model="NI PXIe-4467" Slot="15" />
 	  	<PXI Name="DMM_4081_C6_S16" Model="NI PXIe-4081" Slot="16" />
 	</PXIChassis>
-		<PXIChassis Number="7" Model="NI PXIe-1095">
+	<PXIChassis Number="7" Model="NI PXIe-1095">
 		<PXI Name="SMU_4113_C7_S02" Model="NI PXIe-4113" Slot="2" />
 		<PXI Name="SMU_4135_C7_S03" Model="NI PXIe-4135" Slot="3" />
 		<PXI Name="SMU_4141_C7_S04" Model="NI PXIe-4141" Slot="4" />
