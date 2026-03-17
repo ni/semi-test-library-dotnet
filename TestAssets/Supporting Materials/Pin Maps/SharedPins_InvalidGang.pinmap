@@ -48,6 +48,11 @@
 			<PinReference pin="Vac" />
 			<PinReference pin="Vad" />
 		</PinGroup>
+		<PinGroup name="Vc3">
+			<PinReference pin="Vad" />
+			<PinReference pin="Vaa" />
+			<PinReference pin="Vab" />
+		</PinGroup>
 	</PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
