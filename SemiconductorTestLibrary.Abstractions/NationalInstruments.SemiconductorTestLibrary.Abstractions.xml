@@ -5582,6 +5582,11 @@
               Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are part of a cascaded pin group. Cannot perform Merge or Gang operation on cascaded pins..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupContainsSharedPin">
+            <summary>
+              Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are part of a shared pin on site {2}. Cannot perform Merge or Gang operation on shared pins. .
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupNotCascaded">
             <summary>
               Looks up a localized string similar to Pin(s) {0} from the pin group &quot;{1}&quot; is/are not cascaded. Uncascade operation is invalid. .
