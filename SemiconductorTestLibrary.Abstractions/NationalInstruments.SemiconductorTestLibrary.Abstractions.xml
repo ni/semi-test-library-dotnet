@@ -42,6 +42,11 @@
             Additionally contains 'AssignedTmuContext' property to store and retrieve TMU context.
             </remarks>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.InstrumentName">
+            <summary>
+            Contains name of the resource.
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.AssignedTmuContext">
             <summary>
             Gets or sets the Assigned TMU context.
@@ -53,7 +58,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.#ctor(System.Int32,System.String)">
             <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.#ctor(System.Int32,System.String)"/>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.#ctor(System.Int32,System.String,System.String,System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.#ctor(System.Int32,System.String,System.String,System.String,System.String)">
             <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.#ctor(System.Int32,System.String,System.String,System.String)"/>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.ExceptionCollector">
