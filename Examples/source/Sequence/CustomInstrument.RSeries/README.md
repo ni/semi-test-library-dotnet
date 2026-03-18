@@ -69,10 +69,10 @@ These files represent the driver used to control the PXIe-7822R R Series device 
 
 1. If you want to use the example you must have the following software installed:
     - STS Software 24.5.0 or later
-1. To run the example you must also have:
+2. To run the example you must also have:
     - A physical PXIe-7822R instrument with an alias of 'RIO_7822R_C1_S06' defined in NI MAX.
     - TestStand configured to use the Batch process model.
-1. To open, view, and compile the LabVIEW source files (GitHub only), you must have:
+3. To open, view, and compile the LabVIEW source files (GitHub only), you must have:
     - LabVIEW FPGA Module
     - Xilinx compiler / Compile worker with Xilinx cloud server
 
@@ -87,13 +87,15 @@ Open the STLExample.CustomInstrument.RSeries7822R.seq file in TestStand and comp
 - Review the pin map from the TestStand Sequence Editor by selecting **Semiconductor Module -> Edit Pin Map File...** or clicking the Edit Pin Map File button on the TSM toolbar. The pin map file defines the following information:
   - R Series instrument `PXIe-7822R` with alias name: `RIO_7822R_C1_S06` Instrument Type Id: `PXI_RSeries_7822R`, Instrument Type: `Custom Instrument`
   - Two sites: 0 & 1
-  - DUT pins: `DigitalInput_A`, `DigitalInput_B`, `DigitalOutput_A`, `DigitalOutput_B`
+  - DUT pin groups: `DigitalInput_A`, `DigitalInput_B`, `DigitalOutput_A`, `DigitalOutput_B`
+    - Each pin group contains 8 DUT pins and represents a specific digital port of the DUT.
   - Connections:  
-  For site 0, all four ports from connector 0 are used. For site 1, all four ports from connector 1 are used."
-    - `DigitalInput_A` --> `DIOPORT0`
-    - `DigitalInput_B` --> `DIOPORT1`
-    - `DigitalOutput_A`--> `DIOPORT2`
-    - `DigitalOutput_B`--> `DIOPORT3`
+    - Channels from each digital port of the DUT are mapped to corresponding channels of each digital port of the R series device.
+    - For site 0, all four ports from connector 0 are used. For site 1, all four ports from connector 1 are used.
+      - DUT pins in the `DigitalInput_A` pin group map directly to the instrument channels of the R series device's `Port0`.
+      - DUT pins in the `DigitalInput_B` pin group map directly to the instrument channels of the R series device's `Port1`.
+      - DUT pins in the `DigitalOutput_A` pin group map directly to the instrument channels of the R series device's `Port2`.
+      - DUT pins in the `DigitalOutput_B` pin group map directly to the instrument channels of the R series device's `Port3`.
 - On the Sequences pane, select the **ProcessSetup** sequence. TestStand calls this sequence once at the start of testing.
   - Select `Setup RSeries7822R Instrumentation` step and note that the `enableLoopBackConfiguration` parameter is set to default (true). If you are using external physical connections, select `false`.
 - On the Sequences pane, select the **ProcessCleanup** sequence. TestStand calls this sequence once at the end of testing.
@@ -101,11 +103,10 @@ Open the STLExample.CustomInstrument.RSeries7822R.seq file in TestStand and comp
 - On the Sequences pane, select the **MainSequence** sequence. TestStand calls this sequence in separate threads for each site, and loops over it for each batch in the lot or until testing ends.
   - This is where the `Digital Read Write Test` step is called from.
   - Select the `Digital Read Write Test` step to view the Module tab of step's Step Settings pane. Note that the step parameters are configured with the following arguments, which are defined by local variables declared in the Variables tab.
-    - `digitalInputPins = Locals.DigitalInputPins` -> `"{DigitalInput_A, DigitalInput_B}"`
-    - `digitalOutputPins = Locals.DigitalOutputPins` -> `"{DigitalOutput_A, DigitalOutput_B}"`
-    - `pinData = Locals.PinData` -> `"{127, 255}"`
-    - `publishedDataId = Locals.PublishedDataId` -> `"DigitalOutData"`
-  - Navigate to Tests tab from within the Step Settings pane. Note that there are two test items, one for each digital output pin, validated against their separate limits.
-    - DigitalOutput_A validated against '127'.
-    - DigitalOutput_B validated against '255'.
+    - `dutDigitalInputPorts = Locals.DutDigitalInputPorts` -> `"{DigitalInput_A, DigitalInput_B}"`
+    - `dutDigitalOutputPorts = Locals.DutDigitalOutputPorts` -> `"{DigitalOutput_A, DigitalOutput_B}"`
+    - `portData = Locals.PortData` -> `"{127, 255}"`
+  - Navigate to Tests tab from within the Step Settings pane. Note that there are two test items, one for each digital output port, evaluated against their respective limits.
+    - The `ValidateDigitalOutput A` test is evaluated against limits surrounding the expected '127' value.
+    - The `ValidateDigitalOutput B` test is evaluated against limits surrounding the expected '255' value.
 - To run the test program, click the **Start/Resume Lot** button on the TSM toolbar. You must meet all the [Prerequisites](#prerequisites) before running the test program.
