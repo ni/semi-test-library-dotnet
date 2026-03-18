@@ -1887,7 +1887,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             output.Source.SequenceLoopCount = sequenceLoopCount;
             if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
             {
-                sequence.Select(level => level / gangingInfo.ChannelsCount);
+                sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
             }
             output.Source.SetSequence(sequence);
             if (sequenceStepDeltaTimeInSeconds.HasValue)
