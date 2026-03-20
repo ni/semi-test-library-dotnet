@@ -11,7 +11,23 @@
 		<DUTPin name="Vba" />
 		<DUTPin name="Vbb" />
 	</Pins>
-	<PinGroups></PinGroups>
+	<PinGroups>
+		<PinGroup name="Va2">
+			<PinReference pin="Vaa" />
+			<PinReference pin="Vab" />
+		</PinGroup>
+		<PinGroup name="Va3">
+			<PinReference pin="Vaa" />
+			<PinReference pin="Vab" />
+			<PinReference pin="Vba" />
+		</PinGroup>
+		<PinGroup name="Va4">
+			<PinReference pin="Vaa" />
+			<PinReference pin="Vab" />
+			<PinReference pin="Vba" />
+			<PinReference pin="Vbb" />
+		</PinGroup>
+	</PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
 		<Site siteNumber="1" />
