@@ -2577,23 +2577,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 2, itemsToFetch: 5);
-            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevelRange: 0.1, expectedVoltageLimit: 0.5, expectedVoltageLimitRange: 1, expectedSequenceLoopCount: 1));
-        }
-
-        [Fact]
-        public void DifferentSMUDevicesGanged_ForceCurrentSequence_CorrectValueAreSet()
-        {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
-
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            var sequence = new[] { -1.0, 1.0, 1.5, 1.7, 2.0 };
-            sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2.5, voltageLimitRange: 1, sequenceLoopCount: 1);
-
-            sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 2, itemsToFetch: 5);
-            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevelRange: 2.5, expectedVoltageLimit: 0.5, expectedVoltageLimitRange: 1, expectedSequenceLoopCount: 1));
+            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 1, expectedCurrentLevelRange: 0.1, expectedVoltageLimitRange: 1));
         }
 
         [Theory]
@@ -2637,6 +2621,68 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex, "VDD"), precision: 2, itemsToFetch: 2);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevelRange: 0.1, expectedVoltageLimit: 0.5, expectedVoltageLimitRange: 1, expectedSequenceLoopCount: 2));
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentSequence_CorrectValueAreSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var sequence = new[] { -1.0, 1.0, 1.5, 1.7, 2.0 };
+            sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2.5, voltageLimitRange: 1, sequenceLoopCount: 1);
+
+            sessionsBundle.Abort();
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence.Select(value => value / 5).ToArray(), precision: 2, itemsToFetch: 5);
+            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 1));
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentSequenceWithPerSiteSequence_CorrectValueAreSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var sequence = new SiteData<double[]>(new double[][]
+            {
+                new[] { -1.1, 0.5, 1.1, 1.7, 2.3 },
+                new[] { -1.5, -1, 0.5, 1, 1.5 }
+            });
+            sessionsBundle.ForceCurrentSequence(currentSequences: sequence, voltageLimit: 0.5, sequenceLoopCount: 2);
+
+            sessionsBundle.Abort();
+            var fetchedResults = FetchResults(sessionsBundle);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex).Select(value => value / 5).ToArray(), fetchedResults, precision: 3, itemsToFetch: 5, numberOfPinsPerSite: 5);
+            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentSequenceWithPerPinPerSiteSequence_CorrectValueAreSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var sequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VCC1"] = new Dictionary<int, double[]>() { [0] = new[] { -1.5, 0.9 }, [1] = new[] { -1.2, 0.6 } },
+                ["VCC2"] = new Dictionary<int, double[]>() { [0] = new[] { -1.5, 0.9 }, [1] = new[] { -1.2, 0.6 } },
+                ["VCC3"] = new Dictionary<int, double[]>() { [0] = new[] { -1.5, 0.9 }, [1] = new[] { -1.2, 0.6 } }
+            });
+            sessionsBundle.ForceCurrentSequence(currentSequences: sequence, voltageLimit: 0.5, currentLevelRange: 2, voltageLimitRange: 1, sequenceLoopCount: 2);
+
+            sessionsBundle.Abort();
+            var fetchedResults = FetchResults(sessionsBundle);
+            foreach (var pin in sequence.PinNames)
+            {
+                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex, pin).Select(value => value / 3).ToArray(), fetchedResults, precision: 2, itemsToFetch: 2, numberOfPinsPerSite: 3);
+            }
+            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
         }
 
         [Theory]
@@ -3973,11 +4019,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedVoltageLimit, channelOutput.Source.Current.VoltageLimit);
         }
 
-        private void AssertCurrentSettings(DCPowerOutput channelOutput, double expectedCurrentLevelRange, double expectedVoltageLimit, double expectedVoltageLimitRange, double expectedSequenceLoopCount)
+        private void AssertCurrentSettings(DCPowerOutput channelOutput, double expectedVoltageLimit, double expectedSequenceLoopCount, double? expectedCurrentLevelRange = null, double? expectedVoltageLimitRange = null)
         {
-            Assert.Equal(expectedCurrentLevelRange, channelOutput.Source.Current.CurrentLevelRange);
+            if (expectedCurrentLevelRange.HasValue)
+            {
+                Assert.Equal(expectedCurrentLevelRange, channelOutput.Source.Current.CurrentLevelRange);
+            }
+            if (expectedVoltageLimitRange.HasValue)
+            {
+                Assert.Equal(expectedVoltageLimitRange, channelOutput.Source.Current.VoltageLimitRange);
+            }
             Assert.Equal(expectedVoltageLimit, channelOutput.Source.Current.VoltageLimit);
-            Assert.Equal(expectedVoltageLimitRange, channelOutput.Source.Current.VoltageLimitRange);
             Assert.Equal(expectedSequenceLoopCount, channelOutput.Source.SequenceLoopCount);
         }
 
@@ -4031,14 +4083,36 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private void AssertSequenceMeasurementsMatchExpected(
             DCPowerSessionsBundle sessionsBundle,
             Func<int, double[]> getExpectedSequence,
+            DCPowerFetchResult[][] fetchedResults = null,
             int siteCount = 2,
             double timeoutSeconds = 5.0,
             int precision = 3,
             int itemsToFetch = 2,
+            int numberOfPinsPerSite = 1,
             bool checkForCurrentMeasurement = true,
             bool initiateChannel = true)
         {
-            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
+            DCPowerFetchResult[][] results;
+            if (fetchedResults == null)
+            {
+                results = FetchResults(sessionsBundle, initiateChannel, timeoutSeconds, itemsToFetch);
+            }
+            else
+            {
+                results = fetchedResults;
+            }
+
+            for (int i = 0; i < siteCount; i++)
+            {
+                var expectedSequence = getExpectedSequence(i);
+                var actualSequence = checkForCurrentMeasurement ? results[i + numberOfPinsPerSite - 1][0].CurrentMeasurements : results[i + numberOfPinsPerSite - 1][0].VoltageMeasurements;
+                AssertEqualForDoubleArrays(expectedSequence, actualSequence, precision);
+            }
+        }
+
+        private DCPowerFetchResult[][] FetchResults(DCPowerSessionsBundle sessionsBundle, bool initiateChannel = true, double timeoutSeconds = 5, int itemsToFetch = 2)
+        {
+            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
             {
                 if (initiateChannel)
                 {
@@ -4046,13 +4120,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
                 return sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(timeoutSeconds), itemsToFetch);
             });
-
-            for (int i = 0; i < siteCount; i++)
-            {
-                var expectedSequence = getExpectedSequence(i);
-                var actualSequence = checkForCurrentMeasurement ? results[i][0].CurrentMeasurements : results[i][0].VoltageMeasurements;
-                AssertEqualForDoubleArrays(expectedSequence, actualSequence, precision);
-            }
         }
     }
 }
