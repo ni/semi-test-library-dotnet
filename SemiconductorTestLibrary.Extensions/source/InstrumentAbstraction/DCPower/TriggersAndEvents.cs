@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
-
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
@@ -265,7 +263,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
-                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, gangingInfo.SourceTriggerName, DCPowerTriggerEdge.Rising);
+                var sourceTriggerName = string.Concat(gangingInfo.TriggerName, TriggerType.SourceTrigger.ToString());
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, sourceTriggerName, DCPowerTriggerEdge.Rising);
+            }
+        }
+
+        internal static void ConfigureStartTriggerForCascadedSequencing(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
+        {
+            var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
+            if (IsFollowerOfGangedChannels(gangingInfo))
+            {
+                var startTriggerName = string.Concat(gangingInfo.TriggerName, TriggerType.StartTrigger.ToString());
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, startTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
@@ -286,7 +295,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
-                sessionInfo.ConfigureTriggerDigitalEdge(sitePinInfo, TriggerType.MeasureTrigger, gangingInfo.MeasureTriggerName, DCPowerTriggerEdge.Rising);
+                var measureTriggerName = string.Concat(gangingInfo.TriggerName, TriggerType.MeasureTrigger.ToString());
+                sessionInfo.ConfigureTriggerDigitalEdge(sitePinInfo, TriggerType.MeasureTrigger, measureTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
