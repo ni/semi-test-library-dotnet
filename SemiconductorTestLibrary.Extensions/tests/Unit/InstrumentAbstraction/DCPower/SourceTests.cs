@@ -2635,7 +2635,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2.5, voltageLimitRange: 1, sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence.Select(value => value / 5).ToArray(), precision: 2, itemsToFetch: 5);
+            var fetchedResults = FetchResults(sessionsBundle);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence.Select(value => value / 5).ToArray(), fetchedResults, precision: 2, itemsToFetch: 5);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 1));
         }
 
