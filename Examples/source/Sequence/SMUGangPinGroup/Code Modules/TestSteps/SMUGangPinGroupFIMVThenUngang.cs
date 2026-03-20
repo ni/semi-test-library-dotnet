@@ -11,9 +11,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
     /// These methods can be used to gang DUT pins together to output higher current.
     /// These methods are only supported under the following conditions:
     /// 1. The pin map must define a pin group to contain all the pins that are to be ganged together.
-    /// 2. The SMU module must support the source trigger and measure trigger feature.
+    /// 2. For a given site, each pin in the pin group must be mapped to SMU channels that do not share the same LO connection.
+    /// For example, a PXIe-4139 channel can be ganged with a PXIe-4147 channel, but two channels of the same PXIe-4147 module
+    /// cannot be since they would share the same LO connection.
+    /// 3. The SMU module must support the source trigger and measure trigger feature.
     /// For example: PXIe-4137, PXIe-4139, PXIe-4147, PXIe-4150, PXIe-4162, and PXIe-4163.
-    /// 3. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
+    /// 4. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
     /// The example methods of this class demonstrate how relay configurations can be applied
     /// to ensures the SMUs channels are physically connected in parallel before the GangPinGroup operation,
     /// and subsequently disconnected after the UngangPinGroup operation.
@@ -23,7 +26,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
         /// <summary>
         /// Gangs the pins in specified pin group, allowing them to operate in unison to achieve a higher current output.
         /// Then, high current is forced on the ganged pin group and a voltage measurement is published.
-        /// Finally, the ganged pin group is powered down and un-ganged.
+        /// Finally, the ganged pin group is powered down and unganged.
         /// Use the relayConfigurationToConnect and relayConfigurationToDisconnect parameters to specify the appropriate relay configurations
         /// that will physically connect/disconnect the pins in the pin group via external relays on the application load board.
         /// If the application load board is designed with the target pins permanently connected together,

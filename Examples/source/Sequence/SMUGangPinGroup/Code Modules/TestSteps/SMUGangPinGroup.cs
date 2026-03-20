@@ -10,9 +10,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
     /// These methods can be used to gang DUT pins together to output higher current.
     /// These methods are only supported under the following conditions:
     /// 1. The pin map must define a pin group to contain all the pins that are to be ganged together.
-    /// 2. The SMU module must support the source trigger and measure trigger feature.
+    /// 2. For a given site, each pin in the pin group must be mapped to SMU channels that do not share the same LO connection.
+    /// For example, a PXIe-4139 channel can be ganged with a PXIe-4147 channel, but two channels of the same PXIe-4147 module
+    /// cannot be since they would share the same LO connection.
+    /// 3. The SMU module must support the source trigger and measure trigger feature.
     /// For example: PXIe-4137, PXIe-4139, PXIe-4147, PXIe-4150, PXIe-4162, and PXIe-4163.
-    /// 3. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
+    /// 4. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
     /// The example methods of this class demonstrate how relay configurations can be applied
     /// to ensure the SMUs channels are physically connected in parallel before the GangPinGroup operation,
     /// and subsequently disconnected after the UngangPinGroup operation.
