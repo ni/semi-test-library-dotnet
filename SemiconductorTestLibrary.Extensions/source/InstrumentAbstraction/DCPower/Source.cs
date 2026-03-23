@@ -1889,15 +1889,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
         /// <param name="sequence">The voltage or current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
-        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
         /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
-        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null, SitePinInfo sitePinInfo = null)
+        /// <param name="outputFunction">The <see cref="DCPowerSourceOutputFunction"/> object</param>
+        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
+        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, SitePinInfo sitePinInfo = null, DCPowerSourceOutputFunction? outputFunction = null, double? sequenceStepDeltaTimeInSeconds = null)
         {
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
             if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
             {
-                sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
+                if (outputFunction.HasValue && outputFunction.Value == DCPowerSourceOutputFunction.DCCurrent)
+                {
+                    sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
+                }
                 output.ConfigureSourceTriggerForCascading(sitePinInfo);
                 output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
             }
