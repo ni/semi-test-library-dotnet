@@ -40,6 +40,8 @@
   href: PublishingResults.md
 - name: Common Utility Methods
   href: CommonUtilityMethods.md
+- name: Multiplexed Connection Support
+  href: MultiplexedConnectionSupport.md
 
 - name: Best Practices
 - name: NuGet Package Management For STS Projects
