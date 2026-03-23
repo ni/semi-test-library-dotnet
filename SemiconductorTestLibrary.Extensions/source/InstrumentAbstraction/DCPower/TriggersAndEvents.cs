@@ -263,8 +263,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
-                var sourceTriggerName = string.Concat(gangingInfo.TriggerName, TriggerType.SourceTrigger.ToString());
-                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, sourceTriggerName, DCPowerTriggerEdge.Rising);
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, gangingInfo.SourceTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
@@ -273,8 +272,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
-                var startTriggerName = string.Concat(gangingInfo.TriggerName, TriggerType.StartTrigger.ToString());
-                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, startTriggerName, DCPowerTriggerEdge.Rising);
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, gangingInfo.StartTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
@@ -295,8 +293,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
-                var measureTriggerName = string.Concat(gangingInfo.TriggerName, TriggerType.MeasureTrigger.ToString());
-                sessionInfo.ConfigureTriggerDigitalEdge(sitePinInfo, TriggerType.MeasureTrigger, measureTriggerName, DCPowerTriggerEdge.Rising);
+                sessionInfo.ConfigureTriggerDigitalEdge(sitePinInfo, TriggerType.MeasureTrigger, gangingInfo.MeasureTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
