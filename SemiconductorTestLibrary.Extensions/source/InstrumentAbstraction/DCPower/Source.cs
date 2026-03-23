@@ -1903,7 +1903,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
                 output.ConfigureSourceTriggerForCascading(sitePinInfo);
-                // output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
+                output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
             }
             output.Source.SetSequence(sequence);
             if (sequenceStepDeltaTimeInSeconds.HasValue)

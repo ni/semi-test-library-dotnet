@@ -1447,8 +1447,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
-            var fetchedResults = FetchResults(sessionsBundle);
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, precision: 1, itemsToFetch: 5, checkForCurrentMeasurement: false);
+            var fetchedResults = FetchResults(sessionsBundle, itemsToFetch: 4);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence, fetchedResults, precision: 1, itemsToFetch: 4, checkForCurrentMeasurement: false);
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: currentLimit));
         }
 
