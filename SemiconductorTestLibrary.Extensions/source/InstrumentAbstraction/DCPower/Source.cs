@@ -1889,10 +1889,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
         /// <param name="sequence">The voltage or current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
         /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
         /// <param name="outputFunction">The <see cref="DCPowerSourceOutputFunction"/> object</param>
-        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
-        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, SitePinInfo sitePinInfo = null, DCPowerSourceOutputFunction? outputFunction = null, double? sequenceStepDeltaTimeInSeconds = null)
+        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null, SitePinInfo sitePinInfo = null, DCPowerSourceOutputFunction? outputFunction = null)
         {
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
