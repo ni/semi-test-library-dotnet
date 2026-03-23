@@ -1426,7 +1426,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private static void ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, DCPowerSourceSettings settings, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
         {
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            channelOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo);
+            channelOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo, settings.OutputFunction);
             channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
