@@ -1896,16 +1896,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
-            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && outputFunction == DCPowerSourceOutputFunction.DCCurrent)
             {
-                if (outputFunction.HasValue && outputFunction.Value == DCPowerSourceOutputFunction.DCCurrent)
-                {
-                    sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
-                }
-                output.ConfigureSourceTriggerForCascading(sitePinInfo);
-                output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
+                sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
             }
             output.Source.SetSequence(sequence);
+            output.ConfigureSourceTriggerForCascading(sitePinInfo);
+            output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
             if (sequenceStepDeltaTimeInSeconds.HasValue)
             {
                 output.Source.SequenceStepDeltaTimeEnabled = true;
