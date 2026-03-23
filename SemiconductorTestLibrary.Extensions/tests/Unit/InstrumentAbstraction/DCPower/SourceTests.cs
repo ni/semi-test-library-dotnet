@@ -1456,7 +1456,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new SiteData<double[]>(new double[][]
@@ -1469,7 +1469,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Abort();
             var fetchedResults = FetchResults(sessionsBundle, itemsToFetch: 3);
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex), fetchedResults, precision: 3, numberOfPinsPerSite: 5, checkForCurrentMeasurement: false);
-            sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.3));
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                AssertVoltageSettings(output, expectedCurrentLimit: sitePinInfo.CascadingInfo is GangingInfo ? 0.5 : 1.5);
+            });
         }
 
         [Fact]
@@ -1482,19 +1486,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
             {
-                ["VCC1"] = new Dictionary<int, double[]>() { [0] = new[] { -1.5, 0.9 }, [1] = new[] { -1.2, 0.6 } },
-                ["VCC2"] = new Dictionary<int, double[]>() { [0] = new[] { -1.5, 0.9 }, [1] = new[] { -1.2, 0.6 } },
-                ["VCC3"] = new Dictionary<int, double[]>() { [0] = new[] { -1.5, 0.9 }, [1] = new[] { -1.2, 0.6 } }
+                ["VCC1"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } },
+                ["VCC2"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } },
+                ["VCC3"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } }
             });
-            sessionsBundle.ForceCurrentSequence(currentSequences: sequence, voltageLimit: 0.5, currentLevelRange: 2, voltageLimitRange: 1, sequenceLoopCount: 2);
+            sessionsBundle.ForceVoltageSequence(voltageSequence: sequence, currentLimit: 1.8, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
             var fetchedResults = FetchResults(sessionsBundle);
             foreach (var pin in sequence.PinNames)
             {
-                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex, pin).Select(value => value / 3).ToArray(), fetchedResults, precision: 2, itemsToFetch: 2, numberOfPinsPerSite: 3);
+                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex, pin), fetchedResults, precision: 2, numberOfPinsPerSite: 3, checkForCurrentMeasurement: false);
             }
-            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
+            sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.6));
         }
 
         [Theory]
