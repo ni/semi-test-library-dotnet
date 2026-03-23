@@ -4,7 +4,7 @@
 		<NIDCPowerInstrument name="SMU_4162_C5_S12" numberOfChannels="12">
 			<ChannelGroup name="CommonDCPowerChannelGroup" />
 		</NIDCPowerInstrument>
-		<NIDCPowerInstrument name="SMU_4163_C1_S14_P135_P131" numberOfChannels="24">
+		<NIDCPowerInstrument name="SMU_4163_C4_S03" numberOfChannels="24">
 			<ChannelGroup name="CommonDCPowerChannelGroup" />
 		</NIDCPowerInstrument>
 	</Instruments>
@@ -40,9 +40,9 @@
 		<Connection pin="Vaa" siteNumber="1" instrument="SMU_4162_C5_S12" channel="2" />
 		<Connection pin="Vab" siteNumber="0" instrument="SMU_4162_C5_S12" channel="1" />
 		<Connection pin="Vab" siteNumber="1" instrument="SMU_4162_C5_S12" channel="3" />
-		<Connection pin="Vac" siteNumber="0" instrument="SMU_4163_C1_S14_P135_P131" channel="0" />
-		<Connection pin="Vac" siteNumber="1" instrument="SMU_4163_C1_S14_P135_P131" channel="2" />
-		<Connection pin="Vad" siteNumber="0" instrument="SMU_4163_C1_S14_P135_P131" channel="1" />
-		<Connection pin="Vad" siteNumber="1" instrument="SMU_4163_C1_S14_P135_P131" channel="3" />
+		<Connection pin="Vac" siteNumber="0" instrument="SMU_4163_C4_S03" channel="0" />
+		<Connection pin="Vac" siteNumber="1" instrument="SMU_4163_C4_S03" channel="2" />
+		<Connection pin="Vad" siteNumber="0" instrument="SMU_4163_C4_S03" channel="1" />
+		<Connection pin="Vad" siteNumber="1" instrument="SMU_4163_C4_S03" channel="3" />
 	</Connections>
 </PinMap>
