@@ -2635,8 +2635,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2.5, voltageLimitRange: 1, sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
-            var fetchedResults = FetchResults(sessionsBundle);
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence.Select(value => value / 5).ToArray(), fetchedResults, precision: 2, itemsToFetch: 5);
+            var fetchedResults = FetchResults(sessionsBundle, itemsToFetch: 5);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence.Select(value => value / 5).ToArray(), fetchedResults, precision: 2);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 1));
         }
 
@@ -2656,8 +2656,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequences: sequence, voltageLimit: 0.5, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            var fetchedResults = FetchResults(sessionsBundle);
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex).Select(value => value / 5).ToArray(), fetchedResults, precision: 3, itemsToFetch: 5, numberOfPinsPerSite: 5);
+            var fetchedResults = FetchResults(sessionsBundle, itemsToFetch: 5);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex).Select(value => value / 5).ToArray(), fetchedResults, precision: 3, numberOfPinsPerSite: 5);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
         }
 
@@ -2678,10 +2678,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequences: sequence, voltageLimit: 0.5, currentLevelRange: 2, voltageLimitRange: 1, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            var fetchedResults = FetchResults(sessionsBundle);
+            var fetchedResults = FetchResults(sessionsBundle, itemsToFetch: 2);
             foreach (var pin in sequence.PinNames)
             {
-                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex, pin).Select(value => value / 3).ToArray(), fetchedResults, precision: 2, itemsToFetch: 2, numberOfPinsPerSite: 3);
+                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteIndex => sequence.GetValue(siteIndex, pin).Select(value => value / 3).ToArray(), fetchedResults, precision: 2, numberOfPinsPerSite: 3);
             }
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
         }
