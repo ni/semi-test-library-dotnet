@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.9">
+ <Instruments>
+  <NIDAQmxTask name="DAQ_4468_C1_S03_AOFGENTask" taskType="AOFuncGen" channelList="DAQ_4468_C1_S03/ao0,DAQ_4468_C1_S03/ao1" />
+  <NIDAQmxTask name="DAQ_4468_C1_S03_AITask" taskType="AI" channelList="DAQ_4468_C1_S03/ai0:1" useAsRelayDriver="false" />
+  <NIDAQmxTask name="DAQ_4468_C1_S03_AOTask" taskType="AO" channelList="DAQ_4468_C1_S03/ao0:3&#xD;&#xA;" useAsRelayDriver="false" />
+ </Instruments>
+ <Pins>
+  <DUTPin name="AI_PIN1" />
+  <DUTPin name="AO_PIN1" />
+  <DUTPin name="AOFGEN_PIN1" />
+ </Pins>
+ <PinGroups></PinGroups>
+ <Sites>
+  <Site siteNumber="0" />
+  <Site siteNumber="1" />
+ </Sites>
+ <Connections>
+  <Connection pin="AI_PIN1" siteNumber="0,1" instrument="DAQ_4468_C1_S03_AITask" channel="DAQ_4468_C1_S03/ai0" />
+  <Connection pin="AOFGEN_PIN1" siteNumber="0,1" instrument="DAQ_4468_C1_S03_AOFGENTask" channel="DAQ_4468_C1_S03/ao0" />
+  <Connection pin="AO_PIN1" siteNumber="0,1" instrument="DAQ_4468_C1_S03_AOTask" channel="DAQ_4468_C1_S03/ao0" />
+ </Connections>
+</PinMap>

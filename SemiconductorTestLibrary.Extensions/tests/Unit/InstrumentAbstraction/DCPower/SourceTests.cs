@@ -10,7 +10,9 @@ using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
 {
@@ -379,6 +381,804 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 AssertVoltageSettings(sessionsBundle.InstrumentSessions.ElementAt(6).AllChannelsOutput, expectedVoltageLevel: 2.5, expectedCurrentLimit: 0.2);
                 AssertVoltageSettings(sessionsBundle.InstrumentSessions.ElementAt(7).AllChannelsOutput, expectedVoltageLevel: 4.5, expectedCurrentLimit: 0.2);
             }
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceDifferentVoltageWithPerPinPerSiteSettingsOnGangedPins_ThrowsException()
+        {
+            var pinNames = new string[] { "VCC1", "VCC2", "VCC3" };
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            var settings = new PinSiteData<DCPowerSourceSettings>(pinNames, new int[] { 0, 1 }, new DCPowerSourceSettings[][]
+            {
+                new DCPowerSourceSettings[]
+                {
+                    new DCPowerSourceSettings() { Level = 1, Limit = 0.1 },
+                    new DCPowerSourceSettings() { Level = 1.5, Limit = 0.2 },
+                },
+                new DCPowerSourceSettings[]
+                {
+                    new DCPowerSourceSettings() { Level = 3, Limit = 0.1 },
+                    new DCPowerSourceSettings() { Level = 3.5, Limit = 0.2 },
+                },
+                new DCPowerSourceSettings[]
+                {
+                    new DCPowerSourceSettings() { Level = 3, Limit = 0.1 },
+                    new DCPowerSourceSettings() { Level = 3.5, Limit = 0.2 },
+                }
+            });
+            void ForceVoltageTest() => sessionsBundle.ForceVoltage(settings);
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerSiteValuesSucceeds(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequence = new SiteData<DCPowerSourceSettings[]>(new[]
+            {
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 2.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 2.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 3.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 3.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 4.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 4.5,
+                        Limit = 0.1
+                    }
+                }
+            });
+            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedWithPerPinPerSiteValuesSucceeds(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var vddSequence = new DCPowerSourceSettings[]
+            {
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1.0,
+                    Limit = 0.1
+                },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 2.0,
+                    Limit = 0.1
+                }
+            };
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(
+                new[] { "VDD" },
+                new[]
+                {
+                    new SiteData<DCPowerSourceSettings[]>(sites, vddSequence)
+                });
+            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithInconsistenceProperties_ThrowsException(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(
+                new[] { "VDD" },
+                new[]
+                {
+                    new SiteData<DCPowerSourceSettings[]>(
+                        sites,
+                        new[]
+                        {
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.0,
+                                Limit = 0.1,
+                                TransientResponse = DCPowerSourceTransientResponse.Fast
+                            },
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.5
+                            }
+                        })
+                });
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0));
+
+            Assert.Contains("Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence", exception.Message);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetch_CorrectResultFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequence = new[]
+            {
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1.0,
+                    Limit = 0.1
+                },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1.5,
+                    Limit = 0.1
+                },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 2.0,
+                    Limit = 0.1
+                }
+            };
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 3,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                });
+            }
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteSequence_CorrectResultFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequencePerSite = new SiteData<DCPowerSourceSettings[]>(new[]
+            {
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.5,
+                        Limit = 0.1
+                    }
+                }
+            });
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequencePerSite,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                });
+            }
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerPinPerSiteSequence_CorrectResultFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(
+                new[] { "VDD" },
+                new[]
+                {
+                    new SiteData<DCPowerSourceSettings[]>(
+                        sites,
+                        new[]
+                        {
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.0,
+                                Limit = 0.1
+                            },
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.5,
+                                Limit = 0.1
+                            }
+                        })
+                });
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                });
+            }
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithInconsistencesPerSiteDCPowerAdvancedSequenceStepProperties_ThrowsExceptions(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequencePerSite = new SiteData<DCPowerAdvancedSequenceStepProperties[]>(
+                sites,
+                sites.Select(_ => new[]
+                {
+                    new DCPowerAdvancedSequenceStepProperties
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        VoltageLevel = 1.0,
+                        CurrentLimit = 0.1,
+                        CurrentLevel = 0.05,
+                        TransientResponse = DCPowerSourceTransientResponse.Slow,
+                        CurrentLevelRange = 0.2,
+                        VoltageLevelRange = 5.0
+                    },
+                    new DCPowerAdvancedSequenceStepProperties
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        VoltageLevel = 1.5,
+                        CurrentLimit = 0.1
+                    }
+                }).ToArray());
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequencePerSite,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0));
+
+            Assert.Contains("Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence", exception.Message);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteDCPowerAdvancedSequenceStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequencePerSite = new SiteData<DCPowerAdvancedSequenceStepProperties[]>(
+                sites,
+                sites.Select(_ => new[]
+                {
+                    new DCPowerAdvancedSequenceStepProperties
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        VoltageLevel = 1.0,
+                        CurrentLimit = 0.1
+                    },
+                    new DCPowerAdvancedSequenceStepProperties
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        VoltageLevel = 1.5,
+                        CurrentLimit = 0.1
+                    }
+                }).ToArray());
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequencePerSite,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                });
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithDCPowerAdvancedSequenceStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequence = new[]
+            {
+                new DCPowerAdvancedSequenceStepProperties
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    VoltageLevel = 1.0,
+                    CurrentLimit = 0.1
+                },
+                new DCPowerAdvancedSequenceStepProperties
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    VoltageLevel = 1.5,
+                    CurrentLimit = 0.1
+                },
+                new DCPowerAdvancedSequenceStepProperties
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    VoltageLevel = 2.0,
+                    CurrentLimit = 0.1
+                }
+            };
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 3,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                });
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ForceAdvancedSequenceSynchronizedAndFetchWithPerPinPerSiteDCPowerAdvancedSequenceStepProperties_CorrectResultFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sites = GetActiveSites(sessionsBundle);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+
+            var sequence = new PinSiteData<DCPowerAdvancedSequenceStepProperties[]>(
+                new[] { "VDD" },
+                new[]
+                {
+                    new SiteData<DCPowerAdvancedSequenceStepProperties[]>(
+                        sites,
+                        new[]
+                        {
+                            new DCPowerAdvancedSequenceStepProperties
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                VoltageLevel = 1.0,
+                                CurrentLimit = 0.1
+                            },
+                            new DCPowerAdvancedSequenceStepProperties
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                VoltageLevel = 1.5,
+                                CurrentLimit = 0.1
+                            }
+                        })
+                });
+            var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var measurement = results.GetValue(sitePinInfo);
+                    for (int i = 0; i < measurement.Length; i++)
+                    {
+                        Assert.Equal(1.0 + 0.5 * i, measurement[i].VoltageMeasurement, precision: 2);
+                    }
+                });
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureAdvancedSequence_CorrectValueAreSet(bool setAsActiveSequence)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var steps = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, ApertureTime = 0.016, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, SourceDelay = 0.5, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            const string sequenceName = "ScalarAdvancedSequence";
+            sessionsBundle.ConfigureAdvancedSequence(
+                sequenceName,
+                steps,
+                setAsActiveSequence: setAsActiveSequence,
+                commitFirstElementAsInitialState: false);
+
+            if (setAsActiveSequence && !_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => new double[] { 1.0, 2.0, 3.0 }, precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
+            }
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                var adv = output.Source.AdvancedSequencing;
+                if (setAsActiveSequence)
+                {
+                    Assert.Equal(sequenceName, adv.ActiveAdvancedSequence);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithPerSiteDataPerStep_CorrectValueAreSet(bool setAsActiveSequence)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var perSiteSteps = new SiteData<IList<DCPowerAdvancedSequenceStepProperties>>(new[]
+            {
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { CurrentLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
+                    new DCPowerAdvancedSequenceStepProperties { CurrentLevel = 1.2, OutputFunction = DCPowerSourceOutputFunction.DCCurrent }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { CurrentLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
+                    new DCPowerAdvancedSequenceStepProperties { CurrentLevel = 2.2, OutputFunction = DCPowerSourceOutputFunction.DCCurrent }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                }
+            });
+            const string sequenceName = "PerSiteAdvancedSequence";
+            sessionsBundle.ConfigureAdvancedSequence(
+                sequenceName,
+                perSiteSteps,
+                setAsActiveSequence: setAsActiveSequence,
+                commitFirstElementAsInitialState: false);
+
+            if (setAsActiveSequence && !_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                var siteData = new SiteData<double[]>(new[]
+                {
+                    new double[] { 1.0, 1.2 },
+                    new double[] { 2.0, 2.2 }
+                });
+                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteNumber => siteData.GetValue(siteNumber), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: true);
+            }
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                var adv = output.Source.AdvancedSequencing;
+                if (setAsActiveSequence)
+                {
+                    Assert.Equal(sequenceName, adv.ActiveAdvancedSequence);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithPinSiteDataPerStep_CorrectValueAreSet(bool setAsActiveSequence)
+        {
+            var pinNames = new[] { "VDD" };
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var perSiteSteps = new Dictionary<string, IDictionary<int, IList<DCPowerAdvancedSequenceStepProperties>>>
+            {
+                ["VDD"] = new Dictionary<int, IList<DCPowerAdvancedSequenceStepProperties>>
+                {
+                    [0] = new List<DCPowerAdvancedSequenceStepProperties>
+                    {
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                    },
+                    [1] = new List<DCPowerAdvancedSequenceStepProperties>
+                    {
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                    },
+                    [2] = new List<DCPowerAdvancedSequenceStepProperties>
+                    {
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                    },
+                    [3] = new List<DCPowerAdvancedSequenceStepProperties>
+                    {
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                        new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                    }
+                }
+            };
+            var pinSiteData = new PinSiteData<IList<DCPowerAdvancedSequenceStepProperties>>(perSiteSteps);
+            const string sequenceName = "PerPinPerSiteAdvancedSequence";
+            sessionsBundle.ConfigureAdvancedSequence(
+                sequenceName,
+                pinSiteData,
+                setAsActiveSequence: setAsActiveSequence,
+                commitFirstElementAsInitialState: true);
+
+            if (setAsActiveSequence && !_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                var data = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+                {
+                    ["VDD"] = new Dictionary<int, double[]>()
+                    {
+                        [0] = new double[] { 1.0, 1.2 },
+                        [1] = new double[] { 2.0, 2.2 }
+                    }
+                });
+                AssertSequenceMeasurementsMatchExpected(sessionsBundle, siteNumber => data.GetValue(siteNumber, "VDD"), siteCount: 2, precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
+            }
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                var adv = output.Source.AdvancedSequencing;
+                if (setAsActiveSequence)
+                {
+                    Assert.Equal(sequenceName, adv.ActiveAdvancedSequence);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithNotSupportedProperties_ThrowsException(bool setAsActiveSequence)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var steps = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, LcrVoltageRange = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            const string sequenceName = "AdvancedSequenceException";
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureAdvancedSequence(
+                sequenceName,
+                steps,
+                setAsActiveSequence: setAsActiveSequence,
+                commitFirstElementAsInitialState: false));
+
+            Assert.Contains("The specified instrument (NI PXIe-4147) does not support one or more of the requested advanced sequence properties.", exception.Message);
         }
 
         [Theory]
@@ -932,14 +1732,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.5, expectedVoltageLimit: 2);
-                }
-                else
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 1.5, expectedVoltageLimit: 2);
-                }
+                AssertCurrentSettings(sitePinInfo, channelOutput, 0.5, 1.5, 2);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -951,20 +1744,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
-            sessionsBundle.ForceCurrent(currentLevels: new Dictionary<string, double>() { ["VCC1"] = 3, ["VCC2"] = 3, ["VCC3"] = 3, ["VCC4"] = 1, ["VCC5"] = 1 }, voltageLimit: 5);
+            sessionsBundle.ForceCurrent(currentLevels: new Dictionary<string, double>() { ["VCC1"] = 1, ["VCC2"] = 1, ["VCC3"] = 1, ["VCC4"] = 1, ["VCC5"] = 1 }, voltageLimit: 5);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5);
-                }
-                else
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5);
-                }
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5);
+                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForcePerPinCurrentsWithSymmetricLimitOnPinGroupName_CorrectCurrentsForced()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ForceCurrent(currentLevels: new Dictionary<string, double>() { [ThreePinsGangedGroup] = 3, ["VCC4"] = 1, ["VCC5"] = 1 }, voltageLimit: 5);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 5);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -983,14 +1787,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
-                if (sitePinInfo.SiteNumber == 0)
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.2, expectedVoltageLimit: 3);
-                }
-                else
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.6, expectedVoltageLimit: 3);
-                }
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.2 : 0.6, expectedVoltageLimit: 3);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1004,11 +1801,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var currentLevels = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                ["VCC1"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
-                ["VCC2"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
-                ["VCC3"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
-                ["VCC4"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
-                ["VCC5"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 }
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 0.5, [1] = 0.6 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 0.5, [1] = 0.6 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 0.5, [1] = 0.6 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 0.5, [1] = 0.6 },
+                ["VCC5"] = new Dictionary<int, double>() { [0] = 0.5, [1] = 0.6 }
             });
             sessionsBundle.ForceCurrent(currentLevels, voltageLimit: 4.5);
 
@@ -1016,14 +1813,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
-                if (sitePinInfo.SiteNumber == 0)
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.8, expectedVoltageLimit: 4.5);
-                }
-                else
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.5, expectedVoltageLimit: 4.5);
-                }
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.5 : 0.6, expectedVoltageLimit: 4.5);
+                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForcePerPinPerSiteCurrentsWithSymmetricLimitOnPinGroupName_CorrectCurrentsForced()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var currentLevels = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["AllPinsGangedGroup"] = new Dictionary<int, double>() { [0] = 2.5, [1] = 3.0 }
+            });
+            sessionsBundle.ForceCurrent(currentLevels, voltageLimit: 4.5);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.5 : 0.6, expectedVoltageLimit: 4.5);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1085,7 +1897,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinSettingsObject_SameVoltageForcedAndCurrentLimitDividedEqually()
+        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinSettingsObject_SameVoltageForcedAndCurrentLimitsAppliedCorrectly()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -1093,11 +1905,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var settings = new Dictionary<string, DCPowerSourceSettings>()
             {
-                ["VCC1"] = new DCPowerSourceSettings() { Level = 4, Limit = 3 },
-                ["VCC2"] = new DCPowerSourceSettings() { Level = 4, Limit = 3 },
-                ["VCC3"] = new DCPowerSourceSettings() { Level = 4, Limit = 3 },
-                ["VCC4"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 },
-                ["VCC5"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 }
+                ["VCC1"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 },
+                ["VCC2"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 },
+                ["VCC3"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 },
+                ["VCC4"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 },
+                ["VCC5"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 }
             };
             sessionsBundle.ForceVoltage(settings);
 
@@ -1105,16 +1917,58 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 4, expectedCurrentLimit: 1);
-                }
-                else
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 4, expectedCurrentLimit: 2);
-                }
+                AssertVoltageSettings(channelOutput, expectedVoltageLevel: 4, expectedCurrentLimit: 1);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinSettingsOnPinGroupName_SameVoltageForcedAndCurrentLimitDividedEqually()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            var settings = new Dictionary<string, DCPowerSourceSettings>()
+            {
+                [ThreePinsGangedGroup] = new DCPowerSourceSettings() { Level = 4, Limit = 3 },
+                ["VCC4"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 },
+                ["VCC5"] = new DCPowerSourceSettings() { Level = 4, Limit = 1 }
+            };
+            sessionsBundle.ForceVoltage(settings);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
+                AssertVoltageSettings(channelOutput, expectedVoltageLevel: 4, expectedCurrentLimit: 1);
+                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceDifferentVoltageWithPerPinSettingsObjectOnGangedPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            var settings = new Dictionary<string, DCPowerSourceSettings>()
+            {
+                ["VCC1"] = new DCPowerSourceSettings() { Level = 2, Limit = 3 },
+                ["VCC2"] = new DCPowerSourceSettings() { Level = 3, Limit = 3 },
+                ["VCC3"] = new DCPowerSourceSettings() { Level = 4, Limit = 3 },
+                ["VCC4"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 },
+                ["VCC5"] = new DCPowerSourceSettings() { Level = 4, Limit = 2 }
+            };
+            void ForceVoltageTest()
+            {
+                sessionsBundle.ForceVoltage(settings);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -1137,6 +1991,36 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new DCPowerSourceSettings
                 {
                     Level = 6,
+                    Limit = 1
+                });
+            sessionsBundle.ForceVoltage(settings);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
+                AssertVoltageSettings(channelOutput, expectedVoltageLevel: 6, expectedCurrentLimit: 1);
+                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceVoltageWithPerPinPerSiteSettingsOnPinGroupName_SameVoltageForcedAndCurrentLimitDividedEqually()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(FourPinsGangedGroup);
+
+            var settings = new PinSiteData<DCPowerSourceSettings>(
+                new string[]
+                {
+                    FourPinsGangedGroup,
+                    "VCC5"
+                },
+                new int[] { 0, 1 },
+                new DCPowerSourceSettings
+                {
+                    Level = 6,
                     Limit = 3
                 });
             sessionsBundle.ForceVoltage(settings);
@@ -1145,14 +2029,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 6, expectedCurrentLimit: 0.75);
-                }
-                else
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 6, expectedCurrentLimit: 3);
-                }
+                AssertVoltageSettings(sitePinInfo, channelOutput, 6, 0.75, 3);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1178,6 +2055,69 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void DifferentSMUDevicesGanged_ForceVoltageOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ForceVoltageOnFilteredBundle()
+            {
+                filteredBundle.ForceVoltage(2.0, 3.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageOnFilteredBundle);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceVoltageOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ForceVoltageOnSubsetBundle()
+            {
+                subsetBundle.ForceVoltage(2.0, 3.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageOnSubsetBundle);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenForceVoltage_CorrectVoltageForced()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ForceVoltage(new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                Level = 1,
+                Limit = 1,
+            });
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
+                    AssertVoltageSettings(channelOutput, 1, 1);
+                }
+            });
+        }
+
+        [Fact]
         public void DifferentSMUDevicesGanged_ForceCurrentWithSingleSettingsObject_CorrectCurrentForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -1190,14 +2130,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertCurrentSettings(channelOutput, 0.5, 2.6);
-                }
-                else
-                {
-                    AssertCurrentSettings(channelOutput, 2, 2.6);
-                }
+                AssertCurrentSettings(sitePinInfo, channelOutput, 0.5, 2, 2.6);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1215,14 +2148,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 2, expectedCurrentLimit: 0.5);
-                }
-                else
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 2, expectedCurrentLimit: 1.5);
-                }
+                AssertVoltageSettings(sitePinInfo, channelOutput, 2, 0.5, 1.5);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1233,23 +2159,53 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+            var voltageLevels = new Dictionary<string, double>() { ["VCC1"] = 2, ["VCC2"] = 2, ["VCC3"] = 2, ["VCC4"] = 2, ["VCC5"] = 2 };
 
-            sessionsBundle.ForceVoltage(voltageLevels: new Dictionary<string, double>() { ["VCC1"] = 2, ["VCC2"] = 2, ["VCC3"] = 2, ["VCC4"] = 2, ["VCC5"] = 2 }, currentLimit: 0.6);
+            sessionsBundle.ForceVoltage(voltageLevels, currentLimit: 0.6);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 2, expectedCurrentLimit: 0.2, 1);
-                }
-                else
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 2, expectedCurrentLimit: 0.6);
-                }
+                AssertVoltageSettings(sitePinInfo, channelOutput, 2, 0.2, 0.6);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForcePerPinVoltagesWithSymmetricLimitOnPinGroupName_VoltagesForcedAndCurrentLimitDividedCorrectly()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+            var voltageLevels = new Dictionary<string, double>() { [ThreePinsGangedGroup] = 2, ["VCC4"] = 2, ["VCC5"] = 2 };
+
+            sessionsBundle.ForceVoltage(voltageLevels, currentLimit: 0.6);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
+                AssertVoltageSettings(sitePinInfo, channelOutput, 2, 0.2, 0.6);
+                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceDifferentPerPinVoltagesWithSymmetricLimitOnGangedPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ForceVoltageTest()
+            {
+                sessionsBundle.ForceVoltage(voltageLevels: new Dictionary<string, double>() { ["VCC1"] = 1, ["VCC2"] = 2, ["VCC3"] = 3, ["VCC4"] = 2, ["VCC5"] = 2 }, currentLimit: 0.6);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -1299,16 +2255,34 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
-                if (sitePinInfo.SiteNumber == 0)
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 4.0, expectedCurrentLimit: 0.9);
-                }
-                else
-                {
-                    AssertVoltageSettings(channelOutput, expectedVoltageLevel: 2.5, expectedCurrentLimit: 0.9);
-                }
+                AssertVoltageSettings(channelOutput, expectedVoltageLevel: sitePinInfo.SiteNumber == 0 ? 4.0 : 2.5, expectedCurrentLimit: 0.9);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceDifferentPerPinVoltagesOnGangedPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var voltageLevels = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 2, [1] = 2.5 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 2, [1] = 2.5 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 4, [1] = 4 },
+                ["VCC5"] = new Dictionary<int, double>() { [0] = 4, [1] = 2.5 }
+            });
+            void ForceVoltageTest()
+            {
+                sessionsBundle.ForceVoltage(voltageLevels, currentLimit: 4.5);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -1351,14 +2325,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertVoltageSettings(channelOutput, 2.6, 0.5);
-                }
-                else
-                {
-                    AssertVoltageSettings(channelOutput, 2.6, 2);
-                }
+                AssertVoltageSettings(sitePinInfo, channelOutput, 2.6, 0.5, 2);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1372,8 +2339,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var settings = new SiteData<DCPowerSourceSettings>(new[]
             {
-                new DCPowerSourceSettings() { Level = 5, Limit = 3.6 },
-                new DCPowerSourceSettings() { Level = 2, Limit = 5 },
+                new DCPowerSourceSettings() { Level = 1, Limit = 3.6 },
+                new DCPowerSourceSettings() { Level = 0.5, Limit = 5 },
             });
             sessionsBundle.ForceCurrent(settings);
 
@@ -1381,14 +2348,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
-                if (sitePinInfo.SiteNumber == 0)
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 3.6);
-                }
-                else
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.4, expectedVoltageLimit: 5);
-                }
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.2 : 0.1, expectedVoltageLimit: sitePinInfo.SiteNumber == 0 ? 3.6 : 5);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1402,11 +2362,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var settings = new Dictionary<string, DCPowerSourceSettings>()
             {
-                ["VCC1"] = new DCPowerSourceSettings() { Level = 3, Limit = 4 },
-                ["VCC2"] = new DCPowerSourceSettings() { Level = 3, Limit = 4 },
-                ["VCC3"] = new DCPowerSourceSettings() { Level = 3, Limit = 4 },
-                ["VCC4"] = new DCPowerSourceSettings() { Level = 2, Limit = 4 },
-                ["VCC5"] = new DCPowerSourceSettings() { Level = 2, Limit = 4 }
+                ["VCC1"] = new DCPowerSourceSettings() { Level = 1, Limit = 4 },
+                ["VCC2"] = new DCPowerSourceSettings() { Level = 1, Limit = 4 },
+                ["VCC3"] = new DCPowerSourceSettings() { Level = 1, Limit = 4 },
+                ["VCC4"] = new DCPowerSourceSettings() { Level = 1, Limit = 4 },
+                ["VCC5"] = new DCPowerSourceSettings() { Level = 1, Limit = 4 }
             };
             sessionsBundle.ForceCurrent(settings);
 
@@ -1414,14 +2374,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 4);
-                }
-                else
-                {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 2, expectedVoltageLimit: 4);
-                }
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 4);
+                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentWithPerPinSettingsObjectOnPinGroupName_CorrectCurrentsForced()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            var settings = new Dictionary<string, DCPowerSourceSettings>()
+            {
+                [ThreePinsGangedGroup] = new DCPowerSourceSettings() { Level = 3, Limit = 4 },
+                ["VCC4"] = new DCPowerSourceSettings() { Level = 1, Limit = 4 },
+                ["VCC5"] = new DCPowerSourceSettings() { Level = 1, Limit = 4 }
+            };
+            sessionsBundle.ForceCurrent(settings);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: 1, expectedVoltageLimit: 4);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1445,7 +2422,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new int[] { 0, 1 },
                 new DCPowerSourceSettings
                 {
-                    Level = 3,
+                    Level = 0.75,
                     Limit = 6
                 });
             sessionsBundle.ForceCurrent(settings);
@@ -1454,14 +2431,37 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
-                if (sitePinInfo.CascadingInfo is GangingInfo)
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.75, expectedVoltageLimit: 6);
+                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentWithPerPinPerSiteSettingsObjectOnPinGroupName_CorrectCurrentsForced()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(FourPinsGangedGroup);
+
+            var settings = new PinSiteData<DCPowerSourceSettings>(
+                new string[]
                 {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 0.75, expectedVoltageLimit: 6);
-                }
-                else
+                    FourPinsGangedGroup,
+                    "VCC5"
+                },
+                new int[] { 0, 1 },
+                new DCPowerSourceSettings
                 {
-                    AssertCurrentSettings(channelOutput, expectedCurrentLevel: 3, expectedVoltageLimit: 6);
-                }
+                    Level = 1,
+                    Limit = 6
+                });
+            sessionsBundle.ForceCurrent(settings);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerComplianceLimitSymmetry.Symmetric, channelOutput.Source.ComplianceLimitSymmetry);
+                AssertCurrentSettings(sitePinInfo, channelOutput, 0.25, 1.0, 6);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
@@ -1483,6 +2483,69 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(3, channelOutput.Source.Current.VoltageLimitHigh);
                 Assert.Equal(-1, channelOutput.Source.Current.VoltageLimitLow);
                 AssertTriggerSettings(sessionInfo.AssociatedSitePinList[0], channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ForceCurrentOnFilteredBundle()
+            {
+                filteredBundle.ForceCurrent(1.0, 3.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceCurrentOnFilteredBundle);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ForceCurrentOnSubsetBundle()
+            {
+                subsetBundle.ForceCurrent(1.0, 3.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceCurrentOnSubsetBundle);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenForceCurrent_CorrectCurrentForced()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ForceCurrent(new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                Level = 1,
+                Limit = 1,
+            });
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
+                    AssertCurrentSettings(channelOutput, 1, 1);
+                }
             });
         }
 
@@ -1676,7 +2739,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
                 AssertCurrentSettings(channelOutput, 1, 7);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
@@ -1690,13 +2753,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var settingsForSite1 = new DCPowerSourceSettings()
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                Level = 2,
+                Level = 0.5,
                 Limit = 7
             };
             var settingsForSite2 = new DCPowerSourceSettings()
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                Level = 3,
+                Level = 1,
                 Limit = 5
             };
             var perSiteSettings = new SiteData<DCPowerSourceSettings>(
@@ -1712,13 +2775,45 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
-                AssertCurrentSettings(channelOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.4 : 0.6, expectedVoltageLimit: sitePinInfo.SiteNumber == 0 ? 7 : 5);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertCurrentSettings(channelOutput, expectedCurrentLevel: sitePinInfo.SiteNumber == 0 ? 0.1 : 0.2, expectedVoltageLimit: sitePinInfo.SiteNumber == 0 ? 7 : 5);
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentSourceSettingsWithPinSiteData_CorrectValuesAreSetAndCurrentLevelDivided()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentSourceSettingsWithPinSiteDataOnPinGroupName_CorrectValuesAreSetAndCurrentLevelDivided()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup(FourPinsGangedGroup);
+
+            var perPinPerSiteSettings = new PinSiteData<DCPowerSourceSettings>(
+                new string[]
+                {
+                    FourPinsGangedGroup,
+                    "VCC5"
+                },
+                new int[] { 0, 1 },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1,
+                    Limit = 6
+                });
+            sessionsBundle.ConfigureSourceSettings(perPinPerSiteSettings);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
+                AssertCurrentSettings(sitePinInfo, channelOutput, 0.25, 1, 6);
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentSourceSettingsWithPinSiteData_CorrectValuesAreSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -1738,7 +2833,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = 3,
+                    Level = 0.75,
                     Limit = 6
                 });
             sessionsBundle.ConfigureSourceSettings(perPinPerSiteSettings);
@@ -1747,13 +2842,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
-                AssertCurrentSettings(sitePinInfo, channelOutput, 0.75, 3, 6);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertCurrentSettings(sitePinInfo, channelOutput, 0.75, 0.75, 6);
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigurePerPinCurrentSourceSettings_CorrectValuesAreSetAndCurrentLevelDivided()
+        public void DifferentSMUDevicesGanged_ConfigurePerPinCurrentSourceSettings_CorrectValuesAreSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -1763,7 +2858,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                Level = 3,
+                Level = 1,
                 Limit = 7
             };
             var settingsForNonGangedChannels = new DCPowerSourceSettings()
@@ -1788,7 +2883,45 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
                 AssertCurrentSettings(sitePinInfo, channelOutput, 1, 2, 7);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigurePerPinCurrentSourceSettingsOnPinGroupName_CorrectValuesAreSetAndCurrentLevelDivided()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            var settingsForGangedChannels = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Level = 3,
+                Limit = 7
+            };
+            var settingsForNonGangedChannels = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Level = 2,
+                Limit = 7
+            };
+            var perPinsettings = new Dictionary<string, DCPowerSourceSettings>()
+            {
+                [ThreePinsGangedGroup] = settingsForGangedChannels,
+                ["VCC4"] = settingsForNonGangedChannels,
+                ["VCC5"] = settingsForNonGangedChannels
+            };
+            sessionsBundle.ConfigureSourceSettings(perPinsettings);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
+                AssertCurrentSettings(sitePinInfo, channelOutput, 1, 2, 7);
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
@@ -1812,7 +2945,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
                 AssertVoltageSettings(sitePinInfo, channelOutput, 3, 0.5, 1.5);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
@@ -1829,7 +2962,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                     Level = 4,
-                    Limit = 3,
+                    Limit = 1,
                 });
             sessionsBundle.ConfigureSourceSettings(perSiteSettings);
 
@@ -1837,13 +2970,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
-                AssertVoltageSettings(sitePinInfo, channelOutput, 4, 0.75, 3);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertVoltageSettings(sitePinInfo, channelOutput, 4, 0.25, 1);
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureVoltageSourceSettingsWithPinSiteData_CorrectValuesAreSetAndCurrentLimitDivided()
+        public void DifferentSMUDevicesGanged_ConfigureVoltageSourceSettingsWithPinSiteData_CorrectValuesAreSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -1863,6 +2996,38 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                     Level = 3,
+                    Limit = 1
+                });
+            sessionsBundle.ConfigureSourceSettings(perPinPerSiteSettings);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
+                AssertVoltageSettings(sitePinInfo, channelOutput, 3, 1, 1);
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageSourceSettingsWithPinSiteDataOnPinGroupName_CorrectValuesAreSetAndCurrentLimitDivided()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            var perPinPerSiteSettings = new PinSiteData<DCPowerSourceSettings>(
+                new string[]
+                {
+                    ThreePinsGangedGroup,
+                    "VCC4",
+                    "VCC5"
+                },
+                new int[] { 0, 1 },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    Level = 3,
                     Limit = 3
                 });
             sessionsBundle.ConfigureSourceSettings(perPinPerSiteSettings);
@@ -1872,12 +3037,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
                 AssertVoltageSettings(sitePinInfo, channelOutput, 3, 1, 3);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigurePerPinVoltageSourceSettings_CorrectValuesAreSetAndCurrentLimitDivided()
+        public void DifferentSMUDevicesGanged_ConfigurePerPinVoltageSourceSettings_CorrectValuesAreSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -1887,7 +3052,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                 Level = 4,
-                Limit = 3,
+                Limit = 0.6,
             };
             var perPinsettings = new Dictionary<string, DCPowerSourceSettings>()
             {
@@ -1904,7 +3069,108 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
                 AssertVoltageSettings(channelOutput, 4, 0.6);
-                AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigurePerPinVoltageSourceSettingsOnPinGroupName_CorrectValuesAreSetAndCurrentLimitDivided()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                Level = 4,
+                Limit = 3,
+            };
+            var perPinsettings = new Dictionary<string, DCPowerSourceSettings>()
+            {
+                [AllPinsGangedGroup] = settings
+            };
+            sessionsBundle.ConfigureSourceSettings(perPinsettings);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
+                AssertVoltageSettings(channelOutput, 4, 0.6);
+                AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureSourceSettingsOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureSourceSettings()
+            {
+                filteredBundle.ConfigureSourceSettings(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 1,
+                    Limit = 1,
+                });
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureSourceSettingsOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureSourceSettings()
+            {
+                subsetBundle.ConfigureSourceSettings(new DCPowerSourceSettings()
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                    Level = 1,
+                    Limit = 1,
+                });
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigure_CorrectValuesAreSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureSourceSettings(new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                Level = 1,
+                Limit = 1,
+            });
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, channelOutput.Source.Output.Function);
+                    AssertCurrentSettings(channelOutput, 1, 1);
+                }
             });
         }
 
@@ -2050,6 +3316,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", sourceDelays.PinNames);
         }
 
+        [Fact]
+        public void SMUDevicesGanged_GetSourceDelayInSeconds_ValuesDontHavePinGroupName()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup("AllPinsGangedGroup");
+
+            var sourceDelays = sessionsBundle.GetSourceDelayInSeconds();
+
+            Assert.Equal(5, sourceDelays.PinNames.Length);
+            Assert.DoesNotContain("AllPinsGangedGroup", sourceDelays.PinNames);
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -2179,6 +3458,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", currentLimits.PinNames);
         }
 
+        [Fact]
+        public void SMUDevicesGanged_GetCurrentLimits_ValuesDontHavePinGroupName()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup("AllPinsGangedGroup");
+
+            var currentLimits = sessionsBundle.GetCurrentLimits();
+
+            Assert.Equal(5, currentLimits.PinNames.Length);
+            Assert.DoesNotContain("AllPinsGangedGroup", currentLimits.PinNames);
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -2264,6 +3556,136 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.True(sessionInfo.AllChannelsOutput.Source.SequenceStepDeltaTimeEnabled);
                 Assert.Equal(0.05, sessionInfo.AllChannelsOutput.Source.SequenceStepDeltaTime.TotalSeconds);
             });
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesAndConfigureAdvanceSequence_ClearAdvancedSequences_ActiveSequencesCleared(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName = "TestSequence";
+            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
+
+            sessionsBundle.ClearActiveAdvancedSequence();
+
+            var ex = Assert.Throws<NISemiconductorTestException>(() =>
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    var activeSequenceName = sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence;
+                });
+            });
+            Assert.Contains("A sequence must have at least one step.", ex.Message);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesAndConfigureAdvanceSequence_DeleteAdvancedSequences_SequenceDeletedSuccessfully(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName = "TestSequence";
+            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
+
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+
+            var ex = Assert.Throws<NISemiconductorTestException>(() =>
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
+                });
+            });
+            Assert.Contains("The active advanced sequence does not exist.", ex.Message);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesAndConfigureAdvanceSequence_ClearThenDeleteAdvancedSequence_SequenceDeletedSuccessfully(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName = "TestSequence";
+            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
+
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+
+            var ex = Assert.Throws<NISemiconductorTestException>(() =>
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
+                });
+            });
+            Assert.Contains("The active advanced sequence does not exist.", ex.Message);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesAndConfigureMultipleAdvanceSequenceAsInactive_DeleteMultipleAdvancedSequences_AllSequencesDeleted(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName1 = "Sequence1";
+            string sequenceName2 = "Sequence2";
+            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName1, stepProperties, setAsActiveSequence: false);
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName2, stepProperties, setAsActiveSequence: false);
+
+            sessionsBundle.DeleteAdvancedSequence(sequenceName1);
+            sessionsBundle.DeleteAdvancedSequence(sequenceName2);
+
+            var ex1 = Assert.Throws<NISemiconductorTestException>(() =>
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName1;
+                });
+            });
+            var ex2 = Assert.Throws<NISemiconductorTestException>(() =>
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName1;
+                });
+            });
+            Assert.Contains("The active advanced sequence does not exist.", ex1.Message);
+            Assert.Contains("The active advanced sequence does not exist.", ex2.Message);
         }
 
         [Theory]
@@ -2552,49 +3974,24 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         private void AssertCurrentSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, double gangedChannelLevel, double normalChannelLevel, double voltageLimit)
         {
-            if (sitePinInfo.CascadingInfo is GangingInfo)
-            {
-                AssertCurrentSettings(channelOutput, gangedChannelLevel, voltageLimit);
-            }
-            else
-            {
-                AssertCurrentSettings(channelOutput, normalChannelLevel, voltageLimit);
-            }
+            var currentLevel = sitePinInfo.CascadingInfo is GangingInfo ? gangedChannelLevel : normalChannelLevel;
+            AssertCurrentSettings(channelOutput, currentLevel, voltageLimit);
         }
 
         private void AssertVoltageSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, double voltageLevel, double gangedChannelLimit, double normalChannelLimit)
         {
-            if (sitePinInfo.CascadingInfo is GangingInfo)
-            {
-                AssertVoltageSettings(channelOutput, voltageLevel, gangedChannelLimit);
-            }
-            else
-            {
-                AssertVoltageSettings(channelOutput, voltageLevel, normalChannelLimit);
-            }
+            var channelLimit = sitePinInfo.CascadingInfo is GangingInfo ? gangedChannelLimit : normalChannelLimit;
+            AssertVoltageSettings(channelOutput, voltageLevel, channelLimit);
         }
 
-        private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString)
+        private void AssertSourceTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString)
         {
             Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
         }
-
-        private string GetTriggerName(SitePinInfo sitePinInfo, string leaderChannelString)
+        private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString)
         {
-            var channel = sitePinInfo.IndividualChannelString;
-            var leaderChannel = leaderChannelString.Split('/');
-            var leaderChannelSlot = leaderChannel[0];
-            var leaderChannelNumber = leaderChannel[leaderChannel.Length - 1];
-
-            if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
-            {
-                return $"/{leaderChannelSlot}/Engine{leaderChannelNumber}/SourceTrigger";
-            }
-            if (channel.Contains("SMU_4147"))
-            {
-                return $"/{channel.Remove(channel.Length - 2)}/Immediate";
-            }
-            return string.Empty;
+            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
         }
 
         private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)

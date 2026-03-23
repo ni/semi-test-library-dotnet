@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Threading.Tasks;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -26,50 +27,50 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         public static void CleanupInstrumentation(
             ISemiconductorModuleContext tsmContext,
             bool resetDevice = false,
-            NIInstrumentType instrumentType = NIInstrumentType.All)
+            TestStandSteps.NIInstrumentType instrumentType = TestStandSteps.NIInstrumentType.All)
         {
             try
             {
-                var instrumentTypes = instrumentType != NIInstrumentType.All
-                    ? new NIInstrumentType[] { instrumentType }
-                    : new NIInstrumentType[]
+                var instrumentTypes = instrumentType != TestStandSteps.NIInstrumentType.All
+                    ? new TestStandSteps.NIInstrumentType[] { instrumentType }
+                    : new TestStandSteps.NIInstrumentType[]
                     {
-                        NIInstrumentType.NIDCPower,
-                        NIInstrumentType.NIDigitalPattern,
-                        NIInstrumentType.NIRelayDriver,
-                        NIInstrumentType.NIDAQmx,
-                        NIInstrumentType.NIDMM,
-                        NIInstrumentType.NIFGen,
-                        NIInstrumentType.NIScope,
-                        NIInstrumentType.NISync
+                        TestStandSteps.NIInstrumentType.NIDCPower,
+                        TestStandSteps.NIInstrumentType.NIDigitalPattern,
+                        TestStandSteps.NIInstrumentType.NIRelayDriver,
+                        TestStandSteps.NIInstrumentType.NIDAQmx,
+                        TestStandSteps.NIInstrumentType.NIDMM,
+                        TestStandSteps.NIInstrumentType.NIFGen,
+                        TestStandSteps.NIInstrumentType.NIScope,
+                        TestStandSteps.NIInstrumentType.NISync
                     };
 
                 Parallel.ForEach(instrumentTypes, type =>
                 {
                     switch (type)
                     {
-                        case NIInstrumentType.NIDCPower:
+                        case TestStandSteps.NIInstrumentType.NIDCPower:
                             InstrumentAbstraction.DCPower.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case NIInstrumentType.NIDigitalPattern:
+                        case TestStandSteps.NIInstrumentType.NIDigitalPattern:
                             InstrumentAbstraction.Digital.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case NIInstrumentType.NIRelayDriver:
+                        case TestStandSteps.NIInstrumentType.NIRelayDriver:
                             InstrumentAbstraction.Relay.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case NIInstrumentType.NIDAQmx:
+                        case TestStandSteps.NIInstrumentType.NIDAQmx:
                             InstrumentAbstraction.DAQmx.InitializeAndClose.ClearAllDAQmxTasks(tsmContext);
                             break;
-                        case NIInstrumentType.NIDMM:
+                        case TestStandSteps.NIInstrumentType.NIDMM:
                             InstrumentAbstraction.DMM.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case NIInstrumentType.NIFGen:
+                        case TestStandSteps.NIInstrumentType.NIFGen:
                             InstrumentAbstraction.Fgen.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case NIInstrumentType.NIScope:
+                        case TestStandSteps.NIInstrumentType.NIScope:
                             InstrumentAbstraction.Scope.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
-                        case NIInstrumentType.NISync:
+                        case TestStandSteps.NIInstrumentType.NISync:
                             InstrumentAbstraction.Sync.InitializeAndClose.Close(tsmContext, resetDevice);
                             break;
                         default:
@@ -81,6 +82,90 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             {
                 NISemiconductorTestException.Throw(e);
             }
+        }
+
+        /// <summary>
+        /// This method is deprecated, Use <see cref="CleanupInstrumentation(ISemiconductorModuleContext, bool, TestStandSteps.NIInstrumentType)"/> instead.
+        /// </summary>
+        /// <remarks>
+        /// This method makes a callback to correct overload  method.
+        /// </remarks>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="resetDevice">Whether to reset device during initialization.</param>
+        /// <param name="instrumentType">The type of instrument to close.</param>
+        [Obsolete("Use other overload 'CleanupInstrumentation(ISemiconductorModuleContext, bool, TestStandSteps.NIInstrumentType)' instead.", error: false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void CleanupInstrumentation(
+            ISemiconductorModuleContext tsmContext,
+            bool resetDevice = false,
+            NIInstrumentType instrumentType = NIInstrumentType.All)
+        {
+            CleanupInstrumentation(tsmContext, resetDevice, (TestStandSteps.NIInstrumentType)instrumentType);
+        }
+
+        /// <summary>
+        /// Closes any open instrument sessions associated with the pin map. To close instruments of specific types, use <see cref="CleanupInstrumentation(ISemiconductorModuleContext, bool, TestStandSteps.NIInstrumentType)"/> instead.
+        /// </summary>
+        /// <remarks>
+        /// This method makes a callback to new overload  method.
+        /// </remarks>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        public static void CleanupInstrumentation(ISemiconductorModuleContext tsmContext)
+        {
+            CleanupInstrumentation(tsmContext, false, TestStandSteps.NIInstrumentType.All);
+        }
+
+        /// <summary>
+        /// This enum is deprecated. Use <see cref="TestStandSteps.NIInstrumentType"/> instead.
+        /// </summary>
+        [Obsolete("This enum is deprecated. Use TestStandSteps.NIInstrumentType instead.", error: false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public enum NIInstrumentType
+        {
+            /// <summary>
+            /// All NI instruments.
+            /// </summary>
+            All,
+
+            /// <summary>
+            /// An NI-DCPower instrument.
+            /// </summary>
+            NIDCPower,
+
+            /// <summary>
+            /// An NI-Digital Pattern instrument.
+            /// </summary>
+            NIDigitalPattern,
+
+            /// <summary>
+            /// A relay driver module (NI-SWITCH instrument).
+            /// </summary>
+            NIRelayDriver,
+
+            /// <summary>
+            /// An NI-DAQmx task.
+            /// </summary>
+            NIDAQmx,
+
+            /// <summary>
+            /// An NI-DMM instrument.
+            /// </summary>
+            NIDMM,
+
+            /// <summary>
+            /// An NI-FGEN instrument.
+            /// </summary>
+            NIFGen,
+
+            /// <summary>
+            /// An NI-SCOPE instrument.
+            /// </summary>
+            NIScope,
+
+            /// <summary>
+            /// An NI-Sync instrument.
+            /// </summary>
+            NISync
         }
     }
 }

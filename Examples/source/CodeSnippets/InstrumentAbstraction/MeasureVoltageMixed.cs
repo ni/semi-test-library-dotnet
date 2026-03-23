@@ -1,9 +1,9 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.Common;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
@@ -30,7 +30,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var dmmPins = sessionManager.DMM(filteredPinNamesPpmu);
 
             // Just an example of the InvokeInParallel method, assumes that the instrumentation is already configured.
-            Utilities.InvokeInParallel(
+            InvokeInParallel(
                 () => ppmuPins.MeasureAndPublishCurrent(publishedDataId),
                 () => smuPins.MeasureAndPublishCurrent(publishedDataId),
                 () => dmmPins.ReadAndPublish(maximumTimeInMilliseconds: 2000, publishedDataId));
@@ -48,7 +48,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Just an example of the InvokeInParallel method, assumes that the instrumentation is already configured.
             // Also, note that the null-conditional operator (?.) allows for the operation to be skipped when the SessionBundle object is null,
             // which is the case when no pins of that instrument type are passed into the function when using the filterPins parameter.
-            Utilities.InvokeInParallel(
+            InvokeInParallel(
                 () => ppmuPins?.MeasureAndPublishCurrent(publishedDataId),
                 () => smuPins?.MeasureAndPublishCurrent(publishedDataId),
                 () => dmmPins?.ReadAndPublish(maximumTimeInMilliseconds: 2000, publishedDataId));

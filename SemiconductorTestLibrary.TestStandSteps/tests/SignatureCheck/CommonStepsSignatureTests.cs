@@ -23,12 +23,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(bool)
             };
-            var method = classType.GetMethod(
-                "LeakageTest",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "LeakageTest", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -67,12 +62,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(double)
             };
-            var method = classType.GetMethod(
-                "ContinuityTest",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "ContinuityTest", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -109,12 +99,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(bool),
                 typeof(bool)
             };
-            var method = classType.GetMethod(
-                "DutPowerDown",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "DutPowerDown", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -148,12 +133,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(bool)
             };
-            var method = classType.GetMethod(
-                "DutPowerUp",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "DutPowerUp", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -185,12 +165,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(string[]),
                 typeof(int)
             };
-            var method = classType.GetMethod(
-                "AcquireAnalogInputWaveforms",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "AcquireAnalogInputWaveforms", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -219,12 +194,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(string[]),
                 typeof(string)
             };
-            var method = classType.GetMethod(
-                "BurstPattern",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "BurstPattern", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -256,12 +226,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(double)
             };
-            var method = classType.GetMethod(
-                "ForceCurrentMeasureVoltage",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "ForceCurrentMeasureVoltage", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -296,12 +261,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(double)
             };
-            var method = classType.GetMethod(
-                "ForceVoltageMeasureCurrent",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "ForceVoltageMeasureCurrent", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -335,12 +295,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(double)
             };
-            var method = classType.GetMethod(
-                "ForceDcCurrent",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "ForceDcCurrent", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -373,12 +328,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(double)
             };
-            var method = classType.GetMethod(
-                "ForceDcVoltage",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "ForceDcVoltage", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();

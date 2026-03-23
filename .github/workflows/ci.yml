@@ -19,11 +19,86 @@ jobs:
         name: Call Azure Pipeline
         runs-on: ubuntu-latest
         steps:
-        - uses: actions/checkout@v2        
-        - uses: enfa/azure-pipeline-github-action@v1.0.0
-          with:
-            azure-devops-project-url: https://ni.visualstudio.com/DevCentral
-            azure-pipeline-name: 'MixedSignalLibrary_GitHub_Trigger'
-            azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-            azure-pipeline-variables:  ${{ env.BUILD_SYNC_VARIABLES }}
-            azure-pipeline-sourcebranch: ${{ github.ref }}
+        - uses: actions/checkout@v2
+
+        - name: Trigger MixedSignalLibrary_GitHub_Trigger Pipeline on Azure DevOps
+          id: trigger_pipeline
+          run: |
+            ORG="ni"
+            PROJECT="DevCentral"
+            PIPELINE_ID="18439"
+            BRANCH="main"
+            PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
+
+            GITHUB_INTERNAL_SHA="${{ github.head_ref }}.${{ github.sha }}"
+
+            BODY=$(jq -n \
+              --arg ref "refs/heads/$BRANCH" \
+              --arg sha "$GITHUB_INTERNAL_SHA" \
+              '{
+                resources: {
+                  repositories: {
+                    self: {
+                      refName: $ref
+                    }
+                  }
+                },
+                variables: {
+                  GITHUB_INTERNAL_SHA: {
+                    value: $sha
+                  }
+                }
+              }')
+
+            RESPONSE=$(curl -sS -X POST \
+              -u ":$PAT" \
+              -H "Content-Type: application/json" \
+              -d "$BODY" \
+              "https://dev.azure.com/$ORG/$PROJECT/_apis/pipelines/$PIPELINE_ID/runs?api-version=7.0")
+
+            echo "Response: $RESPONSE"
+            BUILD_ID=$(echo "$RESPONSE" | jq -r '.id')
+
+            if [ -z "$BUILD_ID" ] || [ "$BUILD_ID" = "null" ]; then
+              echo "Failed to trigger Azure DevOps pipeline"
+              exit 1
+            fi
+
+            PIPELINE_URL="https://dev.azure.com/$ORG/$PROJECT/_build/results?buildId=$BUILD_ID"
+            echo "Azure DevOps pipeline triggered: $PIPELINE_URL"
+
+            echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
+
+        - name: Wait for Pipeline to Complete
+          id: wait_pipeline
+          run: |
+            BUILD_ID="${{ steps.trigger_pipeline.outputs.build_id }}"
+            ORG="ni"
+            PROJECT="DevCentral"
+            PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
+
+            TIMEOUT=10800   # 3 hour
+            INTERVAL=240    # 4 minutes
+            ELAPSED=0
+            STATUS="inProgress"
+
+            while [ "$STATUS" = "inProgress" ] || [ "$STATUS" = "notStarted" ]; do
+              if [[ "$ELAPSED" -ge "$TIMEOUT" ]]; then
+                echo "::error ::Timeout reached after 3 hours while waiting for Azure DevOps pipeline to complete."
+                exit 1
+              fi
+
+              RESPONSE=$(curl -sS -u ":$PAT" \
+                "https://dev.azure.com/$ORG/$PROJECT/_apis/build/builds/$BUILD_ID?api-version=6.0")
+              STATUS=$(echo "$RESPONSE" | jq -r '.status')
+              echo "Current build status: $STATUS"
+
+              sleep $INTERVAL
+              ELAPSED=$((ELAPSED + INTERVAL))
+            done
+
+            RESULT=$(echo "$RESPONSE" | jq -r '.result')
+            echo "Build result: $RESULT"
+            if [ "$RESULT" != "succeeded" ]; then
+              exit 1
+            fi

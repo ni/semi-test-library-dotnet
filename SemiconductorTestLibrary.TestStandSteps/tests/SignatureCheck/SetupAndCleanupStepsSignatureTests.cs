@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Reflection;
 using NationalInstruments.DAQmx;
@@ -25,12 +26,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(DAQmxTerminalConfiguration)
             };
-            var method = classType.GetMethod(
-                "SetupNIDAQmxAIVoltageTask",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNIDAQmxAIVoltageTask", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -65,12 +61,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(DAQmxTerminalConfiguration)
             };
-            var method = classType.GetMethod(
-                "SetupNIDAQmxAOFGenVoltageTask",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNIDAQmxAOFGenVoltageTask", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -105,12 +96,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(DAQmxTerminalConfiguration)
             };
-            var method = classType.GetMethod(
-                "SetupNIDAQmxAOVoltageTask",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNIDAQmxAOVoltageTask", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -141,12 +127,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(string),
                 typeof(ChannelLineGrouping)
             };
-            var method = classType.GetMethod(
-                "SetupNIDAQmxDITask",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNIDAQmxDITask", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -175,12 +156,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(string),
                 typeof(ChannelLineGrouping)
             };
-            var method = classType.GetMethod(
-                "SetupNIDAQmxDOTask",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNIDAQmxDOTask", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -214,12 +190,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(double)
             };
-            var method = classType.GetMethod(
-                "SetupNIDCPowerInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNIDCPowerInstrumentation", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -257,12 +228,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(double),
                 typeof(DMMMeasurementSettings?)
             };
-            var method = classType.GetMethod(
-                "SetupNIDMMInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNIDMMInstrumentation", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -298,12 +264,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(string),
                 typeof(bool)
             };
-            var method = classType.GetMethod(
-                "SetupNIDigitalPatternInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNIDigitalPatternInstrumentation", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -316,12 +277,52 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetAllSetupNIDigitalPatternInstrumentationOverloads_HasSingleOverload()
+        public void GetDeprecatedSetupNIDigitalPatternInstrumentationWithParameters_HasCorrectSignature()
         {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext),
+                typeof(bool),
+                typeof(string),
+                typeof(string)
+            };
+            var method = GetMethod(classType, "SetupNIDigitalPatternInstrumentation", parameterTypes);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertBoolParameter(parameters[1], "resetDevice", true, false);
+            AssertStringParameter(parameters[2], "levelsSheetToApply", true, string.Empty);
+            AssertStringParameter(parameters[3], "timingSheetToApply", true, string.Empty);
+            Assert.Equal(typeof(void), method.ReturnType);
+            Assert.NotNull(method.GetCustomAttribute<ObsoleteAttribute>());
+        }
+
+        [Fact]
+        public void GetSetupNIDigitalPatternInstrumentationWithNoOptionalParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[]
+            {
+                typeof(ISemiconductorModuleContext)
+            };
+            var method = GetMethod(classType, "SetupNIDigitalPatternInstrumentation", parameterTypes);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllSetupNIDigitalPatternInstrumentationOverloads_HasExpectedOverloadCount()
+        {
+            int expectedOverloadCount = 3;
             var classType = typeof(SetupAndCleanupSteps);
             var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "SetupNIDigitalPatternInstrumentation");
 
-            Assert.Single(overloads);
+            Assert.Equal(expectedOverloadCount, overloads.Count());
         }
 
         [Fact]
@@ -334,12 +335,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(bool),
                 typeof(string)
             };
-            var method = classType.GetMethod(
-                "SetupNIRelayModules",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNIRelayModules", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -367,12 +363,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(ISemiconductorModuleContext),
                 typeof(bool)
             };
-            var method = classType.GetMethod(
-                "SetupNIScopeInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNIScopeInstrumentation", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -399,12 +390,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(ISemiconductorModuleContext),
                 typeof(bool)
             };
-            var method = classType.GetMethod(
-                "SetupNIFGenInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNIFGenInstrumentation", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -431,12 +417,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
                 typeof(ISemiconductorModuleContext),
                 typeof(bool)
             };
-            var method = classType.GetMethod(
-                "SetupNISyncInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "SetupNISyncInstrumentation", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -459,12 +440,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         {
             var classType = typeof(SetupAndCleanupSteps);
             var parameterTypes = new[] { typeof(ISemiconductorModuleContext), typeof(bool), typeof(NIInstrumentType) };
-            var method = classType.GetMethod(
-                "CleanupInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "CleanupInstrumentation", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -475,12 +451,44 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetAllCleanupInstrumentationOverloads_HasSingleOverload()
+        public void GetDeprecatedCleanupInstrumentationWithParameters_HasCorrectSignature()
         {
+#pragma warning disable CS0618
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[] { typeof(ISemiconductorModuleContext), typeof(bool), typeof(SetupAndCleanupSteps.NIInstrumentType) };
+            var method = GetMethod(classType, "CleanupInstrumentation", parameterTypes);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertBoolParameter(parameters[1], "resetDevice", true, false);
+            AssertEnumParameter(parameters[2], "instrumentType", true, (int)SetupAndCleanupSteps.NIInstrumentType.All);
+            Assert.Equal(typeof(void), method.ReturnType);
+            Assert.NotNull(method.GetCustomAttribute<ObsoleteAttribute>());
+#pragma warning restore CS0618
+        }
+
+        [Fact]
+        public void GetCleanupInstrumentationWithNoOptionalParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[] { typeof(ISemiconductorModuleContext) };
+            var method = GetMethod(classType, "CleanupInstrumentation", parameterTypes);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllCleanupInstrumentationOverloads_HasExpectedOverloadCount()
+        {
+            int expectedOverloadCount = 3;
             var classType = typeof(SetupAndCleanupSteps);
             var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "CleanupInstrumentation");
 
-            Assert.Single(overloads);
+            Assert.Equal(expectedOverloadCount, overloads.Count());
         }
 
         [Fact]
@@ -488,12 +496,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         {
             var classType = typeof(SetupAndCleanupSteps);
             var parameterTypes = new[] { typeof(ISemiconductorModuleContext), typeof(bool), typeof(NIInstrumentType) };
-            var method = classType.GetMethod(
-                "ResetInstrumentation",
-                BindingFlags.Public | BindingFlags.Static,
-                binder: null,
-                parameterTypes,
-                modifiers: null);
+            var method = GetMethod(classType, "ResetInstrumentation", parameterTypes);
 
             Assert.NotNull(method);
             var parameters = method.GetParameters();
@@ -504,12 +507,44 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.SignatureCheck
         }
 
         [Fact]
-        public void GetAllResetInstrumentationOverloads_HasSingleOverload()
+        public void GetDeprecatedResetInstrumentationWithParameters_HasCorrectSignature()
         {
+#pragma warning disable CS0618 // 'NIInstrumentType' is obsolete
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[] { typeof(ISemiconductorModuleContext), typeof(bool), typeof(SetupAndCleanupSteps.NIInstrumentType) };
+            var method = GetMethod(classType, "ResetInstrumentation", parameterTypes);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            AssertBoolParameter(parameters[1], "resetDevice", true, false);
+            AssertEnumParameter(parameters[2], "instrumentType", true, (int)SetupAndCleanupSteps.NIInstrumentType.All);
+            Assert.Equal(typeof(void), method.ReturnType);
+            Assert.NotNull(method.GetCustomAttribute<ObsoleteAttribute>());
+#pragma warning restore CS0618
+        }
+
+        [Fact]
+        public void GetResetInstrumentationWithNoOptionalParameters_HasCorrectSignature()
+        {
+            var classType = typeof(SetupAndCleanupSteps);
+            var parameterTypes = new[] { typeof(ISemiconductorModuleContext) };
+            var method = GetMethod(classType, "ResetInstrumentation", parameterTypes);
+
+            Assert.NotNull(method);
+            var parameters = method.GetParameters();
+            AssertParameter(parameters[0], "tsmContext", false);
+            Assert.Equal(typeof(void), method.ReturnType);
+        }
+
+        [Fact]
+        public void GetAllResetInstrumentationOverloads_HasExpectedOverloadCount()
+        {
+            int expectedOverloadCount = 3;
             var classType = typeof(SetupAndCleanupSteps);
             var overloads = classType.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "ResetInstrumentation");
 
-            Assert.Single(overloads);
+            Assert.Equal(expectedOverloadCount, overloads.Count());
         }
     }
 }
