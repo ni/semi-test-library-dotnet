@@ -1371,8 +1371,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var sequence = currentSequences.GetValue(sitePinInfo);
-                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(sitePinInfo, settings, sequence, sequenceLoopCount);
+                var sequence = currentSequences.GetValue(sitePinInfo, out bool isGroupData);
+                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(sitePinInfo, settings, sequence, sequenceLoopCount, isGroupData);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
