@@ -1332,6 +1332,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             var settings = new DCPowerSourceSettings()
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
@@ -1340,7 +1341,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 LevelRange = currentLevelRange,
                 LimitRange = voltageLimitRange
             };
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var sequence = currentSequences.GetValue(sitePinInfo.SiteNumber);
@@ -1360,6 +1360,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
         {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             var settings = new DCPowerSourceSettings()
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
@@ -1368,7 +1369,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 LevelRange = currentLevelRange,
                 LimitRange = voltageLimitRange
             };
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var sequence = currentSequences.GetValue(sitePinInfo, out bool isGroupData);
@@ -1508,11 +1508,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures a hardware-timed sequence of values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="outputFunction">The <see cref="DCPowerSourceOutputFunction"/> object.</param>
         /// <param name="sequence">The voltage or current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
-        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceOutputFunction outputFunction, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
+        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
         {
             if (sessionsBundle.HasGangedChannels)
             {
@@ -1539,8 +1538,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
-        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceOutputFunction outputFunction, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
+        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
         {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
@@ -1550,8 +1550,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
-        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceOutputFunction outputFunction, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
+        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
         {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
