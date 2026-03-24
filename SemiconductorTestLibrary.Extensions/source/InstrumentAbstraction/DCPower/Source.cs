@@ -1940,14 +1940,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureCurrentSequence(this DCPowerOutput output, double[] sequence, SitePinInfo sitePinInfo = null, bool needDataAdjustment = true)
-        {
-            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && needDataAdjustment)
-            {
-                sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
-            }
-        }
-
         /// <summary>
         /// Configures a hardware-timed sequence of values with per-step source delays.
         /// </summary>
