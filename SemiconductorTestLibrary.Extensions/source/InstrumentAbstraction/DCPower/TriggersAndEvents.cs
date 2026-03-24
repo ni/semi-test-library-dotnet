@@ -269,6 +269,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
+        internal static void ConfigureStartTriggerForCascadedSequencing(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
+        {
+            var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
+            if (IsFollowerOfGangedChannels(gangingInfo))
+            {
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, gangingInfo.StartTriggerName, DCPowerTriggerEdge.Rising);
+            }
+        }
+
         internal static void ConfigureMeasureTriggerForCascading(this DCPowerSessionInformation sessionInfo, string channelString)
         {
             if (sessionInfo.HasGangedChannels)
