@@ -334,7 +334,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(sitePinInfo, settings, voltageSequence, sequenceLoopCount);
+                    sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(sitePinInfo, settings, voltageSequence, sequenceLoopCount, needDataAdjustment: false);
                 });
                 sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
             }
@@ -377,7 +377,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var sequence = voltageSequence.GetValue(pinSiteInfo.SiteNumber);
                 var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(pinSiteInfo, settings, sequence, sequenceLoopCount);
+                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(pinSiteInfo, settings, sequence, sequenceLoopCount, needDataAdjustment: false);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
@@ -406,7 +406,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var sequence = voltageSequence.GetValue(pinSiteInfo);
                 var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(pinSiteInfo, settings, sequence, sequenceLoopCount);
+                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(pinSiteInfo, settings, sequence, sequenceLoopCount, needDataAdjustment: false);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
@@ -1913,7 +1913,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
-            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && outputFunction == DCPowerSourceOutputFunction.DCCurrent && needDataAdjustment)
+            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && needDataAdjustment)
             {
                 sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
             }
