@@ -1423,10 +1423,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
-        private static void ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, DCPowerSourceSettings settings, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
+        private static void ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(
+            this DCPowerSessionInformation sessionInfo,
+            SitePinInfo sitePinInfo,
+            DCPowerSourceSettings settings,
+            double[] sequence,
+            int sequenceLoopCount,
+            bool needDataAdjustment = true)
         {
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            channelOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo, settings.OutputFunction);
+            channelOutput.ConfigureSequence(
+                sequence,
+                sequenceLoopCount,
+                sequenceStepDeltaTimeInSeconds: null,
+                sitePinInfo,
+                settings.OutputFunction,
+                needDataAdjustment);
             channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
@@ -1892,11 +1904,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
         /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
         /// <param name="outputFunction">The <see cref="DCPowerSourceOutputFunction"/> object</param>
-        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null, SitePinInfo sitePinInfo = null, DCPowerSourceOutputFunction? outputFunction = null)
+        /// <param name="needDataAdjustment">Indicates if the sequence values should be divided in case of Ganging.</param>
+        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null, SitePinInfo sitePinInfo = null, DCPowerSourceOutputFunction? outputFunction = null, bool needDataAdjustment = true)
         {
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
-            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && outputFunction == DCPowerSourceOutputFunction.DCCurrent)
+            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && outputFunction == DCPowerSourceOutputFunction.DCCurrent && needDataAdjustment)
             {
                 sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
             }
