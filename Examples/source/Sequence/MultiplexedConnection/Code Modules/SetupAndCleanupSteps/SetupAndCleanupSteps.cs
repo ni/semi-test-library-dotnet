@@ -27,7 +27,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.MultiplexedConne
 
                 foreach (var switchName in switchNames)
                 {
-                    // Register a session object for each switch name.
+                    // Register a placeholder session so TSM can map switch context without direct NI Switch driver calls.
                     tsmContext.SetSwitchSession(multiplexerTypeId, switchName, new object());
                 }
             }
