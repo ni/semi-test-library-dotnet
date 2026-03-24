@@ -30,7 +30,7 @@ Depending on the multiplexer type, you may also need to define:
 
 ### Example Pin Map: NIGenericMultiplexer with Relay Configurations
 
-The following example illustrates one shared DMM channel routed to pin `A` across four sites using an `NIGenericMultiplexer`. This configuration uses relay configurations to control routing:
+The following example illustrates one shared DMM channel routed to pin `VCC` across four sites using an `NIGenericMultiplexer`. This configuration uses relay configurations to control routing:
 
 ```xml
 <Instruments>
@@ -40,43 +40,43 @@ The following example illustrates one shared DMM channel routed to pin `A` acros
 </Instruments>
 
 <Pins>
-  <DUTPin name="A" />
+  <DUTPin name="VCC" />
 </Pins>
 
 <Relays>
-  <SystemRelay name="DmmPinASite0" />
-  <SystemRelay name="DmmPinASite1" />
-  <SystemRelay name="DmmPinASite2" />
-  <SystemRelay name="DmmPinASite3" />
+  <SystemRelay name="DmmVCCSite0" />
+  <SystemRelay name="DmmVCCSite1" />
+  <SystemRelay name="DmmVCCSite2" />
+  <SystemRelay name="DmmVCCSite3" />
 </Relays>
 
 <RelayConfigurations>
-  <RelayConfiguration name="ConnectDmmToPinASite0">
-    <RelayPosition relay="DmmPinASite0" position="Closed" />
-    <RelayPosition relay="DmmPinASite1" position="Open" />
-    <RelayPosition relay="DmmPinASite2" position="Open" />
-    <RelayPosition relay="DmmPinASite3" position="Open" />
+  <RelayConfiguration name="ConnectDmmToVCCSite0">
+    <RelayPosition relay="DmmVCCSite0" position="Closed" />
+    <RelayPosition relay="DmmVCCSite1" position="Open" />
+    <RelayPosition relay="DmmVCCSite2" position="Open" />
+    <RelayPosition relay="DmmVCCSite3" position="Open" />
   </RelayConfiguration>
   <!-- Similar configurations for Site1, Site2, Site3 -->
-  <RelayConfiguration name="DisconnectDmmFromPinAOnAllSites">
-    <RelayPosition relay="DmmPinASite0" position="Open" />
-    <RelayPosition relay="DmmPinASite1" position="Open" />
-    <RelayPosition relay="DmmPinASite2" position="Open" />
-    <RelayPosition relay="DmmPinASite3" position="Open" />
+  <RelayConfiguration name="DisconnectDmmFromVCCOnAllSites">
+    <RelayPosition relay="DmmVCCSite0" position="Open" />
+    <RelayPosition relay="DmmVCCSite1" position="Open" />
+    <RelayPosition relay="DmmVCCSite2" position="Open" />
+    <RelayPosition relay="DmmVCCSite3" position="Open" />
   </RelayConfiguration>
 </RelayConfigurations>
 
 <Connections>
   <MultiplexedConnection instrument="DMM_4081_C1_S02" channel="0">
-    <MultiplexedDUTPinRoute pin="A" siteNumber="0" multiplexer="MUX1" routeName="ConnectDmmToPinASite0" />
-    <MultiplexedDUTPinRoute pin="A" siteNumber="1" multiplexer="MUX1" routeName="ConnectDmmToPinASite1" />
-    <MultiplexedDUTPinRoute pin="A" siteNumber="2" multiplexer="MUX1" routeName="ConnectDmmToPinASite2" />
-    <MultiplexedDUTPinRoute pin="A" siteNumber="3" multiplexer="MUX1" routeName="ConnectDmmToPinASite3" />
+    <MultiplexedDUTPinRoute pin="VCC" siteNumber="0" multiplexer="MUX1" routeName="ConnectDmmToVCCSite0" />
+    <MultiplexedDUTPinRoute pin="VCC" siteNumber="1" multiplexer="MUX1" routeName="ConnectDmmToVCCSite1" />
+    <MultiplexedDUTPinRoute pin="VCC" siteNumber="2" multiplexer="MUX1" routeName="ConnectDmmToVCCSite2" />
+    <MultiplexedDUTPinRoute pin="VCC" siteNumber="3" multiplexer="MUX1" routeName="ConnectDmmToVCCSite3" />
   </MultiplexedConnection>
-  <SystemRelayConnection relay="DmmPinASite0" relayDriverModule="RELAY_2567_C1_S03" controlLine="K0" />
-  <SystemRelayConnection relay="DmmPinASite1" relayDriverModule="RELAY_2567_C1_S03" controlLine="K1" />
-  <SystemRelayConnection relay="DmmPinASite2" relayDriverModule="RELAY_2567_C1_S03" controlLine="K2" />
-  <SystemRelayConnection relay="DmmPinASite3" relayDriverModule="RELAY_2567_C1_S03" controlLine="K3" />
+  <SystemRelayConnection relay="DmmVCCSite0" relayDriverModule="RELAY_2567_C1_S03" controlLine="K0" />
+  <SystemRelayConnection relay="DmmVCCSite1" relayDriverModule="RELAY_2567_C1_S03" controlLine="K1" />
+  <SystemRelayConnection relay="DmmVCCSite2" relayDriverModule="RELAY_2567_C1_S03" controlLine="K2" />
+  <SystemRelayConnection relay="DmmVCCSite3" relayDriverModule="RELAY_2567_C1_S03" controlLine="K3" />
 </Connections>
 ```
 
@@ -93,8 +93,8 @@ The following example illustrates multiple SMU channels routed to multiple DUT p
 </Instruments>
 
 <Pins>
-  <DUTPin name="DUTPin1" />
-  <DUTPin name="DUTPin2" />
+  <DUTPin name="VCC" />
+  <DUTPin name="VDD" />
 </Pins>
 
 <Sites>
@@ -106,12 +106,12 @@ The following example illustrates multiple SMU channels routed to multiple DUT p
 
 <Connections>
   <MultiplexedConnection instrument="SMU_4147_C1_S11" channel="0">
-    <MultiplexedDUTPinRoute pin="DUTPin1" siteNumber="0" multiplexer="Relay_2567_C1_S07" routeName="Site0_DUTPin1" />
-    <MultiplexedDUTPinRoute pin="DUTPin2" siteNumber="0" multiplexer="Relay_2567_C1_S07" routeName="Site0_DUTPin2" />
+    <MultiplexedDUTPinRoute pin="VCC" siteNumber="0" multiplexer="Relay_2567_C1_S07" routeName="Site0_VCC" />
+    <MultiplexedDUTPinRoute pin="VDD" siteNumber="0" multiplexer="Relay_2567_C1_S07" routeName="Site0_VDD" />
   </MultiplexedConnection>
   <MultiplexedConnection instrument="SMU_4147_C1_S11" channel="1">
-    <MultiplexedDUTPinRoute pin="DUTPin1" siteNumber="1" multiplexer="Relay_2567_C1_S07" routeName="Site1_DUTPin1" />
-    <MultiplexedDUTPinRoute pin="DUTPin2" siteNumber="1" multiplexer="Relay_2567_C1_S07" routeName="Site1_DUTPin2" />
+    <MultiplexedDUTPinRoute pin="VCC" siteNumber="1" multiplexer="Relay_2567_C1_S07" routeName="Site1_VCC" />
+    <MultiplexedDUTPinRoute pin="VDD" siteNumber="1" multiplexer="Relay_2567_C1_S07" routeName="Site1_VDD" />
   </MultiplexedConnection>
   <!-- Similar connections for channels 2 and 3 mapping to sites 2 and 3 -->
 </Connections>
