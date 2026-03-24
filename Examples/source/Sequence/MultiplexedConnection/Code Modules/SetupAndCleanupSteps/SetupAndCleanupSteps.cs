@@ -28,10 +28,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.MultiplexedConne
                 foreach (var switchName in switchNames)
                 {
                     // TSM requires a session object to be set for the associated multiplexer,
-                    // to later retrieve the multiplexer routes in the test program via the the TSM GetSwitchSessions method.
+                    // to later retrieve the multiplexer routes in the test program via the TSM GetSwitchSessions method.
                     // It expects an NI-Switch driver session will be used to operate the multiplexer routes during the program.
                     // However, this example does not use the NI-Switch driver directly.
-                    // Instead, it leverages the TSM Control Relay methods to operate the multiplexer routes retrieved by the  TSM GetSwitchSessions method.
+                    // Instead, it leverages the TSM Control Relay methods to operate the multiplexer routes retrieved by the TSM GetSwitchSessions method.
                     // Therefore, a dummy object must be provided to the TSM SetSwitchSession method to enable this use case.
                     tsmContext.SetSwitchSession(multiplexerTypeId, switchName, new object());
                 }
