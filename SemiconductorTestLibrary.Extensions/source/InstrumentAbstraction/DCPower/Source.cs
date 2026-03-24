@@ -1929,7 +1929,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
-            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && outputFunction == DCPowerSourceOutputFunction.DCCurrent && needDataAdjustment)
+            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo && outputFunction.Equals(DCPowerSourceOutputFunction.DCCurrent) && needDataAdjustment)
             {
                 sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
             }
