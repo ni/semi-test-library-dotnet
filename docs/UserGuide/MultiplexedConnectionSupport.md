@@ -146,6 +146,9 @@ Before using multiplexed connections in your test code:
 
 The following code demonstrates the typical TSM API + Semiconductor Test Library (STL) workflow for a multiplexed DMM measurement. These examples are based on the [Multiplexed Connection Example](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/MultiplexedConnection/).
 
+> [!NOTE]
+> This workflow uses the TSM Relay Control API (`ApplyRelayConfiguration`) to control routes. The multiplexer session initialization registers a placeholder session so TSM can map switch context without direct NI Switch driver calls.
+
 ### Multiplexer Session Initialization (User Code in ProcessSetup)
 
 Your code must initialize the multiplexer session with the TSM context. This is called from ProcessSetup after initializing the Relay Driver Module (if applicable) and measurement instrument sessions using Semiconductor Test Library (STL) TestStandSteps:
@@ -160,8 +163,8 @@ public static void InitializeGenericMultiplexerSession(
 
     foreach (var switchName in switchNames)
     {
-        // Register a placeholder session object for each switch name.
-        // Actual route control is performed through relay configurations.
+        // Register a placeholder session so TSM can map switch context
+        // without direct NI Switch driver calls.
         tsmContext.SetSwitchSession(multiplexerTypeId, switchName, new object());
     }
 }
@@ -209,13 +212,16 @@ public static void OneInstrumentChannelToManySitesForOneDutPin(
 
 ### Multiplexer Session Cleanup (User Code in ProcessCleanup)
 
-Your code must close all switch sessions during ProcessCleanup, before cleaning up the relay driver module (if applicable) and measurement instrument sessions:
+Your code must clean up any switch sessions during ProcessCleanup, before cleaning up the relay driver module (if applicable) and measurement instrument sessions:
 
 ```csharp
 public static void CleanupGenericMultiplexerSession(
     ISemiconductorModuleContext tsmContext,
     string multiplexerTypeId)
 {
+    // Retrieve and close any switch sessions.
+    // For NIGenericMultiplexer with placeholder objects, this is a no-op.
+    // For multiplexer types that use actual NI Switch sessions, this closes them.
     var sessions = tsmContext.GetAllSwitchSessions(multiplexerTypeId);
 
     foreach (var session in sessions)
