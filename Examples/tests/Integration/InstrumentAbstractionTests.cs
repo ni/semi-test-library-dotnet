@@ -16,7 +16,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             string[] pins = { "VDD" };
 
-            ForceVoltageRamp.SameValueToAllSmuPins(tsmContext, pins);
+            ForceVoltageSequence.ForceVoltageRamp(tsmContext, pins);
             CleanupInstrumentation(tsmContext);
         }
 
@@ -27,8 +27,24 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             string[] pins = { "VDD" };
 
-            ForceSynchronizedVoltageRampAndFetch.SameValueToAllSmuPins(tsmContext, pins);
+            ForceVoltageSequence.ForceSynchronizedVoltageRampAndFetch(tsmContext, pins);
             CleanupInstrumentation(tsmContext);
+        }
+
+        [Fact]
+        public void Initialize_ForceVoltageRampMeasureCurrent_SucceedsAndPublishesData()
+        {
+            var tsmContext = CreateTSMContext("HLSTestPinMap.pinmap", out var publishedDataReader);
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
+            string[] pins = { "VDD", "VCC" };
+            string publishedDataID = "ForceVoltageRampMeasureCurrent-TESTING";
+
+            ForceVoltageSequence.ForceVoltageRampMeasureCurrent(tsmContext, pins, publishedDataID);
+
+            CleanupInstrumentation(tsmContext);
+            var publishedData = publishedDataReader.GetAndClearPublishedData();
+            Assert.NotEmpty(publishedData);
+            Assert.Equal(publishedDataID, publishedData[0].PublishedDataId);
         }
     }
 }
