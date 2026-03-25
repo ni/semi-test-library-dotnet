@@ -16,19 +16,21 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// results.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="smuPinNames">Array of SMU pin names to which the voltage ramp is applied.</param>
+        /// <param name="smuPinNames">SMU pin names to be configured.</param>
         public static void ForceVoltageRampMeasureCurrent(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
 
-            dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
-            // dcPowerPins.DisableTriggers();
+            dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() 
+            {
+                MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete,
+            });
+
+            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
             dcPowerPins.ForceVoltageSequence(voltageSequence);
 
-            const string publishedId = "Current";
-            dcPowerPins.MeasureAndPublishCurrent(publishedId, out _);
+            dcPowerPins.MeasureAndPublishCurrent("Current", out _);
         }
     }
 }

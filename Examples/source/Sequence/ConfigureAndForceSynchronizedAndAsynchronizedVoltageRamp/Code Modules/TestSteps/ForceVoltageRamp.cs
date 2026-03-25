@@ -15,13 +15,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// This example demonstrates how to force the same voltage sequence created using <see cref="HelperMethods.CreateRampSequence(double, double, int)"/> on the specified pins.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="smuPinNames">The SMU pins to force voltage sequence on.</param>
+        /// <param name="smuPinNames">SMU pin names to be configured.</param>
         public static void ForceVoltageRamp(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
-
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
+
+            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
             dcPowerPins.ForceVoltageSequence(voltageSequence);
         }
     }
