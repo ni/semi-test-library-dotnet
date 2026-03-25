@@ -2130,14 +2130,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Commit();
         }
 
-        private static void InitiateGangedLeaderAndNonGangedChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false, double timeoutInSeconds = 5)
+        private static void InitiateGangedLeaderAndNonGangedChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false, double defaultTimeout = 5)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    channelOutput.InitiateChannels(waitForSourceCompletion, timeoutInSeconds);
+                    channelOutput.InitiateChannels(waitForSourceCompletion, defaultTimeout);
                 }
             });
         }
@@ -2152,12 +2152,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false, double timeoutInSeconds = 5)
+        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false, double defaultTimeout = 5)
         {
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
             {
-                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(timeoutInSeconds));
+                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(defaultTimeout));
             }
         }
 
