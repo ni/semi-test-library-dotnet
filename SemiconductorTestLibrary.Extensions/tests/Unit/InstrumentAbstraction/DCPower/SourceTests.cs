@@ -4096,8 +4096,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
-        // Fix for CS1003 and CS0103 in the following block (search for "AssertSequenceMeasurementsMatchExpected" with lambda using siteIndex):
-
         private void AssertSequenceMeasurementsMatchExpected(
             DCPowerSessionsBundle sessionsBundle,
             Func<int, string, double[]> getExpectedSequence,
