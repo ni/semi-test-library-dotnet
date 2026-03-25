@@ -15,7 +15,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     /// with any dependent instrument sessions have been already initiated and configured.
     /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
-    public static class ConfigureUpfrontAndInitiateAdvancedSequenceLater
+    internal static class ConfigureUpfrontAndInitiateAdvancedSequenceLater
     {
         /// <summary>
         /// Configures measurement and source settings for specified SMU pins and sets up an advanced sequence that can
@@ -29,7 +29,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">SMU pin names to be configured.</param>
-        public static void ConfigureUpfrontAndInitiateAdvancedSequenceLaterExample(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        internal static void ConfigureUpfrontAndInitiateAdvancedSequenceLaterExample(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
