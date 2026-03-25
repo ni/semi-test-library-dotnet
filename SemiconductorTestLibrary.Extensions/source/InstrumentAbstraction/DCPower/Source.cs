@@ -2083,8 +2083,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         internal static DCPowerOutput GetPrimaryOutput(this DCPowerSessionsBundle sessionsBundle, string triggerOrEventTypeName, out string terminalName)
         {
-            var masterChannelSessionInfo = sessionsBundle.InstrumentSessions.First();
-            var masterChannelString = masterChannelSessionInfo.AssociatedSitePinList.First().IndividualChannelString;
+            var masterChannelSitePinInfo = sessionsBundle.AggregateSitePinList.Where(sitePinInfo => !IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo)).First();
+            var masterChannelSessionInfo = sessionsBundle.InstrumentSessions.First(sessionInfo => sessionInfo.AssociatedSitePinList.Contains(masterChannelSitePinInfo));
+            var masterChannelString = masterChannelSitePinInfo.IndividualChannelString;
             terminalName = masterChannelSessionInfo.BuildTerminalName(masterChannelString, triggerOrEventTypeName);
             return masterChannelSessionInfo.Session.Outputs[masterChannelString];
         }
