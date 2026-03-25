@@ -51,6 +51,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             double[] voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
             dcPowerPins.ForceVoltageSequence(voltageSequence, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 20);
 
+            // Measurements taken during the sequence execution can be fetched once the sequence finishes.
+            // The fetched result contains the measured Current, Voltage, and In Compliance state values for each step of the sequence.
+            // The Select method is used to extract just the Current values.
             PinSiteData<double[]> currentMeasurements = dcPowerPins.FetchMeasurement(pointsToFetch: 10).Select(samples => samples.Select(sample => sample.CurrentMeasurement).ToArray());
         }
 
