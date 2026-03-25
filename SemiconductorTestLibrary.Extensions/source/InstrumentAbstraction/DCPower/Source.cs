@@ -1428,14 +1428,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionInformation sessionInfo,
             SitePinInfo sitePinInfo,
             DCPowerSourceSettings settings,
-            double[] sequence,
+            double[] levelSequence,
             int sequenceLoopCount,
             bool needDataAdjustment = true)
         {
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             channelOutput.Control.Abort();
             channelOutput.ConfigureSequence(
-                sequence,
+                levelSequence,
                 sequenceLoopCount,
                 sequenceStepDeltaTimeInSeconds: null,
                 sitePinInfo,
@@ -1926,6 +1926,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="needDataAdjustment">Indicates if the sequence values should be divided in case of Ganging.</param>
         public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null, SitePinInfo sitePinInfo = null, bool needDataAdjustment = true)
         {
+            ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
             if (needDataAdjustment && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
@@ -2021,10 +2022,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo, bool needDataAdjustment = true)
         {
             string channelString = string.IsNullOrEmpty(channelOutput.Name) ? sessionInfo.AllChannelsString : channelOutput.Name;
-            if (sitePinInfo != null && channelString.Split(',').Length > 1)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelString));
-            }
+            ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, channelString);
 
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             if (settings.SourceDelayInSeconds.HasValue)
@@ -2318,6 +2316,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             if (invalidProperties.Count > 0)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_InconsistentAdvancedSequenceProperties, string.Join(", ", invalidProperties.Select(p => $"\"{p}\""))));
+            }
+        }
+
+        private static void ValidateChannelOutputAndSitePinInfoPair(SitePinInfo sitePinInfo, string channelString)
+        {
+            if (sitePinInfo != null && channelString.Split(',').Length > 1)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelString));
             }
         }
 
