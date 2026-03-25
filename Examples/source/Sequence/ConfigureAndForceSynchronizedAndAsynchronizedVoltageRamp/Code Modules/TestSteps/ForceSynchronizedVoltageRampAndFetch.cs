@@ -19,9 +19,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         public static void ForceSynchronizedVoltageRampAndFetch(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
 
+
+            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
             dcPowerPins.ForceVoltageSequenceSynchronized(voltageSequence, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10);
 
             dcPowerPins.MeasureAndPublishVoltage("Voltage", out _);
