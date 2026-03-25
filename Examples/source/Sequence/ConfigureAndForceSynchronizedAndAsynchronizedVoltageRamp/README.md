@@ -17,7 +17,6 @@ The example showcases four different approaches for forcing voltage ramps on SMU
 
 - STS Software 24.5.0 or later
 - NI-DCPower driver
-- TestStand configured to use the Batch process model
 
 ### Hardware Requirements
 
