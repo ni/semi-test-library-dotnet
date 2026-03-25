@@ -15,14 +15,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program with any dependent instrument sessions have already been initiated and configured.
     /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
-    public static class ForceVoltageSequence
+    internal static class ForceVoltageSequence
     {
         /// <summary>
         /// This example demonstrates how to force the same hardware-timed voltage ramp sequence to all SMU pins and sites.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">The SMU pins to force voltage sequence on.</param>
-        public static void ForceVoltageRamp(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        internal static void ForceVoltageRamp(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
@@ -38,7 +38,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">Names of the SMU pins to apply the voltage ramp and measure current.</param>
-        public static void ForceVoltageRampFetchCurrentMeasurements(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        internal static void ForceVoltageRampFetchCurrentMeasurements(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
@@ -63,7 +63,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">The SMU pins to force voltage sequence on.</param>
-        public static void ForceSynchronizedVoltageRampAndFetchMeasurements(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        internal static void ForceSynchronizedVoltageRampAndFetchMeasurements(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
