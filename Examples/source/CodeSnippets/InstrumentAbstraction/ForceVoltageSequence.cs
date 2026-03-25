@@ -10,7 +10,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 {
     /// <summary>
     /// This class contains examples of how to use the Instrument Abstraction extensions.
-    /// Specifically, how to force a synchronized voltage ramp on pins mapped to Source Measurement Unit (SMU) devices.
+    /// Specifically, how to force a voltage sequence on pins mapped to Source Measurement Unit (SMU) devices.
     /// This class and its methods are intended for example purposes only and are not meant to be ran standalone.
     /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program with any dependent instrument sessions have already been initiated and configured.
     /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
@@ -54,7 +54,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Measurements taken during the sequence execution can be fetched once the sequence finishes.
             // The fetched result contains the measured Current, Voltage, and In Compliance state values for each step of the sequence.
             // The Select method is used to extract just the Current values.
-            PinSiteData<double[]> currentMeasurements = dcPowerPins.FetchMeasurement(pointsToFetch: 10).Select(samples => samples.Select(sample => sample.CurrentMeasurement).ToArray());
+            PinSiteData<double[]> currentMeasurements = dcPowerPins.FetchMeasurement(pointsToFetch: 10)
+                .Select(samples => samples.Select(sample => sample.CurrentMeasurement).ToArray());
         }
 
         /// <summary>

@@ -17,6 +17,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             string[] pins = { "VDD" };
 
             ForceVoltageSequence.ForceVoltageRamp(tsmContext, pins);
+
             CleanupInstrumentation(tsmContext);
         }
 
@@ -28,6 +29,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             string[] pins = { "VDD" };
 
             ForceVoltageSequence.ForceSynchronizedVoltageRampAndFetchMeasurements(tsmContext, pins);
+
             CleanupInstrumentation(tsmContext);
         }
 
