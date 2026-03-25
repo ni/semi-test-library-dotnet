@@ -882,7 +882,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 else
                 {
                     // Slave channels start on master's start trigger
-                    channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
+                    if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                    {
+                        channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
+                    }
+
                     channelOutput.Control.Initiate();
                 }
             });
