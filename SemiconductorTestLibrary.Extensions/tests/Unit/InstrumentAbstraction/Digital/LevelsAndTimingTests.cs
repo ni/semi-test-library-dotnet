@@ -961,6 +961,70 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             RemoveTemporaryFile(fileName);
         }
 
+        [Fact]
+        public void SharedContextToNonShared_LoadTDROffsetsFromFile_ThrowsWhenMissingChannels()
+        {
+            var sharedPinSessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+            var sharedPinBundle = sharedPinSessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+            {
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), // site0/C0
+                },
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8), // site0/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site1/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site1/C0
+                }
+            };
+            var fileName = Path.GetTempFileName();
+            sharedPinBundle.SaveTDROffsetsToFile(offsets, fileName);
+            PreciseWait(timeInSeconds: 0.1);
+
+            var nonSharedSessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var nonSharedBundle = nonSharedSessionManager.Digital(new string[] { "C0", "C1" });
+
+            Action action = () => nonSharedBundle.LoadTDROffsetsFromFile(fileName, throwOnMissingChannels: true);
+
+            var exception = Assert.Throws<ArgumentException>(action);
+            Assert.Contains("tdr offsets for following channels are missing from ", exception.Message.ToLower());
+            RemoveTemporaryFile(fileName);
+        }
+
+        [Fact]
+        public void NonSharedContextToShared_LoadTDROffsetsFromFile_ThrowsWhenMissingChannels()
+        {
+            var nonSharedSessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var nonSharedBundle = nonSharedSessionManager.Digital(new string[] { "C0", "C1" });
+            var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
+           {
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), // site0/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site1/C0
+                },
+                new[]
+                {
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8), // site0/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site1/C1
+                }
+           };
+            var fileName = Path.GetTempFileName();
+            nonSharedBundle.SaveTDROffsetsToFile(offsets, fileName);
+            PreciseWait(timeInSeconds: 0.1);
+
+            var sharedPinSessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+            var sharedPinBundle = sharedPinSessionManager.Digital(new string[] { "C0", "C1" });
+
+            Action action = () => sharedPinBundle.LoadTDROffsetsFromFile(fileName, throwOnMissingChannels: true);
+
+            var exception = Assert.Throws<ArgumentException>(action);
+            Assert.Contains("tdr offsets for following channels are missing from ", exception.Message.ToLower());
+            RemoveTemporaryFile(fileName);
+        }
+
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
