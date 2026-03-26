@@ -962,7 +962,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedContextToNonShared_LoadTDROffsetsFromFile_ThrowsWhenMissingChannels()
+        public void SaveTDROffsetsWithSharedPins_LoadTDROffsetsFromFileInNonSharedBundle_ThrowsException()
         {
             var sharedPinSessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
             var sharedPinBundle = sharedPinSessionManager.Digital(new string[] { "C0", "C1" });
@@ -982,7 +982,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var fileName = Path.GetTempFileName();
             sharedPinBundle.SaveTDROffsetsToFile(offsets, fileName);
             PreciseWait(timeInSeconds: 0.1);
-
             var nonSharedSessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
             var nonSharedBundle = nonSharedSessionManager.Digital(new string[] { "C0", "C1" });
 
@@ -994,7 +993,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void NonSharedContextToShared_LoadTDROffsetsFromFile_ThrowsWhenMissingChannels()
+        public void SaveTDROffsetsWithNonSharedPins_LoadTDROffsetsFromFileInSharedBundle_ThrowsException()
         {
             var nonSharedSessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
             var nonSharedBundle = nonSharedSessionManager.Digital(new string[] { "C0", "C1" });
@@ -1014,7 +1013,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var fileName = Path.GetTempFileName();
             nonSharedBundle.SaveTDROffsetsToFile(offsets, fileName);
             PreciseWait(timeInSeconds: 0.1);
-
             var sharedPinSessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
             var sharedPinBundle = sharedPinSessionManager.Digital(new string[] { "C0", "C1" });
 
