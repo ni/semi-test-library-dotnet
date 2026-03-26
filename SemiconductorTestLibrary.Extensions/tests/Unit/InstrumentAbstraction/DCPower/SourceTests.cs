@@ -2698,7 +2698,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequences: sequence, voltageLimit: 0.5, currentLevelRange: 2, voltageLimitRange: 1, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteIndex, pin) => sequence.GetValue(siteIndex, pin).Select(value => value / 3).ToArray(), sequence.PinNames, precision: 2, isGroupData: true);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteIndex, pin) => sequence.GetValue(siteIndex, pin).Select(value => value / 3).ToArray(), sequence.PinNames, precision: 2, isGroupData: true, groupName: ThreePinsGangedGroup);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
         }
 
@@ -4106,9 +4106,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             int itemsToFetch = 2,
             bool checkForCurrentMeasurement = true,
             bool initiateChannel = true,
-            bool isGroupData = false)
+            bool isGroupData = false,
+            string groupName = "")
         {
-            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (initiateChannel)
                 {
@@ -4116,18 +4117,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
                 return sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(timeoutSeconds), itemsToFetch);
             });
-            for (int i = 0, j = 0; i < siteCount; i++)
+            foreach (var siteNumber in results.SiteNumbers)
             {
-                for (; j < pins.Length; j++)
+                foreach (var pin in results.PinNames)
                 {
-                    var expectedSequence = getExpectedSequence(i, pins[j]);
-                    var actualSequence = checkForCurrentMeasurement ? results[i + j][0].CurrentMeasurements : results[i][0].VoltageMeasurements;
+                    var sitePinInfo = sessionsBundle.AggregateSitePinList.First(info => info.SiteNumber == siteNumber && info.PinName == pin);
+                    var expectedSequence = getExpectedSequence(sitePinInfo.SiteNumber, isGroupData ? groupName : sitePinInfo.PinName);
+                    var actualSequence = checkForCurrentMeasurement ? results.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName).CurrentMeasurements : results.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName).VoltageMeasurements;
                     AssertEqualForDoubleArrays(expectedSequence, actualSequence, precision);
-                }
-                j--;
-                if (isGroupData)
-                {
-                    i += _tsmContext.GetPinsInPinGroups(pins).Length - 1;
                 }
             }
         }
