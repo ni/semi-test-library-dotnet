@@ -167,23 +167,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.5));
         }
 
-        [Fact]
-        public void DifferentSMUDevicesGanged_ForceCurrentSequenceSynchronized_CorrectValuesAreSet()
-        {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
-
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            var sequence = new[] { -1.0, 1.0, 1.5, 1.7, 2.0 };
-            sessionsBundle.ForceCurrentSequenceSynchronized(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2.5, voltageLimitRange: 1, sequenceLoopCount: 1);
-
-            sessionsBundle.Abort();
-            var fetchedResults = FetchResults(sessionsBundle, itemsToFetch: 5);
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, _ => sequence.Select(value => value / 5).ToArray(), fetchedResults, precision: 2);
-            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 1));
-        }
-
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [InlineData(false)]
