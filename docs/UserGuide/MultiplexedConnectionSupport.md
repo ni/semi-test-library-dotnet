@@ -15,18 +15,15 @@ Configure the pin map with the multiplexed connection and relay configuration de
 ### Pin Map Structure
 
 1. Define the measurement instrument (for example, `NIDmmInstrument` or `NIDCPowerInstrument`).
-2. Define a `Multiplexer` with a `multiplexerTypeId` that matches the type identifier used in your code when calling `GetSwitchNames` and `SetSwitchSession`.
+2. Define a `Multiplexer` with a **Multiplexer Type** that matches the type identifier used in your code when calling `GetSwitchNames` and `SetSwitchSession`.
 3. Define `MultiplexedConnection` elements that map instrument channels to DUT pins.
-4. Define `MultiplexedDUTPinRoute` elements within each `MultiplexedConnection` to specify the site, multiplexer, and route name for each pin-site combination.
+4. Define `MultiplexedDUTPinRoute` elements within each `MultiplexedConnection` to specify the **Site**, **Multiplexer**, and **Route** for each pin-site combination.
 
 Depending on the multiplexer type, you may also need to define:
 - `NIRelayDriverModule` for controlling relay-based routes
 - `SystemRelay` entries for each relay used for site routing
 - `RelayConfiguration` entries that specify relay states for each route
 - `SystemRelayConnection` entries to map relays to relay driver module control lines
-
-> [!NOTE]
-> The `multiplexerTypeId` in the pin map must match the type identifier used by your code when calling `GetSwitchNames` and `SetSwitchSession`.
 
 ### Example Pin Map: NIGenericMultiplexer with Relay Configurations
 
@@ -135,7 +132,7 @@ Before using multiplexed connections in your test code:
 
 ### Test Code Workflow
 
-1. **Query per-site route names** for the target DUT pin using `GetSwitchSessions`.
+1. **Query per-site route names** for the target DUT **Pin** using `GetSwitchSessions`.
 2. **For each site**:
    - Apply the relay configuration for the current site using `ApplyRelayConfiguration`.
    - Create a `TSMSessionManager` with the site-specific context.
@@ -158,15 +155,26 @@ public static void InitializeGenericMultiplexerSession(
     ISemiconductorModuleContext tsmContext,
     string multiplexerTypeId)
 {
+  try
+  {
     // Query switch names for the configured multiplexer type.
     var switchNames = tsmContext.GetSwitchNames(multiplexerTypeId);
 
     foreach (var switchName in switchNames)
     {
-        // Register a placeholder session so TSM can map switch context
-        // without direct NI Switch driver calls.
+        // TSM requires a session object to be set for the associated multiplexer,
+        // to later retrieve the multiplexer routes in the test program via the TSM GetSwitchSessions method.
+        // It expects an NI-Switch driver session to be used to operate the multiplexer routes during the program.
+        // However, this example does not use the NI-Switch driver directly.
+        // Instead, it leverages the TSM Control Relay methods to operate the multiplexer routes retrieved by the TSM GetSwitchSessions method.
+        // Therefore, a dummy object must be provided to the TSM SetSwitchSession method to enable this use case.
         tsmContext.SetSwitchSession(multiplexerTypeId, switchName, new object());
     }
+  }
+  catch (Exception e)
+  {
+      NISemiconductorTestException.Throw(e);
+  }
 }
 ```
 
@@ -189,17 +197,18 @@ public static void OneInstrumentChannelToManySitesForOneDutPin(
         out ISemiconductorModuleContext[] tsmContexts,
         out string[] routes);
 
-    // Execute one site at a time because this flow shares a single instrument channel.
+    // Execute one site at a time because this pin shares the same instrument channel for all sites.
     for (int i = 0; i < tsmContexts.Length; i++)
     {
-        // Select the relay state for the current site using the main context.
-        tsmContext.ApplyRelayConfiguration(routes[i]);
-        var sessionManager = new TSMSessionManager(tsmContexts[i]);
+        // Apply the current site's relay configuration.
+        var currentContext = tsmContexts[i];
+        currentContext.ApplyRelayConfiguration(routes[i]);
+        var sessionManager = new TSMSessionManager(currentContext);
         var dmm = sessionManager.DMM(dutPinName);
 
         // Read measurement and publish it for the active site context.
         var measurement = dmm.Read(maximumTimeInMilliseconds: 1000);
-        tsmContexts[i].PublishResults(measurement, $"{dutPinName}_Voltage");
+        currentContext.PublishResults(measurement, $"{dutPinName}_Voltage");
     }
 
     // Restore the configured end-of-test relay state after site loop completes.
@@ -219,15 +228,19 @@ public static void CleanupGenericMultiplexerSession(
     ISemiconductorModuleContext tsmContext,
     string multiplexerTypeId)
 {
-    // Retrieve and close any switch sessions.
-    // For NIGenericMultiplexer with placeholder objects, this is a no-op.
-    // For multiplexer types that use actual NI Switch sessions, this closes them.
-    var sessions = tsmContext.GetAllSwitchSessions(multiplexerTypeId);
-
-    foreach (var session in sessions)
+    try
     {
-        var switchSession = session as NISwitch;
-        switchSession?.Close();
+      var sessions = tsmContext.GetAllSwitchSessions(multiplexerTypeId);
+
+      foreach (var session in sessions)
+      {
+          var switchSession = session as NISwitch;
+          switchSession?.Close();
+      }
+    }
+    catch (Exception e)
+    {
+        NISemiconductorTestException.Throw(e);
     }
 }
 ```
