@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
 namespace NationalInstruments.SemiconductorTestLibrary.Common
@@ -85,6 +86,43 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         public static PinSiteData<double[]> CreateRampSequence(string[] pinNames, int[] siteNumbers, double outputStart, double outputStop, int numberOfPoints)
         {
             return new PinSiteData<double[]>(pinNames, siteNumbers, CreateRampSequence(outputStart, outputStop, numberOfPoints));
+        }
+
+        /// <summary>
+        /// Creates a ramp sequence and wraps it in a SiteData object for the specified site numbers.
+        /// </summary>
+        /// <param name="siteNumbers">Array of site numbers for which sequences are generated.</param>
+        /// <param name="outputStart">Array of starting values for each ramp sequence.</param>
+        /// <param name="outputStop">Array of ending values for each ramp sequence.</param>
+        /// <param name="numberOfPoints">Array specifying the number of points in each ramp sequence.</param>
+        /// <returns>A SiteData object containing the ramp sequences for the specified sites.</returns>
+        public static SiteData<double[]> CreateRampSequence(int[] siteNumbers, double[] outputStart, double[] outputStop, int[] numberOfPoints)
+        {
+            var perSiteSequences = new double[siteNumbers.Length][];
+            for (int i = 0; i < siteNumbers.Length; i++)
+            {
+                perSiteSequences[i] = CreateRampSequence(outputStart[i], outputStop[i], numberOfPoints[i]);
+            }
+            return new SiteData<double[]>(siteNumbers, perSiteSequences);
+        }
+
+        /// <summary>
+        /// Generates ramp sequences for multiple pin-site combinations and returns them as a PinSiteData object.
+        /// </summary>
+        /// <param name="pinNames">Array of pin names corresponding to each sequence.</param>
+        /// <param name="siteNumbers">Array of site numbers for which sequences are generated.</param>
+        /// <param name="outputStart">Array of starting values for each ramp sequence.</param>
+        /// <param name="outputStop">Array of ending values for each ramp sequence.</param>
+        /// <param name="numberOfPoints">Array specifying the number of points in each ramp sequence.</param>
+        /// <returns>A PinSiteData object containing the generated ramp sequences for each pin-site combination.</returns>
+        public static PinSiteData<double[]> CreateRampSequence(string[] pinNames, int[] siteNumbers, double[] outputStart, double[] outputStop, int[] numberOfPoints)
+        {
+            var perPinSiteSequences = new double[pinNames.Length][];
+            for (int i = 0; i < pinNames.Length; i++)
+            {
+                perPinSiteSequences[i] = CreateRampSequence(outputStart[i], outputStop[i], numberOfPoints[i]);
+            }
+            return new PinSiteData<double[]>(pinNames, siteNumbers, perPinSiteSequences);
         }
 
         internal static string ExcludeSpecificChannel(this string channelString, string channelToExclude)
