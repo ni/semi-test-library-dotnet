@@ -1408,7 +1408,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pinName) => sequence.GetValue(siteNumber, pinName), precision: 1, itemsToFetch: 1, checkForCurrentMeasurement: false);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pinName) => sequence.GetValue(siteNumber, pinName), precision: 1, itemsToFetch: 3, checkForCurrentMeasurement: false);
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: currentLimit, expectedCurrentLimitRange: (double?)currentLimitRange));
         }
 
@@ -1426,7 +1426,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceVoltageSequence(voltageSequence: sequence);
 
             sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (_, __) => sequence, precision: 1, itemsToFetch: 1, checkForCurrentMeasurement: false);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (_, __) => sequence, precision: 1, itemsToFetch: 3, checkForCurrentMeasurement: false);
         }
 
         [Theory]
