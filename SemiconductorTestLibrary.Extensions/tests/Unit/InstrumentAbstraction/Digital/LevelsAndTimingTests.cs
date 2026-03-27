@@ -982,6 +982,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var fileName = Path.GetTempFileName();
             sharedPinBundle.SaveTDROffsetsToFile(offsets, fileName);
             PreciseWait(timeInSeconds: 0.1);
+            Close(_tsmContext);
             var nonSharedSessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
             var nonSharedBundle = nonSharedSessionManager.Digital(new string[] { "C0", "C1" });
 
@@ -1013,6 +1014,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var fileName = Path.GetTempFileName();
             nonSharedBundle.SaveTDROffsetsToFile(offsets, fileName);
             PreciseWait(timeInSeconds: 0.1);
+            Close(_tsmContext);
             var sharedPinSessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
             var sharedPinBundle = sharedPinSessionManager.Digital(new string[] { "C0", "C1" });
 
