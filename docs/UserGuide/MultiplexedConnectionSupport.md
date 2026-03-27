@@ -1,9 +1,9 @@
 # Multiplexed Connection Support
 
-The Semiconductor Test Library (STL) supports multiplexed connection workflows, where a shared instrument channel is routed to the same DUT pin across multiple sites through a multiplexer or relay network on the load board. This workflow is supported in Semiconductor Test Library (STL) because of the existing [Shared Pins](InstrumentAbstraction.md#shared-pins) functionality.
+Semiconductor Test Library (STL) supports multiplexed connection workflows. These workflows allow for routing a shared instrument channel to the same DUT pin across multiple sites. You must use a multiplexer or a relay network on the load board. This workflow is supported in Semiconductor Test Library (STL) because of the existing [Shared Pins](InstrumentAbstraction.md#shared-pins) functionality.
 
 > [!IMPORTANT]
-> Semiconductor Test Library (STL) is not responsible for making connections or controlling routes. Your code is responsible for initializing the multiplexer session and invoking TSM APIs to apply the appropriate routes or relay configurations before performing measurements with Semiconductor Test Library (STL).
+> Semiconductor Test Library (STL) does not make connections or control routes. Before you perform measurements with Semiconductor Test Library (STL), your code must initialize the multiplexer session and invoke TSM APIs to apply the appropriate routes or relay configurations.
 
 > [!NOTE]
 > Supported in Semiconductor Test Library 25.5 NuGet package or later.
@@ -16,19 +16,20 @@ Configure the pin map with the multiplexed connection and relay configuration de
 
 Use the Pin Map Editor to configure the following:
 
-1. **Add the measurement instrument** (for example, DMM or DC Power instrument).
-2. **Add a Multiplexer instrument** and set the **Multiplexer Type** field to match the type identifier used in your code when calling `GetSwitchNames` and `SetSwitchSession`.
-3. **Define the DUT pins** used in the multiplexed connections.
-4. **Add connections in the Connections table** to map each instrument channel to a DUT pin across sites. For each connection, specify:
-   - **Pin**: The DUT pin being connected through the multiplexer
-   - **Site**: The site number for this connection
-   - **Instrument** and **Channel**: The instrument channel being routed
-   - **Multiplexer**: The multiplexer used for routing
-   - **Route**: The relay configuration or route name to apply for this pin-site combination
+1. **Add the measurement instrument** (for example, a DMM or a DC Power instrument).
+2. **Add a multiplexer instrument**.
+3. **Set the Multiplexer Type field** to match the type identifier that your code uses when your code calls `GetSwitchNames` and `SetSwitchSession`.
+4. **Define the DUT pins** used in the multiplexed connections.
+5. **Add connections in the Connections table** to map each instrument channel to a DUT pin across sites. For each connection, specify the following:
+   - **Pin**: The DUT pin that is connected through the multiplexer.
+   - **Site**: The site number for this connection.
+   - **Instrument** and **Channel**: The instrument channel that is routed.
+   - **Multiplexer**: The multiplexer used for routing.
+   - **Route**: The relay configuration or route name to apply for this pin-site combination.
 
 ### Example Pin Map: NIGenericMultiplexer with Relay Configurations
 
-The following example illustrates one shared DMM channel routed to pin `VCC` across four sites using an `NIGenericMultiplexer`. This configuration uses relay configurations to control routing:
+The following example illustrates one shared DMM channel that is routed to the `VCC` pin across four sites using an `NIGenericMultiplexer`. This configuration uses relay configurations to control routing.
 
 ```xml
 <Instruments>
@@ -80,7 +81,7 @@ The following example illustrates one shared DMM channel routed to pin `VCC` acr
 
 ### Example Pin Map: NIRelayMultiplexer with Multiple Channels
 
-The following example illustrates multiple SMU channels routed to multiple DUT pins across four sites using an `NIRelayMultiplexer`. Each channel is mapped to a specific site:
+The following example illustrates multiple SMU channels that are routed to multiple DUT pins across four sites using an `NIRelayMultiplexer`. Each channel is mapped to a specific site.
 
 ```xml
 <Instruments>
@@ -111,45 +112,49 @@ The following example illustrates multiple SMU channels routed to multiple DUT p
     <MultiplexedDUTPinRoute pin="VCC" siteNumber="1" multiplexer="Relay_2567_C1_S07" routeName="Site1_VCC" />
     <MultiplexedDUTPinRoute pin="VDD" siteNumber="1" multiplexer="Relay_2567_C1_S07" routeName="Site1_VDD" />
   </MultiplexedConnection>
-  <!-- Similar connections for channels 2 and 3 mapping to sites 2 and 3 -->
+  <!-- Similar connections for channels 2 and 3, mapping to sites 2 and 3. -->
 </Connections>
 ```
 
-**Related information**:
+**Related Information**:
 
 - [TestStand Semiconductor Module User Manual - Multiplexed Connections](https://www.ni.com/docs/en-US/bundle/teststand-semiconductor-module/page/specifying-multiplex-in-pinmap.html)
 
 ## Implementation Workflow
 
-Perform multiplexed operations at runtime after required instrument sessions are initialized. The workflow follows a serial site-by-site pattern where you apply the relay configuration to route to one site, perform the measurement, then move to the next site.
+Perform multiplexed operations at runtime after the required instrument sessions are initialized. The workflow follows a serial site-by-site pattern, where you perform the following actions:
+
+- Apply the relay configuration to route to one site.
+- Perform the measurement.
+- Move to the next site.
 
 ### Setup Requirements
 
 Before using multiplexed connections in your test code:
 
-1. **Initialize the Relay Driver Module session** (if applicable) using the existing Semiconductor Test Library (STL) `SetupAndCleanupSteps.SetupNIRelayDriverModuleSessions` method (typically in ProcessSetup).
-2. **Initialize the measurement instrument sessions** (for example, DMM or DCPower) using the existing Semiconductor Test Library (STL) `SetupAndCleanupSteps` methods.
-3. **Initialize the multiplexer session** with the TSM context using `GetSwitchNames` and `SetSwitchSession`. This must be done by your code, typically in ProcessSetup.
+1. (Optional) **Initialize the Relay Driver Module session** with the existing Semiconductor Test Library (STL) `SetupAndCleanupSteps.SetupNIRelayDriverModuleSessions` method. This method is typically in ProcessSetup.
+2. **Initialize the measurement instrument sessions** (for example, DMM or DCPower) with the existing Semiconductor Test Library (STL) `SetupAndCleanupSteps` methods.
+3. **Initialize the multiplexer session** with the TSM context, using the `GetSwitchNames` and the `SetSwitchSession` methods. Your code must perform this action, typically in ProcessSetup.
 
 ### Test Code Workflow
 
-1. **Query per-site route names** for the target DUT pin using `GetSwitchSessions`.
-2. **For each site**:
-   - Apply the relay configuration for the current site using `ApplyRelayConfiguration`.
-   - Create a `TSMSessionManager` with the site-specific context.
-   - Query the Semiconductor Test Library (STL) session bundle and perform measurement operations.
-3. **Apply an end-of-test relay configuration** to restore relay states if needed.
+1. **Query per-site route names** for the target DUT pin with the `GetSwitchSessions` method.
+2. **Do the following for each site**:
+   1. Apply the relay configuration for the current site with the `ApplyRelayConfiguration` method.
+   2. Create a `TSMSessionManager` [objecttype] with the site-specific context.
+   3. Query the Semiconductor Test Library (STL) session bundle and perform measurement operations.
+3. **If needed, apply an end-of-test relay configuration** to restore relay states.
 
 ## Example Usage
 
 The following code demonstrates the typical TSM API + Semiconductor Test Library (STL) workflow for a multiplexed DMM measurement. These examples are based on the [Multiplexed Connection Example](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/MultiplexedConnection/).
 
 > [!NOTE]
-> This workflow uses the TSM Relay Control API (`ApplyRelayConfiguration`) to control routes. The multiplexer session initialization registers a placeholder session so TSM can map switch context without direct NI Switch driver calls.
+> This workflow uses the TSM Relay Control API (`ApplyRelayConfiguration`) to control routes. The initialization of the multiplexer session registers a placeholder session. This placeholder session allows TSM to map switch context without direct NI-Switch driver calls.
 
 ### Multiplexer Session Initialization (User Code in ProcessSetup)
 
-Your code must initialize the multiplexer session with the TSM context. This is called from ProcessSetup after initializing the Relay Driver Module (if applicable) and measurement instrument sessions using Semiconductor Test Library (STL) TestStandSteps:
+Your code must initialize the multiplexer session with the TSM context. The initialization is called from ProcessSetup after initializing the Relay Driver Module (if applicable) and measurement instrument sessions with Semiconductor Test Library (STL) TestStandSteps:
 
 ```csharp
 public static void InitializeGenericMultiplexerSession(
@@ -163,12 +168,12 @@ public static void InitializeGenericMultiplexerSession(
 
     foreach (var switchName in switchNames)
     {
-        // TSM requires a session object to be set for the associated multiplexer,
-        // to later retrieve the multiplexer routes in the test program via the TSM GetSwitchSessions method.
-        // It expects an NI-Switch driver session to be used to operate the multiplexer routes during the program.
+        // For TSM, you must set a session object for the associated multiplexer.
+        // This allows TSM to later retrieve the multiplexer routes in the test program with the TSM GetSwitchSessions method.
+        // TSM expects that an NI-Switch driver session is used to operate the multiplexer routes during the program.
         // However, this example does not use the NI-Switch driver directly.
-        // Instead, it leverages the TSM Control Relay methods to operate the multiplexer routes retrieved by the TSM GetSwitchSessions method.
-        // Therefore, a dummy object must be provided to the TSM SetSwitchSession method to enable this use case.
+        // Instead, this example uses the TSM Control Relay methods to operate the multiplexer routes that the TSM GetSwitchSessions method retrieves.
+        // Therefore, you must provide a dummy object to the TSM SetSwitchSession method to enable this use case.
         tsmContext.SetSwitchSession(multiplexerTypeId, switchName, new object());
     }
   }
@@ -181,7 +186,7 @@ public static void InitializeGenericMultiplexerSession(
 
 ### Multiplexed Measurement (Test Method)
 
-Perform site-by-site measurements after applying the appropriate relay configuration for each site:
+Perform site-by-site measurements after applying the appropriate relay configuration for each site with the following example:
 
 ```csharp
 public static void OneInstrumentChannelToManySitesForOneDutPin(
@@ -201,18 +206,18 @@ public static void OneInstrumentChannelToManySitesForOneDutPin(
     // Execute one site at a time because this pin shares the same instrument channel for all sites.
     for (int i = 0; i < tsmContexts.Length; i++)
     {
-        // Apply the current site's relay configuration.
+        // Apply the relay configuration of the current site.
         var currentContext = tsmContexts[i];
         currentContext.ApplyRelayConfiguration(routes[i]);
         var sessionManager = new TSMSessionManager(currentContext);
         var dmm = sessionManager.DMM(dutPinName);
 
-        // Read measurement and publish it for the active site context.
+        // Read the measurement and publish it for the active site context.
         var measurement = dmm.Read(maximumTimeInMilliseconds: 1000);
         currentContext.PublishResults(measurement, $"{dutPinName}_Voltage");
     }
 
-    // Restore the configured end-of-test relay state after site loop completes.
+    // Restore the configured end-of-test relay state after the site loop completes.
     if (!string.IsNullOrEmpty(endOfTestingRelayConfigurationName))
     {
         tsmContext.ApplyRelayConfiguration(endOfTestingRelayConfigurationName);
@@ -222,7 +227,7 @@ public static void OneInstrumentChannelToManySitesForOneDutPin(
 
 ### Multiplexer Session Cleanup (User Code in ProcessCleanup)
 
-Your code must clean up any switch sessions during ProcessCleanup, before cleaning up the relay driver module (if applicable) and measurement instrument sessions:
+Your code must first clean up all switch sessions during ProcessCleanup. Then, your code must also clean up the relay driver module (if applicable) and the measurement instrument sessions in the following way:
 
 ```csharp
 public static void CleanupGenericMultiplexerSession(
@@ -248,8 +253,7 @@ public static void CleanupGenericMultiplexerSession(
 
 ## Examples
 
-There is a sequence-style example available that demonstrates this workflow end to end.
-Refer to the [Multiplexed Connection Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/MultiplexedConnection/README.md) for details.
+For a sequence-style example that demonstrates this workflow end to end, see the [Multiplexed Connection Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/MultiplexedConnection/README.md).
 
-This example is also installed on any system using STS Software 26.0 or later under the following directory:
+This example is also installed on all systems that use STS Software 26.0 or later under the following directory:
 `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\MultiplexedConnection`.
