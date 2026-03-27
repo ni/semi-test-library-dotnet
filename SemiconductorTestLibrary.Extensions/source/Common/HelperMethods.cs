@@ -124,6 +124,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
             return new PinSiteData<double[]>(pinNames, siteNumbers, perPinSiteSequences);
         }
 
+        /// <summary>
+        /// Generates ramp sequences for multiple pin-site combinations where each pin-site pair can have unique ramp parameters.
+        /// Returns a PinSiteData object containing the generated ramp sequences.
+        /// </summary>
+        /// <param name="pinNames">Array of pin names corresponding to each sequence.</param>
+        /// <param name="siteNumbers">Array of site numbers for which sequences are generated.</param>
+        /// <param name="outputStart">2D array of starting values, where the first dimension represents pins and the second dimension represents sites.</param>
+        /// <param name="outputStop">2D array of ending values, where the first dimension represents pins and the second dimension represents sites.</param>
+        /// <param name="numberOfPoints">2D array specifying the number of points, where the first dimension represents pins and the second dimension represents sites.</param>
+        /// <returns>A PinSiteData object containing the generated ramp sequences for each pin-site combination.</returns>
+        public static PinSiteData<double[]> CreateRampSequence(string[] pinNames, int[] siteNumbers, double[][] outputStart, double[][] outputStop, int[][] numberOfPoints)
+        {
+            var perPinSiteData = new SiteData<double[]>[pinNames.Length];
+            for (int pinIndex = 0; pinIndex < pinNames.Length; pinIndex++)
+            {
+                perPinSiteData[pinIndex] = CreateRampSequence(siteNumbers, outputStart[pinIndex], outputStop[pinIndex], numberOfPoints[pinIndex]);
+            }
+            return new PinSiteData<double[]>(pinNames, perPinSiteData);
+        }
+
         internal static string ExcludeSpecificChannel(this string channelString, string channelToExclude)
         {
             return string.Join(",", channelString.Split(',').Where(s => !s.Contains($"/{channelToExclude}")));

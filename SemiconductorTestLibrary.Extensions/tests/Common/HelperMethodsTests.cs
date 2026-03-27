@@ -74,7 +74,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
         }
 
         [Fact]
-        public void CreateRampSequenceWithPerPinPerSiteArrays_ReturnsCorrectSequencesForEachPinSite()
+        public void CreateRampSequenceWithPerPinSiteArrays_ReturnsCorrectSequencesForEachPinSite()
         {
             var pinNames = new[] { "P1", "P2" };
             var siteNumbers = new[] { 0, 1 };
@@ -84,7 +84,37 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
             var pinSiteData = HelperMethods.CreateRampSequence(pinNames, siteNumbers, outputStart, outputStop, numberOfPoints);
 
             Assert.Equal(new[] { 0.0, 1.0, 2.0 }, pinSiteData.GetValue(0, "P1"));
+            Assert.Equal(new[] { 0.0, 1.0, 2.0 }, pinSiteData.GetValue(1, "P1"));
+            Assert.Equal(new[] { 1.0, 2.0, 3.0 }, pinSiteData.GetValue(0, "P2"));
             Assert.Equal(new[] { 1.0, 2.0, 3.0 }, pinSiteData.GetValue(1, "P2"));
+        }
+
+        [Fact]
+        public void CreateRampSequenceWithPerPinPerSiteArrays_ReturnsCorrectSequencesForEachPinSite()
+        {
+            var pinNames = new[] { "P1", "P2" };
+            var siteNumbers = new[] { 0, 1 };
+            var outputStart = new[]
+            {
+                new[] { 0.0, 0.5 }, // P1: site0=0.0, site1=0.5
+                new[] { 1.0, 1.5 } // P2: site0=1.0, site1=1.5
+            };
+            var outputStop = new[]
+            {
+                new[] { 4.0, 4.5 }, // P1: site0=4.0, site1=4.5
+                new[] { 3.0, 3.5 } // P2: site0=3.0, site1=3.5
+            };
+            var numberOfPoints = new[]
+            {
+                new[] { 5, 5 }, // P1
+                new[] { 3, 3 } // P2
+            };
+            var pinSiteData = HelperMethods.CreateRampSequence(pinNames, siteNumbers, outputStart, outputStop, numberOfPoints);
+
+            Assert.Equal(new[] { 0.0, 1.0, 2.0, 3.0, 4.0 }, pinSiteData.GetValue(0, "P1"));
+            Assert.Equal(new[] { 0.5, 1.5, 2.5, 3.5, 4.5 }, pinSiteData.GetValue(1, "P1"));
+            Assert.Equal(new[] { 1.0, 2.0, 3.0 }, pinSiteData.GetValue(0, "P2"));
+            Assert.Equal(new[] { 1.5, 2.5, 3.5 }, pinSiteData.GetValue(1, "P2"));
         }
 
         [Theory]
