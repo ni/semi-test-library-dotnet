@@ -74,7 +74,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.Common
         }
 
         [Fact]
-        public void CreateRampSequenceWithPerPinSiteArrays_ReturnsCorrectSequencesForEachPinSite()
+        public void CreateRampSequenceWithPerPinPerSiteArrays_ReturnsCorrectSequencesForEachPinSite()
         {
             var pinNames = new[] { "P1", "P2" };
             var siteNumbers = new[] { 0, 1 };
