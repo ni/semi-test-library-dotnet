@@ -886,8 +886,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var perChannelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
-                channelOutput.ConfigureSequence(fetchLevelSequence(sitePinInfo), sequenceLoopCount);
-                channelOutput.ConfigureLevelsAndLimits(settings);
+                channelOutput.ConfigureSequence(fetchLevelSequence(sitePinInfo), sequenceLoopCount, sitePinInfo: sitePinInfo);
+                channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo);
                 channelOutput.Source.SourceDelay = sourceDelayInSeconds.HasValue
                     ? PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.Value)
                     : PrecisionTimeSpan.Zero;
