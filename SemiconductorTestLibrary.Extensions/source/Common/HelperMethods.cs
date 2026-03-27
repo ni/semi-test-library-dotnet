@@ -106,7 +106,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         }
 
         /// <summary>
-        /// Generates ramp sequences for multiple pin-site combinations and returns them as a PinSiteData object.
+        /// Generates ramp sequences for multiple pin-site combinations.
         /// </summary>
         /// <param name="pinNames">Array of pin names corresponding to each sequence.</param>
         /// <param name="siteNumbers">Array of site numbers for which sequences are generated.</param>
@@ -125,8 +125,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
         }
 
         /// <summary>
-        /// Generates ramp sequences for multiple pin-site combinations where each pin-site pair can have unique ramp parameters.
-        /// Returns a PinSiteData object containing the generated ramp sequences.
+        /// Generates ramp sequences for multiple pin-site combinations where each pin-site pair ramps are unique.
         /// </summary>
         /// <param name="pinNames">Array of pin names corresponding to each sequence.</param>
         /// <param name="siteNumbers">Array of site numbers for which sequences are generated.</param>
