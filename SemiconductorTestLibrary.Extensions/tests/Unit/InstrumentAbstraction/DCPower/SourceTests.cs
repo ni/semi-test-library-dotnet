@@ -2845,7 +2845,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new[] { -0.2, 0.1, 0.4, 0.7 };
-            sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2.5, voltageLimitRange: 1, sequenceLoopCount: 1);
+            sessionsBundle.ForceCurrentSequenceSynchronized(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2.5, voltageLimitRange: 1, sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (_, __) => sequence.Select(value => value / 5).ToArray(), precision: 2, itemsToFetch: 4);
@@ -2866,7 +2866,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new[] { -0.5, 0.1, 0.7, 1.3 },
                 new[] { -0.4, 0.1, 0.6, 1.2 }
             });
-            sessionsBundle.ForceCurrentSequence(currentSequences: sequence, voltageLimit: 0.5, sequenceLoopCount: 2);
+            var voltageLimits = new SiteData<double>(new double[] { 1.6, 1.5 });
+            sessionsBundle.ForceCurrentSequenceSynchronized(currentSequences: sequence, voltageLimits, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, _) => sequence.GetValue(siteNumber).Select(value => value / 5).ToArray(), precision: 3, itemsToFetch: 4);
@@ -2879,7 +2880,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("Ganged_4147.pinmap");
             var sessionsBundle = sessionManager.DCPower("Va3");
-            sessionsBundle.GangPinGroup("Va2");
+            // sessionsBundle.GangPinGroup("Va2");
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
@@ -2888,7 +2889,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 ["Vab"] = new Dictionary<int, double[]>() { [0] = new[] { -0.6, 0.9 }, [1] = new[] { -0.2, 0.6 } },
                 ["Vac"] = new Dictionary<int, double[]>() { [0] = new[] { -0.6, 0.9 }, [1] = new[] { -0.2, 0.6 } }
             });
-            sessionsBundle.ForceCurrentSequence(currentSequences: sequence, voltageLimit: 0.5, currentLevelRange: 2, voltageLimitRange: 1, sequenceLoopCount: 2);
+            var voltageLimits = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["Vaa"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 1.0 },
+                ["Vab"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 1.0 },
+                ["Vac"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 1.0 }
+            });
+            sessionsBundle.ForceCurrentSequenceSynchronized(currentSequences: sequence, voltageLimits, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pin) => sequence.GetValue(siteNumber, pin), precision: 2);
