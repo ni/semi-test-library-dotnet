@@ -2591,7 +2591,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new SiteData<double[]>(new double[][]
             {
-                new[] { -0.004, 0.010 },
+                new[] { -0.005, 0.010 },
                 new[] { -0.006, 0.012 },
                 new[] { 0.007, 0.014 },
                 new[] { 0.008, 0.016 }
@@ -2676,7 +2676,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequences: sequence, voltageLimit: 0.5, currentLevelRange: 2, voltageLimitRange: 1, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pin) => sequence.GetValue(siteNumber, pin), precision: 2);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pinName) => sequence.GetValue(siteNumber, pinName), precision: 2);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
         }
 
@@ -2696,7 +2696,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequences: sequence, voltageLimit: 0.5, currentLevelRange: 2, voltageLimitRange: 1, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pin) => sequence.GetValue(siteNumber, pin).Select(value => value / 3).ToArray(), precision: 2, isGroupData: true, groupName: ThreePinsGangedGroup);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pinGroupName) => sequence.GetValue(siteNumber, pinGroupName).Select(value => value / 3).ToArray(), precision: 2, groupName: ThreePinsGangedGroup);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
         }
 
@@ -3312,6 +3312,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
 
             sessionsBundle.ConfigureOutputEnabled(true);
+
             // Confirm which instruments do an don't have this.
             if (pinMapWithChannelGroup)
             {
@@ -4102,7 +4103,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             int itemsToFetch = 2,
             bool checkForCurrentMeasurement = true,
             bool initiateChannel = true,
-            bool isGroupData = false,
             string groupName = "")
         {
             var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -4117,7 +4117,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 foreach (var pinName in results.PinNames)
                 {
-                    var expectedSequence = getExpectedSequence(siteNumber, isGroupData ? groupName : pinName);
+                    var expectedSequence = getExpectedSequence(siteNumber, groupName ?? pinName);
                     var actualSequence = checkForCurrentMeasurement ? results.GetValue(siteNumber, pinName).CurrentMeasurements : results.GetValue(siteNumber, pinName).VoltageMeasurements;
                     AssertEqualForDoubleArrays(expectedSequence, actualSequence, precision);
                 }
