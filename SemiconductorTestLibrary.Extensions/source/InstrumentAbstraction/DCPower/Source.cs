@@ -1817,6 +1817,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name = "sessionsBundle" > The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sequenceName">The name of the advanced sequence to delete.</param>
+        /// <remarks>
+        /// This function will also switch the Source.Mode back to SinglePoint
+        /// </remarks>
         public static void DeleteAdvancedSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName)
         {
             sessionsBundle.Do(sessionInfo =>
