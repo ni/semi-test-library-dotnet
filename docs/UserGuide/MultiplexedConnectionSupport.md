@@ -10,20 +10,21 @@ The Semiconductor Test Library (STL) supports multiplexed connection workflows, 
 
 ## Pin Map Configuration
 
-Configure the pin map with the multiplexed connection and relay configuration definitions. The route metadata defined in `MultiplexedDUTPinRoute` elements is consumed by TSM APIs at runtime to determine which relay configuration to apply for each site.
+Configure the pin map with the multiplexed connection and relay configuration definitions. The route metadata is consumed by TSM APIs at runtime to determine which relay configuration to apply for each site.
 
-### Pin Map Structure
+### Configuring Multiplexed Connections
 
-1. Define the measurement instrument (for example, `NIDmmInstrument` or `NIDCPowerInstrument`).
-2. Define a `Multiplexer` with a **Multiplexer Type** that matches the type identifier used in your code when calling `GetSwitchNames` and `SetSwitchSession`.
-3. Define `MultiplexedConnection` elements that map instrument channels to DUT pins.
-4. Define `MultiplexedDUTPinRoute` elements within each `MultiplexedConnection` to specify the **Site**, **Multiplexer**, and **Route** for each pin-site combination.
+Use the Pin Map Editor to configure the following:
 
-Depending on the multiplexer type, you may also need to define:
-- `NIRelayDriverModule` for controlling relay-based routes
-- `SystemRelay` entries for each relay used for site routing
-- `RelayConfiguration` entries that specify relay states for each route
-- `SystemRelayConnection` entries to map relays to relay driver module control lines
+1. **Add the measurement instrument** (for example, DMM or DC Power instrument).
+2. **Add a Multiplexer instrument** and set the **Multiplexer Type** field to match the type identifier used in your code when calling `GetSwitchNames` and `SetSwitchSession`.
+3. **Define the DUT pins** used in the multiplexed connections.
+4. **Add connections in the Connections table** to map each instrument channel to a DUT pin across sites. For each connection, specify:
+   - **Pin**: The DUT pin being connected through the multiplexer
+   - **Site**: The site number for this connection
+   - **Instrument** and **Channel**: The instrument channel being routed
+   - **Multiplexer**: The multiplexer used for routing
+   - **Route**: The relay configuration or route name to apply for this pin-site combination
 
 ### Example Pin Map: NIGenericMultiplexer with Relay Configurations
 
@@ -132,7 +133,7 @@ Before using multiplexed connections in your test code:
 
 ### Test Code Workflow
 
-1. **Query per-site route names** for the target DUT **Pin** using `GetSwitchSessions`.
+1. **Query per-site route names** for the target DUT pin using `GetSwitchSessions`.
 2. **For each site**:
    - Apply the relay configuration for the current site using `ApplyRelayConfiguration`.
    - Create a `TSMSessionManager` with the site-specific context.
