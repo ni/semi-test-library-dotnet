@@ -7,19 +7,16 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
     /// <summary>
-    /// This class contains examples of how to use the Instrument Abstraction extensions(specifically extensions related to hardware level sequencing) from the Semiconductor Test Library.
-    /// Specifically, how to measure current for pins mapped to DCPower Instruments.
-    /// Note that DCPower Instruments include both Source Measurement Units (SMUs) and Programmable Power Supplies (PPS) devices.
-    /// This class, and it's methods are intended for example purposes only and are not meant to be ran standalone.
-    /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program
-    /// with any dependent instrument sessions have been already initiated and configured.
+    /// This class contains examples of how to use the Instrument Abstraction extensions.
+    /// Specifically, how to force a voltage sequence on pins mapped to Source Measurement Unit (SMU) devices.
+    /// This class and its methods are intended for example purposes only and are not meant to be ran standalone.
+    /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program with any dependent instrument sessions have already been initiated and configured.
     /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
     internal static class ConfigureUpfrontAndInitiateAdvancedSequenceLater
     {
         /// <summary>
-        /// Configures measurement and source settings for specified SMU pins and sets up an advanced sequence that can
-        /// be initiated later in the test flow.
+        /// Configures measurement and source settings for specified SMU pins and sets up an advanced sequence that can be initiated later in the test flow.
         /// </summary>
         /// <remarks>
         /// This example demonstrates how to configure measurement and source settings, as well
@@ -34,7 +31,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var sessionManager = new TSMSessionManager(tsmContext);
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
 
-            // Configure the measure settings upfront
+            // Measurements can be taken during sequence execution, with exactly one sample for each step,
+            // but to enable this, the MeasureWhen property must be set to AutomaticallyAfterSourceComplete.
             dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
 
             // Configure the source settings upfront(ConfigureSourceSettings should be called before ConfigureAdvancedSequence as ConfigureSourceSettings sets Source.Mode to SinglePoint)
@@ -46,9 +44,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var advancedSequenceName = "MyAdvancedSequence";
             var advancedSequenceSettings = new List<DCPowerAdvancedSequenceStepProperties>
             {
-                [0] = new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, ApertureTime = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                [1] = new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, ApertureTime = 2.1, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                [2] = new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, ApertureTime = 2.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
             };
             dcPowerPins.ConfigureAdvancedSequence(advancedSequenceName, advancedSequenceSettings, setAsActiveSequence: false);
 
@@ -77,7 +75,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var sessionManager = new TSMSessionManager(tsmContext);
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
 
-            // Configure the measure settings upfront
+            // Measurements can be taken during sequence execution, with exactly one sample for each step,
+            // but to enable this, the MeasureWhen property must be set to AutomaticallyAfterSourceComplete.
             dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
 
             // Configure the source settings upfront
@@ -90,9 +89,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             var advanceSequenceSettingsForFirstAdvancedSequences = new List<DCPowerAdvancedSequenceStepProperties>
             {
-                [0] = new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, ApertureTime = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                [1] = new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, ApertureTime = 2.1, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                [2] = new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, ApertureTime = 2.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
             };
 
             // configure another advanced sequence with different settings

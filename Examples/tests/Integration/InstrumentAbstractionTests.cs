@@ -48,7 +48,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         [Fact]
         public void Initialize_ConfigureUpfrontAndInitiateAdvancedSequenceLaterSucceeds()
         {
-            var tsmContext = CreateTSMContext("HLSTestPinMap.pinmap", out var publishedDataReader);
+            var tsmContext = CreateTSMContext("DifferentSMUDevices.pinmap", out var publishedDataReader);
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             string[] pins = { "VDD", "VCC" };
 
