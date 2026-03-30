@@ -893,7 +893,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     : PrecisionTimeSpan.Zero;
                 sessionInfo.ConfigureTransientResponce(settings, perChannelString);
 
-                if (channelOutput.Equals(masterChannelOutput))
+                if (channelOutput.Name == masterChannelOutput.Name)
                 {
                     // Master channel does not need a start trigger
                     channelOutput.Triggers.StartTrigger.Disable();
