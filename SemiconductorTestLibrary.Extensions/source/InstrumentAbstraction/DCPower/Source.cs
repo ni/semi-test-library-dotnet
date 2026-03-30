@@ -393,9 +393,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageSequence);
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            // TODO: Add PinSitData validation for sequence.
             var settings = new DCPowerSourceSettings()
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
@@ -1540,11 +1539,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
-        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double[]> sequence, DCPowerSourceOutputFunction outputFunction, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
+        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
         {
-            var hasgangedChannels = sessionsBundle.HasGangedChannels;
-            sessionsBundle.ValidatePinsForGanging(hasgangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasgangedChannels, sequence, outputFunction: outputFunction);
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            // TODO: Add PinSitData validation for sequence.
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
