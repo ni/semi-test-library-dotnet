@@ -647,7 +647,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 var instrumentOffsetsFromFile = ExtractInstrumentOffsetsFromFile(
                     associatedSitePinList,
                     offsetsFromFile,
-                    out var channelsFoundInFile);
+                    out var channelsFromFile);
 
                 ValidateAndGetFilteredSitePinsAndOffsetIndexMap(
                     associatedSitePinList,
@@ -661,7 +661,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 for (int channelIndex = 0; channelIndex < filteredSitePinList.Count; channelIndex++)
                 {
                     string sitePinString = filteredSitePinList[channelIndex].SitePinString;
-                    if (channelsFoundInFile.Contains(sitePinString))
+                    if (channelsFromFile.Contains(sitePinString))
                     {
                         var offsetIndex = sitePinToOffsetIndex[sitePinString];
                         offsets[instrumentIndex][channelIndex] = instrumentOffsetsFromFile[offsetIndex];
@@ -717,9 +717,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         private static IviDriverPrecisionTimeSpan[] ExtractInstrumentOffsetsFromFile(
             IList<SitePinInfo> associatedSitePinList,
             Dictionary<string, IviDriverPrecisionTimeSpan> offsetsFromFile,
-            out HashSet<string> channelsFoundInFile)
+            out HashSet<string> channelsFromFile)
         {
-            channelsFoundInFile = new HashSet<string>();
+            channelsFromFile = new HashSet<string>();
             var instrumentOffsets = new List<IviDriverPrecisionTimeSpan>();
 
             // Check if the file contains offsets for all site-pins including shared channel shadows.
@@ -731,7 +731,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 foreach (var sitePinInfo in associatedSitePinList)
                 {
                     instrumentOffsets.Add(offsetsFromFile[sitePinInfo.SitePinString]);
-                    channelsFoundInFile.Add(sitePinInfo.SitePinString);
+                    channelsFromFile.Add(sitePinInfo.SitePinString);
                 }
             }
             else
@@ -743,7 +743,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     if (offsetsFromFile.TryGetValue(sitePinInfo.SitePinString, out var offset))
                     {
                         instrumentOffsets.Add(offset);
-                        channelsFoundInFile.Add(sitePinInfo.SitePinString);
+                        channelsFromFile.Add(sitePinInfo.SitePinString);
                     }
                     else
                     {
