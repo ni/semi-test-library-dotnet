@@ -2682,7 +2682,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new SiteData<double[]>(new double[][]
             {
-                new[] { -0.004, 0.010 },
+                new[] { -0.005, 0.010 },
                 new[] { -0.006, 0.012 },
                 new[] { 0.007, 0.014 },
                 new[] { 0.008, 0.016 }
