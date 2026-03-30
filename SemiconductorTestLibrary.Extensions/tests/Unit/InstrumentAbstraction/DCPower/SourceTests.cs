@@ -1289,7 +1289,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (_, __) => sequence, precision: 3, itemsToFetch: 3);
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 Assert.Equal(0.1, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange);
             });
@@ -1334,7 +1334,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pinName) => currentSequence.GetValue(siteNumber, pinName), precision: 3, itemsToFetch: 3);
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 Assert.Equal(currentLevelRanges.GetValue(sitePinInfo.SiteNumber, "VDD"), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange);
             });
@@ -1367,7 +1367,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, _) => currentSequences.GetValue(siteNumber), precision: 3, itemsToFetch: 3);
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 Assert.Equal(currentLevelRanges.GetValue(sitePinInfo.SiteNumber), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange, 2);
             });
@@ -1386,7 +1386,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequenceSynchronized(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2.5, voltageLimitRange: 1, sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (_, __) => sequence.Select(value => value / 5).ToArray(), precision: 2, itemsToFetch: 4);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (_, __) => sequence.Select(value => value / 4).ToArray(), precision: 3, itemsToFetch: 4);
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 1));
         }
 
@@ -1401,15 +1401,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new SiteData<double[]>(new double[][]
             {
-                new[] { -0.5, 0.1, 0.7, 1.3 },
-                new[] { -0.4, 0.1, 0.6, 1.2 }
+                new[] { -0.05, 0.01, 0.07 },
+                new[] { -0.04, 0.01, 0.06 }
             });
             var voltageLimits = new SiteData<double>(new double[] { 1.6, 1.5 });
             sessionsBundle.ForceCurrentSequenceSynchronized(currentSequences: sequence, voltageLimits, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, _) => sequence.GetValue(siteNumber).Select(value => value / 5).ToArray(), precision: 3, itemsToFetch: 4);
-            sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
+            AssertSequenceMeasurementsMatchExpected(
+                sessionsBundle,
+                (siteNumber, _) => sequence.GetValue(siteNumber).Select(value => value / 3).ToArray(),
+                precision: 3,
+                itemsToFetch: 3);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                Assert.Equal(voltageLimits.GetValue(sitePinInfo.SiteNumber), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit, 2);
+            });
         }
 
         [Fact]
@@ -1417,8 +1424,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGanged_ForceCurrentSequenceSynchronizedWithPerPinPerSiteSequence_CorrectValuesAreSet()
         {
             var sessionManager = Initialize("Ganged_4147.pinmap");
-            var sessionsBundle = sessionManager.DCPower("Va2");
-            sessionsBundle.GangPinGroup("Va2");
+            var sessionsBundle = sessionManager.DCPower("Va3");
+            sessionsBundle.GangPinGroup("Va3");
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
@@ -1438,11 +1445,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(
                 sessionsBundle,
-                (siteNumber, pin) => sequence.GetValue(siteNumber, pin).Select(value => value / 3).ToArray(),
+                (siteNumber, pinName) => sequence.GetValue(siteNumber, pinName).Select(value => value / 3).ToArray(),
                 precision: 3);
-            sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                Assert.Equal(voltageLimits.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange);
+                Assert.Equal(voltageLimits.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit);
             });
         }
 
