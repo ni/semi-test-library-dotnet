@@ -1427,7 +1427,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceLoopCount,
                 sequenceStepDeltaTimeInSeconds: null,
                 sitePinInfo,
-                settings.OutputFunction == DCPowerSourceOutputFunction.DCCurrent);
+                needDataAdjustment && settings.OutputFunction == DCPowerSourceOutputFunction.DCCurrent);
             channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo, needDataAdjustment);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
