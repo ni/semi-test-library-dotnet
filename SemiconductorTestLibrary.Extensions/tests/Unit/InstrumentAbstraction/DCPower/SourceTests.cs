@@ -3403,6 +3403,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
 
             sessionsBundle.ConfigureOutputEnabled(true);
+
             // Confirm which instruments do an don't have this.
             if (pinMapWithChannelGroup)
             {
@@ -4191,7 +4192,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             double timeoutSeconds = 5.0,
             int precision = 3,
             int itemsToFetch = 2,
-            int numberOfPinsPerSite = 1,
             bool checkForCurrentMeasurement = true,
             bool initiateChannel = true,
             string groupName = null)
