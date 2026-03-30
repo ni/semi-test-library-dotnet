@@ -975,15 +975,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new[]
                 {
                     Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8), // site0/C1
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site1/C1
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site1/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site1/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site2/C0
                 }
             };
             var fileName = Path.GetTempFileName();
             sharedPinBundle.SaveTDROffsetsToFile(offsets, fileName);
             PreciseWait(timeInSeconds: 0.1);
             Close(_tsmContext);
-            var nonSharedSessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var nonSharedSessionManager = InitializeSessionsAndCreateSessionManager("DigitalPinWithThreeIndividualSitesAndTwoPins.pinmap", "DigitalPinWithThreeIndividualSitesAndTwoPins.digiproj");
             var nonSharedBundle = nonSharedSessionManager.Digital(new string[] { "C0", "C1" });
 
             Action action = () => nonSharedBundle.LoadTDROffsetsFromFile(fileName, throwOnMissingChannels: true);
@@ -996,21 +996,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SaveTDROffsetsWithNonSharedPins_LoadTDROffsetsFromFileInSharedBundle_ThrowsException()
         {
-            var nonSharedSessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var nonSharedSessionManager = InitializeSessionsAndCreateSessionManager("DigitalPinWithThreeIndividualSitesAndTwoPins.pinmap", "DigitalPinWithThreeIndividualSitesAndTwoPins.digiproj");
             var nonSharedBundle = nonSharedSessionManager.Digital(new string[] { "C0", "C1" });
             var offsets = new Ivi.Driver.PrecisionTimeSpan[2][]
-           {
+            {
                 new[]
                 {
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), // site0/C0
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // site1/C0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1e-8), // C0/site0
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8), // C1/site0
                 },
                 new[]
                 {
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.7e-8), // site0/C1
-                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // site1/C1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // C0/site1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.2e-8), // C0/site2
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.5e-8), // C1/site1
+                    Ivi.Driver.PrecisionTimeSpan.FromSeconds(1.3e-8), // C1/site2
                 }
-           };
+            };
             var fileName = Path.GetTempFileName();
             nonSharedBundle.SaveTDROffsetsToFile(offsets, fileName);
             PreciseWait(timeInSeconds: 0.1);
@@ -1018,10 +1020,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sharedPinSessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
             var sharedPinBundle = sharedPinSessionManager.Digital(new string[] { "C0", "C1" });
 
-            Action action = () => sharedPinBundle.LoadTDROffsetsFromFile(fileName, throwOnMissingChannels: true);
+            Action action = () => sharedPinBundle.LoadTDROffsetsFromFile(fileName, out var offsetsFromFile, throwOnMissingChannels: true);
 
-            var exception = Assert.Throws<ArgumentException>(action);
-            Assert.Contains("tdr offsets for following channels are missing from ", exception.Message.ToLower());
+            var exception = Assert.Throws<NISemiconductorTestException>(action);
+            Assert.Contains("Inconsistent offsets for shared channel", exception.Message);
             RemoveTemporaryFile(fileName);
         }
 
