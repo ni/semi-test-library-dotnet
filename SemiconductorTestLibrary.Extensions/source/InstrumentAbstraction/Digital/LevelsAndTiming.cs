@@ -742,14 +742,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 {
                     if (offsetsFromFile.TryGetValue(sitePinInfo.SitePinString, out var offset))
                     {
-                        instrumentOffsets.Add(offset);
                         channelsFromFile.Add(sitePinInfo.SitePinString);
                     }
-                    else
-                    {
-                        // Use a placeholder for now as the validation layer will catch missing channels later.
-                        instrumentOffsets.Add(IviDriverPrecisionTimeSpan.Zero);
-                    }
+                    instrumentOffsets.Add(offset);
                 }
             }
 
