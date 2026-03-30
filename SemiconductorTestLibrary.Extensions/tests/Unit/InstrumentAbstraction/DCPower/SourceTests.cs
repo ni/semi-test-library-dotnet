@@ -1491,7 +1491,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceVoltageSequence(voltageSequence: sequence, currentLimit: 1.8, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pin) => sequence.GetValue(siteNumber, pin), precision: 2, checkForCurrentMeasurement: false);
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pinName) => sequence.GetValue(siteNumber, pinName), precision: 2, checkForCurrentMeasurement: false);
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.6));
         }
 
