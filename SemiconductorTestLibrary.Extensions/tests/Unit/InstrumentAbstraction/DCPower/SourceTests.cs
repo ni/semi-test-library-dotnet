@@ -3871,7 +3871,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     [3] = new[] { 2.5, 3.5, 4.5, 5.5, 6.5 }
                 }
             });
-            sessionsBundle.ConfigureSequence(expectedSequences, sequenceLoopCount: 1);
+            sessionsBundle.ConfigureSequence(expectedSequences, DCPowerSourceOutputFunction.DCVoltage, sequenceLoopCount: 1);
 
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pinName) => expectedSequences.GetValue(siteNumber, pinName), precision: 1, itemsToFetch: 5, checkForCurrentMeasurement: false);
         }
