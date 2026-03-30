@@ -1517,7 +1517,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Abort();
             var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+            Assert.Contains("The parameter contains different sequences for Cascaded pins", exception.InnerException.Message);
         }
 
         [Theory]
