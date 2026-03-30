@@ -1500,12 +1500,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGanged_ForceVoltageSequenceSynchronized_CorrectValuesAreSet()
         {
             var sessionManager = Initialize("Ganged_4147.pinmap");
-            var sessionsBundle = sessionManager.DCPower("Va3");
-            sessionsBundle.GangPinGroup("Va2");
+            var sessionsBundle = sessionManager.DCPower("Va4");
+            sessionsBundle.GangPinGroup("Va4");
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new[] { 0.2, 0.6, 1.0 };
-            sessionsBundle.ForceVoltageSequence(
+            sessionsBundle.ForceVoltageSequenceSynchronized(
                 voltageSequence: sequence,
                 currentLimit: 1.0,
                 voltageLevelRange: 5.0,
@@ -1531,7 +1531,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new[] { 0.4, 1.0, 1.6 },
                 new[] { 0.6, 1.1, 1.6 }
             });
-            sessionsBundle.ForceVoltageSequence(voltageSequence: sequence, currentLimit: 1.5, sequenceLoopCount: 2);
+            var currentLimit = new SiteData<double>(new double[] { 1.5, 1.5 });
+            sessionsBundle.ForceVoltageSequenceSynchronized(voltageSequence: sequence, currentLimit, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, _) => sequence.GetValue(siteNumber), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
