@@ -107,8 +107,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.Common
 
         /// <summary>
         /// Creates a unique ramp sequence for each pin using per-pin input values.
-        /// For a given pin, the generated sequence will be same across all sites.
         /// </summary>
+        /// <remarks>
+        /// For a given pin, the generated sequence will be same across all sites.
+        /// </remarks>
         /// <param name="pinNames">The pin names to associate with a ramp sequence.</param>
         /// <param name="siteNumbers">The site numbers to associate with a ramp sequence.</param>
         /// <param name="outputStart">Array of starting values for each ramp sequence.</param>
