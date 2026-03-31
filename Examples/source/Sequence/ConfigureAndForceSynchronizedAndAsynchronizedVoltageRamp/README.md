@@ -8,8 +8,9 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 
 1. **ForceVoltageRamp**: Forces a basic voltage ramp sequence on specified SMU pins using `ForceVoltageSequence`.
 2. **ForceVoltageRampMeasureCurrent**: Forces a voltage ramp sequence and measures the resulting current after source completion.
-3. **ForceSynchronizedVoltageRampAndFetch**: Forces a synchronized voltage ramp with hardware triggering across multiple pins, then fetches measurements.
-4. **ConfigureUpfrontAndInitiateAdvancedSequenceLater**: Configures an advanced sequence upfront without activation, allowing later initiation in the test flow.
+3. **ForceSynchronizedVoltageRampFetchMeasurementsAndPublishMaxCurrent**: Forces a synchronized voltage ramp with hardware triggering across multiple pins, then fetches measurements.
+4. **ConfigureSMUAdvancedSequence**: Configures an advanced sequence upfront without activation, allowing later initiation in the test flow.
+5. **InitiateSMUAdvancedSequence** : Initiates a previously configured advanced sequence for the specified SMU pins.
 
 ## Prerequisites
 
@@ -44,8 +45,9 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 
 - `Code Modules/TestSteps/ForceVoltageRamp.cs`: Demonstrates the simplest approach to forcing a voltage ramp (0V to 3V, 10 points) on specified SMU pins using `ForceVoltageSequence`.
 - `Code Modules/TestSteps/ForceVoltageRampMeasureCurrent.cs`: Applies a voltage ramp to specified SMU pins and measures the resulting current. Configures `MeasureWhen` to `AutomaticallyAfterSourceComplete` and publishes the measurement results.
-- `Code Modules/TestSteps/ForceSynchronizedVoltageRampAndFetch.cs`: Forces a synchronized voltage ramp using `ForceVoltageSequenceSynchronized` with hardware triggering. Waits for sequence completion, measures voltage, and cleans up the Start Trigger configuration.
-- `Code Modules/TestSteps/ConfigureUpfrontAndInitiateAdvancedSequenceLater.cs`: Demonstrates advanced sequence configuration using `ConfigureAdvancedSequence` with `setAsActiveSequence: false`, allowing deferred initiation via `InitiateAdvancedSequence`. Useful for scenarios where sequence setup should be separated from execution.
+- `Code Modules/TestSteps/ForceSynchronizedVoltageRampFetchMeasurementsAndPublishMaxCurrent.cs`: Forces a synchronized voltage ramp using `ForceVoltageSequenceSynchronized` with hardware triggering. Waits for sequence completion, measures voltage, and cleans up the Start Trigger configuration.
+- `Code Modules/TestSteps/ConfigureSMUAdvancedSequence.cs`: Demonstrates advanced sequence configuration using `ConfigureAdvancedSequence` with `setAsActiveSequence: false`, allowing deferred initiation. Useful for scenarios where sequence setup should be separated from execution.
+- - `Code Modules/TestSteps/InitiateSMUAdvancedSequence.cs`: Initiates a previously configured advanced sequence for the specified SMU pins.
 
 ## Using the Example
 
