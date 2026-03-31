@@ -454,15 +454,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        private static void SendTriggerIfMeasureWhenIsOnMeasureTrigger(this DCPowerSessionsBundle sessionsBundle)
+        private static void SendSoftwareTriggerForSoftwareEdgeTriggerTypeOrGangedLeaderChannel(this DCPowerSessionsBundle sessionsBundle)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var session = sessionInfo.Session;
                 var channelOutput = session.Outputs[sitePinInfo.IndividualChannelString];
                 var measureWhen = channelOutput.Measurement.MeasureWhen;
-                var triggerType = channelOutput.Triggers.MeasureTrigger.Type;
-                bool isSoftwareEdge = measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger && triggerType == DCPowerMeasureTriggerType.SoftwareEdge;
+                bool isSoftwareEdge = measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger && channelOutput.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge;
                 bool gangedLeader = sitePinInfo.CascadingInfo is GangingInfo gangingInfo && !gangingInfo.IsFollower;
                 bool notOnDemand = measureWhen != DCPowerMeasurementWhen.OnDemand;
                 if (isSoftwareEdge || (gangedLeader && notOnDemand))
