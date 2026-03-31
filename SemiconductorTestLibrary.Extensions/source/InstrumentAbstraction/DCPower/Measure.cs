@@ -459,7 +459,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void SendTriggerForMeasurementOnMeasureTrigger(this DCPowerSessionsBundle sessionsBundle)
         {
-            var listOfTriggerTerminals = new List<string>();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var session = sessionInfo.Session;
@@ -471,11 +470,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     {
                         return;
                     }
-                    if (!listOfTriggerTerminals.Contains(channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal))
-                    {
-                        channelOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
-                        listOfTriggerTerminals.Add(channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
-                    }
+                    channelOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
                 }
             });
         }
