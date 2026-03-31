@@ -210,7 +210,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(0.017, maximumApertureTime, 3);
         }
 
-        /*
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -218,11 +217,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VCC", "VDET" });
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
             sessionsBundle.ForceVoltage(voltageLevels: new Dictionary<string, double>() { ["VCC"] = 1, ["VDD"] = 2, ["VDET"] = 3 }, currentLimit: 0.1);
 
             var results = sessionsBundle.MeasureAndReturnPerInstrumentPerChannelResults();
 
-            Assert.Equal(DCPowerMeasurementWhen.OnDemand, sessionsBundle.InstrumentSessions.ElementAt(0).AllChannelsOutput.Measurement.MeasureWhen);
+            Assert.Equal(DCPowerMeasurementWhen.OnDemand, sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput.Measurement.MeasureWhen);
             if (pinMapWithChannelGroup)
             {
                 Assert.Equal(2, results.Item1[0][0]);
@@ -236,7 +236,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(3, results.Item1[2][0]);
             }
         }
-        */
 
         [Theory]
         [InlineData(false)]
@@ -265,7 +264,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
-        /*
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -278,7 +276,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var results = sessionsBundle.MeasureAndReturnPerInstrumentPerChannelResults();
 
-            Assert.Equal(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput.Measurement.MeasureWhen);
             if (pinMapWithChannelGroup)
             {
                 Assert.Equal(1, results.Item1[0][0]);
@@ -292,7 +289,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(3, results.Item1[2][0]);
             }
         }
-        */
 
         [Theory]
         [InlineData(false)]
