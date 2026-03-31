@@ -43,10 +43,10 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 
 ### Code Modules
 
-- `Code Modules/TestSteps/ForceVoltageRamp.cs`: Demonstrates the simplest approach to forcing a voltage ramp (0V to 3V, 10 points) on specified SMU pins using `ForceVoltageSequence`.
-- `Code Modules/TestSteps/ForceVoltageRampMeasureCurrent.cs`: Applies a voltage ramp to specified SMU pins and measures the resulting current. Configures `MeasureWhen` to `AutomaticallyAfterSourceComplete` and publishes the measurement results.
-- `Code Modules/TestSteps/ForceSynchronizedVoltageRampFetchMeasurementsAndPublishMaxCurrent.cs`: Forces a synchronized voltage ramp using `ForceVoltageSequenceSynchronized` with hardware triggering. Waits for sequence completion, measures voltage, and cleans up the Start Trigger configuration.
-- `Code Modules/TestSteps/ConfigureSMUAdvancedSequence.cs`: Demonstrates advanced sequence configuration using `ConfigureAdvancedSequence` with `setAsActiveSequence: false`, allowing deferred initiation. Useful for scenarios where sequence setup should be separated from execution.
+- `Code Modules/TestSteps/ForceVoltageRamp.cs`: Forces a hardware-timed voltage ramp sequence on the specified SMU pins using `ForceVoltageSequence`.
+- `Code Modules/TestSteps/ForceVoltageRampMeasureCurrent.cs`: Forces a hardware-timed voltage ramp sequence on the specified SMU pins and fetches current measurements taken during each step of the sequence. Publishes the max current value across the steps using the "MaxCurrent" published data id.
+- `Code Modules/TestSteps/ForceSynchronizedVoltageRampFetchMeasurementsAndPublishMaxCurrent.cs`: Forces a hardware-timed voltage ramp sequence that is synchronized across the specified SMU pins and fetches measurements taken during each step of the sequence. Publishes the max current value across the steps using the "MaxCurrent" published data id.
+- `Code Modules/TestSteps/ConfigureSMUAdvancedSequence.cs`: Configures an advanced sequence for the specified SMU pins without setting it as the active sequence, allowing it to be initiated later in the test flow.
 - - `Code Modules/TestSteps/InitiateSMUAdvancedSequence.cs`: Initiates a previously configured advanced sequence for the specified SMU pins.
 
 ## Using the Example
