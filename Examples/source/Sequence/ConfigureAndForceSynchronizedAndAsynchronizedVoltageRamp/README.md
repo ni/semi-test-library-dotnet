@@ -12,6 +12,8 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 4. **ConfigureSMUAdvancedSequence**: Configures an advanced sequence upfront without activation, allowing later initiation in the test flow.
 5. **InitiateSMUAdvancedSequence** : Initiates a previously configured advanced sequence for the specified SMU pins.
 
+> **Note** : When using `ForceVoltageSequence`/`ForceVoltageSequenceSynchronized` or `ConfigureAdvancedSequence`/`ForceAdvancedSequenceSynchronized` within the same sequence, each step **must** use different pins. Using the same pins across these methods in a single sequence is not supported.
+
 ## Prerequisites
 
 ### Software Requirements
