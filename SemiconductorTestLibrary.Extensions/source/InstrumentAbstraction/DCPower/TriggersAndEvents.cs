@@ -258,18 +258,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region methods on DCPowerOutput
 
-        internal static void ConfigureSourceTriggerForCascading(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
+        internal static void ConfigureSourceTriggerForCascading(this DCPowerOutput dcPowerOutput, GangingInfo gangingInfo)
         {
-            var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
                 dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, gangingInfo.SourceTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
-        internal static void ConfigureStartTriggerForCascadedSequencing(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
+        internal static void ConfigureStartTriggerForCascadedSequencing(this DCPowerOutput dcPowerOutput, GangingInfo gangingInfo)
         {
-            var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
                 dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.StartTrigger, gangingInfo.StartTriggerName, DCPowerTriggerEdge.Rising);
