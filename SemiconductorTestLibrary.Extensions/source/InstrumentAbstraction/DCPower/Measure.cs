@@ -236,7 +236,44 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="voltageMeasurements">The returned voltage measurements.</param>
         public static void MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishedDataId, out double[][] voltageMeasurements)
         {
-            voltageMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, publishedDataId);
+            if (sessionsBundle.HasGangedChannels)
+            {
+                // Measure normal pins and ganged leader pins in one call
+                var leaderResults = sessionsBundle.DoAndPublishResults(
+                    sessionInfo => MeasureVoltageForNonFollowers(sessionInfo),
+                    publishedDataId);
+
+                // Measure ganged follower pins in a separate call
+                var followerResults = sessionsBundle.DoAndPublishResults(
+                    sessionInfo => MeasureVoltageForFollowers(sessionInfo),
+                    publishedDataId);
+
+                // Combine the results back into proper channel order
+                voltageMeasurements = new double[leaderResults.Length][];
+                for (int i = 0; i < leaderResults.Length; i++)
+                {
+                    var sessionInfo = sessionsBundle.InstrumentSessions.ElementAt(i);
+                    int totalChannels = sessionInfo.AssociatedSitePinList.Count(sp => !sp.SkipOperations);
+                    voltageMeasurements[i] = new double[totalChannels];
+
+                    int leaderIndex = 0, followerIndex = 0, resultIndex = 0;
+                    foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sp => !sp.SkipOperations))
+                    {
+                        if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                        {
+                            voltageMeasurements[i][resultIndex++] = followerResults[i][followerIndex++];
+                        }
+                        else
+                        {
+                            voltageMeasurements[i][resultIndex++] = leaderResults[i][leaderIndex++];
+                        }
+                    }
+                }
+            }
+            else
+            {
+                voltageMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, publishedDataId);
+            }
         }
 
         /// <summary>
@@ -602,6 +639,90 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return new Tuple<double[], double[]>(voltageMeasurements, currentMeasurements);
         }
 
+        private static double[] MeasureVoltageForNonFollowers(DCPowerSessionInformation sessionInfo)
+        {
+            var nonFollowerChannels = sessionInfo.AssociatedSitePinList
+                .Where(sp => !sp.SkipOperations && !IsFollowerOfGangedChannels(sp.CascadingInfo))
+                .ToList();
+            return MeasureChannels(sessionInfo, nonFollowerChannels);
+        }
+
+        private static double[] MeasureVoltageForFollowers(DCPowerSessionInformation sessionInfo)
+        {
+            var followerChannels = sessionInfo.AssociatedSitePinList
+                .Where(sp => !sp.SkipOperations && IsFollowerOfGangedChannels(sp.CascadingInfo))
+                .ToList();
+            return MeasureChannels(sessionInfo, followerChannels);
+        }
+
+        private static double[] MeasureChannels(DCPowerSessionInformation sessionInfo, List<SitePinInfo> channelsToMeasure)
+        {
+            if (channelsToMeasure.Count == 0)
+            {
+                return Array.Empty<double>();
+            }
+
+            var session = sessionInfo.Session;
+            var voltageMeasurements = new double[channelsToMeasure.Count];
+            var lockObject = new object();
+
+            var onDemandChannels = channelsToMeasure
+                .Select((sitePin, index) => new { sitePin, index })
+                .Where(x => session.Outputs[x.sitePin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                .ToList();
+
+            InvokeInParallel(
+                () =>
+                {
+                    if (onDemandChannels.Any())
+                    {
+                        var channelStrings = string.Join(",", onDemandChannels.Select(x => x.sitePin.IndividualChannelString));
+                        var measureResult = session.Measurement.Measure(channelStrings);
+                        for (int i = 0; i < onDemandChannels.Count; i++)
+                        {
+                            lock (lockObject)
+                            {
+                                voltageMeasurements[onDemandChannels[i].index] = measureResult.VoltageMeasurements[i];
+                            }
+                        }
+                    }
+                },
+                () =>
+                {
+                    Parallel.For(0, channelsToMeasure.Count, channelIndex =>
+                    {
+                        var sitePinInfo = channelsToMeasure[channelIndex];
+                        var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
+
+                        if (dcOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+                        {
+                            if (sitePinInfo.ModelString != DCPowerModelStrings.PXI_4110)
+                            {
+                                session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), dcOutput.Measurement.FetchBacklog);
+                                dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
+                                var fetchResult = session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), 1);
+                                lock (lockObject)
+                                {
+                                    voltageMeasurements[channelIndex] = fetchResult.VoltageMeasurements[0];
+                                }
+                            }
+                        }
+                        else if (dcOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)
+                        {
+                            if (sitePinInfo.ModelString != DCPowerModelStrings.PXI_4110)
+                            {
+                                var fetchResult = session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), 1);
+                                lock (lockObject)
+                                {
+                                    voltageMeasurements[channelIndex] = fetchResult.VoltageMeasurements[0];
+                                }
+                            }
+                        }
+                    });
+                });
+
+            return voltageMeasurements;
+        }
         #endregion methods on DCPowerSessionInformation
 
         #region private methods
