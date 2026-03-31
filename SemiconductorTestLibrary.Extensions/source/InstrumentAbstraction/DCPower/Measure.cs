@@ -652,6 +652,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 });
             return new Tuple<double[], double[]>(voltageMeasurements, currentMeasurements);
         }
+
         #endregion methods on DCPowerSessionInformation
 
         #region private methods
