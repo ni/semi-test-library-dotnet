@@ -892,6 +892,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     ? PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.Value)
                     : PrecisionTimeSpan.Zero;
                 sessionInfo.ConfigureTransientResponce(settings, perChannelString);
+                sessionInfo.ConfigureTriggersForCascadedSequencing(sitePinInfo);
 
                 if (channelOutput.Name == masterChannelOutput.Name)
                 {
@@ -1434,6 +1435,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sitePinInfo,
                 settings.OutputFunction == DCPowerSourceOutputFunction.DCCurrent);
             channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo, needDataAdjustment);
+            sessionInfo.ConfigureTriggersForCascadedSequencing(sitePinInfo);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
                 channelOutput.InitiateChannels();
@@ -1927,8 +1929,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
             }
             output.Source.SetSequence(sequence);
-            output.ConfigureSourceTriggerForCascading(sitePinInfo);
-            output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
             if (sequenceStepDeltaTimeInSeconds.HasValue)
             {
                 output.Source.SequenceStepDeltaTimeEnabled = true;
@@ -2030,7 +2030,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
                     channelOutput.ConfigureLevelsAndLimits(settings, sitePin, needDataAdjustment);
-                    channelOutput.ConfigureSourceTriggerForCascading(sitePin);
+                    channelOutput.ConfigureSourceTriggerForCascading(sitePin.CascadingInfo as GangingInfo);
                 });
             }
             else
@@ -2042,6 +2042,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #endregion methods on DCPowerSessionInformation
 
         #region private and internal methods
+
+        private static void ConfigureTriggersForCascadedSequencing(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            var gangingInfo = sitePinInfo.CascadingInfo as GangingInfo;
+            channelOutput.ConfigureSourceTriggerForCascading(gangingInfo);
+            channelOutput.ConfigureStartTriggerForCascadedSequencing(gangingInfo);
+            sessionInfo.ConfigureMeasureTriggerForCascading(sitePinInfo);
+        }
 
         private static DCPowerAdvancedSequenceProperty[] GetAdvancedSequencePropertiesToConfigure(IEnumerable<DCPowerAdvancedSequenceStepProperties> perStepProperties)
         {
