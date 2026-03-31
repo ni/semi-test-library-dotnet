@@ -460,8 +460,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var session = sessionInfo.Session;
                 var channelOutput = session.Outputs[sitePinInfo.IndividualChannelString];
-                var gangedFollower = IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo);
-                if (!gangedFollower && channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+                var measureWhen = channelOutput.Measurement.MeasureWhen;
+                var triggerType = channelOutput.Triggers.MeasureTrigger.Type;
+                bool isSoftwareEdge = measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger && triggerType == DCPowerMeasureTriggerType.SoftwareEdge;
+                bool gangedLeader = sitePinInfo.CascadingInfo is GangingInfo gangingInfo && !gangingInfo.IsFollower;
+                bool notOnDemand = measureWhen != DCPowerMeasurementWhen.OnDemand;
+                bool shouldSendTrigger = isSoftwareEdge || (gangedLeader && notOnDemand);
+                if (shouldSendTrigger)
                 {
                     if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
                     {
