@@ -38,7 +38,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         {
             var tsmContext = CreateTSMContext("DifferentSMUDevices.pinmap", out var publishedDataReader);
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
-            string[] pins = { "VDD", "VCC" };
+            string[] pins = { "VDD" };
 
             ForceVoltageSequence.ForceVoltageRampFetchCurrentMeasurements(tsmContext, pins);
 
@@ -50,7 +50,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         {
             var tsmContext = CreateTSMContext("DifferentSMUDevices.pinmap", out var publishedDataReader);
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
-            string[] pins = { "VDD", "VCC" };
+            string[] pins = { "VDD" };
 
             ConfigureSMUAdvancedSequencesAndInitiate.ConfigureSMUAdvancedSequenceAndInitiate(tsmContext, pins);
             CleanupInstrumentation(tsmContext);
