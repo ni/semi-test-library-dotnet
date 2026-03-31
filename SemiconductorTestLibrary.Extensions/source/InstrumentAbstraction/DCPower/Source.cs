@@ -1434,6 +1434,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sitePinInfo,
                 needDataAdjustment && settings.OutputFunction == DCPowerSourceOutputFunction.DCCurrent);
             channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo, needDataAdjustment);
+            sessionInfo.ConfigureTriggersForCascadedSequencing(sitePinInfo);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
                 channelOutput.InitiateChannels();
