@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -262,7 +263,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 voltageLevelRange: 5.0,
                 currentLimitRange: 3,
                 sequenceLoopCount: 1);
-
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                var measureWhen = channelOutput.Measurement.MeasureWhen;
+                var measureTrigger = channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal;
+                Debug.WriteLine(measureTrigger);
+                Debug.WriteLine(measureWhen);
+            });
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (_, __) => sequence.Select(value => value / 4).ToArray(), precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false);
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.25));
@@ -1377,13 +1385,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void DifferentSMUDevicesGanged_ForceCurrentSequenceSynchronized_CorrectValuesAreSet()
         {
-            var sessionManager = Initialize("Ganged_4147.pinmap");
-            var sessionsBundle = sessionManager.DCPower("Va4");
-            sessionsBundle.GangPinGroup("Va4");
+            var sessionManager = Initialize("Ganged_SingleSite_4147.pinmap");
+            var sessionsBundle = sessionManager.DCPower("Va2");
+            sessionsBundle.GangPinGroup("Va2");
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new[] { -0.02, 0.01, 0.04, 0.07 };
             sessionsBundle.ForceCurrentSequenceSynchronized(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2.5, voltageLimitRange: 1, sequenceLoopCount: 1);
+            foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
+            {
+                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList)
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    var measureWhen = channelOutput.Measurement.MeasureWhen;
+                    var measureTrigger = channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal;
+                    Debug.WriteLine(channelOutput.Name);
+                    Debug.WriteLine(sitePinInfo.PinName);
+                    Debug.WriteLine(measureTrigger);
+                    Debug.WriteLine(measureWhen);
+                }
+            }
 
             sessionsBundle.Abort();
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (_, __) => sequence.Select(value => value / 4).ToArray(), precision: 3, itemsToFetch: 4);
