@@ -13,13 +13,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.MultiplexedConne
         /// <summary>
         /// Demonstrates serial per-site measurement for a multiplexed connection where one instrument channel
         /// is mapped to the same DUT pin across multiple sites.
-        /// This method expects that existing TestStandSteps have already initialized the Relay Module and DMM sessions,
-        /// and user code has already called <see cref="SetupAndCleanupSteps.InitializeGenericMultiplexerSession(ISemiconductorModuleContext, string)"/>.
+        /// This method expects the Relay Module, DMM, and NIGenericMultiplexer sessions to already be initialized.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="dutPinName">The DUT pin name mapped through the multiplexed connection.</param>
         /// <param name="endOfTestingRelayConfigurationName">Relay configuration to apply after all site-specific measurements are complete.</param>
-        /// <param name="multiplexerTypeId">The multiplexer type identifier in the pin map. Defaults to <c>NIGenericMultiplexer</c>.</param>
+        /// <param name="multiplexerTypeId">The multiplexer type identifier in the pin map. Defaults to NIGenericMultiplexer.</param>
         /// <remarks>
         /// The method queries site-specific routes from TSM for the requested multiplexer type ID, applies each route using relay configurations,
         /// performs a DMM read for each site context, and publishes the measurement result.
@@ -38,17 +37,18 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.MultiplexedConne
                 out ISemiconductorModuleContext[] tsmContexts,
                 out string[] routes);
 
-            // Execute one site at a time because this flow shares a single instrument channel.
+            // Execute one site at a time because this pin shares the same instrument channel for all sites.
             for (int i = 0; i < tsmContexts.Length; i++)
             {
-                // Select the relay state for the current site using the main context.
-                tsmContext.ApplyRelayConfiguration(routes[i]);
-                var sessionManager = new TSMSessionManager(tsmContexts[i]);
+                // Apply the current site's relay configuration.
+                var currentContext = tsmContexts[i];
+                currentContext.ApplyRelayConfiguration(routes[i]);
+                var sessionManager = new TSMSessionManager(currentContext);
                 var dmm = sessionManager.DMM(dutPinName);
 
                 // Read measurement and publish it for the active site context.
                 var measurement = dmm.Read(maximumTimeInMilliseconds: 1000);
-                tsmContexts[i].PublishResults(measurement, $"{dutPinName}_Voltage");
+                currentContext.PublishResults(measurement, $"{dutPinName}_Voltage");
             }
 
             // Restore the configured end-of-test relay state after site loop completes.
