@@ -52,7 +52,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             string[] pins = { "VDD", "VCC" };
 
-            ConfigureUpfrontAndInitiateAdvancedSequenceLater.ConfigureUpfrontAndInitiateAdvancedSequenceLaterExample(tsmContext, pins);
+            ConfigureSMUAdvancedSequencesAndInitiate.ConfigureSMUAdvancedSequenceAndInitiate(tsmContext, pins);
             CleanupInstrumentation(tsmContext);
         }
     }

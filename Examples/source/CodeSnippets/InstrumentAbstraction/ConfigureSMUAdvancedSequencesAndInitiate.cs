@@ -13,7 +13,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     /// They are only meant to demonstrate specific coding concepts and may otherwise assume a hypothetical test program with any dependent instrument sessions have already been initiated and configured.
     /// Additionally, they are intentionally marked as internal to prevent them from being directly invoked from code outside of this project.
     /// </summary>
-    internal static class ConfigureUpfrontAndInitiateAdvancedSequenceLater
+    internal static class ConfigureSMUAdvancedSequencesAndInitiate
     {
         /// <summary>
         /// Configures measurement and source settings for specified SMU pins and sets up an advanced sequence that can be initiated later in the test flow.
@@ -26,7 +26,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">SMU pin names to be configured.</param>
-        internal static void ConfigureUpfrontAndInitiateAdvancedSequenceLaterExample(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        internal static void ConfigureSMUAdvancedSequenceAndInitiate(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
@@ -40,7 +40,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             dcPowerPins.Commit();
 
-            // configure the advanced sequence upfront, but do not set it as the active sequence. This allows you to initiate the advanced sequence later in your test flow without needing to reconfigure it.
+            // Configure the advanced sequence upfront, but do not set it as the active sequence.
+            // This allows you to initiate the advanced sequence later in your test flow without needing to reconfigure it.
             var advancedSequenceName = "MyAdvancedSequence";
             var advancedSequenceSettings = new List<DCPowerAdvancedSequenceStepProperties>
             {
@@ -70,7 +71,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">SMU pin names to be configured.</param>
-        internal static void ConfigureMultipleAdvanceSequencesUpfrontAndInitiateAdvancedSequencesLaterExample(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        internal static void ConfigureMultipleSMUAdvancedSequencesAndInitiate(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
@@ -84,7 +85,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             dcPowerPins.Commit();
 
-            // configure the advanced sequence upfront, but do not set it as the active sequence. This allows you to initiate the advanced sequence later in your test flow without needing to reconfigure it.
+            // Configure both advanced sequences upfront without setting either of them as the active sequence.
+            // This allows you to initiate either of the advanced sequences later in your test flow without needing to reconfigure them.
             var firstAdvancedSequence = "MyAdvancedSequence1";
 
             var advanceSequenceSettingsForFirstAdvancedSequences = new List<DCPowerAdvancedSequenceStepProperties>
@@ -114,14 +116,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ConfigureAdvancedSequence(firstAdvancedSequence, advanceSequenceSettingsForFirstAdvancedSequences, setAsActiveSequence: false);
             dcPowerPins.ConfigureAdvancedSequence(secondAdvancedSequence, advancedSequenceSettingsForSecondAdvancedSequences, setAsActiveSequence: false);
 
-            // Initiate the advanced sequence that was configured earlier
+            // Initiate the advanced sequences that was configured earlier
+            dcPowerPins.InitiateAdvancedSequence(firstAdvancedSequence);
+            dcPowerPins.InitiateAdvancedSequence(secondAdvancedSequence);
             dcPowerPins.InitiateAdvancedSequence(firstAdvancedSequence);
 
             // Clear the active advanced sequence before deleting and post usage
             dcPowerPins.ClearActiveAdvancedSequence();
-            // Then delete all the advanced sequence, this will also switch the Source.Mode back to SinglePoint
-            dcPowerPins.DeleteAdvancedSequence(firstAdvancedSequence);
-            dcPowerPins.DeleteAdvancedSequence(secondAdvancedSequence);
+            // Then delete all the advanced sequence(you can provide the name of the sequence as comma separated values, as used below or array of strings new string[] { firstAdvancedSequence, secondAdvancedSequence }), this will also switch the Source.Mode back to SinglePoint
+            dcPowerPins.DeleteAdvancedSequence(firstAdvancedSequence, secondAdvancedSequence);
         }
     }
 }
