@@ -192,7 +192,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static Tuple<double[][], double[][]> MeasureAndReturnPerInstrumentPerChannelResults(this DCPowerSessionsBundle sessionsBundle)
         {
             sessionsBundle.ClearBacklogForMeasurementWhenOnMeasureTrigger();
-            sessionsBundle.SendSoftwareEdgeMeasureTrigger();
+            sessionsBundle.SendTriggerForMeasurementOnMeasureTrigger();
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent());
         }
 
@@ -204,7 +204,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static Tuple<PinSiteData<double>, PinSiteData<double>> MeasureAndReturnPerSitePerPinResults(this DCPowerSessionsBundle sessionsBundle)
         {
             sessionsBundle.ClearBacklogForMeasurementWhenOnMeasureTrigger();
-            sessionsBundle.SendSoftwareEdgeMeasureTrigger();
+            sessionsBundle.SendTriggerForMeasurementOnMeasureTrigger();
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent(), caseDescription: string.Empty, VoltagePinSiteResultsFilling, CurrentPinSiteResultsFilling);
         }
 
@@ -216,7 +216,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static PinSiteData<double> MeasureVoltage(this DCPowerSessionsBundle sessionsBundle)
         {
             sessionsBundle.ClearBacklogForMeasurementWhenOnMeasureTrigger();
-            sessionsBundle.SendSoftwareEdgeMeasureTrigger();
+            sessionsBundle.SendTriggerForMeasurementOnMeasureTrigger();
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, caseDescription: string.Empty, VoltagePinSiteResultsFilling);
         }
 
@@ -228,7 +228,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static PinSiteData<double> MeasureCurrent(this DCPowerSessionsBundle sessionsBundle)
         {
             sessionsBundle.ClearBacklogForMeasurementWhenOnMeasureTrigger();
-            sessionsBundle.SendSoftwareEdgeMeasureTrigger();
+            sessionsBundle.SendTriggerForMeasurementOnMeasureTrigger();
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, caseDescription: string.Empty, CurrentPinSiteResultsFilling);
         }
 
@@ -245,7 +245,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishedDataId, out double[][] voltageMeasurements)
         {
             sessionsBundle.ClearBacklogForMeasurementWhenOnMeasureTrigger();
-            sessionsBundle.SendSoftwareEdgeMeasureTrigger();
+            sessionsBundle.SendTriggerForMeasurementOnMeasureTrigger();
             voltageMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, publishedDataId);
         }
 
@@ -274,7 +274,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishedDataId, out double[][] currentMeasurements)
         {
             sessionsBundle.ClearBacklogForMeasurementWhenOnMeasureTrigger();
-            sessionsBundle.SendSoftwareEdgeMeasureTrigger();
+            sessionsBundle.SendTriggerForMeasurementOnMeasureTrigger();
             currentMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, publishedDataId);
         }
 
@@ -457,17 +457,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        private static void SendSoftwareEdgeMeasureTrigger(this DCPowerSessionsBundle sessionsBundle)
+        private static void SendTriggerForMeasurementOnMeasureTrigger(this DCPowerSessionsBundle sessionsBundle)
         {
             var listOfTriggerTerminals = new List<string>();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var session = sessionInfo.Session;
                 var channelOutput = session.Outputs[sitePinInfo.IndividualChannelString];
-                // Only send trigger for channels configured with OnMeasureTrigger
-                if (channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+                var gangedFollower = IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo);
+                if (!gangedFollower && channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
                 {
-                    // Skip PXI-4110 and PXI-4130 as they don't support OnMeasureTrigger
                     if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
                     {
                         return;
