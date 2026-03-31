@@ -19,11 +19,11 @@ The example contains the following key files:
 ## Prerequisites
 
 1. To use this example, your system must also meet the following requirements:
-   - STS Software 25.5.0 or later
+   - STS Software 24.5.0 or later
+   - Semiconductor Test Library (STL) 25.5.0 or later
 2. To run the example you must also have:
    - One NI-DMM PXIe-4081 instrument with the `DMM_4081_C1_S02` alias.
    - One NI-SWITCH PXIe-2567 module with the `RELAY_2567_C1_S03` alias.
-   - TestStand configured with Semiconductor Module support.
 
 ### Offline Mode
 
@@ -48,7 +48,9 @@ Explore `MainSequence` and the files under `Code Modules/TestSteps` to see the s
 
 1. `MainSequence` calls `OneInstrumentChannelToManySitesForOneDutPin` to perform DMM reads for each site and publish per-site results.
 
-### Code Module
+### Code Modules
+
+Open `Code Modules/STLExample.MultiplexedConnection.sln` to review the source code for the methods described below.
 
 1. `SetupAndCleanupSteps.InitializeGenericMultiplexerSession(ISemiconductorModuleContext tsmContext, string multiplexerTypeId)` gets switch names from `tsmContext` for `multiplexerTypeId` and initializes a session for each switch.
 2. `SetupAndCleanupSteps.CleanupGenericMultiplexerSession(ISemiconductorModuleContext tsmContext, string multiplexerTypeId)` gets all switch sessions from `tsmContext` for `multiplexerTypeId` and closes all switch sessions for `multiplexerTypeId`.
