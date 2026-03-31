@@ -1813,19 +1813,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Deletes the advanced sequence with the specified name from all sessions in the <see cref="DCPowerSessionsBundle"/>.
+        /// Deletes the advanced sequences with the specified names from all sessions in the <see cref="DCPowerSessionsBundle"/>.
         /// </summary>
-        /// <param name = "sessionsBundle" > The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="sequenceName">The name of the advanced sequence to delete.</param>
+        /// <param name = "sessionsBundle" >The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequenceNames">The names of the advanced sequences to delete.</param>
         /// <remarks>
-        /// This function will also switch the Source.Mode back to SinglePoint.
+        /// This function will also switch the <see cref="DCPowerOutput.Source.Mode"/> back to SinglePoint.
         /// </remarks>
-        public static void DeleteAdvancedSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName)
+        public static void DeleteAdvancedSequence(this DCPowerSessionsBundle sessionsBundle, params string[] sequenceNames)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.AllChannelsOutput.Control.Abort();
-                sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.DeleteAdvancedSequence(sequenceName);
+                foreach (string sequenceName in sequenceNames)
+                {
+                    sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.DeleteAdvancedSequence(sequenceName);
+                }
                 sessionInfo.AllChannelsOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             });
         }
