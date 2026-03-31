@@ -465,8 +465,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 bool isSoftwareEdge = measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger && triggerType == DCPowerMeasureTriggerType.SoftwareEdge;
                 bool gangedLeader = sitePinInfo.CascadingInfo is GangingInfo gangingInfo && !gangingInfo.IsFollower;
                 bool notOnDemand = measureWhen != DCPowerMeasurementWhen.OnDemand;
-                bool shouldSendTrigger = isSoftwareEdge || (gangedLeader && notOnDemand);
-                if (shouldSendTrigger)
+                if (isSoftwareEdge || (gangedLeader && notOnDemand))
                 {
                     if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
                     {
