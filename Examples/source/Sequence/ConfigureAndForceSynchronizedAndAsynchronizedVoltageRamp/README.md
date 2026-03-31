@@ -1,10 +1,10 @@
 # Hardware Level Sequencing (HLS) Voltage Ramp Example
 
-This example demonstrates how to use the Semiconductor Test Library (STL) extension methods for Hardware Level Sequencing (HLS) to run different force voltage sequences using ramps with NI-DCPower instruments.
+This example demonstrates how to use the Semiconductor Test Library (STL) extension methods for Hardware Level Sequencing (HLS) to run different force voltage sequences with an NI Source Measurement Unit (SMU).
 
 ## Overview
 
-The example showcases four different approaches for forcing voltage ramps on SMU pins:
+The example showcases four different approaches for forcing voltage ramp sequences on SMU pins:
 
 1. **ForceVoltageRamp**: Forces a basic voltage ramp sequence on specified SMU pins using `ForceVoltageSequence`.
 2. **ForceVoltageRampMeasureCurrent**: Forces a voltage ramp sequence and measures the resulting current after source completion.
@@ -15,7 +15,6 @@ The example showcases four different approaches for forcing voltage ramps on SMU
 
 ### Software Requirements
 
-- STS Software 24.5.0 or later
 - NI-DCPower driver
 
 ### Hardware Requirements
@@ -52,7 +51,7 @@ The example showcases four different approaches for forcing voltage ramps on SMU
 
 1. **Update the Pin Map (if needed):**
    If the hardware `SMU_4147_C2_S03` is not available, update the pin map:
-   - Select **Semiconductor Module → Edit Pin Map File** or click the **Edit Pin Map File** button on the TSM toolbar
+   - Review the pin map from the TestStand Sequence Editor by selecting **Semiconductor Module -> Edit Pin Map File...** or clicking the Edit Pin Map File button on the TSM toolbar.
    - Open `STLExample.ConfigureAndForceSynchronizedAndAsynchronizedVoltageRamp.pinmap` in the Pin Map Editor
    - Update the instrument name to match your available hardware
 

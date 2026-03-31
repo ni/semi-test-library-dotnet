@@ -7,21 +7,25 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
     /// <summary>
-    /// This class provides example methods to demonstrate how to use the extension method required for Hardware Level Sequencing from the Semiconductor Test Library.
+    /// This class provides example methods demonstrating how to perform Hardware Level Sequencing with SMUs
+    /// using DCPower Instrument Abstraction methods from the Semiconductor Test Library.
     /// </summary>
     public static partial class TestSteps
     {
         /// <summary>
-        /// This example demonstrates how to force the same voltage sequence created using <see cref="HelperMethods.CreateRampSequence(double, double, int)"/> on the specified pins.
+        /// Forces a hardware-timed voltage ramp sequence on the specified SMU pins.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="smuPinNames">SMU pin names to be configured.</param>
-        public static void ForceVoltageRamp(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        /// <param name="smuPinNames">The SMU pins to force the voltage ramp on.</param>
+        /// <param name="startVoltage">The starting value of a voltage ramp.</param>
+        /// <param name="stopVoltage">The ending value of a voltage ramp.</param>
+        /// <param name="numberOfSteps">The number of steps in the voltage ramp sequence.</param>
+        public static void ForceVoltageRamp(ISemiconductorModuleContext tsmContext, string[] smuPinNames, double startVoltage = 0, double stopVoltage = 3, int numberOfSteps = 10)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
 
-            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
+            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: startVoltage, outputStop: stopVoltage, numberOfPoints: numberOfSteps);
             dcPowerPins.ForceVoltageSequence(voltageSequence);
         }
     }
