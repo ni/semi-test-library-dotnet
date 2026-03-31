@@ -19,10 +19,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// Configures measurement and source settings for specified SMU pins and sets up an advanced sequence that can be initiated later in the test flow.
         /// </summary>
         /// <remarks>
-        /// This example demonstrates how to configure measurement and source settings, as well
-        /// as an advanced sequence, upfront without immediately activating the sequence. The advanced sequence can be
-        /// initiated at a later point in the test flow, allowing for flexible test execution and reducing the need for
-        /// repeated configuration.
+        /// This example demonstrates how to configure an advanced sequence upfront without immediately initiating the sequence.
+        /// The configured advanced sequence can be recalled by name and initiated at a later point in the test program,
+        /// allowing for flexible test execution and reducing the need for repeated configuration.
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">SMU pin names to be configured.</param>
@@ -33,9 +32,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Measurements can be taken during sequence execution, with exactly one sample for each step,
             // but to enable this, the MeasureWhen property must be set to AutomaticallyAfterSourceComplete.
-            dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
+            dcPowerPins.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
-            // Configure the source settings upfront(ConfigureSourceSettings should be called before ConfigureAdvancedSequence as ConfigureSourceSettings sets Source.Mode to SinglePoint)
+            // Note that ConfigureSourceSettings should be called before ConfigureAdvancedSequence as ConfigureSourceSettings sets the Source Mode to SinglePoint.
             dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 10, TransientResponse = DCPowerSourceTransientResponse.Normal });
 
             dcPowerPins.Commit();
@@ -52,22 +51,21 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ConfigureAdvancedSequence(advancedSequenceName, advancedSequenceSettings, setAsActiveSequence: false);
 
             // Initiate the advanced sequence that was configured earlier
-            dcPowerPins.InitiateAdvancedSequence(advancedSequenceName);
+            dcPowerPins.InitiateAdvancedSequence(advancedSequenceName, waitForSequenceCompletion: true);
 
             // Clear the active advanced sequence before deleting and post usage
             dcPowerPins.ClearActiveAdvancedSequence();
-            // Then delete the advanced sequence, this will also switch the Source.Mode back to SinglePoint
+            // Then delete the advanced sequence, this will also switch the Source Mode back to SinglePoint.
             dcPowerPins.DeleteAdvancedSequence(advancedSequenceName);
         }
 
         /// <summary>
-        /// Configures multiple advanced sequences for specified SMU pins and initiates one of the sequences later in the test flow. This enables upfront configuration of test sequences for flexible execution.
+        /// Configures multiple advanced sequences for specified SMU pins and initiates one of the sequences later in the test flow.
         /// </summary>
         /// <remarks>
-        /// This method allows advanced sequences to be configured in advance without immediately
-        /// activating them. Sequences can then be initiated as needed during the test flow, reducing reconfiguration
-        /// overhead and enabling more efficient test execution. Ensure that the provided pin names are valid and that
-        /// the advanced sequences are properly defined before initiation.
+        /// This example demonstrates how to configure multiple advanced sequences upfront without immediately initiating them.
+        /// The configured advanced sequences can be recalled by name and initiated at a later point in the test program,
+        /// allowing for flexible test execution and reducing the need for repeated configuration.
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">SMU pin names to be configured.</param>
@@ -78,9 +76,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Measurements can be taken during sequence execution, with exactly one sample for each step,
             // but to enable this, the MeasureWhen property must be set to AutomaticallyAfterSourceComplete.
-            dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
+            dcPowerPins.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
-            // Configure the source settings upfront
+            // Note that ConfigureSourceSettings should be called before ConfigureAdvancedSequence as ConfigureSourceSettings sets the Source Mode to SinglePoint.
             dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 10, TransientResponse = DCPowerSourceTransientResponse.Normal });
 
             dcPowerPins.Commit();
@@ -88,7 +86,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Configure both advanced sequences upfront without setting either of them as the active sequence.
             // This allows you to initiate either of the advanced sequences later in your test flow without needing to reconfigure them.
             var firstAdvancedSequence = "MyAdvancedSequence1";
-
             var advanceSequenceSettingsForFirstAdvancedSequences = new List<DCPowerAdvancedSequenceStepProperties>
             {
                 new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
@@ -96,9 +93,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
                 new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
             };
 
-            // configure another advanced sequence with different settings
+            // Configure another advanced sequence with different settings
             var secondAdvancedSequence = "MyAdvancedSequence2";
-
             var voltages = new double[] { 0, 2, 3, 4 };
             var apertureTimes = new double[] { 2, 3.1, 4.3, 2.4 };
             var advancedSequenceSettingsForSecondAdvancedSequences = new DCPowerAdvancedSequenceStepProperties[4];
@@ -112,18 +108,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
                 advancedSequenceSettingsForSecondAdvancedSequences[i] = stepSetting;
             }
 
-            // Configure both advanced sequences upfront without setting either of them as the active sequence. This allows you to initiate either of the advanced sequences later in your test flow without needing to reconfigure them.
+            // Configure both advanced sequences upfront without setting either of them as the active sequence.
+            // This allows you to initiate either of the advanced sequences later in your test flow without needing to reconfigure them.
             dcPowerPins.ConfigureAdvancedSequence(firstAdvancedSequence, advanceSequenceSettingsForFirstAdvancedSequences, setAsActiveSequence: false);
             dcPowerPins.ConfigureAdvancedSequence(secondAdvancedSequence, advancedSequenceSettingsForSecondAdvancedSequences, setAsActiveSequence: false);
 
             // Initiate the advanced sequences that was configured earlier
-            dcPowerPins.InitiateAdvancedSequence(firstAdvancedSequence);
-            dcPowerPins.InitiateAdvancedSequence(secondAdvancedSequence);
-            dcPowerPins.InitiateAdvancedSequence(firstAdvancedSequence);
+            dcPowerPins.InitiateAdvancedSequence(firstAdvancedSequence, waitForSequenceCompletion: true);
+            dcPowerPins.InitiateAdvancedSequence(secondAdvancedSequence, waitForSequenceCompletion: true);
+            dcPowerPins.InitiateAdvancedSequence(firstAdvancedSequence, waitForSequenceCompletion: true);
 
             // Clear the active advanced sequence before deleting and post usage
             dcPowerPins.ClearActiveAdvancedSequence();
-            // Then delete all the advanced sequence(you can provide the name of the sequence as comma separated values, as used below or array of strings new string[] { firstAdvancedSequence, secondAdvancedSequence }), this will also switch the Source.Mode back to SinglePoint
+            // Then delete the advanced sequence, this will also switch the Source Mode back to SinglePoint.
+            // Note that you can pass the DeleteAdvancedSequence method one or more sequence names.
             dcPowerPins.DeleteAdvancedSequence(firstAdvancedSequence, secondAdvancedSequence);
         }
     }

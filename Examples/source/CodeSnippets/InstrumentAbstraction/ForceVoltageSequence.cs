@@ -1,10 +1,11 @@
-﻿using System.Linq;
-using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
@@ -87,6 +88,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
                 .Select(samples => samples.Select(sample => sample.VoltageMeasurement).ToArray());
             PinSiteData<bool[]> inComplianceStates = fetchResults
                 .Select(samples => samples.Select(sample => sample.InCompliance).ToArray());
+
+            // Disabling StartTrigger post using ForceVoltageSequenceSynchronized and fetching the measurements
+            // to clean up and avoid any unintended consequences on later test steps that may use the same pins.
+            dcPowerPins.DisableTriggers(new List<TriggerType> { TriggerType.StartTrigger });
         }
     }
 }
