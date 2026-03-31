@@ -439,10 +439,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var session = sessionInfo.Session;
                 var channelOutput = session.Outputs[sitePinInfo.IndividualChannelString];
-                // Only clear backlog for channels configured with OnMeasureTrigger
                 if (channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
                 {
-                    // Skip PXI-4110 as it doesn't support this operation
                     if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
                     {
                         return;
@@ -450,7 +448,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     int backlog = channelOutput.Measurement.FetchBacklog;
                     if (backlog > 0)
                     {
-                        // Fetch and discard the backlog data to clear it
                         session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), backlog);
                     }
                 }
