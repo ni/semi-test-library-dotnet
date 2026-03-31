@@ -236,6 +236,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(3, results.Item1[2][0]);
             }
         }
+        */
 
         [Theory]
         [InlineData(false)]
@@ -264,6 +265,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        /*
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
