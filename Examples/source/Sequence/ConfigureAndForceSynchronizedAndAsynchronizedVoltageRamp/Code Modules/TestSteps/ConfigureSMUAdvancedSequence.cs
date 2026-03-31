@@ -34,6 +34,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
                 TransientResponse = DCPowerSourceTransientResponse.Normal,
             });
 
+            // Commit must be called before ConfigureAdvancedSequence if setAsActiveSequence is set to false.
+            // If Commit is called after ConfigureAdvancedSequence without first initiating the advanced sequence or setting setAsActiveSequence as true,
+            // the driver does not allow it.
+            dcPowerPins.Commit();
+
             // Configure the advanced sequence upfront, but do not set it as the active sequence.
             // This allows you to initiate the advanced sequence later in your test flow without needing to reconfigure it.
             var advanceSequenceName = "MyAdvancedSequence";
@@ -45,8 +50,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             };
 
             dcPowerPins.ConfigureAdvancedSequence(advanceSequenceName, advanceSequenceSettings, setAsActiveSequence: false);
-
-            dcPowerPins.Commit();
         }
     }
 }
