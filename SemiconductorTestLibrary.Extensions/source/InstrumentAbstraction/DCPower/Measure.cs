@@ -246,44 +246,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.ClearBacklogForMeasurementWhenOnMeasureTrigger();
             sessionsBundle.SendSoftwareEdgeMeasureTrigger();
-            if (sessionsBundle.HasGangedChannels)
-            {
-                // Measure normal pins and ganged leader pins in one call
-                var leaderResults = sessionsBundle.DoAndPublishResults(
-                    sessionInfo => MeasureVoltageForNonFollowers(sessionInfo),
-                    publishedDataId);
-
-                // Measure ganged follower pins in a separate call
-                var followerResults = sessionsBundle.DoAndPublishResults(
-                    sessionInfo => MeasureVoltageForFollowers(sessionInfo),
-                    publishedDataId);
-
-                // Combine the results back into proper channel order
-                voltageMeasurements = new double[leaderResults.Length][];
-                for (int i = 0; i < leaderResults.Length; i++)
-                {
-                    var sessionInfo = sessionsBundle.InstrumentSessions.ElementAt(i);
-                    int totalChannels = sessionInfo.AssociatedSitePinList.Count(sp => !sp.SkipOperations);
-                    voltageMeasurements[i] = new double[totalChannels];
-
-                    int leaderIndex = 0, followerIndex = 0, resultIndex = 0;
-                    foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sp => !sp.SkipOperations))
-                    {
-                        if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
-                        {
-                            voltageMeasurements[i][resultIndex++] = followerResults[i][followerIndex++];
-                        }
-                        else
-                        {
-                            voltageMeasurements[i][resultIndex++] = leaderResults[i][leaderIndex++];
-                        }
-                    }
-                }
-            }
-            else
-            {
-                voltageMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, publishedDataId);
-            }
+            voltageMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, publishedDataId);
         }
 
         /// <summary>
