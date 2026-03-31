@@ -460,7 +460,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var session = sessionInfo.Session;
                 var channelOutput = session.Outputs[sitePinInfo.IndividualChannelString];
-                if (channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger && channelOutput.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge)
+                var gangedFollower = IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo);
+                if (!gangedFollower && channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
                 {
                     if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
                     {
