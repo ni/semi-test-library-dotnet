@@ -15,10 +15,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// <summary>
         /// Configures an advanced sequence for the specified SMU pins without setting it as the active sequence, allowing it to be initiated later in the test flow.
         /// </summary>
-        /// <remarks>
-        /// This method is not supported by all instruments.
-        /// Refer to the <a href="https://www.ni.com/docs/en-US/bundle/ni-dcpower-c-api-ref/page/group____root__nidcpower__supported__functions__by__device.html">Supported Functions by Device</a> topic in the NI DC Power Supplies and SMUs Help for information about supported instruments.
-        /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">SMU pin names to be configured.</param>
         public static void ConfigureSMUAdvancedSequence(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
