@@ -1475,7 +1475,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceVoltageSequenceWithPerPinPerSiteSequence_CorrectValuesAreSet()
+        public void DifferentSMUDevicesGanged_ForceVoltageSequenceWithSamePerPinPerSiteSequence_CorrectValuesAreSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
