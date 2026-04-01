@@ -1495,6 +1495,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.6));
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceVoltageSequenceWithDifferentPerPinPerSiteSequence_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var sequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VCC1"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } },
+                ["VCC2"] = new Dictionary<int, double[]>() { [0] = new[] { 1.0, 2.1 }, [1] = new[] { 0.8, 1.4 } },
+                ["VCC3"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } }
+            });
+            void ForceVoltageTest()
+            {
+                sessionsBundle.ForceVoltageSequence(voltageSequence: sequence, currentLimit: 1.8, sequenceLoopCount: 2);
+            }
+
+            sessionsBundle.Abort();
+            var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different sequences for Cascaded pins", exception.InnerException.Message);
+        }
+
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
@@ -3855,7 +3880,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ConfigureSequenceWithPinSiteData_CorrectVoltageMeasurementsFetched(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithPinSiteData_CorrectVoltageMeasurementsFetched(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -3871,9 +3896,78 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     [3] = new[] { 2.5, 3.5, 4.5, 5.5, 6.5 }
                 }
             });
-            sessionsBundle.ConfigureSequence(expectedSequences, DCPowerSourceOutputFunction.DCVoltage, sequenceLoopCount: 1);
+            sessionsBundle.ConfigureVoltageSequence(expectedSequences, sequenceLoopCount: 1);
 
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pinName) => expectedSequences.GetValue(siteNumber, pinName), precision: 1, itemsToFetch: 5, checkForCurrentMeasurement: false);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithPinSiteData_CorrectVoltageMeasurementsFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var expectedSequences = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 0.2, 0.3, 0.4, 0.5 },
+                    [1] = new[] { 0.3, 0.4, 0.5, 0.6 },
+                    [2] = new[] { 0.4, 0.5, 0.6, 0.7 },
+                    [3] = new[] { 0.5, 0.6, 0.7, 0.8 }
+                }
+            });
+            sessionsBundle.ConfigureCurrentSequence(expectedSequences, sequenceLoopCount: 1);
+
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pinName) => expectedSequences.GetValue(siteNumber, pinName), precision: 1, itemsToFetch: 4);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageSequenceWithDifferentPerPinPerSiteSequence_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var sequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VCC1"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } },
+                ["VCC2"] = new Dictionary<int, double[]>() { [0] = new[] { 1.0, 2.1 }, [1] = new[] { 0.8, 1.4 } },
+                ["VCC3"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } }
+            });
+            void ConfigureVoltageSequenceTest()
+            {
+                sessionsBundle.ConfigureVoltageSequence(sequence, sequenceLoopCount: 2);
+            }
+
+            sessionsBundle.Abort();
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageSequenceTest);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different sequences for Cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageSequenceWithSamePerPinPerSiteSequence_CorrectValuesSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var sequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VCC1"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } },
+                ["VCC2"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } },
+                ["VCC3"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } }
+            });
+            sessionsBundle.ConfigureVoltageSequence(sequence, sequenceLoopCount: 2);
+
+            sessionsBundle.Abort();
+            AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, pinName) => sequence.GetValue(siteNumber, pinName), precision: 2, itemsToFetch: 2, checkForCurrentMeasurement: false);
         }
 
         [Theory]
