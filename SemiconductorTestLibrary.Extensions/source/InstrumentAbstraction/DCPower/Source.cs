@@ -1910,7 +1910,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence, DCPowerSourceOutputFunction.DCVoltage);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
