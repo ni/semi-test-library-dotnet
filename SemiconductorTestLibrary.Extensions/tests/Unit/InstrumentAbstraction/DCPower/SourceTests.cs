@@ -4024,6 +4024,32 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSourceDelaySucceeds(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var expectedSequences = new SiteData<double[]>(new double[][]
+            {
+                new[] { 0.2, 0.4, 0.6, 0.8, 1.0 },
+                new[] { 0.4, 0.6, 0.8, 1.0, 1.2 },
+                new[] { 0.6, 0.8, 1.0, 1.2, 1.4 },
+                new[] { 0.8, 1.0, 1.2, 1.4, 1.6 }
+            });
+            var expectedSourceDelayInSeconds = new SiteData<double[]>(new double[][]
+            {
+                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 },
+                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 },
+                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 },
+                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 }
+            });
+            sessionsBundle.ConfigureCurrentSequenceWithSourceDelays(expectedSequences, expectedSourceDelayInSeconds, sequenceLoopCount: 1);
+        }
+
+        [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
