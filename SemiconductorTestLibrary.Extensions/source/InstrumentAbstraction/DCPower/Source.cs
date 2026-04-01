@@ -1545,7 +1545,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence);
+            if (sessionsBundle.InstrumentSessions.First().AllChannelsOutput.Source.Output.Function == DCPowerSourceOutputFunction.DCVoltage)
+            {
+                sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence);
+            }
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
@@ -1873,25 +1876,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber));
-            });
-        }
-
-        /// <inheritdoc cref="ConfigureSequenceWithSourceDelays(DCPowerSessionsBundle, double[], double[], int)"/>
-        [Obsolete("This method is not supported with sessions that contain a Ganged Pin Group unless the output function has already been configured and is not reconfigured before the next initiate", error: false)]
-        public static void ConfigureSequenceWithSourceDelays(
-            this DCPowerSessionsBundle sessionsBundle,
-            PinSiteData<double[]> sequence,
-            PinSiteData<double[]> sourceDelaysInSeconds,
-            int sequenceLoopCount = 1)
-        {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                channelOutput.Control.Abort();
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo));
             });
         }
 
