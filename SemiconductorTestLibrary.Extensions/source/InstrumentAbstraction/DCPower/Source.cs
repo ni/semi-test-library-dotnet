@@ -1878,7 +1878,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Deletes one or more advanced sequences by name from all sessions in the <see cref="DCPowerSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// This function will also switch the <see cref="DCPowerOutput.Source.Mode"/> back to SinglePoint.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.<br/>
         /// Note that you can pass one or more sequence names via the <paramref name="sequenceNames"/> parameter.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
