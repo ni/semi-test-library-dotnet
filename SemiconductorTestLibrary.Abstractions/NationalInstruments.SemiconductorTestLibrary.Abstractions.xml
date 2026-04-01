@@ -5553,6 +5553,11 @@
               Looks up a localized string similar to The values of the site numbers parameter must be unique..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_DifferentSequencesDetectedForCascadedPinGroup">
+            <summary>
+              Looks up a localized string similar to The parameter contains different sequences for Cascaded pins in the &quot;{0}&quot; group. All pins within a Cascaded group must have the same sequence..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_InvalidMergeCaseDescription">
             <summary>
               Looks up a localized string similar to &quot;merge&quot; of PinGroup &quot;{0}&quot;.
