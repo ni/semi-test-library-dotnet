@@ -191,6 +191,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             CleanupInstrumentation(tsmContext);
         }
 
+        [Fact]
+        public void Initialize_GangPinGroupRunForceCurrentMeasureVoltageAndUngangPinGroup_CorrectDataPublished()
+        {
+            var tsmContext = CreateTSMContext("Ganged_4151.pinmap.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
+
+            var sessionManager = new TSMSessionManager(tsmContext);
+            var dcPower = sessionManager.DCPower(new[] { "Va4" });
+            dcPower.MergePinGroup("Va4");
+            ForceCurrentMeasureVoltage(
+                tsmContext,
+                pinsOrPinGroups: new[] { "Va4" },
+                currentLevel: 0.005,
+                voltageLimit: 3.3,
+                apertureTime: 5e-5,
+                settlingTime: 5e-5);
+            dcPower.UnmergePinGroup("Va4");
+
+            string[] allPins = { "Vaa", "Vab", "Vac", "Vad" };
+            AssertPublishedData(tsmContext, allPins, publishedDataReader);
+            CleanupInstrumentation(tsmContext);
+        }
+
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnDemand)]
         [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
@@ -198,14 +221,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
         [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
         [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
-        public void Initialize_GangPinGroupRunForceCurrentMeasureVoltageAndUngangPinGroup_CorrectDataPublished(string pinmap, DCPowerMeasurementWhen measureWhen)
+        public void GangedPinGroup_SetMeasureWhenAndFIMV_DataMeasuredAndPublished(string pinmap, DCPowerMeasurementWhen measureWhen)
         {
             var tsmContext = CreateTSMContext(pinmap, out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
-
             var sessionManager = new TSMSessionManager(tsmContext);
             var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
-            dcPower.GangPinGroup("PowerPins");
+            dcPower.GangPinGroup("MergedPowerPins");
+
             dcPower.ConfigureMeasureWhen(measureWhen);
             ForceCurrentMeasureVoltage(
                 tsmContext,
@@ -214,9 +237,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 voltageLimit: 3.3,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
-            dcPower.UngangPinGroup("PowerPins");
 
-            string[] allPins = { "VDD", "VCC1", "VCC2" };
+            dcPower.UngangPinGroup("MergedPowerPins");
+            string[] allPins = { "VDD", "VCC1" };
             AssertPublishedData(tsmContext, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
