@@ -1,6 +1,7 @@
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
@@ -191,9 +192,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Theory]
-        [InlineData("Mixed Signal Tests.pinmap")]
-        [InlineData("Mixed Signal Tests Common Session.pinmap")]
-        public void Initialize_GangPinGroupRunForceCurrentMeasureVoltageAndUngangPinGroup_CorrectDataPublished(string pinmap)
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void Initialize_GangPinGroupRunForceCurrentMeasureVoltageAndUngangPinGroup_CorrectDataPublished(string pinmap, DCPowerMeasurementWhen measureWhen)
         {
             var tsmContext = CreateTSMContext(pinmap, out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
@@ -201,6 +206,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             var sessionManager = new TSMSessionManager(tsmContext);
             var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
             dcPower.GangPinGroup("PowerPins");
+            dcPower.ConfigureMeasureWhen(measureWhen);
             ForceCurrentMeasureVoltage(
                 tsmContext,
                 pinsOrPinGroups: new[] { "PowerPins" },
