@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -84,6 +86,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         {
             var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
             dcPower.ConfigureSourceDelay(settlingTimeInSeconds);
+
             if (forceLowestCurrentLimit)
             {
                 var originalCurrentLimit = dcPower.GetCurrentLimits();
@@ -106,5 +109,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 channelOutput.ConfigureCurrentLimit(currentLimits.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
             });
         }
+        private static bool HasPowerSupplyInstrument(this DCPowerSessionsBundle dcPower, out PinSiteData<double> voltageLevel, out PinSiteData<double> currentLimit)
+        {
+            voltageLevel = null;
+            currentLimit = null;
+            dcPower.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (PowerSupply.Contains(sitePinInfo.ModelString))
+                {
+                    voltageLevel.Add(new SiteData(sitePinInfo.SiteNumber, sitePinInfo.PinName), 0.01);
+                    currentLimit.Add(new SiteData(sitePinInfo.SiteNumber, sitePinInfo.PinName), channelOutput.Measure.CurrentLevel);
+                }
+            });
+            return false;
+        }
+
+        private static readonly IReadOnlyList<string> PowerSupply = new List<string>()
+        {
+            DCPowerModelStrings.PXIe_4051,
+            DCPowerModelStrings.PXIe_4150,
+            DCPowerModelStrings.PXIe_4112,
+            DCPowerModelStrings.PXIe_4113
+        };
     }
 }
