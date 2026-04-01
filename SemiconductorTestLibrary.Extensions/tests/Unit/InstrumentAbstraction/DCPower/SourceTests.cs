@@ -3680,7 +3680,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_SetSequence_CorrectVoltageMeasurementsFetched(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_SetVoltageSequence_CorrectVoltageMeasurementsFetched(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -3688,7 +3688,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var expectedSequence = new double[] { 1, 2, 3, 4, 5 };
             // Cannot test sequence loop count because it's not supported in offline mode.
-            sessionsBundle.ConfigureSequence(expectedSequence, sequenceLoopCount: 1);
+            sessionsBundle.ConfigureVoltageSequence(expectedSequence, sequenceLoopCount: 1);
             var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
                 sessionInfo.AllChannelsOutput.Control.Initiate();
@@ -3700,6 +3700,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedSequence, results[1].VoltageMeasurements);
             Assert.Equal(expectedSequence, results[2].VoltageMeasurements);
             Assert.Equal(expectedSequence, results[3].VoltageMeasurements);
+            Assert.Equal(expectedSequence, results[3].VoltageMeasurements);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_SetCurrentSequence_CorrectCurrentMeasurementsFetched(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var expectedSequence = new double[] { 0.5, 1, 1.5, 2, 2.5 };
+            // Cannot test sequence loop count because it's not supported in offline mode.
+            sessionsBundle.ConfigureCurrentSequence(expectedSequence, sequenceLoopCount: 1);
+            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            {
+                sessionInfo.AllChannelsOutput.Control.Initiate();
+                // Cannot test fetch backlog because it's always 1 in offline mode.
+                return sessionInfo.Session.Measurement.Fetch(sessionInfo.AllChannelsString, PrecisionTimeSpan.FromSeconds(1), 5);
+            });
+
+            Assert.Equal(expectedSequence, results[0].CurrentMeasurements);
+            Assert.Equal(expectedSequence, results[1].CurrentMeasurements);
+            Assert.Equal(expectedSequence, results[2].CurrentMeasurements);
+            Assert.Equal(expectedSequence, results[3].CurrentMeasurements);
+            Assert.Equal(expectedSequence, results[3].CurrentMeasurements);
         }
 
         [Theory]
@@ -3708,7 +3735,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_SetSequenceWithStepDeltaTime_SequenceStepDeltaTimeEnabled(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_SetVoltageSequenceWithStepDeltaTime_SequenceStepDeltaTimeEnabled(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -3717,7 +3744,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.False(sessionInfo.AllChannelsOutput.Source.SequenceStepDeltaTimeEnabled);
             });
-            sessionsBundle.ConfigureSequence(sequence: new double[] { 1, 2, 3 }, sequenceLoopCount: 1, sequenceStepDeltaTimeInSeconds: 0.05);
+            sessionsBundle.ConfigureVoltageSequence(sequence: new double[] { 1, 2, 3 }, sequenceLoopCount: 1, sequenceStepDeltaTimeInSeconds: 0.05);
 
             sessionsBundle.Do(sessionInfo =>
             {
@@ -3859,7 +3886,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ConfigureSequenceWithSiteData_CorrectVoltageMeasurementsFetched(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSiteData_CorrectVoltageMeasurementsFetched(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -3872,7 +3899,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new[] { 2.0, 3.0, 4.0, 5.0, 6.0 },
                 new[] { 2.5, 3.5, 4.5, 5.5, 6.5 }
             });
-            sessionsBundle.ConfigureSequence(expectedSequences, sequenceLoopCount: 1);
+            sessionsBundle.ConfigureVoltageSequence(expectedSequences, sequenceLoopCount: 1);
 
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (siteNumber, _) => expectedSequences.GetValue(siteNumber), precision: 1, itemsToFetch: 5, checkForCurrentMeasurement: false);
         }
@@ -3973,7 +4000,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevices_ConfigureSequenceWithSourceDelaySucceeds(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaySucceeds(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -3993,7 +4020,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new[] { 5.0, 5.0, 5.0, 5.0, 5.0 },
                 new[] { 5.0, 5.0, 5.0, 5.0, 5.0 }
             });
-            sessionsBundle.ConfigureSequenceWithSourceDelays(expectedSequences, expectedSourceDelayInSeconds, sequenceLoopCount: 1);
+            sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(expectedSequences, expectedSourceDelayInSeconds, sequenceLoopCount: 1);
         }
 
         [Theory]

@@ -1501,6 +1501,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequence">The voltage or current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
+        [Obsolete("This method is not supported with sessions that contain a Ganged Pin Group unless the output function has already been configured and is not reconfigured before the next initiate.Use either ConfigureVoltageSequence or ConfigureCurrentSequence instead.", error: false)]
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
         {
             if (sessionsBundle.HasGangedChannels)
@@ -1527,36 +1528,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
-        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
-        {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                channelOutput.Control.Abort();
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo);
-            });
-        }
-
-        /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
-        [Obsolete("This method is not supported with sessions that contain a Ganged Pin Group unless the output function has already been configured and is not reconfigured before the next initiate", error: false)]
-        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
-        {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            if (sessionsBundle.InstrumentSessions.First().AllChannelsOutput.Source.Output.Function == DCPowerSourceOutputFunction.DCVoltage)
-            {
-                sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence);
-            }
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                channelOutput.Control.Abort();
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo, out bool isGroupData), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo, isGroupData);
-            });
-        }
-
         /// <summary>
         /// Configures a hardware-timed voltage sequence.
         /// </summary>
@@ -1564,6 +1535,48 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequence">The voltage sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
+        public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
+        {
+            if (sessionsBundle.HasGangedChannels)
+            {
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    channelOutput.Control.Abort();
+                    channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
+                    channelOutput.ConfigureSequence(
+                        sequence,
+                        sequenceLoopCount,
+                        sequenceStepDeltaTimeInSeconds,
+                        sitePinInfo);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Session.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
+                    sessionInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+                });
+            }
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageSequence(DCPowerSessionsBundle, double[], int, double?)"/>
+        public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageSequence(DCPowerSessionsBundle, double[], int, double?)"/>
         public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
@@ -1585,6 +1598,48 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequence">The current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
+        public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
+        {
+            if (sessionsBundle.HasGangedChannels)
+            {
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    channelOutput.Control.Abort();
+                    channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
+                    channelOutput.ConfigureSequence(
+                        sequence,
+                        sequenceLoopCount,
+                        sequenceStepDeltaTimeInSeconds,
+                        sitePinInfo);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Session.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
+                    sessionInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+                });
+            }
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentSequence(DCPowerSessionsBundle, double[], int, double?)"/>
+        public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentSequence(DCPowerSessionsBundle, double[], int, double?)"/>
         public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
@@ -1845,47 +1900,45 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures a hardware-timed sequence of values with per-step source delays.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="sequence">The voltage or current sequence to set.</param>
-        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
-        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
-        public static void ConfigureSequenceWithSourceDelays(
-           this DCPowerSessionsBundle sessionsBundle,
-           double[] sequence,
-           double[] sourceDelaysInSeconds,
-           int sequenceLoopCount = 1)
-        {
-            sessionsBundle.Do(sessinInfo =>
-            {
-                sessinInfo.AllChannelsOutput.Control.Abort();
-                sessinInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sourceDelaysInSeconds);
-            });
-        }
-
-        /// <inheritdoc cref="ConfigureSequenceWithSourceDelays(DCPowerSessionsBundle, double[], double[], int)"/>
-        public static void ConfigureSequenceWithSourceDelays(
-            this DCPowerSessionsBundle sessionsBundle,
-            SiteData<double[]> sequence,
-            SiteData<double[]> sourceDelaysInSeconds,
-            int sequenceLoopCount = 1)
-        {
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                channelOutput.Control.Abort();
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber));
-            });
-        }
-
-        /// <summary>
         /// Configures a hardware-timed voltage sequence with per-step source delays.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sequence">The voltage sequence to set.</param>
         /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        public static void ConfigureVoltageSequenceWithSourceDelays(
+           this DCPowerSessionsBundle sessionsBundle,
+           double[] sequence,
+           double[] sourceDelaysInSeconds,
+           int sequenceLoopCount = 1)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do(sessinInfo =>
+            {
+                sessinInfo.AllChannelsOutput.Control.Abort();
+                sessinInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
+                sessinInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sourceDelaysInSeconds);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageSequenceWithSourceDelays(DCPowerSessionsBundle, double[], double[], int)"/>
+        public static void ConfigureVoltageSequenceWithSourceDelays(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<double[]> sequence,
+            SiteData<double[]> sourceDelaysInSeconds,
+            int sequenceLoopCount = 1)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageSequenceWithSourceDelays(DCPowerSessionsBundle, double[], double[], int)"/>
         public static void ConfigureVoltageSequenceWithSourceDelays(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> sequence,
@@ -1911,6 +1964,39 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequence">The current sequence to set.</param>
         /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        public static void ConfigureCurrentSequenceWithSourceDelays(
+           this DCPowerSessionsBundle sessionsBundle,
+           double[] sequence,
+           double[] sourceDelaysInSeconds,
+           int sequenceLoopCount = 1)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do(sessinInfo =>
+            {
+                sessinInfo.AllChannelsOutput.Control.Abort();
+                sessinInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
+                sessinInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sourceDelaysInSeconds);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentSequenceWithSourceDelays(DCPowerSessionsBundle, double[], double[], int)"/>
+        public static void ConfigureCurrentSequenceWithSourceDelays(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<double[]> sequence,
+            SiteData<double[]> sourceDelaysInSeconds,
+            int sequenceLoopCount = 1)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentSequenceWithSourceDelays(DCPowerSessionsBundle, double[], double[], int)"/>
         public static void ConfigureCurrentSequenceWithSourceDelays(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> sequence,
