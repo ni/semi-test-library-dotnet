@@ -190,25 +190,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             CleanupInstrumentation(tsmContext);
         }
 
-        [Fact]
-        public void Initialize_GangPinGroupRunForceCurrentMeasureVoltageAndUngangPinGroup_CorrectDataPublished()
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("Mixed Signal Tests Common Session.pinmap")]
+        public void Initialize_GangPinGroupRunForceCurrentMeasureVoltageAndUngangPinGroup_CorrectDataPublished(string pinmap)
         {
-            var tsmContext = CreateTSMContext("Ganged_4151.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
+            var tsmContext = CreateTSMContext(pinmap, out var publishedDataReader, "Mixed Signal Tests.digiproj");
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
 
             var sessionManager = new TSMSessionManager(tsmContext);
-            var dcPower = sessionManager.DCPower(new[] { "Va4" });
-            dcPower.GangPinGroup("Va4");
+            var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
+            dcPower.GangPinGroup("PowerPins");
             ForceCurrentMeasureVoltage(
                 tsmContext,
-                pinsOrPinGroups: new[] { "Va4" },
+                pinsOrPinGroups: new[] { "PowerPins" },
                 currentLevel: 0.005,
                 voltageLimit: 3.3,
                 apertureTime: 5e-5,
                 settlingTime: 5e-5);
-            dcPower.UngangPinGroup("Va4");
+            dcPower.UngangPinGroup("PowerPins");
 
-            string[] allPins = { "Vaa", "Vab", "Vac", "Vad" };
+            string[] allPins = { "VDD", "VCC1", "VCC2" };
             AssertPublishedData(tsmContext, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
