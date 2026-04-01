@@ -277,8 +277,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceVoltage(voltageLevels: new Dictionary<string, double>() { ["VCC"] = 1, ["VDD"] = 2, ["VDET"] = 3 }, currentLimit: 0.1);
 
             var results = sessionsBundle.MeasureAndReturnPerInstrumentPerChannelResults();
-            Assert.Equal(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput.Measurement.MeasureWhen);
 
+            Assert.Equal(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, sessionsBundle.InstrumentSessions.ElementAt(1).AllChannelsOutput.Measurement.MeasureWhen);
             if (pinMapWithChannelGroup)
             {
                 Assert.Equal(1, results.Item1[0][0]);
