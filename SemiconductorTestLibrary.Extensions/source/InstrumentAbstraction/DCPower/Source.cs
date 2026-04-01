@@ -70,7 +70,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings)"/>
         public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerSourceSettings> settings)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            if (sessionsBundle.HasGangedChannels)
+            {
+                sessionsBundle.ValidatePinsForGanging(true);
+                sessionsBundle.ValidatePinOutputFunctionForCascading(true, settings, out DCPowerSourceOutputFunction? outputFunction);
+                sessionsBundle.ValidatePinValuesForCascading(true, settings, outputFunction);
+            }
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
