@@ -595,6 +595,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         switch (dcOutput.Measurement.MeasureWhen)
                         {
                             case DCPowerMeasurementWhen.OnMeasureTrigger:
+                                if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
+                                {
+                                    break;
+                                }
                                 if (dcOutput.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge)
                                 {
                                     dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
