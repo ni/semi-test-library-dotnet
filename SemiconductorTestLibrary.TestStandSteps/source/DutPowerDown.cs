@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -86,16 +87,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         {
             var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
             dcPower.ConfigureSourceDelay(settlingTimeInSeconds);
-
+            var hasPowerSupply = dcPower.HasPowerSupplyInstrument(forceLowestCurrentLimit, out var dcPowerSourceSettings);
             if (forceLowestCurrentLimit)
             {
                 var originalCurrentLimit = dcPower.GetCurrentLimits();
-                dcPower.ForceVoltage(voltageLevel: 0, currentLimit: 1e-7);
+                if (hasPowerSupply)
+                {
+                    dcPower.ForceVoltage(dcPowerSourceSettings);
+                }
+                else
+                {
+                    dcPower.ForceVoltage(voltageLevel: 0, currentLimit: 1e-7);
+                }
                 dcPower.ConfigureCurrentLimit(originalCurrentLimit);
             }
             else
             {
-                dcPower.ForceVoltage(voltageLevel: 0);
+                if (hasPowerSupply)
+                {
+                    dcPower.ForceVoltage(dcPowerSourceSettings);
+                }
+                else
+                {
+                    dcPower.ForceVoltage(voltageLevel: 0);
+                }
             }
             dcPower.ConfigureSourceDelay(originalSourceDelays);
         }
@@ -109,26 +124,57 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                 channelOutput.ConfigureCurrentLimit(currentLimits.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
             });
         }
-        private static bool HasPowerSupplyInstrument(this DCPowerSessionsBundle dcPower, out PinSiteData<double> voltageLevel, out PinSiteData<double> currentLimit)
+
+        /// <summary>
+        /// temp
+        /// </summary>
+        /// <param name="dcPower">temp</param>
+        /// <param name="forceLowestCurrentLimit">temp</param>
+        /// <param name="dcPowerSourceSettings">temp</param>
+        /// <returns>tep</returns>
+        private static bool HasPowerSupplyInstrument(this DCPowerSessionsBundle dcPower, bool forceLowestCurrentLimit, out PinSiteData<DCPowerSourceSettings> dcPowerSourceSettings)
         {
-            voltageLevel = null;
-            currentLimit = null;
+            dcPowerSourceSettings = null;
+            var settings = new Dictionary<string, IDictionary<int, DCPowerSourceSettings>>();
+            bool hasPowerSupply = false;
             dcPower.Do((sessionInfo, sitePinInfo) =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                if (PowerSupply.Contains(sitePinInfo.ModelString))
+                bool isPowerSupply = PowerSupply.Contains(sitePinInfo.ModelString);
+                if (isPowerSupply)
                 {
-                    voltageLevel.Add(new SiteData(sitePinInfo.SiteNumber, sitePinInfo.PinName), 0.01);
-                    currentLimit.Add(new SiteData(sitePinInfo.SiteNumber, sitePinInfo.PinName), channelOutput.Measure.CurrentLevel);
+                    hasPowerSupply = true;
                 }
+
+                var sourceSettings = new DCPowerSourceSettings
+                {
+                    Level = isPowerSupply ? 0.01 : 0.01,
+                };
+                if (isPowerSupply)
+                {
+                    sourceSettings.Limit = forceLowestCurrentLimit ? 0.01 : (double?)null;
+                }
+                else
+                {
+                    sourceSettings.Limit = forceLowestCurrentLimit ? 1e-7 : (double?)null;
+                }
+                if (!settings.TryGetValue(sitePinInfo.PinName, out var siteDictionary))
+                {
+                    siteDictionary = new Dictionary<int, DCPowerSourceSettings>();
+                    settings[sitePinInfo.PinName] = siteDictionary;
+                }
+
+                siteDictionary[sitePinInfo.SiteNumber] = sourceSettings;
+                settings[sitePinInfo.PinName][sitePinInfo.SiteNumber] = sourceSettings;
             });
-            return false;
+            dcPowerSourceSettings = new PinSiteData<DCPowerSourceSettings>(settings);
+            return hasPowerSupply;
         }
 
         private static readonly IReadOnlyList<string> PowerSupply = new List<string>()
         {
             DCPowerModelStrings.PXIe_4051,
             DCPowerModelStrings.PXIe_4150,
+            DCPowerModelStrings.PXI_4110,
             DCPowerModelStrings.PXIe_4112,
             DCPowerModelStrings.PXIe_4113
         };
