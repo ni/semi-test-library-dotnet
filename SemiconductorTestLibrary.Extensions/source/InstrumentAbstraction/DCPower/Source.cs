@@ -394,6 +394,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            IList<string> advancedSequences = new List<string>();
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageSequence);
             var settings = new DCPowerSourceSettings()
@@ -406,11 +407,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             };
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
+                string advancedSequenceName = $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
+                advancedSequences.Add(advancedSequenceName);
                 var sequence = voltageSequence.GetValue(pinSiteInfo);
                 var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                 sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(pinSiteInfo, settings, advancedSequenceName, sequence, sequenceLoopCount);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+
+            // clear advanced sequence
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(advancedSequences.ToArray());
         }
 
         /// <summary>
@@ -1417,6 +1424,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionInformation sessionInfo,
             SitePinInfo sitePinInfo,
             DCPowerSourceSettings settings,
+            string advancedSequenceName,
             double[] levelSequence,
             int sequenceLoopCount,
             bool needDataAdjustment = true)
@@ -1427,6 +1435,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.ConfigureSequence(
                 levelSequence,
                 sequenceLoopCount,
+                advancedSequenceName,
                 sequenceStepDeltaTimeInSeconds: null,
                 sitePinInfo,
                 needDataAdjustment && settings.OutputFunction == DCPowerSourceOutputFunction.DCCurrent);
@@ -2082,10 +2091,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
         /// <param name="sequence">The voltage or current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <param name="advancedSequenceName">The name of the advanced sequence.</param>
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
         /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
         /// <param name="needDataAdjustment">Indicates if the sequence values should be divided in case of Ganging.</param>
-        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null, SitePinInfo sitePinInfo = null, bool needDataAdjustment = true)
+        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, string advancedSequenceName, double? sequenceStepDeltaTimeInSeconds = null, SitePinInfo sitePinInfo = null, bool needDataAdjustment = true)
         {
             ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
             output.Source.Mode = DCPowerSourceMode.Sequence;
@@ -2094,13 +2104,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
             }
-            output.Source.SetSequence(sequence);
+            output.ConfigureSequenceWithAdvancedSetting(sequence, advancedSequenceName);
             output.ConfigureSourceTriggerForCascading(sitePinInfo);
             output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
             if (sequenceStepDeltaTimeInSeconds.HasValue)
             {
                 output.Source.SequenceStepDeltaTimeEnabled = true;
                 output.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(sequenceStepDeltaTimeInSeconds.Value);
+            }
+        }
+        private static void ConfigureSequenceWithAdvancedSetting(this DCPowerOutput output, double[] sequence, string advancedSequenceName)
+        {
+            DCPowerAdvancedSequenceProperty[] advancedSequenceProperties = { DCPowerAdvancedSequenceProperty.VoltageLevel };
+            output.Source.AdvancedSequencing.CreateAdvancedSequence(advancedSequenceName, advancedSequenceProperties, setAsActiveSequence: true);
+            for (int i = 0; i < sequence.Length; i++)
+            {
+                output.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
+                output.Source.Voltage.VoltageLevel = sequence[i];
             }
         }
 
