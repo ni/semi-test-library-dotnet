@@ -310,7 +310,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 var results = Fetch(sessionInfo.Session, sitePinInfo.IndividualChannelString, fetchWaveformLength);
-                ApplyOriginalSettings(sessionInfo.Session, sessionInfo.AllChannelsString, originalSettings.GetValue(sitePinInfo));
+                ApplyOriginalSettings(sessionInfo.Session, sitePinInfo.IndividualChannelString, originalSettings.GetValue(sitePinInfo));
                 return results;
             });
         }
