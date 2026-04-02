@@ -1428,7 +1428,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 levelSequence,
                 sequenceLoopCount,
                 sequenceStepDeltaTimeInSeconds: null,
-                sitePinInfo);
+                sitePinInfo,
+                needDataAdjustment);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
                 channelOutput.InitiateChannels();
