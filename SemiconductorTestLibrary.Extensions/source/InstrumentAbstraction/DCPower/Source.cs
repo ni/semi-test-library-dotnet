@@ -411,7 +411,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 advancedSequences.Add(advancedSequenceName);
                 var sequence = voltageSequence.GetValue(pinSiteInfo);
                 var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(pinSiteInfo, settings, sequence, sequenceLoopCount);
+                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(pinSiteInfo, settings, advancedSequenceName, sequence, sequenceLoopCount);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
@@ -1431,6 +1431,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             channelOutput.Control.Abort();
+            channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo, needDataAdjustment);
             channelOutput.ConfigureSequence(
                 levelSequence,
                 sequenceLoopCount,
@@ -1438,7 +1439,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceStepDeltaTimeInSeconds: null,
                 sitePinInfo,
                 needDataAdjustment && settings.OutputFunction == DCPowerSourceOutputFunction.DCCurrent);
-            channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo, needDataAdjustment);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
                 channelOutput.InitiateChannels();
