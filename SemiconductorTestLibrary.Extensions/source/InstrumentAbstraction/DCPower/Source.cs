@@ -72,9 +72,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (sessionsBundle.HasGangedChannels)
             {
-                sessionsBundle.ValidatePinsForGanging(true);
-                sessionsBundle.ValidatePinOutputFunctionForCascading(true, settings, out DCPowerSourceOutputFunction? outputFunction);
-                sessionsBundle.ValidatePinValuesForCascading(true, settings, outputFunction);
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                sessionsBundle.ValidatePinOutputFunctionForCascading(hasCascadedChannels: true, settings, out DCPowerSourceOutputFunction? outputFunction);
+                sessionsBundle.ValidatePinValuesForCascading(hasCascadedChannels: true, settings, outputFunction);
             }
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -274,7 +274,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings, DCPowerSourceOutputFunction.DCVoltage);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perPinSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
@@ -295,7 +295,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings, DCPowerSourceOutputFunction.DCVoltage);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
