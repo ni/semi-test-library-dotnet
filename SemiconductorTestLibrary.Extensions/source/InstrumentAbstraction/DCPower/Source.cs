@@ -2260,7 +2260,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // As this function will not be used inside the thread and will only be used after the execution of ForceVoltage/CurrentSequence functions, so no thread safety is required to clear out the _activeAdvancedSequenceNames.
             while (_activeAdvancedSequenceNames.TryTake(out _))
             {
-                // Drain all items
+                // empty the collection
             }
         }
 
