@@ -405,10 +405,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             foreach (var siteNumber in waveformData.SiteNumbers)
             {
-                var siteData = waveformData.ExtractSite(siteNumber);
                 foreach (var pinName in waveformData.PinNames)
                 {
-                    var waveform = siteData[pinName];
+                    var waveform = waveformData.GetValue(siteNumber, pinName);
                     Assert.True(waveform.DeltaTime > 0);
                     Assert.True(waveform.Result.VoltageMeasurements.Length > 0);
                 }
