@@ -3810,8 +3810,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureAdvancedSequence(sequenceName1, stepProperties, setAsActiveSequence: false);
             sessionsBundle.ConfigureAdvancedSequence(sequenceName2, stepProperties, setAsActiveSequence: false);
 
-            sessionsBundle.DeleteAdvancedSequence(sequenceName1);
-            sessionsBundle.DeleteAdvancedSequence(sequenceName2);
+            sessionsBundle.DeleteAdvancedSequence(sequenceName1, sequenceName2);
 
             var ex1 = Assert.Throws<NISemiconductorTestException>(() =>
             {

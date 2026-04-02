@@ -393,6 +393,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SameModelSMUsSharedChannelGroupWaveformAcquisitionStarted_FinishWaveformAcquisition_ResultsReturned()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new[] { "VDD", "VDET" });
+            double sampleRate = 100e3;
+            double measureTime = 255 / sampleRate;
+            var originalSettings = sessionsBundle.ConfigureAndStartWaveformAcquisition(sampleRate, measureTime);
+
+            var waveformData = sessionsBundle.FinishWaveformAcquisition(measureTime, originalSettings);
+
+            foreach (var siteNumber in waveformData.SiteNumbers)
+            {
+                foreach (var pinName in waveformData.PinNames)
+                {
+                    var waveform = waveformData.GetValue(siteNumber, pinName);
+                    Assert.True(waveform.DeltaTime > 0);
+                    Assert.True(waveform.Result.VoltageMeasurements.Length > 0);
+                }
+            }
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
