@@ -431,14 +431,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
+                if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
+                {
+                    return;
+                }
                 var session = sessionInfo.Session;
                 var channelOutput = session.Outputs[sitePinInfo.IndividualChannelString];
                 if (channelOutput.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge && channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
                 {
-                    if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
-                    {
-                        return;
-                    }
                     session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), channelOutput.Measurement.FetchBacklog);
                 }
             });
