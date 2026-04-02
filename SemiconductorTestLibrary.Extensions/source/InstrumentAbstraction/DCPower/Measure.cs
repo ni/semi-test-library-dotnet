@@ -604,6 +604,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                                     dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
                                 }
                                 goto case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+
                             case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
                                 if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
                                 {
