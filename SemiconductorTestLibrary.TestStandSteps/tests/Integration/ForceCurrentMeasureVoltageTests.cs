@@ -229,7 +229,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
             dcPower.GangPinGroup("MergedPowerPins");
 
-            dcPower.ConfigureMeasureWhen(measureWhen);
+            if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+            {
+                dcPower.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
+            }
+            else
+            {
+                dcPower.ConfigureMeasureWhen(measureWhen);
+            }
+
             ForceCurrentMeasureVoltage(
                 tsmContext,
                 pinsOrPinGroups: new[] { "PowerPins" },
