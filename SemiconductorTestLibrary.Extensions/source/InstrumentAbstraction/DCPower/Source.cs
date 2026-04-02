@@ -2124,7 +2124,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
             var outputFunction = output.Source.Output.Function;
-            DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
+            sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
             output.Source.SetSequence(sequence);
@@ -2149,7 +2149,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double[] sourceDelaysInSeconds, SitePinInfo sitePinInfo = null, bool needDataAdjustment = true)
         {
             var outputFunction = output.Source.Output.Function;
-            DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
+            sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
             var sourceDelays = sourceDelaysInSeconds.Select(d => PrecisionTimeSpan.FromSeconds(d)).ToArray();
@@ -2248,12 +2248,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region private and internal methods
 
-        private static void DivideSequenceForCascading(DCPowerSourceOutputFunction outputFunction, SitePinInfo sitePinInfo, bool needAdjustment, double[] sequence)
+        private static double[] DivideSequenceForCascading(DCPowerSourceOutputFunction outputFunction, SitePinInfo sitePinInfo, bool needAdjustment, double[] sequence)
         {
             if (outputFunction == DCPowerSourceOutputFunction.DCCurrent && needAdjustment && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
             {
                 sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
             }
+            return sequence;
         }
 
         private static DCPowerAdvancedSequenceProperty[] GetAdvancedSequencePropertiesToConfigure(IEnumerable<DCPowerAdvancedSequenceStepProperties> perStepProperties)
