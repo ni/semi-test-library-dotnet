@@ -2147,16 +2147,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var advancedSequenceName = $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
             _activeAdvancedSequenceNames.Add(advancedSequenceName);
             List<DCPowerAdvancedSequenceProperty> advancedSequenceProperties = new List<DCPowerAdvancedSequenceProperty>() { DCPowerAdvancedSequenceProperty.VoltageLevel };
-            if (sourceDelay != null)
+
+            bool hasSourceDelay = sourceDelay != null;
+            if (hasSourceDelay)
             {
                 advancedSequenceProperties.Add(DCPowerAdvancedSequenceProperty.SourceDelay);
             }
+
             output.Source.AdvancedSequencing.CreateAdvancedSequence(advancedSequenceName, advancedSequenceProperties.ToArray(), setAsActiveSequence: true);
             for (int i = 0; i < sequence.Length; i++)
             {
                 output.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
                 output.Source.Voltage.VoltageLevel = sequence[i];
-                if (sourceDelay != null)
+                if (hasSourceDelay)
                 {
                     output.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelay[i]);
                 }
