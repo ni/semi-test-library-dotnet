@@ -431,7 +431,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
+                if (OnDemandPowerSupplies.Contains(sitePinInfo.ModelString))
                 {
                     return;
                 }
@@ -595,7 +595,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         switch (dcOutput.Measurement.MeasureWhen)
                         {
                             case DCPowerMeasurementWhen.OnMeasureTrigger:
-                                if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
+                                if (OnDemandPowerSupplies.Contains(sitePinInfo.ModelString))
                                 {
                                     break;
                                 }
@@ -606,7 +606,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                                 goto case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
 
                             case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
-                                if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
+                                if (OnDemandPowerSupplies.Contains(sitePinInfo.ModelString))
                                 {
                                     break;
                                 }
@@ -718,10 +718,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureMeasureWhen(this DCPowerOutput dCPowerOutput, string modelString, DCPowerMeasurementWhen measureWhen)
         {
-            if (modelString == DCPowerModelStrings.PXI_4110
-                || modelString == DCPowerModelStrings.PXI_4130)
+            if (OnDemandPowerSupplies.Contains(modelString))
             {
-                // The 4110 and 4130 support OnDemand only.
                 return;
             }
             dCPowerOutput.Measurement.MeasureWhen = measureWhen;
@@ -782,6 +780,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var result = session.Measurement.Fetch(channelString, timeout: PrecisionTimeSpan.FromSeconds(fetchWaveformLength + 1), pointsToFetch);
             return new DCPowerWaveformResults(result, deltaTime);
         }
+
+        private static readonly IReadOnlyList<string> OnDemandPowerSupplies = new List<string>()
+        {
+            DCPowerModelStrings.PXI_4110,
+            DCPowerModelStrings.PXI_4130,
+        };
 
         #endregion private methods
     }
