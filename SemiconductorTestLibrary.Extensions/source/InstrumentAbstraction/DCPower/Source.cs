@@ -304,6 +304,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Forces a hardware-timed sequence of voltage values on the targeted pin(s).
         /// </summary>
+        /// <remarks>
+        /// Note: This method does not support the measurement for the values in the sequence. If measurement is needed, consider using <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>  method instead.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageSequence">The array of voltage values to force in sequence.</param>
         /// <param name="currentLimit">The current limit to use for the sequence.</param>
@@ -463,6 +466,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Forces a hardware-timed sequence of voltage outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
+        /// <remarks>
+        /// Note: After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
+        /// Also, This method does not support the measurement for the values in the sequence. If measurement is needed, consider using <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>  method instead.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageSequence">The voltage sequence to force for all site-pin pairs.</param>
         /// <param name="currentLimit">Current limit for the sequence.</param>
@@ -473,9 +480,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
-        /// <remarks>
-        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
-        /// </remarks>
         public static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] voltageSequence,
@@ -778,7 +782,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
         /// <remarks>
-        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
+        /// Note: After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
+        /// Also, This method does not support the measurement for the values in the sequence. If measurement is needed, consider using <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>  method instead.
         /// </remarks>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
@@ -1317,6 +1322,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Forces a hardware-timed sequence of current values on the targeted pin(s).
         /// </summary>
+        /// <remarks>
+        /// Note: This method does not support the measurement for the values in the sequence. If measurement is needed, consider using <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>  method instead.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentSequence">Array of current levels to source step-by-step.</param>
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
@@ -1368,6 +1376,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                          setAsActiveSequence: true);
                 });
             }
+
+            // clearing the advanced sequence after use
+            sessionsBundle.ClearActiveAdvancedSequence();
+            // deleting the advanced sequence after use
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
 
         /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
@@ -1397,6 +1410,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(sitePinInfo, settings, sequenceName, sequence, sequenceLoopCount, setAsActiveSequence: true);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+
+            // clearing the advanced sequence after use
+            sessionsBundle.ClearActiveAdvancedSequence();
+            // deleting the advanced sequence after use
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
 
         /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
@@ -1426,6 +1444,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(sitePinInfo, settings, sequenceName, sequence, sequenceLoopCount, isGroupData, setAsActiveSequence: true);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+
+            // clearing the advanced sequence after use
+            sessionsBundle.ClearActiveAdvancedSequence();
+            // deleting the advanced sequence after use
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
 
         /// <summary>
@@ -2088,28 +2111,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
                 sessionInfo.AllChannelsOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             });
-        }
-
-        /// <summary>
-        /// Gets the names of the active advanced sequences.
-        /// </summary>
-        /// <remarks>
-        /// This function should only be called after the function which create advanced sequences.
-        /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>An array of active advanced sequence names.</returns>
-        public static string[] GetActiveAdvancedSequences(this DCPowerSessionsBundle sessionsBundle)
-        {
-            var activeAdvancedSequenceNames = new ConcurrentBag<string>();
-            sessionsBundle.Do((sessioninfo, sitePinInfo) =>
-            {
-                var activeSequenceName = sessioninfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.AdvancedSequencing.ActiveAdvancedSequence;
-                if (!string.IsNullOrEmpty(activeSequenceName))
-                {
-                    activeAdvancedSequenceNames.Add(activeSequenceName);
-                }
-            });
-            return activeAdvancedSequenceNames.ToArray();
         }
 
         #endregion methods on DCPowerSessionsBundle
