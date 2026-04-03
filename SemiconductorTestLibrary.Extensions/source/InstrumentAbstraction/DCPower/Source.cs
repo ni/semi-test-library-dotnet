@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Threading.Tasks;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1719,7 +1720,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo, out bool isGroupData), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo, isGroupData);
+                channelOutput.ConfigureAdvancedSequenceCore(sequenceName, sequence.GetValue(sitePinInfo, out bool isGroupData), sequenceLoopCount, DCPowerSourceOutputFunction.DCCurrent, sequenceStepDeltaTimeInSeconds, sitePinInfo, isGroupData, setAsActiveSequence: setAsActiveSequence);
             });
         }
 
@@ -1963,9 +1964,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         sequenceName,
                         sequence,
                         sequenceLoopCount,
-                        sequenceStepDeltaTimeInSeconds: null,
-                        sourceDelaysInSeconds,
-                        sitePinInfo,
+                        DCPowerSourceOutputFunction.DCVoltage,
+                        sitePinInfo: sitePinInfo,
+                        sourceDelay: sourceDelaysInSeconds,
                         setAsActiveSequence: setAsActiveSequence);
                 });
             }
@@ -2063,7 +2064,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     sessinInfo.AllChannelsOutput.Control.Abort();
                     sessinInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                    sessinInfo.AllChannelsOutput.ConfigureAdvancedSequenceCore(sequenceName, sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds: null, sourceDelay: sourceDelaysInSeconds, setAsActiveSequence: setAsActiveSequence);
+                    sessinInfo.AllChannelsOutput.ConfigureAdvancedSequenceCore(sequenceName, sequence, sequenceLoopCount, DCPowerSourceOutputFunction.DCCurrent, sequenceStepDeltaTimeInSeconds: null, sourceDelay: sourceDelaysInSeconds, setAsActiveSequence: setAsActiveSequence);
                 });
             }
         }
@@ -2221,6 +2222,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequence">The voltage or current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
+        [Obsolete("Using both simple sequencing and advanced sequencing for the same channel within the same session is not supported. For this reason it is better to just use advanced sequencing. Consider using the high-level ConfigureVoltageSequence or ConfigureCurrentSequence methods instead.", error: false)]
         public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double[] sourceDelaysInSeconds)
         {
             output.Source.Mode = DCPowerSourceMode.Sequence;
