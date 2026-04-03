@@ -4143,6 +4143,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
                 Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
+                Assert.Equal(DCPowerSourceTriggerType.DigitalEdge, channelOutput.Triggers.SourceTrigger.Type);
                 Assert.Equal(DCPowerMeasureTriggerType.DigitalEdge, channelOutput.Triggers.MeasureTrigger.Type);
             }
         }
