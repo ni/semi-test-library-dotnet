@@ -1,13 +1,13 @@
-﻿using NationalInstruments.ModularInstruments.NIDCPower;
-using NationalInstruments.SemiconductorTestLibrary.Common;
-using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Threading.Tasks;
+using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -1489,7 +1489,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceLoopCount,
                 (DCPowerSourceOutputFunction)settings.OutputFunction,
                 sequenceStepDeltaTimeInSeconds: null,
-                sourceDelaysInSeconds: null,
                 sitePinInfo,
                 needDataAdjustment,
                 setAsActiveSequence: setAsActiveSequence);
