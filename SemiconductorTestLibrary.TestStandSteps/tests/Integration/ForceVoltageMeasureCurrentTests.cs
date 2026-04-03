@@ -1,6 +1,4 @@
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.CommonSteps;
