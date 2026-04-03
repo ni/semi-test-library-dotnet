@@ -511,19 +511,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Forces a hardware-timed sequence of voltage outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
         /// <remarks>
-        /// Note: After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
-        /// Also, This method does not support the measurement for the values in the sequence. If measurement is needed, consider using <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>  method instead.
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>
+        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageSequence">The voltage sequence to force for all site-pin pairs.</param>
-        /// <param name="currentLimit">Current limit for the sequence.</param>
-        /// <param name="voltageLevelRange">Voltage level range.</param>
-        /// <param name="currentLimitRange">Current limit range.</param>
+        /// <param name="voltageSequence">Sequence of voltage values to force.</param>
+        /// <param name="currentLimit">The current limit to use for the sequence.</param>
+        /// <param name="voltageLevelRange">The voltage level range to use for the sequence.</param>
+        /// <param name="currentLimitRange">The current limit range to use for the sequence.</param>
         /// <param name="sourceDelayInSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
-        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is <see langword="true"/>.</param>
         public static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] voltageSequence,
@@ -554,23 +555,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceTimeoutInSeconds);
         }
 
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool)"/>
+        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// </remarks>
         /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="voltageSequence"/>
+        /// <param name="currentLimit"/>
+        /// <param name="voltageLevelRange"/>
+        /// <param name="currentLimitRange"/>
+        /// <param name="sourceDelayInSeconds"/>
+        /// <param name="transientResponse"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
-            SiteData<double[]> voltageSequences,
-            SiteData<double> currentLimits = null,
-            SiteData<double> voltageLevelRanges = null,
-            SiteData<double> currentLimitRanges = null,
+            SiteData<double[]> voltageSequence,
+            SiteData<double> currentLimit = null,
+            SiteData<double> voltageLevelRange = null,
+            SiteData<double> currentLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            SequenceProvider<double> getVoltageSequenceForSite = sitePinInfo => voltageSequences?.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getCurrentLimitForSite = sitePinInfo => currentLimits?.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getVoltageLevelRangeForSite = sitePinInfo => voltageLevelRanges?.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getCurrentLimitRangeForSite = sitePinInfo => currentLimitRanges?.GetValue(sitePinInfo.SiteNumber);
+            SequenceProvider<double> getVoltageSequenceForSite = sitePinInfo => voltageSequence?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getCurrentLimitForSite = sitePinInfo => currentLimit?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getVoltageLevelRangeForSite = sitePinInfo => voltageLevelRange?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getCurrentLimitRangeForSite = sitePinInfo => currentLimitRange?.GetValue(sitePinInfo.SiteNumber);
 
             sessionsBundle.ForceSequenceSynchronizedCore(
                 getVoltageSequenceForSite,
@@ -585,23 +601,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceTimeoutInSeconds);
         }
 
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, PinSiteData{double[]}, int, double?, bool)"/>
+        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// </remarks>
         /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="voltageSequence"/>
+        /// <param name="currentLimit"/>
+        /// <param name="voltageLevelRange"/>
+        /// <param name="currentLimitRange"/>
+        /// <param name="sourceDelayInSeconds"/>
+        /// <param name="transientResponse"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
-            PinSiteData<double[]> voltageSequences,
-            PinSiteData<double> currentLimits = null,
-            PinSiteData<double> voltageLevelRanges = null,
-            PinSiteData<double> currentLimitRanges = null,
+            PinSiteData<double[]> voltageSequence,
+            PinSiteData<double> currentLimit = null,
+            PinSiteData<double> voltageLevelRange = null,
+            PinSiteData<double> currentLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            SequenceProvider<double> getVoltageSequenceForSitePin = sitePinInfo => voltageSequences?.GetValue(sitePinInfo);
-            ValueProvider getCurrentLimitForSitePin = sitePinInfo => currentLimits?.GetValue(sitePinInfo);
-            ValueProvider getVoltageLevelRangeForSitePin = sitePinInfo => voltageLevelRanges?.GetValue(sitePinInfo);
-            ValueProvider getCurrentLimitRangeForSitePin = sitePinInfo => currentLimitRanges?.GetValue(sitePinInfo);
+            SequenceProvider<double> getVoltageSequenceForSitePin = sitePinInfo => voltageSequence?.GetValue(sitePinInfo);
+            ValueProvider getCurrentLimitForSitePin = sitePinInfo => currentLimit?.GetValue(sitePinInfo);
+            ValueProvider getVoltageLevelRangeForSitePin = sitePinInfo => voltageLevelRange?.GetValue(sitePinInfo);
+            ValueProvider getCurrentLimitRangeForSitePin = sitePinInfo => currentLimitRange?.GetValue(sitePinInfo);
 
             sessionsBundle.ForceSequenceSynchronizedCore(
                 getVoltageSequenceForSitePin,
@@ -815,8 +846,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Forces a hardware-timed sequence of current outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>
+        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentSequence">The current sequence to force for all site-pin pairs.</param>
+        /// <param name="currentSequence">Sequence of current values to force.</param>
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
         /// <param name="currentLevelRange">Current level range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
@@ -825,10 +861,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
-        /// <remarks>
-        /// Note: After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
-        /// Also, This method does not support the measurement for the values in the sequence. If measurement is needed, consider using <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>  method instead.
-        /// </remarks>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] currentSequence,
@@ -859,23 +891,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceTimeoutInSeconds);
         }
 
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool)"/>
+        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// </remarks>
         /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="currentSequence"/>
+        /// <param name="voltageLimit"/>
+        /// <param name="currentLevelRange"/>
+        /// <param name="voltageLimitRange"/>
+        /// <param name="sourceDelayInSeconds"/>
+        /// <param name="transientResponse"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
-            SiteData<double[]> currentSequences,
-            SiteData<double> voltageLimits = null,
-            SiteData<double> currentLevelRanges = null,
-            SiteData<double> voltageLimitRanges = null,
+            SiteData<double[]> currentSequence,
+            SiteData<double> voltageLimit = null,
+            SiteData<double> currentLevelRange = null,
+            SiteData<double> voltageLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            SequenceProvider<double> getCurrentSequenceForSite = sitePinInfo => currentSequences.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimits?.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getCurrentLevelRangeForSite = sitePinInfo => currentLevelRanges?.GetValue(sitePinInfo.SiteNumber);
-            ValueProvider getVoltageLimitRangeForSite = sitePinInfo => voltageLimitRanges?.GetValue(sitePinInfo.SiteNumber);
+            SequenceProvider<double> getCurrentSequenceForSite = sitePinInfo => currentSequence.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimit?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getCurrentLevelRangeForSite = sitePinInfo => currentLevelRange?.GetValue(sitePinInfo.SiteNumber);
+            ValueProvider getVoltageLimitRangeForSite = sitePinInfo => voltageLimitRange?.GetValue(sitePinInfo.SiteNumber);
 
             sessionsBundle.ForceSequenceSynchronizedCore(
                 getCurrentSequenceForSite,
@@ -890,23 +937,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceTimeoutInSeconds);
         }
 
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool)"/>
+        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// </remarks>
         /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="currentSequence"/>
+        /// <param name="voltageLimit"/>
+        /// <param name="currentLevelRange"/>
+        /// <param name="voltageLimitRange"/>
+        /// <param name="sourceDelayInSeconds"/>
+        /// <param name="transientResponse"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
-            PinSiteData<double[]> currentSequences,
-            PinSiteData<double> voltageLimits = null,
-            PinSiteData<double> currentLevelRanges = null,
-            PinSiteData<double> voltageLimitRanges = null,
+            PinSiteData<double[]> currentSequence,
+            PinSiteData<double> voltageLimit = null,
+            PinSiteData<double> currentLevelRange = null,
+            PinSiteData<double> voltageLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            SequenceProvider<double> getCurrentSequenceForSitePin = sitePinInfo => currentSequences.GetValue(sitePinInfo);
-            ValueProvider getVoltageLimitForSitePin = sitePinInfo => voltageLimits?.GetValue(sitePinInfo);
-            ValueProvider getCurrentLevelRangeForSitePin = sitePinInfo => currentLevelRanges?.GetValue(sitePinInfo);
-            ValueProvider getVoltageLimitRangeForSitePin = sitePinInfo => voltageLimitRanges?.GetValue(sitePinInfo);
+            SequenceProvider<double> getCurrentSequenceForSitePin = sitePinInfo => currentSequence.GetValue(sitePinInfo);
+            ValueProvider getVoltageLimitForSitePin = sitePinInfo => voltageLimit?.GetValue(sitePinInfo);
+            ValueProvider getCurrentLevelRangeForSitePin = sitePinInfo => currentLevelRange?.GetValue(sitePinInfo);
+            ValueProvider getVoltageLimitRangeForSitePin = sitePinInfo => voltageLimitRange?.GetValue(sitePinInfo);
 
             sessionsBundle.ForceSequenceSynchronizedCore(
                 getCurrentSequenceForSitePin,
@@ -993,7 +1055,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-             sessionsBundle.DeleteAdvancedSequence(sequenceName);
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
 
         /// <summary>
@@ -1342,7 +1404,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-             sessionsBundle.DeleteAdvancedSequence(sequenceName);
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
             return result;
         }
@@ -1378,11 +1440,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool)"/>
+        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentSequence">Sequence of current values to force</param>
+         /// <param name="currentSequence">Sequence of current values to force.</param>
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
         /// <param name="currentLevelRange">Current level range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
@@ -1407,7 +1469,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 Limit = voltageLimit,
                 LevelRange = currentLevelRange,
                 LimitRange = voltageLimitRange
-            }
+            };
 
             if (sessionsBundle.HasGangedChannels)
             {
@@ -1442,7 +1504,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-             sessionsBundle.DeleteAdvancedSequence(sequenceName);
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
 
         /// <remarks>
@@ -1495,7 +1557,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-             sessionsBundle.DeleteAdvancedSequence(sequenceName);
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
 
         /// <remarks>
