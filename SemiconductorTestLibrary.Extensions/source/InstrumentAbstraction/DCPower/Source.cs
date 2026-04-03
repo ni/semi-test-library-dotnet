@@ -511,9 +511,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Forces a hardware-timed sequence of voltage outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
         /// <remarks>
+        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
+        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>
-        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+         /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageSequence">Sequence of voltage values to force.</param>
@@ -556,9 +557,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <remarks>
+        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
+        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool)"/>
-        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+         /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.
         /// </remarks>
         /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
@@ -602,9 +604,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <remarks>
+        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
+        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, PinSiteData{double[]}, int, double?, bool)"/>
-        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+         /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.
         /// </remarks>
         /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
@@ -847,9 +850,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Forces a hardware-timed sequence of current outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
         /// <remarks>
+        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
+        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>
-        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentSequence">Sequence of current values to force.</param>
@@ -892,9 +896,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <remarks>
+        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
+        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool)"/>
-        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.
         /// </remarks>
         /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
@@ -938,9 +943,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <remarks>
+        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
+        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool)"/>
-        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.
         /// </remarks>
         /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
