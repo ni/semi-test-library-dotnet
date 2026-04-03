@@ -15,6 +15,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static class Measure
     {
+        private static readonly IReadOnlyList<string> _onDemandPowerSupplies = new List<string>()
+        {
+            DCPowerModelStrings.PXI_4110,
+            DCPowerModelStrings.PXI_4130,
+        };
+
         #region methods on DCPowerSessionsBundle
 
         /// <summary>
@@ -431,7 +437,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                if (OnDemandPowerSupplies.Contains(sitePinInfo.ModelString))
+                if (_onDemandPowerSupplies.Contains(sitePinInfo.ModelString))
                 {
                     return;
                 }
@@ -595,7 +601,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         switch (dcOutput.Measurement.MeasureWhen)
                         {
                             case DCPowerMeasurementWhen.OnMeasureTrigger:
-                                if (OnDemandPowerSupplies.Contains(sitePinInfo.ModelString))
+                                if (_onDemandPowerSupplies.Contains(sitePinInfo.ModelString))
                                 {
                                     break;
                                 }
@@ -606,7 +612,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                                 goto case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
 
                             case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
-                                if (OnDemandPowerSupplies.Contains(sitePinInfo.ModelString))
+                                if (_onDemandPowerSupplies.Contains(sitePinInfo.ModelString))
                                 {
                                     break;
                                 }
@@ -718,7 +724,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureMeasureWhen(this DCPowerOutput dCPowerOutput, string modelString, DCPowerMeasurementWhen measureWhen)
         {
-            if (OnDemandPowerSupplies.Contains(modelString))
+            if (_onDemandPowerSupplies.Contains(modelString))
             {
                 return;
             }
@@ -780,12 +786,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var result = session.Measurement.Fetch(channelString, timeout: PrecisionTimeSpan.FromSeconds(fetchWaveformLength + 1), pointsToFetch);
             return new DCPowerWaveformResults(result, deltaTime);
         }
-
-        private static readonly IReadOnlyList<string> OnDemandPowerSupplies = new List<string>()
-        {
-            DCPowerModelStrings.PXI_4110,
-            DCPowerModelStrings.PXI_4130,
-        };
 
         #endregion private methods
     }

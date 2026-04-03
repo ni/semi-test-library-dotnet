@@ -246,7 +246,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 settlingTime: 5e-5);
 
             dcPower.UngangPinGroup("MergedPowerPins");
-            string[] allPins = { "VDD", "VCC1" };
+            string[] allPins = { "VDD", "VCC1", "VCC2" };
             AssertPublishedData(tsmContext, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
