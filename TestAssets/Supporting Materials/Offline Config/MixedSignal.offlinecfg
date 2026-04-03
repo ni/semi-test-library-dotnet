@@ -19,6 +19,7 @@
 		<PXI Name="VST_5820_C1_S12" Model="NI PXIe-5820" Slot="12" NeedsIvi="false" />
 		<PXI Name="FGEN_5433_C1_S13" Model="NI PXIe-5433 (2CH)" Slot="13" NeedsIvi="false" />
 		<PXI Name="VST_3622_C1_S14" Model="NI PXIe-3622" Slot="14" NeedsIvi="false" />
+		<PXI Name="SMU_4050_C1_S15" Model="NI PXIe-4050" Slot="15" NeedsIvi="false" />
 		<PXI Name="VST_5820_C1_S16" Model="NI PXIe-5820" Slot="16" NeedsIvi="false" />
 	</PXIChassis>
 	<PXIChassis Number="2" Model="NI PXIe-1095">
@@ -38,6 +39,7 @@
 		<PXI Name="PPS_4110_C2_S11" Model="NI PXI-4110" Slot="11" NeedsIvi="false" />
 		<PXI Name="DAQ_6363_C2_S12" Model="NI PXIe-6363" Slot="12" NeedsIvi="false" />
 		<PXI Name="VST_5820_C2_S13" Model="NI PXIe-5820" Slot="13" NeedsIvi="false" />
+		<PXI Name="SMU_4051_C2_S14" Model="NI PXIe-4051" Slot="14" NeedsIvi="false" />
 		<PXI Name="VST_3622_C2_S15" Model="NI PXIe-3622" Slot="15" NeedsIvi="false" />
 		<PXI Name="SMU_4139_C2_S17" Model="NI PXIe-4139" Slot="17" />
 	</PXIChassis>
