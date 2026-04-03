@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
-		<NIDCPowerInstrument name="SMU_4147_C1_S11" numberOfChannels="4">
+		<NIDCPowerInstrument name="SMU_4147_C1_S04_P178_CH0_3" numberOfChannels="4">
 			<ChannelGroup name="CommonDCPowerChannelGroup" />
 		</NIDCPowerInstrument>
 	</Instruments>
@@ -31,9 +31,9 @@
 		<Site siteNumber="0" />
 	</Sites>
 	<Connections>
-		<Connection pin="Vaa" siteNumber="0" instrument="SMU_4147_C1_S11" channel="0" />
-		<Connection pin="Vab" siteNumber="0" instrument="SMU_4147_C1_S11" channel="1" />
-		<Connection pin="Vba" siteNumber="0" instrument="SMU_4147_C1_S11" channel="2" />
-		<Connection pin="Vbb" siteNumber="0" instrument="SMU_4147_C1_S11" channel="3" />
+		<Connection pin="Vaa" siteNumber="0" instrument="SMU_4147_C1_S04_P178_CH0_3" channel="0" />
+		<Connection pin="Vab" siteNumber="0" instrument="SMU_4147_C1_S04_P178_CH0_3" channel="1" />
+		<Connection pin="Vba" siteNumber="0" instrument="SMU_4147_C1_S04_P178_CH0_3" channel="2" />
+		<Connection pin="Vbb" siteNumber="0" instrument="SMU_4147_C1_S04_P178_CH0_3" channel="3" />
 	</Connections>
 </PinMap>

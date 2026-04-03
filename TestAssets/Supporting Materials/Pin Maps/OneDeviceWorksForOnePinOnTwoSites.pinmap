@@ -1,20 +1,20 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
-		<NIDCPowerInstrument name="SMU_4147_C1_S11" numberOfChannels="4">
-			<ChannelGroup name="SMU_4147_C1_S11_CH0" channels="0" />
-			<ChannelGroup name="SMU_4147_C1_S11_CH1" channels="1" />
-			<ChannelGroup name="SMU_4147_C1_S11_CH2" channels="2" />
-			<ChannelGroup name="SMU_4147_C1_S11_CH3" channels="3" />
+		<NIDigitalPatternInstrument name="HSD_6571_C1_S02_P174" numberOfChannels="32" />
+		<NIDigitalPatternInstrument name="HSD_6571_C1_S03_P166" numberOfChannels="32" />
+		<NIDCPowerInstrument name="SMU_4137_C3_S12_P107_CH0" numberOfChannels="4">
+			<ChannelGroup name="SMU_4137_C3_S12_P107_CH0_CH0" channels="0" />
+			<ChannelGroup name="SMU_4137_C3_S12_P107_CH0_CH1" channels="1" />
+			<ChannelGroup name="SMU_4137_C3_S12_P107_CH0_CH2" channels="2" />
+			<ChannelGroup name="SMU_4137_C3_S12_P107_CH0_CH3" channels="3" />
 		</NIDCPowerInstrument>
-		<NIDCPowerInstrument name="SMU_4147_C2_S10" numberOfChannels="4">
-			<ChannelGroup name="SMU_4147_C2_S10_CH0" channels="0" />
-			<ChannelGroup name="SMU_4147_C2_S10_CH1" channels="1" />
-			<ChannelGroup name="SMU_4147_C2_S10_CH2" channels="2" />
-			<ChannelGroup name="SMU_4147_C2_S10_CH3" channels="3" />
+		<NIDCPowerInstrument name="SMU_4147_C1_S04_P178_CH0_3" numberOfChannels="4">
+			<ChannelGroup name="SMU_4147_C1_S04_P178_CH0_3_CH0" channels="0" />
+			<ChannelGroup name="SMU_4147_C1_S04_P178_CH0_3_CH1" channels="1" />
+			<ChannelGroup name="SMU_4147_C1_S04_P178_CH0_3_CH2" channels="2" />
+			<ChannelGroup name="SMU_4147_C1_S04_P178_CH0_3_CH3" channels="3" />
 		</NIDCPowerInstrument>
-		<NIDigitalPatternInstrument name="HSD_6571_C1_S02" numberOfChannels="32" />
-		<NIDigitalPatternInstrument name="HSD_6571_C2_S02" numberOfChannels="32" />
 	</Instruments>
 	<Pins>
 		<DUTPin name="VDD" />
@@ -43,21 +43,21 @@
 		<Site siteNumber="1" />
 	</Sites>
 	<Connections>
-		<Connection pin="VDD" siteNumber="0" instrument="SMU_4147_C1_S11" channel="2" />
-		<Connection pin="C1" siteNumber="0" instrument="HSD_6571_C1_S02" channel="1" />
-		<Connection pin="VCC1" siteNumber="0" instrument="SMU_4147_C1_S11" channel="0" />
-		<Connection pin="C0" siteNumber="0" instrument="HSD_6571_C1_S02" channel="0" />
-		<Connection pin="C0" siteNumber="1" instrument="HSD_6571_C1_S02" channel="5" />
-		<Connection pin="C1" siteNumber="1" instrument="HSD_6571_C2_S02" channel="1" />
-		<Connection pin="PA_EN" siteNumber="0" instrument="HSD_6571_C1_S02" channel="2" />
-		<Connection pin="PA_EN" siteNumber="1" instrument="HSD_6571_C2_S02" channel="2" />
-		<Connection pin="SCLK" siteNumber="0" instrument="HSD_6571_C1_S02" channel="3" />
-		<Connection pin="SCLK" siteNumber="1" instrument="HSD_6571_C2_S02" channel="3" />
-		<Connection pin="SDATA" siteNumber="0" instrument="HSD_6571_C1_S02" channel="4" />
-		<Connection pin="SDATA" siteNumber="1" instrument="HSD_6571_C2_S02" channel="4" />
-		<Connection pin="VCC1" siteNumber="1" instrument="SMU_4147_C1_S11" channel="3" />
-		<Connection pin="VCC2" siteNumber="0" instrument="SMU_4147_C1_S11" channel="1" />
-		<Connection pin="VCC2" siteNumber="1" instrument="SMU_4147_C2_S10" channel="1" />
-		<Connection pin="VDD" siteNumber="1" instrument="SMU_4147_C2_S10" channel="2" />
+		<Connection pin="C0" siteNumber="0" instrument="HSD_6571_C1_S02_P174" channel="0" />
+		<Connection pin="C0" siteNumber="1" instrument="HSD_6571_C1_S02_P174" channel="5" />
+		<Connection pin="C1" siteNumber="0" instrument="HSD_6571_C1_S02_P174" channel="1" />
+		<Connection pin="C1" siteNumber="1" instrument="HSD_6571_C1_S03_P166" channel="1" />
+		<Connection pin="PA_EN" siteNumber="0" instrument="HSD_6571_C1_S02_P174" channel="2" />
+		<Connection pin="PA_EN" siteNumber="1" instrument="HSD_6571_C1_S03_P166" channel="2" />
+		<Connection pin="SCLK" siteNumber="0" instrument="HSD_6571_C1_S02_P174" channel="3" />
+		<Connection pin="SCLK" siteNumber="1" instrument="HSD_6571_C1_S03_P166" channel="3" />
+		<Connection pin="SDATA" siteNumber="0" instrument="HSD_6571_C1_S02_P174" channel="4" />
+		<Connection pin="SDATA" siteNumber="1" instrument="HSD_6571_C1_S03_P166" channel="4" />
+		<Connection pin="VCC1" siteNumber="0" instrument="SMU_4137_C3_S12_P107_CH0" channel="0" />
+		<Connection pin="VCC1" siteNumber="1" instrument="SMU_4137_C3_S12_P107_CH0" channel="3" />
+		<Connection pin="VCC2" siteNumber="0" instrument="SMU_4137_C3_S12_P107_CH0" channel="1" />
+		<Connection pin="VCC2" siteNumber="1" instrument="SMU_4147_C1_S04_P178_CH0_3" channel="1" />
+		<Connection pin="VDD" siteNumber="0" instrument="SMU_4137_C3_S12_P107_CH0" channel="2" />
+		<Connection pin="VDD" siteNumber="1" instrument="SMU_4147_C1_S04_P178_CH0_3" channel="2" />
 	</Connections>
 </PinMap>

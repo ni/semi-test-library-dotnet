@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
-		<NIDCPowerInstrument name="SMU_4162_C5_S12" numberOfChannels="12">
+		<NIDCPowerInstrument name="SMU_4162_C3_S17_P155_P147" numberOfChannels="12">
 			<ChannelGroup name="CommonDCPowerChannelGroup" />
 		</NIDCPowerInstrument>
-		<NIDCPowerInstrument name="SMU_4163_C4_S03" numberOfChannels="24">
+		<NIDCPowerInstrument name="SMU_4163_C1_S14_P135_P131" numberOfChannels="24">
 			<ChannelGroup name="CommonDCPowerChannelGroup" />
 		</NIDCPowerInstrument>
 	</Instruments>
@@ -36,13 +36,13 @@
 		<Site siteNumber="1" />
 	</Sites>
 	<Connections>
-		<Connection pin="Vaa" siteNumber="0" instrument="SMU_4162_C5_S12" channel="0" />
-		<Connection pin="Vaa" siteNumber="1" instrument="SMU_4162_C5_S12" channel="2" />
-		<Connection pin="Vab" siteNumber="0" instrument="SMU_4162_C5_S12" channel="1" />
-		<Connection pin="Vab" siteNumber="1" instrument="SMU_4162_C5_S12" channel="3" />
-		<Connection pin="Vac" siteNumber="0" instrument="SMU_4163_C4_S03" channel="0" />
-		<Connection pin="Vac" siteNumber="1" instrument="SMU_4163_C4_S03" channel="2" />
-		<Connection pin="Vad" siteNumber="0" instrument="SMU_4163_C4_S03" channel="1" />
-		<Connection pin="Vad" siteNumber="1" instrument="SMU_4163_C4_S03" channel="3" />
+		<Connection pin="Vaa" siteNumber="0" instrument="SMU_4162_C3_S17_P155_P147" channel="0" />
+		<Connection pin="Vaa" siteNumber="1" instrument="SMU_4162_C3_S17_P155_P147" channel="2" />
+		<Connection pin="Vab" siteNumber="0" instrument="SMU_4162_C3_S17_P155_P147" channel="1" />
+		<Connection pin="Vab" siteNumber="1" instrument="SMU_4162_C3_S17_P155_P147" channel="3" />
+		<Connection pin="Vac" siteNumber="0" instrument="SMU_4163_C1_S14_P135_P131" channel="0" />
+		<Connection pin="Vac" siteNumber="1" instrument="SMU_4163_C1_S14_P135_P131" channel="2" />
+		<Connection pin="Vad" siteNumber="0" instrument="SMU_4163_C1_S14_P135_P131" channel="1" />
+		<Connection pin="Vad" siteNumber="1" instrument="SMU_4163_C1_S14_P135_P131" channel="3" />
 	</Connections>
 </PinMap>
