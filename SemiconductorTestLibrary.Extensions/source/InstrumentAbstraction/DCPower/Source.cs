@@ -309,7 +309,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageSequence">Voltage sequence to force.</param>
+        /// <param name="voltageSequence">Sequence of voltage values to force.</param>
         /// <param name="currentLimit">The current limit to use for the sequence.</param>
         /// <param name="voltageLevelRange">The voltage level range to use for the sequence.</param>
         /// <param name="currentLimitRange">The current limit range to use for the sequence.</param>
@@ -340,7 +340,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(sitePinInfo, settings, advancedSequenceName, voltageSequence, sequenceLoopCount, setAsActiveSequence: true);
+                    sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(
+                        sitePinInfo,
+                        settings,
+                        advancedSequenceName,
+                        voltageSequence,
+                        sequenceLoopCount,
+                        setAsActiveSequence: true);
                 });
                 sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
             }
@@ -359,9 +365,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 });
             }
 
-            // clearing the advanced sequence after use
+            // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
-            // deleting the advanced sequence after use
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
         }
 
@@ -403,13 +409,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var sequence = voltageSequence.GetValue(pinSiteInfo.SiteNumber);
                 var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-                sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(pinSiteInfo, settings, advancedSequenceName, sequence, sequenceLoopCount, setAsActiveSequence: true);
+                sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(
+                    pinSiteInfo,
+                    settings,
+                    advancedSequenceName,
+                    sequence,
+                    sequenceLoopCount,
+                    setAsActiveSequence: true);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // clearing the advanced sequence after use
+            // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
-            // deleting the advanced sequence after use
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
         }
 
@@ -453,13 +465,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var sequence = voltageSequence.GetValue(pinSiteInfo);
                 var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-                sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(pinSiteInfo, settings, advancedSequenceName, sequence, sequenceLoopCount, setAsActiveSequence: true);
+                sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(
+                    pinSiteInfo,
+                    settings,
+                    advancedSequenceName,
+                    sequence,
+                    sequenceLoopCount,
+                    setAsActiveSequence: true);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // clearing the advanced sequence after use
+            // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
-            // deleting the advanced sequence after use
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
         }
 
@@ -972,10 +990,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 leaderChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
             }
 
-            // clearing the advanced sequence after use
+            // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
-            // deleting the advanced sequence after use
-            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
+             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
 
         /// <summary>
@@ -1321,10 +1339,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 result = sessionsBundle.FetchMeasurement(pointsToFetch.Value, measurementTimeoutInSeconds);
             }
 
-            // clearing the advanced sequence after use
+            // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
-            // deleting the advanced sequence after use
-            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
+             sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
             return result;
         }
@@ -1364,7 +1382,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-         /// <param name="currentSequence">Current sequence to force.</param>
+        /// <param name="currentSequence">Sequence of current values to force</param>
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
         /// <param name="currentLevelRange">Current level range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
@@ -1389,13 +1407,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 Limit = voltageLimit,
                 LevelRange = currentLevelRange,
                 LimitRange = voltageLimitRange
-            };
+            }
+
             if (sessionsBundle.HasGangedChannels)
             {
                 sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(sitePinInfo, settings, sequenceName, currentSequence, sequenceLoopCount, setAsActiveSequence: true);
+                    sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(
+                        sitePinInfo,
+                        settings,
+                        sequenceName,
+                        currentSequence,
+                        sequenceLoopCount,
+                        setAsActiveSequence: true);
                 });
                 sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
             }
@@ -1414,10 +1439,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 });
             }
 
-            // clearing the advanced sequence after use
+            // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
-            // deleting the advanced sequence after use
-            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
+             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
 
         /// <remarks>
@@ -1457,14 +1482,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var sequence = currentSequence.GetValue(sitePinInfo.SiteNumber);
-                sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(sitePinInfo, settings, sequenceName, sequence, sequenceLoopCount, setAsActiveSequence: true);
+                sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(
+                    sitePinInfo,
+                    settings,
+                    sequenceName,
+                    sequence,
+                    sequenceLoopCount,
+                    setAsActiveSequence: true);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // clearing the advanced sequence after use
+            // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
-            // deleting the advanced sequence after use
-            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
+             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
 
         /// <remarks>
@@ -1504,13 +1535,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var sequence = currentSequence.GetValue(sitePinInfo, out bool isGroupData);
-                sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(sitePinInfo, settings, sequenceName, sequence, sequenceLoopCount, isGroupData, setAsActiveSequence: true);
+                sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(
+                    sitePinInfo,
+                    settings,
+                    sequenceName,
+                    sequence,
+                    sequenceLoopCount,
+                    isGroupData,
+                    setAsActiveSequence: true);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // clearing the advanced sequence after use
+            // Clearing the active advance sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
-            // deleting the advanced sequence after use
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
 
@@ -1878,7 +1916,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool commitFirstElementAsInitialState = false)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-
             {
                 var stepProperties = perStepProperties.GetValue(sitePinInfo.SiteNumber);
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
