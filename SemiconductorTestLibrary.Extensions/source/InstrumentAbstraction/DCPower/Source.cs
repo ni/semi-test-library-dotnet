@@ -2112,11 +2112,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo, needDataAdjustment);
             if (sitePinInfo != null)
             {
+                sessionInfo.ConfigureMeasureWhen(sitePinInfo, sitePinInfo.ModelString, measureWhen: null);
                 sessionInfo.ConfigureMeasureTriggerForCascading(sitePinInfo);
             }
             else
             {
                 var channelString = channelOutput.Name;
+                sessionInfo.ConfigureMeasureWhen(channelString, sessionInfo.ModelString, measureWhen: null);
                 sessionInfo.ConfigureMeasureTriggerForCascading(channelString);
             }
             channelOutput.Source.Output.Enabled = true;
