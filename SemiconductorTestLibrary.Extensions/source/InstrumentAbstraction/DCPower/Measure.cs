@@ -443,7 +443,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
                 var session = sessionInfo.Session;
                 var channelOutput = session.Outputs[sitePinInfo.IndividualChannelString];
-                if (channelOutput.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge && channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+                if (channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger && channelOutput.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge)
                 {
                     session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), channelOutput.Measurement.FetchBacklog);
                 }
