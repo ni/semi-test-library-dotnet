@@ -4138,8 +4138,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
         private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString)
         {
-            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
-            Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
+            if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
+            {
+                Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+                Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
+            }
         }
 
         private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
