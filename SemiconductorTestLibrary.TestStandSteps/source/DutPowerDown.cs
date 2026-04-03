@@ -125,16 +125,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             });
         }
 
-        /// <summary>
-        /// temp
-        /// </summary>
-        /// <param name="dcPower">temp</param>
-        /// <param name="forceLowestCurrentLimit">temp</param>
-        /// <param name="dcPowerSourceSettings">temp</param>
-        /// <returns>tep</returns>
         private static bool HasPowerSupplyInstrument(this DCPowerSessionsBundle dcPower, bool forceLowestCurrentLimit, out PinSiteData<DCPowerSourceSettings> dcPowerSourceSettings)
         {
-            dcPowerSourceSettings = null;
             var settings = new Dictionary<string, IDictionary<int, DCPowerSourceSettings>>();
             bool hasPowerSupply = false;
             dcPower.Do((sessionInfo, sitePinInfo) =>
@@ -147,23 +139,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 
                 var sourceSettings = new DCPowerSourceSettings
                 {
-                    Level = isPowerSupply ? 0.01 : 0.01,
+                    Level = isPowerSupply ? 0.01 : 0.00,
                 };
-                if (isPowerSupply)
-                {
-                    sourceSettings.Limit = forceLowestCurrentLimit ? 0.01 : (double?)null;
-                }
-                else
-                {
-                    sourceSettings.Limit = forceLowestCurrentLimit ? 1e-7 : (double?)null;
-                }
+                sourceSettings.Limit = forceLowestCurrentLimit ? (isPowerSupply ? 0.01 : 1e-7) : (double?)null;
                 if (!settings.TryGetValue(sitePinInfo.PinName, out var siteDictionary))
                 {
                     siteDictionary = new Dictionary<int, DCPowerSourceSettings>();
                     settings[sitePinInfo.PinName] = siteDictionary;
                 }
 
-                siteDictionary[sitePinInfo.SiteNumber] = sourceSettings;
                 settings[sitePinInfo.PinName][sitePinInfo.SiteNumber] = sourceSettings;
             });
             dcPowerSourceSettings = new PinSiteData<DCPowerSourceSettings>(settings);
@@ -172,8 +156,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 
         private static readonly IReadOnlyList<string> PowerSupply = new List<string>()
         {
-            DCPowerModelStrings.PXIe_4051,
             DCPowerModelStrings.PXIe_4150,
+            DCPowerModelStrings.PXIe_4151,
             DCPowerModelStrings.PXI_4110,
             DCPowerModelStrings.PXIe_4112,
             DCPowerModelStrings.PXIe_4113
