@@ -5,7 +5,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
 {
     /// <summary>
-    /// This class provides example methods to demonstrate how to use the GangPinGroup and UngangPinGroup
+    /// This class provides example methods to demonstrate how to use the GangPinGroup and UngangPinGroup.
     /// DCPower Instrument Abstraction methods from the Semiconductor Test Library.
     /// These methods can be used to gang DUT pins together to output higher current.
     /// These methods are only supported under the following conditions:
