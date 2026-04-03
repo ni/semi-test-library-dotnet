@@ -2513,7 +2513,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             List<DCPowerAdvancedSequenceProperty> advancedSequenceProperties = new List<DCPowerAdvancedSequenceProperty>();
 
             Action<double> setLevel = null;
-
             if (outputFunction == DCPowerSourceOutputFunction.DCVoltage)
             {
                 advancedSequenceProperties.Add(DCPowerAdvancedSequenceProperty.VoltageLevel);
@@ -2541,14 +2540,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             for (int i = 0; i < sequence.Length; i++)
             {
                 output.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
-                if (outputFunction == DCPowerSourceOutputFunction.DCVoltage)
-                {
-                    output.Source.Voltage.VoltageLevel = sequence[i];
-                }
-                else if (outputFunction == DCPowerSourceOutputFunction.DCCurrent)
-                {
-                    output.Source.Current.CurrentLevel = sequence[i];
-                }
                 setLevel(sequence[i]);
 
                 if (hasSourceDelay)
