@@ -255,6 +255,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             AssertPublishedData(tsmContext, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
         }
+
         private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput)
         {
             if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
