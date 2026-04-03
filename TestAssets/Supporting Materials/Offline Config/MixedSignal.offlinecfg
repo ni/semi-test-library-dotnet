@@ -62,6 +62,8 @@
 		<PXI Name="SMU_4163_C4_S03" Model="NI PXIe-4163" Slot="3" NeedsIvi="false" />
 		<PXI Name="SMU_4112_C4_S04" Model="NI PXIe-4112" Slot="4" NeedsIvi="false" />
 		<PXI Name="SMU_4150_C4_S05" Model="NI PXIe-4150" Slot="5" NeedsIvi="false" />
+		<PXI Name="SMU_4050_C4_S06" Model="NI PXIe-4050" Slot="6" NeedsIvi="false" />
+		<PXI Name="SMU_4051_C4_S07" Model="NI PXIe-4051" Slot="7" NeedsIvi="false" />
 		<PXI Name="VST_5841_C4_S08" Model="NI PXIe-5841" Slot="8" NeedsIvi="false">
 			<PortControlModule Name="PCM3" Model="NI STS-5532">
 				<PortModule Name="PM4" Model="NI STS-5531" DigitalSlot="4" AnalogChannel="1" />
