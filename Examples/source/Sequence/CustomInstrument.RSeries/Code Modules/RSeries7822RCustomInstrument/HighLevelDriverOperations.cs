@@ -1,6 +1,7 @@
 ﻿using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument;
+using static NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.Common.Utilities;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.RSeries7822RCustomInstrument
 {
@@ -14,16 +15,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// </summary>
         /// <param name="rSeriesSessionsBundle">CustomInstrumentSessionsBundle.</param>
         /// <param name="data">The data to be written.</param>
-        public static void WriteData(this CustomInstrumentSessionsBundle rSeriesSessionsBundle, PinSiteData<double> data)
+        public static void WriteData(this CustomInstrumentSessionsBundle rSeriesSessionsBundle, PinSiteData<bool> data)
         {
-            rSeriesSessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            rSeriesSessionsBundle.Do(sessionInfo =>
             {
                 var session = sessionInfo.Session as RSeries7822R;
-                double pinSiteSpecificData = data.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
-                string channelString = sitePinInfo.IndividualChannelString;
+
+                // Set the output state for each channel.
+                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList)
+                {
+                    session.SetOutputState(sitePinInfo.IndividualChannelString, data.GetValue(sitePinInfo));
+                }
 
                 // Perform write data operation on the driver session.
-                session.WriteChannelData(channelString, pinSiteSpecificData);
+                session.WritePortData();
             });
         }
 
@@ -32,15 +37,26 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// </summary>
         /// <param name="rSeriesSessionsBundle">CustomInstrumentSessionsBundle.</param>
         /// <returns>Measured values as PinSiteData.</returns>
-        public static PinSiteData<double> MeasureData(this CustomInstrumentSessionsBundle rSeriesSessionsBundle)
+        public static PinSiteData<bool> ReadData(this CustomInstrumentSessionsBundle rSeriesSessionsBundle)
         {
-            return rSeriesSessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return rSeriesSessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
                 var session = sessionInfo.Session as RSeries7822R;
-                string channelString = sitePinInfo.IndividualChannelString;
 
                 // Perform measure data operation on the driver session.
-                return session.MeasureChannelData(channelString);
+                var portData = session.ReadPortData();
+
+                var channelCount = sessionInfo.AssociatedSitePinList.Count;
+                var results = new bool[channelCount];
+                for (int i = 0; i < channelCount; i++)
+                {
+                    var channelString = sessionInfo.AssociatedSitePinList[i].IndividualChannelString;
+                    var channelInfo = session.ChannelInfoMap[channelString];
+                    results[i] = GetBitFromByte(
+                        portData[channelInfo.ConnectorAndPortNumbers],
+                        channelInfo.IndexInPort);
+                }
+                return results;
             });
         }
 

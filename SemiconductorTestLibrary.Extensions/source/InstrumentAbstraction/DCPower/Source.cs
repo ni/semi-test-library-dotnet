@@ -33,7 +33,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #endregion
 
-        private const double DefaultSequenceTimeout = 5.0;
+        private const double DefaultTimeout = 5.0;
         private const int AttributeIdNotRecognized = -1074135028;
 
         #region methods on DCPowerSessionsBundle
@@ -75,7 +75,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo), channelOutput, sitePinInfo);
+                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo, out bool isGroupData), channelOutput, sitePinInfo, isGroupData);
             });
         }
 
@@ -91,7 +91,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                sessionInfo.ConfigureSourceSettings(settings[sitePinInfo.PinName], channelOutput, sitePinInfo);
+                sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo, out bool isGroupData), channelOutput, sitePinInfo, isGroupData);
             });
         }
 
@@ -132,14 +132,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = voltageLevels[sitePinInfo.PinName],
+                    Level = voltageLevels.GetValue(sitePinInfo, out _),
                     Limit = currentLimit,
                     LevelRange = voltageLevelRange,
                     LimitRange = currentLimitRange
@@ -190,7 +192,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevels, double? currentLimit = null, double? voltageLevelRange = null, double? currentLimitRange = null, bool waitForSourceCompletion = false)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLevels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var settings = new DCPowerSourceSettings()
@@ -263,12 +267,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perPinSettings = settings[sitePinInfo.PinName];
+                var perPinSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perPinSettings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perPinSettings, sitePinInfo, isGroupData);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -282,12 +288,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceVoltage(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerSourceSettings> settings, bool waitForSourceCompletion = false)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perSitePinPairSettings = settings.GetValue(sitePinInfo);
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo, isGroupData);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -311,21 +319,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? currentLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            sessionsBundle.Do(sessionInfo =>
+            var settings = new DCPowerSourceSettings()
             {
-                ForceSequenceCore(
-                    sessionInfo.AllChannelsOutput,
-                    DCPowerSourceOutputFunction.DCVoltage,
-                    voltageSequence,
-                    currentLimit,
-                    voltageLevelRange,
-                    currentLimitRange,
-                    sequenceLoopCount,
-                    waitForSequenceCompletion,
-                    sequenceTimeoutInSeconds);
-            });
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Limit = currentLimit,
+                LevelRange = voltageLevelRange,
+                LimitRange = currentLimitRange
+            };
+            if (sessionsBundle.HasGangedChannels)
+            {
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(sitePinInfo, settings, voltageSequence, sequenceLoopCount);
+                });
+                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    ForceSequenceCore(
+                        sessionInfo.AllChannelsOutput,
+                        settings,
+                        voltageSequence,
+                        sequenceLoopCount,
+                        waitForSequenceCompletion,
+                        sequenceTimeoutInSeconds);
+                });
+            }
         }
 
         /// <inheritdoc cref="ForceVoltageSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
@@ -337,24 +362,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? currentLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Limit = currentLimit,
+                LevelRange = voltageLevelRange,
+                LimitRange = currentLimitRange
+            };
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var sequence = voltageSequence.GetValue(pinSiteInfo.SiteNumber);
                 var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-
-                ForceSequenceCore(
-                    channelOutput,
-                    DCPowerSourceOutputFunction.DCVoltage,
-                    sequence,
-                    currentLimit,
-                    voltageLevelRange,
-                    currentLimitRange,
-                    sequenceLoopCount,
-                    waitForSequenceCompletion,
-                    sequenceTimeoutInSeconds);
+                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(pinSiteInfo, settings, sequence, sequenceLoopCount);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
         /// <inheritdoc cref="ForceVoltageSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
@@ -366,24 +391,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? currentLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            // TODO: Add PinSitData validation for sequence.
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Limit = currentLimit,
+                LevelRange = voltageLevelRange,
+                LimitRange = currentLimitRange
+            };
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var sequence = voltageSequence.GetValue(pinSiteInfo);
                 var channelOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
-
-                ForceSequenceCore(
-                    channelOutput,
-                    DCPowerSourceOutputFunction.DCVoltage,
-                    sequence,
-                    currentLimit,
-                    voltageLevelRange,
-                    currentLimitRange,
-                    sequenceLoopCount,
-                    waitForSequenceCompletion,
-                    sequenceTimeoutInSeconds);
+                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(pinSiteInfo, settings, sequence, sequenceLoopCount);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
         /// <summary>
@@ -420,22 +446,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimit">Current limit for the sequence.</param>
         /// <param name="voltageLevelRange">Voltage level range.</param>
         /// <param name="currentLimitRange">Current limit range.</param>
-        /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
+        /// <param name="sourceDelayInSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
+        /// </remarks>
         public static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] voltageSequence,
             double? currentLimit = null,
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             SequenceProvider<double> getVoltageSequence = _ => voltageSequence;
             ValueProvider getCurrentLimit = _ => currentLimit;
@@ -448,7 +477,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getCurrentLimit,
                 getVoltageLevelRange,
                 getCurrentLimitRange,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -462,11 +491,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             SiteData<double> currentLimits = null,
             SiteData<double> voltageLevelRanges = null,
             SiteData<double> currentLimitRanges = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             SequenceProvider<double> getVoltageSequenceForSite = sitePinInfo => voltageSequences?.GetValue(sitePinInfo.SiteNumber);
             ValueProvider getCurrentLimitForSite = sitePinInfo => currentLimits?.GetValue(sitePinInfo.SiteNumber);
@@ -479,7 +508,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getCurrentLimitForSite,
                 getVoltageLevelRangeForSite,
                 getCurrentLimitRangeForSite,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -493,11 +522,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             PinSiteData<double> currentLimits = null,
             PinSiteData<double> voltageLevelRanges = null,
             PinSiteData<double> currentLimitRanges = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             SequenceProvider<double> getVoltageSequenceForSitePin = sitePinInfo => voltageSequences?.GetValue(sitePinInfo);
             ValueProvider getCurrentLimitForSitePin = sitePinInfo => currentLimits?.GetValue(sitePinInfo);
@@ -510,7 +539,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getCurrentLimitForSitePin,
                 getVoltageLevelRangeForSitePin,
                 getCurrentLimitRangeForSitePin,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -560,12 +589,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = currentLevels[sitePinInfo.PinName],
+                    Level = currentLevels.GetValue(sitePinInfo, out bool isGroupData),
                     Limit = voltageLimit,
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, isGroupData);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -618,12 +647,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = currentLevels.GetValue(sitePinInfo),
+                    Level = currentLevels.GetValue(sitePinInfo, out bool isGroupData),
                     Limit = voltageLimit,
                     LevelRange = currentLevelRange,
                     LimitRange = voltageLimitRange
                 };
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(settings, sitePinInfo, isGroupData);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -687,9 +716,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perPinSettings = settings[sitePinInfo.PinName];
+                var perPinSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
                 perPinSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perPinSettings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perPinSettings, sitePinInfo, isGroupData);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -706,9 +735,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var perSitePinPairSettings = settings.GetValue(sitePinInfo);
+                var perSitePinPairSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
                 perSitePinPairSettings.OutputFunction = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo);
+                sessionInfo.ConfigureAllChannelsAndInitiateGangedFollowerChannels(perSitePinPairSettings, sitePinInfo, isGroupData);
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
@@ -721,22 +750,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
         /// <param name="currentLevelRange">Current level range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
-        /// <param name="sourceDelayinSeconds">Optional source delay to use uniformly for synchronization.</param>
+        /// <param name="sourceDelayInSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
+        /// </remarks>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] currentSequence,
             double? voltageLimit = null,
             double? currentLevelRange = null,
             double? voltageLimitRange = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             SequenceProvider<double> getCurrentSequence = _ => currentSequence;
             ValueProvider getVoltageLimit = _ => voltageLimit;
@@ -749,7 +781,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getVoltageLimit,
                 getCurrentLevelRange,
                 getVoltageLimitRange,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -763,11 +795,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             SiteData<double> voltageLimits = null,
             SiteData<double> currentLevelRanges = null,
             SiteData<double> voltageLimitRanges = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             SequenceProvider<double> getCurrentSequenceForSite = sitePinInfo => currentSequences.GetValue(sitePinInfo.SiteNumber);
             ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimits?.GetValue(sitePinInfo.SiteNumber);
@@ -780,7 +812,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getVoltageLimitForSite,
                 getCurrentLevelRangeForSite,
                 getVoltageLimitRangeForSite,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -794,11 +826,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             PinSiteData<double> voltageLimits = null,
             PinSiteData<double> currentLevelRanges = null,
             PinSiteData<double> voltageLimitRanges = null,
-            double? sourceDelayinSeconds = null,
+            double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             SequenceProvider<double> getCurrentSequenceForSitePin = sitePinInfo => currentSequences.GetValue(sitePinInfo);
             ValueProvider getVoltageLimitForSitePin = sitePinInfo => voltageLimits?.GetValue(sitePinInfo);
@@ -811,7 +843,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 getVoltageLimitForSitePin,
                 getCurrentLevelRangeForSitePin,
                 getVoltageLimitRangeForSitePin,
-                sourceDelayinSeconds,
+                sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
@@ -890,6 +922,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
+        /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
+        /// </remarks>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
@@ -952,6 +987,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
         /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
+        /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
+        /// </remarks>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
@@ -1025,6 +1063,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
+        /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
+        /// </remarks>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,
@@ -1087,6 +1128,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
         /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
+        /// <remarks>
+        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
+        /// </remarks>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,
@@ -1208,6 +1252,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 result = sessionsBundle.FetchMeasurement(pointsToFetch.Value, measurementTimeoutInSeconds);
             }
 
+            // clearing the advanced sequence after use
+            sessionsBundle.ClearActiveAdvancedSequence();
             // deleting the advanced sequence after use
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
@@ -1259,21 +1305,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            sessionsBundle.Do(sessionInfo =>
+            var settings = new DCPowerSourceSettings()
             {
-                ForceSequenceCore(
-                     sessionInfo.AllChannelsOutput,
-                     DCPowerSourceOutputFunction.DCCurrent,
-                     currentSequence,
-                     voltageLimit,
-                     currentLevelRange,
-                     voltageLimitRange,
-                     sequenceLoopCount,
-                     waitForSequenceCompletion,
-                     sequenceTimeoutInSeconds);
-            });
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Limit = voltageLimit,
+                LevelRange = currentLevelRange,
+                LimitRange = voltageLimitRange
+            };
+            if (sessionsBundle.HasGangedChannels)
+            {
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(sitePinInfo, settings, currentSequence, sequenceLoopCount);
+                });
+                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    ForceSequenceCore(
+                         sessionInfo.AllChannelsOutput,
+                         settings,
+                         currentSequence,
+                         sequenceLoopCount,
+                         waitForSequenceCompletion,
+                         sequenceTimeoutInSeconds);
+                });
+            }
         }
 
         /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
@@ -1285,25 +1348,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Limit = voltageLimit,
+                LevelRange = currentLevelRange,
+                LimitRange = voltageLimitRange
+            };
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var sequence = currentSequences.GetValue(sitePinInfo.SiteNumber);
-                var channelString = sitePinInfo.IndividualChannelString;
-                var channelOutput = sessionInfo.Session.Outputs[channelString];
-
-                ForceSequenceCore(
-                    channelOutput,
-                    DCPowerSourceOutputFunction.DCCurrent,
-                    sequence,
-                    voltageLimit,
-                    currentLevelRange,
-                    voltageLimitRange,
-                    sequenceLoopCount,
-                    waitForSequenceCompletion,
-                    sequenceTimeoutInSeconds);
+                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(sitePinInfo, settings, sequence, sequenceLoopCount);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
         /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
@@ -1315,25 +1376,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultSequenceTimeout)
+            double sequenceTimeoutInSeconds = DefaultTimeout)
         {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Limit = voltageLimit,
+                LevelRange = currentLevelRange,
+                LimitRange = voltageLimitRange
+            };
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var sequence = currentSequences.GetValue(sitePinInfo);
-                var channelString = sitePinInfo.IndividualChannelString;
-                var channelOutput = sessionInfo.Session.Outputs[channelString];
-
-                ForceSequenceCore(
-                    channelOutput,
-                    DCPowerSourceOutputFunction.DCCurrent,
-                    sequence,
-                    voltageLimit,
-                    currentLevelRange,
-                    voltageLimitRange,
-                    sequenceLoopCount,
-                    waitForSequenceCompletion,
-                    sequenceTimeoutInSeconds);
+                var sequence = currentSequences.GetValue(sitePinInfo, out bool isGroupData);
+                sessionInfo.ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(sitePinInfo, settings, sequence, sequenceLoopCount, isGroupData);
             });
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
         /// <summary>
@@ -1341,28 +1400,39 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         private static void ForceSequenceCore(
             DCPowerOutput channelOutput,
-            DCPowerSourceOutputFunction outputFunction,
+            DCPowerSourceSettings settings,
             double[] levelSequence,
-            double? limit,
-            double? levelRange,
-            double? limitRange,
             int sequenceLoopCount,
             bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds)
         {
-            var settings = new DCPowerSourceSettings()
-            {
-                OutputFunction = outputFunction,
-                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                Limit = limit,
-                LevelRange = levelRange,
-                LimitRange = limitRange
-            };
-
             channelOutput.Control.Abort();
             channelOutput.ConfigureSequence(levelSequence, sequenceLoopCount);
             channelOutput.ConfigureLevelsAndLimits(settings);
             channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+        }
+
+        private static void ConfigureAllChannelsForSequenceAndInitiateGangedFollowerChannels(
+            this DCPowerSessionInformation sessionInfo,
+            SitePinInfo sitePinInfo,
+            DCPowerSourceSettings settings,
+            double[] levelSequence,
+            int sequenceLoopCount,
+            bool needDataAdjustment = true)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            channelOutput.ConfigureSequence(
+                levelSequence,
+                sequenceLoopCount,
+                sequenceStepDeltaTimeInSeconds: null,
+                sitePinInfo,
+                needDataAdjustment && settings.OutputFunction == DCPowerSourceOutputFunction.DCCurrent);
+            channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo, needDataAdjustment);
+            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            {
+                channelOutput.InitiateChannels();
+            }
         }
 
         /// <summary>
@@ -1432,32 +1502,52 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
         {
-            sessionsBundle.Do(sessionInfo =>
+            if (sessionsBundle.HasGangedChannels)
             {
-                sessionInfo.Session.Control.Abort();
-                sessionInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
-            });
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    channelOutput.Control.Abort();
+                    channelOutput.ConfigureSequence(
+                        sequence,
+                        sequenceLoopCount,
+                        sequenceStepDeltaTimeInSeconds,
+                        sitePinInfo);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Session.Control.Abort();
+                    sessionInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+                });
+            }
         }
 
         /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
         {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo);
             });
         }
 
         /// <inheritdoc cref="ConfigureSequence(DCPowerSessionsBundle, double[], int, double?)"/>
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null)
         {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            // TODO: Add PinSitData validation for sequence.
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo), sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo, out bool isGroupData), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo, isGroupData);
             });
         }
 
@@ -1785,16 +1875,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Deletes the advanced sequence with the specified name from all sessions in the <see cref="DCPowerSessionsBundle"/>.
+        /// Deletes one or more advanced sequences by name from all sessions in the <see cref="DCPowerSessionsBundle"/>.
         /// </summary>
-        /// <param name = "sessionsBundle" > The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="sequenceName">The name of the advanced sequence to delete.</param>
-        public static void DeleteAdvancedSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName)
+        /// <remarks>
+        /// This function will also switch the Source Mode back to SinglePoint.<br/>
+        /// Note that you can pass one or more sequence names via the <paramref name="sequenceNames"/> parameter.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequenceNames">The names of the advanced sequences to delete.</param>
+        public static void DeleteAdvancedSequence(this DCPowerSessionsBundle sessionsBundle, params string[] sequenceNames)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.AllChannelsOutput.Control.Abort();
-                sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.DeleteAdvancedSequence(sequenceName);
+                foreach (string sequenceName in sequenceNames)
+                {
+                    sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.DeleteAdvancedSequence(sequenceName);
+                }
                 sessionInfo.AllChannelsOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             });
         }
@@ -1821,11 +1918,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequence">The voltage or current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
-        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
+        /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
+        /// <param name="needDataAdjustment">Indicates if the sequence values should be divided in case of Ganging.</param>
+        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null, SitePinInfo sitePinInfo = null, bool needDataAdjustment = true)
         {
+            ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
+            if (needDataAdjustment && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            {
+                sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
+            }
             output.Source.SetSequence(sequence);
+            output.ConfigureSourceTriggerForCascading(sitePinInfo);
+            output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
             if (sequenceStepDeltaTimeInSeconds.HasValue)
             {
                 output.Source.SequenceStepDeltaTimeEnabled = true;
@@ -1908,13 +2014,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="settings">The source settings to configure.</param>
         /// <param name="channelOutput">The <see cref="DCPowerOutput"/> object.</param>
         /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
+        /// <param name="needDataAdjustment">Indicates whether the provided current limit and range values should be divided equally to each individual pin within a ganged group. Set this to false to apply pin-specific values to pins in a ganged group, or true to apply values at the group level.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo, bool needDataAdjustment = true)
         {
             string channelString = string.IsNullOrEmpty(channelOutput.Name) ? sessionInfo.AllChannelsString : channelOutput.Name;
-            if (sitePinInfo != null && channelString.Split(',').Length > 1)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelString));
-            }
+            ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, channelString);
 
             channelOutput.Source.Mode = DCPowerSourceMode.SinglePoint;
             if (settings.SourceDelayInSeconds.HasValue)
@@ -1928,7 +2032,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
-                    channelOutput.ConfigureLevelsAndLimits(settings, sitePin);
+                    channelOutput.ConfigureLevelsAndLimits(settings, sitePin, needDataAdjustment);
                     channelOutput.ConfigureSourceTriggerForCascading(sitePin);
                 });
             }
@@ -1947,7 +2051,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var result = new HashSet<DCPowerAdvancedSequenceProperty>();
             foreach (var stepProperties in perStepProperties)
             {
-                foreach (var (property, enumValue) in Utilities.PropertyMappingsCache)
+                foreach (var (property, enumValue) in Utilities.GetPropertyMappingsCache())
                 {
                     if (property.GetValue(stepProperties) != null)
                     {
@@ -1978,7 +2082,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureLevelsAndLimits(this DCPowerOutput channelOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
+        private static void ConfigureLevelsAndLimits(this DCPowerOutput channelOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null, bool needDataAdjustment = true)
         {
             if (settings.LimitSymmetry.HasValue)
             {
@@ -1986,11 +2090,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
             if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCVoltage))
             {
-                ConfigureVoltageSettings(channelOutput, settings, sitePinInfo);
+                ConfigureVoltageSettings(channelOutput, settings, sitePinInfo, needDataAdjustment);
             }
             else if (settings.OutputFunction.Equals(DCPowerSourceOutputFunction.DCCurrent))
             {
-                ConfigureCurrentSettings(channelOutput, settings, sitePinInfo);
+                ConfigureCurrentSettings(channelOutput, settings, sitePinInfo, needDataAdjustment);
             }
         }
 
@@ -2002,10 +2106,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.InitiateChannels(waitForSourceCompletion);
         }
 
-        private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
+        private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo, bool needDataAdjustment = true)
         {
             channelOutput.Control.Abort();
-            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo);
+            sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo, needDataAdjustment);
             if (sitePinInfo != null)
             {
                 sessionInfo.ConfigureMeasureWhen(sitePinInfo, sitePinInfo.ModelString, DCPowerMeasurementWhen.OnMeasureTrigger);
@@ -2021,29 +2125,29 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Commit();
         }
 
-        private static void InitiateGangedLeaderAndNonGangedChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false)
+        private static void InitiateGangedLeaderAndNonGangedChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false, double timeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    channelOutput.InitiateChannels(waitForSourceCompletion);
+                    channelOutput.InitiateChannels(waitForSourceCompletion, timeoutInSeconds);
                 }
             });
         }
 
-        private static void ConfigureAllChannelsAndInitiateGangedFollowerChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo)
+        private static void ConfigureAllChannelsAndInitiateGangedFollowerChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool needDataAdjustment = true)
         {
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo);
+            sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo, needDataAdjustment);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
                 channelOutput.InitiateChannels();
             }
         }
 
-        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false, double timeoutInSeconds = 5)
+        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForSourceCompletion = false, double timeoutInSeconds = DefaultTimeout)
         {
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
@@ -2060,29 +2164,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return masterChannelSessionInfo.Session.Outputs[masterChannelString];
         }
 
-        internal static string BuildTerminalName(this DCPowerSessionInformation sessionInfo, string channelString, string triggerOrEventTypeName)
-        {
-            string resourceDescriptor = $"/{sessionInfo.Session.DriverOperation.IOResourceDescriptor.Split('/')[0]}";
-            string logicalTerminalName = $"/{triggerOrEventTypeName}";
-            if (sessionInfo.ModelString == DCPowerModelStrings.PXI_4132)
-            {
-                return $"{resourceDescriptor}{logicalTerminalName}";
-            }
-            else
-            {
-                string channelName = $"/Engine{channelString.Split('/')[1]}";
-                return $"{resourceDescriptor}{channelName}{logicalTerminalName}";
-            }
-        }
-
         internal static bool IsFirstChannelOfSession(this SitePinInfo sitePinInfo, DCPowerSessionInformation sessionInfo)
         {
             return sessionInfo.AllChannelsString.StartsWith(sitePinInfo.IndividualChannelString, StringComparison.InvariantCulture);
         }
 
-        private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
+        private static void ConfigureVoltageSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool needDataAdjustment)
         {
-            var currentLimitDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
+            var currentLimitDivisor = needDataAdjustment && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
             dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
             if (settings.Level.HasValue)
             {
@@ -2115,9 +2204,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo = null)
+        private static void ConfigureCurrentSettings(DCPowerOutput dcOutput, DCPowerSourceSettings settings, SitePinInfo sitePinInfo, bool needDataAdjustment)
         {
-            var currentLevelDivisor = (sitePinInfo?.CascadingInfo as GangingInfo)?.ChannelsCount ?? 1;
+            var currentLevelDivisor = needDataAdjustment && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
             dcOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
             if (settings.Level.HasValue)
             {
@@ -2226,12 +2315,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureTriggerForGanging(this DCPowerOutput channelOutput, SitePinInfo sitePinInfo)
+        private static void ValidateChannelOutputAndSitePinInfoPair(SitePinInfo sitePinInfo, string channelString)
         {
-            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            if (sitePinInfo != null && channelString.Split(',').Length > 1)
             {
-                channelOutput.Triggers.SourceTrigger.Type = DCPowerSourceTriggerType.DigitalEdge;
-                channelOutput.Triggers.SourceTrigger.DigitalEdge.Configure((sitePinInfo.CascadingInfo as GangingInfo).SourceTriggerName, DCPowerTriggerEdge.Rising);
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelString));
             }
         }
 
