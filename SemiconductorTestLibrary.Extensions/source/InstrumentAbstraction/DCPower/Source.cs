@@ -1428,6 +1428,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 levelSequence,
                 sequenceLoopCount,
                 sequenceStepDeltaTimeInSeconds: null,
+                sourceDelaysInSeconds: null,
                 sitePinInfo,
                 needDataAdjustment);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
@@ -1515,7 +1516,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         sequence,
                         sequenceLoopCount,
                         sequenceStepDeltaTimeInSeconds,
-                        sitePinInfo);
+                        sitePinInfo: sitePinInfo);
                 });
             }
             else
@@ -1549,7 +1550,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         sequence,
                         sequenceLoopCount,
                         sequenceStepDeltaTimeInSeconds,
-                        sitePinInfo);
+                        sitePinInfo: sitePinInfo);
                 });
             }
             else
@@ -1572,7 +1573,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo: sitePinInfo);
             });
         }
 
@@ -1587,7 +1588,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo: sitePinInfo);
             });
         }
 
@@ -1612,7 +1613,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         sequence,
                         sequenceLoopCount,
                         sequenceStepDeltaTimeInSeconds,
-                        sitePinInfo);
+                        sitePinInfo: sitePinInfo);
                 });
             }
             else
@@ -1635,7 +1636,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo: sitePinInfo);
             });
         }
 
@@ -1648,7 +1649,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo, out bool isGroupData), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo, isGroupData);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo, out bool isGroupData), sequenceLoopCount, sequenceStepDeltaTimeInSeconds, sitePinInfo: sitePinInfo,  needDataAdjustment: isGroupData);
             });
         }
 
@@ -1923,6 +1924,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     channelOutput.ConfigureSequence(
                         sequence,
                         sequenceLoopCount,
+                        sequenceStepDeltaTimeInSeconds: null,
                         sourceDelaysInSeconds,
                         sitePinInfo);
                 });
@@ -1933,7 +1935,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     sessinInfo.AllChannelsOutput.Control.Abort();
                     sessinInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
-                    sessinInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sourceDelaysInSeconds);
+                    sessinInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds: null, sourceDelaysInSeconds);
                 });
             }
         }
@@ -1951,7 +1953,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds: null, sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
             });
         }
 
@@ -1971,7 +1973,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo), sitePinInfo);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo), sequenceLoopCount, sequenceStepDeltaTimeInSeconds: null, sourceDelaysInSeconds.GetValue(sitePinInfo), sitePinInfo);
             });
         }
 
@@ -1999,6 +2001,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     channelOutput.ConfigureSequence(
                         sequence,
                         sequenceLoopCount,
+                        sequenceStepDeltaTimeInSeconds: null,
                         sourceDelaysInSeconds,
                         sitePinInfo);
                 });
@@ -2009,7 +2012,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     sessinInfo.AllChannelsOutput.Control.Abort();
                     sessinInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                    sessinInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sourceDelaysInSeconds);
+                    sessinInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds: null, sourceDelaysInSeconds);
                 });
             }
         }
@@ -2027,7 +2030,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo.SiteNumber), sequenceLoopCount, sequenceStepDeltaTimeInSeconds: null, sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
             });
         }
 
@@ -2045,7 +2048,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo, out bool isGroupData), sequenceLoopCount, sourceDelaysInSeconds.GetValue(sitePinInfo), sitePinInfo, isGroupData);
+                channelOutput.ConfigureSequence(sequence.GetValue(sitePinInfo, out bool isGroupData), sequenceLoopCount, sequenceStepDeltaTimeInSeconds: null, sourceDelaysInSeconds.GetValue(sitePinInfo), sitePinInfo, isGroupData);
             });
         }
 
@@ -2118,17 +2121,34 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
         /// <param name="sequence">The voltage or current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
         /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
         /// <param name="needDataAdjustment">Indicates if the sequence values should be divided in case of Ganging.</param>
-        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null, SitePinInfo sitePinInfo = null, bool needDataAdjustment = true)
+        public static void ConfigureSequence(
+            this DCPowerOutput output,
+            double[] sequence,
+            int sequenceLoopCount,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            double[] sourceDelaysInSeconds = null,
+            SitePinInfo sitePinInfo = null,
+            bool needDataAdjustment = true)
         {
             ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
             var outputFunction = output.Source.Output.Function;
             sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
-            output.Source.SetSequence(sequence);
+            var sourceDelays = sourceDelaysInSeconds?.Select(d => PrecisionTimeSpan.FromSeconds(d)).ToArray();
+            if (sourceDelays != null)
+            {
+                output.Source.SetSequence(sequence, sourceDelays);
+            }
+            else
+            {
+                output.Source.SetSequence(sequence);
+            }
+
             output.ConfigureSourceTriggerForCascading(sitePinInfo);
             output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
             if (sequenceStepDeltaTimeInSeconds.HasValue)
@@ -2136,25 +2156,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 output.Source.SequenceStepDeltaTimeEnabled = true;
                 output.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(sequenceStepDeltaTimeInSeconds.Value);
             }
-        }
-
-        /// <summary>
-        /// Configures a hardware-timed sequence of values with per-step source delays.
-        /// </summary>
-        /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
-        /// <param name="sequence">The voltage or current sequence to set.</param>
-        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
-        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
-        /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
-        /// <param name="needDataAdjustment">Indicates if the sequence values should be divided in case of Ganging.</param>
-        public static void ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double[] sourceDelaysInSeconds, SitePinInfo sitePinInfo = null, bool needDataAdjustment = true)
-        {
-            var outputFunction = output.Source.Output.Function;
-            sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
-            output.Source.Mode = DCPowerSourceMode.Sequence;
-            output.Source.SequenceLoopCount = sequenceLoopCount;
-            var sourceDelays = sourceDelaysInSeconds.Select(d => PrecisionTimeSpan.FromSeconds(d)).ToArray();
-            output.Source.SetSequence(sequence, sourceDelays);
         }
 
         #endregion methods on DCPowerOutput
@@ -2249,9 +2250,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region private and internal methods
 
-        private static double[] DivideSequenceForCascading(DCPowerSourceOutputFunction outputFunction, SitePinInfo sitePinInfo, bool needAdjustment, double[] sequence)
+        private static double[] DivideSequenceForCascading(DCPowerSourceOutputFunction outputFunction, SitePinInfo sitePinInfo, bool needDataAdjustment, double[] sequence)
         {
-            if (outputFunction == DCPowerSourceOutputFunction.DCCurrent && needAdjustment && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            if (outputFunction == DCPowerSourceOutputFunction.DCCurrent && needDataAdjustment && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
             {
                 sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
             }
