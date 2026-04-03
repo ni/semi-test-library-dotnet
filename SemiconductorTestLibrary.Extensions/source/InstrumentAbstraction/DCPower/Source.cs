@@ -2248,7 +2248,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region private and internal methods
 
-        private static void ConfigureTriggersForCascadedSequencing(DCPowerOutput output, SitePinInfo sitePinInfo)
+        private static void ConfigureTriggersForCascadedSequencing(this DCPowerOutput output, SitePinInfo sitePinInfo)
         {
             output.ConfigureSourceTriggerForCascading(sitePinInfo);
             output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
