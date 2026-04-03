@@ -237,7 +237,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             {
                 dcPower.ConfigureMeasureWhen(measureWhen);
             }
-
             ForceCurrentMeasureVoltage(
                 tsmContext,
                 pinsOrPinGroups: new[] { "PowerPins" },
