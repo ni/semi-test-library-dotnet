@@ -15,7 +15,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static class Measure
     {
-        private static readonly IReadOnlyList<string> _onDemandPowerSupplies = new List<string>()
+        private static readonly IReadOnlyList<string> _onDemandOnlyPowerSupplies = new List<string>()
         {
             DCPowerModelStrings.PXI_4110,
             DCPowerModelStrings.PXI_4130,
@@ -437,7 +437,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                if (_onDemandPowerSupplies.Contains(sitePinInfo.ModelString))
+                if (_onDemandOnlyPowerSupplies.Contains(sitePinInfo.ModelString))
                 {
                     return;
                 }
@@ -601,7 +601,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         switch (dcOutput.Measurement.MeasureWhen)
                         {
                             case DCPowerMeasurementWhen.OnMeasureTrigger:
-                                if (_onDemandPowerSupplies.Contains(sitePinInfo.ModelString))
+                                if (_onDemandOnlyPowerSupplies.Contains(sitePinInfo.ModelString))
                                 {
                                     break;
                                 }
@@ -612,7 +612,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                                 goto case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
 
                             case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
-                                if (_onDemandPowerSupplies.Contains(sitePinInfo.ModelString))
+                                if (_onDemandOnlyPowerSupplies.Contains(sitePinInfo.ModelString))
                                 {
                                     break;
                                 }
@@ -724,7 +724,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureMeasureWhen(this DCPowerOutput dCPowerOutput, string modelString, DCPowerMeasurementWhen measureWhen)
         {
-            if (_onDemandPowerSupplies.Contains(modelString))
+            if (_onDemandOnlyPowerSupplies.Contains(modelString))
             {
                 return;
             }
