@@ -2117,7 +2117,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             else
             {
                 var channelString = channelOutput.Name;
-                sessionInfo.ConfigureMeasureWhen(channelString, sessionInfo.ModelString, measureWhen: null);
                 sessionInfo.ConfigureMeasureTriggerForCascading(channelString);
             }
             channelOutput.Source.Output.Enabled = true;
