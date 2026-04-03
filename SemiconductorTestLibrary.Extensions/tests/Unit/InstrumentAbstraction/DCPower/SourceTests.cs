@@ -3700,7 +3700,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedSequence, results[1].VoltageMeasurements);
             Assert.Equal(expectedSequence, results[2].VoltageMeasurements);
             Assert.Equal(expectedSequence, results[3].VoltageMeasurements);
-            Assert.Equal(expectedSequence, results[3].VoltageMeasurements);
         }
 
         [Theory]
@@ -3725,7 +3724,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedSequence, results[0].CurrentMeasurements);
             Assert.Equal(expectedSequence, results[1].CurrentMeasurements);
             Assert.Equal(expectedSequence, results[2].CurrentMeasurements);
-            Assert.Equal(expectedSequence, results[3].CurrentMeasurements);
             Assert.Equal(expectedSequence, results[3].CurrentMeasurements);
         }
 
