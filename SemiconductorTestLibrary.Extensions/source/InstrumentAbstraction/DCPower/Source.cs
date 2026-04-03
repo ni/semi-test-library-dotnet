@@ -1929,9 +1929,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sequence = sequence.Select(level => level / gangingInfo.ChannelsCount).ToArray();
             }
-            output.Source.SetSequence(sequence);
-            output.ConfigureSourceTriggerForCascading(sitePinInfo);
-            output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
+            output.ConfigureTriggersForCascadedSequencing(sitePinInfo);
             if (sequenceStepDeltaTimeInSeconds.HasValue)
             {
                 output.Source.SequenceStepDeltaTimeEnabled = true;
@@ -2046,6 +2044,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region private and internal methods
 
+        private static void ConfigureTriggersForCascadedSequencing(this DCPowerOutput output, SitePinInfo sitePinInfo)
+        {
+            output.ConfigureSourceTriggerForCascading(sitePinInfo);
+            output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
+            output.ConfigureMeasureTriggerForCascading(sitePinInfo);
+        }
+
         private static DCPowerAdvancedSequenceProperty[] GetAdvancedSequencePropertiesToConfigure(IEnumerable<DCPowerAdvancedSequenceStepProperties> perStepProperties)
         {
             var result = new HashSet<DCPowerAdvancedSequenceProperty>();
@@ -2112,8 +2117,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo, needDataAdjustment);
             if (sitePinInfo != null)
             {
-                sessionInfo.ConfigureMeasureWhen(sitePinInfo, sitePinInfo.ModelString, measureWhen: null);
-                sessionInfo.ConfigureMeasureTriggerForCascading(sitePinInfo);
+                channelOutput.ConfigureMeasureWhen(sitePinInfo, sitePinInfo.ModelString, DCPowerMeasurementWhen.OnMeasureTrigger);
+                channelOutput.ConfigureMeasureTriggerForCascading(sitePinInfo);
             }
             else
             {

@@ -174,7 +174,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Hence, need the ability to check the operation against each channel when configuring triggers.
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, tiggerTerminal, triggerEdge);
+                var dcPowerOutput = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+                ConfigureTriggerDigitalEdge(dcPowerOutput, pinSiteInfo, triggerType, tiggerTerminal, triggerEdge);
             });
         }
 
@@ -283,24 +284,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var sitePinInfoList = sessionInfo.AssociatedSitePinList.Where(sitePinInfo => channelString.Contains(sitePinInfo.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePinInfo =>
                 {
-                    sessionInfo.ConfigureMeasureTriggerForCascading(sitePinInfo);
+                    var dcPowerOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    dcPowerOutput.ConfigureMeasureTriggerForCascading(sitePinInfo);
                 });
             }
         }
 
-        internal static void ConfigureMeasureTriggerForCascading(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo)
+        internal static void ConfigureMeasureTriggerForCascading(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
         {
             var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
-                sessionInfo.ConfigureTriggerDigitalEdge(sitePinInfo, TriggerType.MeasureTrigger, gangingInfo.MeasureTriggerName, DCPowerTriggerEdge.Rising);
+                dcPowerOutput.ConfigureTriggerDigitalEdge(sitePinInfo, TriggerType.MeasureTrigger, gangingInfo.MeasureTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 
-        private static void ConfigureTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, TriggerType triggerType, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
+        private static void ConfigureTriggerDigitalEdge(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo, TriggerType triggerType, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
         {
-            var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            output.ConfigureTriggerDigitalEdge(triggerType, tiggerTerminal, triggerEdge, sitePinInfo.ModelString);
+            dcPowerOutput.ConfigureTriggerDigitalEdge(triggerType, tiggerTerminal, triggerEdge, sitePinInfo.ModelString);
         }
 
         private static void ConfigureTriggerDigitalEdge(this DCPowerOutput dcPowerOutput, TriggerType triggerType, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string instrumentModel = "")
