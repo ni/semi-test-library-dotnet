@@ -2135,7 +2135,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool needDataAdjustment = true)
         {
             ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
-            ConfigureTriggersForCascadedSequencing(output, sitePinInfo);
             var outputFunction = output.Source.Output.Function;
             sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
             output.Source.Mode = DCPowerSourceMode.Sequence;
@@ -2154,6 +2153,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 output.Source.SequenceStepDeltaTimeEnabled = true;
                 output.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(sequenceStepDeltaTimeInSeconds.Value);
             }
+            ConfigureTriggersForCascadedSequencing(output, sitePinInfo);
         }
 
         #endregion methods on DCPowerOutput
