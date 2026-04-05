@@ -118,10 +118,8 @@
 		<PXI Name="SMU_4151_C7_S16" Model="NI PXIe-4151" Slot="16" />
 	</PXIChassis>
 	<PXIChassis Number="8" Model="NI PXIe-1095">
-		<PXI Name="SMU_4050_C8_S02" Model="NI PXIe-4050" Slot="2" />
-		<PXI Name="SMU_4051_C8_S04" Model="NI PXIe-4051" Slot="4" />
-		<PXI Name="SMU_4051_C8_S05" Model="NI PXIe-4051" Slot="5" />
-		<PXI Name="SMU_4050_C8_S06" Model="NI PXIe-4050" Slot="6" />
+		<PXI Name="SMU_4051_C8_S02" Model="NI PXIe-4051" Slot="2" />
+		<PXI Name="SMU_4051_C8_S03" Model="NI PXIe-4051" Slot="3" />
 	</PXIChassis>
 	<Devices>
 		<USB Name="DIO_6509_C1_USB" Model="NI USB-6509" />
