@@ -1,7 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -127,11 +126,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 
         private static bool HasPowerSupplyInstrument(this DCPowerSessionsBundle dcPower, bool forceLowestCurrentLimit, out PinSiteData<DCPowerSourceSettings> dcPowerSourceSettings)
         {
-            var settings = new Dictionary<string, IDictionary<int, DCPowerSourceSettings>>();
+            var settings = new ConcurrentDictionary<string, ConcurrentDictionary<int, DCPowerSourceSettings>>();
             bool hasPowerSupply = false;
             dcPower.Do((sessionInfo, sitePinInfo) =>
             {
-                bool isPowerSupply = PowerSupply.Contains(sitePinInfo.ModelString);
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                bool isOverRangingEnabled = output.Source.OverrangingEnabled;
+                bool isPowerSupply = PowerSupplySettings.TryGetValue(sitePinInfo.ModelString, out var powerSupplyInstrumentConfiguration);
                 if (isPowerSupply)
                 {
                     hasPowerSupply = true;
@@ -139,28 +140,50 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 
                 var sourceSettings = new DCPowerSourceSettings
                 {
-                    Level = isPowerSupply ? 0.01 : 0.00,
+                    Level = isPowerSupply ? powerSupplyInstrumentConfiguration.GetVoltageLevel(isOverRangingEnabled) : 0.00,
                 };
-                sourceSettings.Limit = forceLowestCurrentLimit ? (isPowerSupply ? 0.01 : 1e-7) : (double?)null;
-                if (!settings.TryGetValue(sitePinInfo.PinName, out var siteDictionary))
-                {
-                    siteDictionary = new Dictionary<int, DCPowerSourceSettings>();
-                    settings[sitePinInfo.PinName] = siteDictionary;
-                }
+                sourceSettings.Limit = forceLowestCurrentLimit ? (isPowerSupply ? powerSupplyInstrumentConfiguration.GetCurrentLimit(isOverRangingEnabled) : 1e-7) : (double?)null;
 
-                settings[sitePinInfo.PinName][sitePinInfo.SiteNumber] = sourceSettings;
+                var siteDictionary = settings.GetOrAdd(sitePinInfo.PinName, _ => new ConcurrentDictionary<int, DCPowerSourceSettings>());
+                siteDictionary[sitePinInfo.SiteNumber] = sourceSettings;
             });
-            dcPowerSourceSettings = new PinSiteData<DCPowerSourceSettings>(settings);
+            var result = new Dictionary<string, IDictionary<int, DCPowerSourceSettings>>();
+            foreach (var kvp in settings)
+            {
+                result[kvp.Key] = new Dictionary<int, DCPowerSourceSettings>(kvp.Value);
+            }
+            dcPowerSourceSettings = new PinSiteData<DCPowerSourceSettings>(result);
             return hasPowerSupply;
         }
 
-        private static readonly IReadOnlyList<string> PowerSupply = new List<string>()
+        internal sealed class PowerSupplyInstrumentConfiguration
         {
-            DCPowerModelStrings.PXIe_4150,
-            DCPowerModelStrings.PXIe_4151,
-            DCPowerModelStrings.PXI_4110,
-            DCPowerModelStrings.PXIe_4112,
-            DCPowerModelStrings.PXIe_4113
-        };
+            private double OverRangingEnabledVoltageLevel { get; }
+            private double OverRangingEnabledCurrentLimit { get; }
+            private double OverRangingDisabledVoltageLevel { get; }
+            private double OverRangingDisabledCurrentLimit { get; }
+
+            public PowerSupplyInstrumentConfiguration(double overRangingEnabledVoltageLevel, double overRangingEnabledCurrentLimit, double overRangingDisabledVoltageLevel, double overRangingDisabledCurrentLimit)
+            {
+                OverRangingEnabledVoltageLevel = overRangingEnabledVoltageLevel;
+                OverRangingEnabledCurrentLimit = overRangingEnabledCurrentLimit;
+                OverRangingDisabledVoltageLevel = overRangingDisabledVoltageLevel;
+                OverRangingDisabledCurrentLimit = overRangingDisabledCurrentLimit;
+            }
+            public double GetVoltageLevel(bool isOverRangingEnabled) => isOverRangingEnabled ? OverRangingEnabledVoltageLevel : OverRangingDisabledVoltageLevel;
+            public double GetCurrentLimit(bool isOverRangingEnabled) => isOverRangingEnabled ? OverRangingEnabledCurrentLimit : OverRangingDisabledCurrentLimit;
+        }
+
+        internal static readonly IReadOnlyDictionary<string, PowerSupplyInstrumentConfiguration> PowerSupplySettings =
+            new Dictionary<string, PowerSupplyInstrumentConfiguration>
+            {
+                [DCPowerModelStrings.PXI_4110] = new PowerSupplyInstrumentConfiguration(overRangingEnabledVoltageLevel: 0.0, overRangingEnabledCurrentLimit: 0.01, overRangingDisabledVoltageLevel: 0.0, overRangingDisabledCurrentLimit: 0.01),
+                [DCPowerModelStrings.PXIe_4112] = new PowerSupplyInstrumentConfiguration(overRangingEnabledVoltageLevel: 0.07, overRangingEnabledCurrentLimit: 0.007, overRangingDisabledVoltageLevel: 0.1, overRangingDisabledCurrentLimit: 0.01),
+                [DCPowerModelStrings.PXIe_4113] = new PowerSupplyInstrumentConfiguration(overRangingEnabledVoltageLevel: 0.025, overRangingEnabledCurrentLimit: 0.015, overRangingDisabledVoltageLevel: 0.03, overRangingDisabledCurrentLimit: 0.02),
+                [DCPowerModelStrings.PXIe_4051] = new PowerSupplyInstrumentConfiguration(overRangingEnabledVoltageLevel: 0.0, overRangingEnabledCurrentLimit: 0.4, overRangingDisabledVoltageLevel: 0.0, overRangingDisabledCurrentLimit: 0.4),
+                [DCPowerModelStrings.PXIe_4150] = new PowerSupplyInstrumentConfiguration(overRangingEnabledVoltageLevel: 0.01, overRangingEnabledCurrentLimit: 0.15, overRangingDisabledVoltageLevel: 0.01, overRangingDisabledCurrentLimit: 0.15),
+                [DCPowerModelStrings.PXIe_4151] = new PowerSupplyInstrumentConfiguration(overRangingEnabledVoltageLevel: 0.01, overRangingEnabledCurrentLimit: 0.3, overRangingDisabledVoltageLevel: 0.01, overRangingDisabledCurrentLimit: 0.3),
+                [DCPowerModelStrings.PXIe_4154] = new PowerSupplyInstrumentConfiguration(overRangingEnabledVoltageLevel: 0.0, overRangingEnabledCurrentLimit: 0.01, overRangingDisabledVoltageLevel: 0.0, overRangingDisabledCurrentLimit: 0.01),
+            };
     }
 }
