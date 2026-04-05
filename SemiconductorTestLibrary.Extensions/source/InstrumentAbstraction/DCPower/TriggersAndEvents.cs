@@ -39,7 +39,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
-                if (!triggerTypesUnsupported.Contains(triggerType))
+                if (!triggerTypesUnsupported.Contains(triggerType) && !IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
                 {
                     var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                     switch (triggerType)
