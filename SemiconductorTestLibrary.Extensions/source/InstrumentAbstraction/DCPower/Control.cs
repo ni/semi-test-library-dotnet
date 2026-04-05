@@ -1,4 +1,5 @@
 ﻿using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -59,10 +60,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         public static void Initiate(this DCPowerSessionsBundle sessionsBundle)
         {
-            sessionsBundle.Do(sessionInfo =>
+            if (sessionsBundle.HasGangedChannels)
             {
-                sessionInfo.AllChannelsOutput.Control.Initiate();
-            });
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                    {
+                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Initiate();
+                    }
+                });
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                    {
+                        sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Initiate();
+                    }
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Control.Initiate();
+                });
+            }
         }
 
         /// <summary>
