@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4050_C4_S06" numberOfChannels="1" />
+		<NIDCPowerInstrument name="SMU_4050_C1_S15" numberOfChannels="1" />
+		<NIDCPowerInstrument name="SMU_4051_C4_S07" numberOfChannels="1" />
+      <NIDCPowerInstrument name="SMU_4051_C2_S14" numberOfChannels="1" />
+      <NIDCPowerInstrument name="SMU_4150_C4_S05" numberOfChannels="1" />
+      <NIDCPowerInstrument name="SMU_4150_C4_S10" numberOfChannels="1" />      
+		<NIDCPowerInstrument name="SMU_4151_C6_S10" numberOfChannels="1" />
+      <NIDCPowerInstrument name="SMU_4151_C7_S08" numberOfChannels="1" />
+      <NIDCPowerInstrument name="SMU_4110_C1_S04" numberOfChannels="3" />
+		<NIDCPowerInstrument name="SMU_4112_C4_S04" numberOfChannels="2" />
+      <NIDCPowerInstrument name="SMU_4113_C7_S02" numberOfChannels="2" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="VDD" />
+		<DUTPin name="VCC1" />
+		<DUTPin name="PA_EN" />
+		<DUTPin name="C0" />
+		<DUTPin name="C1" />
+		<DUTPin name="VCC2" />
+		<DUTPin name="VDET" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="DCPowerSupplyPins">
+			<PinReference pin="VDD" />
+			<PinReference pin="VCC1" />
+			<PinReference pin="PA_EN" />
+         <PinReference pin="C0" />
+			<PinReference pin="C1" />
+			<PinReference pin="VCC2" />
+			<PinReference pin="VDET" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="VDD" siteNumber="0" instrument="SMU_4050_C4_S06" channel="0" />
+      <Connection pin="VDD" siteNumber="1" instrument="SMU_4113_C7_S02" channel="1" />
+		<Connection pin="VCC1" siteNumber="0" instrument="SMU_4051_C4_S07" channel="0" />
+      <Connection pin="VCC1" siteNumber="1" instrument="SMU_4112_C4_S04" channel="1" />
+		<Connection pin="PA_EN" siteNumber="0" instrument="SMU_4150_C4_S05" channel="0" />
+      <Connection pin="PA_EN" siteNumber="1" instrument="SMU_4110_C1_S04" channel="1" />
+		<Connection pin="C0" siteNumber="0" instrument="SMU_4151_C6_S10" channel="0" />
+      <Connection pin="C0" siteNumber="1" instrument="SMU_4151_C7_S08" channel="0" />
+		<Connection pin="C1" siteNumber="0" instrument="SMU_4110_C1_S04" channel="0" />
+      <Connection pin="C1" siteNumber="1" instrument="SMU_4150_C4_S10" channel="0" />
+		<Connection pin="VCC2" siteNumber="0" instrument="SMU_4112_C4_S04" channel="0" />
+      <Connection pin="VCC2" siteNumber="1" instrument="SMU_4051_C2_S14" channel="0" />
+		<Connection pin="VDET" siteNumber="0" instrument="SMU_4113_C7_S02" channel="0" />
+      <Connection pin="VDET" siteNumber="1" instrument="SMU_4050_C1_S15" channel="0" />
+	</Connections>
+</PinMap>
