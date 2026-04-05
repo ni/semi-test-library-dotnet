@@ -230,7 +230,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
                 var triggerTypesToClear = new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger };
                 var supportedTriggerTypesToClear = triggerTypesToClear.Except(triggerTypesUnsupported);
-                if (supportedTriggerTypesToClear.Any())
+                if (supportedTriggerTypesToClear.Any() && !IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
                 {
                     var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                     output.Control.Abort();
