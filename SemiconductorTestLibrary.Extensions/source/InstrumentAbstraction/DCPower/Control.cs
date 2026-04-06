@@ -102,6 +102,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 allChannelOutput.Control.Abort();
                 allChannelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
                 allChannelOutput.Control.Initiate();
+                // This Initiate method needs to be split for ganged channels.
                 if (waitForSequenceCompletion)
                 {
                     allChannelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
