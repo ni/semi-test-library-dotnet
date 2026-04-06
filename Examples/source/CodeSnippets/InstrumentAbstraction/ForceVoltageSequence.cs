@@ -51,7 +51,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Create a voltage ramp sequence from 0 to 3 volts with 10 points, which will create a sequence like [0V, 0.33V, 0.66V, ..., 3V]
             double[] voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
             var sequenceName = "VoltageRampSequence";
-            dcPowerPins.ConfigureVoltageSequence(voltageSequence, sequenceName, setAsActiveSequence: true);
+            dcPowerPins.ConfigureVoltageSequence(sequenceName, voltageSequence, setAsActiveSequence: true);
 
             // Measurements taken during the sequence execution can be fetched once the sequence finishes.
             // The fetched result contains the measured Current, Voltage, and In Compliance state values for each step of the sequence.
@@ -74,10 +74,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
-
-            // Measurements can be taken during sequence execution, with exactly one sample for each step,
-            // but to enable this, the MeasureWhen property must be set to AutomaticallyAfterSourceComplete.
-            dcPowerPins.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
             // Create a voltage ramp sequence from 0 to 3 volts with 10 points, which will create a sequence like [0V, 0.33V, 0.66V, ..., 3V]
             double[] voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
