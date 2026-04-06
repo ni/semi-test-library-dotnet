@@ -28,7 +28,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             string[] pins = { "VDD" };
 
-            ForceVoltageSequence.ForceSynchronizedVoltageRampAndFetchMeasurements(tsmContext, pins);
+            ForceVoltageSequence.ForceSynchronizedVoltageRamp(tsmContext, pins);
 
             CleanupInstrumentation(tsmContext);
         }
@@ -40,7 +40,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             string[] pins = { "VDD" };
 
-            ForceVoltageSequence.ForceVoltageRampFetchCurrentMeasurements(tsmContext, pins);
+            ForceVoltageSequence.ConfigureVoltageSequence(tsmContext, pins);
 
             CleanupInstrumentation(tsmContext);
         }
