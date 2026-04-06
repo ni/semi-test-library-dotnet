@@ -526,8 +526,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Forces a hardware-timed sequence of voltage outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
         /// <remarks>
-        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
-        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
         /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.<br/>
         /// This function will also switch the Source Mode back to SinglePoint.
@@ -573,8 +571,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <remarks>
-        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
-        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
         /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
         /// This function will also switch the Source Mode back to SinglePoint.
@@ -621,8 +617,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <remarks>
-        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
-        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
         /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
         /// This function will also switch the Source Mode back to SinglePoint.
@@ -1833,7 +1827,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="true"/>, sets the configured sequence as the active sequence.
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
-        public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
+        public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, double[] sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -1906,7 +1900,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="true"/>, sets the configured sequence as the active sequence.
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
-        public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
+        public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, double[] sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
