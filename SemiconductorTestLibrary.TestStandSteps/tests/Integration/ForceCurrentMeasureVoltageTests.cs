@@ -1,6 +1,7 @@
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
@@ -211,6 +212,75 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             string[] allPins = { "Vaa", "Vab", "Vac", "Vad" };
             AssertPublishedData(tsmContext, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void GangedPinGroup_SetMeasureWhenAndFIMV_TriggersConfiguredDataMeasuredAndPublishedCorrectly(string pinmap, DCPowerMeasurementWhen measureWhen)
+        {
+            var tsmContext = CreateTSMContext(pinmap, out var publishedDataReader, "Mixed Signal Tests.digiproj");
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
+            dcPower.GangPinGroup("MergedPowerPins");
+
+            if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+            {
+                dcPower.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
+            }
+            else
+            {
+                dcPower.ConfigureMeasureWhen(measureWhen);
+            }
+            ForceCurrentMeasureVoltage(
+                tsmContext,
+                pinsOrPinGroups: new[] { "PowerPins" },
+                currentLevel: 0.005,
+                voltageLimit: 3.3,
+                apertureTime: 5e-5,
+                settlingTime: 5e-5);
+
+            dcPower.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                AssertTriggerSettings(sitePinInfo, channelOutput);
+            });
+            dcPower.UngangPinGroup("MergedPowerPins");
+            string[] allPins = { "VDD", "VCC1", "VCC2" };
+            AssertPublishedData(tsmContext, allPins, publishedDataReader);
+            CleanupInstrumentation(tsmContext);
+        }
+
+        private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput)
+        {
+            if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
+            {
+                Assert.Equal(DCPowerSourceTriggerType.DigitalEdge, channelOutput.Triggers.SourceTrigger.Type);
+                Assert.Equal(DCPowerMeasureTriggerType.DigitalEdge, channelOutput.Triggers.MeasureTrigger.Type);
+                Assert.Equal(GetTriggerName(gangingInfo), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+                Assert.Equal(GetTriggerName(gangingInfo, "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
+            }
+        }
+
+        private static string GetTriggerName(GangingInfo gangingInfo, string triggerType = "Source")
+        {
+            if (gangingInfo.IsFollower)
+            {
+                if (triggerType == "Source")
+                {
+                    return gangingInfo.SourceTriggerName;
+                }
+                else
+                {
+                    return gangingInfo.MeasureTriggerName;
+                }
+            }
+            return string.Empty;
         }
 
         private void AssertPublishedData(ISemiconductorModuleContext tsmContext, string[] allPins, IPublishedDataReader publishedDataReader)

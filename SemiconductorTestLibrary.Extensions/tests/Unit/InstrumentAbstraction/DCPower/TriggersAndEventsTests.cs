@@ -123,7 +123,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
 
             // Test Digital Edge Trigger - Raising (default)
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.StartTrigger, triggerLine);
@@ -159,7 +159,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
 
             // Test Software Edge Trigger
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SequenceAdvanceTrigger);
@@ -195,7 +195,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
 
             // Test Digital Edge Trigger - Raising (default)
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.SequenceAdvanceTrigger, triggerLine);
@@ -231,7 +231,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
 
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.StartTrigger);
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
@@ -271,7 +271,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
 
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, triggerLine);
 
@@ -306,7 +306,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
 
             // Test Software Edge Trigger
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
