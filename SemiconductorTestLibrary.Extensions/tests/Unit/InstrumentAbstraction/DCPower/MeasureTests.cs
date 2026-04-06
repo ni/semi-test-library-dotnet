@@ -1097,7 +1097,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
         [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
         [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
-        public void GangedPinGroup_SetMeasureWhenAndMeasureV_TriggersConfiguredDataMeasured(string pinmap, DCPowerMeasurementWhen measureWhen)
+        public void GangedPinGroup_SetMeasureWhen_MeasureWhenConfiguredCorrectly(string pinmap, DCPowerMeasurementWhen measureWhen)
         {
             _tsmContext = CreateTSMContext(pinmap);
             InitializeAndClose.Initialize(_tsmContext);
@@ -1105,22 +1105,39 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
             dcPower.GangPinGroup("MergedPowerPins");
 
-            if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
-            {
-                dcPower.ConfigureMeasureWhen(measureWhen);
-                dcPower.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
-            }
-            else
-            {
-                dcPower.ConfigureMeasureWhen(measureWhen);
-            }
-            // dcPower.MeasureVoltage();
+            dcPower.ConfigureMeasureWhen(measureWhen);
 
             dcPower.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 AssertMeasureWhenSettings(sitePinInfo, channelOutput, measureWhen);
             });
+            dcPower.UngangPinGroup("MergedPowerPins");
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void GangedPinGroupSetMeasureWhen_Initiate_DataMeasuredCorrectly(string pinmap, DCPowerMeasurementWhen measureWhen)
+        {
+            _tsmContext = CreateTSMContext(pinmap);
+            InitializeAndClose.Initialize(_tsmContext);
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
+            dcPower.GangPinGroup("MergedPowerPins");
+            dcPower.ConfigureMeasureWhen(measureWhen);
+            if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+            {
+                dcPower.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
+            }
+
+            dcPower.Initiate();
+
+            dcPower.MeasureVoltage();
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
