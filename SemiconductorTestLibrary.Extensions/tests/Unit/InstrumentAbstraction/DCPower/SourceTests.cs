@@ -1801,8 +1801,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 AssertCurrentSettings(sitePinInfo, channelOutput, 0.5, 1.5, 2);
                 AssertTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
-            sessionsBundle.UngangPinGroup(ThreePinsGangedGroup);
-            sessionsBundle.ForceCurrent(currentLevel: 1.5);
         }
 
         [Fact]
@@ -3350,7 +3348,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureDifferentSourceSettingsForPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ConfigureDifferentOutputFunctionForPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
