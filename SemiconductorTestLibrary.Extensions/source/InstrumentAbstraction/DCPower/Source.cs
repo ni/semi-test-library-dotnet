@@ -306,7 +306,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
         /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>
-        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageSequence">Sequence of voltage values to force.</param>
@@ -352,12 +353,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
+
+            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo?.CascadingInfo is GangingInfo)
+                {
+                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    output.Triggers.StartTrigger.Disable();
+                }
+            });
         }
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
         /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool)"/>
-        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
         /// </remarks>
         /// <inheritdoc cref="ForceVoltageSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
@@ -406,6 +418,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
+
+            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo?.CascadingInfo is GangingInfo)
+                {
+                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    output.Triggers.StartTrigger.Disable();
+                }
+            });
         }
 
         /// <remarks>
@@ -462,6 +484,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
+
+            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo?.CascadingInfo is GangingInfo)
+                {
+                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    output.Triggers.StartTrigger.Disable();
+                }
+            });
         }
 
         /// <summary>
@@ -497,7 +529,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
         /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-         /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageSequence">Sequence of voltage values to force.</param>
@@ -543,7 +576,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
         /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-         /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
         /// </remarks>
         /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
@@ -590,7 +624,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
         /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-         /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
         /// </remarks>
         /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
@@ -833,10 +868,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Forces a hardware-timed sequence of current outputs, ensuring synchronized output across all specified target pins.
         /// </summary>
         /// <remarks>
-        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
-        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentSequence">Sequence of current values to force.</param>
@@ -879,10 +913,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <remarks>
-        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
-        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
         /// </remarks>
         /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
@@ -926,10 +959,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <remarks>
-        /// After using this method, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.<br/>
-        /// <br/>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
         /// </remarks>
         /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
@@ -1046,19 +1078,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
+
+            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed.
+            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
         }
 
         /// <summary>
         /// Synchronizes and forces an advanced sequence across all sessions in the bundle.
         /// </summary>
-        /// <param name="sessionsBundle">The bundle of DC power sessions to synchronize.</param>
-        /// <param name="sequence">The sequence of voltage source settings to apply.</param>
-        /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequence">The sequence of source settings to apply.</param>
+        /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
-        /// <remarks>
-        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
-        /// </remarks>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
@@ -1075,7 +1112,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceTimeoutInSeconds);
         }
 
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
+        /// </remarks>
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="sequence"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<DCPowerSourceSettings[]> sequence,
@@ -1092,7 +1139,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceTimeoutInSeconds);
         }
 
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
+        /// </remarks>
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="sequence"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerSourceSettings[]> sequence,
@@ -1112,7 +1169,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Synchronizes and forces an advanced sequence across all sessions in the bundle and return measurements.
         /// </summary>
-        /// <param name="sessionsBundle">The bundle of DC power sessions to synchronize.</param>
+        /// <remarks>
+        /// This function will switch the Source Mode back to SinglePoint.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sequence">The sequence of source settings to apply.</param>
         /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
@@ -1121,9 +1181,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
         /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
-        /// <remarks>
-        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
-        /// </remarks>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
@@ -1192,14 +1249,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Synchronizes and forces an advanced sequence across all sessions in the bundle.
         /// </summary>
-        /// <param name="sessionsBundle">The bundle of DC power sessions to synchronize.</param>
-        /// <param name="sequence">The sequence of voltage source settings to apply.</param>
-        /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequence">The sequence of <see cref="DCPowerAdvancedSequenceStepProperties"/> to apply.</param>
+        /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
-        /// <remarks>
-        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
-        /// </remarks>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,
@@ -1216,7 +1275,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceTimeoutInSeconds);
         }
 
-        /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerAdvancedSequenceStepProperties[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
+        /// </remarks>
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="sequence"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
@@ -1233,7 +1302,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sequenceTimeoutInSeconds);
         }
 
-        /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerAdvancedSequenceStepProperties[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
+        /// </remarks>
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="sequence"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
@@ -1253,8 +1332,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Synchronizes and forces an advanced sequence across all sessions in the bundle and return measurements.
         /// </summary>
-        /// <param name="sessionsBundle">The bundle of DC power sessions to synchronize.</param>
-        /// <param name="sequence">The sequence of source settings to apply.</param>
+        /// <remarks>
+        /// This function will switch the Source Mode back to SinglePoint.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequence">The sequence of <see cref="DCPowerAdvancedSequenceStepProperties"/> to apply.</param>
         /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
@@ -1262,9 +1344,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
         /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
-        /// <remarks>
-        /// Note: After using this method and completing any required measurements, disable the <see cref="TriggerType.StartTrigger"/>, to avoid unnecessary wait on trigger for next force operations on the bundle with same pins.
-        /// </remarks>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,
@@ -1396,6 +1475,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
+            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed.
+            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+
             return result;
         }
 
@@ -1431,10 +1513,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
         /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>
-        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-         /// <param name="currentSequence">Sequence of current values to force.</param>
+        /// <param name="currentSequence">Sequence of current values to force.</param>
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
         /// <param name="currentLevelRange">Current level range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
@@ -1478,12 +1561,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
+
+            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo?.CascadingInfo is GangingInfo)
+                {
+                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    output.Triggers.StartTrigger.Disable();
+                }
+            });
         }
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
         /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool)"/>
-        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
         /// </remarks>
         /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
@@ -1531,14 +1625,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
+
+            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo?.CascadingInfo is GangingInfo)
+                {
+                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    output.Triggers.StartTrigger.Disable();
+                }
+            });
         }
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
         /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, PinSiteData{double[]}, int, double?, bool)"/>
-        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
+        /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
+        /// This function will also switch the Source Mode back to SinglePoint.
         /// </remarks>
-         /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
+        /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="currentSequence"/>
         /// <param name="voltageLimit"/>
@@ -1585,6 +1690,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
+
+            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo?.CascadingInfo is GangingInfo)
+                {
+                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    output.Triggers.StartTrigger.Disable();
+                }
+            });
         }
 
         private static void ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(

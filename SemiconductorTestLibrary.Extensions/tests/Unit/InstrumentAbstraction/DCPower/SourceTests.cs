@@ -164,7 +164,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sequence = new[] { 0.000, 0.005, 0.010 };
             sessionsBundle.ForceVoltageSequenceSynchronized(voltageSequence: sequence, currentLimit: 0.5, voltageLevelRange: 1.0, currentLimitRange: 0.5);
 
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.5));
         }
 
@@ -206,7 +205,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 voltageLevelRange: voltageLevelRanges,
                 currentLimitRange: currentLimitRanges);
 
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: currentLimits.GetValue(sitePinInfo.SiteNumber, "VDD"));
@@ -240,7 +238,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 voltageLevelRange: voltageLevelRanges,
                 currentLimitRange: currentLimitRanges);
 
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: currentLimits.GetValue(sitePinInfo.SiteNumber));
@@ -1195,7 +1192,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequenceSynchronized(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 0.5);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
                 Assert.Equal(0.1, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange);
@@ -1240,7 +1236,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 voltageLimitRange: voltageLimitRanges);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
                 Assert.Equal(currentLevelRanges.GetValue(sitePinInfo.SiteNumber, "VDD"), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange);
@@ -1273,7 +1268,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 voltageLimitRange: voltageLimitRanges);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
                 Assert.Equal(currentLevelRanges.GetValue(sitePinInfo.SiteNumber), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange, 2);
@@ -1345,7 +1339,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: currentLimit, expectedCurrentLimitRange: currentLimitRange));
         }
 
@@ -1376,7 +1369,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: currentLimit, expectedCurrentLimitRange: (double?)currentLimitRange));
         }
 
@@ -1409,7 +1401,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: currentLimit, expectedCurrentLimitRange: (double?)currentLimitRange));
         }
 
@@ -1444,7 +1435,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.2));
         }
 
@@ -1464,7 +1454,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceVoltageSequence(voltageSequence: sequence, currentLimit: 1.5, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
@@ -1489,7 +1478,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceVoltageSequence(voltageSequence: sequence, currentLimit: 1.8, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.6));
         }
 
@@ -2706,7 +2694,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 1, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedCurrentLevelRange: 0.1, expectedVoltageLimit: 0.5, expectedVoltageLimitRange: 1, expectedSequenceLoopCount: 2));
         }
 
@@ -2722,7 +2709,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2.5, voltageLimitRange: 1, sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 1));
         }
 
@@ -2742,7 +2728,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
         }
 
@@ -2763,7 +2748,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2, voltageLimitRange: 1, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
         }
 
@@ -2783,7 +2767,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceCurrentSequence(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 2, voltageLimitRange: 1, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger }); // Driver requires start trigger to be disabled once the Source Mode is set to single point (which we are doing in DeleteAdvancedSequences).
             sessionsBundle.Do(sessionInfo => AssertCurrentSettings(sessionInfo.AllChannelsOutput, expectedVoltageLimit: 0.5, expectedSequenceLoopCount: 2));
         }
 
@@ -3686,19 +3669,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedSequence = new double[] { 1, 2, 3, 4, 5 };
             // Cannot test sequence loop count because it's not supported in offline mode.
             sessionsBundle.ConfigureVoltageSequence(sequenceName, expectedSequence, sequenceLoopCount: 1, setAsActiveSequence: true);
-            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.AllChannelsOutput.Control.Initiate();
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.Control.Initiate();
                 // Cannot test fetch backlog because it's always 1 in offline mode.
-                return sessionInfo.Session.Measurement.Fetch(sessionInfo.AllChannelsString, PrecisionTimeSpan.FromSeconds(1), 5);
+                return sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(1), 5);
             });
 
             if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
             {
-                Assert.Equal(expectedSequence, results[0].VoltageMeasurements);
-                Assert.Equal(expectedSequence, results[1].VoltageMeasurements);
-                Assert.Equal(expectedSequence, results[2].VoltageMeasurements);
-                Assert.Equal(expectedSequence, results[3].VoltageMeasurements);
+                Assert.Equal(expectedSequence, results[0][0].VoltageMeasurements);
+                Assert.Equal(expectedSequence, results[0][1].VoltageMeasurements);
+                Assert.Equal(expectedSequence, results[0][2].VoltageMeasurements);
+                Assert.Equal(expectedSequence, results[0][3].VoltageMeasurements);
             }
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
@@ -3717,19 +3701,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedSequence = new double[] { 0.5, 1, 1.5, 2, 2.5 };
             // Cannot test sequence loop count because it's not supported in offline mode.
             sessionsBundle.ConfigureCurrentSequence(sequenceName, expectedSequence, sequenceLoopCount: 1, setAsActiveSequence: true);
-            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            var results = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.AllChannelsOutput.Control.Initiate();
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.Control.Initiate();
                 // Cannot test fetch backlog because it's always 1 in offline mode.
-                return sessionInfo.Session.Measurement.Fetch(sessionInfo.AllChannelsString, PrecisionTimeSpan.FromSeconds(1), 5);
+                return sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, PrecisionTimeSpan.FromSeconds(1), 5);
             });
 
             if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
             {
-                Assert.Equal(expectedSequence, results[0].CurrentMeasurements);
-                Assert.Equal(expectedSequence, results[1].CurrentMeasurements);
-                Assert.Equal(expectedSequence, results[2].CurrentMeasurements);
-                Assert.Equal(expectedSequence, results[3].CurrentMeasurements);
+                Assert.Equal(expectedSequence, results[0][0].CurrentMeasurements);
+                Assert.Equal(expectedSequence, results[0][1].CurrentMeasurements);
+                Assert.Equal(expectedSequence, results[0][2].CurrentMeasurements);
+                Assert.Equal(expectedSequence, results[0][3].CurrentMeasurements);
             }
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
