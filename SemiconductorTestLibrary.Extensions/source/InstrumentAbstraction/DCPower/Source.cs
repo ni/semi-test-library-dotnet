@@ -2479,7 +2479,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 output.Source.SequenceStepDeltaTimeEnabled = true;
                 output.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(sequenceStepDeltaTimeInSeconds.Value);
             }
-            ConfigureTriggersForCascadedSequencing(output, sitePinInfo);
+            // ConfigureTriggersForCascadedSequencing(output, sitePinInfo);
         }
 
         #endregion methods on DCPowerOutput
