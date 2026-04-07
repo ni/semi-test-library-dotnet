@@ -66,7 +66,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
                     {
-                    sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Initiate();
+                        sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Initiate();
                     }
                 });
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -102,7 +102,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 allChannelOutput.Control.Abort();
                 allChannelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
                 allChannelOutput.Control.Initiate();
-                // This Initiate method needs to be split for ganged channels.
                 if (waitForSequenceCompletion)
                 {
                     allChannelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
