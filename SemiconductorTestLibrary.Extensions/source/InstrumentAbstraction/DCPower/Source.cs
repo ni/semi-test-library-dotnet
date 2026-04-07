@@ -1050,7 +1050,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double sequenceTimeoutInSeconds)
         {
             var sequenceName = BuildSequenceName();
-            var leaderChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
+            // The output of a designated primary channel within the bundle is needed to synchronize all other channels together.
+            var primaryOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
 
             // Configure all channels
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
@@ -1066,40 +1067,41 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
 
                 var perChannelString = sitePinInfo.IndividualChannelString;
-                var channelOutput = sessionInfo.Session.Outputs[perChannelString];
-                channelOutput.Control.Abort();
-                channelOutput.ConfigureLevelsAndLimits(settings);
-                channelOutput.ConfigureAdvancedSequenceCore(
+                // The output of all other channels within the bundle that will be synchronized with the designated primary channel.
+                var allOtherOutputs = sessionInfo.Session.Outputs[perChannelString];
+                allOtherOutputs.Control.Abort();
+                allOtherOutputs.ConfigureLevelsAndLimits(settings);
+                allOtherOutputs.ConfigureAdvancedSequenceCore(
                     sequenceName: sequenceName,
                     sequence: fetchLevelSequence(sitePinInfo),
                     sequenceLoopCount: sequenceLoopCount,
                     outputFunction: outputFunction,
                     setAsActiveSequence: true);
-                channelOutput.Source.SourceDelay = sourceDelayInSeconds.HasValue
+                allOtherOutputs.Source.SourceDelay = sourceDelayInSeconds.HasValue
                     ? PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.Value)
                     : PrecisionTimeSpan.Zero;
                 sessionInfo.ConfigureTransientResponce(settings, perChannelString);
 
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
-                    // Leader channel does not need a start trigger
-                    channelOutput.Triggers.StartTrigger.Disable();
-                    channelOutput.Control.Commit();
+                    // Primary channel does not need a start trigger
+                    allOtherOutputs.Triggers.StartTrigger.Disable();
+                    allOtherOutputs.Control.Commit();
                 }
                 else
                 {
-                     // Follower channels start on leader's start trigger
-                    channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
-                    channelOutput.Control.Initiate();
+                     // All other channels start on primary channel's start trigger
+                    allOtherOutputs.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
+                    allOtherOutputs.Control.Initiate();
                 }
             });
 
             // Start leader
-            leaderChannelOutput.Control.Initiate();
+            primaryOutput.Control.Initiate();
 
             if (waitForSequenceCompletion)
             {
-                leaderChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+                primaryOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
             }
 
             // Clearing the active advanced sequence after use.
@@ -1447,7 +1449,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10) where T : class
         {
-            var leaderChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
+            // The output of a designated primary channel within the bundle is needed to synchronize all other channels together.
+            var primaryOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
             var sequenceName = BuildSequenceName();
             PinSiteData<SingleDCPowerFetchResult[]> result = null;
 
@@ -1456,18 +1459,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var perSitePinSequence = getSequence(sitePinInfo);
                 var validProperties = GetValidProperties(perSitePinSequence);
                 var perChannelString = sitePinInfo.IndividualChannelString;
-                var channelOutput = sessionInfo.Session.Outputs[perChannelString];
-                channelOutput.Control.Abort();
+                // The output of all other channels within the bundle that will be synchronized with the designated primary channel.
+                var allOtherOutputs = sessionInfo.Session.Outputs[perChannelString];
+                allOtherOutputs.Control.Abort();
                 if (fetchResult)
                 {
                     if (pointsToFetch == null)
                     {
                         pointsToFetch = perSitePinSequence.Length;
                     }
-                    channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+                    allOtherOutputs.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
                 }
-                channelOutput.Source.SequenceLoopCount = sequenceLoopCount;
-                channelOutput.ConfigureAdvancedSequenceCore(
+                allOtherOutputs.Source.SequenceLoopCount = sequenceLoopCount;
+                allOtherOutputs.ConfigureAdvancedSequenceCore(
                     sequenceName,
                     sitePinInfo.ModelString,
                     validProperties,
@@ -1475,22 +1479,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     commitFirstElementAsInitialState: false);
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
-                    channelOutput.Triggers.StartTrigger.Disable();
-                    channelOutput.Control.Commit();
+                    allOtherOutputs.Triggers.StartTrigger.Disable();
+                    allOtherOutputs.Control.Commit();
                 }
                 else
                 {
-                     // Follower channels start on leader's start trigger
-                    channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
-                    channelOutput.Control.Initiate();
+                     // All other channels start on primary channel's start trigger
+                    allOtherOutputs.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
+                    allOtherOutputs.Control.Initiate();
                 }
             });
 
-            leaderChannelOutput.Control.Initiate();
+            primaryOutput.Control.Initiate();
 
             if (waitForSequenceCompletion)
             {
-                leaderChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+                primaryOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
             }
 
             if (fetchResult)
