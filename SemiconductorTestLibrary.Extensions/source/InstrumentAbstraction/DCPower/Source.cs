@@ -2221,15 +2221,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo: null);
         }
 
-        /// <summary>
-        /// Configures <see cref="DCPowerSourceSettings"/>.
-        /// </summary>
-        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
-        /// <param name="settings">The source settings to configure.</param>
-        /// <param name="channelOutput">The <see cref="DCPowerOutput"/> object.</param>
-        /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
-        /// <param name="needDataAdjustment">Indicates whether the provided current limit and range values should be divided equally to each individual pin within a ganged group. Set this to false to apply pin-specific values to pins in a ganged group, or true to apply values at the group level.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo, bool needDataAdjustment = true)
+        #endregion methods on DCPowerSessionInformation
+
+        #region private and internal methods
+
+        internal static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo, bool needDataAdjustment = true)
         {
             string channelString = string.IsNullOrEmpty(channelOutput.Name) ? sessionInfo.AllChannelsString : channelOutput.Name;
             ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, channelString);
@@ -2255,10 +2251,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.ConfigureLevelsAndLimits(settings);
             }
         }
-
-        #endregion methods on DCPowerSessionInformation
-
-        #region private and internal methods
 
         private static double[] DivideSequenceForCascading(DCPowerSourceOutputFunction outputFunction, SitePinInfo sitePinInfo, bool needDataAdjustment, double[] sequence)
         {

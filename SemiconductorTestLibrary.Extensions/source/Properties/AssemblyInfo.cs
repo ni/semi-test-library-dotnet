@@ -1,18 +1,23 @@
 ﻿using System.Reflection;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NationalInstruments.SemiconductorTestLibrary.Extentions")]
-[assembly: AssemblyDescription("NI Semiconductor Test Library Abstractions")]
+[assembly: AssemblyDescription("NI Semiconductor Test Library Extentions")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("National Instruments")]
 [assembly: AssemblyProduct("NationalInstruments.SemiconductorTestLibrary")]
 [assembly: AssemblyCopyright("Copyright (C) National Instruments 2024. MIT License.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+
+// This attribute makes the internal types of this assembly visible to the the unit test project
+// "NationalInstruments.Tests.SemiconductorTestLibrary.Extensions" to access and test the internal members.
+[assembly: InternalsVisibleTo("NationalInstruments.Tests.SemiconductorTestLibrary.Extensions")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
