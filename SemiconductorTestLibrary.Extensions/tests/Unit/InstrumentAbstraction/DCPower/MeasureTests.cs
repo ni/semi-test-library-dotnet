@@ -210,7 +210,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(0.017, maximumApertureTime, 3);
         }
 
-        /*
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -290,7 +289,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(3, results.Item1[2][0]);
             }
         }
-        */
 
         [Theory]
         [InlineData(false)]
@@ -388,6 +386,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(0.02, result["VDD"].DeltaTime);
                 // pointsToFetch = fetchWaveformLength / deltaTime = 2 / 0.02 = 100
                 Assert.Equal(100, result["VDD"].Result.VoltageMeasurements.Length);
+            }
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SameModelSMUsSharedChannelGroupWaveformAcquisitionStarted_FinishWaveformAcquisition_ResultsReturned()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new[] { "VDD", "VDET" });
+            double sampleRate = 100e3;
+            double measureTime = 255 / sampleRate;
+            var originalSettings = sessionsBundle.ConfigureAndStartWaveformAcquisition(sampleRate, measureTime);
+
+            var waveformData = sessionsBundle.FinishWaveformAcquisition(measureTime, originalSettings);
+
+            foreach (var siteNumber in waveformData.SiteNumbers)
+            {
+                foreach (var pinName in waveformData.PinNames)
+                {
+                    var waveform = waveformData.GetValue(siteNumber, pinName);
+                    Assert.True(waveform.DeltaTime > 0);
+                    Assert.True(waveform.Result.VoltageMeasurements.Length > 0);
+                }
             }
         }
 
