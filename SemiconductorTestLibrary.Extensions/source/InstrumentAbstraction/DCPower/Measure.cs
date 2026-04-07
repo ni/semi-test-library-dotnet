@@ -381,7 +381,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
 
                 channelOutput.Control.Initiate();
-                // This needs to be split for ganged channels.
             });
 
             masterChannelOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
@@ -404,7 +403,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Triggers.MeasureTrigger.Type = originalMeasureTriggerTypes[perChannelString];
                 channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal = originalMeasureTriggerTerminalNames[perChannelString];
                 channelOutput.Control.Initiate();
-                // This needs to be split for ganged channels.
             });
 
             return results;
@@ -755,7 +753,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Measurement.MeasureWhen = settings.MeasureWhen;
             channelOutput.Triggers.MeasureTrigger.Type = settings.MeasureTriggerType;
             channelOutput.Control.Initiate();
-            // This needs to be split for ganged channels.
         }
 
         private static void ConfigureAndInitiate(NIDCPower session, string channelString, double sampleRate, double bufferLength)
@@ -778,7 +775,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
 
             channelOutput.Control.Initiate();
-            // This needs to be split for ganged channels.
             channelOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
         }
 
