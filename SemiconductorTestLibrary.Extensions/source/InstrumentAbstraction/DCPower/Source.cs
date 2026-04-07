@@ -2471,6 +2471,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 output.Source.SetSequence(sequence);
             }
+            output.Source.SetSequence(sequence);
+            output.ConfigureSourceTriggerForCascading(sitePinInfo);
+            output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
             if (sequenceStepDeltaTimeInSeconds.HasValue)
             {
                 output.Source.SequenceStepDeltaTimeEnabled = true;
@@ -2571,11 +2574,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         #region private and internal methods
 
-        private static void ConfigureTriggersForCascadedSequencing(this DCPowerOutput output, SitePinInfo sitePinInfo)
+        private static void ConfigureTriggersForCascadedSequencing(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo)
         {
+            var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             output.ConfigureSourceTriggerForCascading(sitePinInfo);
             output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
-            output.ConfigureMeasureTriggerForCascading(sitePinInfo);
+            sessionInfo.ConfigureMeasureTriggerForCascading(sitePinInfo);
         }
 
         private static double[] DivideSequenceForCascading(DCPowerSourceOutputFunction outputFunction, SitePinInfo sitePinInfo, bool needDataAdjustment, double[] sequence)
@@ -2653,8 +2657,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo, needDataAdjustment);
             if (sitePinInfo != null)
             {
-                channelOutput.ConfigureMeasureWhen(sitePinInfo, sitePinInfo.ModelString, measureWhen: null);
-                channelOutput.ConfigureMeasureTriggerForCascading(sitePinInfo);
+                sessionInfo.ConfigureMeasureWhen(sitePinInfo, sitePinInfo.ModelString, measureWhen: null);
+                sessionInfo.ConfigureMeasureTriggerForCascading(sitePinInfo);
             }
             else
             {

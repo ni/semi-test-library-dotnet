@@ -676,8 +676,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        internal static void ConfigureMeasureWhen(this DCPowerOutput output, SitePinInfo sitePinInfo, string modelString, DCPowerMeasurementWhen? measureWhen)
+        internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, string modelString, DCPowerMeasurementWhen? measureWhen)
         {
+            var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
                 output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
@@ -696,8 +697,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var sitePinInfoList = sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
                 Parallel.ForEach(sitePinInfoList, sitePin =>
                 {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePin.IndividualChannelString];
-                    channelOutput.ConfigureMeasureWhen(sitePin, sessionInfo.ModelString, measureWhen);
+                    sessionInfo.ConfigureMeasureWhen(sitePin, sessionInfo.ModelString, measureWhen);
                 });
             }
             else if (measureWhen.HasValue)
