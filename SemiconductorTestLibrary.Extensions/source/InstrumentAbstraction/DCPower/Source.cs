@@ -2330,7 +2330,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo, needDataAdjustment);
             if (sitePinInfo != null)
             {
-                channelOutput.ConfigureMeasureWhen(sitePinInfo, sitePinInfo.ModelString, DCPowerMeasurementWhen.OnMeasureTrigger);
+                channelOutput.ConfigureMeasureWhen(sitePinInfo, sitePinInfo.ModelString, measureWhen: null);
                 channelOutput.ConfigureMeasureTriggerForCascading(sitePinInfo);
             }
             else
