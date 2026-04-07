@@ -1055,7 +1055,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sequence: fetchLevelSequence(sitePinInfo),
                     sequenceLoopCount: sequenceLoopCount,
                     outputFunction: outputFunction,
-                    sitePinInfo: sitePinInfo,
                     setAsActiveSequence: true);
                 channelOutput.Source.SourceDelay = sourceDelayInSeconds.HasValue
                     ? PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.Value)
@@ -2850,24 +2849,51 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double[] sequence,
             int sequenceLoopCount,
             DCPowerSourceOutputFunction outputFunction,
-            SitePinInfo sitePinInfo = null,
+            SitePinInfo sitePinInfo,
             double? sequenceStepDeltaTimeInSeconds = null,
             bool needDataAdjustment = true,
             double[] sourceDelay = null,
             bool setAsActiveSequence = false)
         {
             ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
+            sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
+            output.ConfigureAdvancedSequenceCore(
+                sequenceName: sequenceName,
+                sequence: sequence,
+                sequenceLoopCount: sequenceLoopCount,
+                outputFunction: outputFunction,
+                sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
+                sourceDelaysInSeconds: sourceDelay,
+                setAsActiveSequence: setAsActiveSequence);
+            output.ConfigureSourceTriggerForCascading(sitePinInfo);
+            output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
+            if (sequenceStepDeltaTimeInSeconds.HasValue)
+            {
+                output.Source.SequenceStepDeltaTimeEnabled = true;
+                output.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(sequenceStepDeltaTimeInSeconds.Value);
+            }
+        }
+
+        private static void ConfigureAdvancedSequenceCore(
+            this DCPowerOutput output,
+            string sequenceName,
+            double[] sequence,
+            int sequenceLoopCount,
+            DCPowerSourceOutputFunction outputFunction,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            double[] sourceDelaysInSeconds = null,
+            bool setAsActiveSequence = false)
+        {
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
-            sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
+
             output.SetAdvancedSequence(
                 advancedSequenceName: sequenceName,
                 sequence: sequence,
                 outputFunction: outputFunction,
-                sourceDelay: sourceDelay,
+                sourceDelay: sourceDelaysInSeconds,
                 setAsActiveSequence: setAsActiveSequence);
-            output.ConfigureSourceTriggerForCascading(sitePinInfo);
-            output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
+
             if (sequenceStepDeltaTimeInSeconds.HasValue)
             {
                 output.Source.SequenceStepDeltaTimeEnabled = true;
