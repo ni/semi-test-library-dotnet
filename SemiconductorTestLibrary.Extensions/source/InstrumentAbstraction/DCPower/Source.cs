@@ -36,6 +36,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private const double DefaultTimeout = 5.0;
         private const int AttributeIdNotRecognized = -1074135028;
 
+        private static string BuildSequenceName()
+        {
+            return $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
+        }
+
         #region methods on DCPowerSessionsBundle
 
         /// <summary>
@@ -327,7 +332,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            var advancedSequenceName = $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
+            var advancedSequenceName = BuildSequenceName();
             var settings = new DCPowerSourceSettings()
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
@@ -370,7 +375,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
-            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+
+            // Since ganged pins use the start trigger when operating in Sequence mode,
+            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
+            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
+            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
+            // an Abort is not required before disabling the start trigger.
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sitePinInfo?.CascadingInfo is GangingInfo)
@@ -406,7 +416,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            var advancedSequenceName = $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
+            var advancedSequenceName = BuildSequenceName();
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             var settings = new DCPowerSourceSettings()
             {
@@ -435,7 +445,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
 
-            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+            // Since ganged pins use the start trigger when operating in Sequence mode,
+            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
+            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
+            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
+            // an Abort is not required before disabling the start trigger.
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sitePinInfo?.CascadingInfo is GangingInfo)
@@ -470,7 +484,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            var advancedSequenceName = $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
+            var advancedSequenceName = BuildSequenceName();
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageSequence);
@@ -501,7 +515,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
 
-            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+            // Since ganged pins use the start trigger when operating in Sequence mode,
+            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
+            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
+            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
+            // an Abort is not required before disabling the start trigger.
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sitePinInfo?.CascadingInfo is GangingInfo)
@@ -1030,7 +1048,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds)
         {
-            var sequenceName = $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
+            var sequenceName = BuildSequenceName();
             var leaderChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
 
             // Configure all channels
@@ -1429,7 +1447,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double measurementTimeoutInSeconds = 10) where T : class
         {
             var leaderChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
-            var sequenceName = $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
+            var sequenceName = BuildSequenceName();
             PinSiteData<SingleDCPowerFetchResult[]> result = null;
 
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
@@ -1543,7 +1561,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            var sequenceName = $"STL_Seq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
+            var sequenceName = BuildSequenceName();
             var settings = new DCPowerSourceSettings()
             {
                 OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
@@ -1588,7 +1606,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
-            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+            // Since ganged pins use the start trigger when operating in Sequence mode,
+            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
+            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
+            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
+            // an Abort is not required before disabling the start trigger.
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sitePinInfo?.CascadingInfo is GangingInfo)
@@ -1624,7 +1646,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            var sequenceName = $"STL_Seq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
+            var sequenceName = BuildSequenceName();
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             var settings = new DCPowerSourceSettings()
             {
@@ -1652,7 +1674,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
-            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+            // Since ganged pins use the start trigger when operating in Sequence mode,
+            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
+            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
+            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
+            // an Abort is not required before disabling the start trigger.
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sitePinInfo?.CascadingInfo is GangingInfo)
@@ -1688,7 +1714,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            var sequenceName = $"STL_Seq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
+            var sequenceName = BuildSequenceName();
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             var settings = new DCPowerSourceSettings()
             {
@@ -1717,7 +1743,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
-            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed (in this case only pins which are ganged will have trigger enabled but this method).
+            // Since ganged pins use the start trigger when operating in Sequence mode,
+            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
+            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
+            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
+            // an Abort is not required before disabling the start trigger.
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sitePinInfo?.CascadingInfo is GangingInfo)
