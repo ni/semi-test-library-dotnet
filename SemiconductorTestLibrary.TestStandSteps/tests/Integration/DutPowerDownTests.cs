@@ -12,12 +12,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class DutPowerDownTests
     {
         [Theory]
-        [InlineData("PowerSupplyDevices.pinmap", "VCC_4051")]
-        [InlineData("PowerSupplyDevices.pinmap", "VCC_4150")]
-        [InlineData("PowerSupplyDevices.pinmap", "VCC_4151")]
-        [InlineData("PowerSupplyDevices.pinmap", "VCC_4110")]
-        [InlineData("PowerSupplyDevices.pinmap", "VCC_4112")]
-        [InlineData("PowerSupplyDevices.pinmap", "VCC_4113")]
+        [InlineData("PowerSupplyDevices.pinmap", "VEE")]
+        [InlineData("PowerSupplyDevices.pinmap", "VDD1")]
+        [InlineData("PowerSupplyDevices.pinmap", "VDD2")]
+        [InlineData("PowerSupplyDevices.pinmap", "VCC1")]
+        [InlineData("PowerSupplyDevices.pinmap", "VCC2")]
+        [InlineData("PowerSupplyDevices.pinmap", "VCC3")]
         [InlineData("DifferentSMUDevices.pinmap", "VDD")]
         public void Initialize_DutPowerDown_CorrectValuesSet(string pinmap, string pinName)
         {
