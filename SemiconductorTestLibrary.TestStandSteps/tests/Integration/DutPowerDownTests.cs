@@ -8,6 +8,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
+    [Collection("NonParallelizable")]
     public class DutPowerDownTests
     {
         [Theory]
@@ -40,6 +41,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 var expectedVoltageLevel = isPowerSupply ? powerSupplyInstrumentConfiguration.GetVoltageLevel(isOverRangeEnabled) : 0;
                 Assert.Equal(voltageLevel, expectedVoltageLevel);
             });
+            CleanupInstrumentation(tsmContext);
         }
     }
 }

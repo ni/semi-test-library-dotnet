@@ -86,7 +86,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         {
             var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
             dcPower.ConfigureSourceDelay(settlingTimeInSeconds);
-            var hasPowerSupply = dcPower.HasPowerSupplyInstrument(forceLowestCurrentLimit, out var dcPowerSourceSettings);
+            var hasPowerSupply = dcPower.ContainsPinMappedToPowerSupplyInstrument(forceLowestCurrentLimit, out var dcPowerSourceSettings);
             if (forceLowestCurrentLimit)
             {
                 var originalCurrentLimit = dcPower.GetCurrentLimits();
@@ -124,54 +124,47 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             });
         }
 
-        private static bool HasPowerSupplyInstrument(this DCPowerSessionsBundle dcPower, bool forceLowestCurrentLimit, out PinSiteData<DCPowerSourceSettings> dcPowerSourceSettings)
+        private static bool ContainsPinMappedToPowerSupplyInstrument(this DCPowerSessionsBundle dcPower, bool forceLowestCurrentLimit, out PinSiteData<DCPowerSourceSettings> dcPowerSourceSettings)
         {
             var settings = new ConcurrentDictionary<string, ConcurrentDictionary<int, DCPowerSourceSettings>>();
-            bool hasPowerSupply = false;
-            dcPower.Do((sessionInfo, sitePinInfo) =>
+            bool containsPinMappedToPowerSupply = false;
+            dcPowerSourceSettings = dcPower.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 bool isOverRangingEnabled = output.Source.OverrangingEnabled;
                 bool isPowerSupply = PowerSupplySettings.TryGetValue(sitePinInfo.ModelString, out var powerSupplyInstrumentConfiguration);
                 if (isPowerSupply)
                 {
-                    hasPowerSupply = true;
+                    containsPinMappedToPowerSupply = true;
                 }
 
                 var sourceSettings = new DCPowerSourceSettings
                 {
                     Level = isPowerSupply ? powerSupplyInstrumentConfiguration.GetVoltageLevel(isOverRangingEnabled) : 0.00,
+                    Limit = forceLowestCurrentLimit ? (isPowerSupply ? powerSupplyInstrumentConfiguration.GetCurrentLimit(isOverRangingEnabled) : 1e-7) : (double?)null,
                 };
-                sourceSettings.Limit = forceLowestCurrentLimit ? (isPowerSupply ? powerSupplyInstrumentConfiguration.GetCurrentLimit(isOverRangingEnabled) : 1e-7) : (double?)null;
-
-                var siteDictionary = settings.GetOrAdd(sitePinInfo.PinName, _ => new ConcurrentDictionary<int, DCPowerSourceSettings>());
-                siteDictionary[sitePinInfo.SiteNumber] = sourceSettings;
+                return sourceSettings;
             });
-            var result = new Dictionary<string, IDictionary<int, DCPowerSourceSettings>>();
-            foreach (var kvp in settings)
-            {
-                result[kvp.Key] = new Dictionary<int, DCPowerSourceSettings>(kvp.Value);
-            }
-            dcPowerSourceSettings = new PinSiteData<DCPowerSourceSettings>(result);
-            return hasPowerSupply;
+
+            return containsPinMappedToPowerSupply;
         }
 
         internal sealed class PowerSupplyInstrumentConfiguration
         {
-            private double OverRangingEnabledVoltageLevel { get; }
-            private double OverRangingEnabledCurrentLimit { get; }
-            private double OverRangingDisabledVoltageLevel { get; }
-            private double OverRangingDisabledCurrentLimit { get; }
+            private readonly double _overRangingEnabledVoltageLevel;
+            private readonly double _overRangingEnabledCurrentLimit;
+            private readonly double _overRangingDisabledVoltageLevel;
+            private readonly double _overRangingDisabledCurrentLimit;
 
             public PowerSupplyInstrumentConfiguration(double overRangingEnabledVoltageLevel, double overRangingEnabledCurrentLimit, double overRangingDisabledVoltageLevel, double overRangingDisabledCurrentLimit)
             {
-                OverRangingEnabledVoltageLevel = overRangingEnabledVoltageLevel;
-                OverRangingEnabledCurrentLimit = overRangingEnabledCurrentLimit;
-                OverRangingDisabledVoltageLevel = overRangingDisabledVoltageLevel;
-                OverRangingDisabledCurrentLimit = overRangingDisabledCurrentLimit;
+                _overRangingEnabledVoltageLevel = overRangingEnabledVoltageLevel;
+                _overRangingEnabledCurrentLimit = overRangingEnabledCurrentLimit;
+                _overRangingDisabledVoltageLevel = overRangingDisabledVoltageLevel;
+                _overRangingDisabledCurrentLimit = overRangingDisabledCurrentLimit;
             }
-            public double GetVoltageLevel(bool isOverRangingEnabled) => isOverRangingEnabled ? OverRangingEnabledVoltageLevel : OverRangingDisabledVoltageLevel;
-            public double GetCurrentLimit(bool isOverRangingEnabled) => isOverRangingEnabled ? OverRangingEnabledCurrentLimit : OverRangingDisabledCurrentLimit;
+            public double GetVoltageLevel(bool isOverRangingEnabled) => isOverRangingEnabled ? _overRangingEnabledVoltageLevel : _overRangingDisabledVoltageLevel;
+            public double GetCurrentLimit(bool isOverRangingEnabled) => isOverRangingEnabled ? _overRangingEnabledCurrentLimit : _overRangingDisabledCurrentLimit;
         }
 
         internal static readonly IReadOnlyDictionary<string, PowerSupplyInstrumentConfiguration> PowerSupplySettings =
