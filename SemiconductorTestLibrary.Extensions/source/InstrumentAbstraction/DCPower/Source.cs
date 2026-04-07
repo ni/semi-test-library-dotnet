@@ -371,7 +371,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 });
             }
 
-            // Clearing the active advance sequence after use.
+            // Clearing the active advanced sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
@@ -440,7 +440,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // Clearing the active advance sequence after use.
+            // Clearing the active advanced sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
@@ -511,7 +511,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // Clearing the active advance sequence after use.
+            // Clearing the active advanced sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
@@ -1102,7 +1102,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 leaderChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
             }
 
-            // Clearing the active advance sequence after use.
+            // Clearing the active advanced sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
@@ -1498,7 +1498,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 result = sessionsBundle.FetchMeasurement(pointsToFetch.Value, measurementTimeoutInSeconds);
             }
 
-            // Clearing the active advance sequence after use.
+            // Clearing the active advanced sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
@@ -1602,7 +1602,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 });
             }
 
-            // Clearing the active advance sequence after use.
+            // Clearing the active advanced sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
@@ -1670,7 +1670,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // Clearing the active advance sequence after use.
+            // Clearing the active advanced sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
@@ -1739,7 +1739,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // Clearing the active advance sequence after use.
+            // Clearing the active advanced sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
@@ -2898,11 +2898,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 setAsActiveSequence: setAsActiveSequence);
             output.ConfigureSourceTriggerForCascading(sitePinInfo);
             output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
-            if (sequenceStepDeltaTimeInSeconds.HasValue)
-            {
-                output.Source.SequenceStepDeltaTimeEnabled = true;
-                output.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(sequenceStepDeltaTimeInSeconds.Value);
-            }
         }
 
         private static void ConfigureAdvancedSequenceCore(
