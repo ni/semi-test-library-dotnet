@@ -4379,7 +4379,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new double[] { 0.2, 0.4, 0.6, 0.8, 1.0 };
-            sessionsBundle.ConfigureVoltageSequence("VoltageSequence", sequence, sequenceLoopCount: 2);
+            sessionsBundle.ConfigureVoltageSequence("VoltageSequence", sequence, sequenceLoopCount: 2, setAsActiveSequence: true);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
