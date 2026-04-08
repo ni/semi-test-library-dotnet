@@ -35,6 +35,7 @@
 	</Reference>
 	<Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
 	  <HintPath>..\..\..\..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+	  <Private>True</Private>
 	</Reference>
 	<Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
 		<SpecificVersion>False</SpecificVersion>
