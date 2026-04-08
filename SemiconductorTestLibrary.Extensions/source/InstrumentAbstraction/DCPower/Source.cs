@@ -1017,16 +1017,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
                 var perChannelString = sitePinInfo.IndividualChannelString;
                 // The output of all other channels within the bundle that will be synchronized with the designated primary channel.
-                var allOtherOutputs = sessionInfo.Session.Outputs[perChannelString];
-                allOtherOutputs.Control.Abort();
-                allOtherOutputs.ConfigureLevelsAndLimits(settings);
-                allOtherOutputs.ConfigureAdvancedSequenceCore(
+                var channelOutput = sessionInfo.Session.Outputs[perChannelString];
+                channelOutput.Control.Abort();
+                channelOutput.ConfigureLevelsAndLimits(settings);
+                channelOutput.ConfigureAdvancedSequenceCore(
                     sequenceName: sequenceName,
                     sequence: fetchLevelSequence(sitePinInfo),
                     sequenceLoopCount: sequenceLoopCount,
                     outputFunction: outputFunction,
                     setAsActiveSequence: true);
-                allOtherOutputs.Source.SourceDelay = sourceDelayInSeconds.HasValue
+                channelOutput.Source.SourceDelay = sourceDelayInSeconds.HasValue
                     ? PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.Value)
                     : PrecisionTimeSpan.Zero;
                 sessionInfo.ConfigureTransientResponce(settings, perChannelString);
@@ -1034,18 +1034,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
                     // Primary channel does not need a start trigger
-                    allOtherOutputs.Triggers.StartTrigger.Disable();
-                    allOtherOutputs.Control.Commit();
+                    channelOutput.Triggers.StartTrigger.Disable();
+                    channelOutput.Control.Commit();
                 }
                 else
                 {
                      // All other channels start on primary channel's start trigger
-                    allOtherOutputs.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
-                    allOtherOutputs.Control.Initiate();
+                    channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
+                    channelOutput.Control.Initiate();
                 }
             });
 
-            // Start leader
+            // Start Primary
             primaryOutput.Control.Initiate();
 
             if (waitForSequenceCompletion)
@@ -1058,7 +1058,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
-            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed.
+            // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
         }
 
@@ -1409,18 +1409,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var validProperties = GetValidProperties(perSitePinSequence);
                 var perChannelString = sitePinInfo.IndividualChannelString;
                 // The output of all other channels within the bundle that will be synchronized with the designated primary channel.
-                var allOtherOutputs = sessionInfo.Session.Outputs[perChannelString];
-                allOtherOutputs.Control.Abort();
+                var channelOutput = sessionInfo.Session.Outputs[perChannelString];
+                channelOutput.Control.Abort();
                 if (fetchResult)
                 {
                     if (pointsToFetch == null)
                     {
                         pointsToFetch = perSitePinSequence.Length;
                     }
-                    allOtherOutputs.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+                    channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
                 }
-                allOtherOutputs.Source.SequenceLoopCount = sequenceLoopCount;
-                allOtherOutputs.ConfigureAdvancedSequenceCore(
+                channelOutput.Source.SequenceLoopCount = sequenceLoopCount;
+                channelOutput.ConfigureAdvancedSequenceCore(
                     sequenceName,
                     sitePinInfo.ModelString,
                     validProperties,
@@ -1428,14 +1428,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     commitFirstElementAsInitialState: false);
                 if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
                 {
-                    allOtherOutputs.Triggers.StartTrigger.Disable();
-                    allOtherOutputs.Control.Commit();
+                    channelOutput.Triggers.StartTrigger.Disable();
+                    channelOutput.Control.Commit();
                 }
                 else
                 {
                      // All other channels start on primary channel's start trigger
-                    allOtherOutputs.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
-                    allOtherOutputs.Control.Initiate();
+                    channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
+                    channelOutput.Control.Initiate();
                 }
             });
 
@@ -1456,7 +1456,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
 
-            // The start trigger must be set to None before any proceeding SinglePoint operations can be performed.
+            // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
 
             return result;
@@ -3059,7 +3059,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             // Since ganged pins use the start trigger when operating in Sequence mode,
             // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
-            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
+            // their start trigger must be disabled before any subsequent SinglePoint operations can be performed.
             // Also, since an Abort operation is preformed within DeleteAdvancedSequence
             // an Abort is not required before disabling the start trigger.
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
