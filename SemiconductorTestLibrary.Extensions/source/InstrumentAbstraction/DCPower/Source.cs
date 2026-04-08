@@ -869,7 +869,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (sessionsBundle.HasGangedChannels)
             {
-                throw new InvalidOperationException("ForceSequenceSynchronizedCore does not support bundles with ganged channels. Please use ForceVoltageSequenceSynchronized or ForceCurrentSequenceSynchronized for bundles with ganged channels.");
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
             }
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
 
