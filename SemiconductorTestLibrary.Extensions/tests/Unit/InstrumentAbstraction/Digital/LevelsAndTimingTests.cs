@@ -17,6 +17,9 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Digital
 {
     [Collection("NonParallelizable")]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public sealed class LevelsAndTimingTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
@@ -34,9 +37,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTheSameLevel_ValueCorrectlySet(string pinMap, string digitalProject)
@@ -53,9 +53,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_ConfigurePerSiteLevels_ValueCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -73,9 +70,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSites_ConfigurePerSiteLevels_ValueCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -94,9 +88,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureVoltageLevels_ValueCorrectlySet(string pinMap, string digitalProject)
@@ -117,9 +108,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTerminationMode_ValueCorrectlySet(string pinMap, string digitalProject)
@@ -136,9 +124,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTheSameTimeSetCompareEdgesStrobe_ValueCorrectlySet(string pinMap, string digitalProject)
@@ -155,9 +140,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_ConfigurePerSiteTimeSetCompareEdgesStrobe_ValueCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -177,9 +159,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSites_ConfigurePerSiteTimeSetCompareEdgesStrobe_ValueCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -202,9 +181,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_ConfigurePerSitePerPinTimeSetCompareEdgesStrobe_ValueCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -230,9 +206,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSites_ConfigurePerSitePerPinTimeSetCompareEdgesStrobe_ValueCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -258,9 +231,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTimeSetPeriod_ValueCorrectlySet(string pinMap, string digitalProject)
@@ -277,9 +247,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTimeSetDriverEdges_ValueCorrectlySet(string pinMap, string digitalProject)
@@ -300,9 +267,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTimeSetDriverEdgesWithTwoDriveData_ValueCorrectlySet(string pinMap, string digitalProject)
@@ -325,9 +289,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_MeasureTDROffsets_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -342,9 +303,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSites_MeasureTDROffsets_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -359,9 +317,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_ApplyPerSitePerPinTDROffsets_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -389,9 +344,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSites_ApplyPerSitePerPinTDROffsets_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -419,9 +371,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_SavePerSitePerPinTDROffsetsToAndFromFile_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -453,9 +402,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSites_SavePerSitePerPinTDROffsetsToAndFromFile_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -487,9 +433,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void DifferentSMUDevicesWithSharedAndNonSharedChannelsAcrossPins_SavePerSitePerPinTDROffsetsToAndFromFile_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
@@ -526,9 +469,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_SavePerSitePerPinTDROffsetsToAndFromFile_OverwritesExistingFile()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -574,9 +514,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSites_SavePerSitePerPinTDROffsetsToAndFromFile_OverwritesExistingFile()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -622,9 +559,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_MeasureTDROffsetsPerInstrumentSession_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -638,9 +572,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSites_MeasureTDROffsetsPerInstrumentSession_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -654,9 +585,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_ApplyPerInstrumentSessionTDROffsets_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -676,9 +604,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSites_ApplyPerInstrumentSessionTDROffsets_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -706,9 +631,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SharedPins_SaveInstrumentSessionTDROffsetsWithInvalidOffsetCount_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
@@ -725,9 +647,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SharedPins_SaveInstrumentSessionTDROffsetsWithInstrumentCountMismatch_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
@@ -750,9 +669,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SharedPins_SaveInstrumentSessionTDROffsetsWithSharedChannelMismatch_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
@@ -782,9 +698,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SharedPins_SaveInstrumentSessionTDROffsetsToAndFromFileWithAllSitePinOffsets_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
@@ -820,9 +733,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SharedPins_ApplyPerInstrumentSessionTDROffsetsWithInvalidOffsetCount_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
@@ -841,9 +751,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SharedPins_ApplyPerInstrumentSessionTDROffsetsWithInstrumentCountMismatch_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
@@ -864,9 +771,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SharedPins_ApplyPerInstrumentSessionTDROffsetsWithSharedChannelMismatch_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
@@ -898,9 +802,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SharedPins_ApplyPerInstrumentSessionTDROffsetsWithAllSitePinOffsets_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
@@ -939,9 +840,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_SaveInstrumentSessionTDROffsetsToAndFromFile_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -963,9 +861,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSites_SaveInstrumentSessionTDROffsetsToAndFromFile_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -995,9 +890,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_SaveInstrumentSessionTDROffsetsToAndFromFile_OverwritesExistingFile()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -1030,9 +922,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSites_SaveInstrumentSessionTDROffsetsToAndFromFile_OverwritesExistingFile()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -1139,9 +1028,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureTdrEndpointTermination_ValueCorrectlySet(string pinMap, string digitalProject)
@@ -1158,9 +1044,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SameTimeSetPeriodConfigured_GetTimeSetPeriod_ReturnsCorrectValue(string pinMap, string digitalProject)
@@ -1179,9 +1062,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparatelyAndDifferentTimeSetPeriodConfigured_GetTimeSetPeriod_ReturnsCorrectValue()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -1203,9 +1083,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void OneDeviceWorksForOnePinOnTwoSitesAndDifferentTimeSetPeriodConfigured_GetTimeSetPeriod_ReturnsCorrectValue()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj");
@@ -1227,9 +1104,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_GetPerSiteTimeSetCompareEdgesStrobe_ReturnsCorrectValue()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -1251,9 +1125,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", 2)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", 2)]
         public void SessionsInitialized_GetTimeSetEdgeMultiplier_ReturnsCorrectValue(string pinMap, string digitalProject, int edgeMultiplier)
@@ -1275,9 +1146,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj", DriveFormat.ReturnToHigh)]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj", DriveFormat.ReturnToHigh)]
         public void SessionsInitialized_GetTimeSetDriveFormat_ReturnsCorrectValue(string pinMap, string digitalProject, DriveFormat driveFormat)
@@ -1299,9 +1167,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsInitialized_ConfigureTimeSetPeriodWithoutSpecifyingPins_ValueCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
@@ -1317,9 +1182,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsInitialized_ApplyLevelsAndTimingWithoutSpecifyingPins_ValueCorrectlySet()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
@@ -1332,9 +1194,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void TwoDevicesWorkForTwoSitesSeparately_GetPerPinPerSiteTimeSetCompareEdgesStrobe_ReturnsCorrectValue()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
@@ -1356,9 +1215,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitializedPerPinPerSiteEdgeMultiplier_GetTimeSetEdgeMultiplier_ReturnsCorrectValue(string pinMap, string digitalProject)
@@ -1395,9 +1251,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitializedPerPinPerSiteDriveFormatsSet_GetTimeSetDriveFormat_ReturnsCorrectValue(string pinMap, string digitalProject)
@@ -1434,9 +1287,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureEdgeWithSingleValue_ValueCorrectlySet(string pinMap, string digitalProject)
@@ -1454,9 +1304,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureEdgeWithSiteSpecificValues_ValueCorrectlySet(string pinMap, string digitalProject)
@@ -1474,9 +1321,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigureEdgeWithChannelSpecificValues_ValueCorrectlySet(string pinMap, string digitalProject)

@@ -19,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="NationalInstruments.SemiconductorTestLibrary.Analyzers" Version="1.0.0" />
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
+    <ProjectReference Include="..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
     <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -42,9 +43,6 @@
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="ResourceStrings.Designer.cs">

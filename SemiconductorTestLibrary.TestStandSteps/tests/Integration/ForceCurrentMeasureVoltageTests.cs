@@ -15,13 +15,13 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilit
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public class ForceCurrentMeasureVoltageTests
     {
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_RunForceCurrentMeasureVoltageWithPositiveInRangeVoltageLimit_VoltageLimitsCorrectlySetAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
@@ -53,10 +53,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_RunForceCurrentMeasureVoltageWithPositiveOutRangeVoltageLimit_VoltageLimitsCorrectlySetAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
@@ -88,10 +84,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_RunForceCurrentMeasureVoltageWithNegativeInRangeVoltageLimit_VoltageLimitsCorrectlySetAndAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
@@ -123,10 +115,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_RunForceCurrentMeasureVoltageWithNegativeOutRangeVoltageLimit_VoltageLimitsCorrectlySetAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
@@ -158,10 +146,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_RunForceCurrentMeasureVoltageWithOutHighRangeVoltageLimit_ThrowsNISemiconductorTestException()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
@@ -185,10 +169,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_MergePinGroupRunForceCurrentMeasureVoltageAndUnmergePinGroup_CorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
