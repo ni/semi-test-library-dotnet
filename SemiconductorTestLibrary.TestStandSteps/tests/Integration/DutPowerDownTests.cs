@@ -33,10 +33,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             var dcPower = sessionManager.DCPower(pinName);
             dcPower.Do((sessionInfo, sitePinInfo) =>
             {
-                var outPut = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                bool isOverRangeEnabled = outPut.Source.OverrangingEnabled;
-                var voltageLevel = outPut.Source.Voltage.VoltageLevel;
-                var currentLimit = outPut.Source.Voltage.CurrentLimit;
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                bool isOverRangeEnabled = output.Source.OverrangingEnabled;
+                var voltageLevel = output.Source.Voltage.VoltageLevel;
+                var currentLimit = output.Source.Voltage.CurrentLimit;
                 bool isPowerSupply = PowerSupplySettings.TryGetValue(sitePinInfo.ModelString, out var powerSupplyInstrumentConfiguration);
                 var expectedVoltageLevel = isPowerSupply ? powerSupplyInstrumentConfiguration.GetVoltageLevel(isOverRangeEnabled) : 0;
                 Assert.Equal(voltageLevel, expectedVoltageLevel);

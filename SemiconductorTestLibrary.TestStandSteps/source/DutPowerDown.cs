@@ -86,11 +86,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         {
             var originalSourceDelays = dcPower.GetSourceDelayInSeconds();
             dcPower.ConfigureSourceDelay(settlingTimeInSeconds);
-            var hasPowerSupply = dcPower.ContainsPinMappedToPowerSupplyInstrument(forceLowestCurrentLimit, out var dcPowerSourceSettings);
+            var containsPinMappedToPowerSupply = dcPower.ContainsPinMappedToPowerSupplyInstrument(forceLowestCurrentLimit, out var dcPowerSourceSettings);
             if (forceLowestCurrentLimit)
             {
                 var originalCurrentLimit = dcPower.GetCurrentLimits();
-                if (hasPowerSupply)
+                if (containsPinMappedToPowerSupply)
                 {
                     dcPower.ForceVoltage(dcPowerSourceSettings);
                 }
@@ -102,7 +102,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             }
             else
             {
-                if (hasPowerSupply)
+                if (containsPinMappedToPowerSupply)
                 {
                     dcPower.ForceVoltage(dcPowerSourceSettings);
                 }
@@ -126,7 +126,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
 
         private static bool ContainsPinMappedToPowerSupplyInstrument(this DCPowerSessionsBundle dcPower, bool forceLowestCurrentLimit, out PinSiteData<DCPowerSourceSettings> dcPowerSourceSettings)
         {
-            var settings = new ConcurrentDictionary<string, ConcurrentDictionary<int, DCPowerSourceSettings>>();
             bool containsPinMappedToPowerSupply = false;
             dcPowerSourceSettings = dcPower.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
@@ -138,12 +137,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                     containsPinMappedToPowerSupply = true;
                 }
 
-                var sourceSettings = new DCPowerSourceSettings
+                return new DCPowerSourceSettings
                 {
                     Level = isPowerSupply ? powerSupplyInstrumentConfiguration.GetVoltageLevel(isOverRangingEnabled) : 0.00,
                     Limit = forceLowestCurrentLimit ? (isPowerSupply ? powerSupplyInstrumentConfiguration.GetCurrentLimit(isOverRangingEnabled) : 1e-7) : (double?)null,
                 };
-                return sourceSettings;
             });
 
             return containsPinMappedToPowerSupply;
