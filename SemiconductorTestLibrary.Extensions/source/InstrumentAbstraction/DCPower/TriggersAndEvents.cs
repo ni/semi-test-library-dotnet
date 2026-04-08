@@ -80,10 +80,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void WaitForEvent(this DCPowerSessionsBundle sessionsBundle, EventType eventType, double timeout = 5.0)
         {
             var timeoutAsPrecisionTimeSpan = PrecisionTimeSpan.FromSeconds(timeout);
-            sessionsBundle.Do((sessionInfo) =>
+            sessionsBundle.Do(sessionInfo =>
             {
                 switch (eventType)
-                    {
+                {
                     case EventType.MeasureCompleteEvent:
                         sessionInfo.AllChannelsOutput.Events.MeasureCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
                         break;
