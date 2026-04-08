@@ -1511,17 +1511,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (sessionsBundle.HasGangedChannels)
             {
-                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    channelOutput.Control.Abort();
-                    channelOutput.ConfigureSequence(
-                        sequence,
-                        sequenceLoopCount,
-                        sequenceStepDeltaTimeInSeconds,
-                        sitePinInfo: sitePinInfo);
-                });
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
+                // sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                // sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                // {
+                //     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                // channelOutput.Control.Abort();
+                // channelOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds,sitePinInfo: sitePinInfo);
+                // });
             }
             else
             {

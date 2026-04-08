@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -8,9 +10,11 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+
 using Xunit;
-using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
+
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
@@ -166,6 +170,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             AssertSequenceMeasurementsMatchExpected(sessionsBundle, (_, __) => sequence, precision: 3, itemsToFetch: 3, checkForCurrentMeasurement: false, initiateChannel: false);
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.5));
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [InlineData("ForceVoltageSequenceSynchronized")]
+        public void DifferentSMUDevicesGanged_SynchronizedHardwareLevelSequence_ThrowsException(string methodName)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("PowerPins");
+            sessionsBundle.GangPinGroup("MergedPowerPins");
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var sequence = new[] { 0.000, 0.005, 0.010 };
+
+            void TestMethod()
+            {
+                switch (methodName)
+                {
+                    case "ForceVoltageSequenceSynchronized":
+                        sessionsBundle.ForceVoltageSequenceSynchronized(voltageSequence: sequence, currentLimit: 0.5, voltageLevelRange: 1.0, currentLimitRange: 0.5);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            Assert.Throws<NISemiconductorTestException>(TestMethod);
         }
 
         [Theory]

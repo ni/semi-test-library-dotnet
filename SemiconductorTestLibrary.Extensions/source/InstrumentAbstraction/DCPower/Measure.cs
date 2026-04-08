@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
@@ -336,6 +339,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin waveform results.</returns>
         public static PinSiteData<DCPowerFetchResult> AcquireSynchronizedWaveforms(this DCPowerSessionsBundle sessionsBundle, double apertureTimeInSeconds = 0, double measurementTimeInSeconds = 0)
         {
+            if (sessionsBundle.HasGangedChannels)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
+            }
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.MeasureTrigger.ToString(), out string measureTrigger);
             var originalApertureTimes = new Dictionary<string, double>();
             var originalSourceDelays = new Dictionary<string, PrecisionTimeSpan>();
