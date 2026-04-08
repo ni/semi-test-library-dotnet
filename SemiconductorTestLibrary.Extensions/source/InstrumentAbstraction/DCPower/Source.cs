@@ -1016,7 +1016,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
 
                 var perChannelString = sitePinInfo.IndividualChannelString;
-                // The output of all other channels within the bundle that will be synchronized with the designated primary channel.
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.ConfigureLevelsAndLimits(settings);
@@ -1402,7 +1401,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var perSitePinSequence = getSequence(sitePinInfo);
                 var validProperties = GetValidProperties(perSitePinSequence);
                 var perChannelString = sitePinInfo.IndividualChannelString;
-                // The output of all other channels within the bundle that will be synchronized with the designated primary channel.
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
                 if (fetchResult)
