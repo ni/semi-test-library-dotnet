@@ -1031,7 +1031,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     : PrecisionTimeSpan.Zero;
                 sessionInfo.ConfigureTransientResponce(settings, perChannelString);
 
-                if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
+                if (IsPrimaryOutput(sessionIndex, sitePinInfo, sessionInfo))
                 {
                     // Primary channel does not need a start trigger
                     channelOutput.Triggers.StartTrigger.Disable();
@@ -1053,13 +1053,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 primaryOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
             }
 
-            // Clearing the active advanced sequence after use.
-            sessionsBundle.ClearActiveAdvancedSequence();
-            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-            sessionsBundle.DeleteAdvancedSequence(sequenceName);
-
-            // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+            sessionsBundle.ReleaseSynchronizedAdvancedSequenceResources(sequenceName);
         }
 
         /// <summary>
@@ -1426,7 +1420,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     validProperties,
                     setAsActiveSequence: true,
                     commitFirstElementAsInitialState: false);
-                if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
+                if (IsPrimaryOutput(sessionIndex, sitePinInfo, sessionInfo))
                 {
                     channelOutput.Triggers.StartTrigger.Disable();
                     channelOutput.Control.Commit();
@@ -1451,13 +1445,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 result = sessionsBundle.FetchMeasurement(pointsToFetch.Value, measurementTimeoutInSeconds);
             }
 
-            // Clearing the active advanced sequence after use.
-            sessionsBundle.ClearActiveAdvancedSequence();
-            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-            sessionsBundle.DeleteAdvancedSequence(sequenceName);
-
-            // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+            sessionsBundle.ReleaseSynchronizedAdvancedSequenceResources(sequenceName);
 
             return result;
         }
@@ -2737,6 +2725,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return masterChannelSessionInfo.Session.Outputs[masterChannelString];
         }
 
+        private static bool IsPrimaryOutput(int sessionIndex, SitePinInfo sitePinInfo, DCPowerSessionInformation sessionInfo)
+        {
+            return sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo);
+        }
+
         internal static bool IsFirstChannelOfSession(this SitePinInfo sitePinInfo, DCPowerSessionInformation sessionInfo)
         {
             return sessionInfo.AllChannelsString.StartsWith(sitePinInfo.IndividualChannelString, StringComparison.InvariantCulture);
@@ -3072,6 +3065,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
+        private static void ReleaseSynchronizedAdvancedSequenceResources(this DCPowerSessionsBundle sessionsBundle, string advancedSequenceName)
+        {
+            // Clearing the active advanced sequence after use.
+            sessionsBundle.ClearActiveAdvancedSequence();
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
+            sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
+
+            // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
+            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+        }
         #endregion private and internal methods
     }
 }
