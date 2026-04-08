@@ -1211,6 +1211,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10) where T : class
         {
+            if (sessionsBundle.HasGangedChannels)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
+            }
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
             var sequenceName = $"STL_AdvSeq_{DateTime.UtcNow.Ticks}_{Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture).Substring(0, 8)}";
             PinSiteData<SingleDCPowerFetchResult[]> result = null;
@@ -1669,6 +1673,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
+            if (sessionsBundle.HasGangedChannels)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
+            }
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
@@ -1684,6 +1692,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
+            if (sessionsBundle.HasGangedChannels)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
+            }
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var stepProperties = perStepProperties.GetValue(sitePinInfo.SiteNumber);
@@ -1700,6 +1712,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
+            if (sessionsBundle.HasGangedChannels)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
+            }
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var stepProperties = perStepProperties.GetValue(sitePinInfo);
