@@ -371,24 +371,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 });
             }
 
-            // Clearing the active advanced sequence after use.
-            sessionsBundle.ClearActiveAdvancedSequence();
-            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-            sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
-
-            // Since ganged pins use the start trigger when operating in Sequence mode,
-            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
-            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
-            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
-            // an Abort is not required before disabling the start trigger.
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                if (sitePinInfo?.CascadingInfo is GangingInfo)
-                {
-                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    output.Triggers.StartTrigger.Disable();
-                }
-            });
+            sessionsBundle.ReleaseAdvancedSequenceResources(advancedSequenceName);
         }
 
         /// <remarks>
@@ -440,24 +423,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // Clearing the active advanced sequence after use.
-            sessionsBundle.ClearActiveAdvancedSequence();
-            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-            sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
-
-            // Since ganged pins use the start trigger when operating in Sequence mode,
-            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
-            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
-            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
-            // an Abort is not required before disabling the start trigger.
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                if (sitePinInfo?.CascadingInfo is GangingInfo)
-                {
-                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    output.Triggers.StartTrigger.Disable();
-                }
-            });
+            sessionsBundle.ReleaseAdvancedSequenceResources(advancedSequenceName);
         }
 
         /// <remarks>
@@ -511,24 +477,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // Clearing the active advanced sequence after use.
-            sessionsBundle.ClearActiveAdvancedSequence();
-            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-            sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
-
-            // Since ganged pins use the start trigger when operating in Sequence mode,
-            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
-            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
-            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
-            // an Abort is not required before disabling the start trigger.
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                if (sitePinInfo?.CascadingInfo is GangingInfo)
-                {
-                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    output.Triggers.StartTrigger.Disable();
-                }
-            });
+            sessionsBundle.ReleaseAdvancedSequenceResources(advancedSequenceName);
         }
 
         /// <summary>
@@ -1606,24 +1555,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 });
             }
 
-            // Clearing the active advanced sequence after use.
-            sessionsBundle.ClearActiveAdvancedSequence();
-            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-            sessionsBundle.DeleteAdvancedSequence(sequenceName);
-
-            // Since ganged pins use the start trigger when operating in Sequence mode,
-            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
-            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
-            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
-            // an Abort is not required before disabling the start trigger.
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                if (sitePinInfo?.CascadingInfo is GangingInfo)
-                {
-                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    output.Triggers.StartTrigger.Disable();
-                }
-            });
+            sessionsBundle.ReleaseAdvancedSequenceResources(sequenceName);
         }
 
         /// <remarks>
@@ -1674,24 +1606,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // Clearing the active advanced sequence after use.
-            sessionsBundle.ClearActiveAdvancedSequence();
-            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-            sessionsBundle.DeleteAdvancedSequence(sequenceName);
-
-            // Since ganged pins use the start trigger when operating in Sequence mode,
-            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
-            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
-            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
-            // an Abort is not required before disabling the start trigger.
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                if (sitePinInfo?.CascadingInfo is GangingInfo)
-                {
-                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    output.Triggers.StartTrigger.Disable();
-                }
-            });
+            sessionsBundle.ReleaseAdvancedSequenceResources(sequenceName);
         }
 
         /// <remarks>
@@ -1743,24 +1658,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
 
-            // Clearing the active advanced sequence after use.
-            sessionsBundle.ClearActiveAdvancedSequence();
-            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-            sessionsBundle.DeleteAdvancedSequence(sequenceName);
-
-            // Since ganged pins use the start trigger when operating in Sequence mode,
-            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
-            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
-            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
-            // an Abort is not required before disabling the start trigger.
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                if (sitePinInfo?.CascadingInfo is GangingInfo)
-                {
-                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    output.Triggers.StartTrigger.Disable();
-                }
-            });
+            sessionsBundle.ReleaseAdvancedSequenceResources(sequenceName);
         }
 
         private static void ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(
@@ -3150,6 +3048,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_MultipleChannelOutputsDetected, channelString));
             }
+        }
+
+        private static void ReleaseAdvancedSequenceResources(this DCPowerSessionsBundle sessionsBundle, string advancedSequenceName)
+        {
+            // Clearing the active advanced sequence after use.
+            sessionsBundle.ClearActiveAdvancedSequence();
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
+            sessionsBundle.DeleteAdvancedSequence(advancedSequenceName);
+
+            // Since ganged pins use the start trigger when operating in Sequence mode,
+            // and DeleteAdvancedSequence method sets the Source Mode back to SinglePoint mode,
+            // their start trigger must be disabled before any proceeding SinglePoint operations can be performed.
+            // Also, since an Abort operation is preformed within DeleteAdvancedSequence
+            // an Abort is not required before disabling the start trigger.
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo?.CascadingInfo is GangingInfo)
+                {
+                    var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    output.Triggers.StartTrigger.Disable();
+                }
+            });
         }
 
         #endregion private and internal methods
