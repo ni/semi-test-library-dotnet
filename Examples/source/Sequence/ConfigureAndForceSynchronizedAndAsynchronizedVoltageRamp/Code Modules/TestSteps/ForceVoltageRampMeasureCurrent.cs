@@ -33,7 +33,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // but to enable this, the MeasureWhen property must be set to AutomaticallyAfterSourceComplete.
             dcPowerPins.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
-            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: startVoltage, outputStop: stopVoltage, numberOfPoints: numberOfSteps);
+            double[] voltageSequence = HelperMethods.CreateRampSequence(outputStart: startVoltage, outputStop: stopVoltage, numberOfPoints: numberOfSteps);
             dcPowerPins.ForceVoltageSequence(voltageSequence);
 
             // Measurements taken during the sequence execution can be fetched once the sequence finishes.

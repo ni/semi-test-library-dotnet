@@ -36,7 +36,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Commit must be called before ConfigureAdvancedSequence if setAsActiveSequence is set to false.
             // If Commit is called after ConfigureAdvancedSequence without first initiating the advanced sequence or setting setAsActiveSequence as true,
-            // the driver does not allow it.
+            // the driver will throw an exception..
             dcPowerPins.Commit();
 
             // Configure the advanced sequence upfront, but do not set it as the active sequence.

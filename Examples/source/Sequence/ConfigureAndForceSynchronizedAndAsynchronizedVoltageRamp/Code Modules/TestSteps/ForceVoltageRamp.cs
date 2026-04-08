@@ -25,7 +25,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var sessionManager = new TSMSessionManager(tsmContext);
             var dcPowerPins = sessionManager.DCPower(smuPinNames);
 
-            var voltageSequence = HelperMethods.CreateRampSequence(outputStart: startVoltage, outputStop: stopVoltage, numberOfPoints: numberOfSteps);
+            double[] voltageSequence = HelperMethods.CreateRampSequence(outputStart: startVoltage, outputStop: stopVoltage, numberOfPoints: numberOfSteps);
             dcPowerPins.ForceVoltageSequence(voltageSequence);
         }
     }
