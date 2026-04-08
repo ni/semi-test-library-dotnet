@@ -43,7 +43,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Therefore, it is best practice to properly keep track of all configured sequences by name,
             // and properly dispose of them once they no longer required.
             var sequenceName = "VoltageRampSequence";
-            // dcPowerPins.ConfigureVoltageSequence(sequenceName, voltageSequence, setAsActiveSequence: true);
+            dcPowerPins.ConfigureVoltageSequence(sequenceName, voltageSequence, setAsActiveSequence: true);
 
             dcPowerPins.Initiate();
 
