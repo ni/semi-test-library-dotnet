@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -45,7 +46,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Measurements can be taken during sequence execution, with exactly one sample for each step,
             // but to enable this, the MeasureWhen property must be set to AutomaticallyAfterSourceComplete.
-            dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
+            dcPowerPins.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
             // Create a voltage ramp sequence from 0 to 3 volts with 10 points, which will create a sequence like [0V, 0.33V, 0.66V, ..., 3V]
             double[] voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
@@ -71,7 +72,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Measurements can be taken during sequence execution, with exactly one sample for each step,
             // but to enable this, the MeasureWhen property must be set to AutomaticallyAfterSourceComplete.
-            dcPowerPins.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
+            dcPowerPins.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
             // Create a voltage ramp sequence from 0 to 3 volts with 10 points, which will create a sequence like [0V, 0.33V, 0.66V, ..., 3V]
             double[] voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
@@ -87,6 +88,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
                 .Select(samples => samples.Select(sample => sample.VoltageMeasurement).ToArray());
             PinSiteData<bool[]> inComplianceStates = fetchResults
                 .Select(samples => samples.Select(sample => sample.InCompliance).ToArray());
+
+            // Disabling StartTrigger post using ForceVoltageSequenceSynchronized and fetching the measurements
+            // to clean up and avoid any unintended consequences on later test steps that may use the same pins.
+            dcPowerPins.DisableTriggers(new List<TriggerType> { TriggerType.StartTrigger });
         }
     }
 }
