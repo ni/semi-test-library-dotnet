@@ -1148,12 +1148,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
-        private static string GetTriggerName(CascadingInfo cascadingInfo, string triggerType = "Source")
+        private static string GetTriggerName(CascadingInfo cascadingInfo, TriggerType triggerType = TriggerType.SourceTrigger)
         {
             GangingInfo gangingInfo = cascadingInfo as GangingInfo;
             if (gangingInfo.IsFollower)
             {
-                if (triggerType == "Source")
+                if (triggerType == TriggerType.SourceTrigger)
                 {
                     return gangingInfo.SourceTriggerName;
                 }
