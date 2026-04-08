@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("National Instruments")]
 [assembly: AssemblyProduct("NationalInstruments.SemiconductorTestLibrary")]
-[assembly: AssemblyCopyright("Copyright (C) National Instruments 2024. All Rights Reserved.")]
+[assembly: AssemblyCopyright("Copyright (C) National Instruments 2026. All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
