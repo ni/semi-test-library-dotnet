@@ -44,9 +44,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var advanceSequenceName = "MyAdvancedSequence";
             var advanceSequenceSettings = new List<DCPowerAdvancedSequenceStepProperties>
             {
-                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, ApertureTime = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, ApertureTime = 2.1, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
-                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, ApertureTime = 2.2, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 0.25, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 0.5, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 0.75, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
             };
 
             dcPowerPins.ConfigureAdvancedSequence(advanceSequenceName, advanceSequenceSettings, setAsActiveSequence: false);

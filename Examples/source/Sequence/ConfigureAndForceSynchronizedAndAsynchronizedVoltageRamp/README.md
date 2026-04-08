@@ -7,8 +7,8 @@ This example demonstrates how to use the Semiconductor Test Library (STL) extens
 The example showcases four different approaches for forcing voltage ramp sequences on SMU pins:
 
 1. **ForceVoltageRamp**: Forces a basic voltage ramp sequence on specified SMU pins using `ForceVoltageSequence`.
-2. **ForceVoltageRampMeasureCurrent**: Forces a voltage ramp sequence and measures the resulting current after source completion.
-3. **ForceSynchronizedVoltageRampFetchMeasurementsAndPublishMaxCurrent**: Forces a synchronized voltage ramp with hardware triggering across multiple pins, then fetches measurements.
+2. **ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements**: Configure and initiate hardware-timed voltage ramp sequence on the specified SMU pins and measures the resulting current after source completion.
+3. **ForceSynchronizedVoltageRamp**: Forces a synchronized voltage ramp with hardware triggering across multiple pins.
 4. **ConfigureSMUAdvancedSequence**: Configures an advanced sequence upfront without activation, allowing later initiation in the test flow.
 5. **InitiateSMUAdvancedSequence** : Initiates a previously configured advanced sequence for the specified SMU pins.
 
