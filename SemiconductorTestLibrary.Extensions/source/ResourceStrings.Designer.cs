@@ -115,7 +115,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Synchronized hardware level sequencing is not supported on a ganged pin group..
+        ///   Looks up a localized string similar to This feature is not supported on a ganged pin group..
         /// </summary>
         internal static string DCPower_GangedPinGroupDetected {
             get {

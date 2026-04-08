@@ -166,6 +166,6 @@
     <value>Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}</value>
   </data>
   <data name="DCPower_GangedPinGroupDetected" xml:space="preserve">
-    <value>Synchronized hardware level sequencing is not supported on a ganged pin group.</value>
+    <value>This feature is not supported on a ganged pin group.</value>
   </data>
 </root>
