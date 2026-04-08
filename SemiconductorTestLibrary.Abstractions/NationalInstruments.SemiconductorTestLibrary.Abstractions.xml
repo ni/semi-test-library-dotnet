@@ -124,6 +124,11 @@
             Name of the trigger line to use for the synchronization of outputs.
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.StartTriggerName">
+            <summary>
+            Name of the trigger line to use for the synchronization of output sequence.
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.MeasureTriggerName">
             <summary>
             Name of the trigger line to use for the synchronization of measurements.
@@ -136,7 +141,7 @@
             <param name="groupName">Name of the pin group to be ganged.</param>
             <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Int32,System.String,System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Int32,System.String,System.String,System.String)">
             <summary>
             Constructs a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo"/> object for a follower channel.
             </summary>
@@ -144,6 +149,7 @@
             <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
             <param name="sourceTriggerName">Name of the trigger line to use for the synchronization of outputs.</param>
             <param name="measureTriggerName">Name of the trigger line to use for the synchronization of measurements.</param>
+            <param name="startTriggerName">Name of the trigger line to use for the synchronization of output sequence.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo">
             <summary>
@@ -5545,6 +5551,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteNumbersNotUnique">
             <summary>
               Looks up a localized string similar to The values of the site numbers parameter must be unique..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_DifferentSequencesDetectedForCascadedPinGroup">
+            <summary>
+              Looks up a localized string similar to The parameter contains different sequences for Cascaded pins in the &quot;{0}&quot; group. All pins within a Cascaded group must have the same sequence..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_InvalidMergeCaseDescription">

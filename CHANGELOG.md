@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `MergePinGroup(string[] mergedChannelsPinGroupNames)`
       - `UnmergePinGroup(string mergedChannelsPinGroupName)`
       - `UnmergePinGroup(string[] mergedChannelsPinGroupNames)`
-    - New interfaces and classes added to support Custom Instruments defined the Pin Map, including extension methods in `TSMSessionManager` to create a new `CustomInstrumentSessionsBundle` object for Custom Instruments. Refer to the updated documentation for details.
+    - New interfaces and classes added to support Custom Instruments defined in the Pin Map, including extension methods in `TSMSessionManager` to create a new `CustomInstrumentSessionsBundle` object for Custom Instruments. Refer to the updated documentation for details.
       - `ICustomInstrument`
       - `ICustomInstrumentFactory`
       - `InitializeAndClose`
