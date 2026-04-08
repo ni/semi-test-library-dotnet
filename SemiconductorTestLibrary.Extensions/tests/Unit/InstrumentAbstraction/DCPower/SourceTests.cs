@@ -3365,6 +3365,35 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("only supports single channel operation", exception.Message);
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureSourceSettingsAndUngangPinGroup_TriggersAreReset()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                Level = 3,
+                Limit = 1.5
+            };
+            sessionsBundle.ConfigureSourceSettings(settings);
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal("/SMU_4147_C1_S11/Immediate", channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+                    Assert.Equal("/SMU_4147_C1_S11/Immediate", channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal);
+                    Assert.Equal(DCPowerMeasurementWhen.OnDemand, channelOutput.Measurement.MeasureWhen);
+                    Assert.Equal(string.Empty, channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
+                }
+            });
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
