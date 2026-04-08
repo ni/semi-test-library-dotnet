@@ -1098,9 +1098,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
         public void GangedPinGroup_SetMeasureWhen_MeasureWhenConfiguredCorrectly(string pinmap, DCPowerMeasurementWhen measureWhen)
         {
-            _tsmContext = CreateTSMContext(pinmap);
-            InitializeAndClose.Initialize(_tsmContext);
-            var sessionManager = new TSMSessionManager(_tsmContext);
+            var sessionManager = Initialize(pinmap);
             var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
             dcPower.GangPinGroup("MergedPowerPins");
 
@@ -1123,9 +1121,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
         public void GangedPinGroupSetMeasureWhen_Initiate_DataMeasuredCorrectly(string pinmap, DCPowerMeasurementWhen measureWhen)
         {
-            _tsmContext = CreateTSMContext(pinmap);
-            InitializeAndClose.Initialize(_tsmContext);
-            var sessionManager = new TSMSessionManager(_tsmContext);
+            var sessionManager = Initialize(pinmap);
             var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
             dcPower.GangPinGroup("MergedPowerPins");
             dcPower.ConfigureMeasureWhen(measureWhen);
