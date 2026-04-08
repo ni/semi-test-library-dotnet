@@ -1756,11 +1756,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         [Obsolete("Using both simple sequencing and advanced sequencing for the same channel within the same session is not supported. For this reason it is better to just use advanced sequencing. Consider using either ConfigureVoltageSequence or ConfigureCurrentSequence instead.", error: false)]
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
         {
-            sessionsBundle.Do(sessionInfo =>
+            if (sessionsBundle.HasGangedChannels)
             {
-                sessionInfo.Session.Control.Abort();
-                sessionInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
-            });
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    channelOutput.Control.Abort();
+                    channelOutput.ConfigureSequence(
+                        sequence,
+                        sequenceLoopCount,
+                        sequenceStepDeltaTimeInSeconds,
+                        sitePinInfo: sitePinInfo);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Session.Control.Abort();
+                    sessionInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+                });
+            }
         }
 
         /// <summary>
@@ -2463,17 +2480,37 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
         /// <param name="sequence">The voltage or current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
+        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
+        /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
+        /// <param name="needDataAdjustment">Indicates if the sequence values should be divided in case of Ganging.</param>
         [Obsolete("Using both simple sequencing and advanced sequencing for the same channel within the same session is not supported. For this reason it is better to just use advanced sequencing. Consider using the high-level ConfigureVoltageSequence or ConfigureCurrentSequence methods instead.", error: false)]
         public static void ConfigureSequence(
             this DCPowerOutput output,
             double[] sequence,
             int sequenceLoopCount,
-            double? sequenceStepDeltaTimeInSeconds = null)
+            double? sequenceStepDeltaTimeInSeconds = null,
+            double[] sourceDelaysInSeconds = null,
+            SitePinInfo sitePinInfo = null,
+            bool needDataAdjustment = true)
         {
+            ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
+            var outputFunction = output.Source.Output.Function;
+            sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
-            output.Source.SetSequence(sequence);
+            var sourceDelays = sourceDelaysInSeconds?.Select(d => PrecisionTimeSpan.FromSeconds(d)).ToArray();
+            if (sourceDelays != null)
+            {
+                output.Source.SetSequence(sequence, sourceDelays);
+            }
+            else
+            {
+                output.Source.SetSequence(sequence);
+            }
+
+            output.ConfigureSourceTriggerForCascading(sitePinInfo);
+            output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
             if (sequenceStepDeltaTimeInSeconds.HasValue)
             {
                 output.Source.SequenceStepDeltaTimeEnabled = true;
