@@ -80,36 +80,33 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void WaitForEvent(this DCPowerSessionsBundle sessionsBundle, EventType eventType, double timeout = 5.0)
         {
             var timeoutAsPrecisionTimeSpan = PrecisionTimeSpan.FromSeconds(timeout);
-            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
+            sessionsBundle.Do((sessionInfo) =>
             {
-                if (!IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
-                {
-                    switch (eventType)
+                switch (eventType)
                     {
-                        case EventType.MeasureCompleteEvent:
-                            sessionInfo.AllChannelsOutput.Events.MeasureCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
-                            break;
+                    case EventType.MeasureCompleteEvent:
+                        sessionInfo.AllChannelsOutput.Events.MeasureCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        break;
 
-                        case EventType.PulseCompleteEvent:
-                            sessionInfo.AllChannelsOutput.Events.PulseCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
-                            break;
+                    case EventType.PulseCompleteEvent:
+                        sessionInfo.AllChannelsOutput.Events.PulseCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        break;
 
-                        case EventType.ReadyForPulseTriggerEvent:
-                            sessionInfo.AllChannelsOutput.Events.ReadyForPulseTriggerEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
-                            break;
+                    case EventType.ReadyForPulseTriggerEvent:
+                        sessionInfo.AllChannelsOutput.Events.ReadyForPulseTriggerEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        break;
 
-                        case EventType.SequenceEngineDoneEvent:
-                            sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
-                            break;
+                    case EventType.SequenceEngineDoneEvent:
+                        sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        break;
 
-                        case EventType.SequenceIterationCompleteEvent:
-                            sessionInfo.AllChannelsOutput.Events.SequenceIterationCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
-                            break;
+                    case EventType.SequenceIterationCompleteEvent:
+                        sessionInfo.AllChannelsOutput.Events.SequenceIterationCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        break;
 
-                        case EventType.SourceCompleteEvent:
-                            sessionInfo.AllChannelsOutput.Events.SourceCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
-                            break;
-                    }
+                    case EventType.SourceCompleteEvent:
+                        sessionInfo.AllChannelsOutput.Events.SourceCompleteEvent.WaitForEvent(timeoutAsPrecisionTimeSpan);
+                        break;
                 }
             });
         }
