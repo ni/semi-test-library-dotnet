@@ -89,15 +89,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             sessionsBundle.Initiate();
 
-            if (waitForSequenceCompletion)
-            {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    {
-                        sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
-                    }
-                });
-            }
+            sessionsBundle.WaitForEvent(EventType.SequenceEngineDoneEvent, sequenceTimeoutInSeconds);
         }
         #endregion methods on DCPowerSessionsBundle
     }
