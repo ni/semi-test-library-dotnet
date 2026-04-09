@@ -45,7 +45,7 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 
 ### Code Modules
 
-- `Code Modules/TestSteps/ForceVoltageRamp.cs`: Forces a hardware-timed voltage ramp sequence on the specified SMU pins using `ForceVoltageSequence`.
+- `Code Modules/TestSteps/ForceVoltageRamp.cs`: Forces a hardware-timed voltage ramp sequence on the specified SMU pins.
 - `Code Modules/TestSteps/ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements.cs`: Configure and initiate hardware-timed voltage ramp sequence on the specified SMU pins and fetches current measurements taken during each step of the sequence. Publishes the max current value across the steps using the "MaxCurrent" published data id.
 - `Code Modules/TestSteps/ForceSynchronizedVoltageRamp.cs`: Forces a hardware-timed voltage ramp sequence that is synchronized across the specified SMU pins.
 - `Code Modules/TestSteps/ConfigureSMUAdvancedSequence.cs`: Configures an advanced sequence for the specified SMU pins without setting it as the active sequence, allowing it to be initiated later in the test flow.
