@@ -1016,7 +1016,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 };
 
                 var perChannelString = sitePinInfo.IndividualChannelString;
-                // The output of all other channels within the bundle that will be synchronized with the designated primary channel.
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.ConfigureLevelsAndLimits(settings);
@@ -1053,13 +1052,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 primaryOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
             }
 
-            // Clearing the active advanced sequence after use.
-            sessionsBundle.ClearActiveAdvancedSequence();
-            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-            sessionsBundle.DeleteAdvancedSequence(sequenceName);
-
-            // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+            sessionsBundle.ReleaseSynchronizedAdvancedSequenceResources(sequenceName);
         }
 
         /// <summary>
@@ -1408,7 +1401,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var perSitePinSequence = getSequence(sitePinInfo);
                 var validProperties = GetValidProperties(perSitePinSequence);
                 var perChannelString = sitePinInfo.IndividualChannelString;
-                // The output of all other channels within the bundle that will be synchronized with the designated primary channel.
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
                 if (fetchResult)
@@ -1426,7 +1418,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     validProperties,
                     setAsActiveSequence: true,
                     commitFirstElementAsInitialState: false);
-                if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
+                if (IsPrimaryOutput(sessionIndex, sitePinInfo, sessionInfo))
                 {
                     channelOutput.Triggers.StartTrigger.Disable();
                     channelOutput.Control.Commit();
@@ -1451,13 +1443,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 result = sessionsBundle.FetchMeasurement(pointsToFetch.Value, measurementTimeoutInSeconds);
             }
 
-            // Clearing the active advanced sequence after use.
-            sessionsBundle.ClearActiveAdvancedSequence();
-            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
-            sessionsBundle.DeleteAdvancedSequence(sequenceName);
-
-            // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
-            sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+            sessionsBundle.ReleaseSynchronizedAdvancedSequenceResources(sequenceName);
 
             return result;
         }
