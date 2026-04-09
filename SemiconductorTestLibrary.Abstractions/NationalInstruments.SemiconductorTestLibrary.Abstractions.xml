@@ -3467,7 +3467,7 @@
             </summary>
             <param name="hasGangedChannels">Indicates whether the bundle has any ganged channels.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.ValidatePinValuesForCascading``1(System.Boolean,``0)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.ValidatePinValuesForCascading``1(System.Boolean,``0,System.Nullable{NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceOutputFunction})">
             <summary>
             Validates that the pin values for cascaded pin groups in the specified sessions bundle are consistent when
             cascading validation is enabled.
@@ -3481,6 +3481,22 @@
             method validates that the pin values for cascaded pin groups are consistent.</param>
             <param name="pinValues">An object containing the pin values to validate. The structure and expected contents depend on the
             implementation of the pin value retrieval logic.</param>
+            <param name="outputFunction">The <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceOutputFunction"/> object.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.ValidatePinOutputFunctionForCascading``1(System.Boolean,``0)">
+            <summary>
+            Validates that the outputFunction for pins in cascaded pin groups in the specified sessions bundle are same when
+            cascading validation is enabled.
+            </summary>
+            <remarks>This method is intended for use in scenarios where pin groups are configured to
+            cascade multiple pins together. It ensures that, when cascading validation is enabled, all pins
+            within a cascaded group have the same outputFunction.</remarks>
+            <typeparam name="T">The type of the object containing pin values to validate. Typically a structure or collection mapping pin or
+            group identifiers to their values.</typeparam>
+            <param name="hasCascadedChannels">A value indicating whether bundle has some cascaded channels or not. If set to <see langword="true"/>, the
+            method validates that the pin configurations for cascaded pin groups are consistent.</param>
+            <param name="pinConfigurations">An object containing the pin configurations to validate. The structure and expected contents depend on the
+            implementation of the pin configuration retrieval logic.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose">
             <summary>
@@ -5551,6 +5567,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteNumbersNotUnique">
             <summary>
               Looks up a localized string similar to The values of the site numbers parameter must be unique..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_DifferentOutputFunctionsDetectedForCascadedPinGroup">
+            <summary>
+              Looks up a localized string similar to The parameter contains different output functions for Cascaded pins in the &quot;{0}&quot; group. All pins within a Cascaded group must have the same output function..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_DifferentSequencesDetectedForCascadedPinGroup">
