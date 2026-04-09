@@ -42,7 +42,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Note that there is a limit to how many sequences can be configured per instrument session (100 per session).
             // Therefore, it is best practice to properly keep track of all configured sequences by name,
             // and properly dispose of them once they no longer required.
-            var sequenceName = "VoltageRampSequence";
+            string sequenceName = "VoltageRampSequence";
             dcPowerPins.ConfigureVoltageSequence(sequenceName, voltageSequence, setAsActiveSequence: true);
 
             dcPowerPins.Initiate();
@@ -51,7 +51,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // The fetched result contains the measured Current, Voltage, and In Compliance state values for each step of the sequence.
             PinSiteData<SingleDCPowerFetchResult[]> fetchResults = dcPowerPins.FetchMeasurement(pointsToFetch: numberOfSteps);
 
-            // Use the Select method to extract the Current, Voltage, and In Compliance state values as needed.
+            // Use the Select method to extract the CurrentMeasurement values.
             PinSiteData<double> maxCurrentMeasurement = fetchResults
                 .Select(samples => samples.Max(sample => sample.CurrentMeasurement));
 

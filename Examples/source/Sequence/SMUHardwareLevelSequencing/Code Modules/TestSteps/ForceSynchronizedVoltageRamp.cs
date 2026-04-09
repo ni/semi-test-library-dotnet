@@ -26,7 +26,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         public static void ForceSynchronizedVoltageRamp(ISemiconductorModuleContext tsmContext, string[] smuPinNames, double startVoltage = 0, double stopVoltage = 3, int numberOfSteps = 10)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var dcPowerPins = sessionManager.DCPower(smuPinNames);
+            DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
 
             // Measurements can be taken during sequence execution, with exactly one sample for each step,
             // but to enable this, the MeasureWhen property must be set to AutomaticallyAfterSourceComplete.

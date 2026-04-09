@@ -19,7 +19,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         public static void InitiateSMUAdvancedSequence(ISemiconductorModuleContext tsmContext, string[] smuPinNames, string advanceSequenceName)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var dcPowerPins = sessionManager.DCPower(smuPinNames);
+            DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
 
             // Initiate the advanced sequence that was configured earlier
             dcPowerPins.InitiateAdvancedSequence(advanceSequenceName);
