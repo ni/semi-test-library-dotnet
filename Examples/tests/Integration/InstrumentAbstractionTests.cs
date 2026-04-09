@@ -22,7 +22,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_ForceSynchronizedVoltageRampAndFetchSucceeds()
+        public void Initialize_ForceSynchronizedVoltageRampSucceeds()
         {
             var tsmContext = CreateTSMContext("DifferentSMUDevices.pinmap", out _);
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
@@ -34,13 +34,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_ForceVoltageRampMeasureCurrentSucceeds()
+        public void Initialize_ConfigureVoltageRampSequenceInitateAndFetchCurrentMeasurementsSucceeds()
         {
             var tsmContext = CreateTSMContext("DifferentSMUDevices.pinmap", out var publishedDataReader);
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             string[] pins = { "VDD" };
 
-            ForceVoltageSequence.ConfigureVoltageSequence(tsmContext, pins);
+            ForceVoltageSequence.ConfigureVoltageRampSequenceInitateAndFetchCurrentMeasurements(tsmContext, pins);
 
             CleanupInstrumentation(tsmContext);
         }
