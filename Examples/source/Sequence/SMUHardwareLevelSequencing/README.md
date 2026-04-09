@@ -34,7 +34,7 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 > 3. Click the **Start/Resume Lot** button on the TSM toolbar to run the test sequence.
 > 4. Click the **Disable Offline Mode** button to return to the default TSM behavior.
 >
->Not all devices are supported by Hardware Level Sequencing, Please refer to [NI-DCPower Supported Functions by Device](https://www.ni.com/docs/en-US/bundle/ni-dcpower-c-api-ref/page/group____root__nidcpower__supported__functions__by__device.html) for details.
+> Not all devices support Hardware Level Sequencing, refer to [NI-DCPower Supported Functions by Device](https://www.ni.com/docs/en-US/bundle/ni-dcpower-c-api-ref/page/group____root__nidcpower__supported__functions__by__device.html) for details.
 
 ## Key Files
 
