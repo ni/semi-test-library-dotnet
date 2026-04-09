@@ -24,7 +24,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
             {
                 return $"/{leaderChannelSlot}/Engine{leaderChannelNumber}/{triggerType}Trigger";
             }
-            if (channel.Contains("SMU_4147") && (triggerType == "Source") || triggerType == "Start")
+            if (channel.Contains("SMU_4147") && (triggerType == "Source"))
             {
                 return $"/{channel.Remove(channel.Length - 2)}/Immediate";
             }
