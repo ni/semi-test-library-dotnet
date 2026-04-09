@@ -2601,6 +2601,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             output.ConfigureSourceTriggerForCascading(sitePinInfo);
             output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
+            output.ConfigureSequenceAdvanceTriggerForCascadedSequencing(sitePinInfo);
             sessionInfo.ConfigureMeasureWhen(sitePinInfo, sitePinInfo.ModelString, measureWhen: null);
             sessionInfo.ConfigureMeasureTriggerForCascading(sitePinInfo);
         }
