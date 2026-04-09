@@ -26,7 +26,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// <param name="numberOfSteps">The number of steps in the voltage ramp sequence.</param>
         public static void ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements(ISemiconductorModuleContext tsmContext, string[] smuPinNames, double startVoltage = 0, double stopVoltage = 3, int numberOfSteps = 10)
         {
-            TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
+            var sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
 
             // Measurements can be taken during sequence execution, with exactly one sample for each step,
