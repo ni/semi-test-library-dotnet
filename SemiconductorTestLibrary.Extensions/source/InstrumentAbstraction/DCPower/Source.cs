@@ -1031,7 +1031,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     : PrecisionTimeSpan.Zero;
                 sessionInfo.ConfigureTransientResponce(settings, perChannelString);
 
-                if (sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo))
+                if (IsPrimaryOutput(sessionIndex, sitePinInfo, sessionInfo))
                 {
                     // Primary channel does not need a start trigger
                     channelOutput.Triggers.StartTrigger.Disable();
@@ -1039,7 +1039,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
                 else
                 {
-                     // All other channels start on primary channel's start trigger
+                    // All other channels start on primary channel's start trigger
                     channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
                     channelOutput.Control.Initiate();
                 }
@@ -1674,7 +1674,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             channelOutput.Control.Abort();
             channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo, needDataAdjustment);
-            sessionInfo.ConfigureAdvancedSequenceCore(
+            sessionInfo.ConfigureSequenceForCascadingCore(
                 sequenceName: sequenceName,
                 sequence: levelSequence,
                 sequenceLoopCount: sequenceLoopCount,
@@ -1802,7 +1802,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     channelOutput.Control.Abort();
                     channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
-                    sessionInfo.ConfigureAdvancedSequenceCore(
+                    sessionInfo.ConfigureSequenceForCascadingCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
                         sequenceLoopCount: sequenceLoopCount,
@@ -1838,7 +1838,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.ConfigureAdvancedSequenceCore(
+                sessionInfo.ConfigureSequenceForCascadingCore(
                     sequenceName: sequenceName,
                     sequence: sequence.GetValue(sitePinInfo.SiteNumber),
                     sequenceLoopCount: sequenceLoopCount,
@@ -1860,7 +1860,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.ConfigureAdvancedSequenceCore(
+                sessionInfo.ConfigureSequenceForCascadingCore(
                     sequenceName: sequenceName,
                     sequence: sequence.GetValue(sitePinInfo),
                     sequenceLoopCount: sequenceLoopCount,
@@ -1893,13 +1893,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     channelOutput.Control.Abort();
                     channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                    sessionInfo.ConfigureAdvancedSequenceCore(
+                    sessionInfo.ConfigureSequenceForCascadingCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
                         sequenceLoopCount: sequenceLoopCount,
                         outputFunction: DCPowerSourceOutputFunction.DCCurrent,
                         sitePinInfo: sitePinInfo,
-                        sequenceStepDeltaTimeInSeconds,
+                        sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
                         setAsActiveSequence: setAsActiveSequence);
                 });
             }
@@ -1929,7 +1929,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.ConfigureAdvancedSequenceCore(
+                sessionInfo.ConfigureSequenceForCascadingCore(
                     sequenceName: sequenceName,
                     sequence: sequence.GetValue(sitePinInfo.SiteNumber),
                     sequenceLoopCount: sequenceLoopCount,
@@ -1949,7 +1949,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.ConfigureAdvancedSequenceCore(
+                sessionInfo.ConfigureSequenceForCascadingCore(
                     sequenceName: sequenceName,
                     sequence: sequence.GetValue(sitePinInfo, out bool isGroupData),
                     sequenceLoopCount: sequenceLoopCount,
@@ -2218,7 +2218,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     channelOutput.Control.Abort();
                     channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
-                    sessionInfo.ConfigureAdvancedSequenceCore(
+                    sessionInfo.ConfigureSequenceForCascadingCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
                         sequenceLoopCount: sequenceLoopCount,
@@ -2260,7 +2260,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.ConfigureAdvancedSequenceCore(
+                sessionInfo.ConfigureSequenceForCascadingCore(
                     sequenceName: sequenceName,
                     sequence: sequence.GetValue(sitePinInfo.SiteNumber),
                     sequenceLoopCount: sequenceLoopCount,
@@ -2289,7 +2289,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
-                sessionInfo.ConfigureAdvancedSequenceCore(
+                sessionInfo.ConfigureSequenceForCascadingCore(
                     sequenceName: sequenceName,
                     sequence: sequence.GetValue(sitePinInfo),
                     sequenceLoopCount: sequenceLoopCount,
@@ -2328,7 +2328,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     channelOutput.Control.Abort();
                     channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                    sessionInfo.ConfigureAdvancedSequenceCore(
+                    sessionInfo.ConfigureSequenceForCascadingCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
                         sequenceLoopCount: sequenceLoopCount,
@@ -2370,7 +2370,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.ConfigureAdvancedSequenceCore(
+                sessionInfo.ConfigureSequenceForCascadingCore(
                     sequenceName: sequenceName,
                     sequence: sequence.GetValue(sitePinInfo.SiteNumber),
                     sequenceLoopCount: sequenceLoopCount,
@@ -2397,7 +2397,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
-                sessionInfo.ConfigureAdvancedSequenceCore(
+                sessionInfo.ConfigureSequenceForCascadingCore(
                     sequenceName: sequenceName,
                     sequence: sequence.GetValue(sitePinInfo, out bool isGroupData),
                     sequenceLoopCount: sequenceLoopCount,
@@ -2746,6 +2746,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return masterChannelSessionInfo.Session.Outputs[masterChannelString];
         }
 
+        private static bool IsPrimaryOutput(int sessionIndex, SitePinInfo sitePinInfo, DCPowerSessionInformation sessionInfo)
+        {
+            return sessionIndex == 0 && sitePinInfo.IsFirstChannelOfSession(sessionInfo);
+        }
+
         internal static bool IsFirstChannelOfSession(this SitePinInfo sitePinInfo, DCPowerSessionInformation sessionInfo)
         {
             return sessionInfo.AllChannelsString.StartsWith(sitePinInfo.IndividualChannelString, StringComparison.InvariantCulture);
@@ -2857,7 +2862,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureAdvancedSequenceCore(
+        private static void ConfigureSequenceForCascadingCore(
             this DCPowerSessionInformation sessionInfo,
             string sequenceName,
             double[] sequence,
@@ -2870,6 +2875,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false)
         {
             var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
             sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
             output.ConfigureSequenceCore(
                 sequenceName: sequenceName,
