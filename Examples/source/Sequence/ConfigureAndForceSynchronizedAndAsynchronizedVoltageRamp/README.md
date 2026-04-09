@@ -46,8 +46,8 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 ### Code Modules
 
 - `Code Modules/TestSteps/ForceVoltageRamp.cs`: Forces a hardware-timed voltage ramp sequence on the specified SMU pins using `ForceVoltageSequence`.
-- `Code Modules/TestSteps/ForceVoltageRampMeasureCurrent.cs`: Forces a hardware-timed voltage ramp sequence on the specified SMU pins and fetches current measurements taken during each step of the sequence. Publishes the max current value across the steps using the "MaxCurrent" published data id.
-- `Code Modules/TestSteps/ForceSynchronizedVoltageRampFetchMeasurementsAndPublishMaxCurrent.cs`: Forces a hardware-timed voltage ramp sequence that is synchronized across the specified SMU pins and fetches measurements taken during each step of the sequence. Publishes the max current value across the steps using the "MaxCurrent" published data id.
+- `Code Modules/TestSteps/ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements.cs`: Configure and initiate hardware-timed voltage ramp sequence on the specified SMU pins and fetches current measurements taken during each step of the sequence. Publishes the max current value across the steps using the "MaxCurrent" published data id.
+- `Code Modules/TestSteps/ForceSynchronizedVoltageRamp.cs`: Forces a hardware-timed voltage ramp sequence that is synchronized across the specified SMU pins.
 - `Code Modules/TestSteps/ConfigureSMUAdvancedSequence.cs`: Configures an advanced sequence for the specified SMU pins without setting it as the active sequence, allowing it to be initiated later in the test flow.
 - `Code Modules/TestSteps/InitiateSMUAdvancedSequence.cs`: Initiates a previously configured advanced sequence for the specified SMU pins.
 
@@ -85,26 +85,8 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 You can open the C# source code in one of two ways:
 
 - **From TestStand:** In the MainSequence, **double-click** any test step to open its associated code module directly in Visual Studio.
-- **From disk:** Navigate to the `Code Modules` folder within this example's directory and **double-click** the Visual Studio solution file (`.sln`) to open the full project in Visual Studio. Alternatively, open Visual Studio manually and use **File → Open → Project/Solution...** to browse to and open the solution file.
-
-Once the code is open in Visual Studio, review each of the following files to understand how the STL extension methods are used:
-
-1. **`Code Modules/TestSteps/ForceVoltageRamp.cs`**
-   - Review how `ForceVoltageSequence` is called to execute a hardware-timed voltage ramp on the specified SMU pins.
-
-2. **`Code Modules/TestSteps/ForceVoltageRampMeasureCurrent.cs`**
-   - Review how the voltage ramp sequence is forced and how current measurements are fetched for each step of the sequence.
-   - Note how the max current value is published using the `"MaxCurrent"` published data id.
-
-3. **`Code Modules/TestSteps/ForceSynchronizedVoltageRampFetchMeasurementsAndPublishMaxCurrent.cs`**
-   - Review how the synchronized voltage ramp is configured to execute across multiple SMU pins simultaneously.
-   - Note how measurements are fetched and the max current is published using the `"MaxCurrent"` published data id.
-
-4. **`Code Modules/TestSteps/ConfigureSMUAdvancedSequence.cs`**
-   - Review how an advanced sequence is configured without being set as the active sequence, allowing it to be initiated at a later point in the test flow.
-
-5. **`Code Modules/TestSteps/InitiateSMUAdvancedSequence.cs`**
-   - Review how a previously configured advanced sequence is initiated for the specified SMU pins.
+- **From disk:** Navigate to the `Code Modules` folder within this example's directory and **double-click** the Visual Studio solution file (`.sln`) to open the full project in Visual Studio. Alternatively, open Visual Studio manually and use **File -> Open -> Project/Solution** to browse to and open the solution file.
+Once the code is open in Visual Studio, review each of the following files to understand how the STL extension methods are used.
 
 > **TIP:** In Visual Studio, **hover over** any STL extension method name to view its inline documentation. This provides details on the method's parameters, expected behavior, and return values.
 
@@ -112,7 +94,7 @@ Once the code is open in Visual Studio, review each of the following files to un
 
 1. Return to the **TestStand Sequence Editor**.
 2. Ensure all [Prerequisites](#prerequisites) are met, including having the correct SMU hardware installed (or Offline Mode enabled for simulation).
-3. Click the **Start/Resume Lot** button on the TSM toolbar to execute the test sequence.
+3. Click the **Start Lot(F5)** or **Single Test(Ctrl + F5)** button on the TSM toolbar to execute the test sequence.
 4. Monitor the execution in the TestStand Sequence Editor and review the results upon completion.
 
 ## Related Documentation
