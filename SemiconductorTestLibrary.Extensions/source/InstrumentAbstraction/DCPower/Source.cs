@@ -275,7 +275,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings, DCPowerSourceOutputFunction.DCVoltage);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perPinSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
@@ -296,7 +296,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             bool hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, settings, DCPowerSourceOutputFunction.DCVoltage);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var perSitePinPairSettings = settings.GetValue(sitePinInfo, out bool isGroupData);
