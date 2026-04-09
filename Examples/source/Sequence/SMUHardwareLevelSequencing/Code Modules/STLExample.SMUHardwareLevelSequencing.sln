@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemiconductorTestLibrary.Extensions", "..\..\..\..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj", "{8221C510-0DA1-E8AE-C0C6-C851B24DC759}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STLExample.ConfigureAndForceSynchronizedAndAsynchronizedVoltageRamp", "STLExample.ConfigureAndForceSynchronizedAndAsynchronizedVoltageRamp.csproj", "{5F2896B6-D5B8-2BA4-FA06-3A57CD756E26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STLExample.SMUHardwareLevelSequencing", "STLExample.SMUHardwareLevelSequencing.csproj", "{5F2896B6-D5B8-2BA4-FA06-3A57CD756E26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
