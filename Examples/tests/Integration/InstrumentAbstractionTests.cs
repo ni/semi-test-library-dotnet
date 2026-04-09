@@ -34,13 +34,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_ConfigureVoltageRampSequenceInitateAndFetchCurrentMeasurementsSucceeds()
+        public void Initialize_ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurementsSucceeds()
         {
             var tsmContext = CreateTSMContext("DifferentSMUDevices.pinmap", out var publishedDataReader);
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             string[] pins = { "VDD" };
 
-            ForceVoltageSequence.ConfigureVoltageRampSequenceInitateAndFetchCurrentMeasurements(tsmContext, pins);
+            ForceVoltageSequence.ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements(tsmContext, pins);
 
             CleanupInstrumentation(tsmContext);
         }

@@ -39,7 +39,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="smuPinNames">Names of the SMU pins to apply the voltage ramp and measure current.</param>
-        internal static void ConfigureVoltageRampSequenceInitateAndFetchCurrentMeasurements(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
+        internal static void ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
