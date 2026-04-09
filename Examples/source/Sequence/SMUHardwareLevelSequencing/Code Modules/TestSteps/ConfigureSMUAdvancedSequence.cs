@@ -20,7 +20,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         public static void ConfigureSMUAdvancedSequence(ISemiconductorModuleContext tsmContext, string[] smuPinNames)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var dcPowerPins = sessionManager.DCPower(smuPinNames);
+            DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
 
             // Measurements can be taken during sequence execution, with exactly one sample for each step,
             // but to enable this, the MeasureWhen property must be set to AutomaticallyAfterSourceComplete.
@@ -41,7 +41,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Configure the advanced sequence upfront, but do not set it as the active sequence.
             // This allows you to initiate the advanced sequence later in your test flow without needing to reconfigure it.
-            var advanceSequenceName = "MyAdvancedSequence";
+            string advanceSequenceName = "MyAdvancedSequence";
             var advanceSequenceSettings = new List<DCPowerAdvancedSequenceStepProperties>
             {
                 new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 0.25, ApertureTime = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
