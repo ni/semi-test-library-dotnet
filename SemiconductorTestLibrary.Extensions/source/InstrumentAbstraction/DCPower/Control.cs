@@ -79,15 +79,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 var allChannelOutput = sessionInfo.AllChannelsOutput;
+
                 allChannelOutput.Control.Abort();
+
                 allChannelOutput.Source.Mode = DCPowerSourceMode.Sequence;
+
                 allChannelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
-                allChannelOutput.Control.Initiate();
-                if (waitForSequenceCompletion)
-                {
-                    allChannelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
-                }
             });
+
+            sessionsBundle.Initiate();
+
+            if (waitForSequenceCompletion)
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    {
+                        sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+                    }
+                });
+            }
         }
         #endregion methods on DCPowerSessionsBundle
     }
