@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -426,6 +428,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Initiate();
 
             sessionsBundle.SendSoftwareEdgeTrigger(triggerType);
+
+            sessionsBundle.ClearTriggers();
+            sessionsBundle.DisableTriggers();
+        }
+
+        [Theory]
+        [InlineData(TriggerType.SequenceAdvanceTrigger)]
+        [InlineData(TriggerType.SourceTrigger)]
+        [InlineData(TriggerType.StartTrigger)]
+        public void GangedPinGroupConfigureChannels_ConfigureTrigger_DoesNotAffectTriggerOfFollowerChannels(TriggerType triggerType)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
+            sessionsBundle.GangPinGroup("MergedPowerPins");
+            DCPowerSourceSettings settings = new DCPowerSourceSettings();
+            sessionsBundle.ConfigureSourceSettings(settings);
+            sessionsBundle.Initiate();
+
+            Parallel.Invoke(
+                () => sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent),
+                () => sessionsBundle.SendSoftwareEdgeTrigger(triggerType));
 
             sessionsBundle.ClearTriggers();
             sessionsBundle.DisableTriggers();

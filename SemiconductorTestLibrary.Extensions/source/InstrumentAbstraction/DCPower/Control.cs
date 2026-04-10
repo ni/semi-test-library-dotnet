@@ -1,4 +1,6 @@
-﻿using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+﻿using NationalInstruments.ModularInstruments.NIDCPower;
+
+using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
@@ -100,13 +102,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var allChannelOutput = sessionInfo.AllChannelsOutput;
                 allChannelOutput.Control.Abort();
+                allChannelOutput.Source.Mode = DCPowerSourceMode.Sequence;
                 allChannelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
-                allChannelOutput.Control.Initiate();
-                if (waitForSequenceCompletion)
-                {
-                    allChannelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
-                }
             });
+            sessionsBundle.Initiate();
+            if (waitForSequenceCompletion)
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    {
+                        sessionInfo.AllChannelsOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
+                    }
+                });
+            }
         }
         #endregion methods on DCPowerSessionsBundle
     }
