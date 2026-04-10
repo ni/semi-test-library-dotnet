@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Specifications xmlns:f="http://www.ni.com/schemas/Semiconductor/Formula.xsd" schemaVersion="1.0" xmlns="http://www.ni.com/schemas/Semiconductor/Specifications.xsd">
+  <Section name="SPI_Specs">
+    <f:Formula symbol="SPI_CLK_RATE">
+      <f:Definition>1 MHz</f:Definition>
+      <f:Comment>SPI Clock Rate</f:Comment>
+    </f:Formula>
+  </Section>
+</Specifications>
