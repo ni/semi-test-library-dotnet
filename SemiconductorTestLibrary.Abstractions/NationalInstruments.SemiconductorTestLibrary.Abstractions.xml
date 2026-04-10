@@ -3451,6 +3451,8 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UngangPinGroup(System.String[])">
             <summary>
             Performs the unganging operation on all the pin groups specified.
+            Resets the triggers of the follower channels in all the pin groups to their default state.
+            Users have to reconfigure the follower channels for further operations.
             </summary>
             <param name="gangedChannelsPinGroupNames">Pin Groups that are to be unganged.</param>
         </member>
@@ -3463,6 +3465,8 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UngangPinGroup(System.String)">
             <summary>
             Ungangs the channels that are part of the connections in specified pin group on all sites in the bundle.
+            Resets the triggers of the follower channels to their default state.
+            Users have to reconfigure the follower channels for further operations.
             </summary>
             <param name="gangedChannelsPinGroupName">Pin Groups that are to be ganged.</param>
         </member>
