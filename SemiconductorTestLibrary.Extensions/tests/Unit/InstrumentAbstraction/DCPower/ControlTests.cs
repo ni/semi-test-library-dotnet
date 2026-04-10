@@ -35,6 +35,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
             string pinMapFileName = pinMapWithChannelGroup ? "DifferentSMUDevicesWithChannelGroup.pinmap" : "DifferentSMUDevices.pinmap";
+            return Initialize(pinMapFileName);
+        }
+        public TSMSessionManager Initialize(string pinMapFileName)
+        {
             _tsmContext = CreateTSMContext(pinMapFileName);
             InitializeAndClose.Initialize(_tsmContext);
             return new TSMSessionManager(_tsmContext);
@@ -121,6 +125,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
             });
+        }
+
+        [Fact]
+        public void GangedSMUDevicesAndConfigureAdvanceSequence_ConfigureAndInitiateAdvancedSequence_ThrowsException()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("PowerPins");
+            sessionsBundle.GangPinGroup("MergedPowerPins");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName = "Sequence";
+            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+
+            void ConfigureAdvancedSequenceTest() => sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
+            void InitiateAdvancedSequenceTest() => sessionsBundle.InitiateAdvancedSequence(sequenceName);
+
+            Assert.Throws<NISemiconductorTestException>(ConfigureAdvancedSequenceTest);
+            Assert.Throws<NISemiconductorTestException>(InitiateAdvancedSequenceTest);
+            sessionsBundle.ClearActiveAdvancedSequence();
         }
 
         [Theory]

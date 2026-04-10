@@ -1,8 +1,7 @@
 ﻿using System.Globalization;
-
+﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 
-﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
