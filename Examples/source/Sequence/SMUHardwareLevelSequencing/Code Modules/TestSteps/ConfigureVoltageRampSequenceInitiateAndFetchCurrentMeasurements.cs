@@ -47,6 +47,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevel
 
             dcPowerPins.Initiate();
 
+            dcPowerPins.WaitForEvent(EventType.SequenceEngineDoneEvent);
+
             // Measurements taken during the sequence execution can be fetched once the sequence finishes.
             // The fetched result contains the measured Current, Voltage, and In Compliance state values for each step of the sequence.
             PinSiteData<SingleDCPowerFetchResult[]> fetchResults = dcPowerPins.FetchMeasurement(pointsToFetch: numberOfSteps);
