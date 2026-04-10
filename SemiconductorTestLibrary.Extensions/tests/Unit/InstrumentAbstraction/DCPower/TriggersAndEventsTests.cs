@@ -452,7 +452,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TriggerType.SequenceAdvanceTrigger)]
         [InlineData(TriggerType.SourceTrigger)]
         [InlineData(TriggerType.StartTrigger)]
-        public void GangedPinGroupConfigureChannels_ConfigureTrigger_DoesNotAffectTriggerOfFollowerChannels(TriggerType triggerType)
+        public void GangedPinGroupConfigureChannels_WaitForTriggerAndSendSoftwareEdgeTrigger__DoesNotThrowExceptionOnClearAndDisableTrigger(TriggerType triggerType)
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
