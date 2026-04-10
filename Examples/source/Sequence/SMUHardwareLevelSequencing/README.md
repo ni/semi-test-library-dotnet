@@ -10,6 +10,7 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 2. **ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements**: Configure and initiates a voltage ramp sequence and publishes the max current measured during sequence execution.
 3. **ForceSynchronizedVoltageRamp**: Forces a voltage ramp sequence synchronized across pins.
 4. **ConfigureSMUAdvancedSequence**: Configures an advanced sequence upfront without initializing it, allowing later initiation in the test flow.
+   > **Note:** This step is present in ProcessSetup Sequence Callback.
 5. **InitiateSMUAdvancedSequence**: Initiates a previously configured advanced sequence for the specified SMU pins.
 
 ## Prerequisites
@@ -72,9 +73,8 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 ### Step 3: Review the Pin Map
 
 1. From the TestStand Sequence Editor, open the pin map by selecting **Semiconductor Module -> Edit Pin Map File...** from the menu bar, or by clicking the **Edit Pin Map File** button on the TSM toolbar.
-2. The pin map file `STLExample.SMUHardwareLevelSequencing.pinmap` will open in the **Pin Map Editor**.
-3. Review the instrument definitions and pin assignments. Note that the pin map is configured to use an NI-DCPower instrument named `SMU_4147_C2_S03`.
-4. **If you are using a different SMU:**
+2. Review the instrument definitions and pin assignments. Note that the pin map is configured to use an NI-DCPower instrument named `SMU_4147_C2_S03`.
+3. **If you are using a different SMU:**
    - Verify that the model of your NI-DCPower devices supports advance sequencing functions by reviewing [NI-DCPower Supported Functions by Device](https://www.ni.com/docs/en-US/bundle/ni-dcpower-c-api-ref/page/group____root__nidcpower__supported__functions__by__device.html).
    - Locate the instrument entry for `SMU_4147_C2_S03` in the Pin Map Editor.
    - Update the instrument name to match the name of your available SMU as it appears in **NI MAX** (Measurement & Automation Explorer).
