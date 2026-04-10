@@ -129,6 +129,11 @@
             Name of the trigger line to use for the synchronization of output sequence.
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.SequenceAdvanceTriggerName">
+            <summary>
+            Name of the trigger line to use for the synchronization of sequence loops.
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.MeasureTriggerName">
             <summary>
             Name of the trigger line to use for the synchronization of measurements.
@@ -141,15 +146,16 @@
             <param name="groupName">Name of the pin group to be ganged.</param>
             <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Int32,System.String,System.String,System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Int32,System.String,System.String,System.String,System.String)">
             <summary>
             Constructs a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo"/> object for a follower channel.
             </summary>
             <param name="groupName">Name of the pin group to be ganged.</param>
             <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
             <param name="sourceTriggerName">Name of the trigger line to use for the synchronization of outputs.</param>
-            <param name="measureTriggerName">Name of the trigger line to use for the synchronization of measurements.</param>
             <param name="startTriggerName">Name of the trigger line to use for the synchronization of output sequence.</param>
+            <param name="sequenceAdvanceTriggerName">Name of the trigger line to use for the synchronization of sequence loops.</param>
+            <param name="measureTriggerName">Name of the trigger line to use for the synchronization of measurements.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo">
             <summary>
