@@ -2,7 +2,7 @@
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevelSequencing
 {
     /// <summary>
     /// This class provides example methods demonstrating how to perform Hardware Level Sequencing with SMUs
@@ -22,7 +22,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
 
             // Initiate the advanced sequence that was configured earlier
-            dcPowerPins.InitiateAdvancedSequence(advanceSequenceName);
+            dcPowerPins.InitiateAdvancedSequence(advanceSequenceName, waitForSequenceCompletion: true);
+
+            // Clearing the active advanced sequence after use.
+            dcPowerPins.ClearActiveAdvancedSequence();
         }
     }
 }
