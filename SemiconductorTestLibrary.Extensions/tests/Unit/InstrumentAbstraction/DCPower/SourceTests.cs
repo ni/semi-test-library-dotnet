@@ -4218,6 +4218,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelays_CorrectVoltageMeasurementsFetched(bool pinMapWithChannelGroup)
@@ -4228,7 +4229,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new double[] { 1.0, 2.0, 3.0, 4.0, 5.0 };
-            var sourceDelayInSeconds = new double[] { 3.0, 3.0, 3.0, 3.0, 3.0 };
+            var sourceDelayInSeconds = new double[] { 0.05, 0.05, 0.05, 0.05, 0.05 };
             sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(sequenceName, sequence, sourceDelayInSeconds, sequenceLoopCount: 2, setAsActiveSequence: true);
 
             sessionsBundle.Abort();
@@ -4237,6 +4238,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndPerSiteSequence_CorrectVoltageMeasurementsFetched(bool pinMapWithChannelGroup)
@@ -4250,15 +4252,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 new[] { 1.0, 2.0, 3.0, 4.0, 5.0 },
                 new[] { 1.5, 2.5, 3.5, 4.5, 5.5 },
-                new[] { 2.0, 3.0, 4.0, 5.0, 6.0 },
-                new[] { 2.5, 3.5, 4.5, 5.5, 6.5 }
+                new[] { 2.0, 2.5, 3.0, 3.5, 4.0 },
+                new[] { 2.5, 3.0, 3.5, 4.0, 4.5 }
             });
             var expectedSourceDelayInSeconds = new SiteData<double[]>(new double[][]
             {
-                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 },
-                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 },
-                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 },
-                new[] { 5.0, 5.0, 5.0, 5.0, 5.0 }
+                new[] { 0.05, 0.05, 0.05, 0.05, 0.05 },
+                new[] { 0.05, 0.05, 0.05, 0.05, 0.05 },
+                new[] { 0.05, 0.05, 0.05, 0.05, 0.05 },
+                new[] { 0.05, 0.05, 0.05, 0.05, 0.05 }
             });
             sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(sequenceName, expectedSequences, expectedSourceDelayInSeconds, sequenceLoopCount: 1, setAsActiveSequence: true);
 
@@ -4268,6 +4270,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndPerPinPerSiteSequence_CorrectVoltageMeasurementsFetched(bool pinMapWithChannelGroup)
@@ -4283,18 +4286,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     [0] = new[] { 1.0, 2.0, 3.0, 4.0, 5.0 },
                     [1] = new[] { 1.5, 2.5, 3.5, 4.5, 5.5 },
-                    [2] = new[] { 2.0, 3.0, 4.0, 5.0, 6.0 },
-                    [3] = new[] { 2.5, 3.5, 4.5, 5.5, 6.5 }
+                    [2] = new[] { 2.0, 2.5, 3.0, 3.5, 4.0 },
+                    [3] = new[] { 2.5, 3.0, 3.5, 4.0, 4.5 }
                 }
             });
             var expectedSourceDelayInSeconds = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
             {
                 ["VDD"] = new Dictionary<int, double[]>()
                 {
-                    [0] = new[] { 4.0, 4.0, 4.0, 4.0, 4.0 },
-                    [1] = new[] { 4.0, 4.0, 4.0, 4.0, 4.0 },
-                    [2] = new[] { 4.0, 4.0, 4.0, 4.0, 4.0 },
-                    [3] = new[] { 4.0, 4.0, 4.0, 4.0, 4.0 }
+                    [0] = new[] { 0.05, 0.05, 0.05, 0.05, 0.05 },
+                    [1] = new[] { 0.05, 0.05, 0.05, 0.05, 0.05 },
+                    [2] = new[] { 0.05, 0.05, 0.05, 0.05, 0.05 },
+                    [3] = new[] { 0.05, 0.05, 0.05, 0.05, 0.05 }
                 }
             });
             sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(sequenceName, expectedSequences, expectedSourceDelayInSeconds, sequenceLoopCount: 1, setAsActiveSequence: true);
