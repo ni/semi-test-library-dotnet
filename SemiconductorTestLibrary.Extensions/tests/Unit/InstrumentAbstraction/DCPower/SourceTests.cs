@@ -4385,7 +4385,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 AssertTriggerSettings(sitePinInfo, output, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0", checkStartTrigger: true);
             });
-
             sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
         }
 
