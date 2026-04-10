@@ -1,6 +1,4 @@
-﻿using NationalInstruments.ModularInstruments.NIDCPower;
-
-using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+﻿using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
