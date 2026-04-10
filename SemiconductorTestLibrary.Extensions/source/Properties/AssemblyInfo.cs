@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NationalInstruments.SemiconductorTestLibrary.Extentions")]
-[assembly: AssemblyDescription("NI Semiconductor Test Library Abstractions")]
+[assembly: AssemblyTitle("NationalInstruments.SemiconductorTestLibrary.Extensions")]
+[assembly: AssemblyDescription("NI Semiconductor Test Library Extensions")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("National Instruments")]
 [assembly: AssemblyProduct("NationalInstruments.SemiconductorTestLibrary")]
