@@ -47,6 +47,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj" />
     <ProjectReference Include="..\source\SemiconductorTestLibrary.TestStandSteps.csproj" />
-    <ProjectReference Include="C:\Repos\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\Scripts\..\..\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj" />
+    <ProjectReference Include="..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
   </ItemGroup>
 </Project>

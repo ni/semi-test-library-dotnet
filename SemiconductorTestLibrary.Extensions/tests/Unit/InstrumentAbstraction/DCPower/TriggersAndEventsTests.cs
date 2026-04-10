@@ -123,7 +123,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence_second", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
 
             // Test Digital Edge Trigger - Raising (default)
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.StartTrigger, triggerLine);
@@ -139,6 +140,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertStartTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerStartTriggerType.None);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence", "TriggerStartVoltageSequence_second");
         }
 
         [Theory]
@@ -159,7 +162,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
+            sessionsBundle.ConfigureVoltageSequence("TriggerSequenceAdvanceSoftwareSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
 
             // Test Software Edge Trigger
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SequenceAdvanceTrigger);
@@ -174,6 +178,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertSequenceAdvanceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSequenceAdvanceTriggerType.None);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence", "TriggerSequenceAdvanceSoftwareSequence");
         }
 
         [Theory]
@@ -195,7 +201,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
+            sessionsBundle.ConfigureVoltageSequence("TriggerSequenceAdvanceDigitalSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
 
             // Test Digital Edge Trigger - Raising (default)
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.SequenceAdvanceTrigger, triggerLine);
@@ -211,6 +218,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertSequenceAdvanceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSequenceAdvanceTriggerType.None);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence");
         }
 
         [Theory]
@@ -231,7 +240,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
 
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.StartTrigger);
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
@@ -250,6 +259,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(DCPowerSourceTriggerType.SoftwareEdge, output.Triggers.SourceTrigger.Type);
                 Assert.Equal(DCPowerStartTriggerType.None, output.Triggers.StartTrigger.Type);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence");
         }
 
         [Theory]
@@ -271,7 +282,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
 
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, triggerLine);
 
@@ -286,6 +297,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertSourceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSourceTriggerType.None);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence");
         }
 
         [Theory]
@@ -306,7 +319,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
 
             // Test Software Edge Trigger
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
@@ -321,6 +334,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertSourceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSourceTriggerType.None);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence");
         }
 
         [Theory]

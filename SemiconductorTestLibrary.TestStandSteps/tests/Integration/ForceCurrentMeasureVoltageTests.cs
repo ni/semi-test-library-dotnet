@@ -1,6 +1,7 @@
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
@@ -14,13 +15,13 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilit
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
-    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
-    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public class ForceCurrentMeasureVoltageTests
     {
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_RunForceCurrentMeasureVoltageWithPositiveInRangeVoltageLimit_VoltageLimitsCorrectlySetAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
@@ -52,6 +53,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_RunForceCurrentMeasureVoltageWithPositiveOutRangeVoltageLimit_VoltageLimitsCorrectlySetAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
@@ -83,6 +88,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_RunForceCurrentMeasureVoltageWithNegativeInRangeVoltageLimit_VoltageLimitsCorrectlySetAndAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
@@ -114,6 +123,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_RunForceCurrentMeasureVoltageWithNegativeOutRangeVoltageLimit_VoltageLimitsCorrectlySetAndCorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
@@ -145,6 +158,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_RunForceCurrentMeasureVoltageWithOutHighRangeVoltageLimit_ThrowsNISemiconductorTestException()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
@@ -168,6 +185,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.ChiXiao))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_MergePinGroupRunForceCurrentMeasureVoltageAndUnmergePinGroup_CorrectDataPublished()
         {
             var tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap", out var publishedDataReader, "Mixed Signal Tests.digiproj");
@@ -211,6 +232,75 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             string[] allPins = { "Vaa", "Vab", "Vac", "Vad" };
             AssertPublishedData(tsmContext, allPins, publishedDataReader);
             CleanupInstrumentation(tsmContext);
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void GangedPinGroup_SetMeasureWhenAndFIMV_TriggersConfiguredDataMeasuredAndPublishedCorrectly(string pinmap, DCPowerMeasurementWhen measureWhen)
+        {
+            var tsmContext = CreateTSMContext(pinmap, out var publishedDataReader, "Mixed Signal Tests.digiproj");
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
+            dcPower.GangPinGroup("MergedPowerPins");
+
+            if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+            {
+                dcPower.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
+            }
+            else
+            {
+                dcPower.ConfigureMeasureWhen(measureWhen);
+            }
+            ForceCurrentMeasureVoltage(
+                tsmContext,
+                pinsOrPinGroups: new[] { "PowerPins" },
+                currentLevel: 0.005,
+                voltageLimit: 3.3,
+                apertureTime: 5e-5,
+                settlingTime: 5e-5);
+
+            dcPower.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                AssertTriggerSettings(sitePinInfo, channelOutput);
+            });
+            dcPower.UngangPinGroup("MergedPowerPins");
+            string[] allPins = { "VDD", "VCC1", "VCC2" };
+            AssertPublishedData(tsmContext, allPins, publishedDataReader);
+            CleanupInstrumentation(tsmContext);
+        }
+
+        private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput)
+        {
+            if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
+            {
+                Assert.Equal(DCPowerSourceTriggerType.DigitalEdge, channelOutput.Triggers.SourceTrigger.Type);
+                Assert.Equal(DCPowerMeasureTriggerType.DigitalEdge, channelOutput.Triggers.MeasureTrigger.Type);
+                Assert.Equal(GetTriggerName(gangingInfo), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+                Assert.Equal(GetTriggerName(gangingInfo, "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
+            }
+        }
+
+        private static string GetTriggerName(GangingInfo gangingInfo, string triggerType = "Source")
+        {
+            if (gangingInfo.IsFollower)
+            {
+                if (triggerType == "Source")
+                {
+                    return gangingInfo.SourceTriggerName;
+                }
+                else
+                {
+                    return gangingInfo.MeasureTriggerName;
+                }
+            }
+            return string.Empty;
         }
 
         private void AssertPublishedData(ISemiconductorModuleContext tsmContext, string[] allPins, IPublishedDataReader publishedDataReader)
