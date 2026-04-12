@@ -22,26 +22,37 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
-        public void Initialize_ForceSynchronizedVoltageRampAndFetchSucceeds()
+        public void Initialize_ForceSynchronizedVoltageRampSucceeds()
         {
             var tsmContext = CreateTSMContext("DifferentSMUDevices.pinmap", out _);
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
             string[] pins = { "VDD" };
 
-            ForceVoltageSequence.ForceSynchronizedVoltageRampAndFetchMeasurements(tsmContext, pins);
+            ForceVoltageSequence.ForceSynchronizedVoltageRamp(tsmContext, pins);
 
             CleanupInstrumentation(tsmContext);
         }
 
         [Fact]
-        public void Initialize_ForceVoltageRampMeasureCurrentSucceeds()
+        public void Initialize_ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurementsSucceeds()
         {
             var tsmContext = CreateTSMContext("DifferentSMUDevices.pinmap", out var publishedDataReader);
             SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
-            string[] pins = { "VDD", "VCC" };
+            string[] pins = { "VDD" };
 
-            ForceVoltageSequence.ForceVoltageRampFetchCurrentMeasurements(tsmContext, pins);
+            ForceVoltageSequence.ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements(tsmContext, pins);
 
+            CleanupInstrumentation(tsmContext);
+        }
+
+        [Fact]
+        public void Initialize_ConfigureUpfrontAndInitiateAdvancedSequenceLaterSucceeds()
+        {
+            var tsmContext = CreateTSMContext("DifferentSMUDevices.pinmap", out var publishedDataReader);
+            SetupNIDCPowerInstrumentation(tsmContext, measurementSense: DCPowerMeasurementSense.Local);
+            string[] pins = { "VDD" };
+
+            ConfigureSMUAdvancedSequencesAndInitiate.ConfigureSMUAdvancedSequenceAndInitiate(tsmContext, pins);
             CleanupInstrumentation(tsmContext);
         }
     }
