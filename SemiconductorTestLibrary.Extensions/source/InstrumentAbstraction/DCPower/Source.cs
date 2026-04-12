@@ -2365,14 +2365,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Initiate();
             if (waitForSourceCompletion)
             {
-                if (channelOutput.Source.Mode == DCPowerSourceMode.Sequence)
-                {
-                    channelOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(timeoutInSeconds));
-                }
-                else
-                {
-                    channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(timeoutInSeconds));
-                }
+                channelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(timeoutInSeconds));
             }
         }
 
