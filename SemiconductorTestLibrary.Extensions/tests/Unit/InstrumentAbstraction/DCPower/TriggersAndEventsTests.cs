@@ -512,6 +512,32 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void GangedPinGroupForceVoltage_ConfigureTriggerDigitalEdge_ConfiguredCorrectly()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
+            sessionsBundle.GangPinGroup("MergedPowerPins");
+            sessionsBundle.ForceVoltage(1.0); // Configures digital edge trigger for follower channels.
+
+            sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, string.Empty);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                {
+                    Assert.Equal(DCPowerMeasureTriggerType.DigitalEdge, output.Triggers.MeasureTrigger.Type);
+                }
+                else
+                {
+                    Assert.Equal(DCPowerMeasureTriggerType.DigitalEdge, output.Triggers.MeasureTrigger.Type);
+                }
+            });
+            sessionsBundle.ClearTriggers();
+            sessionsBundle.DisableTriggers();
+        }
+
+        [Fact]
         public void GangedPinGroupForceVoltage_ConfigureTriggerSoftwareEdge_ConfiguredCorrectly()
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
