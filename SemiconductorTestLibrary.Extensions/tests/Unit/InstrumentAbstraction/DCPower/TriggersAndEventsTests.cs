@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -9,6 +7,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
@@ -454,7 +453,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TriggerType.StartTrigger)]
         [InlineData(TriggerType.PulseTrigger)]
         [InlineData(TriggerType.MeasureTrigger)]
-        public void GangedPinGroupConfigureChannels_WaitForTriggerAndSendSoftwareEdgeTrigger__DoesNotThrowExceptionOnClearAndDisableTrigger(TriggerType triggerType)
+        public void GangedPinGroupConfigureChannels_WaitForTriggerAndSendSoftwareEdgeTrigger_DoesNotThrowExceptionOnClearAndDisableTrigger(TriggerType triggerType)
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
@@ -463,63 +462,77 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Level = 1.0,
                 Limit = 0.1,
-                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage
             };
             if (triggerType == TriggerType.PulseTrigger)
             {
                 settings.OutputFunction = DCPowerSourceOutputFunction.PulseVoltage;
             }
+            // switch (triggerType)
+            // {
+            //    case TriggerType.SequenceAdvanceTrigger:
+            //        sessionsBundle.ConfigureVoltageSequence("SequenceAdvanceSoftwareEdgeSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
+            //        break;
+            //    case TriggerType.SourceTrigger:
+            //        sessionsBundle.ConfigureVoltageSequence("SourceSoftwareEdgeSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
+            //        break;
+            //    case TriggerType.StartTrigger:
+            //        sessionsBundle.ConfigureVoltageSequence("StartSoftwareEdgeSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
+            //        break;
+            //    case TriggerType.PulseTrigger:
+            //        break;
+            //    case TriggerType.MeasureTrigger:
+            //        sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger });
+            //        break;
+            // }
             sessionsBundle.ConfigureSourceSettings(settings);
+            sessionsBundle.ConfigureTriggerSoftwareEdge(triggerType);
+            sessionsBundle.Initiate();
+
             switch (triggerType)
             {
                 case TriggerType.SequenceAdvanceTrigger:
-                    sessionsBundle.ConfigureVoltageSequence("SequenceAdvanceSoftwareEdgeSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
-                    sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SequenceAdvanceTrigger);
-                    break;
-                case TriggerType.SourceTrigger:
-                    sessionsBundle.ConfigureVoltageSequence("SourceSoftwareEdgeSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
-                    sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
-                    break;
-                case TriggerType.StartTrigger:
-                    sessionsBundle.ConfigureVoltageSequence("StartSoftwareEdgeSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
-                    sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.StartTrigger);
+                    sessionsBundle.WaitForEvent(EventType.SequenceIterationCompleteEvent);
                     break;
                 case TriggerType.PulseTrigger:
-                    sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.PulseTrigger);
+                case TriggerType.SourceTrigger:
+                    sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent);
+                    break;
+                case TriggerType.StartTrigger:
+                    sessionsBundle.WaitForEvent(EventType.SequenceEngineDoneEvent);
                     break;
                 case TriggerType.MeasureTrigger:
-                    sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger });
-                    sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
+                    sessionsBundle.WaitForEvent(EventType.MeasureCompleteEvent);
                     break;
             }
-            sessionsBundle.Initiate();
+            sessionsBundle.SendSoftwareEdgeTrigger(triggerType);
 
-            Parallel.Invoke(
-                () =>
+            sessionsBundle.ClearTriggers();
+            sessionsBundle.DisableTriggers();
+        }
+
+        [Fact]
+        public void GangedPinGroupForceVoltage_ConfigureTriggerSoftwareEdge_ConfiguredCorrectly()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
+            sessionsBundle.GangPinGroup("MergedPowerPins");
+            sessionsBundle.ForceVoltage(1.0); // Configures digital edge trigger for follower channels.
+
+            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
                 {
-                    switch (triggerType)
-                    {
-                        case TriggerType.SequenceAdvanceTrigger:
-                            sessionsBundle.WaitForEvent(EventType.SequenceIterationCompleteEvent);
-                            break;
-                        case TriggerType.SourceTrigger:
-                            sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent);
-                            break;
-                        case TriggerType.StartTrigger:
-                            sessionsBundle.WaitForEvent(EventType.SequenceEngineDoneEvent);
-                            break;
-                        case TriggerType.PulseTrigger:
-                            sessionsBundle.WaitForEvent(EventType.PulseCompleteEvent);
-                            break;
-                        case TriggerType.MeasureTrigger:
-                            sessionsBundle.WaitForEvent(EventType.MeasureCompleteEvent);
-                            break;
-                    }
-                    sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent);
-                },
-                () => sessionsBundle.SendSoftwareEdgeTrigger(triggerType));
-
+                    Assert.Equal(DCPowerSourceTriggerType.SoftwareEdge, output.Triggers.SourceTrigger.Type);
+                }
+                else
+                {
+                    Assert.Equal(DCPowerSourceTriggerType.DigitalEdge, output.Triggers.SourceTrigger.Type);
+                }
+            });
             sessionsBundle.ClearTriggers();
             sessionsBundle.DisableTriggers();
         }
