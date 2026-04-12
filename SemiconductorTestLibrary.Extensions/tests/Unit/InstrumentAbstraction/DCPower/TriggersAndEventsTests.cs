@@ -563,8 +563,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.DisableTriggers();
         }
 
-        [Fact]
-        public void GangedPinGroupForceVoltageAndConfigureTrigger_ClearTriggers_ClearsCorrectly()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void GangedPinGroupForceVoltageAndConfigureTrigger_DisableOrClearTriggers_ClearsCorrectly(bool disableTrigger)
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
@@ -572,7 +574,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ForceVoltage(1.0); // Configures digital edge trigger for follower channels.
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
 
-            sessionsBundle.ClearTriggers();
+            if (disableTrigger)
+            {
+                sessionsBundle.DisableTriggers();
+            }
+            else
+            {
+                sessionsBundle.ClearTriggers();
+            }
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
