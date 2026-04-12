@@ -452,17 +452,72 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TriggerType.SequenceAdvanceTrigger)]
         [InlineData(TriggerType.SourceTrigger)]
         [InlineData(TriggerType.StartTrigger)]
+        [InlineData(TriggerType.PulseTrigger)]
+        [InlineData(TriggerType.MeasureTrigger)]
         public void GangedPinGroupConfigureChannels_WaitForTriggerAndSendSoftwareEdgeTrigger__DoesNotThrowExceptionOnClearAndDisableTrigger(TriggerType triggerType)
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
             sessionsBundle.GangPinGroup("MergedPowerPins");
-            DCPowerSourceSettings settings = new DCPowerSourceSettings();
+            var settings = new DCPowerSourceSettings()
+            {
+                Level = 1.0,
+                Limit = 0.1,
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+            };
+            if (triggerType == TriggerType.PulseTrigger)
+            {
+                settings.OutputFunction = DCPowerSourceOutputFunction.PulseVoltage;
+            }
             sessionsBundle.ConfigureSourceSettings(settings);
+            switch (triggerType)
+            {
+                case TriggerType.SequenceAdvanceTrigger:
+                    sessionsBundle.ConfigureVoltageSequence("SequenceAdvanceSoftwareEdgeSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
+                    sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SequenceAdvanceTrigger);
+                    break;
+                case TriggerType.SourceTrigger:
+                    sessionsBundle.ConfigureVoltageSequence("SourceSoftwareEdgeSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
+                    sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
+                    break;
+                case TriggerType.StartTrigger:
+                    sessionsBundle.ConfigureVoltageSequence("StartSoftwareEdgeSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
+                    sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.StartTrigger);
+                    break;
+                case TriggerType.PulseTrigger:
+                    sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.PulseTrigger);
+                    break;
+                case TriggerType.MeasureTrigger:
+                    sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger });
+                    sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
+                    break;
+            }
             sessionsBundle.Initiate();
 
             Parallel.Invoke(
-                () => sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent),
+                () =>
+                {
+                    switch (triggerType)
+                    {
+                        case TriggerType.SequenceAdvanceTrigger:
+                            sessionsBundle.WaitForEvent(EventType.SequenceIterationCompleteEvent);
+                            break;
+                        case TriggerType.SourceTrigger:
+                            sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent);
+                            break;
+                        case TriggerType.StartTrigger:
+                            sessionsBundle.WaitForEvent(EventType.SequenceEngineDoneEvent);
+                            break;
+                        case TriggerType.PulseTrigger:
+                            sessionsBundle.WaitForEvent(EventType.PulseCompleteEvent);
+                            break;
+                        case TriggerType.MeasureTrigger:
+                            sessionsBundle.WaitForEvent(EventType.MeasureCompleteEvent);
+                            break;
+                    }
+                    sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent);
+                },
                 () => sessionsBundle.SendSoftwareEdgeTrigger(triggerType));
 
             sessionsBundle.ClearTriggers();
