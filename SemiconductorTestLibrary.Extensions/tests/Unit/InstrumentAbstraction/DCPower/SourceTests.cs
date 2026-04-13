@@ -2810,6 +2810,32 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentWithDifferentPerPinSettingsObject_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            var settings = new Dictionary<string, DCPowerSourceSettings>()
+            {
+                ["VCC1"] = new DCPowerSourceSettings() { Level = 1, Limit = 4 },
+                ["VCC2"] = new DCPowerSourceSettings() { Level = 1, Limit = 4 },
+                ["VCC3"] = new DCPowerSourceSettings() { Level = 1, Limit = 3 },
+                ["VCC4"] = new DCPowerSourceSettings() { Level = 1, Limit = 3 },
+                ["VCC5"] = new DCPowerSourceSettings() { Level = 1, Limit = 3 }
+            };
+
+            void ForceCurrent()
+            {
+                sessionsBundle.ForceCurrent(settings);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ForceCurrent);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
         public void DifferentSMUDevicesGanged_ForceCurrentWithPerPinSettingsObjectOnPinGroupName_CorrectCurrentsForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -3348,6 +3374,46 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureDifferentPerPinCurrentSourceSettingsForSameSite_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var settings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Level = 1,
+                Limit = 7
+            };
+            var settingsForVcc4 = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Level = 1,
+                Limit = 6
+            };
+
+            var perPinsettings = new PinSiteData<DCPowerSourceSettings>(new int[] { 0, 1 }, new Dictionary<string, DCPowerSourceSettings>()
+            {
+                ["VCC1"] = settings,
+                ["VCC2"] = settings,
+                ["VCC3"] = settings,
+                ["VCC4"] = settingsForVcc4,
+                ["VCC5"] = settings
+            });
+            void ConfigureSourceSettings()
+            {
+                sessionsBundle.ConfigureSourceSettings(perPinsettings);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
         public void DifferentSMUDevicesGanged_ConfigurePerPinCurrentSourceSettings_CorrectValuesAreSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -3423,6 +3489,43 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 AssertCurrentSettings(sitePinInfo, channelOutput, 1, 2, 7);
                 AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureDifferentPerPinCurrentSourceSettings_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var currentSettings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                Level = 4,
+                Limit = 0.6,
+            };
+            var currentSettingsForVcc5 = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                Level = 0.5,
+                Limit = 4,
+            };
+            var perPinsettings = new Dictionary<string, DCPowerSourceSettings>()
+            {
+                ["VCC1"] = currentSettings,
+                ["VCC2"] = currentSettings,
+                ["VCC3"] = currentSettings,
+                ["VCC4"] = currentSettings,
+                ["VCC5"] = currentSettingsForVcc5
+            };
+            void ConfigureSourceSettings()
+            {
+                sessionsBundle.ConfigureSourceSettings(perPinsettings);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -3599,6 +3702,43 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 AssertVoltageSettings(channelOutput, 4, 0.6);
                 AssertSourceTriggerSettings(sitePinInfo, channelOutput, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0");
             });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureDifferentOutputFunctionForPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var voltageSettings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                Level = 4,
+                Limit = 0.6,
+            };
+            var currentSettings = new DCPowerSourceSettings()
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
+                Level = 0.5,
+                Limit = 4,
+            };
+            var perPinsettings = new Dictionary<string, DCPowerSourceSettings>()
+            {
+                ["VCC1"] = voltageSettings,
+                ["VCC2"] = voltageSettings,
+                ["VCC3"] = voltageSettings,
+                ["VCC4"] = currentSettings,
+                ["VCC5"] = currentSettings
+            };
+            void ConfigureSourceSettings()
+            {
+                sessionsBundle.ConfigureSourceSettings(perPinsettings);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different output functions for Cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -4739,7 +4879,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                AssertTriggerSettings(sitePinInfo, output, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0", checkStartTrigger: true);
+                AssertTriggerSettings(sitePinInfo, output, sitePinInfo.SiteNumber == 0 ? "SMU_4137_C5_S02/0" : "SMU_4137_C5_S03/0", checkSequenceRelatedTriggers: true);
             });
             sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
         }
@@ -5132,7 +5272,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
         }
-        private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString, bool checkStartTrigger = false)
+
+        private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString, bool checkSequenceRelatedTriggers = false)
         {
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
@@ -5140,10 +5281,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
                 Assert.Equal(DCPowerSourceTriggerType.DigitalEdge, channelOutput.Triggers.SourceTrigger.Type);
                 Assert.Equal(DCPowerMeasureTriggerType.DigitalEdge, channelOutput.Triggers.MeasureTrigger.Type);
-                if (checkStartTrigger)
+                if (checkSequenceRelatedTriggers)
                 {
                     Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "Start"), channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal);
                     Assert.Equal(DCPowerStartTriggerType.DigitalEdge, channelOutput.Triggers.StartTrigger.Type);
+                    Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "SequenceAdvance"), channelOutput.Triggers.SequenceAdvanceTrigger.DigitalEdge.InputTerminal);
+                    Assert.Equal(DCPowerSequenceAdvanceTriggerType.DigitalEdge, channelOutput.Triggers.SequenceAdvanceTrigger.Type);
                 }
             }
         }
