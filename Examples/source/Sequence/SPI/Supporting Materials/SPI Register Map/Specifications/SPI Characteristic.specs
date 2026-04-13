@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Specifications xmlns:f="http://www.ni.com/schemas/Semiconductor/Formula.xsd" schemaVersion="1.0" xmlns="http://www.ni.com/schemas/Semiconductor/Specifications.xsd">
+  <Section name="f">
+    <f:Formula symbol="SCLK">
+      <f:Definition>1/t.SCLK</f:Definition>
+      <f:Comment>SCL clock frequency</f:Comment>
+    </f:Formula>
+  </Section>
+  <Section name="t">
+    <f:Formula symbol="SCLK">
+      <f:Definition>t.LOW + t.HIGH</f:Definition>
+      <f:Comment>SCL clock period</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="LOW">
+      <f:Definition>5 µs</f:Definition>
+      <f:Comment>LOW period of the SCL clock</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="HIGH">
+      <f:Definition>5 µs</f:Definition>
+      <f:Comment>HIGH period of the SCL clock</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="setup_mosi">
+      <f:Definition>5 µs</f:Definition>
+      <f:Comment>DUT data input setup time</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="delay_miso">
+      <f:Definition>30 ns</f:Definition>
+      <f:Comment>DUT data output delay time</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="setup_cs">
+      <f:Definition>5 µs</f:Definition>
+      <f:Comment>Chip select setup time</f:Comment>
+    </f:Formula>
+  </Section>
+</Specifications>
