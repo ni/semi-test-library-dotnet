@@ -168,13 +168,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        public void GangedSMUDevices_ForceVoltageSequenceSynchronized_ThrowsException()
+        public void DifferentSMUDevicesGanged_ForceVoltageSequenceSynchronized_ThrowsException()
         {
-            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
-            var sessionsBundle = sessionManager.DCPower("PowerPins");
-            sessionsBundle.GangPinGroup("MergedPowerPins");
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new[] { 0.000, 0.005, 0.010 };
