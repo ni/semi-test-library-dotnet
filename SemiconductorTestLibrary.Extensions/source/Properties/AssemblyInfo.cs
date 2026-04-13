@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -13,6 +14,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright (C) National Instruments 2026. MIT License.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+
+// This attribute makes the internal types of this assembly visible to the the unit test project
+// "NationalInstruments.Tests.SemiconductorTestLibrary.Extensions" to access and test the internal members.
+[assembly: InternalsVisibleTo("NationalInstruments.Tests.SemiconductorTestLibrary.Extensions")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
