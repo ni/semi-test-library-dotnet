@@ -76,7 +76,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `ClearActiveAdvancedSequence()`
     - New `DeleteAdvancedSequence` DCPower method added for deleting one or more advanced sequences by name from all sessions. This method frees up to 100 available sequence slots for each session and switches the Source Mode to SinglePoint. Refer to the updated documentation for details.
       - `DeleteAdvancedSequence(params string[] sequenceNames)`
-
   - **Common**
     - New `CreateRampSequence` DCPower methods added for generating linear ramp sequences of double values using linear interpolation. These methods support scalar output, per-site (`SiteData`), per-site-per-pin (`PinSiteData`), and unique per-site and per-pin parameterization. Refer to the updated documentation for details.
       - `CreateRampSequence(double outputStart, double outputStop, int numberOfPoints)`
@@ -85,7 +84,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `CreateRampSequence(int[] siteNumbers, double[] outputStart, double[] outputStop, int[] numberOfPoints)`
       - `CreateRampSequence(string[] pinNames, int[] siteNumbers, double[] outputStart, double[] outputStop, int[] numberOfPoints)`
       - `CreateRampSequence(string[] pinNames, int[] siteNumbers, double[][] outputStart, double[][] outputStop, int[][] numberOfPoints)`
-
     - **TestStandSteps**
       - A new overload added for `SetupNIDigitalPatternInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
         - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext)`
@@ -101,7 +99,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
         - `ResetInstrumentation(ISemiconductorModuleContext tsmContext)`
       - The old version of `ResetInstrumentation` added as a deprecated overload to maintain backward compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
         - `ResetInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, TestStandSteps.NIInstrumentType instrumentType = TestStandSteps.NIInstrumentType.All)`
-
   - **Documentation & Examples**
     - Added the `SMUGangPinGroup` Sequence style example and documentation, which demonstrate how to use ganging and unganging channels in pin groups.
     - Added the `ForceVoltageSequence` Code Snippet style example, which demonstrates how to use hardware-timed sequencing to force a series of voltage values on targeted pins.
