@@ -128,11 +128,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void GangedSMUDevicesAndConfigureAdvanceSequence_ConfigureAndInitiateAdvancedSequence_ThrowsException()
+        public void DifferentSMUDevicesGangedAndConfigureAdvanceSequence_ConfigureAndInitiateAdvancedSequence_ThrowsException()
         {
-            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
-            var sessionsBundle = sessionManager.DCPower("PowerPins");
-            sessionsBundle.GangPinGroup("MergedPowerPins");
+           var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup("AllPinsGangedGroup");
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
             string sequenceName = "Sequence";
             var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>

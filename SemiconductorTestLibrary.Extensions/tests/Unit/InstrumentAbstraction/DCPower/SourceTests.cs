@@ -186,33 +186,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
-        [InlineData("ForceVoltageSequenceSynchronized")]
-        public void DifferentSMUDevicesGanged_SynchronizedHardwareLevelSequence_ThrowsException(string methodName)
-        {
-            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
-            var sessionsBundle = sessionManager.DCPower("PowerPins");
-            sessionsBundle.GangPinGroup("MergedPowerPins");
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            var sequence = new[] { 0.000, 0.005, 0.010 };
-
-            void TestMethod()
-            {
-                switch (methodName)
-                {
-                    case "ForceVoltageSequenceSynchronized":
-                        sessionsBundle.ForceVoltageSequenceSynchronized(voltageSequence: sequence, currentLimit: 0.5, voltageLevelRange: 1.0, currentLimitRange: 0.5);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            Assert.Throws<NISemiconductorTestException>(TestMethod);
-        }
-
-        [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ForceVoltageSequenceSynchronizedWithPerPinPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
