@@ -1,5 +1,6 @@
 # Changelog
 
+- [26.0.0 - TBD](#2600---TBD)
 - [25.5.0 - 2025-09-30](#2550---2025-09-30)
 - [25.0.0 - 2025-04-11](#2500---2025-04-11)
 - [24.5.1 - 2024-10-31](#2451---2024-10-31)
@@ -8,6 +9,92 @@
 All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## 26.0.0 - TBD
+
+- ### Added
+
+  - **Instrument Abstraction**
+    - New `GangPinGroup` and `UngangPinGroup` DCPower methods added for ganging and unganging channels within a pin group to output higher current. Supported by single-channel (PXIe-4137, PXIe-4139, etc.) and multi-channel (PXIe-4147, PXIe-4162, PXIe-4163) SMUs. Refer to the updated documentation for details.
+      - `GangPinGroup(string PinGroupName)`
+      - `GangPinGroup(string[] PinGroupNames)`
+      - `UngangPinGroup(string PinGroupName)`
+      - `UngangPinGroup(string[] PinGroupNames)`
+      - All overloads of `ForceVoltage` and `ForceCurrent` have been updated to support ganging operation.
+    - New `ConfigureVoltageSequence` methods added for configuring hardware-timed voltage sequences using advanced sequencing. Supports per-session, per-site, and per-site-per-pin sequence data. Refer to the updated documentation for details.
+      - `ConfigureVoltageSequence(string sequenceName, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
+      - `ConfigureVoltageSequence(string sequenceName, SiteData<double[]> sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
+      - `ConfigureVoltageSequence(string sequenceName, PinSiteData<double[]> sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
+    - New `ConfigureCurrentSequence` methods added for configuring hardware-timed current sequences using advanced sequencing. Supports per-session, per-site, and per-site-per-pin sequence data. Refer to the updated documentation for details.
+      - `ConfigureCurrentSequence(string sequenceName, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
+      - `ConfigureCurrentSequence(string sequenceName, SiteData<double[]> sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
+      - `ConfigureCurrentSequence(string sequenceName, PinSiteData<double[]> sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
+    - New `ConfigureVoltageSequenceWithSourceDelays` methods added for configuring hardware-timed voltage sequences with per-step source delays. Refer to the updated documentation for details.
+      - `ConfigureVoltageSequenceWithSourceDelays(string sequenceName, double[] sequence, double[] sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
+      - `ConfigureVoltageSequenceWithSourceDelays(string sequenceName, SiteData<double[]> sequence, SiteData<double[]> sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
+      - `ConfigureVoltageSequenceWithSourceDelays(string sequenceName, PinSiteData<double[]> sequence, PinSiteData<double[]> sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
+    - New `ConfigureCurrentSequenceWithSourceDelays` methods added for configuring hardware-timed current sequences with per-step source delays. Refer to the updated documentation for details.
+      - `ConfigureCurrentSequenceWithSourceDelays(string sequenceName, double[] sequence, double[] sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
+      - `ConfigureCurrentSequenceWithSourceDelays(string sequenceName, SiteData<double[]> sequence, SiteData<double[]> sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
+      - `ConfigureCurrentSequenceWithSourceDelays(string sequenceName, PinSiteData<double[]> sequence, PinSiteData<double[]> sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
+    - New `ConfigureAdvancedSequence` methods added for creating and configuring advanced sequences with per-step property configurations. Refer to the updated documentation for details.
+      - `ConfigureAdvancedSequence(string sequenceName, IList<DCPowerAdvancedSequenceStepProperties> perStepProperties, bool setAsActiveSequence, bool commitFirstElementAsInitialState)`
+      - `ConfigureAdvancedSequence(string sequenceName, SiteData<IList<DCPowerAdvancedSequenceStepProperties>> perStepProperties, bool setAsActiveSequence, bool commitFirstElementAsInitialState)`
+      - `ConfigureAdvancedSequence(string sequenceName, PinSiteData<IList<DCPowerAdvancedSequenceStepProperties>> perStepProperties, bool setAsActiveSequence, bool commitFirstElementAsInitialState)`
+    - New `ForceVoltageSequence` methods added for forcing a hardware-timed sequence of voltage values on targeted pins, with automatic sequence lifecycle management. Supports scalar, per-site, and per-site-per-pin sequence data. Refer to the updated documentation for details.
+      - `ForceVoltageSequence(double[] voltageSequence, double? currentLimit, double? voltageLevelRange, double? currentLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceVoltageSequence(SiteData<double[]> voltageSequence, double? currentLimit, double? voltageLevelRange, double? currentLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceVoltageSequence(PinSiteData<double[]> voltageSequence, double? currentLimit, double? voltageLevelRange, double? currentLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - All overloads of `ForceVoltageSequence` have been updated to support ganging operation.
+    - New `ForceCurrentSequence` methods added for forcing a hardware-timed sequence of current values on targeted pins, with automatic sequence lifecycle management. Supports scalar, per-site, and per-site-per-pin sequence data. Refer to the updated documentation for details.
+      - `ForceCurrentSequence(double[] currentSequence, double? voltageLimit, double? currentLevelRange, double? voltageLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceCurrentSequence(SiteData<double[]> currentSequence, double? voltageLimit, double? currentLevelRange, double? voltageLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceCurrentSequence(PinSiteData<double[]> currentSequence, double? voltageLimit, double? currentLevelRange, double? voltageLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - All overloads of `ForceCurrentSequence` have been updated to support ganging operation.
+    - New `ForceVoltageSequenceSynchronized` methods added for forcing a hardware-timed sequence of voltage outputs with synchronized output across all specified target pins using start trigger synchronization. Supports scalar, per-site, and per-site-per-pin sequence and limit data. Refer to the updated documentation for details.
+      - `ForceVoltageSequenceSynchronized(double[] voltageSequence, double? currentLimit, double? voltageLevelRange, double? currentLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceVoltageSequenceSynchronized(SiteData<double[]> voltageSequence, SiteData<double> currentLimit, SiteData<double> voltageLevelRange, SiteData<double> currentLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceVoltageSequenceSynchronized(PinSiteData<double[]> voltageSequence, PinSiteData<double> currentLimit, PinSiteData<double> voltageLevelRange, PinSiteData<double> currentLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+    - New `ForceCurrentSequenceSynchronized` methods added for forcing a hardware-timed sequence of current outputs with synchronized output across all specified target pins using start trigger synchronization. Supports scalar, per-site, and per-site-per-pin sequence and limit data. Refer to the updated documentation for details.
+      - `ForceCurrentSequenceSynchronized(double[] currentSequence, double? voltageLimit, double? currentLevelRange, double? voltageLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceCurrentSequenceSynchronized(SiteData<double[]> currentSequence, SiteData<double> voltageLimit, SiteData<double> currentLevelRange, SiteData<double> voltageLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceCurrentSequenceSynchronized(PinSiteData<double[]> currentSequence, PinSiteData<double> voltageLimit, PinSiteData<double> currentLevelRange, PinSiteData<double> voltageLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+    - New `ForceAdvancedSequenceSynchronized` methods added for synchronizing and forcing an advanced sequence of `DCPowerSourceSettings` across all sessions in the bundle. Supports scalar, per-site, and per-site-per-pin sequence data. Refer to the updated documentation for details.
+      - `ForceAdvancedSequenceSynchronized(DCPowerSourceSettings[] sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceAdvancedSequenceSynchronized(SiteData<DCPowerSourceSettings[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceAdvancedSequenceSynchronized(PinSiteData<DCPowerSourceSettings[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceAdvancedSequenceSynchronized(DCPowerAdvancedSequenceStepProperties[] sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceAdvancedSequenceSynchronized(SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+      - `ForceAdvancedSequenceSynchronized(PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+    - New `ForceAdvancedSequenceSynchronizedAndFetch` methods added for synchronizing and forcing an advanced sequence and returning per-site-per-pin measurement results. Supports both `DCPowerSourceSettings` and `DCPowerAdvancedSequenceStepProperties` sequence types with scalar, per-site, and per-site-per-pin data. Refer to the updated documentation for details.
+      - `ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSourceSettings[] sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
+      - `ForceAdvancedSequenceSynchronizedAndFetch(SiteData<DCPowerSourceSettings[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
+      - `ForceAdvancedSequenceSynchronizedAndFetch(PinSiteData<DCPowerSourceSettings[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
+      - `ForceAdvancedSequenceSynchronizedAndFetch(DCPowerAdvancedSequenceStepProperties[] sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
+      - `ForceAdvancedSequenceSynchronizedAndFetch(SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
+      - `ForceAdvancedSequenceSynchronizedAndFetch(PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
+    - New `InitiateAdvancedSequence` method added for initiating a named advanced sequence on all sessions in the bundle, with optional blocking until sequence completion. Refer to the updated documentation for details.
+      - `InitiateAdvancedSequence(string sequenceName, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
+    - New `ClearActiveAdvancedSequence` method added for clearing the active advanced sequence for all channels in the sessions bundle. Refer to the updated documentation for details.
+      - `ClearActiveAdvancedSequence()`
+    - New `DeleteAdvancedSequence` method added for deleting one or more advanced sequences by name from all sessions, freeing up available sequence slots (limited to 100 per session). This method also switches the Source Mode back to SinglePoint. Refer to the updated documentation for details.
+      - `DeleteAdvancedSequence(params string[] sequenceNames)`
+
+  - **Common**
+    - New `CreateRampSequence` methods added for generating ramp (linear interpolation) sequences of double values. Supports scalar output, per-site (`SiteData`), per-site-per-pin (`PinSiteData`), and unique per-site/per-pin parameterization. Refer to the updated documentation for details.
+      - `CreateRampSequence(double outputStart, double outputStop, int numberOfPoints)`
+      - `CreateRampSequence(int[] siteNumbers, double outputStart, double outputStop, int numberOfPoints)`
+      - `CreateRampSequence(string[] pinNames, int[] siteNumbers, double outputStart, double outputStop, int numberOfPoints)`
+      - `CreateRampSequence(int[] siteNumbers, double[] outputStart, double[] outputStop, int[] numberOfPoints)`
+      - `CreateRampSequence(string[] pinNames, int[] siteNumbers, double[] outputStart, double[] outputStop, int[] numberOfPoints)`
+      - `CreateRampSequence(string[] pinNames, int[] siteNumbers, double[][] outputStart, double[][] outputStop, int[][] numberOfPoints)`
+
+  - **Documentation & Examples**
+    - Added a Sequence style example and documentation for ganging and unganging channels in pin groups.
+    - Added a Code Snippet style example `ForceVoltageSequence` demonstrating how to use hardware-timed sequencing to force a series of voltage values on targeted pins.
+    - Added a Code Snippet style example `ConfigureSMUAdvancedSequencesAndInitiate` demonstrating how to configure and initiate advanced sequences with per-step property control.
+    - Added a Sequence style example `SMUHardwareLevelSequencing` demonstrating how to use the Semiconductor Test Library (STL) extension methods for Hardware Level Sequencing (HLS) to run different force voltage sequences with an NI Source Measurement Unit (SMU).
+    - Added a Sequence style example and documentation for Multiplexed Connection Support.
 
 ## 25.5.0 - 2025-09-30
 
