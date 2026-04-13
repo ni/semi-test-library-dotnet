@@ -95,6 +95,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - Added a Code Snippet style example `ConfigureSMUAdvancedSequencesAndInitiate` demonstrating how to configure and initiate advanced sequences with per-step property control.
     - Added a Sequence style example `SMUHardwareLevelSequencing` demonstrating how to use the Semiconductor Test Library (STL) extension methods for Hardware Level Sequencing (HLS) to run different force voltage sequences with an NI Source Measurement Unit (SMU).
     - Added a Sequence style example and documentation for Multiplexed Connection Support.
+    - Added a Sequence style example for Custom instrument using an R-Series instrument.
 
 ## 25.5.0 - 2025-09-30
 
