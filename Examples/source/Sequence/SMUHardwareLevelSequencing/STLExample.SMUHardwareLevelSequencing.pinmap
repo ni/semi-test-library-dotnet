@@ -6,19 +6,19 @@
 		</NIDCPowerInstrument>
 	</Instruments>
 	<Pins>
-		<DUTPin name="VDD" />
-		<DUTPin name="VCC" />
-		<DUTPin name="VCC1" />
-		<DUTPin name="VCC2" />
+		<DUTPin name="Vdd" />
+		<DUTPin name="Vcc" />
+		<DUTPin name="Vin" />
+		<DUTPin name="Ven" />
 	</Pins>
 	<PinGroups></PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
 	</Sites>
 	<Connections>
-		<Connection pin="VCC" siteNumber="0" instrument="SMU_4147_C2_S03" channel="0" />
-		<Connection pin="VCC1" siteNumber="0" instrument="SMU_4147_C2_S03" channel="1" />
-		<Connection pin="VCC2" siteNumber="0" instrument="SMU_4147_C2_S03" channel="3" />
-		<Connection pin="VDD" siteNumber="0" instrument="SMU_4147_C2_S03" channel="2" />
+		<Connection pin="Vcc" siteNumber="0" instrument="SMU_4147_C2_S03" channel="0" />
+		<Connection pin="Vin" siteNumber="0" instrument="SMU_4147_C2_S03" channel="1" />
+		<Connection pin="Ven" siteNumber="0" instrument="SMU_4147_C2_S03" channel="3" />
+		<Connection pin="Vdd" siteNumber="0" instrument="SMU_4147_C2_S03" channel="2" />
 	</Connections>
 </PinMap>
