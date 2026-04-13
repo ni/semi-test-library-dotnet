@@ -86,6 +86,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `CreateRampSequence(string[] pinNames, int[] siteNumbers, double[] outputStart, double[] outputStop, int[] numberOfPoints)`
       - `CreateRampSequence(string[] pinNames, int[] siteNumbers, double[][] outputStart, double[][] outputStop, int[][] numberOfPoints)`
 
+    - **TestStandSteps**
+      - A new overload added for `SetupNIDigitalPatternInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
+        - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext)`
+      - The old version of `SetupNIDigitalPatternInstrumentation` added as a deprecated overload to maintain backward compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+        - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, string levelsSheetToApply = "", string timingSheetToApply = "")`
+      - A deprecated enum `SetupAndCleanupSteps.NIInstrumentType` added, marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+        - `NIInstrumentType`
+      - A new overload added for `CleanupInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
+        - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext)`
+      - The old version of `CleanupInstrumentation` added as a deprecated overload to maintain backward compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+        - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, NIInstrumentType instrumentType = NIInstrumentType.All)`
+      - A new overload added for `ResetInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
+        - `ResetInstrumentation(ISemiconductorModuleContext tsmContext)`
+      - The old version of `ResetInstrumentation` added as a deprecated overload to maintain backward compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+        - `ResetInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, TestStandSteps.NIInstrumentType instrumentType = TestStandSteps.NIInstrumentType.All)`
+
   - **Documentation & Examples**
     - Added the `SMUGangPinGroup` Sequence style example and documentation, which demonstrate how to use ganging and unganging channels in pin groups.
     - Added the `ForceVoltageSequence` Code Snippet style example, which demonstrates how to use hardware-timed sequencing to force a series of voltage values on targeted pins.
@@ -97,7 +113,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - ### Changed
 
   - **Instrument Abstraction**
-    - Updated all overloads of the `ForceVoltage`, `ForceCurrent`,  `ForceVoltageSequence` and `ForceCurrentSequence` DCPower methods to support the operation on the ganged pins in the bundle.
+    - Updated all overloads of the following DCPower methods to support the operation on the ganged pins in the bundle.
+      - `ForceVoltage`
+      - `ForceCurrent`
+      - `ForceVoltageSequence`
+      - `ForceCurrentSequence`
+      - `ForceVoltageAsymmetricLimit`
+      - `ForceCurrentAsymmetricLimit`
+      - `ConfigureSourceSettings`
+      - `ConfigureMeasureSettings`
+      - `ConfigureMeasureWhen`
+    - The following DCPower methods are updated store measurement results under the pin group name on `PinSiteData` when channels are ganged or merged, and under individual pin names during normal operations.
+      - `MeasureAndReturnPerSitePerPinResults`
+      - `MeasureAndReturnPerInstrumentPerChannelResults`
+      - `MeasureVoltage`
+      - `MeasureCurrent`
+      - `MeasureAndPublishVoltage`
+      - `MeasureAndPublishCurrent`
+    - Existing `ConfigureSequence` DCPower methods are now marked as obsolete.
+    - Fixed an issue where `WriteDigital()` could fail when the first pin in a multi-channel DO DAQ task is assigned to a higher-numbered line than the second pin. The channel order in the pin map no longer affects correct sample generation for digital output tasks.
+    - Fixed an issue where `DigitalSessionsBundle.Pins` stored the pin group name instead of the list of pins when creating the bundle using a pin group. It now correctly stores the list of pins present in the pin group.
+  - **Documentation**
+    - Fixed "View Source `</>`" links to point to the main branch and correct line numbers, ensuring users always see the latest code at the relevant location.
 
 ## 25.5.0 - 2025-09-30
 
