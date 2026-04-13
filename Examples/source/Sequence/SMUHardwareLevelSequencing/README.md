@@ -59,13 +59,13 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 1. Launch the **TestStand Sequence Editor**.
 2. Open the sequence file `STLExample.SMUHardwareLevelSequencing.seq` located in this example's directory.
 
-### Step 2: Review the ProcessSetup
+### Step 2: Review ProcessSetup
 
 1. In the TestStand Sequence Editor, select the **ProcessSetup** tab to view the test steps.
-2. Take note of the `ConfigureSMUAdvancedSequence` step. It demonstrate the configuration of an advanced sequence, once, at the start of the program. The advanced sequence created by this step will be later initiated within MainSequence.
+2. Take note of the `ConfigureSMUAdvancedSequence` step. It demonstrates the configuration of an advanced sequence, once, at the start of the program. The advanced sequence created by this step will be later initiated within MainSequence.
    - **ConfigureSMUAdvancedSequence** - Configures an advanced sequence upfront without initializing it, allowing later initiation in the test flow.
 
-### Step 3: Review the MainSequence
+### Step 3: Review MainSequence
 
 1. In the TestStand Sequence Editor, select the **MainSequence** tab to view the test steps.
 2. Observe the sequence of test steps that demonstrate the different hardware level sequencing approaches:
