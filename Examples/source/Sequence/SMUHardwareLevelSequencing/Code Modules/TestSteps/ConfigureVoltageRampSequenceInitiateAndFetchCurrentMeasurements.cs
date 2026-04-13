@@ -15,7 +15,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevel
     public static partial class TestSteps
     {
         /// <summary>
-        /// Configure and initiate hardware-timed voltage ramp sequence on the specified SMU pins
+        /// Configures and initiates a hardware-timed voltage ramp sequence on the specified SMU pins
         /// and fetches current measurements taken during each step of the sequence.
         /// Publishes the max current value across the steps using the "MaxCurrent" published data id.
         /// </summary>
