@@ -62,7 +62,7 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 ### Step 2: Review the ProcessSetup
 
 1. In the TestStand Sequence Editor, select the **ProcessSetup** tab to view the test steps.
-2. Observe the sequence of test step that demonstrate the configuring of advanced sequences:
+2. Take note of the `ConfigureSMUAdvancedSequence` step. It demonstrate the configuration of an advanced sequence, once, at the start of the program. The advanced sequence created by this step will be later initiated within MainSequence.
    - **ConfigureSMUAdvancedSequence** - Configures an advanced sequence upfront without initializing it, allowing later initiation in the test flow.
 
 ### Step 3: Review the MainSequence
