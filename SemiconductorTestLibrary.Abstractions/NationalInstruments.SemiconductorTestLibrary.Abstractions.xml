@@ -3343,32 +3343,6 @@
             Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/> objects.
             </summary>
         </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType">
-            <summary>
-            Specifies the type of cascading action to perform in an operation that supports merging or ganging
-            entities.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Merge">
-            <summary>
-            Performs merge operation.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Unmerge">
-            <summary>
-            Performs unmerge operation.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Gang">
-            <summary>
-            Performs gang operation.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Ungang">
-            <summary>
-            Performs ungang operation.
-            </summary>
-        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.TSMContext">
             <inheritdoc/>
         </member>
@@ -4327,6 +4301,32 @@
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.SourceCompleteEvent">
             <summary>
             The source complete event.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType">
+            <summary>
+            Specifies the type of cascading action to perform in an operation that supports merging or ganging
+            entities.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Merge">
+            <summary>
+            Performs merge operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Unmerge">
+            <summary>
+            Performs unmerge operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Gang">
+            <summary>
+            Performs gang operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Ungang">
+            <summary>
+            Performs ungang operation.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities">
