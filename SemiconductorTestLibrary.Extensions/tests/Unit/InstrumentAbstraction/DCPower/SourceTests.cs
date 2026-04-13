@@ -1033,6 +1033,325 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedWithPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            var sequence = new SiteData<DCPowerSourceSettings[]>(new[]
+            {
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 2.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 2.5,
+                        Limit = 0.1
+                    }
+                }
+            });
+            void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.ClearActiveAdvancedSequence();
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedWithPerPinPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+            var sites = GetActiveSites(sessionsBundle);
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            var vcc1Sequence = new DCPowerSourceSettings[]
+            {
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1.0,
+                    Limit = 0.1
+                },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 2.0,
+                    Limit = 0.1
+                }
+            };
+            var vcc2Sequence = new DCPowerSourceSettings[]
+            {
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1.0,
+                    Limit = 0.1
+                },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 2.0,
+                    Limit = 0.1
+                }
+            };
+            var vcc3Sequence = new DCPowerSourceSettings[]
+            {
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1.0,
+                    Limit = 0.1
+                },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 2.0,
+                    Limit = 0.1
+                }
+            };
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(
+                new[] { "VCC1", "VCC2", "VCC3" },
+                new[]
+                {
+                    new SiteData<DCPowerSourceSettings[]>(sites, vcc1Sequence),
+                    new SiteData<DCPowerSourceSettings[]>(sites, vcc2Sequence),
+                    new SiteData<DCPowerSourceSettings[]>(sites, vcc3Sequence)
+                });
+            void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.ClearActiveAdvancedSequence();
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedAndFetch_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            var sequence = new[]
+            {
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1.0,
+                    Limit = 0.1
+                },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 1.5,
+                    Limit = 0.1
+                },
+                new DCPowerSourceSettings
+                {
+                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                    Level = 2.0,
+                    Limit = 0.1
+                }
+            };
+            void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 3,
+                measurementTimeoutInSeconds: 10.0);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedAndFetchTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.ClearActiveAdvancedSequence();
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteSequenceThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            var sequencePerSite = new SiteData<DCPowerSourceSettings[]>(new[]
+            {
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.5,
+                        Limit = 0.1
+                    }
+                },
+                new[]
+                {
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.0,
+                        Limit = 0.1
+                    },
+                    new DCPowerSourceSettings
+                    {
+                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                        Level = 1.5,
+                        Limit = 0.1
+                    }
+                }
+            });
+            void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequencePerSite,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedAndFetchTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.ClearActiveAdvancedSequence();
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedAndFetchWithPerPinPerSiteSequenceThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+            var sites = GetActiveSites(sessionsBundle);
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(
+                new[] { "VCC1", "VCC2", "VCC3" },
+                new[]
+                {
+                    new SiteData<DCPowerSourceSettings[]>(
+                        sites,
+                        new[]
+                        {
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.0,
+                                Limit = 0.1
+                            },
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.5,
+                                Limit = 0.1
+                            }
+                        }),
+                    new SiteData<DCPowerSourceSettings[]>(
+                        sites,
+                        new[]
+                        {
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.0,
+                                Limit = 0.1
+                            },
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.5,
+                                Limit = 0.1
+                            }
+                        }),
+                    new SiteData<DCPowerSourceSettings[]>(
+                        sites,
+                        new[]
+                        {
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.0,
+                                Limit = 0.1
+                            },
+                            new DCPowerSourceSettings
+                            {
+                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                                Level = 1.5,
+                                Limit = 0.1
+                            }
+                        })
+                });
+            void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedAndFetchTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.ClearActiveAdvancedSequence();
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
