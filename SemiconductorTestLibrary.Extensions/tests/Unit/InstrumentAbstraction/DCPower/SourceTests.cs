@@ -1018,23 +1018,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 new[]
                 {
-                    new DCPowerSourceSettings
-                    {
-                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 1.0,
-                        Limit = 0.1
-                    }
+                    new DCPowerSourceSettings()
                 },
                 new[]
                 {
-                    new DCPowerSourceSettings
-                    {
-                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 2.0,
-                        Limit = 0.1
-                    }
+                    new DCPowerSourceSettings()
                 }
             });
             void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
@@ -1056,33 +1044,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
             var vcc1Sequence = new DCPowerSourceSettings[]
             {
-                new DCPowerSourceSettings
-                {
-                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = 1.0,
-                    Limit = 0.1
-                }
+                new DCPowerSourceSettings()
             };
             var vcc2Sequence = new DCPowerSourceSettings[]
             {
-                new DCPowerSourceSettings
-                {
-                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = 1.0,
-                    Limit = 0.1
-                }
+                new DCPowerSourceSettings()
             };
             var vcc3Sequence = new DCPowerSourceSettings[]
             {
-                new DCPowerSourceSettings
-                {
-                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = 1.0,
-                    Limit = 0.1
-                }
+                new DCPowerSourceSettings()
             };
             var sequence = new PinSiteData<DCPowerSourceSettings[]>(
                 new[] { "VCC1", "VCC2", "VCC3" },
@@ -1110,13 +1080,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
             var sequence = new[]
             {
-                new DCPowerSourceSettings
-                {
-                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = 1.0,
-                    Limit = 0.1
-                }
+                new DCPowerSourceSettings()
             };
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
@@ -1144,23 +1108,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 new[]
                 {
-                    new DCPowerSourceSettings
-                    {
-                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 1.0,
-                        Limit = 0.1
-                    }
+                    new DCPowerSourceSettings()
                 },
                 new[]
                 {
-                    new DCPowerSourceSettings
-                    {
-                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 1.0,
-                        Limit = 0.1
-                    }
+                    new DCPowerSourceSettings()
                 }
             });
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
@@ -1194,37 +1146,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                         sites,
                         new[]
                         {
-                            new DCPowerSourceSettings
-                            {
-                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                                Level = 1.0,
-                                Limit = 0.1
-                            }
+                            new DCPowerSourceSettings()
                         }),
                     new SiteData<DCPowerSourceSettings[]>(
                         sites,
                         new[]
                         {
-                            new DCPowerSourceSettings
-                            {
-                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                                Level = 1.0,
-                                Limit = 0.1
-                            }
+                            new DCPowerSourceSettings()
                         }),
                     new SiteData<DCPowerSourceSettings[]>(
                         sites,
                         new[]
                         {
-                            new DCPowerSourceSettings
-                            {
-                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                                Level = 1.0,
-                                Limit = 0.1
-                            }
+                            new DCPowerSourceSettings()
                         })
                 });
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
