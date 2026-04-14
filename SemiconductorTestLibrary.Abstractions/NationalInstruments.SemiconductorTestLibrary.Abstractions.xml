@@ -129,6 +129,11 @@
             Name of the trigger line to use for the synchronization of output sequence.
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.SequenceAdvanceTriggerName">
+            <summary>
+            Name of the trigger line to use for the synchronization of sequence loops.
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.MeasureTriggerName">
             <summary>
             Name of the trigger line to use for the synchronization of measurements.
@@ -141,15 +146,16 @@
             <param name="groupName">Name of the pin group to be ganged.</param>
             <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Int32,System.String,System.String,System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Int32,System.String,System.String,System.String,System.String)">
             <summary>
             Constructs a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo"/> object for a follower channel.
             </summary>
             <param name="groupName">Name of the pin group to be ganged.</param>
             <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
             <param name="sourceTriggerName">Name of the trigger line to use for the synchronization of outputs.</param>
-            <param name="measureTriggerName">Name of the trigger line to use for the synchronization of measurements.</param>
             <param name="startTriggerName">Name of the trigger line to use for the synchronization of output sequence.</param>
+            <param name="sequenceAdvanceTriggerName">Name of the trigger line to use for the synchronization of sequence loops.</param>
+            <param name="measureTriggerName">Name of the trigger line to use for the synchronization of measurements.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo">
             <summary>
@@ -3337,32 +3343,6 @@
             Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/> objects.
             </summary>
         </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType">
-            <summary>
-            Specifies the type of cascading action to perform in an operation that supports merging or ganging
-            entities.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Merge">
-            <summary>
-            Performs merge operation.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Unmerge">
-            <summary>
-            Performs unmerge operation.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Gang">
-            <summary>
-            Performs gang operation.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.CascadeType.Ungang">
-            <summary>
-            Performs ungang operation.
-            </summary>
-        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.TSMContext">
             <inheritdoc/>
         </member>
@@ -3445,6 +3425,8 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UngangPinGroup(System.String[])">
             <summary>
             Performs the unganging operation on all the pin groups specified.
+            Resets the triggers of the follower channels in all the pin groups to their default state.
+            Users have to reconfigure the follower channels for further operations.
             </summary>
             <param name="gangedChannelsPinGroupNames">Pin Groups that are to be unganged.</param>
         </member>
@@ -3457,6 +3439,8 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UngangPinGroup(System.String)">
             <summary>
             Ungangs the channels that are part of the connections in specified pin group on all sites in the bundle.
+            Resets the triggers of the follower channels to their default state.
+            Users have to reconfigure the follower channels for further operations.
             </summary>
             <param name="gangedChannelsPinGroupName">Pin Groups that are to be ganged.</param>
         </member>
@@ -4317,6 +4301,32 @@
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.EventType.SourceCompleteEvent">
             <summary>
             The source complete event.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType">
+            <summary>
+            Specifies the type of cascading action to perform in an operation that supports merging or ganging
+            entities.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Merge">
+            <summary>
+            Performs merge operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Unmerge">
+            <summary>
+            Performs unmerge operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Gang">
+            <summary>
+            Performs gang operation.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Ungang">
+            <summary>
+            Performs ungang operation.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities">
