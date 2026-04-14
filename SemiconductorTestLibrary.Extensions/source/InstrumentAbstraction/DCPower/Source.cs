@@ -1008,7 +1008,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds)
         {
-            ThrowExceptionForGangedPinGroups(sessionsBundle.HasGangedChannels);
+            sessionsBundle.ThrowExceptionForGangedPinGroups();
             var sequenceName = BuildSequenceName();
             // The output of a designated primary channel within the bundle is needed to synchronize all other channels together.
             var primaryOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
@@ -1402,7 +1402,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10) where T : class
         {
-            ThrowExceptionForGangedPinGroups(sessionsBundle.HasGangedChannels);
+            sessionsBundle.ThrowExceptionForGangedPinGroups();
             // The output of a designated primary channel within the bundle is needed to synchronize all other channels together.
             var primaryOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
             var sequenceName = BuildSequenceName();
@@ -1754,7 +1754,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         [Obsolete("Using both simple sequencing and advanced sequencing for the same channel within the same session is not supported. For this reason it is better to just use advanced sequencing. This method does not support configuring ganged pin groups for sequencing. Consider using either ConfigureVoltageSequence or ConfigureCurrentSequence instead.", error: false)]
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
         {
-            ThrowExceptionForGangedPinGroups(sessionsBundle.HasGangedChannels);
+            sessionsBundle.ThrowExceptionForGangedPinGroups();
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Control.Abort();
@@ -1961,7 +1961,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
-            ThrowExceptionForGangedPinGroups(sessionsBundle.HasGangedChannels);
+            sessionsBundle.ThrowExceptionForGangedPinGroups();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
@@ -1982,7 +1982,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
-            ThrowExceptionForGangedPinGroups(sessionsBundle.HasGangedChannels);
+            sessionsBundle.ThrowExceptionForGangedPinGroups();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var stepProperties = perStepProperties.GetValue(sitePinInfo.SiteNumber);
@@ -2004,7 +2004,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
-            ThrowExceptionForGangedPinGroups(sessionsBundle.HasGangedChannels);
+            sessionsBundle.ThrowExceptionForGangedPinGroups();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var stepProperties = perStepProperties.GetValue(sitePinInfo);
@@ -2475,7 +2475,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sequenceStepDeltaTimeInSeconds = null,
             SitePinInfo sitePinInfo = null)
         {
-            ThrowExceptionForGangedPinGroups(sitePinInfo?.CascadingInfo != null);
+            if (sitePinInfo?.CascadingInfo is GangingInfo)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
+            }
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
             output.Source.SetSequence(sequence);
@@ -3058,9 +3061,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
         }
 
-        private static void ThrowExceptionForGangedPinGroups(bool hasGangedChannels)
+        internal static void ThrowExceptionForGangedPinGroups(this DCPowerSessionsBundle sessionsBundle)
         {
-            if (hasGangedChannels)
+            if (sessionsBundle.HasGangedChannels)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
             }
