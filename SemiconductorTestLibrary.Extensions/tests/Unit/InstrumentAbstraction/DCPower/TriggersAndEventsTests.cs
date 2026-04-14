@@ -467,7 +467,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void GangedPinGroupForceVoltage_ConfigureTriggerDigitalEdge_TriggerForFollowerChannelsIsNotDisabledOrCleared()
+        public void GangedPinGroupForceVoltage_ConfigureTriggerDigitalEdge_TriggerForFollowerChannelsIsNotModified()
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
@@ -488,7 +488,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void GangedPinGroupForceVoltage_ConfigureTriggerSoftwareEdge_TriggerForFollowerChannelsIsNotDisabledOrCleared()
+        public void GangedPinGroupForceVoltage_ConfigureTriggerSoftwareEdge_TriggerForFollowerChannelsIsNotModified()
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
