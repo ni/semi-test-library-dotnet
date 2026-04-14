@@ -450,7 +450,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void GangedPinGroupForceVoltage_WaitForTriggerAndSendSoftwareEdgeTrigger_DoesNotThrowException()
+        public void GangedPinGroupForceVoltage_WaitForEventAndSendSoftwareEdgeTrigger_DoesNotThrowException()
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
