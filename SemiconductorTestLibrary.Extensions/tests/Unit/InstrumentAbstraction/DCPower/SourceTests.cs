@@ -39,7 +39,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             return new TSMSessionManager(_tsmContext);
         }
 
-        public DCPowerSessionsBundle GetGangedSMUBundle()
+        private DCPowerSessionsBundle GetGangedSMUBundle()
         {
             _tsmContext = CreateTSMContext("SMUGangPinGroup_SessionPerChannel.pinmap");
             InitializeAndClose.Initialize(_tsmContext);
@@ -4906,14 +4906,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var startTime = DateTime.Now;
 
             sessionsBundle.ForceVoltage(voltageLevel: 3.3, currentLimit: 0.1, waitForSourceCompletion: true);
-            var elapsedTime = (DateTime.Now - startTime).TotalSeconds;
+            var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
 
             if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
             {
                 // Should wait at least for the source delay duration
                 Assert.True(
-                    elapsedTime >= 0.1,
-                    $"Expected to wait at least 100ms, but only took {elapsedTime}s");
+                    elapsedTime >= 100,
+                    $"Expected to wait at least 100ms, but only took {elapsedTime}ms");
             }
         }
 
