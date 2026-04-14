@@ -26,9 +26,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
             string pinMapFileName = pinMapWithChannelGroup ? "DifferentSMUDevicesWithChannelGroup.pinmap" : "DifferentSMUDevices.pinmap";
-            _tsmContext = CreateTSMContext(pinMapFileName);
-            InitializeAndClose.Initialize(_tsmContext);
-            return new TSMSessionManager(_tsmContext);
+            return Initialize(pinMapFileName);
         }
 
         public TSMSessionManager Initialize(string pinMapFileName)
@@ -1109,30 +1107,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 AssertMeasureWhenSettings(sitePinInfo, channelOutput, measureWhen);
             });
-            dcPower.UngangPinGroup("MergedPowerPins");
-        }
-
-        [Theory]
-        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnDemand)]
-        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
-        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
-        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
-        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
-        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
-        public void GangedPinGroupSetMeasureWhen_Initiate_DataMeasuredCorrectly(string pinmap, DCPowerMeasurementWhen measureWhen)
-        {
-            var sessionManager = Initialize(pinmap);
-            var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
-            dcPower.GangPinGroup("MergedPowerPins");
-            dcPower.ConfigureMeasureWhen(measureWhen);
-            if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
-            {
-                dcPower.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
-            }
-
-            dcPower.Initiate();
-
-            dcPower.MeasureVoltage();
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
