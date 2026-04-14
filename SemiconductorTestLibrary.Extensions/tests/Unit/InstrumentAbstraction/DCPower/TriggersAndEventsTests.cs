@@ -453,7 +453,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
             sessionsBundle.GangPinGroup("MergedPowerPins");
-            sessionsBundle.ForceVoltage(1.0); // Configures digital edge trigger for follower channels.
+            sessionsBundle.ForceVoltage(1.0); // Configures triggers for follower channels.
             sessionsBundle.Abort();
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
             sessionsBundle.Initiate();
@@ -461,8 +461,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent);
             sessionsBundle.SendSoftwareEdgeTrigger(TriggerType.SourceTrigger);
 
+            sessionsBundle.Abort();
+            sessionsBundle.UngangPinGroup("MergedPowerPins");
             sessionsBundle.ClearTriggers();
-            sessionsBundle.DisableTriggers();
         }
 
         [Fact]
@@ -471,7 +472,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
             sessionsBundle.GangPinGroup("MergedPowerPins");
-            sessionsBundle.ForceVoltage(1.0); // Configures digital edge trigger for follower channels.
+            sessionsBundle.ForceVoltage(1.0); // Configures triggers for follower channels.
 
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, string.Empty);
 
@@ -483,6 +484,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             sessionsBundle.Abort();
             sessionsBundle.UngangPinGroup("MergedPowerPins");
+            sessionsBundle.ClearTriggers();
         }
 
         [Fact]
@@ -491,7 +493,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
             sessionsBundle.GangPinGroup("MergedPowerPins");
-            sessionsBundle.ForceVoltage(1.0); // Configures digital edge trigger for follower channels.
+            sessionsBundle.ForceVoltage(1.0); // Configures triggers for follower channels.
 
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
 
