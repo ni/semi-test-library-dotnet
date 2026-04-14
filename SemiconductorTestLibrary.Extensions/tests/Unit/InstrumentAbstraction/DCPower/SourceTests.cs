@@ -1365,6 +1365,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("The specified instrument (NI PXIe-4147) does not support one or more of the requested advanced sequence properties.", exception.Message);
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureAdvancedSequence_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup("AllPinsGangedGroup");
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName = "Sequence";
+            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            void ConfigureAdvancedSequenceTest() => sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
+
+            var configureException = Assert.Throws<NISemiconductorTestException>(ConfigureAdvancedSequenceTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, configureException.Message);
+            sessionsBundle.ClearActiveAdvancedSequence();
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
