@@ -1,4 +1,3 @@
-﻿using System.Globalization;
 ﻿using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
@@ -78,10 +77,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceTimeoutInSeconds">The maximum time, in seconds, to wait for the sequence to complete. Used only if <paramref name="waitForSequenceCompletion"/> is <see langword="true"/>. Must be greater then zero.</param>
         public static void InitiateAdvancedSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, bool waitForSequenceCompletion = false, double sequenceTimeoutInSeconds = 5.0)
         {
-            if (sessionsBundle.HasGangedChannels)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
-            }
             sessionsBundle.Do(sessionInfo =>
             {
                 var allChannelOutput = sessionInfo.AllChannelsOutput;
