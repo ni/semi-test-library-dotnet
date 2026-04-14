@@ -80,11 +80,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 var allChannelOutput = sessionInfo.AllChannelsOutput;
+
                 allChannelOutput.Control.Abort();
+
                 allChannelOutput.Source.Mode = DCPowerSourceMode.Sequence;
+
                 allChannelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
             });
+
             sessionsBundle.Initiate();
+
             if (waitForSequenceCompletion)
             {
                 sessionsBundle.WaitForEvent(EventType.SequenceEngineDoneEvent, sequenceTimeoutInSeconds);
