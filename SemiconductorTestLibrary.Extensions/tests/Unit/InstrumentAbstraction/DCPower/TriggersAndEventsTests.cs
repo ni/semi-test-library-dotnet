@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -7,6 +8,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
+
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
@@ -458,8 +460,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
             sessionsBundle.Initiate();
 
-            sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent);
-            sessionsBundle.SendSoftwareEdgeTrigger(TriggerType.SourceTrigger);
+            Parallel.Invoke(
+                () => sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent),
+                () => sessionsBundle.SendSoftwareEdgeTrigger(TriggerType.SourceTrigger));
 
             sessionsBundle.Abort();
             sessionsBundle.UngangPinGroup("MergedPowerPins");
