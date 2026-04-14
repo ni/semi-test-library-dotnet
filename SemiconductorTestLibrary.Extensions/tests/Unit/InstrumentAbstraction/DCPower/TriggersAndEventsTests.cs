@@ -450,6 +450,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void GangedPinGroupForceVoltage_WaitForEventAndSendSoftwareEdgeTrigger_DoesNotThrowException()
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
@@ -469,6 +472,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void GangedPinGroupForceVoltage_ConfigureTriggerDigitalEdge_TriggerForFollowerChannelsIsNotModified()
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
@@ -489,6 +495,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void GangedPinGroupForceVoltage_ConfigureTriggerSoftwareEdge_TriggerForFollowerChannelsIsNotModified()
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
@@ -515,6 +524,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(true)]
         [InlineData(false)]
         public void GangedPinGroupForceVoltageAndConfigureTrigger_DisableOrClearTriggers_TriggerForFollowerChannelsIsNotDisabledOrCleared(bool disableTrigger)
