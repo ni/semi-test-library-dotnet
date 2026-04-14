@@ -1008,7 +1008,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds)
         {
-            sessionsBundle.ThrowExceptionForGangedPinGroups();
+            sessionsBundle.ValidateNoChannelGanged();
             var sequenceName = BuildSequenceName();
             // The output of a designated primary channel within the bundle is needed to synchronize all other channels together.
             var primaryOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
@@ -1402,7 +1402,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10) where T : class
         {
-            sessionsBundle.ThrowExceptionForGangedPinGroups();
+            sessionsBundle.ValidateNoChannelGanged();
             // The output of a designated primary channel within the bundle is needed to synchronize all other channels together.
             var primaryOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
             var sequenceName = BuildSequenceName();
@@ -1754,7 +1754,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         [Obsolete("Using both simple sequencing and advanced sequencing for the same channel within the same session is not supported. For this reason it is better to just use advanced sequencing. This method does not support configuring ganged pin groups for sequencing. Consider using either ConfigureVoltageSequence or ConfigureCurrentSequence instead.", error: false)]
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
         {
-            sessionsBundle.ThrowExceptionForGangedPinGroups();
+            sessionsBundle.ValidateNoChannelGanged();
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Control.Abort();
@@ -1961,7 +1961,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
-            sessionsBundle.ThrowExceptionForGangedPinGroups();
+            sessionsBundle.ValidateNoChannelGanged();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
@@ -1982,7 +1982,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
-            sessionsBundle.ThrowExceptionForGangedPinGroups();
+            sessionsBundle.ValidateNoChannelGanged();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var stepProperties = perStepProperties.GetValue(sitePinInfo.SiteNumber);
@@ -2004,7 +2004,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
-            sessionsBundle.ThrowExceptionForGangedPinGroups();
+            sessionsBundle.ValidateNoChannelGanged();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var stepProperties = perStepProperties.GetValue(sitePinInfo);
@@ -3061,7 +3061,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
         }
 
-        internal static void ThrowExceptionForGangedPinGroups(this DCPowerSessionsBundle sessionsBundle)
+        internal static void ValidateNoChannelGanged(this DCPowerSessionsBundle sessionsBundle)
         {
             if (sessionsBundle.HasGangedChannels)
             {
