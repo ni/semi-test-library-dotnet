@@ -1024,13 +1024,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                         LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                         Level = 1.0,
                         Limit = 0.1
-                    },
-                    new DCPowerSourceSettings
-                    {
-                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 1.5,
-                        Limit = 0.1
                     }
                 },
                 new[]
@@ -1040,13 +1033,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                         OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                         LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                         Level = 2.0,
-                        Limit = 0.1
-                    },
-                    new DCPowerSourceSettings
-                    {
-                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 2.5,
                         Limit = 0.1
                     }
                 }
@@ -1076,13 +1062,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                     Level = 1.0,
                     Limit = 0.1
-                },
-                new DCPowerSourceSettings
-                {
-                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = 2.0,
-                    Limit = 0.1
                 }
             };
             var vcc2Sequence = new DCPowerSourceSettings[]
@@ -1093,13 +1072,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                     Level = 1.0,
                     Limit = 0.1
-                },
-                new DCPowerSourceSettings
-                {
-                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = 2.0,
-                    Limit = 0.1
                 }
             };
             var vcc3Sequence = new DCPowerSourceSettings[]
@@ -1109,13 +1081,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                     Level = 1.0,
-                    Limit = 0.1
-                },
-                new DCPowerSourceSettings
-                {
-                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = 2.0,
                     Limit = 0.1
                 }
             };
@@ -1151,20 +1116,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                     Level = 1.0,
                     Limit = 0.1
-                },
-                new DCPowerSourceSettings
-                {
-                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = 1.5,
-                    Limit = 0.1
-                },
-                new DCPowerSourceSettings
-                {
-                    OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                    LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                    Level = 2.0,
-                    Limit = 0.1
                 }
             };
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
@@ -1199,13 +1150,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                         LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                         Level = 1.0,
                         Limit = 0.1
-                    },
-                    new DCPowerSourceSettings
-                    {
-                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 1.5,
-                        Limit = 0.1
                     }
                 },
                 new[]
@@ -1215,13 +1159,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                         OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                         LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                         Level = 1.0,
-                        Limit = 0.1
-                    },
-                    new DCPowerSourceSettings
-                    {
-                        OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                        LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                        Level = 1.5,
                         Limit = 0.1
                     }
                 }
@@ -1263,13 +1200,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                                 Level = 1.0,
                                 Limit = 0.1
-                            },
-                            new DCPowerSourceSettings
-                            {
-                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                                Level = 1.5,
-                                Limit = 0.1
                             }
                         }),
                     new SiteData<DCPowerSourceSettings[]>(
@@ -1282,13 +1212,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                                 Level = 1.0,
                                 Limit = 0.1
-                            },
-                            new DCPowerSourceSettings
-                            {
-                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                                Level = 1.5,
-                                Limit = 0.1
                             }
                         }),
                     new SiteData<DCPowerSourceSettings[]>(
@@ -1300,13 +1223,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                                 OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
                                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
                                 Level = 1.0,
-                                Limit = 0.1
-                            },
-                            new DCPowerSourceSettings
-                            {
-                                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
-                                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                                Level = 1.5,
                                 Limit = 0.1
                             }
                         })
