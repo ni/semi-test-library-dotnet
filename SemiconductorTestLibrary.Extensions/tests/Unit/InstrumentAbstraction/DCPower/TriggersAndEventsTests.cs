@@ -464,7 +464,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 () => sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent),
                 () => sessionsBundle.SendSoftwareEdgeTrigger(TriggerType.SourceTrigger));
 
-            sessionsBundle.Abort();
             sessionsBundle.UngangPinGroup("MergedPowerPins");
             sessionsBundle.ClearTriggers();
         }
@@ -485,7 +484,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(DCPowerMeasureTriggerType.DigitalEdge, output.Triggers.MeasureTrigger.Type);
                 Assert.Equal(!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo), string.IsNullOrEmpty(output.Triggers.MeasureTrigger.DigitalEdge.InputTerminal));
             });
-            sessionsBundle.Abort();
             sessionsBundle.UngangPinGroup("MergedPowerPins");
             sessionsBundle.ClearTriggers();
         }
@@ -512,7 +510,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     Assert.Equal(DCPowerSourceTriggerType.DigitalEdge, output.Triggers.SourceTrigger.Type);
                 }
             });
-            sessionsBundle.Abort();
             sessionsBundle.UngangPinGroup("MergedPowerPins");
             sessionsBundle.ClearTriggers();
         }
@@ -549,7 +546,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     Assert.Equal(DCPowerSourceTriggerType.DigitalEdge, output.Triggers.SourceTrigger.Type);
                 }
             });
-            sessionsBundle.Abort();
             sessionsBundle.UngangPinGroup("MergedPowerPins");
         }
 
