@@ -27,6 +27,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private delegate T[] SequenceProvider<T>(SitePinInfo sitePinInfo);
 
         /// <summary>
+        /// Provides a sequence of items of type T based on the specified site pin information.
+        /// </summary>
+        /// <typeparam name="T">The type of items returned in the sequence.</typeparam>
+        /// <param name="sitePinInfo">The site pin information used to generate the sequence.</param>
+        /// <returns>An IEnumerable of type T containing the generated step properties based on the provided site pin information.</returns>
+        private delegate IEnumerable<T> StepPropertyProvider<T>(SitePinInfo sitePinInfo);
+
+        /// <summary>
         /// Delegate to retrieve a single double value (limit, range, etc.) for a given site-pin pair.
         /// </summary>
         private delegate double? ValueProvider(SitePinInfo sitePinInfo);
@@ -1435,7 +1443,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
                 else
                 {
-                     // All other channels start on primary channel's start trigger
+                    // All other channels start on primary channel's start trigger
                     channelOutput.Triggers.StartTrigger.DigitalEdge.Configure(startTrigger, DCPowerTriggerEdge.Rising);
                     channelOutput.Control.Initiate();
                 }
@@ -1975,16 +1983,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                channelOutput.ConfigureAdvancedSequenceCore(
-                    sequenceName,
-                    sitePinInfo.ModelString,
-                    perStepProperties,
-                    setAsActiveSequence,
-                    commitFirstElementAsInitialState);
-            });
+            StepPropertyProvider<DCPowerAdvancedSequenceStepProperties> stepPropertyProvider = _ => perStepProperties;
+            sessionsBundle.ConfigureAdvancedSequenceCore(sequenceName, stepPropertyProvider, setAsActiveSequence, commitFirstElementAsInitialState);
         }
 
         /// <inheritdoc cref="ConfigureAdvancedSequence(DCPowerSessionsBundle, string, IList{DCPowerAdvancedSequenceStepProperties}, bool, bool)"/>
@@ -1995,17 +1995,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var stepProperties = perStepProperties.GetValue(sitePinInfo.SiteNumber);
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                channelOutput.ConfigureAdvancedSequenceCore(
-                    sequenceName,
-                    sitePinInfo.ModelString,
-                    stepProperties,
-                    setAsActiveSequence,
-                    commitFirstElementAsInitialState);
-            });
+            StepPropertyProvider<DCPowerAdvancedSequenceStepProperties> stepPropertyProvider = sitePinInfo => perStepProperties.GetValue(sitePinInfo.SiteNumber);
+            sessionsBundle.ConfigureAdvancedSequenceCore(sequenceName, stepPropertyProvider, setAsActiveSequence, commitFirstElementAsInitialState);
         }
 
         /// <inheritdoc cref="ConfigureAdvancedSequence(DCPowerSessionsBundle, string, IList{DCPowerAdvancedSequenceStepProperties}, bool, bool)"/>
@@ -2016,17 +2007,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var stepProperties = perStepProperties.GetValue(sitePinInfo);
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                channelOutput.ConfigureAdvancedSequenceCore(
-                    sequenceName,
-                    sitePinInfo.ModelString,
-                    stepProperties,
-                    setAsActiveSequence,
-                    commitFirstElementAsInitialState);
-            });
+            StepPropertyProvider<DCPowerAdvancedSequenceStepProperties> stepPropertyProvider = sitePinInfo => perStepProperties.GetValue(sitePinInfo);
+            sessionsBundle.ConfigureAdvancedSequenceCore(sequenceName, stepPropertyProvider, setAsActiveSequence, commitFirstElementAsInitialState);
         }
 
         /// <summary>
@@ -2617,7 +2599,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sequence;
         }
 
-        private static DCPowerAdvancedSequenceProperty[] GetAdvancedSequencePropertiesToConfigure(IEnumerable<DCPowerAdvancedSequenceStepProperties> perStepProperties)
+        private static DCPowerAdvancedSequenceProperty[] GetAdvancedSequencePropertiesToConfigure<T>(IEnumerable<T> perStepProperties)
         {
             var result = new HashSet<DCPowerAdvancedSequenceProperty>();
             foreach (var stepProperties in perStepProperties)
@@ -2856,6 +2838,46 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
             }
+        }
+
+        private static void ConfigureAdvancedSequenceCore<T>(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            StepPropertyProvider<T> getPerStepProperties,
+            bool setAsActiveSequence,
+            bool commitFirstElementAsInitialState)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                var perStepProperties = getPerStepProperties(sitePinInfo);
+                channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
+                var advancedSequenceProperties = GetAdvancedSequencePropertiesToConfigure(perStepProperties);
+                try
+                {
+                    channelOutput.Source.AdvancedSequencing.CreateAdvancedSequence(sequenceName, advancedSequenceProperties, setAsActiveSequence: true);
+                }
+                catch (Exception ex) when (ex is Ivi.Driver.OperationNotSupportedException operationNotSupported && operationNotSupported.InnerException is Ivi.Driver.IviCDriverException cDriverException && cDriverException.ErrorCode == AttributeIdNotRecognized)
+                {
+                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPowerDeviceNotSupported, sitePinInfo.ModelString), ex);
+                }
+                for (int i = 0; i < perStepProperties.Count(); i++)
+                {
+                    if (i == 0 && commitFirstElementAsInitialState)
+                    {
+                        channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceCommitStep(true);
+                    }
+                    else
+                    {
+                        channelOutput.Source.AdvancedSequencing.CreateAdvancedSequenceStep(true);
+                    }
+                    perStepProperties.Cast<DCPowerAdvancedSequenceStepProperties>().ElementAt(i).ApplyTo(channelOutput);
+                }
+                if (!setAsActiveSequence)
+                {
+                    channelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = string.Empty;
+                }
+            });
         }
 
         private static void ConfigureSequenceForCascadingCore(
