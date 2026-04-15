@@ -6,7 +6,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevelSequencing
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevelSequence
 {
     /// <summary>
     /// This class provides example methods demonstrating how to perform Hardware Level Sequencing with SMUs
