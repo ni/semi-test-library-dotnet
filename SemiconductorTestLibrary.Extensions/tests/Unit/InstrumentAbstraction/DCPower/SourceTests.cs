@@ -191,7 +191,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageSequenceSynchronizedTest);
             var exceptionMessage = "This feature is not supported on a ganged pin group";
             Assert.Contains(exceptionMessage, exception.Message);
-            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
         }
 
         [Theory]
@@ -1030,7 +1030,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
             var exceptionMessage = "This feature is not supported on a ganged pin group";
             Assert.Contains(exceptionMessage, exception.Message);
-            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
         }
 
         [Fact]
@@ -1048,7 +1048,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
             var exceptionMessage = "This feature is not supported on a ganged pin group";
             Assert.Contains(exceptionMessage, exception.Message);
-            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
         }
 
         [Fact]
@@ -1074,7 +1074,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedAndFetchTest);
             var exceptionMessage = "This feature is not supported on a ganged pin group";
             Assert.Contains(exceptionMessage, exception.Message);
-            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
         }
 
         [Fact]
@@ -1097,7 +1097,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedAndFetchTest);
             var exceptionMessage = "This feature is not supported on a ganged pin group";
             Assert.Contains(exceptionMessage, exception.Message);
-            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
         }
 
         [Fact]
@@ -1121,7 +1121,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedAndFetchTest);
             var exceptionMessage = "This feature is not supported on a ganged pin group";
             Assert.Contains(exceptionMessage, exception.Message);
-            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.UngangPinGroup(ThreePinsGangedGroup);
         }
 
         [Theory]
@@ -1444,7 +1444,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<NISemiconductorTestException>(ForceCurrentSequenceSynchronizedTest);
             var exceptionMessage = "This feature is not supported on a ganged pin group";
             Assert.Contains(exceptionMessage, exception.Message);
-            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
         }
 
         [Theory]
