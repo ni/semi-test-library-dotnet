@@ -1024,6 +1024,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds)
         {
+            sessionsBundle.ValidateNoChannelGanged();
             var sequenceName = BuildSequenceName();
             // The output of a designated primary channel within the bundle is needed to synchronize all other channels together.
             var primaryOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
@@ -1417,6 +1418,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10) where T : class
         {
+            sessionsBundle.ValidateNoChannelGanged();
             // The output of a designated primary channel within the bundle is needed to synchronize all other channels together.
             var primaryOutput = sessionsBundle.GetPrimaryOutput(TriggerType.StartTrigger.ToString(), out string startTrigger);
             var sequenceName = BuildSequenceName();
@@ -1765,31 +1767,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequence">The voltage or current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
-        [Obsolete("Using both simple sequencing and advanced sequencing for the same channel within the same session is not supported. For this reason it is better to just use advanced sequencing. Consider using either ConfigureVoltageSequence or ConfigureCurrentSequence instead.", error: false)]
+        [Obsolete("Using both simple sequencing and advanced sequencing for the same channel within the same session is not supported. For this reason it is better to just use advanced sequencing. This method does not support configuring ganged pin groups for sequencing. Consider using either ConfigureVoltageSequence or ConfigureCurrentSequence instead.", error: false)]
         public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
         {
-            if (sessionsBundle.HasGangedChannels)
+            sessionsBundle.ValidateNoChannelGanged();
+            sessionsBundle.Do(sessionInfo =>
             {
-                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    channelOutput.Control.Abort();
-                    channelOutput.ConfigureSequence(
-                        sequence,
-                        sequenceLoopCount,
-                        sequenceStepDeltaTimeInSeconds,
-                        sitePinInfo: sitePinInfo);
-                });
-            }
-            else
-            {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    sessionInfo.Session.Control.Abort();
-                    sessionInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
-                });
-            }
+                sessionInfo.Session.Control.Abort();
+                sessionInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
+            });
         }
 
         /// <summary>
@@ -1954,6 +1940,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
+            sessionsBundle.ValidateNoChannelGanged();
             StepPropertyProvider<DCPowerAdvancedSequenceStepProperties> stepPropertyProvider = _ => perStepProperties;
             sessionsBundle.ConfigureAdvancedSequenceCore(sequenceName, stepPropertyProvider, setAsActiveSequence, commitFirstElementAsInitialState);
         }
@@ -1966,6 +1953,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
+            sessionsBundle.ValidateNoChannelGanged();
             StepPropertyProvider<DCPowerAdvancedSequenceStepProperties> stepPropertyProvider = sitePinInfo => perStepProperties.GetValue(sitePinInfo.SiteNumber);
             sessionsBundle.ConfigureAdvancedSequenceCore(sequenceName, stepPropertyProvider, setAsActiveSequence, commitFirstElementAsInitialState);
         }
@@ -1978,6 +1966,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false,
             bool commitFirstElementAsInitialState = false)
         {
+            sessionsBundle.ValidateNoChannelGanged();
             StepPropertyProvider<DCPowerAdvancedSequenceStepProperties> stepPropertyProvider = sitePinInfo => perStepProperties.GetValue(sitePinInfo);
             sessionsBundle.ConfigureAdvancedSequenceCore(sequenceName, stepPropertyProvider, setAsActiveSequence, commitFirstElementAsInitialState);
         }
@@ -2412,37 +2401,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
         /// <param name="sequence">The voltage or current sequence to set.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
-        /// <param name="sourceDelaysInSeconds">The array of source delays in seconds for each step in the sequence.</param>
         /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
         /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
-        /// <param name="needDataAdjustment">Indicates if the sequence values should be divided in case of Ganging.</param>
-        [Obsolete("Using both simple sequencing and advanced sequencing for the same channel within the same session is not supported. For this reason it is better to just use advanced sequencing. Consider using the high-level ConfigureVoltageSequence or ConfigureCurrentSequence methods instead.", error: false)]
+        [Obsolete("Using both simple sequencing and advanced sequencing for the same channel within the same session is not supported. For this reason it is better to just use advanced sequencing. This method does not support configuring ganged pin groups for sequencing. Consider using the high-level ConfigureVoltageSequence or ConfigureCurrentSequence methods instead.", error: false)]
         public static void ConfigureSequence(
             this DCPowerOutput output,
             double[] sequence,
             int sequenceLoopCount,
             double? sequenceStepDeltaTimeInSeconds = null,
-            double[] sourceDelaysInSeconds = null,
-            SitePinInfo sitePinInfo = null,
-            bool needDataAdjustment = true)
+            SitePinInfo sitePinInfo = null)
         {
-            ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
-            var outputFunction = output.Source.Output.Function;
-            sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
+            if (sitePinInfo?.CascadingInfo is GangingInfo)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
+            }
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
-            var sourceDelays = sourceDelaysInSeconds?.Select(d => PrecisionTimeSpan.FromSeconds(d)).ToArray();
-            if (sourceDelays != null)
-            {
-                output.Source.SetSequence(sequence, sourceDelays);
-            }
-            else
-            {
-                output.Source.SetSequence(sequence);
-            }
-
-            output.ConfigureSourceTriggerForCascading(sitePinInfo);
-            output.ConfigureStartTriggerForCascadedSequencing(sitePinInfo);
+            output.Source.SetSequence(sequence);
             if (sequenceStepDeltaTimeInSeconds.HasValue)
             {
                 output.Source.SequenceStepDeltaTimeEnabled = true;
@@ -3079,6 +3054,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+        }
+
+        internal static void ValidateNoChannelGanged(this DCPowerSessionsBundle sessionsBundle)
+        {
+            if (sessionsBundle.HasGangedChannels)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
+            }
         }
         #endregion private and internal methods
     }

@@ -336,6 +336,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin waveform results.</returns>
         public static PinSiteData<DCPowerFetchResult> AcquireSynchronizedWaveforms(this DCPowerSessionsBundle sessionsBundle, double apertureTimeInSeconds = 0, double measurementTimeInSeconds = 0)
         {
+            sessionsBundle.ValidateNoChannelGanged();
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.MeasureTrigger.ToString(), out string measureTrigger);
             var originalApertureTimes = new Dictionary<string, double>();
             var originalSourceDelays = new Dictionary<string, PrecisionTimeSpan>();
