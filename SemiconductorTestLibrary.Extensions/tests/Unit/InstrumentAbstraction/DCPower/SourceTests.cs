@@ -177,6 +177,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.5));
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceVoltageSequenceSynchronized_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var sequence = Array.Empty<double>();
+            void ForceVoltageSequenceSynchronizedTest() => sessionsBundle.ForceVoltageSequenceSynchronized(voltageSequence: sequence, currentLimit: 0.5, voltageLevelRange: 1.0, currentLimitRange: 0.5);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageSequenceSynchronizedTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+        }
+
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [InlineData(false)]
@@ -999,6 +1016,111 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedWithPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            var sequence = new SiteData<DCPowerSourceSettings[]>(Array.Empty<DCPowerSourceSettings[]>());
+            void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedWithPerPinPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+            var sites = GetActiveSites(sessionsBundle);
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(Array.Empty<string>(), Array.Empty<int>(), data: null);
+            void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedAndFetch_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            var sequence = Array.Empty<DCPowerSourceSettings>();
+            void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 3,
+                measurementTimeoutInSeconds: 10.0);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedAndFetchTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteSequence_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            var sequence = new SiteData<DCPowerSourceSettings[]>(Array.Empty<DCPowerSourceSettings[]>());
+            void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedAndFetchTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedAndFetchWithPerPinPerSiteSequence_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+            var sites = GetActiveSites(sessionsBundle);
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(Array.Empty<string>(), Array.Empty<int>(), data: null);
+            void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
+                sequence,
+                sequenceLoopCount: 1,
+                waitForSequenceCompletion: true,
+                sequenceTimeoutInSeconds: 10.0,
+                pointsToFetch: 2,
+                measurementTimeoutInSeconds: 10.0);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedAndFetchTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.UngangPinGroup(ThreePinsGangedGroup);
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -1189,6 +1311,24 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("The specified instrument (NI PXIe-4147) does not support one or more of the requested advanced sequence properties.", exception.Message);
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureAdvancedSequence_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup("AllPinsGangedGroup");
+
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName = "Sequence";
+            var stepProperties = Array.Empty<DCPowerAdvancedSequenceStepProperties>().ToList();
+            void ConfigureAdvancedSequenceTest() => sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
+
+            var configureException = Assert.Throws<NISemiconductorTestException>(ConfigureAdvancedSequenceTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, configureException.Message);
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -1282,6 +1422,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(currentLevelRanges.GetValue(sitePinInfo.SiteNumber), sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange, 2);
             });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ForceCurrentSequenceSynchronized_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var sequence = Array.Empty<double>();
+            void ForceCurrentSequenceSynchronizedTest() => sessionsBundle.ForceCurrentSequenceSynchronized(currentSequence: sequence, voltageLimit: 0.5);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ForceCurrentSequenceSynchronizedTest);
+            var exceptionMessage = "This feature is not supported on a ganged pin group";
+            Assert.Contains(exceptionMessage, exception.Message);
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
         }
 
         [Theory]
