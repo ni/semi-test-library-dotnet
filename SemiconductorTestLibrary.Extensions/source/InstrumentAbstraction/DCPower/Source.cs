@@ -2784,8 +2784,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sequenceName,
                     sitePinInfo.ModelString,
                     perStepProperties,
-                    setAsActiveSequence: true,
-                    commitFirstElementAsInitialState: false);
+                    setAsActiveSequence: setAsActiveSequence,
+                    commitFirstElementAsInitialState: commitFirstElementAsInitialState);
                 channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
             });
         }
