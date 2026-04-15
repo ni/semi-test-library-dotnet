@@ -84,33 +84,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `CreateRampSequence(int[] siteNumbers, double[] outputStart, double[] outputStop, int[] numberOfPoints)`
       - `CreateRampSequence(string[] pinNames, int[] siteNumbers, double[] outputStart, double[] outputStop, int[] numberOfPoints)`
       - `CreateRampSequence(string[] pinNames, int[] siteNumbers, double[][] outputStart, double[][] outputStop, int[][] numberOfPoints)`
-    - **TestStandSteps**
-      - A new overload added for `SetupNIDigitalPatternInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
-        - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext)`
-      - The old version of `SetupNIDigitalPatternInstrumentation` added as a deprecated overload to maintain backward compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
-        - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, string levelsSheetToApply = "", string timingSheetToApply = "")`
-      - A deprecated enum `SetupAndCleanupSteps.NIInstrumentType` added, marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
-        - `NIInstrumentType`
-      - A new overload added for `CleanupInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
-        - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext)`
-      - The old version of `CleanupInstrumentation` added as a deprecated overload to maintain backward compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
-        - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, NIInstrumentType instrumentType = NIInstrumentType.All)`
-      - A new overload added for `ResetInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
-        - `ResetInstrumentation(ISemiconductorModuleContext tsmContext)`
-      - The old version of `ResetInstrumentation` added as a deprecated overload to maintain backward compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
-        - `ResetInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, TestStandSteps.NIInstrumentType instrumentType = TestStandSteps.NIInstrumentType.All)`
+  - **TestStandSteps**
+    - A new overload added for `SetupNIDigitalPatternInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
+      - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext)`
+    - Added the old version of `SetupNIDigitalPatternInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+      - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, string levelsSheetToApply = "", string timingSheetToApply = "")`
+    - A deprecated enum `SetupAndCleanupSteps.NIInstrumentType` added, marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+      - `NIInstrumentType`
+    - A new overload added for `CleanupInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
+      - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext)`
+    - Added the old version of `CleanupInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+      - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, NIInstrumentType instrumentType = NIInstrumentType.All)`
+    - A new overload added for `ResetInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
+      - `ResetInstrumentation(ISemiconductorModuleContext tsmContext)`
+    - Added the old version of `ResetInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+      - `ResetInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, TestStandSteps.NIInstrumentType instrumentType = TestStandSteps.NIInstrumentType.All)`
   - **Documentation & Examples**
     - Added the `SMUGangPinGroup` Sequence style example and documentation, which demonstrate how to use ganging and unganging channels in pin groups.
     - Added the `ForceVoltageSequence` Code Snippet style example, which demonstrates how to use hardware-timed sequencing to force a series of voltage values on targeted pins.
     - Added the `ConfigureSMUAdvancedSequencesAndInitiate` Code Snippet style example, which demonstrates how to configure and initiate advanced sequences with per-step property control.
     - Added the `SMUHardwareLevelSequencing` Sequence style example, which demonstrates how to use the Semiconductor Test Library (STL) extension methods for Hardware Level Sequencing (HLS) to run different force voltage sequences with an NI Source Measure Unit (SMU).
-    - Added the `MultiplexedConnection` Sequence style example and documentation, for Multiplexed Connection Support.
-    - Added the `CustomInstrument.RSeries` Sequence style example, which demonstrates how to use Custom instrument using an R-Series instrument.
+    - Added the `MultiplexedConnection` Sequence style example and documentation, for Multiplexed Connection support.
+    - Added the `CustomInstrument.RSeries` Sequence style example, which demonstrates how to use the Custom Instrument feature of the Semiconductor Test Library (STL) to interact with an R Series device.
 
 - ### Changed
 
   - **Instrument Abstraction**
-    - Updated all overloads of the following DCPower methods to support the operation on the ganged pins in the bundle.
+    - Updated all overloads of the following DCPower methods to support the operation on the ganged pins in the bundle:
       - `ForceVoltage`
       - `ForceCurrent`
       - `ForceVoltageSequence`
@@ -120,7 +120,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `ConfigureSourceSettings`
       - `ConfigureMeasureSettings`
       - `ConfigureMeasureWhen`
-    - The following DCPower methods are updated store measurement results under the pin group name on `PinSiteData` when channels are ganged or merged, and under individual pin names during normal operations.
+    - Updated the following DCPower methods to store measurement results under the pin group name on `PinSiteData` when channels are ganged or merged. The methods store results under individual pin names during normal operation.
       - `MeasureAndReturnPerSitePerPinResults`
       - `MeasureAndReturnPerInstrumentPerChannelResults`
       - `MeasureVoltage`
@@ -134,10 +134,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - Fixed an issue where `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage` returned a `PinSiteData` object containing the primary pin name instead of the merged pin group name when a merged pin group was present within a `DCPowerSessionsBundle` object. These methods now correctly return a `PinSiteData` object associated with the merged pin group name, consistent with the behavior of `MeasureCurrent` and `MeasureVoltage`.
     - Fixed an issue where `GetXXX` methods, such as `GetSourceDelayInSeconds` and `GetApertureTimeInSeconds`, returned a `PinSiteData` object associated with the merged pin group name instead of the primary pin name when a merged pin group was present within a `DCPowerSessionsBundle` object. These methods now correctly return a `PinSiteData` object associated with the primary pin, consistent with the driver behavior where only the primary pin has corresponding driver-level properties.
     - Fixed a potential race condition where calling `FinishWaveformAcquisition` immediately after `ConfigureAndStartWaveformAcquisition` could result in an error when multiple instruments were present in the session. The `OnMeasureTrigger` setting is now guaranteed to be configured for all instruments before `FinishWaveformAcquisition` proceeds.
-    - Fixed an issue where `WriteDigital()` could fail when the first pin in a multi-channel DO DAQ task is assigned to a higher-numbered line than the second pin. The channel order in the pin map no longer affects correct sample generation for digital output tasks.
-    - Fixed an issue where `DigitalSessionsBundle.Pins` stored the pin group name instead of the list of pins when creating the bundle using a pin group. It now correctly stores the list of pins present in the pin group.
+    - Fixed an issue in DAQmx `WriteDigital()` method where multi-channel DAQmx DO tasks failed when one channel name was a substring of another, resulting in write errors.
+    - Fixed an issue where `DigitalSessionsBundle.Pins` IEnumerable of strings, stores the pin group name instead of the list of pins when creating the bundle using a pin group. It now correctly stores the list of pins present in the pin group.
   - **Documentation**
-    - Fixed "View Source `</>`" links to point to the main branch and correct line numbers, ensuring users always see the latest code at the relevant location.
+    - Fixed "View Source `</>`" links to point to the main branch and correct line numbers. This fix ensures that users always see the latest code at the relevant location.
 
 ## 25.5.0 - 2025-09-30
 
