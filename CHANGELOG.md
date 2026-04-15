@@ -89,7 +89,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext)`
     - Added the old version of `SetupNIDigitalPatternInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
       - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, string levelsSheetToApply = "", string timingSheetToApply = "")`
-    - A deprecated enum `SetupAndCleanupSteps.NIInstrumentType` added, marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+    - Reintroduced `SetupAndCleanupSteps.NIInstrumentType` as a deprecated enum to preserve backward compatibility with existing `CleanupInstrumentation` and `ResetInstrumentation` method signatures. The enum is marked with `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]` to discourage new usage.
       - `NIInstrumentType`
     - A new overload added for `CleanupInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
       - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext)`
