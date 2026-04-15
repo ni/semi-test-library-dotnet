@@ -7,7 +7,7 @@ This example demonstrates how to use the Semiconductor Test Library (STL) extens
 The example showcases four different approaches for forcing voltage ramp sequences on SMU pins:
 
 1. **ForceVoltageRamp**: Forces a basic voltage ramp sequence on specified SMU pins.
-2. **ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements**: Configures and initiates a voltage ramp sequence and publishes the max current measured during sequence execution.
+2. **ConfigureVoltageRampSeqInitiateAndFetchCurrent**: Configures and initiates a voltage ramp sequence and publishes the max current measured during sequence execution.
 3. **ForceSynchronizedVoltageRamp**: Forces a voltage ramp sequence synchronized across pins.
 4. **ConfigureSMUAdvancedSequence**: Configures an advanced sequence upfront without initializing it, allowing later initiation in the test flow.
    > **Note:** This step is called from ProcessSetup, since the advance sequence only needs to be configured once at the start of the program and can be initiated by name as needed during program execution.
@@ -47,7 +47,7 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 ### Code Modules
 
 - `Code Modules/TestSteps/ForceVoltageRamp.cs`: Forces a hardware-timed voltage ramp sequence on the specified SMU pins.
-- `Code Modules/TestSteps/ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements.cs`: Configures and initiate hardware-timed voltage ramp sequence on the specified SMU pins and fetches current measurements taken during each step of the sequence. Publishes the max current value across the steps using the "MaxCurrent" published data id.
+- `Code Modules/TestSteps/ConfigureVoltageRampSeqInitiateAndFetchCurrent.cs`: Configures and initiate hardware-timed voltage ramp sequence on the specified SMU pins and fetches current measurements taken during each step of the sequence. Publishes the max current value across the steps using the "MaxCurrent" published data id.
 - `Code Modules/TestSteps/ForceSynchronizedVoltageRamp.cs`: Forces a hardware-timed voltage ramp sequence that is synchronized across the specified SMU pins.
 - `Code Modules/TestSteps/ConfigureSMUAdvancedSequence.cs`: Configures an advanced sequence for the specified SMU pins without setting it as the active sequence, allowing it to be initiated later in the test flow.
 - `Code Modules/TestSteps/InitiateSMUAdvancedSequence.cs`: Initiates a previously configured advanced sequence for the specified SMU pins.
