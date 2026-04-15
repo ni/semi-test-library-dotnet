@@ -2823,7 +2823,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int sequenceLoopCount,
             DCPowerSourceOutputFunction outputFunction,
             double? sequenceStepDeltaTimeInSeconds = null,
-            bool needDataAdjustment = true,
             SoureDelayProvider<double> getSourceDelays = null,
             bool setAsActiveSequence = false)
         {
@@ -2839,9 +2838,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sequenceName: sequenceName,
                     sequence: sequence,
                     sequenceLoopCount: sequenceLoopCount,
-                    outputFunction: DCPowerSourceOutputFunction.DCCurrent,
+                    outputFunction: outputFunction,
                     sitePinInfo: sitePinInfo,
-                    sequenceStepDeltaTimeInSeconds: null,
+                    sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
                     sourceDelay: sourceDelay,
                     setAsActiveSequence: setAsActiveSequence);
             });
