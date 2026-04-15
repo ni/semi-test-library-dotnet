@@ -185,7 +185,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            var sequence = new[] { 0.000, 0.005, 0.010 };
+            var sequence = Array.Empty<double>();
             void ForceVoltageSequenceSynchronizedTest() => sessionsBundle.ForceVoltageSequenceSynchronized(voltageSequence: sequence, currentLimit: 0.5, voltageLevelRange: 1.0, currentLimitRange: 0.5);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceVoltageSequenceSynchronizedTest);
@@ -1059,10 +1059,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
-            var sequence = new[]
-            {
-                new DCPowerSourceSettings()
-            };
+            var sequence = Array.Empty<DCPowerSourceSettings>();
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
                 sequenceLoopCount: 1,
@@ -1078,7 +1075,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteSequenceThrowsException()
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedAndFetchWithPerSiteSequence_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -1101,7 +1098,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedAndFetchWithPerPinPerSiteSequenceThrowsException()
+        public void DifferentSMUDevicesGanged_ForceAdvancedSequenceSynchronizedAndFetchWithPerPinPerSiteSequence_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
@@ -1323,10 +1320,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
             string sequenceName = "Sequence";
-            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
-            {
-                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
-            };
+            var stepProperties = Array.Empty<DCPowerAdvancedSequenceStepProperties>().ToList();
             void ConfigureAdvancedSequenceTest() => sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true);
 
             var configureException = Assert.Throws<NISemiconductorTestException>(ConfigureAdvancedSequenceTest);
@@ -1438,7 +1432,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            var sequence = new[] { 0.000, 0.005, 0.010 };
+            var sequence = Array.Empty<double>();
             void ForceCurrentSequenceSynchronizedTest() => sessionsBundle.ForceCurrentSequenceSynchronized(currentSequence: sequence, voltageLimit: 0.5);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceCurrentSequenceSynchronizedTest);
