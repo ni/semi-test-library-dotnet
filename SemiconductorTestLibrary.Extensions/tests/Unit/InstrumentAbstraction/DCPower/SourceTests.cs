@@ -1332,7 +1332,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var configureException = Assert.Throws<NISemiconductorTestException>(ConfigureAdvancedSequenceTest);
             var exceptionMessage = "This feature is not supported on a ganged pin group";
             Assert.Contains(exceptionMessage, configureException.Message);
-            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
         }
 
         [Theory]
