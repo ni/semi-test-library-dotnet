@@ -1024,17 +1024,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
-            var sequence = new SiteData<DCPowerSourceSettings[]>(new[]
-            {
-                new[]
-                {
-                    new DCPowerSourceSettings()
-                },
-                new[]
-                {
-                    new DCPowerSourceSettings()
-                }
-            });
+            var sequence = new SiteData<DCPowerSourceSettings[]>(Array.Empty<DCPowerSourceSettings[]>());
             void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
@@ -1052,26 +1042,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sites = GetActiveSites(sessionsBundle);
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
-            var vcc1Sequence = new DCPowerSourceSettings[]
-            {
-                new DCPowerSourceSettings()
-            };
-            var vcc2Sequence = new DCPowerSourceSettings[]
-            {
-                new DCPowerSourceSettings()
-            };
-            var vcc3Sequence = new DCPowerSourceSettings[]
-            {
-                new DCPowerSourceSettings()
-            };
-            var sequence = new PinSiteData<DCPowerSourceSettings[]>(
-                new[] { "VCC1", "VCC2", "VCC3" },
-                new[]
-                {
-                    new SiteData<DCPowerSourceSettings[]>(sites, vcc1Sequence),
-                    new SiteData<DCPowerSourceSettings[]>(sites, vcc2Sequence),
-                    new SiteData<DCPowerSourceSettings[]>(sites, vcc3Sequence)
-                });
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(Array.Empty<string>(), Array.Empty<int>(), data: null);
             void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
@@ -1114,19 +1085,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
-            var sequencePerSite = new SiteData<DCPowerSourceSettings[]>(new[]
-            {
-                new[]
-                {
-                    new DCPowerSourceSettings()
-                },
-                new[]
-                {
-                    new DCPowerSourceSettings()
-                }
-            });
+            var sequence = new SiteData<DCPowerSourceSettings[]>(Array.Empty<DCPowerSourceSettings[]>());
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
-                sequencePerSite,
+                sequence,
                 sequenceLoopCount: 1,
                 waitForSequenceCompletion: true,
                 sequenceTimeoutInSeconds: 10.0,
@@ -1148,29 +1109,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sites = GetActiveSites(sessionsBundle);
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
-            var sequence = new PinSiteData<DCPowerSourceSettings[]>(
-                new[] { "VCC1", "VCC2", "VCC3" },
-                new[]
-                {
-                    new SiteData<DCPowerSourceSettings[]>(
-                        sites,
-                        new[]
-                        {
-                            new DCPowerSourceSettings()
-                        }),
-                    new SiteData<DCPowerSourceSettings[]>(
-                        sites,
-                        new[]
-                        {
-                            new DCPowerSourceSettings()
-                        }),
-                    new SiteData<DCPowerSourceSettings[]>(
-                        sites,
-                        new[]
-                        {
-                            new DCPowerSourceSettings()
-                        })
-                });
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>(Array.Empty<string>(), Array.Empty<int>(), data: null);
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
                 sequenceLoopCount: 1,
