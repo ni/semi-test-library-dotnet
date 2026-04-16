@@ -1196,14 +1196,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
-            SiteData<DCPowerSourceSettings[]> settings,
+            SiteData<DCPowerSourceSettings[]> sequence,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSettings = sitePinInfo => settings.GetValue(sitePinInfo.SiteNumber);
+            IEnumerableProvider<DCPowerSourceSettings> getSettings = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
 
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSettings,
@@ -1218,17 +1218,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
-            PinSiteData<DCPowerSourceSettings[]> settings,
+            PinSiteData<DCPowerSourceSettings[]> sequence,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSettings = sitePinInfo => settings.GetValue(sitePinInfo);
+            IEnumerableProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
 
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
-                getSettings,
+                getSequence,
                 sequenceLoopCount,
                 waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
