@@ -2505,7 +2505,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sequence;
         }
 
-        private static DCPowerAdvancedSequenceProperty[] GetAdvancedSequencePropertiesToConfigure<T>(IEnumerable<T> perStepProperties)
+        private static DCPowerAdvancedSequenceProperty[] GetAdvancedSequencePropertiesToConfigure(IEnumerable<DCPowerAdvancedSequenceStepProperties> perStepProperties)
         {
             var result = new HashSet<DCPowerAdvancedSequenceProperty>();
             foreach (var stepProperties in perStepProperties)
