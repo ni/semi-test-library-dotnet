@@ -1785,11 +1785,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (sessionsBundle.HasGangedChannels)
             {
-                ArrayProvider<double> getSequence = _ => sequence;
                 sessionsBundle.ConfigureSequenceForCascadingCore(
                     hasGangedChannels: true,
                     sequenceName: sequenceName,
-                    getSequence: getSequence,
+                    getSequence: _ => sequence,
                     sequenceLoopCount: sequenceLoopCount,
                     outputFunction: DCPowerSourceOutputFunction.DCVoltage,
                     sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
@@ -1858,11 +1857,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (sessionsBundle.HasGangedChannels)
             {
-                ArrayProvider<double> getSequence = _ => sequence;
                 sessionsBundle.ConfigureSequenceForCascadingCore(
                     hasGangedChannels: true,
                     sequenceName: sequenceName,
-                    getSequence: getSequence,
+                    getSequence: _ => sequence,
                     sequenceLoopCount: sequenceLoopCount,
                     outputFunction: DCPowerSourceOutputFunction.DCCurrent,
                     sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
@@ -2142,16 +2140,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (sessionsBundle.HasGangedChannels)
             {
-                ArrayProvider<double> getSequence = _ => sequence;
-                ArrayProvider<double> getSourceDelays = _ => sourceDelaysInSeconds;
-
                 sessionsBundle.ConfigureSequenceForCascadingCore(
                     hasGangedChannels: true,
                     sequenceName: sequenceName,
-                    getSequence: getSequence,
+                    getSequence: _ => sequence,
                     sequenceLoopCount: sequenceLoopCount,
                     outputFunction: DCPowerSourceOutputFunction.DCVoltage,
-                    getSourceDelays: getSourceDelays,
+                    getSourceDelays: _ => sourceDelaysInSeconds,
                     setAsActiveSequence: setAsActiveSequence);
             }
             else
@@ -2241,16 +2236,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (sessionsBundle.HasGangedChannels)
             {
-                ArrayProvider<double> getSequence = _ => sequence;
-                ArrayProvider<double> getSourceDelays = _ => sourceDelaysInSeconds;
-
                 sessionsBundle.ConfigureSequenceForCascadingCore(
                     hasGangedChannels: true,
                     sequenceName: sequenceName,
-                    getSequence: getSequence,
+                    getSequence: _ => sequence,
                     sequenceLoopCount: sequenceLoopCount,
                     outputFunction: DCPowerSourceOutputFunction.DCCurrent,
-                    getSourceDelays: getSourceDelays,
+                    getSourceDelays: _ => sourceDelaysInSeconds,
                     setAsActiveSequence: setAsActiveSequence);
             }
             else
