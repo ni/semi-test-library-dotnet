@@ -2765,10 +2765,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureAdvancedSequenceCore<T>(
+        private static void ConfigureAdvancedSequenceCore(
             this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
-            IEnumerableProvider<T> getPerStepProperties,
+            IEnumerableProvider<DCPowerAdvancedSequenceStepProperties> getPerStepProperties,
             bool setAsActiveSequence,
             bool commitFirstElementAsInitialState)
         {
@@ -2776,14 +2776,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                var perStepProperties = getPerStepProperties(sitePinInfo).Cast<DCPowerAdvancedSequenceStepProperties>();
+                var perStepProperties = getPerStepProperties(sitePinInfo);
                 channelOutput.ConfigureAdvancedSequenceCore(
                     sequenceName,
                     sitePinInfo.ModelString,
                     perStepProperties,
                     setAsActiveSequence: setAsActiveSequence,
                     commitFirstElementAsInitialState: commitFirstElementAsInitialState);
-                channelOutput.Source.Mode = DCPowerSourceMode.Sequence;
             });
         }
 
@@ -2803,7 +2802,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
-                // channelOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
                 var sequence = getSequence(sitePinInfo);
                 var sourceDelay = getSourceDelays?.Invoke(sitePinInfo);
                 sessionInfo.ConfigureSequenceForCascadingCore(
