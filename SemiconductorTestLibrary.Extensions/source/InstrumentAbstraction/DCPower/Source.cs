@@ -1094,7 +1094,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSequence = _ => sequence;
+            ArrayProvider<DCPowerSourceSettings> getSequence = _ => sequence;
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
@@ -1121,7 +1121,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
+            ArrayProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
@@ -1148,7 +1148,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
+            ArrayProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
@@ -1181,7 +1181,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSequence = _ => sequence;
+            ArrayProvider<DCPowerSourceSettings> getSequence = _ => sequence;
 
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
@@ -1203,7 +1203,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
+            ArrayProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
 
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
@@ -1225,7 +1225,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
+            ArrayProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
 
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
@@ -1257,7 +1257,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            IEnumerableProvider<DCPowerAdvancedSequenceStepProperties> getProperty = _ => properties;
+            ArrayProvider<DCPowerAdvancedSequenceStepProperties> getProperty = _ => properties;
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getProperty,
@@ -1284,7 +1284,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            IEnumerableProvider<DCPowerAdvancedSequenceStepProperties> getProperty = sitePinInfo => properties.GetValue(sitePinInfo.SiteNumber);
+            ArrayProvider<DCPowerAdvancedSequenceStepProperties> getProperty = sitePinInfo => properties.GetValue(sitePinInfo.SiteNumber);
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getProperty,
@@ -1311,7 +1311,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            IEnumerableProvider<DCPowerAdvancedSequenceStepProperties> getProperty = sitePinInfo => properties.GetValue(sitePinInfo);
+            ArrayProvider<DCPowerAdvancedSequenceStepProperties> getProperty = sitePinInfo => properties.GetValue(sitePinInfo);
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getProperty,
@@ -1344,7 +1344,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
-            IEnumerableProvider<DCPowerAdvancedSequenceStepProperties> getProperty = _ => properties;
+            ArrayProvider<DCPowerAdvancedSequenceStepProperties> getProperty = _ => properties;
 
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getProperty,
@@ -1366,7 +1366,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
-            IEnumerableProvider<DCPowerAdvancedSequenceStepProperties> getProperty = sitePinInfo => properties.GetValue(sitePinInfo.SiteNumber);
+            ArrayProvider<DCPowerAdvancedSequenceStepProperties> getProperty = sitePinInfo => properties.GetValue(sitePinInfo.SiteNumber);
 
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getProperty,
@@ -1388,7 +1388,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
-            IEnumerableProvider<DCPowerAdvancedSequenceStepProperties> getProperty = sitePinInfo => properties.GetValue(sitePinInfo);
+            ArrayProvider<DCPowerAdvancedSequenceStepProperties> getProperty = sitePinInfo => properties.GetValue(sitePinInfo);
 
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getProperty,
@@ -1402,7 +1402,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedCore<T>(
             this DCPowerSessionsBundle sessionsBundle,
-            IEnumerableProvider<T> getProperty,
+            ArrayProvider<T> getSequence,
             int sequenceLoopCount,
             bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds,
@@ -1418,7 +1418,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
-                var perSitePinProperty = getProperty(sitePinInfo).ToArray();
+                var perSitePinProperty = getSequence(sitePinInfo);
                 var validProperties = GetValidProperties(perSitePinProperty);
                 var perChannelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
