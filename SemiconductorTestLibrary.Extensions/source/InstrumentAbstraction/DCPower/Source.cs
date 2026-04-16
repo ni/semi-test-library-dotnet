@@ -1083,18 +1083,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="settings">The array of source settings to apply.</param>
+        /// <param name="sequence">The sequence of source settings to apply.</param>
         /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
-            DCPowerSourceSettings[] settings,
+            DCPowerSourceSettings[] sequence,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSettings = _ => settings;
+            IEnumerableProvider<DCPowerSourceSettings> getSettings = _ => sequence;
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSettings,
@@ -1110,18 +1110,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
         /// <param name="sessionsBundle"/>
-        /// <param name="settings"/>
+        /// <param name="sequence"/>
         /// <param name="sequenceLoopCount"/>
         /// <param name="waitForSequenceCompletion"/>
         /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
-            SiteData<DCPowerSourceSettings[]> settings,
+            SiteData<DCPowerSourceSettings[]> sequence,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSettings = sitePinInfo => settings.GetValue(sitePinInfo.SiteNumber);
+            IEnumerableProvider<DCPowerSourceSettings> getSettings = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSettings,
@@ -1137,18 +1137,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
         /// <param name="sessionsBundle"/>
-        /// <param name="settings"/>
+        /// <param name="sequence"/>
         /// <param name="sequenceLoopCount"/>
         /// <param name="waitForSequenceCompletion"/>
         /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
-            PinSiteData<DCPowerSourceSettings[]> settings,
+            PinSiteData<DCPowerSourceSettings[]> sequence,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSettings = sitePinInfo => settings.GetValue(sitePinInfo);
+            IEnumerableProvider<DCPowerSourceSettings> getSettings = sitePinInfo => sequence.GetValue(sitePinInfo);
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSettings,
@@ -1164,7 +1164,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="settings">The array of source settings to apply.</param>
+        /// <param name="sequence">The sequence of source settings to apply.</param>
         /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
@@ -1174,14 +1174,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
-            DCPowerSourceSettings[] settings,
+            DCPowerSourceSettings[] sequence,
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
-            IEnumerableProvider<DCPowerSourceSettings> getSettings = _ => settings;
+            IEnumerableProvider<DCPowerSourceSettings> getSettings = _ => sequence;
 
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSettings,
