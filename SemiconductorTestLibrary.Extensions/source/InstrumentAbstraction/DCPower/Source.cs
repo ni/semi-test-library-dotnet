@@ -2806,11 +2806,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double[] sourceDelay = null,
             bool setAsActiveSequence = false)
         {
-            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            channelOutput.Control.Abort();
-            ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, channelOutput.Name);
+            var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
+            output.Control.Abort();
             sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
-            channelOutput.ConfigureSequenceCore(
+            output.ConfigureSequenceCore(
                 sequenceName: sequenceName,
                 sequence: sequence,
                 sequenceLoopCount: sequenceLoopCount,
@@ -2833,6 +2833,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
+            output.Source.Output.Function = outputFunction;
 
             output.SetAdvancedSequence(
                 advancedSequenceName: sequenceName,
