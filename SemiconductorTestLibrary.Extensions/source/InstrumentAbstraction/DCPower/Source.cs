@@ -1418,8 +1418,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
             {
-                var perSitePinProperty = getSequence(sitePinInfo);
-                var validProperties = GetValidProperties(perSitePinProperty);
+                var perSitePinSequence = getSequence(sitePinInfo);
+                var validProperties = GetValidProperties(perSitePinSequence);
                 var perChannelString = sitePinInfo.IndividualChannelString;
                 var channelOutput = sessionInfo.Session.Outputs[perChannelString];
                 channelOutput.Control.Abort();
@@ -1427,7 +1427,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     if (pointsToFetch == null)
                     {
-                        pointsToFetch = perSitePinProperty.Length;
+                        pointsToFetch = perSitePinSequence.Length;
                     }
                     channelOutput.Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
                 }
