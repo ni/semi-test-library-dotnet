@@ -2795,15 +2795,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var sequence = getSequence(sitePinInfo);
                 var sourceDelay = getSourceDelays?.Invoke(sitePinInfo);
-                sessionInfo.ConfigureSequenceForCascadingCore(
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                channelOutput.Control.Abort();
+                ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, channelOutput.Name);
+                sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment: true, sequence);
+                channelOutput.ConfigureSequenceCore(
                     sequenceName: sequenceName,
                     sequence: sequence,
                     sequenceLoopCount: sequenceLoopCount,
                     outputFunction: outputFunction,
-                    sitePinInfo: sitePinInfo,
                     sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
-                    sourceDelay: sourceDelay,
+                    sourceDelaysInSeconds: sourceDelay,
                     setAsActiveSequence: setAsActiveSequence);
+                sessionInfo.ConfigureTriggersForCascadedSequencing(sitePinInfo);
             });
         }
 
