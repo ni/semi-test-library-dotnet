@@ -89,13 +89,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext)`
     - Added the old version of `SetupNIDigitalPatternInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
       - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, string levelsSheetToApply = "", string timingSheetToApply = "")`
-    - Reintroduced `SetupAndCleanupSteps.NIInstrumentType` as a deprecated enum to preserve backward compatibility with existing `CleanupInstrumentation` and `ResetInstrumentation` method signatures. The enum is marked with `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]` to discourage new usage.
+    - Reintroduced `SetupAndCleanupSteps.NIInstrumentType` as a deprecated enum. This enum maintains backwards compatibility with the `CleanupInstrumentation` and the `ResetInstrumentation` method signatures. This enum is marked as [Obsolete] and [EditorBrowsable(EditorBrowsableState.Never)] to discourage new usage.
       - `NIInstrumentType`
-    - A new overload added for `CleanupInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
+    - A new overload added for `CleanupInstrumentation`. This overload takes only `ISemiconductorModuleContext tsmContext` as a parameter.
       - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext)`
     - Added the old version of `CleanupInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
       - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, NIInstrumentType instrumentType = NIInstrumentType.All)`
-    - A new overload added for `ResetInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
+    - A new overload added for `ResetInstrumentation`. This overload takes only `ISemiconductorModuleContext tsmContext` as a parameter.
       - `ResetInstrumentation(ISemiconductorModuleContext tsmContext)`
     - Added the old version of `ResetInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
       - `ResetInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, TestStandSteps.NIInstrumentType instrumentType = TestStandSteps.NIInstrumentType.All)`
@@ -120,22 +120,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `ConfigureSourceSettings`
       - `ConfigureMeasureSettings`
       - `ConfigureMeasureWhen`
-    - Updated the following DCPower methods to store measurement results under the pin group name on `PinSiteData` when channels are ganged or merged. The methods store results under individual pin names during normal operation.
+    - Updated the following DCPower methods to store measurement results under the pin group name on `PinSiteData` when channels are ganged or merged. These methods store results under individual pin names during normal operation:
       - `MeasureAndReturnPerSitePerPinResults`
       - `MeasureAndReturnPerInstrumentPerChannelResults`
       - `MeasureVoltage`
       - `MeasureCurrent`
       - `MeasureAndPublishVoltage`
       - `MeasureAndPublishCurrent`
-    - Existing `ConfigureSequence` DCPower methods are now marked as obsolete.
+    - The following `ConfigureSequence` DCPower methods are now marked as obsolete:
       - `ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)`
       - `ConfigureSequence(this DCPowerOutput output, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null, double[] sourceDelaysInSeconds = null, SitePinInfo sitePinInfo = null, bool needDataAdjustment = true)`
-    - Fixed an issue where calling `MeasureVoltage` or `MeasureCurrent` on a `DCPowerSessionsBundle` object containing a merged pin group returned a `PinSiteData` object that caused an exception when passed to `PublishResults`. The results are now published using the primary pin name associated with the merged pin group instead of the pin group name directly.
-    - Fixed an issue where `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage` returned a `PinSiteData` object containing the primary pin name instead of the merged pin group name when a merged pin group was present within a `DCPowerSessionsBundle` object. These methods now correctly return a `PinSiteData` object associated with the merged pin group name, consistent with the behavior of `MeasureCurrent` and `MeasureVoltage`.
-    - Fixed an issue where `GetXXX` DCPower methods, such as `GetSourceDelayInSeconds` and `GetApertureTimeInSeconds`, returned a `PinSiteData` object associated with the merged pin group name instead of the primary pin name when a merged pin group was present within a `DCPowerSessionsBundle` object. These methods now correctly return a `PinSiteData` object associated with the primary pin, consistent with the driver behavior where only the primary pin has corresponding driver-level properties.
-    - Fixed a potential race condition where calling the `FinishWaveformAcquisition` DCPower method immediately after `ConfigureAndStartWaveformAcquisition` could result in an exception being thrown when multiple instruments are present within a `DCPowerSessionsBundle` object. The `OnMeasureTrigger` setting is now guaranteed to be configured for all instruments before `FinishWaveformAcquisition` proceeds.
-    - Fixed an issue in DAQmx `WriteDigital()` method where multi-channel DAQmx DO tasks failed when one channel name was a substring of another, resulting in write errors.
-    - Fixed an issue where `DigitalSessionsBundle.Pins` IEnumerable of strings, stores the pin group name instead of the list of pins when creating the bundle using a pin group. It now correctly stores the list of pins present in the pin group.
+    - Fixed an issue where calling `MeasureVoltage` or `MeasureCurrent` on a `DCPowerSessionsBundle` object that contains a merged pin group returned a `PinSiteData` object. This object caused an exception when passed to `PublishResults`. The published results now contain the primary pin name that is associated with the merged pin group instead of the pin group name directly.
+    - Fixed an issue where calling `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage` returned a `PinSiteData` object that contains the primary pin name instead of the merged pin group name. This issue occurred when a merged pin group was present within a `DCPowerSessionsBundle` object. These methods now correctly return a `PinSiteData` object that contains. This behavior is consistent with the behaviors of `MeasureCurrent` and `MeasureVoltage`.
+    - Fixed an issue where `GetXXX` DCPower methods, such as `GetSourceDelayInSeconds` and `GetApertureTimeInSeconds`, returned a `PinSiteData` object that is associated with the merged pin group name instead of the primary pin name. This issue occurred when a merged pin group was present within a `DCPowerSessionsBundle` object. These methods now correctly return a `PinSiteData` object that contains the primary pin name. This behavior is consistent with the driver behavior where only the primary pin has corresponding driver-level properties.
+    - Fixed a potential race condition where calling the `FinishWaveformAcquisition` DCPower method immediately after calling `ConfigureAndStartWaveformAcquisition` resulted in an exception being thrown. This exception was thrown when multiple instruments were present within a `DCPowerSessionsBundle` object. The `OnMeasureTrigger` setting is now guaranteed to be configured for all instruments before `FinishWaveformAcquisition` proceeds.
+    - Fixed an issue with the DAQmx `WriteDigital()` method. Multi-channel DAQmx DO tasks failed when one channel name was a substring of another, resulting in write errors.
+    - Fixed an issue with the `DigitalSessionsBundle.Pins` IEnumerable of strings. This IEnumerable stores the pin group name instead of the list of pins when creating the bundle using a pin group. `DigitalSessionsBundle.Pins` now correctly stores the list of pins in the pin group.
   - **Documentation**
     - Fixed "View Source `</>`" links to point to the main branch and correct line numbers. This fix ensures that users always see the latest code at the relevant location.
 
