@@ -1785,14 +1785,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (sessionsBundle.HasGangedChannels)
             {
-                sessionsBundle.ConfigureSequenceForCascadingCore(
-                    hasGangedChannels: true,
-                    sequenceName: sequenceName,
-                    getSequence: _ => sequence,
-                    sequenceLoopCount: sequenceLoopCount,
-                    outputFunction: DCPowerSourceOutputFunction.DCVoltage,
-                    sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
-                    setAsActiveSequence: setAsActiveSequence);
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.ConfigureSequenceForCascadingCore(
+                        sequenceName: sequenceName,
+                        sequence: sequence,
+                        sequenceLoopCount: sequenceLoopCount,
+                        outputFunction: DCPowerSourceOutputFunction.DCVoltage,
+                        sitePinInfo: sitePinInfo,
+                        sequenceStepDeltaTimeInSeconds,
+                        setAsActiveSequence: setAsActiveSequence);
+                });
             }
             else
             {
@@ -1813,31 +1817,37 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ConfigureVoltageSequence(DCPowerSessionsBundle,string, double[], int, double?, bool)"/>
         public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
         {
-            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
-            sessionsBundle.ConfigureSequenceForCascadingCore(
-                hasGangedChannels: sessionsBundle.HasGangedChannels,
-                sequenceName: sequenceName,
-                getSequence: getSequence,
-                sequenceLoopCount: sequenceLoopCount,
-                outputFunction: DCPowerSourceOutputFunction.DCVoltage,
-                sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
-                setAsActiveSequence: setAsActiveSequence);
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.ConfigureSequenceForCascadingCore(
+                    sequenceName: sequenceName,
+                    sequence: sequence.GetValue(sitePinInfo.SiteNumber),
+                    sequenceLoopCount: sequenceLoopCount,
+                    outputFunction: DCPowerSourceOutputFunction.DCVoltage,
+                    sitePinInfo: sitePinInfo,
+                    sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
+                    setAsActiveSequence: setAsActiveSequence);
+            });
         }
 
         /// <inheritdoc cref="ConfigureVoltageSequence(DCPowerSessionsBundle,string, double[], int, double?, bool)"/>
         public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence);
-            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
-            sessionsBundle.ConfigureSequenceForCascadingCore(
-                hasGangedChannels: hasGangedChannels,
-                sequenceName: sequenceName,
-                getSequence: getSequence,
-                sequenceLoopCount: sequenceLoopCount,
-                outputFunction: DCPowerSourceOutputFunction.DCVoltage,
-                sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
-                setAsActiveSequence: setAsActiveSequence);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.ConfigureSequenceForCascadingCore(
+                    sequenceName: sequenceName,
+                    sequence: sequence.GetValue(sitePinInfo),
+                    sequenceLoopCount: sequenceLoopCount,
+                    outputFunction: DCPowerSourceOutputFunction.DCVoltage,
+                    sitePinInfo: sitePinInfo,
+                    sequenceStepDeltaTimeInSeconds,
+                    setAsActiveSequence: setAsActiveSequence);
+            });
         }
 
         /// <summary>
@@ -1856,14 +1866,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (sessionsBundle.HasGangedChannels)
             {
-                sessionsBundle.ConfigureSequenceForCascadingCore(
-                    hasGangedChannels: true,
-                    sequenceName: sequenceName,
-                    getSequence: _ => sequence,
-                    sequenceLoopCount: sequenceLoopCount,
-                    outputFunction: DCPowerSourceOutputFunction.DCCurrent,
-                    sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
-                    setAsActiveSequence: setAsActiveSequence);
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.ConfigureSequenceForCascadingCore(
+                        sequenceName: sequenceName,
+                        sequence: sequence,
+                        sequenceLoopCount: sequenceLoopCount,
+                        outputFunction: DCPowerSourceOutputFunction.DCCurrent,
+                        sitePinInfo: sitePinInfo,
+                        sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
+                        setAsActiveSequence: setAsActiveSequence);
+                });
             }
             else
             {
@@ -1884,15 +1898,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ConfigureCurrentSequence(DCPowerSessionsBundle,string, double[], int, double?, bool)"/>
         public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
         {
-            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
-            sessionsBundle.ConfigureSequenceForCascadingCore(
-                hasGangedChannels: sessionsBundle.HasGangedChannels,
-                sequenceName: sequenceName,
-                getSequence: getSequence,
-                sequenceLoopCount: sequenceLoopCount,
-                outputFunction: DCPowerSourceOutputFunction.DCCurrent,
-                sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
-                setAsActiveSequence: setAsActiveSequence);
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.ConfigureSequenceForCascadingCore(
+                    sequenceName: sequenceName,
+                    sequence: sequence.GetValue(sitePinInfo.SiteNumber),
+                    sequenceLoopCount: sequenceLoopCount,
+                    outputFunction: DCPowerSourceOutputFunction.DCCurrent,
+                    sitePinInfo: sitePinInfo,
+                    sequenceStepDeltaTimeInSeconds,
+                    setAsActiveSequence: setAsActiveSequence);
+            });
         }
 
         /// <inheritdoc cref="ConfigureCurrentSequence(DCPowerSessionsBundle,string, double[], int, double?, bool)"/>
@@ -2138,14 +2155,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (sessionsBundle.HasGangedChannels)
             {
-                sessionsBundle.ConfigureSequenceForCascadingCore(
-                    hasGangedChannels: true,
-                    sequenceName: sequenceName,
-                    getSequence: _ => sequence,
-                    sequenceLoopCount: sequenceLoopCount,
-                    outputFunction: DCPowerSourceOutputFunction.DCVoltage,
-                    getSourceDelays: _ => sourceDelaysInSeconds,
-                    setAsActiveSequence: setAsActiveSequence);
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.ConfigureSequenceForCascadingCore(
+                        sequenceName: sequenceName,
+                        sequence: sequence,
+                        sequenceLoopCount: sequenceLoopCount,
+                        outputFunction: DCPowerSourceOutputFunction.DCVoltage,
+                        sitePinInfo: sitePinInfo,
+                        sourceDelay: sourceDelaysInSeconds,
+                        setAsActiveSequence: setAsActiveSequence);
+                });
             }
             else
             {
@@ -2172,17 +2193,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int sequenceLoopCount = 1,
             bool setAsActiveSequence = false)
         {
-            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
-            ArrayProvider<double> getSourceDelays = sitePinInfo => sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber);
-
-            sessionsBundle.ConfigureSequenceForCascadingCore(
-                hasGangedChannels: sessionsBundle.HasGangedChannels,
-                sequenceName: sequenceName,
-                getSequence: getSequence,
-                sequenceLoopCount: sequenceLoopCount,
-                outputFunction: DCPowerSourceOutputFunction.DCVoltage,
-                getSourceDelays: getSourceDelays,
-                setAsActiveSequence: setAsActiveSequence);
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.ConfigureSequenceForCascadingCore(
+                    sequenceName: sequenceName,
+                    sequence: sequence.GetValue(sitePinInfo.SiteNumber),
+                    sequenceLoopCount: sequenceLoopCount,
+                    outputFunction: DCPowerSourceOutputFunction.DCVoltage,
+                    sitePinInfo: sitePinInfo,
+                    sourceDelay: sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber),
+                    setAsActiveSequence: setAsActiveSequence);
+            });
         }
 
         /// <inheritdoc cref="ConfigureVoltageSequenceWithSourceDelays(DCPowerSessionsBundle, string, double[], double[], int, bool)"/>
@@ -2195,20 +2217,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool setAsActiveSequence = false)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence);
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sourceDelaysInSeconds);
-
-            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
-            ArrayProvider<double> getSourceDelays = sitePinInfo => sourceDelaysInSeconds.GetValue(sitePinInfo);
-
-            sessionsBundle.ConfigureSequenceForCascadingCore(
-                hasGangedChannels: hasGangedChannels,
-                sequenceName: sequenceName,
-                getSequence: getSequence,
-                sequenceLoopCount: sequenceLoopCount,
-                outputFunction: DCPowerSourceOutputFunction.DCVoltage,
-                getSourceDelays: getSourceDelays,
-                setAsActiveSequence: setAsActiveSequence);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.ConfigureSequenceForCascadingCore(
+                    sequenceName: sequenceName,
+                    sequence: sequence.GetValue(sitePinInfo),
+                    sequenceLoopCount: sequenceLoopCount,
+                    outputFunction: DCPowerSourceOutputFunction.DCVoltage,
+                    sitePinInfo: sitePinInfo,
+                    sourceDelay: sourceDelaysInSeconds.GetValue(sitePinInfo),
+                    setAsActiveSequence: setAsActiveSequence);
+            });
         }
 
         /// <summary>
@@ -2233,14 +2255,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (sessionsBundle.HasGangedChannels)
             {
-                sessionsBundle.ConfigureSequenceForCascadingCore(
-                    hasGangedChannels: true,
-                    sequenceName: sequenceName,
-                    getSequence: _ => sequence,
-                    sequenceLoopCount: sequenceLoopCount,
-                    outputFunction: DCPowerSourceOutputFunction.DCCurrent,
-                    getSourceDelays: _ => sourceDelaysInSeconds,
-                    setAsActiveSequence: setAsActiveSequence);
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    sessionInfo.ConfigureSequenceForCascadingCore(
+                        sequenceName: sequenceName,
+                        sequence: sequence,
+                        sequenceLoopCount: sequenceLoopCount,
+                        outputFunction: DCPowerSourceOutputFunction.DCCurrent,
+                        sitePinInfo: sitePinInfo,
+                        sourceDelay: sourceDelaysInSeconds,
+                        setAsActiveSequence: setAsActiveSequence);
+                });
             }
             else
             {
@@ -2267,17 +2293,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int sequenceLoopCount = 1,
             bool setAsActiveSequence = false)
         {
-            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
-            ArrayProvider<double> getSourceDelays = sitePinInfo => sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber);
-
-            sessionsBundle.ConfigureSequenceForCascadingCore(
-                hasGangedChannels: sessionsBundle.HasGangedChannels,
-                sequenceName: sequenceName,
-                getSequence: getSequence,
-                sequenceLoopCount: sequenceLoopCount,
-                outputFunction: DCPowerSourceOutputFunction.DCCurrent,
-                getSourceDelays: getSourceDelays,
-                setAsActiveSequence: setAsActiveSequence);
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.ConfigureSequenceForCascadingCore(
+                    sequenceName: sequenceName,
+                    sequence: sequence.GetValue(sitePinInfo.SiteNumber),
+                    sequenceLoopCount: sequenceLoopCount,
+                    outputFunction: DCPowerSourceOutputFunction.DCCurrent,
+                    sitePinInfo: sitePinInfo,
+                    sourceDelay: sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber),
+                    setAsActiveSequence: setAsActiveSequence);
+            });
         }
 
         /// <inheritdoc cref="ConfigureCurrentSequenceWithSourceDelays(DCPowerSessionsBundle, string, double[], double[], int, bool)"/>
@@ -2764,38 +2791,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     perStepProperties,
                     setAsActiveSequence: setAsActiveSequence,
                     commitFirstElementAsInitialState: commitFirstElementAsInitialState);
-            });
-        }
-
-        private static void ConfigureSequenceForCascadingCore(
-            this DCPowerSessionsBundle sessionsBundle,
-            bool hasGangedChannels,
-            string sequenceName,
-            ArrayProvider<double> getSequence,
-            int sequenceLoopCount,
-            DCPowerSourceOutputFunction outputFunction,
-            double? sequenceStepDeltaTimeInSeconds = null,
-            ArrayProvider<double> getSourceDelays = null,
-            bool setAsActiveSequence = false)
-        {
-            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var sequence = getSequence(sitePinInfo);
-                var sourceDelay = getSourceDelays?.Invoke(sitePinInfo);
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                channelOutput.Control.Abort();
-                ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, channelOutput.Name);
-                sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment: true, sequence);
-                channelOutput.ConfigureSequenceCore(
-                    sequenceName: sequenceName,
-                    sequence: sequence,
-                    sequenceLoopCount: sequenceLoopCount,
-                    outputFunction: outputFunction,
-                    sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
-                    sourceDelaysInSeconds: sourceDelay,
-                    setAsActiveSequence: setAsActiveSequence);
-                sessionInfo.ConfigureTriggersForCascadedSequencing(sitePinInfo);
             });
         }
 
