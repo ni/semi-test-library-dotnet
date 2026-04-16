@@ -1799,7 +1799,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.Do(sessionInfo =>
                 {
                     sessionInfo.Session.Control.Abort();
-                    sessionInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
                     sessionInfo.AllChannelsOutput.ConfigureSequenceCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
@@ -1871,7 +1870,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.Do(sessionInfo =>
                 {
                     sessionInfo.Session.Control.Abort();
-                    sessionInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
                     sessionInfo.AllChannelsOutput.ConfigureSequenceCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
@@ -2154,7 +2152,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.Do(sessionInfo =>
                 {
                     sessionInfo.AllChannelsOutput.Control.Abort();
-                    sessionInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
                     sessionInfo.AllChannelsOutput.ConfigureSequenceCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
@@ -2250,7 +2247,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.Do(sessionInfo =>
                 {
                     sessionInfo.AllChannelsOutput.Control.Abort();
-                    sessionInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
                     sessionInfo.AllChannelsOutput.ConfigureSequenceCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
