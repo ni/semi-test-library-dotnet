@@ -21,17 +21,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Provides an array of items of type T based on the specified site pin information.
         /// </summary>
-        /// <typeparam name="T">The type of items returned in the sequence.</typeparam>
-        /// <param name="sitePinInfo">The site pin information used to generate the sequence.</param>
-        /// <returns>An array of type T containing the generated sequence based on the provided site pin information.</returns>
+        /// <typeparam name="T">The type of items returned in the array.</typeparam>
+        /// <param name="sitePinInfo">The site pin information used to generate the array.</param>
+        /// <returns>An array of type T generated based on the provided site pin information.</returns>
         private delegate T[] ArrayProvider<T>(SitePinInfo sitePinInfo);
 
         /// <summary>
         /// Provides an IEnumerable of items of type T based on the specified site pin information.
         /// </summary>
-        /// <typeparam name="T">The type of items returned in the sequence.</typeparam>
-        /// <param name="sitePinInfo">The site pin information used to generate the sequence.</param>
-        /// <returns>An IEnumerable of type T containing the generated step properties based on the provided site pin information.</returns>
+        /// <typeparam name="T">The type of items returned in the IEnumerable.</typeparam>
+        /// <param name="sitePinInfo">The site pin information used to generate the IEnumerable.</param>
+        /// <returns>An IEnumerable of type T generated based on the provided site pin information.</returns>
         private delegate IEnumerable<T> IEnumerableProvider<T>(SitePinInfo sitePinInfo);
 
         /// <summary>
