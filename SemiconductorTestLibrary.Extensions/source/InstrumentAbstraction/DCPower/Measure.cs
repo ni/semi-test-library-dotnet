@@ -336,6 +336,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin waveform results.</returns>
         public static PinSiteData<DCPowerFetchResult> AcquireSynchronizedWaveforms(this DCPowerSessionsBundle sessionsBundle, double apertureTimeInSeconds = 0, double measurementTimeInSeconds = 0)
         {
+            sessionsBundle.ValidateNoChannelGanged();
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.MeasureTrigger.ToString(), out string measureTrigger);
             var originalApertureTimes = new Dictionary<string, double>();
             var originalSourceDelays = new Dictionary<string, PrecisionTimeSpan>();
@@ -676,19 +677,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, string modelString, DCPowerMeasurementWhen? measureWhen)
-        {
-            var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
-            {
-                output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
-            }
-            else if (measureWhen.HasValue)
-            {
-                output.ConfigureMeasureWhen(modelString, measureWhen.Value);
-            }
-        }
-
         internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, DCPowerMeasurementWhen? measureWhen)
         {
             var output = sessionInfo.Session.Outputs[channelString];
@@ -699,6 +687,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     sessionInfo.ConfigureMeasureWhen(sitePin, sessionInfo.ModelString, measureWhen);
                 });
+            }
+            else if (measureWhen.HasValue)
+            {
+                output.ConfigureMeasureWhen(modelString, measureWhen.Value);
+            }
+        }
+
+        internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, string modelString, DCPowerMeasurementWhen? measureWhen)
+        {
+            var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            {
+                output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
             }
             else if (measureWhen.HasValue)
             {

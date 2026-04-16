@@ -1,4 +1,6 @@
-﻿using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+using NationalInstruments.ModularInstruments.NIDCPower;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
+using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -59,10 +61,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         public static void Initiate(this DCPowerSessionsBundle sessionsBundle)
         {
-            sessionsBundle.Do(sessionInfo =>
+            if (sessionsBundle.HasGangedChannels)
             {
-                sessionInfo.AllChannelsOutput.Control.Initiate();
-            });
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                    {
+                        sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Initiate();
+                    }
+                });
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                    {
+                        sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Initiate();
+                    }
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Control.Initiate();
+                });
+            }
         }
 
         /// <summary>
@@ -78,14 +100,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 var allChannelOutput = sessionInfo.AllChannelsOutput;
+
                 allChannelOutput.Control.Abort();
+
+                allChannelOutput.Source.Mode = DCPowerSourceMode.Sequence;
+
                 allChannelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
-                allChannelOutput.Control.Initiate();
-                if (waitForSequenceCompletion)
-                {
-                    allChannelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
-                }
             });
+
+            sessionsBundle.Initiate();
+
+            if (waitForSequenceCompletion)
+            {
+                sessionsBundle.WaitForEvent(EventType.SequenceEngineDoneEvent, sequenceTimeoutInSeconds);
+            }
         }
         #endregion methods on DCPowerSessionsBundle
     }

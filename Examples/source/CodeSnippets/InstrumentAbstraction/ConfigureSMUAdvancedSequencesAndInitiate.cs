@@ -35,7 +35,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
             // Note that ConfigureSourceSettings should be called before ConfigureAdvancedSequence as ConfigureSourceSettings sets the Source Mode to SinglePoint.
-            dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 10, TransientResponse = DCPowerSourceTransientResponse.Normal });
+            dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 0.5, TransientResponse = DCPowerSourceTransientResponse.Normal });
 
             dcPowerPins.Commit();
 
@@ -53,9 +53,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Initiate the advanced sequence that was configured earlier
             dcPowerPins.InitiateAdvancedSequence(advancedSequenceName, waitForSequenceCompletion: true);
 
-            // Clear the active advanced sequence before deleting and post usage
+            // Clearing the active advanced sequence after use.
             dcPowerPins.ClearActiveAdvancedSequence();
-            // Then delete the advanced sequence, this will also switch the Source Mode back to SinglePoint.
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             dcPowerPins.DeleteAdvancedSequence(advancedSequenceName);
         }
 
@@ -79,7 +79,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
             // Note that ConfigureSourceSettings should be called before ConfigureAdvancedSequence as ConfigureSourceSettings sets the Source Mode to SinglePoint.
-            dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 10, TransientResponse = DCPowerSourceTransientResponse.Normal });
+            dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 0.5, TransientResponse = DCPowerSourceTransientResponse.Normal });
 
             dcPowerPins.Commit();
 
@@ -118,9 +118,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.InitiateAdvancedSequence(secondAdvancedSequence, waitForSequenceCompletion: true);
             dcPowerPins.InitiateAdvancedSequence(firstAdvancedSequence, waitForSequenceCompletion: true);
 
-            // Clear the active advanced sequence before deleting and post usage
+            // Clearing the active advanced sequence after use.
             dcPowerPins.ClearActiveAdvancedSequence();
-            // Then delete the advanced sequence, this will also switch the Source Mode back to SinglePoint.
+            // Deleting the advanced sequence after use to free up available sequences (limited to 100 per session).
             // Note that you can pass the DeleteAdvancedSequence method one or more sequence names.
             dcPowerPins.DeleteAdvancedSequence(firstAdvancedSequence, secondAdvancedSequence);
         }

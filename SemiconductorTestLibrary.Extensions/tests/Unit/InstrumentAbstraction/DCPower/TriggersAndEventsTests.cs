@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -7,6 +8,8 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
+
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
@@ -19,9 +22,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
             string pinMapFileName = pinMapWithChannelGroup ? "DifferentSMUDevicesWithChannelGroup.pinmap" : "DifferentSMUDevices.pinmap";
-            _tsmContext = CreateTSMContext(pinMapFileName);
-            InitializeAndClose.Initialize(_tsmContext);
-            return new TSMSessionManager(_tsmContext);
+            return Initialize(pinMapFileName);
         }
 
         public TSMSessionManager Initialize(string pinMapFileName)
@@ -123,7 +124,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence_second", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
 
             // Test Digital Edge Trigger - Raising (default)
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.StartTrigger, triggerLine);
@@ -139,6 +141,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertStartTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerStartTriggerType.None);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence", "TriggerStartVoltageSequence_second");
         }
 
         [Theory]
@@ -159,7 +163,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
+            sessionsBundle.ConfigureVoltageSequence("TriggerSequenceAdvanceSoftwareSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
 
             // Test Software Edge Trigger
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SequenceAdvanceTrigger);
@@ -174,6 +179,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertSequenceAdvanceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSequenceAdvanceTriggerType.None);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence", "TriggerSequenceAdvanceSoftwareSequence");
         }
 
         [Theory]
@@ -195,7 +202,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
+            sessionsBundle.ConfigureVoltageSequence("TriggerSequenceAdvanceDigitalSequence", new double[] { 0, .1, .2, .3 }, sequenceLoopCount: 1, setAsActiveSequence: true);
 
             // Test Digital Edge Trigger - Raising (default)
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.SequenceAdvanceTrigger, triggerLine);
@@ -211,6 +219,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertSequenceAdvanceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSequenceAdvanceTriggerType.None);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence");
         }
 
         [Theory]
@@ -231,7 +241,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
 
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.StartTrigger);
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
@@ -250,6 +260,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(DCPowerSourceTriggerType.SoftwareEdge, output.Triggers.SourceTrigger.Type);
                 Assert.Equal(DCPowerStartTriggerType.None, output.Triggers.StartTrigger.Type);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence");
         }
 
         [Theory]
@@ -271,7 +283,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
 
             sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, triggerLine);
 
@@ -286,6 +298,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertSourceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSourceTriggerType.None);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence");
         }
 
         [Theory]
@@ -306,7 +320,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
             };
             sessionsBundle.ConfigureSourceSettings(settings);
-            sessionsBundle.ConfigureVoltageSequence(new double[] { 0, .1, .2, .3 }, 1);
+            sessionsBundle.ConfigureVoltageSequence("TriggerStartVoltageSequence", new double[] { 0, .1, .2, .3 }, 1, setAsActiveSequence: true);
 
             // Test Software Edge Trigger
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
@@ -321,6 +335,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertSourceTriggerSettings(sessionInfo, sitePinInfo.IndividualChannelString, DCPowerSourceTriggerType.None);
             });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence("TriggerStartVoltageSequence");
         }
 
         [Theory]
@@ -429,6 +445,118 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ClearTriggers();
             sessionsBundle.DisableTriggers();
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void GangedPinGroupForceVoltage_WaitForEventAndSendSoftwareEdgeTrigger_DoesNotThrowException()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
+            sessionsBundle.GangPinGroup("MergedPowerPins");
+            sessionsBundle.ForceVoltage(1.0); // Configures triggers for follower channels.
+            sessionsBundle.Abort();
+            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
+            sessionsBundle.Initiate();
+
+            Parallel.Invoke(
+                () => sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent),
+                () => sessionsBundle.SendSoftwareEdgeTrigger(TriggerType.SourceTrigger));
+
+            sessionsBundle.UngangPinGroup("MergedPowerPins");
+            sessionsBundle.ClearTriggers();
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void GangedPinGroupForceVoltage_ConfigureTriggerDigitalEdge_TriggerForFollowerChannelsIsNotModified()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
+            sessionsBundle.GangPinGroup("MergedPowerPins");
+            sessionsBundle.ForceVoltage(1.0); // Configures triggers for follower channels.
+
+            sessionsBundle.ConfigureTriggerDigitalEdge(TriggerType.MeasureTrigger, string.Empty);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerMeasureTriggerType.DigitalEdge, output.Triggers.MeasureTrigger.Type);
+                Assert.Equal(!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo), string.IsNullOrEmpty(output.Triggers.MeasureTrigger.DigitalEdge.InputTerminal));
+            });
+            sessionsBundle.UngangPinGroup("MergedPowerPins");
+            sessionsBundle.ClearTriggers();
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void GangedPinGroupForceVoltage_ConfigureTriggerSoftwareEdge_TriggerForFollowerChannelsIsNotModified()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
+            sessionsBundle.GangPinGroup("MergedPowerPins");
+            sessionsBundle.ForceVoltage(1.0); // Configures triggers for follower channels.
+
+            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                {
+                    Assert.Equal(DCPowerSourceTriggerType.SoftwareEdge, output.Triggers.SourceTrigger.Type);
+                }
+                else
+                {
+                    Assert.Equal(DCPowerSourceTriggerType.DigitalEdge, output.Triggers.SourceTrigger.Type);
+                }
+            });
+            sessionsBundle.UngangPinGroup("MergedPowerPins");
+            sessionsBundle.ClearTriggers();
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void GangedPinGroupForceVoltageAndConfigureTrigger_DisableOrClearTriggers_TriggerForFollowerChannelsIsNotDisabledOrCleared(bool disableTrigger)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
+            sessionsBundle.GangPinGroup("MergedPowerPins");
+            sessionsBundle.ForceVoltage(1.0); // Configures digital edge trigger for follower channels.
+            sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
+
+            if (disableTrigger)
+            {
+                sessionsBundle.DisableTriggers();
+            }
+            else
+            {
+                sessionsBundle.ClearTriggers();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                {
+                    Assert.Equal(DCPowerSourceTriggerType.None, output.Triggers.SourceTrigger.Type);
+                }
+                else
+                {
+                    Assert.Equal(DCPowerSourceTriggerType.DigitalEdge, output.Triggers.SourceTrigger.Type);
+                }
+            });
+            sessionsBundle.UngangPinGroup("MergedPowerPins");
         }
 
         private void AssertPulseTriggerSettings(DCPowerSessionInformation sessionInfo, string channelString, DCPowerPulseTriggerType expectedType, string expectedInputTerminal = "", DCPowerTriggerEdge expectedEdge = DCPowerTriggerEdge.Rising)
