@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #region Custom Delegates
 
         /// <summary>
-        /// Provides a sequence of items of type T based on the specified site pin information.
+        /// Provides an array of items of type T based on the specified site pin information.
         /// </summary>
         /// <typeparam name="T">The type of items returned in the sequence.</typeparam>
         /// <param name="sitePinInfo">The site pin information used to generate the sequence.</param>
@@ -27,7 +27,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private delegate T[] ArrayProvider<T>(SitePinInfo sitePinInfo);
 
         /// <summary>
-        /// Provides an array of step properties of type T based on the specified site pin information.
+        /// Provides an IEnumerable of items of type T based on the specified site pin information.
         /// </summary>
         /// <typeparam name="T">The type of items returned in the sequence.</typeparam>
         /// <param name="sitePinInfo">The site pin information used to generate the sequence.</param>
