@@ -89,7 +89,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext)`
     - Added the old version of `SetupNIDigitalPatternInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
       - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, string levelsSheetToApply = "", string timingSheetToApply = "")`
-    - Reintroduced `SetupAndCleanupSteps.NIInstrumentType` as a deprecated enum. This enum maintains backwards compatibility with the `CleanupInstrumentation` and the `ResetInstrumentation` method signatures. This enum is marked as [Obsolete] and [EditorBrowsable(EditorBrowsableState.Never)] to discourage new usage.
+    - Reintroduced `SetupAndCleanupSteps.NIInstrumentType` as a deprecated enum. This enum maintains backwards compatibility with the `CleanupInstrumentation` and the `ResetInstrumentation` method signatures. This enum is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`to discourage new usage.
       - `NIInstrumentType`
     - A new overload added for `CleanupInstrumentation`. This overload takes only `ISemiconductorModuleContext tsmContext` as a parameter.
       - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext)`
@@ -104,13 +104,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - Added the `ForceVoltageSequence` Code Snippet style example, which demonstrates how to use hardware-timed sequencing to force a series of voltage values on targeted pins.
     - Added the `ConfigureSMUAdvancedSequencesAndInitiate` Code Snippet style example, which demonstrates how to configure and initiate advanced sequences with per-step property control.
     - Added the `SMUHardwareLevelSequencing` Sequence style example, which demonstrates how to use the Semiconductor Test Library (STL) extension methods for Hardware Level Sequencing (HLS) to run different force voltage sequences with an NI Source Measure Unit (SMU).
-    - Added the `MultiplexedConnection` Sequence style example and documentation, for Multiplexed Connection support.
+    - Added the `MultiplexedConnection` Sequence style example and documentation for Multiplexed Connection support.
     - Added the `CustomInstrument.RSeries` Sequence style example, which demonstrates how to use the Custom Instrument feature of the Semiconductor Test Library (STL) to interact with an R Series device.
 
 - ### Changed
 
   - **Instrument Abstraction**
-    - Updated all overloads of the following DCPower methods to support the operation on the ganged pins in the bundle:
+    - Updated all overloads of the following DCPower methods to support the corresponding operations on the ganged pins in the bundle:
       - `ForceVoltage`
       - `ForceCurrent`
       - `ForceVoltageSequence`
