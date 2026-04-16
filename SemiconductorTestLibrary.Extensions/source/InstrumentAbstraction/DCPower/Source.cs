@@ -1816,7 +1816,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ConfigureVoltageSequence(DCPowerSessionsBundle,string, double[], int, double?, bool)"/>
         public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
         {
-            ArrayProvider<double> getSequence = (sitePinInfo) => sequence.GetValue(sitePinInfo.SiteNumber);
+            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
             sessionsBundle.ConfigureSequenceForCascadingCore(
                 hasGangedChannels: sessionsBundle.HasGangedChannels,
                 sequenceName: sequenceName,
@@ -1832,7 +1832,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence);
-            ArrayProvider<double> getSequence = (sitePinInfo) => sequence.GetValue(sitePinInfo);
+            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
             sessionsBundle.ConfigureSequenceForCascadingCore(
                 hasGangedChannels: hasGangedChannels,
                 sequenceName: sequenceName,
@@ -1889,7 +1889,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ConfigureCurrentSequence(DCPowerSessionsBundle,string, double[], int, double?, bool)"/>
         public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
         {
-            ArrayProvider<double> getSequence = (sitePinInfo) => sequence.GetValue(sitePinInfo.SiteNumber);
+            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
             sessionsBundle.ConfigureSequenceForCascadingCore(
                 hasGangedChannels: sessionsBundle.HasGangedChannels,
                 sequenceName: sequenceName,
@@ -2184,8 +2184,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int sequenceLoopCount = 1,
             bool setAsActiveSequence = false)
         {
-            ArrayProvider<double> getSequence = (sitePinInfo) => sequence.GetValue(sitePinInfo.SiteNumber);
-            ArrayProvider<double> getSourceDelays = (sitePinInfo) => sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber);
+            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
+            ArrayProvider<double> getSourceDelays = sitePinInfo => sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber);
 
             sessionsBundle.ConfigureSequenceForCascadingCore(
                 hasGangedChannels: sessionsBundle.HasGangedChannels,
@@ -2210,8 +2210,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence);
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sourceDelaysInSeconds);
 
-            ArrayProvider<double> getSequence = (sitePinInfo) => sequence.GetValue(sitePinInfo);
-            ArrayProvider<double> getSourceDelays = (sitePinInfo) => sourceDelaysInSeconds.GetValue(sitePinInfo);
+            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
+            ArrayProvider<double> getSourceDelays = sitePinInfo => sourceDelaysInSeconds.GetValue(sitePinInfo);
 
             sessionsBundle.ConfigureSequenceForCascadingCore(
                 hasGangedChannels: hasGangedChannels,
@@ -2283,8 +2283,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int sequenceLoopCount = 1,
             bool setAsActiveSequence = false)
         {
-            ArrayProvider<double> getSequence = (sitePinInfo) => sequence.GetValue(sitePinInfo.SiteNumber);
-            ArrayProvider<double> getSourceDelays = (sitePinInfo) => sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber);
+            ArrayProvider<double> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
+            ArrayProvider<double> getSourceDelays = sitePinInfo => sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber);
 
             sessionsBundle.ConfigureSequenceForCascadingCore(
                 hasGangedChannels: sessionsBundle.HasGangedChannels,
