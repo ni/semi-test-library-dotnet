@@ -2,7 +2,7 @@
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevelSequencing
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevelSequence
 {
     /// <summary>
     /// This class provides example methods demonstrating how to perform Hardware Level Sequencing with SMUs

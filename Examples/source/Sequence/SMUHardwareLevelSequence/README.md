@@ -1,4 +1,4 @@
-# SMU Hardware Level Sequencing Example
+# SMU Hardware Level Sequence Example
 
 This example demonstrates how to use the Semiconductor Test Library (STL) extension methods for Hardware Level Sequencing (HLS) to run different force voltage sequences with an NI Source Measurement Unit (SMU).
 
@@ -7,7 +7,7 @@ This example demonstrates how to use the Semiconductor Test Library (STL) extens
 The example showcases four different approaches for forcing voltage ramp sequences on SMU pins:
 
 1. **ForceVoltageRamp**: Forces a basic voltage ramp sequence on specified SMU pins.
-2. **ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements**: Configures and initiates a voltage ramp sequence and publishes the max current measured during sequence execution.
+2. **ConfigureVoltageRampInitiateAndMeasureCurrent**: Configures and initiates a voltage ramp sequence and publishes the max current measured during sequence execution.
 3. **ForceSynchronizedVoltageRamp**: Forces a voltage ramp sequence synchronized across pins.
 4. **ConfigureSMUAdvancedSequence**: Configures an advanced sequence upfront without initializing it, allowing later initiation in the test flow.
    > **Note:** This step is called from ProcessSetup, since the advance sequence only needs to be configured once at the start of the program and can be initiated by name as needed during program execution.
@@ -41,13 +41,13 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 
 ### Sequence and Configuration Files
 
-- `STLExample.SMUHardwareLevelSequencing.seq`: Example TestStand sequence that demonstrates running the sample HLS test steps.
-- `STLExample.SMUHardwareLevelSequencing.pinmap`: Pin map file containing device and pin information for the SMU.
+- `STLExample.SMUHardwareLevelSequence.seq`: Example TestStand sequence that demonstrates running the sample HLS test steps.
+- `STLExample.SMUHardwareLevelSequence.pinmap`: Pin map file containing device and pin information for the SMU.
 
 ### Code Modules
 
 - `Code Modules/TestSteps/ForceVoltageRamp.cs`: Forces a hardware-timed voltage ramp sequence on the specified SMU pins.
-- `Code Modules/TestSteps/ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements.cs`: Configures and initiate hardware-timed voltage ramp sequence on the specified SMU pins and fetches current measurements taken during each step of the sequence. Publishes the max current value across the steps using the "MaxCurrent" published data id.
+- `Code Modules/TestSteps/ConfigureVoltageRampInitiateAndMeasureCurrent.cs`: Configures and initiate hardware-timed voltage ramp sequence on the specified SMU pins and fetches current measurements taken during each step of the sequence. Publishes the max current value across the steps using the "MaxCurrent" published data id.
 - `Code Modules/TestSteps/ForceSynchronizedVoltageRamp.cs`: Forces a hardware-timed voltage ramp sequence that is synchronized across the specified SMU pins.
 - `Code Modules/TestSteps/ConfigureSMUAdvancedSequence.cs`: Configures an advanced sequence for the specified SMU pins without setting it as the active sequence, allowing it to be initiated later in the test flow.
 - `Code Modules/TestSteps/InitiateSMUAdvancedSequence.cs`: Initiates a previously configured advanced sequence for the specified SMU pins.
@@ -57,7 +57,7 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 ### Step 1: Open the Sequence File
 
 1. Launch the **TestStand Sequence Editor**.
-2. Open the sequence file `STLExample.SMUHardwareLevelSequencing.seq` located in this example's directory.
+2. Open the sequence file `STLExample.SMUHardwareLevelSequence.seq` located in this example's directory.
 
 ### Step 2: Review ProcessSetup
 
@@ -70,7 +70,7 @@ The example showcases four different approaches for forcing voltage ramp sequenc
 1. In the TestStand Sequence Editor, select the **MainSequence** tab to view the test steps.
 2. Observe the sequence of test steps that demonstrate the different hardware level sequencing approaches:
    - **ForceVoltageRamp** - Forces a basic voltage ramp on SMU pins.
-   - **ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements** - Configures and initiates a voltage ramp sequence and publishes the max current measured during sequence execution.
+   - **ConfigureVoltageRampInitiateAndMeasureCurrent** - Configures and initiates a voltage ramp sequence and publishes the max current measured during sequence execution.
    - **ForceSynchronizedVoltageRamp** - Forces a voltage ramp sequence synchronized across pins.
    - **ConfigureSMUAdvancedSequence** - Configures an advanced sequence upfront without initializing it, allowing later initiation in the test flow.
    - **InitiateSMUAdvancedSequence** - Initiates a previously configured advanced sequence for the specified SMU pins.
