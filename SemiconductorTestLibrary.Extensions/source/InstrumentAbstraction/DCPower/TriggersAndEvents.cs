@@ -39,7 +39,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
-                if (!triggerTypesUnsupported.Contains(triggerType))
+                if (!triggerTypesUnsupported.Contains(triggerType) && !IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
                 {
                     var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                     switch (triggerType)
@@ -127,7 +127,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
                 var triggerTypesToDisable = (triggerTypes == null || !triggerTypes.Any()) ? new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger } : triggerTypes;
                 var supportedTriggerTypesToDisable = triggerTypesToDisable.Except(triggerTypesUnsupported);
-                if (supportedTriggerTypesToDisable.Any())
+                if (supportedTriggerTypesToDisable.Any() && !IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
                 {
                     var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                     output.Control.Abort();
@@ -174,7 +174,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Hence, need the ability to check the operation against each channel when configuring triggers.
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, tiggerTerminal, triggerEdge);
+                if (!IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
+                {
+                    ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, tiggerTerminal, triggerEdge);
+                }
             });
         }
 
@@ -191,7 +194,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
-                if (!triggerTypesUnsupported.Contains(triggerType))
+                if (!triggerTypesUnsupported.Contains(triggerType) && !IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
                 {
                     var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                     output.Control.Abort();
@@ -230,7 +233,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
                 var triggerTypesToClear = new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger };
                 var supportedTriggerTypesToClear = triggerTypesToClear.Except(triggerTypesUnsupported);
-                if (supportedTriggerTypesToClear.Any())
+                if (supportedTriggerTypesToClear.Any() && !IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
                 {
                     var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                     output.Control.Abort();
@@ -273,6 +276,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
                 dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.StartTrigger, gangingInfo.StartTriggerName, DCPowerTriggerEdge.Rising);
+            }
+        }
+
+        internal static void ConfigureSequenceAdvanceTriggerForCascadedSequencing(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
+        {
+            var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
+            if (IsFollowerOfGangedChannels(gangingInfo))
+            {
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SequenceAdvanceTrigger, gangingInfo.SequenceAdvanceTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 

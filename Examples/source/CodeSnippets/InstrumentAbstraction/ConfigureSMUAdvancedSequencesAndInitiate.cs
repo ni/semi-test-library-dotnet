@@ -35,7 +35,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
             // Note that ConfigureSourceSettings should be called before ConfigureAdvancedSequence as ConfigureSourceSettings sets the Source Mode to SinglePoint.
-            dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 10, TransientResponse = DCPowerSourceTransientResponse.Normal });
+            dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 0.5, TransientResponse = DCPowerSourceTransientResponse.Normal });
 
             dcPowerPins.Commit();
 
@@ -79,7 +79,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             dcPowerPins.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
             // Note that ConfigureSourceSettings should be called before ConfigureAdvancedSequence as ConfigureSourceSettings sets the Source Mode to SinglePoint.
-            dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 10, TransientResponse = DCPowerSourceTransientResponse.Normal });
+            dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings() { SourceDelayInSeconds = 0.5, TransientResponse = DCPowerSourceTransientResponse.Normal });
 
             dcPowerPins.Commit();
 
