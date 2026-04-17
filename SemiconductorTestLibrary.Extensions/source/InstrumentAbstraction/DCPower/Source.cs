@@ -1803,6 +1803,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.Do(sessionInfo =>
                 {
                     sessionInfo.Session.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
                     sessionInfo.AllChannelsOutput.ConfigureSequenceCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
@@ -1884,6 +1885,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.Do(sessionInfo =>
                 {
                     sessionInfo.Session.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
                     sessionInfo.AllChannelsOutput.ConfigureSequenceCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
@@ -2173,6 +2175,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.Do(sessionInfo =>
                 {
                     sessionInfo.AllChannelsOutput.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCVoltage;
                     sessionInfo.AllChannelsOutput.ConfigureSequenceCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
@@ -2273,6 +2276,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.Do(sessionInfo =>
                 {
                     sessionInfo.AllChannelsOutput.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Source.Output.Function = DCPowerSourceOutputFunction.DCCurrent;
                     sessionInfo.AllChannelsOutput.ConfigureSequenceCore(
                         sequenceName: sequenceName,
                         sequence: sequence,
@@ -2809,6 +2813,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             ValidateChannelOutputAndSitePinInfoPair(sitePinInfo, output.Name);
             output.Control.Abort();
+            output.Source.Output.Function = outputFunction;
             sequence = DivideSequenceForCascading(outputFunction, sitePinInfo, needDataAdjustment, sequence);
             output.ConfigureSequenceCore(
                 sequenceName: sequenceName,
@@ -2833,7 +2838,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             output.Source.Mode = DCPowerSourceMode.Sequence;
             output.Source.SequenceLoopCount = sequenceLoopCount;
-            output.Source.Output.Function = outputFunction;
 
             output.SetAdvancedSequence(
                 advancedSequenceName: sequenceName,
