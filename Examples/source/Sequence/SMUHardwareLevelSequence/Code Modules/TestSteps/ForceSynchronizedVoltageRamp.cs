@@ -3,8 +3,6 @@ using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevelSequence
 {
