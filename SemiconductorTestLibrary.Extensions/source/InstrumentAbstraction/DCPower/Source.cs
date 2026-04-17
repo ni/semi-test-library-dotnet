@@ -1835,7 +1835,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -2318,7 +2318,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sequence);
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, sourceDelaysInSeconds);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -2785,6 +2784,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 var perStepProperties = getPerStepProperties(sitePinInfo);
+                channelOutput.Control.Abort();
                 channelOutput.ConfigureAdvancedSequenceCore(
                     sequenceName,
                     sitePinInfo.ModelString,
