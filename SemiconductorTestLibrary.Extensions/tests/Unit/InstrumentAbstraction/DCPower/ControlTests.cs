@@ -199,7 +199,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             dcPower.GangPinGroup("MergedPowerPins");
             var dcpowerMeasureSettings = new DCPowerMeasureSettings() { MeasureWhen = measureWhen };
             dcPower.ConfigureMeasureSettings(dcpowerMeasureSettings);
-
             if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
             {
                 dcPower.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
