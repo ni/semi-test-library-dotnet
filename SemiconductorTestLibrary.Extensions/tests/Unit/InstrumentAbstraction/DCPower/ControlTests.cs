@@ -66,7 +66,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinmap);
             var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
             dcPower.ConfigureMeasureWhen(measureWhen);
-
             if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
             {
                 dcPower.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
