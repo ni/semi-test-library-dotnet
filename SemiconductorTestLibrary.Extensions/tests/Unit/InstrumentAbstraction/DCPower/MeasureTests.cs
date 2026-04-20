@@ -1110,6 +1110,40 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
+        [Theory]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("Mixed Signal Tests Instrument Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests Instrument Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests Instrument Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void GangPinGroupAndConfigureMeasureWhen_Measure_TimeOutOccurs(string pinmap, DCPowerMeasurementWhen measureWhen)
+        {
+            var sessionManager = Initialize(pinmap);
+            var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
+            dcPower.GangPinGroup("MergedPowerPins");
+            dcPower.ConfigureMeasureWhen(measureWhen);
+            if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+            {
+                dcPower.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
+            }
+            dcPower.Initiate();
+
+            void InitiateAndMeasureTest()
+            {
+                dcPower.MeasureVoltage();
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(InitiateAndMeasureTest);
+            Assert.Contains("Fetch timed out while attempting to retrieve measurements", exception.Message);
+            dcPower.UngangPinGroup("MergedPowerPins");
+        }
+
         private void AssertMeasureWhenSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, DCPowerMeasurementWhen measureWhen)
         {
             if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
