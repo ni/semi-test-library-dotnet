@@ -460,11 +460,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Abort();
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
             sessionsBundle.Initiate();
+            sessionsBundle.SendSoftwareEdgeTrigger(TriggerType.SourceTrigger);
 
-            Parallel.Invoke(
-                () => sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent),
-                () => sessionsBundle.SendSoftwareEdgeTrigger(TriggerType.SourceTrigger));
-
+            sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent);
             sessionsBundle.UngangPinGroup("MergedPowerPins");
             sessionsBundle.ClearTriggers();
         }
