@@ -1,4 +1,5 @@
 using System;
+using NationalInstruments.Examples.SemiconductorTestLibrary.SPI;
 using Xunit;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.SPI.Test

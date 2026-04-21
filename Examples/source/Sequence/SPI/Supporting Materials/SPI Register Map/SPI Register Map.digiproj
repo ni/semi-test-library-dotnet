@@ -26,8 +26,8 @@
 				<DigitalScopeDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
 			</EmbeddedDefinitionReference>
 			<FileReference Id="225" ModelDefinitionType="CaptureWaveformDefinition" Name="Capture Memory Buffer.digicapture" StoragePath="Waveforms\Capture Memory Buffer.digicapture" />
-			<FileReference Id="226" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="SPI Read Template.digipat" StoragePath="Patterns\SPI Read Template.digipat" />
-			<FileReference Id="227" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="SPI Write Template.digipat" StoragePath="Patterns\SPI Write Template.digipat" />
+			<FileReference Id="226" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="SPI Read Template.digipat" StoragePath="..\Digital\Compiled Patterns\SPI Read Template.digipat" />
+			<FileReference Id="227" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="SPI Write Template.digipat" StoragePath="..\Digital\Compiled Patterns\SPI Write Template.digipat" />
 			<FileReference Id="228" ModelDefinitionType="SourceWaveformDefinition" Name="Source Memory Buffer.tdms" StoragePath="Waveforms\Source Memory Buffer.tdms" />
 			<FileReference Id="229" ModelDefinitionType="{http://www.ni.com/PatternBasedDigital}RegisterMapDefinition" Name="SPI Register Map.digireg" StoragePath="SPI Register Map.digireg" />
 			<FileReference Id="232" ModelDefinitionType="SpecificationsDefinition" Name="SPI Characteristic.specs" StoragePath="Specifications\SPI Characteristic.specs" />

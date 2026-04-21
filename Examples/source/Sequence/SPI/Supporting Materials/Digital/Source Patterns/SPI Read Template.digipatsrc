@@ -1,0 +1,24 @@
+// This pattern implements the SPI protocol read command.
+// The pattern is executed by the 'I2C Register Map.digireg' document upon initiating a read register operation.
+// reg0 defines the number of registers to read.
+// reg1 defines the address bit-width.
+// reg2 defines the value bit-width.
+
+file_format_version 1.1;
+timeset Idle, SourceStartSetup, Start, Busy, Stop;
+
+pattern SPI_read_template (CS, MOSI, MISO, SCLK)
+{
+set_loop(reg0)						Idle				1		X		X		1;
+capture_start(capture_buffer)		-					1		X		X		1;		// Define the read buffer
+source_start(source_buffer)			-					1		X		X		1;		// Define the register addresses buffer
+									SourceStartSetup	1		X		X		1;
+repeatRead:
+									Start				0		X		X		1;		// Start (CS = 0)
+									Busy				0		1		X		1;		// Read instruction (MOSI = 1)
+repeat(reg1), source				-					0		D		X		1;		// Register address
+repeat(reg2), capture				-					0		X		V		1;		// Register value
+end_loop(repeatRead)				Stop				1		X		X		1;		// Stop (CS = 1)
+capture_stop						Idle				1		X		X		1;
+halt								-					1		X		X		1;		// End Pattern
+}

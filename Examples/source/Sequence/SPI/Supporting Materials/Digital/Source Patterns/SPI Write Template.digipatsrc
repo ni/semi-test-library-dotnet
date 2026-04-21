@@ -1,0 +1,22 @@
+// This pattern implements the SPI protocol write command.
+// The pattern is executed by the 'SPI Register Map.digireg' document upon initiating a write register operation.
+// reg0 defines the number of registers to write.
+// reg1 defines the address bit-width.
+// reg2 defines the value bit-width.
+
+file_format_version 1.1;
+timeset Idle, SourceStartSetup, Start, Busy, Stop;
+
+pattern SPI_write_template (CS, SCLK, MOSI)
+{
+set_loop(reg0)						Idle				1		1		X;
+source_start(source_buffer)			-					1		1		X;		// Define the register address and data buffer
+									SourceStartSetup	1		1		X;
+repeatWrite:
+									Start				0		1		X;		// Start (CS = 0)
+									Busy				0		1		0;		// Write instruction (MOSI = 0)
+repeat(reg1), source				-					0		1		D;		// Register address
+repeat(reg2), source				-					0		1		D;		// Register value
+end_loop(repeatWrite)				Stop				1		1		X;		// Stop (CS = 1)
+halt								Idle				1		1		X;
+}

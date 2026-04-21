@@ -110,7 +110,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SPI
             uint addressBitWidth = 16,
             uint valueBitWidth = 16,
             string readPatternName = "SPI_read_template",
-            string writePatternName = "SPI_read_template",
+            string writePatternName = "SPI_write_template",
             uint sampleWidth = 8,
             string captureWaveformName = "capture_buffer",
             string sourceWaveformName = "source_buffer",
