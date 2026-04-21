@@ -1122,7 +1122,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("Mixed Signal Tests Instrument Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
         [InlineData("Mixed Signal Tests Instrument Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
         [InlineData("Mixed Signal Tests Instrument Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
-        public void GangPinGroupAndConfigureMeasureWhen_Measure_TimeOutOccurs(string pinmap, DCPowerMeasurementWhen measureWhen)
+        public void GangedPinGroupConfigureMeasureWhenAndInitiate_Measure_TimeOutOccurs(string pinmap, DCPowerMeasurementWhen measureWhen)
         {
             var sessionManager = Initialize(pinmap);
             var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
