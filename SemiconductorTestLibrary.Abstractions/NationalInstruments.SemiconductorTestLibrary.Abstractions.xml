@@ -4010,7 +4010,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.AutorangeMinimumApertureTimeUnits">
             <summary>
-            Units for the minimum aperture time used during AutoRanging.
+            Units for the minimum aperture time used during autoranging.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.OvpEnabled">
@@ -4085,7 +4085,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrImpedanceAutoRange">
             <summary>
-            Specifies whether the LCR impedance measurement uses AutoRanging.
+            Specifies whether the LCR impedance measurement uses autoranging.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrLoadCapacitance">
@@ -4216,7 +4216,7 @@
             </summary>
             <param name="voltageMeasurement">Voltage measurement value</param>
             <param name="currentMeasurement">Current measurement value.</param>
-            <param name="inCompliance">Whether the output is in compliance mode when measurement is taken.</param>
+            <param name="inCompliance">Defines if the output is in compliance mode when measurement is taken.</param>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult.VoltageMeasurement">
             <summary>
@@ -4230,7 +4230,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.SingleDCPowerFetchResult.InCompliance">
             <summary>
-            Whether the output was in compliance mode when measurement was taken.
+            Defines if the output was in compliance mode when measurement was taken.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType">
@@ -4342,29 +4342,29 @@
             Refer to the NI-DCPower User Manual for details on the trigger types supported by each instrument model.
             </remarks>
             <param name="modelString">The model string of the DC Power instrument.</param>
-            <returns>An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType"/> values that are unsupported for the given model string.</returns>
+            <returns>An enumeration of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType"/> values that are unsupported for the given model string.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities.GetUnsupportedModels(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.TriggerType[])">
             <summary>
             Returns the set of DC Power instrument model strings that are not supported for the specified trigger types.
             </summary>
             <param name="triggerTypes">The trigger types for which to retrieve unsupported model strings.</param>
-            <returns>An enumerable of model strings that are unsupported for the given trigger types.</returns>
+            <returns>An enumeration of model strings that are unsupported for the given trigger types.</returns>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities._propertyMappingsCache">
             <summary>
-            Caches mappings between properties of DCPowerAdvancedSequenceStepProperties and their corresponding DCPowerAdvancedSequenceProperty enum values.
+            Caches mappings between the properties of DCPowerAdvancedSequenceStepProperties and their corresponding DCPowerAdvancedSequenceProperty enumeration values.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities.GetPropertyMappingsCache">
             <summary>
-            Gets the cached mappings between properties of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties"/> and their corresponding <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerAdvancedSequenceProperty"/> enum values.
+            Gets the cached mappings between the properties of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties"/> and their corresponding <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerAdvancedSequenceProperty"/> enumeration values.
             </summary>
-            <returns>An array of tuples containing the property info and its associated enum value.</returns>
+            <returns>An array of tuples that contain the property info and its associated enumeration value.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities.CreateDCPowerAdvancedSequencePropertyMappingsCache">
             <summary>
-            Initializes the cache for DC power advanced sequence property mappings, so that it can be called in while SetupDCPowerInstrumentation reducing the first-call latency when the cache is needed later.
+            Initializes the cache for the DC power advanced sequence property mappings. This method is called in the SetupNIDCPowerInstrumentation method to reduce the first-call latency when the cache is needed later.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation">
