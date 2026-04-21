@@ -27,10 +27,10 @@ Use the Pin Map Editor to configure the following:
    - **Site**: The site number for this connection.
    - **Instrument** and **Channel**: The instrument channel that is routed.
    - **Multiplexer**: The multiplexer used for routing.
-   - **Route**: The relay configuration or route name to apply for this pin-site combination.
+   - **Route**: The relay configuration to apply for this pin-site specific connection.
 
 > [!IMPORTANT]
-> Only DUT Pins and SystemRelays are supported for multiplexed connection workflows. Defining SystemPins or SiteRelays is not supported for this workflow.
+> Using SystemPins or SiteRelays is not supported when defining multiplexed connections with STL.
 
 ### Example Pin Map: NIGenericMultiplexer with Relay Configurations
 
@@ -88,7 +88,7 @@ The following example illustrates multiple SMU channels that are routed to multi
 
 ```xml
 <Instruments>
-  <NIDCPowerInstrument name="SMU_4147_C1_S11" numberOfChannels="2">
+  <NIDCPowerInstrument name="SMU_4147_C1_S11" numberOfChannels="4">
     <ChannelGroup name="CommonDCPowerChannelGroup" />
   </NIDCPowerInstrument>
   <Multiplexer name="Relay_2567_C1_S07" multiplexerTypeId="NIRelayMultiplexer" />
@@ -163,7 +163,7 @@ Before using multiplexed connections in your test code:
 3. **Initialize the multiplexer session** with the TSM context, using the `GetSwitchNames` and `SetSwitchSession` methods. You must implement code to perform this action. Typically, your code for this will be invoked within ProcessSetup of the test program's sequence file.
 
 > [!NOTE]
-> Steps 1 and 2 are likely already covered within the ProcessSetup sequence of the test program's sequence file if that test program was created by the STS Project Creation Tool using the NI Default - C#/.NET template or a derivation thereof.
+> Steps 1 and 2 are likely already covered within the ProcessSetup sequence of the test program's sequence file if the test program was created by the STS Project Creation Tool using the NI Default - C#/.NET template or a derivation thereof.
 
 ### Test Code Workflow
 
@@ -180,7 +180,7 @@ The following code demonstrates the typical TSM API + STL workflow for a multipl
 
 ### Multiplexer Session Initialization (User Code in ProcessSetup)
 
-Your code must initialize the multiplexer session with the TSM context. The initialization is called from ProcessSetup after initializing the Relay Driver Module and measurement instrument sessions with STL TestStandSteps:
+Your code must initialize the multiplexer session at the start of your test program. The initialization is typically called from the ProcessSetup sequence within the test program's sequence file, after initializing the Relay Driver Module.
 
 > [!NOTE]
 > This workflow uses the TSM Relay Control API (`ApplyRelayConfiguration`) to control routes. The initialization of the multiplexer session registers a placeholder session object. This placeholder session object does not get used directly but allows TSM to map the multiplexed connections. This is required as TSM's API expects the user to provide an NI-Switch driver session object that can then later be used with low-level driver calls to connect each route, but that use case is not applicable to STL. Furthermore, if a valid object is not passed to the TSM API, it will throw an exception.
