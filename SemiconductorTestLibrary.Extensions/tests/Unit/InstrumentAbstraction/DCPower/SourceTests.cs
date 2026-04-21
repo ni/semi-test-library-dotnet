@@ -605,7 +605,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 pointsToFetch: 2,
                 measurementTimeoutInSeconds: 10.0));
 
-            Assert.Contains("Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence", exception.Message);
+            Assert.Contains("Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence", exception.Message);
         }
 
         [Theory]
