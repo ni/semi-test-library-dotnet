@@ -1,6 +1,6 @@
 ﻿using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
-using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
+using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevelSequence
 {

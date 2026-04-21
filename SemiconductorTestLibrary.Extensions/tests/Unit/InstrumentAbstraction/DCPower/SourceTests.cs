@@ -5023,7 +5023,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureSourceDelay(0.1);
             var startTime = DateTime.Now;
 
-            sessionsBundle.ForceVoltage(voltageLevel: 1.0, currentLimit: 0.1, waitForSourceCompletion: false);
+            sessionsBundle.ForceVoltage(voltageLevel: 1.0, currentLimit: 0.05, waitForSourceCompletion: false);
             var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
 
             // Should return quickly without waiting for source delay
@@ -5043,7 +5043,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltageSequence(
                 voltageSequence,
-                currentLimit: 0.1,
+                currentLimit: 0.05,
                 sequenceLoopCount: 1,
                 waitForSequenceCompletion: false);
             var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
@@ -5062,7 +5062,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureSourceDelay(0.1);
             var startTime = DateTime.Now;
 
-            sessionsBundle.ForceVoltage(voltageLevel: 3.3, currentLimit: 0.1, waitForSourceCompletion: true);
+            sessionsBundle.ForceVoltage(voltageLevel: 3.3, currentLimit: 0.05, waitForSourceCompletion: true);
             var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
 
             if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
@@ -5087,7 +5087,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltageSequence(
                 voltageSequence,
-                currentLimit: 0.1,
+                currentLimit: 0.05,
                 sequenceLoopCount: 3,
                 waitForSequenceCompletion: true);
             var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
