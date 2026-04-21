@@ -163,5 +163,5 @@ The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResul
 The following images show a code module, which invokes the `MeasureAndPublishCurrent` method and is called from a step in a TestStand sequence, and how the Test tab of the calling step appears both at edit-time and at run-time. Note that at edit-time, the test item in the Tests tab of calling step has the Pin field configured with the leader pin name, and the Published Data ID field matches the value, "Current", used by the code module.
 
 ![MeasureAndPublishMethodCall](../images/SMUGangPinGroup/MeasureAndPublishMethodCall.png)
-![TestsTabLeaderPinEdittime](../images/SMUGangPinGroup/TestsTabPrimaryPinEdittime.png)
-![TestsTabLeaderPinRuntime](../images/SMUGangPinGroup/TestsTabPrimaryPinRuntime.png)
+![TestsTabLeaderPinEdittime](../images/SMUGangPinGroup/TestsTabLeaderPinEdittime.png)
+![TestsTabLeaderPinRuntime](../images/SMUGangPinGroup/TestsTabLeaderPinRuntime.png)
