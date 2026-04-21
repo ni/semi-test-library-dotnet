@@ -124,7 +124,7 @@ smuBundle.UngangPinGroup("Vcc");
 
 There is also a sequence style example available that showcases a complete working example of gangng SMU pin groups.
 Refer to the [SMUGangPinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUGangPinGroup/README.md) for more details.
-This example is also installed on any system using STS Software 25.5 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUGangPinGroup`.
+This example is also installed on any system using STS Software 26.0 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUGangPinGroup`.
 
 ## Measurement Data
 
