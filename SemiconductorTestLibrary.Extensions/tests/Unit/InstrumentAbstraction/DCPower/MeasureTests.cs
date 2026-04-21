@@ -1143,7 +1143,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<NISemiconductorTestException>(MeasureTest);
             var elapsedTime = (DateTime.Now - startTime).TotalSeconds;
             Assert.Contains("Fetch timed out while attempting to retrieve measurements", exception.Message);
-            Assert.InRange(elapsedTime, 20, 30);
+            Assert.InRange(elapsedTime, 20, 25);
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
