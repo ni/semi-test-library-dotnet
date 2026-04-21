@@ -26,7 +26,7 @@ Following are some of the SMUs for which STL has enabled ganging support:
 > [!NOTE]
 > All SMUs that support source and measure triggers can be part of the ganged pin group.
 > Channels from different single or multi-channel SMUs can also be ganged. In such cases, current share of individual channels should not exceed the current rating of lowest rated SMU channel.
-> There is no restriction on the number of channels ganged. 
+> There is no restriction on the number of channels ganged.
 
 ### Physical Connections
 
@@ -140,7 +140,8 @@ The measured current value of a ganged pin group will reflect the total combined
 The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the leader pin name. It is recommended that you specify the leader pin in the pin field of related tests in the Test tab of the calling TestStand step when working with ganged pin groups.
 > [!NOTE]
 > While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. For ganged channels, the results are stored in pin group name and no individual channel name is present in the returned `PinSiteData` object, therefore results are not published by the pin group name when working with ganged pin groups.
-> If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete` for leader channel, only the first measurement taken will be valid.
+> If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete` for leader channel, only the first measurement taken will return valid data.
+>
 > ```cs
 > var sessionManager = Initialize(pinmap);
 > var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
