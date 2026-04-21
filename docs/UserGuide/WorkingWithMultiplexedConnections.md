@@ -1,4 +1,4 @@
-# Multiplexed Connection Support
+# Working With Multiplexed Connections
 
 Semiconductor Test Library (STL) supports multiplexed connections to enable routing a shared instrument channel to the same DUT pin across multiple sites. This is achieved by defining a multiplexed connection in the pin map, specifying relay configurations for the routes, and then using a combination of the existing [Shared Pins](InstrumentAbstraction.md#shared-pins) functionality with the TestStand Semiconductor Module (TSM) Code Module API within a code module. Physical multiplexed connections must be made externally using a multiplexer or a relay network on the load board.
 
