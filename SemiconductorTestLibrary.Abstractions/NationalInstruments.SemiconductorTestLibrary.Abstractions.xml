@@ -39,17 +39,17 @@
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo">
             <inheritdoc/>
             <remarks>
-            Additionally contains 'AssignedTmuContext' property to store and retrieve TMU context.
+            Also contains the AssignedTmuContext property to store and retrieve TMU context.
             </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.InstrumentName">
             <summary>
-            Contains name of the resource.
+            Contains the name of the resource.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.AssignedTmuContext">
             <summary>
-            Gets or sets the Assigned TMU context.
+            Gets or sets the assigned TMU context.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.DigitalSitePinInfo.#ctor(System.String)">
@@ -106,17 +106,17 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo">
             <summary>
-            Defines an object that contains the ganging information for an individual pin per site.
+            Defines an object that contains the ganging information for an individual pin for each site.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.IsFollower">
             <summary>
-            Gets a value indicating whether the channel is a follower channel in a ganged group.
+            Gets a value that indicates if the channel is a follower channel in a ganged group.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.ChannelsCount">
             <summary>
-            Number of pins or channels in ganged pin group.
+            Number of pins or channels in a ganged pin group.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.SourceTriggerName">
@@ -144,14 +144,14 @@
             Constructs a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo"/> object for a leader channel.
             </summary>
             <param name="groupName">Name of the pin group to be ganged.</param>
-            <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
+            <param name="channelsCount">Number of pins or channels in a ganged pin group.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo.#ctor(System.String,System.Int32,System.String,System.String,System.String,System.String)">
             <summary>
             Constructs a <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.GangingInfo"/> object for a follower channel.
             </summary>
             <param name="groupName">Name of the pin group to be ganged.</param>
-            <param name="channelsCount">Number of pins or channels in ganged pin group.</param>
+            <param name="channelsCount">Number of pins or channels in a ganged pin group.</param>
             <param name="sourceTriggerName">Name of the trigger line to use for the synchronization of outputs.</param>
             <param name="startTriggerName">Name of the trigger line to use for the synchronization of output sequence.</param>
             <param name="sequenceAdvanceTriggerName">Name of the trigger line to use for the synchronization of sequence loops.</param>
@@ -159,12 +159,12 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo">
             <summary>
-            Defines an object that contains the merging information for an individual pin per site.
+            Defines an object that contains the merging information for an individual pin for each site.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo.IsSecondary">
             <summary>
-            This flag is used for storing if the channel of the site-pin is a secondary channel of merged group.
+            Flag that defines if the channel of the site-pin is a secondary channel of merged group.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.MergingInfo.#ctor(System.String,System.Boolean)">
@@ -221,7 +221,7 @@
             </summary>
             <typeparam name="T">The type of the result object to be stored in the results dictionary.</typeparam>
             <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.</param>
-            <param name="pinSiteResults">A dictionary where the key is pin name and the value is another dictionary with site numbers as keys and values of type T. This dictionary is updated by the delegate to store the processed results.</param>
+            <param name="pinSiteResults">A dictionary where the key is the pin name and the value is another dictionary. The other dictionary has site numbers as keys and values of type T <typeparamref name="T"/>. The other dictionary is updated by the delegate to store the processed results.</param>
             <param name="result">Resulting value of any type of operation done and to be added to the <paramref name="pinSiteResults"/> dictionary.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.SitePinResultsFilling`1">
@@ -230,7 +230,7 @@
             </summary>
             <typeparam name="T">The type of the result object to be stored in the results dictionary.</typeparam>
             <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.</param>
-            <param name="sitePinResults">A dictionary where the key is site number and the value is another dictionary with pin names as keys and values of type T. This dictionary is updated by the delegate to store the processed results.</param>
+            <param name="sitePinResults">A dictionary where the key is site number and the value is another dictionary. The other dictionary has pin names as keys and values of type T <typeparamref name="T"/>. The other dictionary dictionary is updated by the delegate to store the processed results.</param>
             <param name="result">Resulting value of any type of operation done and to be added to the <paramref name="sitePinResults"/> dictionary.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.Do``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Action{``0},System.String)">
@@ -312,7 +312,7 @@
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info.</param>
             <param name="caseDescription">An optional description of the function being performed.</param>
-            <param name="customPinSiteResultsFilling">The custom logic for filling results dictionary.</param>
+            <param name="customPinSiteResultsFilling">The custom logic for filling the results dictionary.</param>
             <returns>The per-site per-pin results of the operation.</returns>
             <remarks>The output parameter of the <paramref name="function"/> is the <b>per-instrument all channels</b> result.</remarks>
         </member>
@@ -325,7 +325,7 @@
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info. The second parameter is the <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> associated with a single channel.</param>
             <param name="caseDescription">An optional description of the function being performed.</param>
-            <param name="customPinSiteResultsFilling">The custom logic for filling pin site results dictionary.</param>
+            <param name="customPinSiteResultsFilling">The custom logic for filling the pin site results dictionary.</param>
             <returns>The per-site per-pin results of the operation.</returns>
             <remarks>The output parameter of the <paramref name="function"/> is the <b>per-instrument per channel</b> result.</remarks>
         </member>
@@ -353,7 +353,7 @@
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info.</param>
             <param name="caseDescription">An optional description of the function being performed.</param>
-            <param name="customPinSiteResultsFilling"> The custom logic for filling pin site results dictionary.</param>
+            <param name="customPinSiteResultsFilling"> The custom logic for filling the pin site results dictionary.</param>
             <returns>The per-site per-pin results of the operation.</returns>
             <remarks>The output parameter of the <paramref name="function"/> is the <b>per-instrument all channels</b> result.</remarks>
         </member>
@@ -366,7 +366,7 @@
             <param name="sessionsBundle">The sessions bundle object.</param>
             <param name="function">The operation to happen on each session info. The second parameter is the session index. The output parameter is the per-instrument result.</param>
             <param name="caseDescription">An optional description of the action being performed.</param>
-            <param name="customPinSiteResultsFilling">The custom logic for filling pin site results dictionary.</param>
+            <param name="customPinSiteResultsFilling">The custom logic for filling the pin site results dictionary.</param>
             <returns>The per-site per-pin results of the operation.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution.DoAndPublishResults``1(NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.ISessionsBundle{``0},System.Func{``0,System.Double},System.String,System.String)">
@@ -512,7 +512,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.CascadingInfo">
             <summary>
-            To store the child class instance of <see cref = "T:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo"/>. i.e. it will be mergingInfo object or gangingInfo object for each merged or ganged group of the current site.
+            Stores the child class instance of <see cref = "T:NationalInstruments.SemiconductorTestLibrary.Common.CascadingInfo"/>. Stores a mergingInfo object for each merged group or a gangingInfo object for each ganged group of the current site.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo.SitePinString">
@@ -680,16 +680,14 @@
             Checks if the cascading info represents a follower channel in ganged channels.
             </summary>
             <param name="cascadingInfo">Cascading information.</param>
-            <returns>True if the cascadingInfo represtents ganging follower channel.</returns>
+            <returns>True if the cascadingInfo represtents a ganging follower channel.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.GetValue``1(System.Collections.Generic.IDictionary{System.String,``0},NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Boolean@)">
             <summary>
             Gets the data for the pin name or cascaded pin group name associated with the pinData dictionary.
             </summary>
-            <remarks>If the value is not found using the pin name, the method attempts to retrieve it
-            using the pin group name if cascading information is available. The out parameter <paramref
-            name="valueAssociatedWithPinGroupName"/> can be used to determine which key was used to obtain the
-            value.</remarks>
+            <remarks>If the value is not found using the pin name, the method attempts to retrieve the value using the pin group name if cascading information is available. Use the out parameter <paramref
+            name="valueAssociatedWithPinGroupName"/> to determine which key was used to obtain the value.</remarks>
             <param name="pinData">The PinData object containing the data to search.</param>
             <param name="sitePinInfo">The associated SitePinInfo object.</param>
             <param name="valueAssociatedWithPinGroupName">Returns, true if the data is associated with pin group name.</param>
@@ -697,46 +695,46 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.VoltagePinSiteResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,``0}},``0)">
             <summary>
-            Associates a pin site result with a pin or pin group name in the provided pin site results dictionary.
-            Voltage result of primary pin is returned with pin group name in case of merging.
+            Associates a pin site result with a pin name or pin group name in the provided pin site results dictionary.
+            Voltage result of the primary pin is returned with pin group name in case of merging.
             Voltage result of individual pins are averaged and returned with pin group name in case of ganging.
             </summary>
             <typeparam name="T">The type of the result to associate.</typeparam>
             <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object containing pin and site information.</param>
-            <param name="pinSiteResults">The dictionary to update with the result, where the key is the pin or pin group name and the value is a dictionary mapping site numbers to results.</param>
+            <param name="pinSiteResults">The dictionary to update with the result. In the dictionary, the key is the pin name or pin group name and the value is a dictionary that maps site numbers to results.</param>
             <param name="result">The result to associate with the pin site.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.CurrentPinSiteResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,``0}},``0)">
             <summary>
-            Associates a pin site result with a pin or pin group name in the provided pin site results dictionary.
-            Current result of primary pin is returned with pin group name in case of merging.
-            Current result of individual pins are accumulated and returned with pin group name in case of ganging.
+            Associates a pin site result with a pin name or pin group name in the provided pin site results dictionary.
+            Current result of the primary pin is returned with the pin group name in case of merging.
+            Current result of individual pins are accumulated and returned with the pin group name in case of ganging.
             </summary>
             <typeparam name="T">The type of the result to associate.</typeparam>
             <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object containing pin and site information.</param>
-            <param name="pinSiteResults">The dictionary to update with the result, where the key is the pin or pin group name and the value is a dictionary mapping site numbers to results.</param>
+            <param name="pinSiteResults">The dictionary to update with the result. In the dictionary, the key is the pin name or the pin group name and the value is a dictionary that maps site numbers to results.</param>
             <param name="result">The result to associate with the pin site.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.VoltageSitePinResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.Int32,System.Collections.Generic.IDictionary{System.String,``0}},``0)">
             <summary>
-            Associates a site pin result with a pin or pin group name in the provided site pin results dictionary.
-            Voltage result of primary pin is returned with pin group name in case of merging.
-            Voltage result of individual pins are averaged and returned with pin group name in case of ganging.
+            Associates a site pin result with a pin name or pin group name in the provided site pin results dictionary.
+            Voltage result of the primary pin is returned with the pin group name in case of merging.
+            Voltage result of individual pins are averaged and returned with the pin group name in case of ganging.
             </summary>
             <typeparam name="T">The type of the result to associate.</typeparam>
             <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object containing pin and site information.</param>
-            <param name="sitePinResults">The dictionary to update with the result, where the key is the site number and the value is a dictionary mapping pin or pin group names to results.</param>
+            <param name="sitePinResults">The dictionary to update with the result. In this dictionary, the key is the site number and the value is a dictionary that maps pin names or pin group names to results.</param>
             <param name="result">The result to associate with the site pin.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.CurrentSitePinResultsFilling``1(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.Int32,System.Collections.Generic.IDictionary{System.String,``0}},``0)">
             <summary>
-            Associates a site pin result with a pin or pin group name in the provided site pin results dictionary.
-            Current result of primary pin is returned with pin group name in case of merging.
-            Current result of individual pins are accumulated and returned with pin group name in case of ganging.
+            Associates a site pin result with a pin name or pin group name in the provided site pin results dictionary.
+            Current result of the primary pin is returned with the pin group name in case of merging.
+            Current result of individual pins are accumulated and returned with the pin group name in case of ganging.
             </summary>
             <typeparam name="T">The type of the result to associate.</typeparam>
             <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object containing pin and site information.</param>
-            <param name="sitePinResults">The dictionary to update with the result, where the key is the site number and the value is a dictionary mapping pin or pin group names to results.</param>
+            <param name="sitePinResults">The dictionary to update with the result. In this dictionary, the key is the site number and the value is a dictionary that maps pin names or pin group names to results.</param>
             <param name="result">The result to associate with the site pin.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType">
@@ -924,18 +922,18 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Boolean@)">
             <summary>
-            Gets the data for the site number-pin name pair associated with the given <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.This overload method returns one more parameter "valueAssociatedWithPinGroupName", which indicates the data is associated with pin group name.
+            Gets the data for the site number and pin name pair associated with the given <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.
             </summary>
             <param name="sitePinInfo">The associated SitePinInfo object.</param>
-            <returns>The data for the site number and pin name of the SitePinInfo object provided.</returns>
-            <param name="valueAssociatedWithPinGroupName">Returns true if the data is associated with pin group name.</param>
+            <returns>The data for the site number and the pin name of the SitePinInfo object that is provided.</returns>
+            <param name="valueAssociatedWithPinGroupName">Returns true if the data is associated with the pin group name.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo)">
             <summary>
-            Gets the data for the site number-pin name pair associated with the given <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.
+            Gets the data for the site number and pin name pair associated with the given <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.
             </summary>
             <param name="sitePinInfo">The associated SitePinInfo object.</param>
-            <returns>The data for the site number and pin name of the SitePinInfo object provided.</returns>
+            <returns>The data for the site number and the pin name of the SitePinInfo object that is provided.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.TryGetValue(System.Int32,System.String,`0@)">
             <summary>
@@ -3298,7 +3296,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.HasGangedChannels">
             <summary>
-            Gets a value indicating whether the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/> contains any ganged channels.
+            Gets a value that indicates if the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation"/> contains any ganged channels.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDCPower.NIDCPower,System.String)">
@@ -3354,7 +3352,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.HasGangedChannels">
             <summary>
-            Gets a value indicating whether the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> contains any ganged channels.
+            Gets a value that indicates if the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> contains any ganged channels.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation})">
@@ -3420,15 +3418,13 @@
             <summary>
             Performs the ganging operation on all the pin groups specified.
             </summary>
-            <param name="gangedChannelsPinGroupNames">Pin Groups that are to be ganged.</param>
+            <param name="gangedChannelsPinGroupNames">Pin groups that are to be ganged.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UngangPinGroup(System.String[])">
             <summary>
             Performs the unganging operation on all the pin groups specified.
-            Resets the triggers of the follower channels in all the pin groups to their default state.
-            Users have to reconfigure the follower channels for further operations.
             </summary>
-            <param name="gangedChannelsPinGroupNames">Pin Groups that are to be unganged.</param>
+            <param name="gangedChannelsPinGroupNames">Pin groups that are to be unganged.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.GangPinGroup(System.String)">
             <summary>
@@ -3438,33 +3434,25 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.UngangPinGroup(System.String)">
             <summary>
-            Ungangs the channels that are part of the connections in specified pin group on all sites in the bundle.
-            Resets the triggers of the follower channels to their default state.
-            Users have to reconfigure the follower channels for further operations.
+            Ungangs the channels that are part of the connections in the specified pin group on all sites in the bundle.
             </summary>
-            <param name="gangedChannelsPinGroupName">Pin Groups that are to be ganged.</param>
+            <param name="gangedChannelsPinGroupName">Pin groups that are to be ganged.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.ValidatePinsForGanging(System.Boolean)">
             <summary>
             Validates the sessions bundle to ensure that all ganged pin groups have all their pins present in the bundle.
             Throws an exception if any pin is missing.
             </summary>
-            <param name="hasGangedChannels">Indicates whether the bundle has any ganged channels.</param>
+            <param name="hasGangedChannels">Indicates if the bundle has any ganged channels.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.ValidatePinValuesForCascading``1(System.Boolean,``0,System.Nullable{NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceOutputFunction})">
             <summary>
-            Validates that the pin values for cascaded pin groups in the specified sessions bundle are consistent when
-            cascading validation is enabled.
+            Validates that the pin values for the cascaded pin groups in the specified sessions bundle are consistent when cascading validation is enabled.
             </summary>
-            <remarks>This method is intended for use in scenarios where pin groups are configured to
-            cascade multiple pins together. It ensures that, when cascading validation is enabled, all pins
-            within a cascaded group have consistent values.</remarks>
-            <typeparam name="T">The type of the object containing pin values to validate. Typically a structure or collection mapping pin or
-            group identifiers to their values.</typeparam>
-            <param name="hasCascadedChannels">A value indicating whether bundle has some cascaded channels or not. If set to <see langword="true"/>, the
-            method validates that the pin values for cascaded pin groups are consistent.</param>
-            <param name="pinValues">An object containing the pin values to validate. The structure and expected contents depend on the
-            implementation of the pin value retrieval logic.</param>
+            <remarks>Use this method when pin groups are configured to cascade multiple pins together. This method ensures that all pins within a cascaded group have consistent values when cascading validation is enabled.</remarks>
+            <typeparam name="T">The type of the object that contains pin values to validate. Typically a structure or collection that maps pin or group identifiers to their values.</typeparam>
+            <param name="hasCascadedChannels">A value that indicates if a bundle has cascaded channels. If set to <see langword="true"/>, the method validates that the pin values for the cascaded pin groups are consistent.</param>
+            <param name="pinValues">An object that contains the pin values to validate. The structure and expected contents depend on the implementation of the pin value retrieval logic.</param>
             <param name="outputFunction">The <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.DCPowerSourceOutputFunction"/> object.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.ValidatePinOutputFunctionForCascading``1(System.Boolean,``0)">
@@ -3510,17 +3498,17 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings">
             <summary>
-            Defines DCPower settings.
+            Defines the DCPower settings.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings.SourceSettings">
             <summary>
-            The source settings.
+            Defines the source settings.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings.MeasureSettings">
             <summary>
-            The measure settings.
+            Defines the measure settings.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSettings.#ctor">
@@ -3530,57 +3518,57 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings">
             <summary>
-            Defines DCPower source settings.
+            Defines the DCPower source settings.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.OutputFunction">
             <summary>
-            The output function.
+            Defines the output function.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitSymmetry">
             <summary>
-            The limit symmetry.
+            Defines the limit symmetry.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Level">
             <summary>
-            The voltage or current level.
+            Defines the voltage or current level.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.Limit">
             <summary>
-            The current or voltage limit.
+            Defines the current or voltage limit.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitHigh">
             <summary>
-            The current or voltage high limit.
+            Defines the current or voltage high limit.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitLow">
             <summary>
-            The current or voltage low limit.
+            Defines the current or voltage low limit.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LevelRange">
             <summary>
-            The voltage or current level range.
+            Defines the voltage or current level range.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.LimitRange">
             <summary>
-            The current or voltage limit range.
+            Defines the current or voltage limit range.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.SourceDelayInSeconds">
             <summary>
-            The source delay in seconds.
+            Defines the source delay in seconds.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.TransientResponse">
             <summary>
-            The transient response.
+            Defines the transient response.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSourceSettings.#ctor">
@@ -3590,32 +3578,32 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings">
             <summary>
-            Defines DCPower measure settings.
+            Defines the DCPower measure settings.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.ApertureTime">
             <summary>
-            The aperture time.
+            Defines the aperture time.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.ApertureTimeUnits">
             <summary>
-            The unit of aperture time.
+            Defines the unit of aperture time.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.MeasureWhen">
             <summary>
-            The measure when.
+            Defines time of the measurement.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.Sense">
             <summary>
-            The measurement sense.
+            Defines the sense measurement.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.RecordLength">
             <summary>
-            The record length.
+            Defines the record length.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerMeasureSettings.#ctor">
@@ -3625,38 +3613,38 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings">
             <summary>
-            Defines DCPower waveform acquisition settings.
+            Defines the DCPower waveform acquisition settings.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTime">
             <summary>
-            The aperture time.
+            Defines the aperture time.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.ApertureTimeUnits">
             <summary>
-            The aperture time units.
+            Defines the aperture time units.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureWhen">
             <summary>
-            The measure when.
+            Defines the time of the measurement.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.MeasureTriggerType">
             <summary>
-            The measure trigger type.
+            Defines the measure trigger type.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformAcquisitionSettings.#ctor">
             <summary>
-            Creates an object to define and set DCPower waveform acquisition specific settings.
-            This object is used to store waveform acquisition settings of a DCPower channel. <see cref="!:Measure.ConfigureAndStartWaveformAcquisition(DCPowerSessionsBundle, double, double)"/>
+            Creates an object to define and set the DCPower waveform acquisition specific settings.
+            This object is used to store the waveform acquisition settings of a DCPower channel. <see cref="!:Measure.ConfigureAndStartWaveformAcquisition(DCPowerSessionsBundle, double, double)"/>
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults">
             <summary>
-            Defines DCPower waveform results.
+            The DCPower waveform results.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerWaveformResults.Result">
@@ -3678,7 +3666,7 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties">
             <summary>
-            Defines per-step properties for DCPower advanced sequence configuration.
+            Defines per-step properties for the DCPower advanced sequence configuration.
             Each nullable property corresponds to a DCPowerAdvancedSequenceProperty that can vary per step.
             Properties are organized by functional category for ease of use.
             </summary>
@@ -3700,7 +3688,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.AutorangeBehavior">
             <summary>
-            Specifies the algorithm the hardware uses for measurement AutoRanging.
+            Specifies the algorithm the hardware uses for measurement autoranging.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.AutorangeMaximumDelayAfterRangeChange">
@@ -3730,7 +3718,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.MeasureRecordLength">
             <summary>
-            Specifies how many measurements compose a measure record.
+            Specifies the number of measurements that compose a measure record.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.Sense">
@@ -3755,17 +3743,17 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageLimit">
             <summary>
-            Specifies the voltage limit for the output to not exceed when generating the desired current level.
+            Specifies the voltage limit that the output cannot exceed when generating the desired current level.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageLimitHigh">
             <summary>
-            Specifies the voltage limit high for the output to not exceed when generating the desired current level.
+            Specifies the voltage limit high that the output cannot exceed when generating the desired current level.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageLimitLow">
             <summary>
-            Specifies the voltage limit low for the output to not exceed when generating the desired current level.
+            Specifies the voltage limit low that the output cannot exceed when generating the desired current level.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.VoltageLimitRange">
@@ -3800,17 +3788,17 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLimit">
             <summary>
-            Specifies the current limit, in amperes, for the output not to exceed when generating the desired voltage level.
+            Specifies the current limit, in amperes, that the output cannot exceed when generating the desired voltage level.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLimitHigh">
             <summary>
-            Specifies the current limit high, in amperes, for the output not to exceed when generating the desired voltage level.
+            Specifies the current limit high, in amperes, that the output cannot exceed when generating the desired voltage level.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLimitLow">
             <summary>
-            Specifies the current limit low, in amperes, for the output not to exceed when generating the desired voltage level.
+            Specifies the current limit low, in amperes, that the output cannot exceed when generating the desired voltage level.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLimitRange">
@@ -3835,12 +3823,12 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLevelRisingSlewRate">
             <summary>
-            Specifies the rate of increase, in amps per microsecond, to apply to the absolute magnitude of the current level of a channel.
+            Specifies the rate of increase, in amperes per microsecond, to apply to the absolute magnitude of the current level of a channel.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.CurrentLevelFallingSlewRate">
             <summary>
-            Specifies the rate of decrease, in amps per microsecond, to apply to the absolute magnitude of the current level of a channel.
+            Specifies the rate of decrease, in amperes per microsecond, to apply to the absolute magnitude of the current level of a channel.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseVoltageLevel">
@@ -3905,17 +3893,17 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseCurrentLimit">
             <summary>
-            Specifies the current limit, in amps, that the output cannot exceed when generating the desired voltage during the on phase.
+            Specifies the current limit, in amperes, that the output cannot exceed when generating the desired voltage during the on phase.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseCurrentLimitHigh">
             <summary>
-            Specifies the current limit high, in amps, that the output cannot exceed when generating the desired voltage during the on phase.
+            Specifies the current limit high, in amperes, that the output cannot exceed when generating the desired voltage during the on phase.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseCurrentLimitLow">
             <summary>
-            Specifies the current limit low, in amps, that the output cannot exceed when generating the desired voltage during the on phase.
+            Specifies the current limit low, in amperes, that the output cannot exceed when generating the desired voltage during the on phase.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.PulseCurrentLimitRange">
@@ -3965,7 +3953,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.SequenceStepDeltaTime">
             <summary>
-            Specifies the amount of time, in seconds, between the start of two consecutive steps in a sequence.
+            Specifies the time, in seconds, between the start of two consecutive steps in a sequence.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.TransientResponse">
@@ -4311,22 +4299,22 @@
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Merge">
             <summary>
-            Performs merge operation.
+            Performs the merge operation.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Unmerge">
             <summary>
-            Performs unmerge operation.
+            Performs the unmerge operation.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Gang">
             <summary>
-            Performs gang operation.
+            Performs the gang operation.
             </summary>
         </member>
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.CascadeType.Ungang">
             <summary>
-            Performs ungang operation.
+            Performs the ungang operation.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities">
