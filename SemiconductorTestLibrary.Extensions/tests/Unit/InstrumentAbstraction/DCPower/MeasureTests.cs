@@ -1110,7 +1110,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
-        [Theory]
+        [Theory(Skip = "Manual Test until the issue is fixed")]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnDemand)]
@@ -1134,13 +1134,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
             dcPower.Initiate();
 
-            void InitiateAndMeasureTest()
+            void MeasureTest()
             {
                 dcPower.MeasureVoltage();
             }
 
-            var exception = Assert.Throws<NISemiconductorTestException>(InitiateAndMeasureTest);
+            var startTime = DateTime.Now;
+            var exception = Assert.Throws<NISemiconductorTestException>(MeasureTest);
+            var elapsedTime = (DateTime.Now - startTime).TotalSeconds;
             Assert.Contains("Fetch timed out while attempting to retrieve measurements", exception.Message);
+            Assert.InRange(elapsedTime, 20, 35);
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 

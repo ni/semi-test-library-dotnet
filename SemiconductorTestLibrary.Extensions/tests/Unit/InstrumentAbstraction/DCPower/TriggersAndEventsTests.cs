@@ -451,7 +451,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        public void GangedPinGroupForceVoltageSendSoftwareEdgeTrigger_WaitForEvent_DoesNotThrowException()
+        public void GangedPinGroupForceVoltageAndSendSoftwareEdgeTrigger_WaitForEvent_DoesNotThrowException()
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
