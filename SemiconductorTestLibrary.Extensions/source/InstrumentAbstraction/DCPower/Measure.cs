@@ -630,7 +630,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                                 {
                                     break;
                                 }
-                                var fetchResult = session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), 1);
+                                var fetchResult = session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(27), 1);
                                 lock (lockObject)
                                 {
                                     voltageMeasurements[channelIndex] = fetchResult.VoltageMeasurements[0];
