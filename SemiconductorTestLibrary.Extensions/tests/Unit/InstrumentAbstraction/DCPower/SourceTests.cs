@@ -438,7 +438,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
         }
 
         [Theory]
@@ -605,7 +605,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 pointsToFetch: 2,
                 measurementTimeoutInSeconds: 10.0));
 
-            Assert.Contains("Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence", exception.Message);
+            Assert.Contains("Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence", exception.Message);
         }
 
         [Theory]
@@ -861,7 +861,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 pointsToFetch: 2,
                 measurementTimeoutInSeconds: 10.0));
 
-            Assert.Contains("Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence", exception.Message);
+            Assert.Contains("Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence", exception.Message);
         }
 
         [Theory]
@@ -1670,7 +1670,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Abort();
             var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different sequences for Cascaded pins", exception.InnerException.Message);
+            Assert.Contains("The parameter contains different sequences for cascaded pins", exception.InnerException.Message);
         }
 
         [Theory]
@@ -2212,7 +2212,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -2313,7 +2313,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ForceVoltageOnFilteredBundle);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("is/are not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
@@ -2331,7 +2331,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ForceVoltageOnSubsetBundle);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("is/are not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
@@ -2449,7 +2449,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -2526,7 +2526,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ForceVoltageTest);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -2646,7 +2646,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ForceCurrent);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -2771,7 +2771,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ForceCurrentOnFilteredBundle);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("is/are not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
@@ -2789,7 +2789,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ForceCurrentOnSubsetBundle);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("is/are not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
@@ -3224,7 +3224,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -3339,7 +3339,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different values for Cascaded pins", exception.InnerException.Message);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
         }
 
         [Fact]
@@ -3575,7 +3575,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("is/are not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
@@ -3598,7 +3598,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("is/are not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
@@ -3647,7 +3647,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
 
             var exception = Assert.Throws<NISemiconductorTestException>(ConfigureSourceSettingsWithMultipleChannelOutput);
-            Assert.Contains("only supports single channel operation", exception.Message);
+            Assert.Contains("only supports single-channel operation", exception.Message);
         }
 
         [Theory]
@@ -4379,7 +4379,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Abort();
             var exception = Assert.Throws<AggregateException>(ConfigureVoltageSequenceTest);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different sequences for Cascaded pins", exception.InnerException.Message);
+            Assert.Contains("The parameter contains different sequences for cascaded pins", exception.InnerException.Message);
         }
 
         [Theory]

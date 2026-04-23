@@ -520,7 +520,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureMeasureSettings);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("is/are not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
@@ -538,7 +538,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureMeasureSettings);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("is/are not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Theory]
@@ -873,7 +873,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureMeasureWhen);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("is/are not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
@@ -891,7 +891,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureMeasureWhen);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("is/are not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Theory]
