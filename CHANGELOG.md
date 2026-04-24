@@ -87,17 +87,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - **TestStandSteps**
     - A new overload added for `SetupNIDigitalPatternInstrumentation` that takes only `ISemiconductorModuleContext tsmContext` as a parameter.
       - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext)`
-    - Added the old version of `SetupNIDigitalPatternInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+    - Added the old version of `SetupNIDigitalPatternInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]` to discourage new usage.
       - `SetupNIDigitalPatternInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, string levelsSheetToApply = "", string timingSheetToApply = "")`
-    - Reintroduced `SetupAndCleanupSteps.NIInstrumentType` as a deprecated enum. This enum maintains backwards compatibility with the `CleanupInstrumentation` and the `ResetInstrumentation` method signatures. This enum is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`to discourage new usage.
+    - Reintroduced `SetupAndCleanupSteps.NIInstrumentType` as a deprecated enum. This enum maintains backwards compatibility with the `CleanupInstrumentation` and the `ResetInstrumentation` method signatures. This enum is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]` to discourage new usage.
       - `NIInstrumentType`
     - A new overload added for `CleanupInstrumentation`. This overload takes only `ISemiconductorModuleContext tsmContext` as a parameter.
       - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext)`
-    - Added the old version of `CleanupInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+    - Added the old version of `CleanupInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]` to discourage new usage.
       - `CleanupInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, NIInstrumentType instrumentType = NIInstrumentType.All)`
     - A new overload added for `ResetInstrumentation`. This overload takes only `ISemiconductorModuleContext tsmContext` as a parameter.
       - `ResetInstrumentation(ISemiconductorModuleContext tsmContext)`
-    - Added the old version of `ResetInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]`.
+    - Added the old version of `ResetInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]` to discourage new usage.
       - `ResetInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, TestStandSteps.NIInstrumentType instrumentType = TestStandSteps.NIInstrumentType.All)`
   - **Documentation & Examples**
     - Added the `SMUGangPinGroup` Sequence style example and documentation, which demonstrate how to use ganging and unganging channels in pin groups.
