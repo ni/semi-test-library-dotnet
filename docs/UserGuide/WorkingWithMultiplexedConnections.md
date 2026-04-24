@@ -27,7 +27,7 @@ Use the Pin Map Editor to configure the following:
    - **Site**: The site number for this connection.
    - **Instrument** and **Channel**: The instrument channel that is routed.
    - **Multiplexer**: The multiplexer used for routing.
-   - **Route**: The relay configuration to apply for this pin-site specific connection.
+   - **Route**: The relay configuration to apply for this pin-site-specific connection.
 
 > [!IMPORTANT]
 > Using SystemPins or SiteRelays is not supported when defining multiplexed connections with STL.
