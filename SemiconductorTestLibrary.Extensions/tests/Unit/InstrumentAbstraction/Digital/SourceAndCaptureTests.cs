@@ -199,5 +199,24 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Single(results.SiteNumbers);
         }
+
+        [Fact]
+        public void SharedPinsInitializeWithThreeSites_QueryWithTowSitesFromTSMContext_Succeeds()
+        {
+            _tsmContext = CreateTSMContext("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+            Initialize(_tsmContext);
+            var expectedIndividualChannelString = "site0/PA_EN";
+
+            var queriedSessionManager = new TSMSessionManager(_tsmContext.GetSemiconductorModuleContextWithSites(new int[] { 1, 2 }));
+            var sessionsBundle = queriedSessionManager.Digital("PA_EN");
+            sessionsBundle.BurstPattern("CaptureWaveform");
+            var results = sessionsBundle.FetchCaptureWaveform("New_Waveform", samplesToRead: 8);
+
+            Assert.Equal(expectedIndividualChannelString, sessionsBundle.AggregateSitePinList[0].IndividualChannelString);
+            Assert.Equal(expectedIndividualChannelString, sessionsBundle.AggregateSitePinList[1].IndividualChannelString);
+            Assert.Equal("site1/PA_EN", sessionsBundle.AggregateSitePinList[0].SitePinString);
+            Assert.Equal("site2/PA_EN", sessionsBundle.AggregateSitePinList[1].SitePinString);
+            Assert.Equal(2, results.SiteNumbers.Length);
+        }
     }
 }

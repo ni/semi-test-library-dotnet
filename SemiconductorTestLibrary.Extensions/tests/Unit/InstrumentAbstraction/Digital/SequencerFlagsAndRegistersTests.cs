@@ -84,5 +84,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedValues[3], sessionsBundle.ReadSequencerFlagDistinct($"seqflag{3}"));
             Close(tsmContext);
         }
+
+        [Fact]
+        public void SharedPinsSessionsInitializedWithThreeSites_QueryWithTwoSitesFromTSMContext_WriteAndReadSequencerFlagSucessWithValuesCorrectlySetAndReadBack()
+        {
+            var tsmContext = CreateTSMContext("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+            Initialize(tsmContext);
+            var expectedIndividualChannelString = "site0/PA_EN";
+
+            var sessionManager = new TSMSessionManager(tsmContext.GetSemiconductorModuleContextWithSites(new int[] { 1, 2 }));
+            var sessionsBundle = sessionManager.Digital("PA_EN");
+            // Not fully supported in OfflineMode.
+            var expectedValues = tsmContext.IsSemiconductorModuleInOfflineMode ? new bool[] { false, false } : new bool[] { true, false };
+            sessionsBundle.WriteSequencerFlag($"seqflag{0}", true);
+            sessionsBundle.WriteSequencerFlag($"seqflag{1}", false);
+
+            Assert.Equal(expectedValues[0], sessionsBundle.ReadSequencerFlagDistinct($"seqflag{0}"));
+            Assert.Equal(expectedValues[1], sessionsBundle.ReadSequencerFlagDistinct($"seqflag{1}"));
+            Assert.Equal(expectedIndividualChannelString, sessionsBundle.AggregateSitePinList[0].IndividualChannelString);
+            Assert.Equal(expectedIndividualChannelString, sessionsBundle.AggregateSitePinList[1].IndividualChannelString);
+            Assert.Equal("site1/PA_EN", sessionsBundle.AggregateSitePinList[0].SitePinString);
+            Assert.Equal("site2/PA_EN", sessionsBundle.AggregateSitePinList[1].SitePinString);
+            Close(tsmContext);
+        }
     }
 }
