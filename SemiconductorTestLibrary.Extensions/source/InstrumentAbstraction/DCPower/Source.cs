@@ -22,8 +22,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Provides an array of items of type T based on the specified site pin information.
         /// </summary>
         /// <typeparam name="T">The type of items returned in the array.</typeparam>
-        /// <param name="sitePinInfo">The site pin information used to generate the array.</param>
-        /// <returns>An array of type T generated based on the provided site pin information.</returns>
+        /// <param name="sitePinInfo">The site pin information that is used to generate the array.</param>
+        /// <returns>An array of type T that contains the generated sequence based on the provided site pin information.</returns>
         private delegate T[] ArrayProvider<T>(SitePinInfo sitePinInfo);
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         private delegate IEnumerable<T> IEnumerableProvider<T>(SitePinInfo sitePinInfo);
 
         /// <summary>
-        /// Delegate to retrieve a single double value (limit, range, etc.) for a given site-pin pair.
+        /// Delegate to retrieve a single double value (for example, limit or range) for a given site-pin pair.
         /// </summary>
         private delegate double? ValueProvider(SitePinInfo sitePinInfo);
 
@@ -320,7 +320,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces a hardware-timed sequence of voltage values on the targeted pin(s).
+        /// Forces a hardware-timed sequence of voltage values on the targeted pins.
         /// </summary>
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
@@ -329,7 +329,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageSequence">Sequence of voltage values to force.</param>
+        /// <param name="voltageSequence">Array of voltage values to force in the sequence.</param>
         /// <param name="currentLimit">The current limit to use for the sequence.</param>
         /// <param name="voltageLevelRange">The voltage level range to use for the sequence.</param>
         /// <param name="currentLimitRange">The current limit range to use for the sequence.</param>
@@ -1086,7 +1086,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequence">The sequence of source settings to apply.</param>
         /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
-        /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
+        /// <param name="sequenceTimeoutInSeconds">The timeout, in seconds, to wait for sequence completion.</param>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
@@ -1167,11 +1167,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequence">The sequence of source settings to apply.</param>
         /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
-        /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
-        /// <param name="pointsToFetch">The number of points to Fetch.</param>
+        /// <param name="sequenceTimeoutInSeconds">The timeout, in seconds, to wait for sequence completion.</param>
+        /// <param name="pointsToFetch">The number of points to fetch.</param>
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
-        /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
+        /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample or point from the previous measurement.</returns>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
@@ -1249,7 +1249,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequence">The sequence of <see cref="DCPowerAdvancedSequenceStepProperties"/> to apply.</param>
         /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
-        /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
+        /// <param name="sequenceTimeoutInSeconds">The timeout, in seconds, to wait for sequence completion.</param>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,
@@ -1330,11 +1330,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequence">The sequence of <see cref="DCPowerAdvancedSequenceStepProperties"/> to apply.</param>
         /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
-        /// <param name="sequenceTimeoutInSeconds">The timeout in seconds to wait for sequence completion.</param>
-        /// <param name="pointsToFetch">The number of points to Fetch.</param>
+        /// <param name="sequenceTimeoutInSeconds">The timeout, in seconds, to wait for sequence completion.</param>
+        /// <param name="pointsToFetch">The number of points to fetch.</param>
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
-        /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample/point from the previous measurement.</returns>
+        /// where each <see cref="SingleDCPowerFetchResult"/> object contains the voltage, current, and inCompliance result for a simple sample or point from the previous measurement.</returns>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,
@@ -1477,7 +1477,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="voltageLimitLow">The voltage low limit to use.</param>
         /// <param name="currentLevelRange">The current level range to use.</param>
         /// <param name="voltageLimitRange">The voltage limit range to use.</param>
-        /// <param name="waitForSourceCompletion">Setting this to True will wait until sourcing is complete before continuing, which includes the set amount of source delay.
+        /// <param name="waitForSourceCompletion">When set to <see langword="true"/>, sourcing must complete before continuing. The wait period includes the time it takes to perform the source operation and the amount of source delay configured.
         /// Otherwise, the source delay amount is not directly accounted for by this method and the WaitForEvent must be manually invoked in proceeding code.</param>
         public static void ForceCurrentAsymmetricLimit(this DCPowerSessionsBundle sessionsBundle, double currentLevel, double voltageLimitHigh, double voltageLimitLow, double? currentLevelRange = null, double? voltageLimitRange = null, bool waitForSourceCompletion = false)
         {
@@ -1495,7 +1495,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Forces a hardware-timed sequence of current values on the targeted pin(s).
+        /// Forces a hardware-timed sequence of current values on the targeted pins.
         /// </summary>
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
@@ -2894,7 +2894,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Core implementation for forcing a current/voltage sequence.
+        /// Core implementation for forcing a current or voltage sequence.
         /// </summary>
         private static void ForceSequenceCore(
             this DCPowerOutput channelOutput,
