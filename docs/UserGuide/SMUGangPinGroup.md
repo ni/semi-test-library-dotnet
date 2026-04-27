@@ -80,9 +80,9 @@ The following example pin map file illustrates a pin group of two pins being gan
     </Sites>
     <Connections>
         <Connection pin="Vcc0" siteNumber="0" instrument="SMU_4137_C1_S05" channel="0" />
-        <Connection pin="Vcc1" siteNumber="0" instrument="SMU_4137_C1_S06" channel="1" />
-        <Connection pin="Vcc0" siteNumber="1" instrument="SMU_4137_C1_S07" channel="2" />
-        <Connection pin="Vcc1" siteNumber="1" instrument="SMU_4137_C1_S08" channel="3" />
+        <Connection pin="Vcc1" siteNumber="0" instrument="SMU_4137_C1_S06" channel="0" />
+        <Connection pin="Vcc0" siteNumber="1" instrument="SMU_4137_C1_S07" channel="0" />
+        <Connection pin="Vcc1" siteNumber="1" instrument="SMU_4137_C1_S08" channel="0" />
     </Connections>
 </PinMap>
 ```
@@ -140,12 +140,13 @@ The measured current value of a ganged pin group will reflect the total combined
 The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the leader pin name. It is recommended that you specify the leader pin in the pin field of related tests in the Test tab of the calling TestStand step when working with ganged pin groups.
 > [!NOTE]
 > While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. For ganged channels, the results are stored in pin group name and no individual channel name is present in the returned `PinSiteData` object, therefore results are not published by the pin group name when working with ganged pin groups.
+>
 > If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete` for leader channel, only the first measurement taken will return valid data.
 >
 > ```cs
 > var sessionManager = Initialize(pinmap);
 > var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
-> dcPower.GangPinGroup("MergedPowerPins");
+> dcPower.GangPinGroup("PowerPins");
 > dcPower.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 > dcPower.Initiate();
 > dcPower.MeasureVoltage();
