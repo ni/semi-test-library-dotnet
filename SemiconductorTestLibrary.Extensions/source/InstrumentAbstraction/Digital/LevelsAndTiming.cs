@@ -406,19 +406,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         /// <summary>
         /// Applies the correction for propagation delay offsets to a digital pattern instrument.
-        /// Use this method to apply per-instrument session per-channel offsets.
+        /// Use this method to apply offsets for each instrument session for each channel.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="offsets">Offsets to apply. The first dimension represents instrument sessions, and the second dimension represents channels.</param>
+        /// <param name="offsets">Offsets to apply. The first dimension represents instrument sessions. The second dimension represents channels.</param>
         /// <remarks>
-        /// For each instrument session, this method supports either:
-        /// 1) offsets only for primary and non-shared channels, or
-        /// 2) offsets for all site-pin channels, including shadows of shared channels.
+        /// For each instrument session, this method supports one of the following:
+        /// - Offsets only for primary and non-shared channels
+        /// - Offsets for all site-pin channels, including shadows of shared channels
         ///
         /// If offsets are supplied for all site-pin channels, all channels mapped to the same shared channel must have identical offset values.
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">
-        /// This exception will be thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
+        /// This exception is thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
         /// if per-session channel counts are invalid, or if shared-channel offsets are inconsistent.
         /// </exception>
         public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, IviDriverPrecisionTimeSpan[][] offsets)
@@ -533,17 +533,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Saves TDR offsets to a file.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="offsets">The per-instrument session per-channel offsets to save. The first dimension represents instrument sessions and the second dimension represents channels.</param>
+        /// <param name="offsets">The offsets to save for each instrument session for each channel. The first dimension represents instrument sessions and the second dimension represents channels.</param>
         /// <param name="filePath">The path of the file to save the offsets to.</param>
         /// <remarks>
-        /// The resulting file is pinmap specific. It is recommended that the filename provided contains the same name as the pinmap, as well as timestamp.
+        /// The resulting file is pinmap-specific. It is recommended that the filename contains the same name as the pinmap, as well as timestamp.
         ///
-        /// For each instrument session, this method supports either:
-        /// 1) offsets only for primary and non-shared channels, or
-        /// 2) offsets for all site-pin channels, including shadows of shared channels.
+        /// For each instrument session, this method supports one of the following:
+        /// - Offsets only for primary and non-shared channels
+        /// - Offsets for all site-pin channels, including shadows of shared channels
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">
-        /// This exception will be thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
+        /// This exception is thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
         /// if per-session channel counts are invalid, or if shared-channel offsets are inconsistent.
         /// </exception>
         public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, IviDriverPrecisionTimeSpan[][] offsets, string filePath)
@@ -619,17 +619,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="offsets">TDR offset values retrieved from the file. Where the first dimension represents instrument sessions and the second dimension represents pins.</param>
         /// <param name="throwOnMissingChannels">Whether to throw a message if the offset for any channel is missing.</param>
         /// <remarks>
-        /// This method supports loading files in two formats:
-        /// 1) Files with offsets for filtered channels only (primary and non-shared channels)
-        /// 2) Files with offsets for all site-pin channels (including shadow channels of shared channels)
+        /// This method supports loading files in the following formats:
+        /// - Files with offsets for filtered channels only (primary and non-shared channels)
+        /// - Files with offsets for all site-pin channels (including shadow channels of shared channels)
         ///
         /// When loading from mode (2), shared channels must have consistent offset values across all their aliases.
         /// </remarks>
         /// <exception cref="ArgumentException">
-        /// This exception will be thrown if throwOnMissingChannels is true and an offset value was not found in the file for one or more of channels in the sessions bundle.
+        /// This exception is thrown if throwOnMissingChannels is true and an offset value was not found in the file for one or more of channels in the sessions bundle.
         /// </exception>
         /// <exception cref="NISemiconductorTestException">
-        /// This exception will be thrown if shared channel offsets are inconsistent (different offset values for the same shared channel across different site-pin aliases).
+        /// This exception is thrown if shared channel offsets are inconsistent (different offset values for the same shared channel across different site-pin aliases).
         /// </exception>
         public static void LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, out IviDriverPrecisionTimeSpan[][] offsets, bool throwOnMissingChannels = true)
         {
