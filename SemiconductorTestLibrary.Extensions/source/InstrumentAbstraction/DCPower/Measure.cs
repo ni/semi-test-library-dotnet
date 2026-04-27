@@ -597,52 +597,43 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             IList<string> onDemandChannelStrings = onDemandChannels.Select(x => x.sitePin.IndividualChannelString).ToList();
             IList<int> onDemandChannelIndexes = onDemandChannels.Select(x => x.index).ToList();
 
-            InvokeInParallel(
-                () =>
+            // Measurement for on demand channels.
+            if (onDemandChannelIndexes.Any())
+            {
+                // Measure all channels that are configured to measure on demand as a single driver call to optimize test time.
+                var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
+                for (int i = 0; i < onDemandChannelIndexes.Count; i++)
                 {
-                    if (onDemandChannelIndexes.Any())
-                    {
-                        // Measure all channels that are configured to measure on demand as a single driver call to optimize test time.
-                        var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
-                        for (int i = 0; i < onDemandChannelIndexes.Count; i++)
-                        {
-                            int index = onDemandChannelIndexes[i];
-                            lock (lockObject)
-                            {
-                                voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
-                                currentMeasurements[index] = measureResult.CurrentMeasurements[i];
-                            }
-                        }
-                    }
-                },
-                () =>
+                    int index = onDemandChannelIndexes[i];
+                    voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
+                    currentMeasurements[index] = measureResult.CurrentMeasurements[i];
+                }
+            }
+
+            for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
+            {
+                var sitePinInfo = listOfChannelsToMeasure[channelIndex];
+                var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
+
+                switch (dcOutput.Measurement.MeasureWhen)
                 {
-                    Parallel.For(0, channelCount, channelIndex =>
-                    {
-                        var sitePinInfo = listOfChannelsToMeasure[channelIndex];
-                        var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
-
-                        switch (dcOutput.Measurement.MeasureWhen)
+                    case DCPowerMeasurementWhen.OnMeasureTrigger:
+                    case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
+                        if (_onDemandOnlyPowerSupplies.Contains(sitePinInfo.ModelString))
                         {
-                            case DCPowerMeasurementWhen.OnMeasureTrigger:
-                            case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
-                                if (_onDemandOnlyPowerSupplies.Contains(sitePinInfo.ModelString))
-                                {
-                                    break;
-                                }
-                                var fetchResult = session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(27), 1);
-                                lock (lockObject)
-                                {
-                                    voltageMeasurements[channelIndex] = fetchResult.VoltageMeasurements[0];
-                                    currentMeasurements[channelIndex] = fetchResult.CurrentMeasurements[0];
-                                }
-                                break;
-
-                            default:
-                                break;
+                            break;
                         }
-                    });
-                });
+                        var fetchResult = session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(2), 1);
+
+                        voltageMeasurements[channelIndex] = fetchResult.VoltageMeasurements[0];
+                        currentMeasurements[channelIndex] = fetchResult.CurrentMeasurements[0];
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
             return new Tuple<double[], double[]>(voltageMeasurements, currentMeasurements);
         }
 
