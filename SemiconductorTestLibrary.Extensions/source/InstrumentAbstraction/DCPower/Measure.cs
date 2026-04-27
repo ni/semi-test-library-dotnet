@@ -632,7 +632,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         break;
                 }
             }
-
             return new Tuple<double[], double[]>(voltageMeasurements, currentMeasurements);
         }
 
