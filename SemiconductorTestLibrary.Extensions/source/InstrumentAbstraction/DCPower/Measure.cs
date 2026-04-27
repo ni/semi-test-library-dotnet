@@ -566,17 +566,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
-            var onTriggerChannels = listOfChannelsToMeasure
-                .Select((sitePin, index) => new { sitePin, index, dcOutput = session.Outputs[sitePin.IndividualChannelString] })
-                .Where(x => x.dcOutput.Measurement.MeasureWhen != DCPowerMeasurementWhen.OnDemand)
-                .ToList();
             var onDemandChannels = listOfChannelsToMeasure
                 .Select((sitePin, index) => new { sitePin, index })
                 .Where(x => session.Outputs[x.sitePin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
                 .ToList();
             IList<string> onDemandChannelStrings = onDemandChannels.Select(x => x.sitePin.IndividualChannelString).ToList();
             IList<int> onDemandChannelIndexes = onDemandChannels.Select(x => x.index).ToList();
-
+            var onTriggerChannels = listOfChannelsToMeasure
+                .Select((sitePin, index) => new { sitePin, index, dcOutput = session.Outputs[sitePin.IndividualChannelString] })
+                .Where(x => x.dcOutput.Measurement.MeasureWhen != DCPowerMeasurementWhen.OnDemand)
+                .ToList();
+            // Send software edge trigger.
             foreach (var channel in onTriggerChannels)
             {
                 if (channel.dcOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger
@@ -585,10 +585,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     channel.dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
                 }
             }
-
+            // Measure all on demand channels as a single driver call to optimize test time.
             if (onDemandChannelIndexes.Any())
             {
-                // Measure all channels that are configured to measure on demand as a single driver call to optimize test time.
                 var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
                 for (int i = 0; i < onDemandChannelIndexes.Count; i++)
                 {
@@ -597,7 +596,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     currentMeasurements[index] = measureResult.CurrentMeasurements[i];
                 }
             }
-
+            // Fetch triggered measurement and update the results.
             foreach (var channel in onTriggerChannels)
             {
                 var fetchResult = session.Measurement.Fetch(channel.sitePin.IndividualChannelString, new PrecisionTimeSpan(20), 1);
