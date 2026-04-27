@@ -201,7 +201,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedPinsInitializeWithThreeSites_QueryWithTowSitesFromTSMContext_Succeeds()
+        public void SharedPinsInitializeWithThreeSites_QueryWithTwoSitesFromTSMContext_Succeeds()
         {
             _tsmContext = CreateTSMContext("SharedPinTests.pinmap", "SharedPinTests.digiproj");
             Initialize(_tsmContext);
