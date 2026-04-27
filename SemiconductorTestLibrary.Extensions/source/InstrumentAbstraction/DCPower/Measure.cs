@@ -579,10 +579,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             foreach (var channel in onTriggerChannels)
             {
-                var dcOutput = channel.dcOutput;
-                if (dcOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger && dcOutput.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge)
+                if (channel.dcOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger
+                    && channel.dcOutput.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge)
                 {
-                    dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
+                    channel.dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
                 }
             }
 
