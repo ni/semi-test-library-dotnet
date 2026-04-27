@@ -586,7 +586,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
             }
 
-            // Measurement all on demand channels in a single driver call to optimize test time.
+            // Measure all on demand channels in a single driver call to optimize test time.
             if (onDemandChannelIndexes.Any())
             {
                 var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
