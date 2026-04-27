@@ -42,9 +42,9 @@ The ganged channels must all map to DUT pins in the pin map file on a per-site b
 
 Use the following procedure to configure the pin map to use a ganged pin group:
 
-1. Add DUT pin definitions for each of the channels being ganged. For example, "Vcc_0", "Vcc_1", "Vcc_2" and so on.
+1. Add DUT pin definitions for each of the channels being ganged. For example, "Vcc0", "Vcc1", "Vcc2" and so on.
 2. Add a new pin group definition. Use a name that is appropriate for the combined pin. For example, "Vcc" or "Vcc_Ganged".
-3. Assign each of the pins created in step 1 to the pin group created in step 3.
+3. Assign each of the pins created in step 1 to the pin group created in step 2.
 
 The following example pin map file illustrates a pin group of two pins being ganged for two sites.
 
@@ -122,7 +122,7 @@ smuBundle.MeasureAndPublishCurrent(publishedDataId: "GangedCurrent");
 smuBundle.UngangPinGroup("Vcc"); 
 ```
 
-There is also a sequence style example available that showcases a complete working example of gangng SMU pin groups.
+There is also a sequence style example available that showcases a complete working example of ganging SMU pin groups.
 Refer to the [SMUGangPinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUGangPinGroup/README.md) for more details.
 This example is also installed on any system using STS Software 26.0 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUGangPinGroup`.
 
@@ -136,22 +136,24 @@ The measured current value of a ganged pin group will reflect the total combined
 
 > [!NOTE]
 > When the lower-level DCPower driver method is called to perform a measurement on leader chanel, only the leader channel's current level would be returned. For follower channels, measurement cannot be taken individually through DCPower driver method and error will be thrown as they're dependant on measure triggers from the leader channel.
-
-The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the leader pin name. It is recommended that you specify the leader pin in the pin field of related tests in the Test tab of the calling TestStand step when working with ganged pin groups.
-> [!NOTE]
-> While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. For ganged channels, the results are stored in pin group name and no individual channel name is present in the returned `PinSiteData` object, therefore results are not published by the pin group name when working with ganged pin groups.
 >
-> If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete` for leader channel, only the first measurement taken will return valid data.
+> [!NOTE]
+> If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken will return valid data.
+>It is advised to use `ConfigureMeasureSettings` method for measure only workflows, to ensure the measurement is successful.
 >
 > ```cs
 > var sessionManager = Initialize(pinmap);
 > var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
 > dcPower.GangPinGroup("PowerPins");
-> dcPower.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+> dcPower.ConfigureMeasureSettings(new DCPowerMeasureSettings { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
 > dcPower.Initiate();
 > dcPower.MeasureVoltage();
 > dcPower.MeasureVoltage() // Will not return any data;
 > ```
+
+The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the leader pin name. It is recommended that you specify the leader pin in the pin field of related tests in the Test tab of the calling TestStand step when working with ganged pin groups.
+> [!NOTE]
+> While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. For ganged channels, the results are stored in pin group name and no individual channel name is present in the returned `PinSiteData` object, therefore results are not published by the pin group name when working with ganged pin groups.
 
 > [!TIP]
 > If you do not want to associate the published data with a pin, you can extract the data from the `PinSiteData` object by the ganged pin group name, using the `ExtractPin` method, and then only publish the returned `SiteData` object without associating it with any pin(s) by passing it to the `PublishResults` method.
