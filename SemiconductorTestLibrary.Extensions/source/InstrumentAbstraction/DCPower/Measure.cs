@@ -585,7 +585,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static Tuple<double[], double[]> MeasureVoltageAndCurrent(this DCPowerSessionInformation sessionInfo)
         {
             var session = sessionInfo.Session;
-            var lockObject = new object();
             List<SitePinInfo> listOfChannelsToMeasure = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
             int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
