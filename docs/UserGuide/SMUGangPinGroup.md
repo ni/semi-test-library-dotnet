@@ -14,7 +14,7 @@ STL supports this functionality by programatically tying all the channels of a g
 
 ### Supported Instruments
 
-Following are some of the SMUs for which STL has enabled ganging support:
+Following are the SMUs on which we have tested the ganging feature:
 
 - [PXIe-4137](https://www.ni.com/docs/en-US/bundle/pxie-4137/page/user-manual-welcome.html),
 - [PXIe-4139](https://www.ni.com/docs/en-US/bundle/pxie-4139/page/user-manual-welcome.html),
@@ -25,6 +25,7 @@ Following are some of the SMUs for which STL has enabled ganging support:
 
 > [!NOTE]
 > All SMUs that support source and measure triggers can be part of the ganged pin group.
+> SMUs that also support start and sequence advance triggers can only be part of ganged pin group for sequence mode operations. Currently, ganged pin groups can be used in basic voltage and current sequence operations.
 > Channels from different single or multi-channel SMUs can also be ganged. In such cases, current share of individual channels should not exceed the current rating of lowest rated SMU channel.
 > There is no restriction on the number of channels ganged.
 
@@ -33,7 +34,7 @@ Following are some of the SMUs for which STL has enabled ganging support:
 All the channels of ganged pin group must be physically connected on the application load board, either statically (always ganged together) or dynamically using a MUX or relays.
 For remote sensing, sense wires of all the ganged channels must be connected.
 
-The following image illustrates an example of the relay-based dynamic connections for a 4 channel gang:
+The following image illustrates an example of the relay-based dynamic connections for a 2 channel gang:
 ![SMUGangPinGroupSetup](../images/SMUGangPinGroup/SMUGangPinGroupSetup.png)
 
 ## Pin Map Requirements
@@ -139,7 +140,7 @@ The measured current value of a ganged pin group will reflect the total combined
 >
 > [!NOTE]
 > If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken will return valid data.
->It is advised to use `ConfigureMeasureSettings` method for measure only workflows, to ensure the measurement is successful.
+>It is advised to use `ConfigureMeasureSettings` method for measure only workflows, to ensure the measurement is successful. Properties like `MeasureWhen` and `MeasureTrigger` should not be configured individually for channels as STL configures them for all the follower channels and they are not meant to be overridden.
 >
 > ```cs
 > var sessionManager = Initialize(pinmap);
