@@ -577,7 +577,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 .Where(x => x.dcOutput.Measurement.MeasureWhen != DCPowerMeasurementWhen.OnDemand)
                 .ToList();
 
-            // Send software edge trigger.
             foreach (var channel in onTriggerChannels)
             {
                 if (channel.dcOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger
@@ -586,10 +585,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     channel.dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
                 }
             }
-
-            // Measurement for all on demand channels as a single driver call to optimize test time.
             if (onDemandChannelIndexes.Any())
             {
+                // Measurement all on demand channels as a single driver call to optimize test time.
                 var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
                 for (int i = 0; i < onDemandChannelIndexes.Count; i++)
                 {
@@ -599,7 +597,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
             }
 
-            // Fetch triggered measurement and update the results.
             foreach (var channel in onTriggerChannels)
             {
                 var fetchResult = session.Measurement.Fetch(channel.sitePin.IndividualChannelString, new PrecisionTimeSpan(20), 1);
