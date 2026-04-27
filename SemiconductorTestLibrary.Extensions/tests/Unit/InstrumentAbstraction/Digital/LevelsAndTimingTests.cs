@@ -1505,11 +1505,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SharedPinsInitializeWithThreeSites_ConfigureVoltageLevelQueriedWithTwoSitesFromTSMContext_ValueCorrectlySet()
         {
             InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+            var expectedIndividualChannelString = "site0/PA_EN";
 
             var queriedSessionManager = new TSMSessionManager(_tsmContext.GetSemiconductorModuleContextWithSites(new int[] { 1, 2 }));
             var queriedSessionsBundle = queriedSessionManager.Digital("PA_EN");
             queriedSessionsBundle.ConfigureVoltageLevels(vil: 2, vih: 4.6, vol: 2.5, voh: 3, vterm: 4);
 
+            Assert.Equal(2, queriedSessionsBundle.AggregateSitePinList.Count);
+            Assert.Equal(expectedIndividualChannelString, queriedSessionsBundle.AggregateSitePinList[0].IndividualChannelString);
+            Assert.Equal(expectedIndividualChannelString, queriedSessionsBundle.AggregateSitePinList[1].IndividualChannelString);
+            Assert.Equal("site1/PA_EN", queriedSessionsBundle.AggregateSitePinList[0].SitePinString);
+            Assert.Equal("site2/PA_EN", queriedSessionsBundle.AggregateSitePinList[1].SitePinString);
             queriedSessionsBundle.Do(sessionInfo =>
             {
                 Assert.Equal(2, sessionInfo.PinSet.DigitalLevels.Vil, 1);

@@ -212,6 +212,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.BurstPattern("CaptureWaveform");
             var results = sessionsBundle.FetchCaptureWaveform("New_Waveform", samplesToRead: 8);
 
+            Assert.Equal(2, sessionsBundle.AggregateSitePinList.Count);
             Assert.Equal(expectedIndividualChannelString, sessionsBundle.AggregateSitePinList[0].IndividualChannelString);
             Assert.Equal(expectedIndividualChannelString, sessionsBundle.AggregateSitePinList[1].IndividualChannelString);
             Assert.Equal("site1/PA_EN", sessionsBundle.AggregateSitePinList[0].SitePinString);
