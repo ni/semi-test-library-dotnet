@@ -1498,6 +1498,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(8e-6, edge.GetValue(1, "C1").TotalSeconds);
         }
 
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SharedPinsInitializeWithThreeSites_ConfigureVoltageLevelQueriedWithTwoSitesFromTSMContext_ValueCorrectlySet()
+        {
+            InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj");
+
+            var queriedSessionManager = new TSMSessionManager(_tsmContext.GetSemiconductorModuleContextWithSites(new int[] { 1, 2 }));
+            var queriedSessionsBundle = queriedSessionManager.Digital("PA_EN");
+            queriedSessionsBundle.ConfigureVoltageLevels(vil: 2, vih: 4.6, vol: 2.5, voh: 3, vterm: 4);
+
+            queriedSessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(2, sessionInfo.PinSet.DigitalLevels.Vil, 1);
+                Assert.Equal(4.6, sessionInfo.PinSet.DigitalLevels.Vih, 1);
+                Assert.Equal(2.5, sessionInfo.PinSet.DigitalLevels.Vol, 1);
+                Assert.Equal(3, sessionInfo.PinSet.DigitalLevels.Voh, 1);
+                Assert.Equal(4, sessionInfo.PinSet.DigitalLevels.Vterm, 1);
+            });
+        }
+
         /// <summary>
         /// Removes a temporary file, if it exists.
         /// This method is intended to be called at the end of the unit test that saving information to a temporary file.
