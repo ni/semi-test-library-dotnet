@@ -585,9 +585,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     channel.dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
                 }
             }
+
+            // Measurement all on demand channels in a single driver call to optimize test time.
             if (onDemandChannelIndexes.Any())
             {
-                // Measurement all on demand channels as a single driver call to optimize test time.
                 var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
                 for (int i = 0; i < onDemandChannelIndexes.Count; i++)
                 {
