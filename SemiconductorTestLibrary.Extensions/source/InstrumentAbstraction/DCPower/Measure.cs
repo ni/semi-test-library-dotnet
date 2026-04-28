@@ -563,10 +563,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var session = sessionInfo.Session;
             List<SitePinInfo> listOfChannelsToMeasure = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+            SplitChannels(session, listOfChannelsToMeasure, out var onDemandChannels, out var nonOnDemandChannels);
             int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
-            SplitChannels(session, listOfChannelsToMeasure, out var onDemandChannels, out var nonOnDemandChannels);
 
             foreach (var channel in nonOnDemandChannels)
             {
@@ -596,6 +596,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 voltageMeasurements[channel.Item2] = fetchResult.VoltageMeasurements[0];
                 currentMeasurements[channel.Item2] = fetchResult.CurrentMeasurements[0];
             }
+
             return new Tuple<double[], double[]>(voltageMeasurements, currentMeasurements);
         }
 
