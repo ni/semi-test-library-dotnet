@@ -28,6 +28,7 @@ Following are the SMUs on which we have tested the ganging feature:
 > SMUs that also support start and sequence advance triggers can only be part of ganged pin group for sequence mode operations. Currently, ganged pin groups can be used in basic voltage and current sequence operations.
 > Channels from different single or multi-channel SMUs can also be ganged. In such cases, current share of individual channels should not exceed the current rating of lowest rated SMU channel.
 > There is no restriction on the number of channels ganged.
+> Any number of channels, in any order can be ganged in multi-channel SMUs.
 
 ### Physical Connections
 
@@ -101,7 +102,6 @@ As a best practice, perform the gang operations at the start and end of the test
 Once the gang operation has been performed, all subsequent DCPower Extension methods can be used on the bundle, and will operate on the pin group as if it were one single pin in the bundle.
 
 > [!NOTE]
-> The `DCPowerSessionsBundle` must be created using the Ganged Pin Group by pin group name when attempting to perform ganged operations. Do not create the `DCPowerSessionsBundle` using the individual pin names within the Ganged Pin Group.
 > Once a pin group is ganged, low level driver operations must not be performed to configure the ganged channels, as that will override the configuration set by STL for ganging and may have adverse effects.
 
 ## Example Usage
