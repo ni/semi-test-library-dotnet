@@ -196,7 +196,19 @@ Refer to the [Custom Instrument Example - `FunctionalTest` Method in TestStep.cs
 
 ## Examples
 
-There is a sequence style example available that showcases the implementation of a Custom Instrument.
+There are two sequence style examples available.
+
+- Custom Instrument Example
+- Custom Instrument RSeries Example
+
+### Custom Instrument Example
+
+Custom Instrument example showcases the implementation of a Custom Instrument.
 This example can also be used as a template starting point for creating your own Custom Instrument.
 Refer to the [Custom Instrument Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/README.md) for more details.
 This example is also installed on any system using STS Software 25.5 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\CustomInstrument`.
+
+### Custom Instrument RSeries Example
+
+Custom Instrument RSeries example showcases how to use the Custom Instrument feature of the Semiconductor Test Library (STL) to interact with an R Series device.
+Refer to the [CustomInstrument RSeries Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument.RSeries/README.md) for more details. This example is also installed on any system using STS Software 26.0 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\CustomInstrument.RSeries`.
