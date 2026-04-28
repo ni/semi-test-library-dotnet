@@ -145,8 +145,9 @@ The measured current value of a ganged pin group will reflect the total combined
 > ```cs
 > var sessionManager = Initialize(pinmap);
 > var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
+> var dcpowerMeasureSettings = new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete };
 > dcPower.GangPinGroup("PowerPins");
-> dcPower.ConfigureMeasureSettings(new DCPowerMeasureSettings { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
+> dcPower.ConfigureMeasureSettings(dcpowerMeasureSettings);;
 > dcPower.Initiate();
 > dcPower.MeasureVoltage();
 > dcPower.MeasureVoltage() // Will throw fetch time out exception;
