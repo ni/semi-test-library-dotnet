@@ -566,32 +566,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
-            var onDemandChannels = listOfChannelsToMeasure
-                .Select((sitePin, index) => new { sitePin, index })
-                .Where(x => session.Outputs[x.sitePin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
-                .ToList();
-            var nonOnDemandChannels = listOfChannelsToMeasure
-                .Select((sitePin, index) => new { sitePin, index, dcOutput = session.Outputs[sitePin.IndividualChannelString] })
-                .Where(x => x.dcOutput.Measurement.MeasureWhen != DCPowerMeasurementWhen.OnDemand)
-                .ToList();
+            SplitChannels(session, listOfChannelsToMeasure, out var onDemandChannels, out var nonOnDemandChannels);
 
             foreach (var channel in nonOnDemandChannels)
             {
-                if (channel.dcOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger
-                    && channel.dcOutput.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge)
+                if (channel.Item3.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger
+                    && channel.Item3.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge)
                 {
-                    channel.dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
+                    channel.Item3.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
                 }
             }
 
             // Measure all on demand channels in a single driver call to optimize test time.
             if (onDemandChannels.Any())
             {
-                var onDemandChannelsString = string.Join(",", onDemandChannels.Select(c => c.sitePin.IndividualChannelString));
+                var onDemandChannelsString = string.Join(",", onDemandChannels.Select(c => c.Item1.IndividualChannelString));
                 var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelsString));
                 for (int i = 0; i < onDemandChannels.Count; i++)
                 {
-                    int index = onDemandChannels[i].index;
+                    int index = onDemandChannels[i].Item2;
                     voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
                     currentMeasurements[index] = measureResult.CurrentMeasurements[i];
                 }
@@ -599,9 +592,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             foreach (var channel in nonOnDemandChannels)
             {
-                var fetchResult = session.Measurement.Fetch(channel.sitePin.IndividualChannelString, new PrecisionTimeSpan(20), 1);
-                voltageMeasurements[channel.index] = fetchResult.VoltageMeasurements[0];
-                currentMeasurements[channel.index] = fetchResult.CurrentMeasurements[0];
+                var fetchResult = session.Measurement.Fetch(channel.Item1.IndividualChannelString, new PrecisionTimeSpan(20), 1);
+                voltageMeasurements[channel.Item2] = fetchResult.VoltageMeasurements[0];
+                currentMeasurements[channel.Item2] = fetchResult.CurrentMeasurements[0];
             }
             return new Tuple<double[], double[]>(voltageMeasurements, currentMeasurements);
         }
@@ -609,6 +602,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #endregion methods on DCPowerSessionInformation
 
         #region private methods
+
+        private static void SplitChannels(NIDCPower session, IList<SitePinInfo> channels, out IList<(SitePinInfo, int)> onDemandChannels, out IList<(SitePinInfo, int, DCPowerOutput)> nonOnDemandChannels)
+        {
+            onDemandChannels = new List<(SitePinInfo, int)>();
+            nonOnDemandChannels = new List<(SitePinInfo, int, DCPowerOutput)>();
+            for (int i = 0; i < channels.Count; i++)
+            {
+                var channel = channels[i];
+                var dcOutput = session.Outputs[channel.IndividualChannelString];
+                if (dcOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                {
+                    onDemandChannels.Add((channel, i));
+                }
+                else
+                {
+                    nonOnDemandChannels.Add((channel, i, dcOutput));
+                }
+            }
+        }
 
         private static void AbortAndConfigure(this DCPowerSessionInformation sessionInfo, Action<string, string> configure)
         {
