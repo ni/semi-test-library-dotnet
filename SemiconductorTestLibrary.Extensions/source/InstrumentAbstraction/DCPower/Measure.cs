@@ -570,14 +570,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 .Select((sitePin, index) => new { sitePin, index })
                 .Where(x => session.Outputs[x.sitePin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
                 .ToList();
-            IList<string> onDemandChannelStrings = onDemandChannels.Select(x => x.sitePin.IndividualChannelString).ToList();
-            IList<int> onDemandChannelIndexes = onDemandChannels.Select(x => x.index).ToList();
-            var onTriggerChannels = listOfChannelsToMeasure
+            var nonOnDemandChannels = listOfChannelsToMeasure
                 .Select((sitePin, index) => new { sitePin, index, dcOutput = session.Outputs[sitePin.IndividualChannelString] })
                 .Where(x => x.dcOutput.Measurement.MeasureWhen != DCPowerMeasurementWhen.OnDemand)
                 .ToList();
 
-            foreach (var channel in onTriggerChannels)
+            foreach (var channel in nonOnDemandChannels)
             {
                 if (channel.dcOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger
                     && channel.dcOutput.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge)
@@ -587,18 +585,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
 
             // Measure all on demand channels in a single driver call to optimize test time.
-            if (onDemandChannelIndexes.Any())
+            if (onDemandChannels.Any())
             {
-                var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
-                for (int i = 0; i < onDemandChannelIndexes.Count; i++)
+                var onDemandChannelsString = string.Join(",", onDemandChannels.Select(c => c.sitePin.IndividualChannelString));
+                var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelsString));
+                for (int i = 0; i < onDemandChannels.Count; i++)
                 {
-                    int index = onDemandChannelIndexes[i];
+                    int index = onDemandChannels[i].index;
                     voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
                     currentMeasurements[index] = measureResult.CurrentMeasurements[i];
                 }
             }
 
-            foreach (var channel in onTriggerChannels)
+            foreach (var channel in nonOnDemandChannels)
             {
                 var fetchResult = session.Measurement.Fetch(channel.sitePin.IndividualChannelString, new PrecisionTimeSpan(20), 1);
                 voltageMeasurements[channel.index] = fetchResult.VoltageMeasurements[0];
