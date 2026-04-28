@@ -149,7 +149,7 @@ The measured current value of a ganged pin group will reflect the total combined
 > dcPower.ConfigureMeasureSettings(new DCPowerMeasureSettings { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
 > dcPower.Initiate();
 > dcPower.MeasureVoltage();
-> dcPower.MeasureVoltage() // Will not return any data;
+> dcPower.MeasureVoltage() // Will throw fetch time out exception;
 > ```
 
 The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the leader pin name. It is recommended that you specify the leader pin in the pin field of related tests in the Test tab of the calling TestStand step when working with ganged pin groups.
