@@ -2479,6 +2479,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void SharedSMUPinsFilteredBySite_GangPinGroupAndForceVoltage_CurrentLimitDividedCorrectly()
+        {
+            var sessionManager = Initialize("SharedPins_SMU4139_InvalidGang.pinmap");
+            var sessionsBundle = sessionManager.DCPower("Va2");
+            var siteBundle = sessionsBundle.FilterBySite(0);
+
+            siteBundle.GangPinGroup("Va2");
+            var voltageLevels = new SiteData<double>(new double[] { 1 });
+            siteBundle.ForceVoltage(voltageLevels, currentLimit: 3);
+
+            siteBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, channelOutput.Source.Output.Function);
+                AssertVoltageSettings(channelOutput, expectedVoltageLevel: 1, expectedCurrentLimit: 1.5);
+            });
+        }
+
+        [Fact]
         public void DifferentSMUDevicesGanged_ForcePerPinPerSiteVoltagesWithSymmetricLimit_CorrectVoltagesForced()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
@@ -5129,7 +5148,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
-        private void AssertCurrentSettings(DCPowerOutput channelOutput, double expectedCurrentLevel, double expectedVoltageLimit)
+        internal void AssertCurrentSettings(DCPowerOutput channelOutput, double expectedCurrentLevel, double expectedVoltageLimit)
         {
             Assert.Equal(expectedCurrentLevel, channelOutput.Source.Current.CurrentLevel);
             Assert.Equal(expectedVoltageLimit, channelOutput.Source.Current.VoltageLimit);
