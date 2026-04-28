@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RegisterMap xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.0" xmlns="http://www.ni.com/Semiconductor/RegisterMap">
+  <Comment>Use the register map document to read and write to a DUT's bit fields. 
+
+Document options:
+- Toggle the 'Show field details' option to view or hide the registers associated to the bit fields. 
+- Toggle the 'Show reserved fields' option to view or hide bit fields indicated as reserved.
+- Use the document tool-bar buttons to read, write or clear bit field values. 
+- Use the filter button in the document tool-bar to help you show only the bit fields of your interest.
+
+Test procedure:
+1. First, use the 'SPI Bringup' document to initialize the DUT before performing register map operations. The bring-up example shows how to power-up the DUT by supplying power to the VDD and VDDIO pins. Select the 'Run DUT bring-up' button in the document tool-bar to initiate the procedure.
+2. Then, select the 'Read-all register values' button in this document to read the field values.
+3. You may then write new field values to the DUT by selecting the 'Write all changes to registers" button in the document tool-bar.</Comment>
+  <Registers addressBitWidth="7" valueBitWidth="8">
+    <Register name="hum_lsb" address="0x7E" type="Read" />
+    <Register name="hum_msb" address="0x7D" type="Read" />
+    <Register name="temp_xlsb" address="0x7C" type="Read" />
+    <Register name="temp_lsb" address="0x7B" type="Read" />
+    <Register name="temp_msb" address="0x7A" type="Read" />
+    <Register name="press_xlsb" address="0x79" type="Read" />
+    <Register name="press_lsb" address="0x78" type="Read" />
+    <Register name="press_msb" address="0x77" type="Read" />
+    <Register name="ctrl_meas" address="0x74" type="ReadWrite" />
+    <Register name="ctrl_hum" address="0x72" type="ReadWrite" />
+    <Register name="reset" address="0x60" type="Write" />
+    <Register name="id" address="0x50" type="Read" />
+  </Registers>
+  <Fields>
+    <Field name="ID">
+      <Comment>The chip identification number.</Comment>
+      <RegisterBits register="id" bitRange="7:0" />
+    </Field>
+    <Field name="Sensor mode" format="Enumeration" enumDefinition="SensorModeOptions">
+      <Comment>Controls the sensor mode of the device.</Comment>
+      <RegisterBits register="ctrl_meas" bitRange="1:0" />
+    </Field>
+    <Field name="Temperature oversampling mode" format="Enumeration" enumDefinition="OversamplingOptions">
+      <Comment>Controls oversampling of temperature data.</Comment>
+      <RegisterBits register="ctrl_meas" bitRange="7:5" />
+    </Field>
+    <Field name="Pressure oversampling mode" format="Enumeration" enumDefinition="OversamplingOptions">
+      <Comment>Controls oversampling of pressure data.</Comment>
+      <RegisterBits register="ctrl_meas" bitRange="4:2" />
+    </Field>
+    <Field name="ctrl_hum[7:3]" reserved="true">
+      <Comment>Reserved ctrl_hum[7:3] register bits.</Comment>
+      <RegisterBits register="ctrl_hum" bitRange="7:3" />
+    </Field>
+    <Field name="Humidity oversampling mode" format="Enumeration" enumDefinition="OversamplingOptions">
+      <Comment>Controls oversampling of humidity data.</Comment>
+      <RegisterBits register="ctrl_hum" bitRange="2:0" />
+    </Field>
+    <Field name="Temperature">
+      <Comment>Raw temperature measurement data.</Comment>
+      <RegisterBits register="temp_msb" bitRange="7:0" />
+      <RegisterBits register="temp_lsb" bitRange="7:0" />
+      <RegisterBits register="temp_xlsb" bitRange="3:0" />
+    </Field>
+    <Field name="Pressure">
+      <Comment>Raw pressure measurement data.</Comment>
+      <RegisterBits register="press_msb" bitRange="7:0" />
+      <RegisterBits register="press_lsb" bitRange="7:0" />
+      <RegisterBits register="press_xlsb" bitRange="3:0" />
+    </Field>
+    <Field name="Humidity">
+      <Comment>Raw humidity measurement data.</Comment>
+      <RegisterBits register="hum_msb" bitRange="7:0" />
+      <RegisterBits register="hum_lsb" bitRange="7:0" />
+    </Field>
+    <Field name="Reset">
+      <Comment>Write 0xB6 to reset using the complete power-on-reset procedure.</Comment>
+      <RegisterBits register="reset" bitRange="7:0" />
+    </Field>
+  </Fields>
+  <EnumDefinitions>
+    <EnumDefinition name="OversamplingOptions" format="Binary">
+      <EnumMember name="Skipped" value="0b000" />
+      <EnumMember name="x1" value="0b001" />
+      <EnumMember name="x2" value="0b010" />
+      <EnumMember name="x4" value="0b011" />
+      <EnumMember name="x8" value="0b100" />
+      <EnumMember name="x16" value="0b101" />
+    </EnumDefinition>
+    <EnumDefinition name="SensorModeOptions" format="Binary">
+      <EnumMember name="Sleep" value="0b000" />
+      <EnumMember name="Forced" value="0b001" />
+      <EnumMember name="Normal" value="0b010" />
+    </EnumDefinition>
+  </EnumDefinitions>
+  <Protocol>
+    <ReadTemplate patternName="SPI_read_template" />
+    <WriteTemplate patternName="SPI_write_template" />
+  </Protocol>
+</RegisterMap>

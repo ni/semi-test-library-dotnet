@@ -57,6 +57,6 @@
 		<ProjectReference Include="..\..\TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj" />
 		<ProjectReference Include="..\..\SemiconductorTestLibrary.TestStandSteps\source\SemiconductorTestLibrary.TestStandSteps.csproj" />
 		<ProjectReference Include="..\source\CodeSnippets\STLExample.CodeSnippets.csproj" />
-
+		<ProjectReference Include="..\source\Sequence\SPI\Code Modules\SPI.csproj" />
 	</ItemGroup>
 </Project>

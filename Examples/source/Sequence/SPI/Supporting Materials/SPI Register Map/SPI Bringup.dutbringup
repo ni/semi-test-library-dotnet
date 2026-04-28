@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DutBringupFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.0" xmlns="http://www.ni.com/Semiconductor/DutBringup">
+  <Comment>Use this document to properly initialize the DUT before performing a register map operation. 
+
+This example shows the usage of the Power Sequence procedure to apply voltage to the VDD and VDDIO power supply pins. </Comment>
+  <RelayConfiguration>
+    <PostDelaySeconds>0 s</PostDelaySeconds>
+  </RelayConfiguration>
+  <ContinuityTest>
+    <ApertureTime>10 µs</ApertureTime>
+    <SettlingTime>500 µs</SettlingTime>
+    <ContinuityTestItems />
+  </ContinuityTest>
+  <PowerSequence>
+    <PowerSequenceItems>
+      <PowerSequenceItem pin="VDD">
+        <Comment>Apply voltage to the DUT's power supply pin</Comment>
+      </PowerSequenceItem>
+      <PowerSequenceItem pin="VDDIO">
+        <Comment>Apply voltage to the DUT's digital interface power supply pin</Comment>
+      </PowerSequenceItem>
+    </PowerSequenceItems>
+  </PowerSequence>
+</DutBringupFile>
