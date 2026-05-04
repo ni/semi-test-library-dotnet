@@ -87,7 +87,7 @@ jobs:
           fi
           echo "$PATCH_DOC" > patch.json
  
-          WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/\$${WORK_ITEM_TYPE}?api-version=6.0"
+          WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/${WORK_ITEM_TYPE}?api-version=6.0"
           echo "Work Item API URL: $WORK_ITEM_API_URL"
          
           RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
@@ -150,7 +150,7 @@ jobs:
         run: |
           echo "Sending Teams notification..."
 
-          CLEAN_BODY=$(echo "$ISSUE_BODY" | tr '\n' ' ' | cut -c1-1200)
+          CLEAN_BODY=$(echo "$ISSUE_BODY" | tr -d '\n' | cut -c1-1200)
 
           cat > teams_payload.json <<EOF
 {
