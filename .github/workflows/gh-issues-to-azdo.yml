@@ -1,19 +1,19 @@
 name: Issue Created Handler
- 
+
 on:
   issues:
     types: [opened]
- 
+
 jobs:
   handle-new-issue:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
- 
+
       - name: Install Python Markdown
         run: pip install markdown
- 
+
       - name: Determine Work Item Type
         id: determine-work-item-type
         uses: actions/github-script@v6
@@ -32,7 +32,7 @@ jobs:
             const encodedType = encodeURIComponent(workItemType);
             return encodedType;
           result-encoding: string
- 
+
       - name: Create work item in Azure DevOps
         id: create-work-item
         env:
@@ -47,9 +47,10 @@ jobs:
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.result }}
         run: |
           echo "Creating Azure DevOps work item for GitHub Issue: $ISSUE_TITLE"
+          
           # Build the base work item payload
-          # Extract image URLs and create links instead of embedding images
-          FORMATTED_ISSUE_BODY=$(python -c "import sys, markdown, re; html = markdown.markdown(sys.stdin.read()); img_urls = re.findall(r'<img[^>]*src=[\"\\']([^\"\\'>]+)[\"\\'][^>]*>', html); clean_html = re.sub(r'<img[^>]*>', '', html); links = ''.join([f'<p><a href=\"{url}\">Screenshot/Image</a></p>' for url in img_urls]); print(clean_html + links)" <<< "$ISSUE_BODY")
+          FORMATTED_ISSUE_BODY=$(python -c "import sys, markdown, re; html = markdown.markdown(sys.stdin.read()); print(re.sub(r'<img[^>]*>', '', html))" <<< "$ISSUE_BODY")
+          
           PATCH_DOC=$(jq -n \
             --arg title "GitHub Issue #$ISSUE_NUMBER: $ISSUE_TITLE" \
             --arg description "<div>
@@ -64,13 +65,15 @@ jobs:
               {"op": "add", "path": "/fields/System.Description", "value": $description},
               {"op": "add", "path": "/fields/System.AreaPath", "value": $areaPath},
               {"op": "add", "path": "/fields/System.Tags", "value": "CommentOnGitHub"}]')
+          
           # Adding additional custom fields if the work item type is "Customer Escalation"
           if [[ "$WORK_ITEM_TYPE" == "Customer%20Escalation" ]]; then
-            PATCH_DOC=$(echo "$PATCH_DOC" | jq '. +
+            PATCH_DOC=$(echo "$PATCH_DOC" | jq '. + 
               [{"op": "add", "path": "/fields/Custom.EscalationPriority", "value": "Priority 3 - Medium"},
               {"op": "add", "path": "/fields/Custom.Requestor", "value": "Semi BU"},
               {"op": "add", "path": "/fields/Custom.BUAffinity", "value": "Semi/Elec"}]')
           fi
+          
           # Adding additional custom fields if the work item type is "Bug"
           if [[ "$WORK_ITEM_TYPE" == "Bug" ]]; then
             STS_VERSION=$(echo "$ISSUE_BODY" | sed -n '/System Setup/,$p' | grep -oP '(?<=STS Software Version )\d+\.\d+(\.\w+)?' | head -n 1 | tr -d '\r')
@@ -82,30 +85,31 @@ jobs:
             fi
             echo "Extracted STS Software Version: $STS_VERSION"
             echo "Final ReportedIn value: $REPORTED_IN"
-            PATCH_DOC=$(echo "$PATCH_DOC" | jq --arg reportedIn "$REPORTED_IN" '. +
+            PATCH_DOC=$(echo "$PATCH_DOC" | jq --arg reportedIn "$REPORTED_IN" '. + 
               [{"op": "add", "path": "/fields/Custom.ReportedIn", "value": $reportedIn}]')
           fi
+          
           echo "$PATCH_DOC" > patch.json
- 
-          WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/\$${WORK_ITEM_TYPE}?api-version=6…
+
+          WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/\$${WORK_ITEM_TYPE}?api-version=6.0"
           echo "Work Item API URL: $WORK_ITEM_API_URL"
-         
+          
           RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
             -X POST \
             -H "Content-Type: application/json-patch+json" \
             --data @patch.json \
             "$WORK_ITEM_API_URL")
-         
+          
           WORK_ITEM_ID=$(echo "$RESPONSE" | jq -r '.id')
           if [ "$WORK_ITEM_ID" = "null" ]; then
             echo "Error: Work item creation failed."
             exit 1
           fi
-         
+          
           WORK_ITEM_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_workitems/edit/$WORK_ITEM_ID"
           echo "work_item_id=$WORK_ITEM_ID" >> $GITHUB_OUTPUT
           echo "work_item_url=$WORK_ITEM_URL" >> $GITHUB_OUTPUT
- 
+
       - name: Link GitHub Issue to Azure DevOps Work Item
         env:
           AZDO_ORG: ${{ secrets.AZDO_ORG }}
@@ -137,86 +141,7 @@ jobs:
             -H "Content-Type: application/json-patch+json" \
             --data @patch-relation.json \
             "$WORK_ITEM_API_URL")
- 
-      # - name: Notify NI Developers on Teams
-      #   env:
-      #     TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
-      #     ISSUE_TITLE: ${{ github.event.issue.title }}
-      #     ISSUE_BODY: ${{ github.event.issue.body }}
-      #     ISSUE_URL: ${{ github.event.issue.html_url }}
-      #     ISSUE_NUMBER: ${{ github.event.issue.number }}
-      #     WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
-      #     WORK_ITEM_URL: ${{ steps.create-work-item.outputs.work_item_url }}
-      #     WORK_ITEM_TYPE_ENCODED: ${{ steps.determine-work-item-type.outputs.result }}
-      #   run: |
-      #     echo "Decoding work item type..."
-      #     WORK_ITEM_TYPE=$(python -c "import urllib.parse; print(urllib.parse.unquote('''$WORK_ITEM_TYPE_ENCODED'''))")
- 
-      #     echo "Formatting issue body for Teams..."
-      #     FORMATTED_ISSUE_BODY=$(echo "$ISSUE_BODY" \
-      #       | sed -E 's/\*\*([^*]+)\*\*/<strong>\1<\/strong>/g' \
-      #       | sed ':a;N;$!ba;s/\n/<br>/g')
- 
-      #     echo "Generating JSON payload with jq"
-      #     jq -n \
-      #       --arg issueTitle "$ISSUE_TITLE" \
-      #       --arg issueBody "$FORMATTED_ISSUE_BODY" \
-      #       --arg issueUrl "$ISSUE_URL" \
-      #       --arg issueNumber "$ISSUE_NUMBER" \
-      #       --arg workItemId "$WORK_ITEM_ID" \
-      #       --arg workItemType "$WORK_ITEM_TYPE" \
-      #       --arg workItemUrl "$WORK_ITEM_URL" \
-      #       '{
-      #         "@type": "MessageCard",
-      #         "@context": "https://schema.org/extensions",
-      #         "themeColor": "0076D7",
-      #         "summary": "New GitHub Issue and Work Item Created",
-      #         "sections": [
-      #           {
-      #             "text": ("<strong>GitHub Issue:</strong> [#" + $issueNumber + " - " + $issueTitle + "](" + $issueUrl + ")<br><br>"
-      #             + "<strong>AzDO Work Item ID:</strong> [" + $workItemId + "](" + $workItemUrl + ")<br>"
-      #             + "<strong>AzDO Work Item Type:</strong> " + $workItemType + "<br><br>"
-      #             + "<strong>Description:</strong> " + $issueBody),
-      #             "markdown": true
-      #           }
-      #         ]
-      #       }' > teams_payload.json
- 
-      #     echo "Previewing JSON payload:"
-      #     cat teams_payload.json
- 
-      #     echo "Sending notication to Teams Channel."
-      #     if ! curl -s -f -H "Content-Type: application/json" -d @teams_payload.json "$TEAMS_WEBHOOK_URL"; then
-      #       echo "Teams notification failed. Attempting to send error alert."
- 
-      #       jq -n \
-      #         --arg workItemId "$WORK_ITEM_ID" \
-      #         --arg workItemType "$WORK_ITEM_TYPE" \
-      #         --arg workItemUrl "$WORK_ITEM_URL" \
-      #         --arg issueUrl "$ISSUE_URL" \
-      #         --arg errorText "Unable to fetch the details for issue #$ISSUE_NUMBER" \
-      #         '{
-      #           "@type": "MessageCard",
-      #           "@context": "https://schema.org/extensions",
-      #           "themeColor": "FF0000",
-      #           "summary": "Unable to fetch Issue Details",
-      #           "sections": [
-      #             {
-      #               "text": ("<strong>Unable to fetch Issue Details</strong><br><br>"
-      #               + "<strong>GitHub Issue:</strong> [View Issue](" + $issueUrl + ")<br>"
-      #               + "<strong>AzDO Work Item ID:</strong> [" + $workItemId + "](" + $workItemUrl + ")<br>"
-      #               + "<strong>AzDO Work Item Type:</strong> " + $workItemType + "<br><br>"
-      #               + "<strong>Error Details:</strong> " + $errorText),
-      #               "markdown": true
-      #             }
-      #           ]
-      #         }' > teams_error_payload.json
- 
-      #       echo "Sending fallback error card..."
-      #       curl -s -H "Content-Type: application/json" -d @teams_error_payload.json "$TEAMS_WEBHOOK_URL"
-      #       echo "Teams notification failed, continuing workflow..."
-      #     fi
- 
+
       - name: Add comment on GitHub Issue
         uses: actions/github-script@v6
         with:
@@ -230,7 +155,7 @@ jobs:
               issue_number: issueNumber,
               body: commentBody,
             });
- 
+
       - name: Update GitHub Issue Title with AzDO Work Item ID
         uses: actions/github-script@v6
         with:
@@ -238,11 +163,11 @@ jobs:
             const issueNumber = context.payload.issue.number;
             const workItemId = '${{ steps.create-work-item.outputs.work_item_id }}';
             const currentTitle = context.payload.issue.title;
-           
+            
             // Only add work item ID if not already present
             if (!currentTitle.startsWith(`[AzDO Work Item: ${workItemId}]`)) {
               const newTitle = `[AzDO Work Item: ${workItemId}] ${currentTitle}`;
-             
+              
               console.log(`Updating issue title to: ${newTitle}`);
               await github.rest.issues.update({
                 owner: context.repo.owner,
@@ -251,5 +176,3 @@ jobs:
                 title: newTitle
               });
             }
- 
- 
