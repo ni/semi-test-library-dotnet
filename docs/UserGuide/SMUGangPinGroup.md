@@ -88,6 +88,8 @@ The following example pin map file illustrates a pin group of two pins being gan
     </Connections>
 </PinMap>
 ```
+> [!NOTE]
+> The Ganged Pin Group feature is supported regardless of if the DCPower session groups are configured as a common session for all instrument, separate sessions for each instrument, or a separate session for each channel.
 
 ## Code Requirements
 
