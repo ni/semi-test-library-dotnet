@@ -214,7 +214,7 @@ jobs:
 
             echo "Sending fallback error card..."
             curl -s -H "Content-Type: application/json" -d @teams_error_payload.json "$TEAMS_WEBHOOK_URL"
-            exit 1
+            echo "Teams notification failed, continuing workflow..."
           fi
 
       - name: Add comment on GitHub Issue
