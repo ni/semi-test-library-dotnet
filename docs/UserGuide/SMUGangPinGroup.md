@@ -14,7 +14,7 @@ STL supports this functionality by programatically tying all the channels of a g
 
 ### Supported Instruments
 
-Following are the SMUs on which we have tested the ganging feature:
+The following SMUs modules have been fully tested to validate they support STL's ganging feature:
 
 - [PXIe-4137](https://www.ni.com/docs/en-US/bundle/pxie-4137/page/user-manual-welcome.html),
 - [PXIe-4139](https://www.ni.com/docs/en-US/bundle/pxie-4139/page/user-manual-welcome.html),
@@ -24,11 +24,11 @@ Following are the SMUs on which we have tested the ganging feature:
 - [PXIe-4163](https://www.ni.com/docs/en-US/bundle/pxie-4163/page/user-manual-welcome.html)
 
 > [!NOTE]
-> All SMUs that support source and measure triggers can be part of the ganged pin group.
-> SMUs that also support start and sequence advance triggers can only be part of ganged pin group for sequence mode operations. Currently, ganged pin groups can be used in basic voltage and current sequence operations.
-> Channels from different single or multi-channel SMUs can also be ganged. In such cases, current share of individual channels should not exceed the current rating of lowest rated SMU channel.
+> This is not a compressive list. Any channel from an SMU module that supports source and measure triggers can be part of a ganged pin group. However, sequence mode operations require all channels of the ganged pin group to also support start and sequence advance triggers.
+> Channels from different single or multi-channel SMUs can be ganged together. In such cases, the current shared by each individual channel cannot exceed the current rating of lowest rated SMU channel.
 > There is no restriction on the number of channels ganged.
-> Any number of channels, in any order can be ganged in multi-channel SMUs.
+> Channels can be ganged in any order.
+> Basic voltage and current sequence operations can be preformed with ganged pin groups, but more advance synchronized sequence operations are not currently supported.
 
 ### Physical Connections
 
@@ -155,7 +155,7 @@ The measured current value of a ganged pin group will reflect the total combined
 > dcPower.MeasureVoltage() // Will throw fetch time out exception;
 > ```
 
-The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the leader pin name. It is recommended that you specify the leader pin in the pin field of related tests in the Test tab of the calling TestStand step when working with ganged pin groups.
+The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the name of the first pin in the ganged pin group, which is the pin associated with the leader channel. It is recommended that you specify the leader pin name in the Pin field of related tests in the Test tab of the calling TestStand step when working with ganged pin groups.
 > [!NOTE]
 > While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. For ganged channels, the results are stored in pin group name and no individual channel name is present in the returned `PinSiteData` object, therefore results are not published by the pin group name when working with ganged pin groups.
 
