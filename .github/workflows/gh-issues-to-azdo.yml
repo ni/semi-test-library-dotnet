@@ -3,9 +3,12 @@ name: Issue Created Handler
 on:
   issues:
     types: [opened]
+  issue_comment:
+    types: [created]
 
 jobs:
   handle-new-issue:
+    if: github.event_name == 'issues'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -47,10 +50,10 @@ jobs:
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.result }}
         run: |
           echo "Creating Azure DevOps work item for GitHub Issue: $ISSUE_TITLE"
-          
+
           # Build the base work item payload
           FORMATTED_ISSUE_BODY=$(python -c "import sys, markdown, re; html = markdown.markdown(sys.stdin.read()); print(re.sub(r'<img[^>]*>', '', html))" <<< "$ISSUE_BODY")
-          
+
           PATCH_DOC=$(jq -n \
             --arg title "GitHub Issue #$ISSUE_NUMBER: $ISSUE_TITLE" \
             --arg description "<div>
@@ -65,15 +68,15 @@ jobs:
               {"op": "add", "path": "/fields/System.Description", "value": $description},
               {"op": "add", "path": "/fields/System.AreaPath", "value": $areaPath},
               {"op": "add", "path": "/fields/System.Tags", "value": "CommentOnGitHub"}]')
-          
+
           # Adding additional custom fields if the work item type is "Customer Escalation"
           if [[ "$WORK_ITEM_TYPE" == "Customer%20Escalation" ]]; then
-            PATCH_DOC=$(echo "$PATCH_DOC" | jq '. + 
+            PATCH_DOC=$(echo "$PATCH_DOC" | jq '. +
               [{"op": "add", "path": "/fields/Custom.EscalationPriority", "value": "Priority 3 - Medium"},
               {"op": "add", "path": "/fields/Custom.Requestor", "value": "Semi BU"},
               {"op": "add", "path": "/fields/Custom.BUAffinity", "value": "Semi/Elec"}]')
           fi
-          
+
           # Adding additional custom fields if the work item type is "Bug"
           if [[ "$WORK_ITEM_TYPE" == "Bug" ]]; then
             STS_VERSION=$(echo "$ISSUE_BODY" | sed -n '/System Setup/,$p' | grep -oP '(?<=STS Software Version )\d+\.\d+(\.\w+)?' | head -n 1 | tr -d '\r')
@@ -85,27 +88,27 @@ jobs:
             fi
             echo "Extracted STS Software Version: $STS_VERSION"
             echo "Final ReportedIn value: $REPORTED_IN"
-            PATCH_DOC=$(echo "$PATCH_DOC" | jq --arg reportedIn "$REPORTED_IN" '. + 
+            PATCH_DOC=$(echo "$PATCH_DOC" | jq --arg reportedIn "$REPORTED_IN" '. +
               [{"op": "add", "path": "/fields/Custom.ReportedIn", "value": $reportedIn}]')
           fi
-          
+
           echo "$PATCH_DOC" > patch.json
 
           WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/\$${WORK_ITEM_TYPE}?api-version=6.0"
           echo "Work Item API URL: $WORK_ITEM_API_URL"
-          
+
           RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
             -X POST \
             -H "Content-Type: application/json-patch+json" \
             --data @patch.json \
             "$WORK_ITEM_API_URL")
-          
+
           WORK_ITEM_ID=$(echo "$RESPONSE" | jq -r '.id')
           if [ "$WORK_ITEM_ID" = "null" ]; then
             echo "Error: Work item creation failed."
             exit 1
           fi
-          
+
           WORK_ITEM_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_workitems/edit/$WORK_ITEM_ID"
           echo "work_item_id=$WORK_ITEM_ID" >> $GITHUB_OUTPUT
           echo "work_item_url=$WORK_ITEM_URL" >> $GITHUB_OUTPUT
@@ -142,20 +145,6 @@ jobs:
             --data @patch-relation.json \
             "$WORK_ITEM_API_URL")
 
-      - name: Add comment on GitHub Issue
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const issueNumber = context.payload.issue.number;
-            const issueCreator = context.payload.issue.user.login;
-            const commentBody = `Thank you for posting, @${issueCreator}! The NI development team has been notified and a corresponding work item has been created internally. The team will review and reply back if any further clarification is required.`;
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber,
-              body: commentBody,
-            });
-
       - name: Update GitHub Issue Title with AzDO Work Item ID
         uses: actions/github-script@v6
         with:
@@ -163,11 +152,11 @@ jobs:
             const issueNumber = context.payload.issue.number;
             const workItemId = '${{ steps.create-work-item.outputs.work_item_id }}';
             const currentTitle = context.payload.issue.title;
-            
+
             // Only add work item ID if not already present
-            if (!currentTitle.startsWith(`[AzDO Work Item: ${workItemId}]`)) {
+            if (!currentTitle.includes('[AzDO Work Item:')) {
               const newTitle = `[AzDO Work Item: ${workItemId}] ${currentTitle}`;
-              
+
               console.log(`Updating issue title to: ${newTitle}`);
               await github.rest.issues.update({
                 owner: context.repo.owner,
@@ -176,3 +165,108 @@ jobs:
                 title: newTitle
               });
             }
+
+      - name: Add comment on GitHub Issue
+        uses: actions/github-script@v6
+        env:
+          WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
+          WORK_ITEM_URL: ${{ steps.create-work-item.outputs.work_item_url }}
+        with:
+          script: |
+            const issueNumber = context.payload.issue.number;
+            const issueCreator = context.payload.issue.user.login;
+            const workItemId = process.env.WORK_ITEM_ID;
+            const workItemUrl = process.env.WORK_ITEM_URL;
+
+            const commentBody = `Thank you for posting, @${issueCreator}! The NI development team has been notified and a corresponding work item has been created internally.
+
+            **Azure DevOps Work Item:** [#${workItemId}](${workItemUrl})
+
+            The team will review and reply back if any further clarification is required.`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: commentBody,
+            });
+
+  # Sync GitHub comments to Azure DevOps
+  sync-comment-to-azdo:
+    if: github.event_name == 'issue_comment' && github.event.action == 'created'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Extract Work Item ID from Issue Title
+        id: extract-work-item
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number
+            });
+
+            // Extract work item ID from title [AzDO Work Item: 123]
+            const match = issue.data.title.match(/\[AzDO Work Item:\s*(\d+)\]/);
+
+            if (match) {
+              console.log(`Found Work Item ID: ${match[1]}`);
+              return match[1];
+            }
+
+            console.log('No Work Item ID found in issue title');
+            return null;
+          result-encoding: string
+
+      - name: Sync comment to Azure DevOps
+        if: steps.extract-work-item.outputs.result != 'null'
+        env:
+          AZDO_ORG: ${{ secrets.AZDO_ORG }}
+          AZDO_PROJECT: ${{ secrets.AZDO_PROJECT }}
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+          WORK_ITEM_ID: ${{ steps.extract-work-item.outputs.result }}
+          COMMENT_USER: ${{ github.event.comment.user.login }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          COMMENT_CREATED_AT: ${{ github.event.comment.created_at }}
+          COMMENT_URL: ${{ github.event.comment.html_url }}
+        run: |
+          echo "Syncing comment to AzDO Work Item #$WORK_ITEM_ID"
+
+          # Escape special characters in comment body
+          ESCAPED_COMMENT_BODY=$(echo "$COMMENT_BODY" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g' | sed ':a;N;$!ba;s/\n/<br\/>/g')
+
+          # Format comment for AzDO with GitHub styling
+          FORMATTED_COMMENT="<div style=\"border-left: 3px solid #0078d4; padding: 10px; margin: 10px 0; background-color: #f3f4f6;\">
+            <strong>GitHub Comment by @${COMMENT_USER}</strong><br/>
+            <em>${COMMENT_CREATED_AT}</em><br/>
+            <a href=\"${COMMENT_URL}\">View on GitHub</a><br/><br/>
+            ${ESCAPED_COMMENT_BODY}
+          </div>"
+
+          # Create patch document to add comment to work item history
+          PATCH_DOC=$(jq -n \
+            --arg comment "$FORMATTED_COMMENT" \
+            '[{"op": "add", "path": "/fields/System.History", "value": $comment}]')
+
+          echo "$PATCH_DOC" > patch-comment.json
+
+          # Post comment to AzDO
+          WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$WORK_ITEM_ID?api-version=6.0"
+
+          RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
+            -X PATCH \
+            -H "Content-Type: application/json-patch+json" \
+            --data @patch-comment.json \
+            "$WORK_ITEM_API_URL")
+
+          if echo "$RESPONSE" | jq -e '.id' > /dev/null; then
+            echo "Comment synced to Work Item #$WORK_ITEM_ID"
+          else
+            echo "Failed to sync comment"
+            echo "Response: $RESPONSE"
+            exit 1
+          fi
