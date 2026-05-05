@@ -217,4 +217,4 @@ This example is also installed on any system using STS Software 26.0 or later, u
 **Related Information:**
 
 - [NI R Series Multifunction RIO Device Drivers User Manual: Overview](https://www.ni.com/docs/en-US/bundle/ni-r-series-multifunction-rio-device-drivers/page/overview.html)
-- [NI Multifunction RIO Frequently Asked Questions (FAQ)](https://www.ni.com/docs/en-US/bundle/ni-r-series-multifunction-rio-device-drivers/page/overview.html)
+- [NI Multifunction RIO Frequently Asked Questions (FAQ)](https://www.ni.com/en/support/documentation/supplemental/06/ni-r-series-multifunction-rio-frequently-asked-questions--faq-.html)
