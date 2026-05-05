@@ -51,7 +51,20 @@ jobs:
         run: |
           echo "Creating Azure DevOps work item for GitHub Issue: $ISSUE_TITLE"
 
-          FORMATTED_ISSUE_BODY=$(python -c "import sys, markdown, re; html = markdown.markdown(sys.stdin.read()); print(re.sub(r'<img[^>]*>', '', html))" <<< "$ISSUE_BODY")
+          FORMATTED_ISSUE_BODY=$(python -c "
+          import sys, markdown, re
+
+          html = markdown.markdown(sys.stdin.read())
+
+          def replace_img(match):
+              src = re.search(r'src=\"([^\"]+)\"', match.group(0))
+              alt = re.search(r'alt=\"([^\"]+)\"', match.group(0))
+              src_val = src.group(1) if src else ''
+              alt_val = alt.group(1) if alt else 'image'
+              return f'__IMG_PLACEHOLDER__{src_val}__ALT__{alt_val}__END__'
+
+          print(re.sub(r'<img[^>]*>', replace_img, html))
+          " <<< "$ISSUE_BODY")
 
           DESCRIPTION="<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: $ISSUE_NUMBER</p><p><a href=\"$ISSUE_URL\">View Issue on GitHub</a></p><p>$FORMATTED_ISSUE_BODY</p><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the \"CommentOnGitHub\" tag <u>if no action is required</u> for the work item.</p></div>"
 
@@ -100,6 +113,94 @@ jobs:
           WORK_ITEM_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_workitems/edit/$WORK_ITEM_ID"
           echo "work_item_id=$WORK_ITEM_ID" >> $GITHUB_OUTPUT
           echo "work_item_url=$WORK_ITEM_URL" >> $GITHUB_OUTPUT
+          echo "formatted_body=$FORMATTED_ISSUE_BODY" >> $GITHUB_OUTPUT
+
+      - name: Upload Images and Update Work Item Description
+        env:
+          AZDO_ORG: ${{ secrets.AZDO_ORG }}
+          AZDO_PROJECT: ${{ secrets.AZDO_PROJECT }}
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+          WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          FORMATTED_BODY: ${{ steps.create-work-item.outputs.formatted_body }}
+        run: |
+          echo "Processing images for Work Item #$WORK_ITEM_ID"
+
+          UPDATED_DESCRIPTION="$FORMATTED_BODY"
+          IMG_INDEX=0
+
+          # Extract all image placeholders and process them
+          while IFS= read -r line; do
+            SRC=$(echo "$line" | grep -oP '(?<=__IMG_PLACEHOLDER__)[^_]+(?=__ALT__)')
+            ALT=$(echo "$line" | grep -oP '(?<=__ALT__)[^_]+(?=__END__)')
+
+            if [[ -n "$SRC" ]]; then
+              IMG_INDEX=$((IMG_INDEX + 1))
+              IMG_FILE="image_$IMG_INDEX.png"
+
+              echo "Downloading image $IMG_INDEX: $SRC"
+              HTTP_STATUS=$(curl -sL -o "$IMG_FILE" -w "%{http_code}" "$SRC")
+
+              if [[ "$HTTP_STATUS" == "200" ]] && [[ -s "$IMG_FILE" ]]; then
+                # Detect actual file type
+                MIME_TYPE=$(file --mime-type -b "$IMG_FILE")
+                echo "Image MIME type: $MIME_TYPE"
+
+                # Upload image to AzDO as attachment
+                UPLOAD_RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
+                  -X POST \
+                  -H "Content-Type: $MIME_TYPE" \
+                  --data-binary @"$IMG_FILE" \
+                  "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/attachments?fileName=$IMG_FILE&api-version=6.0")
+
+                ATTACHMENT_URL=$(echo "$UPLOAD_RESPONSE" | jq -r '.url')
+
+                if [[ "$ATTACHMENT_URL" != "null" && -n "$ATTACHMENT_URL" ]]; then
+                  echo "Image $IMG_INDEX uploaded successfully: $ATTACHMENT_URL"
+
+                  # Replace placeholder with actual inline AzDO image tag
+                  AZDO_IMG_TAG="<img src=\"$ATTACHMENT_URL\" alt=\"$ALT\" style=\"max-width:100%;\" />"
+                  PLACEHOLDER="__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__"
+                  UPDATED_DESCRIPTION="${UPDATED_DESCRIPTION//$PLACEHOLDER/$AZDO_IMG_TAG}"
+                else
+                  echo "Failed to upload image $IMG_INDEX, using link as fallback"
+                  FALLBACK="<a href=\"$SRC\">[Image: $ALT]</a>"
+                  PLACEHOLDER="__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__"
+                  UPDATED_DESCRIPTION="${UPDATED_DESCRIPTION//$PLACEHOLDER/$FALLBACK}"
+                fi
+              else
+                echo "Failed to download image $IMG_INDEX (HTTP $HTTP_STATUS), using link as fallback"
+                FALLBACK="<a href=\"$SRC\">[Image: $ALT]</a>"
+                PLACEHOLDER="__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__"
+                UPDATED_DESCRIPTION="${UPDATED_DESCRIPTION//$PLACEHOLDER/$FALLBACK}"
+              fi
+            fi
+          done < <(echo "$FORMATTED_BODY" | grep -o '__IMG_PLACEHOLDER__[^_]*__ALT__[^_]*__END__')
+
+          # Wrap final description
+          FINAL_DESCRIPTION="<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: $ISSUE_NUMBER</p><p><a href=\"$ISSUE_URL\">View Issue on GitHub</a></p><p>$UPDATED_DESCRIPTION</p><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the \"CommentOnGitHub\" tag <u>if no action is required</u> for the work item.</p></div>"
+
+          # Update work item description with images
+          UPDATE_PATCH=$(jq -n \
+            --arg description "$FINAL_DESCRIPTION" \
+            '[{"op": "replace", "path": "/fields/System.Description", "value": $description}]')
+
+          echo "$UPDATE_PATCH" > patch-update.json
+
+          UPDATE_RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
+            -X PATCH \
+            -H "Content-Type: application/json-patch+json" \
+            --data @patch-update.json \
+            "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$WORK_ITEM_ID?api-version=6.0")
+
+          if echo "$UPDATE_RESPONSE" | jq -e '.id' > /dev/null; then
+            echo "Work item description updated with $IMG_INDEX image(s)"
+          else
+            echo "Failed to update work item description"
+            echo "Response: $UPDATE_RESPONSE"
+            exit 1
+          fi
 
       - name: Link GitHub Issue to Azure DevOps Work Item
         env:
@@ -178,30 +279,17 @@ jobs:
             --arg workItemUrl "$WORK_ITEM_URL" \
             --arg workItemType "$WORK_ITEM_TYPE" \
             '{
-              "type": "message",
-              "attachments": [{
-                "contentType": "application/vnd.microsoft.card.adaptive",
-                "content": {
-                  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-                  "type": "AdaptiveCard",
-                  "version": "1.4",
-                  "body": [
-                    {
-                      "type": "TextBlock",
-                      "text": "New GitHub Issue Received",
-                      "weight": "Bolder",
-                      "size": "Medium"
-                    },
-                    {
-                      "type": "FactSet",
-                      "facts": [
-                        {"title": "GitHub Issue:", "value": "[#\($issueNumber): \($issueTitle)](\($issueUrl))"},
-                        {"title": "AzDO Work Item ID:", "value": "[\($workItemId)](\($workItemUrl))"},
-                        {"title": "AzDO Work Item Type:", "value": $workItemType}
-                      ]
-                    }
-                  ]
-                }
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "summary": "New GitHub Issue",
+              "themeColor": "0078D4",
+              "title": "New GitHub Issue Received",
+              "sections": [{
+                "facts": [
+                  {"name": "GitHub Issue:", "value": "[#\($issueNumber): \($issueTitle)](\($issueUrl))"},
+                  {"name": "AzDO Work Item ID:", "value": "[\($workItemId)](\($workItemUrl))"},
+                  {"name": "AzDO Work Item Type:", "value": $workItemType}
+                ]
               }]
             }')
 
