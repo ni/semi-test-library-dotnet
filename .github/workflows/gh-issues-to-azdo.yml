@@ -154,6 +154,8 @@ jobs:
                   --data-binary @"$IMG_FILE" \
                   "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/attachments?fileName=$IMG_FILE&api-version=6.0")
 
+                echo "Upload response: $UPLOAD_RESPONSE"
+
                 ATTACHMENT_URL=$(echo "$UPLOAD_RESPONSE" | jq -r '.url')
 
                 if [[ "$ATTACHMENT_URL" != "null" && -n "$ATTACHMENT_URL" ]]; then
