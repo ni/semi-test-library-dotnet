@@ -143,14 +143,12 @@ jobs:
               HTTP_STATUS=$(curl -sL -o "$IMG_FILE" -w "%{http_code}" "$SRC")
 
               if [[ "$HTTP_STATUS" == "200" ]] && [[ -s "$IMG_FILE" ]]; then
-                # Detect actual file type
-                MIME_TYPE=$(file --mime-type -b "$IMG_FILE")
-                echo "Image MIME type: $MIME_TYPE"
+                echo "Uploading image $IMG_INDEX to AzDO"
 
                 # Upload image to AzDO as attachment
                 UPLOAD_RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
                   -X POST \
-                  -H "Content-Type: $MIME_TYPE" \
+                  -H "Content-Type: application/octet-stream" \
                   --data-binary @"$IMG_FILE" \
                   "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/attachments?fileName=$IMG_FILE&api-version=6.0")
 
