@@ -218,8 +218,23 @@ jobs:
 
           echo "Teams notification sent successfully."
 
+      - name: Test Bot Comment (remove after testing)
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body: `This is a test bot comment — should NOT be synced to AzDO.`
+            });
+
   sync-comment-to-azdo:
-    if: github.event_name == 'issue_comment' && github.event.action == 'created'
+    if: >
+      github.event_name == 'issue_comment' &&
+      github.event.action == 'created' &&
+      github.event.comment.user.login != 'github-actions[bot]' &&
+      github.event.comment.user.type != 'Bot'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
