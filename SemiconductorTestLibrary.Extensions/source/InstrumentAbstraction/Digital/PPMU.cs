@@ -519,9 +519,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 .Select(pin => pin.SitePinString);
             var filteredPinSetString = string.Join(",", activeSitePins);
             var ppmu = sessionInfo.Session.PinAndChannelMap.GetPinSet(filteredPinSetString).Ppmu;
-            var allMeasurements = ppmu.Measure(measurementType is MeasurementType.Voltage ? PpmuMeasurementType.Voltage : PpmuMeasurementType.Current);
 
-            return allMeasurements;
+            return ppmu.Measure(measurementType is MeasurementType.Voltage ? PpmuMeasurementType.Voltage : PpmuMeasurementType.Current);
         }
 
         #endregion methods on DigitalSessionInformation
