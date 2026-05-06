@@ -4,9 +4,6 @@ The DCPower Instrument Abstraction allows you to gang SMU pins together to achie
 
 STL supports this functionality by programatically tying all the channels of a ganged pin group together, sharing equal current levels and limits across the channels and synchronizing them to act together.
 
-- Leader channel: The channel that acts as leader and triggers the follower channels for sourcing and measurement.
-- Follower channels: The channels that are synchronized with the leader channel for sourcing and measurement.
-
 > [!NOTE]
 > Supported in Semiconductor Test Library 26.0 NuGet package or later.
 
@@ -40,7 +37,13 @@ The following image illustrates an example of the relay-based dynamic connection
 
 ## Theory of Operations
 
- We 
+ We have two categories of channels in the ganged pin group feature.
+ 
+- Leader channel: The channel that acts as leader and drives the follower channels for sourcing and measurement. It is usually the channel associated with the first pin in the ganged pin group.
+- Follower channels: The channels that are synchronized with the leader channel for sourcing and measurement.
+
+Current level and limit are equally split across all the channels by STL. Source and measure triggers are set to the follower channels that make them operate in sync with the leader channel. For current and voltage sequencing operations of ganged pin group, start trigger and sequence advance trigger are also set for follower channels. 
+This is different from [SMU Merge Pin Group](https://github.com/ni/semi-test-library-dotnet/pull/SMUMergePinGroup.md#pin-map-requirements) feature, where all the triggering and current sharing part is taken care by the driver.
 
 ## Pin Map Requirements
 
