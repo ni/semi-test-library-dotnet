@@ -1,4 +1,6 @@
-﻿using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+using NationalInstruments.ModularInstruments.NIDCPower;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
+using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -59,16 +61,36 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         public static void Initiate(this DCPowerSessionsBundle sessionsBundle)
         {
-            sessionsBundle.Do(sessionInfo =>
+            if (sessionsBundle.HasGangedChannels)
             {
-                sessionInfo.AllChannelsOutput.Control.Initiate();
-            });
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                    {
+                        sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Initiate();
+                    }
+                });
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    if (!IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+                    {
+                        sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Initiate();
+                    }
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Control.Initiate();
+                });
+            }
         }
 
         /// <summary>
         /// Initiates the specified advanced sequence on all sessions in the bundle.
         /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object..</param>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sequenceName">The name of the advanced sequence to initiate.</param>
         /// <param name="waitForSequenceCompletion"><see langword="true"/> to wait for the sequence to complete before returning; <see langword="false"/> to
         /// return immediately after initiating the sequence.</param>
@@ -78,14 +100,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do(sessionInfo =>
             {
                 var allChannelOutput = sessionInfo.AllChannelsOutput;
+
                 allChannelOutput.Control.Abort();
+
+                allChannelOutput.Source.Mode = DCPowerSourceMode.Sequence;
+
                 allChannelOutput.Source.AdvancedSequencing.ActiveAdvancedSequence = sequenceName;
-                allChannelOutput.Control.Initiate();
-                if (waitForSequenceCompletion)
-                {
-                    allChannelOutput.Events.SourceCompleteEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
-                }
             });
+
+            sessionsBundle.Initiate();
+
+            if (waitForSequenceCompletion)
+            {
+                sessionsBundle.WaitForEvent(EventType.SequenceEngineDoneEvent, sequenceTimeoutInSeconds);
+            }
         }
         #endregion methods on DCPowerSessionsBundle
     }

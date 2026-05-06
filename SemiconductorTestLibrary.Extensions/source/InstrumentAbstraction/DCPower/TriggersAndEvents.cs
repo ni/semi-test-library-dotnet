@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
-
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
@@ -41,7 +39,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
-                if (!triggerTypesUnsupported.Contains(triggerType))
+                if (!triggerTypesUnsupported.Contains(triggerType) && !IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
                 {
                     var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                     switch (triggerType)
@@ -114,8 +112,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Disables all triggers by configuring them to None: PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, and StartTrigger.
-        /// <para> Note that MeasureTrigger is not supported. It does not need to be disabled.</para>
+        /// Disables the following triggers by configuring them to None: PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, and StartTrigger.
+        /// <para> MeasureTrigger is not supported. It does not need to be disabled.</para>
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="triggerTypes">Optional list of trigger types to disable. If null or empty, all supported triggers are disabled.</param>
@@ -129,7 +127,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
                 var triggerTypesToDisable = (triggerTypes == null || !triggerTypes.Any()) ? new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger } : triggerTypes;
                 var supportedTriggerTypesToDisable = triggerTypesToDisable.Except(triggerTypesUnsupported);
-                if (supportedTriggerTypesToDisable.Any())
+                if (supportedTriggerTypesToDisable.Any() && !IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
                 {
                     var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                     output.Control.Abort();
@@ -154,13 +152,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures a digital edge trigger for the selected TriggerType: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, and StartTrigger.
+        /// Configures a digital edge trigger for one of the following selected TriggerTypes: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, and StartTrigger.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="triggerType">Type of trigger, either MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
+        /// <param name="triggerType">One of the following trigger types: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
         /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
         /// <para>
-        /// This is the fully qualified terminal string, which should be in the form of <code>"/Dev1/PXI_Trig0"</code>,
+        /// This is the fully qualified terminal string, which must be in the form of <code>"/Dev1/PXI_Trig0"</code>,
         /// where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
         /// </para>
         /// <para>Note that the input terminal can also be a terminal from another instrument or channel.</para>
@@ -176,12 +174,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Hence, need the ability to check the operation against each channel when configuring triggers.
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, tiggerTerminal, triggerEdge);
+                if (!IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
+                {
+                    ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, tiggerTerminal, triggerEdge);
+                }
             });
         }
 
         /// <summary>
-        /// Configures a software edge trigger for the selected TriggerType: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, and StartTrigger.
+        /// Configures a software edge trigger for one of the following selected TriggerTypes: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, and StartTrigger.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="triggerType">Type of trigger, either MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, or StartTrigger.</param>>
@@ -193,7 +194,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
-                if (!triggerTypesUnsupported.Contains(triggerType))
+                if (!triggerTypesUnsupported.Contains(triggerType) && !IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
                 {
                     var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                     output.Control.Abort();
@@ -232,7 +233,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
                 var triggerTypesToClear = new List<TriggerType>() { TriggerType.PulseTrigger, TriggerType.SequenceAdvanceTrigger, TriggerType.SourceTrigger, TriggerType.StartTrigger };
                 var supportedTriggerTypesToClear = triggerTypesToClear.Except(triggerTypesUnsupported);
-                if (supportedTriggerTypesToClear.Any())
+                if (supportedTriggerTypesToClear.Any() && !IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
                 {
                     var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                     output.Control.Abort();
@@ -266,6 +267,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             if (IsFollowerOfGangedChannels(gangingInfo))
             {
                 dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SourceTrigger, gangingInfo.SourceTriggerName, DCPowerTriggerEdge.Rising);
+            }
+        }
+
+        internal static void ConfigureStartTriggerForCascadedSequencing(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
+        {
+            var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
+            if (IsFollowerOfGangedChannels(gangingInfo))
+            {
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.StartTrigger, gangingInfo.StartTriggerName, DCPowerTriggerEdge.Rising);
+            }
+        }
+
+        internal static void ConfigureSequenceAdvanceTriggerForCascadedSequencing(this DCPowerOutput dcPowerOutput, SitePinInfo sitePinInfo)
+        {
+            var gangingInfo = sitePinInfo?.CascadingInfo as GangingInfo;
+            if (IsFollowerOfGangedChannels(gangingInfo))
+            {
+                dcPowerOutput.ConfigureTriggerDigitalEdge(TriggerType.SequenceAdvanceTrigger, gangingInfo.SequenceAdvanceTriggerName, DCPowerTriggerEdge.Rising);
             }
         }
 

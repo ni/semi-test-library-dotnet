@@ -15,6 +15,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static class Measure
     {
+        private static readonly IReadOnlyList<string> _onDemandOnlyPowerSupplies = new List<string>()
+        {
+            DCPowerModelStrings.PXI_4110,
+            DCPowerModelStrings.PXI_4130,
+        };
+
         #region methods on DCPowerSessionsBundle
 
         /// <summary>
@@ -191,6 +197,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The measurements in per-instrument per-channel format. Item1 is voltage measurements, Item2 is current measurements.</returns>
         public static Tuple<double[][], double[][]> MeasureAndReturnPerInstrumentPerChannelResults(this DCPowerSessionsBundle sessionsBundle)
         {
+            sessionsBundle.ClearBacklogIfSoftwareEdgeTrigger();
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent());
         }
 
@@ -201,6 +208,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The measurements in per-site per-pin format. Item1 is voltage measurements, Item2 is current measurements.</returns>
         public static Tuple<PinSiteData<double>, PinSiteData<double>> MeasureAndReturnPerSitePerPinResults(this DCPowerSessionsBundle sessionsBundle)
         {
+            sessionsBundle.ClearBacklogIfSoftwareEdgeTrigger();
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent(), caseDescription: string.Empty, VoltagePinSiteResultsFilling, CurrentPinSiteResultsFilling);
         }
 
@@ -211,6 +219,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-pin per-site voltage measurements.</returns>
         public static PinSiteData<double> MeasureVoltage(this DCPowerSessionsBundle sessionsBundle)
         {
+            sessionsBundle.ClearBacklogIfSoftwareEdgeTrigger();
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, caseDescription: string.Empty, VoltagePinSiteResultsFilling);
         }
 
@@ -221,6 +230,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-pin per-site voltage measurements.</returns>
         public static PinSiteData<double> MeasureCurrent(this DCPowerSessionsBundle sessionsBundle)
         {
+            sessionsBundle.ClearBacklogIfSoftwareEdgeTrigger();
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, caseDescription: string.Empty, CurrentPinSiteResultsFilling);
         }
 
@@ -236,6 +246,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="voltageMeasurements">The returned voltage measurements.</param>
         public static void MeasureAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishedDataId, out double[][] voltageMeasurements)
         {
+            sessionsBundle.ClearBacklogIfSoftwareEdgeTrigger();
             voltageMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, publishedDataId);
         }
 
@@ -263,6 +274,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentMeasurements">The returned current measurements.</param>
         public static void MeasureAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishedDataId, out double[][] currentMeasurements)
         {
+            sessionsBundle.ClearBacklogIfSoftwareEdgeTrigger();
             currentMeasurements = sessionsBundle.DoAndPublishResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, publishedDataId);
         }
 
@@ -310,7 +322,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 var results = Fetch(sessionInfo.Session, sitePinInfo.IndividualChannelString, fetchWaveformLength);
-                ApplyOriginalSettings(sessionInfo.Session, sessionInfo.AllChannelsString, originalSettings.GetValue(sitePinInfo));
+                ApplyOriginalSettings(sessionInfo.Session, sitePinInfo.IndividualChannelString, originalSettings.GetValue(sitePinInfo));
                 return results;
             });
         }
@@ -324,6 +336,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin waveform results.</returns>
         public static PinSiteData<DCPowerFetchResult> AcquireSynchronizedWaveforms(this DCPowerSessionsBundle sessionsBundle, double apertureTimeInSeconds = 0, double measurementTimeInSeconds = 0)
         {
+            sessionsBundle.ValidateNoChannelGanged();
             var masterChannelOutput = sessionsBundle.GetPrimaryOutput(TriggerType.MeasureTrigger.ToString(), out string measureTrigger);
             var originalApertureTimes = new Dictionary<string, double>();
             var originalSourceDelays = new Dictionary<string, PrecisionTimeSpan>();
@@ -418,6 +431,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     samples[i] = new SingleDCPowerFetchResult(measureResult.VoltageMeasurements[i], measureResult.CurrentMeasurements[i], measureResult.InCompliance[i]);
                 }
                 return samples;
+            });
+        }
+
+        private static void ClearBacklogIfSoftwareEdgeTrigger(this DCPowerSessionsBundle sessionsBundle)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (_onDemandOnlyPowerSupplies.Contains(sitePinInfo.ModelString))
+                {
+                    return;
+                }
+                var session = sessionInfo.Session;
+                var channelOutput = session.Outputs[sitePinInfo.IndividualChannelString];
+                if (channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger && channelOutput.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge)
+                {
+                    session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), channelOutput.Measurement.FetchBacklog);
+                }
             });
         }
 
@@ -532,79 +562,66 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static Tuple<double[], double[]> MeasureVoltageAndCurrent(this DCPowerSessionInformation sessionInfo)
         {
             var session = sessionInfo.Session;
-            var lockObject = new object();
             List<SitePinInfo> listOfChannelsToMeasure = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+            SplitChannels(session, listOfChannelsToMeasure, out var onDemandChannels, out var nonOnDemandChannels);
             int channelCount = listOfChannelsToMeasure.Count;
             var voltageMeasurements = new double[channelCount];
             var currentMeasurements = new double[channelCount];
-            var onDemandChannels = listOfChannelsToMeasure
-                .Select((sitePin, index) => new { sitePin, index })
-                .Where(x => session.Outputs[x.sitePin.IndividualChannelString].Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
-                .ToList();
-            IList<string> onDemandChannelStrings = onDemandChannels.Select(x => x.sitePin.IndividualChannelString).ToList();
-            IList<int> onDemandChannelIndexes = onDemandChannels.Select(x => x.index).ToList();
 
-            InvokeInParallel(
-                () =>
+            foreach (var channel in nonOnDemandChannels)
+            {
+                if (channel.Item3.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnMeasureTrigger
+                    && channel.Item3.Triggers.MeasureTrigger.Type == DCPowerMeasureTriggerType.SoftwareEdge)
                 {
-                    if (onDemandChannelIndexes.Any())
-                    {
-                        // Measure all channels that are configured to measure on demand as a single driver call to optimize test time.
-                        var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelStrings));
-                        for (int i = 0; i < onDemandChannelIndexes.Count; i++)
-                        {
-                            int index = onDemandChannelIndexes[i];
-                            lock (lockObject)
-                            {
-                                voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
-                                currentMeasurements[index] = measureResult.CurrentMeasurements[i];
-                            }
-                        }
-                    }
-                },
-                () =>
+                    channel.Item3.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
+                }
+            }
+
+            // Measure all on demand channels in a single driver call to optimize test time.
+            if (onDemandChannels.Any())
+            {
+                var onDemandChannelsString = string.Join(",", onDemandChannels.Select(c => c.Item1.IndividualChannelString));
+                var measureResult = session.Measurement.Measure(string.Join(",", onDemandChannelsString));
+                for (int i = 0; i < onDemandChannels.Count; i++)
                 {
-                    Parallel.For(0, channelCount, channelIndex =>
-                    {
-                        var sitePinInfo = listOfChannelsToMeasure[channelIndex];
-                        var dcOutput = session.Outputs[sitePinInfo.IndividualChannelString];
+                    int index = onDemandChannels[i].Item2;
+                    voltageMeasurements[index] = measureResult.VoltageMeasurements[i];
+                    currentMeasurements[index] = measureResult.CurrentMeasurements[i];
+                }
+            }
 
-                        switch (dcOutput.Measurement.MeasureWhen)
-                        {
-                            case DCPowerMeasurementWhen.OnMeasureTrigger:
-                                if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
-                                {
-                                    break;
-                                }
-                                // Make sure to clear previous results before fetching again.
-                                session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), dcOutput.Measurement.FetchBacklog);
-                                dcOutput.Triggers.MeasureTrigger.SendSoftwareEdgeTrigger();
-                                goto case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
+            foreach (var channel in nonOnDemandChannels)
+            {
+                var fetchResult = session.Measurement.Fetch(channel.Item1.IndividualChannelString, new PrecisionTimeSpan(20), 1);
+                voltageMeasurements[channel.Item2] = fetchResult.VoltageMeasurements[0];
+                currentMeasurements[channel.Item2] = fetchResult.CurrentMeasurements[0];
+            }
 
-                            case DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete:
-                                if (sitePinInfo.ModelString == DCPowerModelStrings.PXI_4110)
-                                {
-                                    break;
-                                }
-                                var fetchResult = session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), 1);
-                                lock (lockObject)
-                                {
-                                    voltageMeasurements[channelIndex] = fetchResult.VoltageMeasurements[0];
-                                    currentMeasurements[channelIndex] = fetchResult.CurrentMeasurements[0];
-                                }
-                                break;
-
-                            default:
-                                break;
-                        }
-                    });
-                });
             return new Tuple<double[], double[]>(voltageMeasurements, currentMeasurements);
         }
 
         #endregion methods on DCPowerSessionInformation
 
         #region private methods
+
+        private static void SplitChannels(NIDCPower session, IList<SitePinInfo> channels, out IList<(SitePinInfo, int)> onDemandChannels, out IList<(SitePinInfo, int, DCPowerOutput)> nonOnDemandChannels)
+        {
+            onDemandChannels = new List<(SitePinInfo, int)>();
+            nonOnDemandChannels = new List<(SitePinInfo, int, DCPowerOutput)>();
+            for (int i = 0; i < channels.Count; i++)
+            {
+                var channel = channels[i];
+                var dcOutput = session.Outputs[channel.IndividualChannelString];
+                if (dcOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                {
+                    onDemandChannels.Add((channel, i));
+                }
+                else
+                {
+                    nonOnDemandChannels.Add((channel, i, dcOutput));
+                }
+            }
+        }
 
         private static void AbortAndConfigure(this DCPowerSessionInformation sessionInfo, Action<string, string> configure)
         {
@@ -646,19 +663,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, string modelString, DCPowerMeasurementWhen? measureWhen)
-        {
-            var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
-            {
-                output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
-            }
-            else if (measureWhen.HasValue)
-            {
-                output.ConfigureMeasureWhen(modelString, measureWhen.Value);
-            }
-        }
-
         internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, string channelString, string modelString, DCPowerMeasurementWhen? measureWhen)
         {
             var output = sessionInfo.Session.Outputs[channelString];
@@ -669,6 +673,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 {
                     sessionInfo.ConfigureMeasureWhen(sitePin, sessionInfo.ModelString, measureWhen);
                 });
+            }
+            else if (measureWhen.HasValue)
+            {
+                output.ConfigureMeasureWhen(modelString, measureWhen.Value);
+            }
+        }
+
+        internal static void ConfigureMeasureWhen(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, string modelString, DCPowerMeasurementWhen? measureWhen)
+        {
+            var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            {
+                output.ConfigureMeasureWhen(modelString, DCPowerMeasurementWhen.OnMeasureTrigger);
             }
             else if (measureWhen.HasValue)
             {
@@ -694,10 +711,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void ConfigureMeasureWhen(this DCPowerOutput dCPowerOutput, string modelString, DCPowerMeasurementWhen measureWhen)
         {
-            if (modelString == DCPowerModelStrings.PXI_4110
-                || modelString == DCPowerModelStrings.PXI_4130)
+            if (_onDemandOnlyPowerSupplies.Contains(modelString))
             {
-                // The 4110 and 4130 support OnDemand only.
                 return;
             }
             dCPowerOutput.Measurement.MeasureWhen = measureWhen;

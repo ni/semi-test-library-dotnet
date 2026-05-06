@@ -5,6 +5,19 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup
 {
+    /// <summary>
+    /// This class provides example methods to demonstrate how to use the GangPinGroup and UngangPinGroup.
+    /// DCPower Instrument Abstraction methods from the Semiconductor Test Library.
+    /// These methods can be used to gang DUT pins together to output higher current.
+    /// These methods are only supported under the following conditions:
+    /// 1. The pin map must define a pin group to contain all the pins that are to be ganged together.
+    /// 2. The SMU module must support the source trigger and measure trigger feature.
+    /// For example: PXIe-4137, PXIe-4139, PXIe-4147, PXIe-4150, PXIe-4162, and PXIe-4163.
+    /// 3. The pins are physically connected externally on the application load board, either in a fixed configuration or via relays.
+    /// The example methods of this class demonstrate how relay configurations can be applied
+    /// to ensure the SMUs channels are physically connected in parallel before the GangPinGroup operation,
+    /// and subsequently disconnected after the UngangPinGroup operation.
+    /// </summary>
     public static partial class TestSteps
     {
         /// <summary>
