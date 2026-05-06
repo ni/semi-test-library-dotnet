@@ -24,11 +24,11 @@ The following SMUs modules have been fully tested to validate they support STL's
 - [PXIe-4163](https://www.ni.com/docs/en-US/bundle/pxie-4163/page/user-manual-welcome.html)
 
 > [!NOTE]
-> This is not a compressive list. Any channel from an SMU module that supports source and measure triggers can be part of a ganged pin group. However, sequence mode operations require all channels of the ganged pin group to also support start and sequence advance triggers.
-> Channels from different single or multi-channel SMUs can be ganged together. In such cases, the current shared by each individual channel cannot exceed the current rating of lowest rated SMU channel.
-> There is no restriction on the number of channels ganged.
-> Channels can be ganged in any order.
-> Basic voltage and current sequence operations can be preformed with ganged pin groups, but more advance synchronized sequence operations are not currently supported.
+> - This is not a compressive list. Any channel from an SMU module that supports source and measure triggers can be part of a ganged pin group. However, sequence mode operations require all channels of the ganged pin group to also support start and sequence advance triggers.
+> - Channels from different single or multi-channel SMUs can be ganged together. In such cases, the current shared by each individual channel cannot exceed the current rating of lowest rated SMU channel.
+> - There is no restriction on the number of channels ganged.
+> - Channels can be ganged in any order.
+> - Basic voltage and current sequence operations can be preformed with ganged pin groups, but more advance synchronized sequence operations are not currently supported.
 
 ### Physical Connections
 
@@ -37,6 +37,10 @@ For remote sensing, sense wires of all the ganged channels must be connected.
 
 The following image illustrates an example of the relay-based dynamic connections for a 2 channel gang:
 ![SMUGangPinGroupSetup](../images/SMUGangPinGroup/SMUGangPinGroupSetup.png)
+
+## Theory of Operations
+
+ We 
 
 ## Pin Map Requirements
 
@@ -141,26 +145,25 @@ When a ganged pin group is present within a `DCPowerSessionsBundle` object, the 
 The measured current value of a ganged pin group will reflect the total combined current across all ganged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the ganged channels mapped to the pin group.
 
 > [!NOTE]
-> When the lower-level DCPower driver method is called to perform a measurement on leader chanel, only the leader channel's current level would be returned. For follower channels, measurement cannot be taken individually through DCPower driver method and error will be thrown as they're dependant on measure triggers from the leader channel.
->
-> [!NOTE]
-> If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken will return valid data.
-> It is advised to use `ConfigureMeasureSettings` method for measure only workflows, to ensure the measurement is successful. Properties like `MeasureWhen` and `MeasureTrigger` should not be configured individually for channels as STL configures them for all the follower channels and they are not meant to be overridden.
+> If the MeasureWhen property is set to AutomaticallyAfterSourceComplete, only the first measurement taken will return valid data. To generate a subsequent measurements you must must re-initiate the output.
+> It is advised to use `ConfigureMeasureSettings` method for measure only workflows, to ensure the measurement is successful. Properties like `MeasureWhen` and `MeasureTrigger` should not be configured for individual ganged pins. Doing so will result in an exception being thrown.
 >
 > ```cs
 > var sessionManager = Initialize(pinmap);
 > var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
 > var dcpowerMeasureSettings = new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete };
 > dcPower.GangPinGroup("PowerPins");
-> dcPower.ConfigureMeasureSettings(dcpowerMeasureSettings);;
+> dcPower.ConfigureMeasureSettings(dcpowerMeasureSettings);
 > dcPower.Initiate();
 > dcPower.MeasureVoltage();
 > dcPower.MeasureVoltage() // Will throw fetch time out exception;
 > ```
 
 The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the name of the first pin in the ganged pin group, which is the pin associated with the leader channel. It is recommended that you specify the leader pin name in the Pin field of related tests in the Test tab of the calling TestStand step when working with ganged pin groups.
+
 > [!NOTE]
-> While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. For ganged channels, the results are stored in pin group name and no individual channel name is present in the returned `PinSiteData` object, therefore results are not published by the pin group name when working with ganged pin groups.
+> While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. When working with ganged pins, since the results are returned by pin group name and represent the combined value across all ganged pins, it typically does not make sense to publish the individual pin results. Instead, we only ever want to publish the combined result across the ganged pins.
+> If users want to publish results for specific pin, they can do so by extracting the pin data from the `PinSiteData` object by the ganged pin group name using the `ExtractPin` method and then publish the resulting `SiteData` object.
 
 > [!TIP]
 > If you do not want to associate the published data with a pin, you can extract the data from the `PinSiteData` object by the ganged pin group name, using the `ExtractPin` method, and then only publish the returned `SiteData` object without associating it with any pin(s) by passing it to the `PublishResults` method.
