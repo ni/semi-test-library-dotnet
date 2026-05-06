@@ -48,6 +48,9 @@ Use the following procedure to configure the pin map to use a ganged pin group:
 2. Add a new pin group definition. Use a name that is appropriate for the combined pin. For example, "Vcc" or "Vcc_Ganged".
 3. Assign each of the pins created in step 1 to the pin group created in step 2.
 
+> [!NOTE]
+> Unlike the pin map requirements for the [SMU Merge Pin Group](https://github.com/ni/semi-test-library-dotnet/pull/SMUMergePinGroup.md#pin-map-requirements), the order of the pins in the pin group used to gang does not matter to the end user. However, note that the channel mapping to the first pin of the pin group is designated as the Leader channel when the gang operation is preformed.
+
 The following example pin map file illustrates a pin group of two pins being ganged for two sites.
 
 ```<?xml version="1.0" encoding="utf-8"?>
@@ -142,7 +145,7 @@ The measured current value of a ganged pin group will reflect the total combined
 >
 > [!NOTE]
 > If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken will return valid data.
->It is advised to use `ConfigureMeasureSettings` method for measure only workflows, to ensure the measurement is successful. Properties like `MeasureWhen` and `MeasureTrigger` should not be configured individually for channels as STL configures them for all the follower channels and they are not meant to be overridden.
+> It is advised to use `ConfigureMeasureSettings` method for measure only workflows, to ensure the measurement is successful. Properties like `MeasureWhen` and `MeasureTrigger` should not be configured individually for channels as STL configures them for all the follower channels and they are not meant to be overridden.
 >
 > ```cs
 > var sessionManager = Initialize(pinmap);
