@@ -30,7 +30,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevel
             // as ConfigureSourceSettings will set Source Mode to SinglePoint.
             dcPowerPins.ConfigureSourceSettings(new DCPowerSourceSettings()
             {
-                SourceDelayInSeconds = 10,
+                SourceDelayInSeconds = 0.05,
                 TransientResponse = DCPowerSourceTransientResponse.Normal,
             });
 
