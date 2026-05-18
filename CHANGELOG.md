@@ -100,9 +100,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - Reintroduced the original method signature for `ResetInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]` to discourage new usage.
       - `ResetInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, TestStandSteps.NIInstrumentType instrumentType = TestStandSteps.NIInstrumentType.All)`
   - **Documentation & Examples**
-    - Added a Sequence style example and documentation, for how to work with per-site multiplexed connections.
-    - Added a Sequence style example and documentation, for how to use ganging and unganging channels in pin groups.
-    - Added a Code Snippet style example: `ForceVoltageSequence`, for how to use hardware-timed sequencing to force a series of voltage values on targeted pins.
+    - Added a Sequence style example and documentation for how to work with per-site multiplexed connections.
+    - Added a Sequence style example and documentation for how to use ganging and unganging channels in pin groups.
+    - Added a Code Snippet style example: `ForceVoltageSequence`, for how to use hardware-timed sequencing to force a series of voltage values on targeted SMU pins.
     - Added a Code Snippet style example:  `ConfigureSMUAdvancedSequencesAndInitiate`, for how to configure and initiate advanced sequences with per-step property control.
     - Added a Sequence style example: `SMUHardwareLevelSequence`, for how to use the Semiconductor Test Library (STL) extension methods for Hardware Level Sequencing (HLS) to run different force voltage sequences with an NI Source Measure Unit (SMU).
     - Added a Sequence style example: `CustomInstrument.RSeries`, for how to use the Custom Instrument feature of the Semiconductor Test Library (STL) to interact with an R Series device.
