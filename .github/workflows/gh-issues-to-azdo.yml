@@ -55,9 +55,9 @@ jobs:
           CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           echo "Cleaned title: $CLEAN_TITLE"
 
-          # Write body to a temp file to avoid shell quoting issues
+          # Write body to temp file, then run the converter (base64-encoded to avoid YAML conflicts)
           printf '%s' "$ISSUE_BODY" > /tmp/issue_body.md
-
+          echo "aW1wb3J0IG1hcmtkb3duLCByZQoKd2l0aCBvcGVuKCIvdG1wL2lzc3VlX2JvZHkubWQiLCAiciIpIGFzIGY6CiAgICByYXcgPSBmLnJlYWQoKQoKaHRtbCA9IG1hcmtkb3duLm1hcmtkb3duKHJhdykKCmRlZiByZXBsYWNlX2ltZyhtYXRjaCk6CiAgICBzcmMgPSByZS5zZWFyY2gocidzcmM9IihbXiJdKykiJywgbWF0Y2guZ3JvdXAoMCkpCiAgICBhbHQgPSByZS5zZWFyY2gocidhbHQ9IihbXiJdKykiJywgbWF0Y2guZ3JvdXAoMCkpCiAgICBzcmNfdmFsID0gc3JjLmdyb3VwKDEpIGlmIHNyYyBlbHNlICIiCiAgICBhbHRfdmFsID0gYWx0Lmdyb3VwKDEpIGlmIGFsdCBlbHNlICJpbWFnZSIKICAgIHJldHVybiBmIl9fSU1HX1BMQUNFSE9MREVSX197c3JjX3ZhbH1fX0FMVF9fe2FsdF92YWx9X19FTkRfXyIKCnByaW50KHJlLnN1YihyIjxpbWdbXj5dKj4iLCByZXBsYWNlX2ltZywgaHRtbCksIGVuZD0iIikK" | base64 -d > /tmp/convert_md.py
           FORMATTED_ISSUE_BODY=$(python3 /tmp/convert_md.py)
 
           # Build description fully inside jq to keep whitespace clean
@@ -119,26 +119,6 @@ jobs:
           echo "work_item_url=$WORK_ITEM_URL" >> $GITHUB_OUTPUT
           echo "$FORMATTED_ISSUE_BODY" > formatted_body.txt
 
-      - name: Write Python helper script
-        run: |
-          cat > /tmp/convert_md.py << 'PYEOF'
-          import sys, markdown, re
-
-          with open("/tmp/issue_body.md", "r") as f:
-              raw = f.read()
-
-          html = markdown.markdown(raw)
-
-          def replace_img(match):
-              src = re.search(r'src="([^"]+)"', match.group(0))
-              alt = re.search(r'alt="([^"]+)"', match.group(0))
-              src_val = src.group(1) if src else ''
-              alt_val = alt.group(1) if alt else 'image'
-              return f'__IMG_PLACEHOLDER__{src_val}__ALT__{alt_val}__END__'
-
-          print(re.sub(r'<img[^>]*>', replace_img, html), end='')
-          PYEOF
-
       - name: Upload Images and Update Work Item Description
         env:
           AZDO_ORG: ${{ secrets.AZDO_ORG }}
@@ -197,7 +177,6 @@ jobs:
             fi
           done < <(echo "$FORMATTED_BODY" | grep -o '__IMG_PLACEHOLDER__[^_]*__ALT__[^_]*__END__')
 
-          # Build final description inside jq to avoid indentation bleed
           UPDATE_PATCH=$(jq -n \
             --arg issueNumber "$ISSUE_NUMBER" \
             --arg issueUrl "$ISSUE_URL" \
@@ -294,7 +273,6 @@ jobs:
           WORK_ITEM_URL: ${{ steps.create-work-item.outputs.work_item_url }}
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.display_type }}
         run: |
-          # Strip AzDO tag from title in the Teams notification
           CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
           PAYLOAD=$(jq -n \
