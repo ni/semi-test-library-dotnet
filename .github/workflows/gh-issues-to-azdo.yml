@@ -51,34 +51,36 @@ jobs:
         run: |
           echo "Creating Azure DevOps work item for GitHub Issue: $ISSUE_TITLE"
 
-          FORMATTED_ISSUE_BODY=$(python -c "
-          import sys, markdown, re
+          # Strip any "[AzDO Work Item: <id>]" from the title
+          CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+          echo "Cleaned title: $CLEAN_TITLE"
 
-          html = markdown.markdown(sys.stdin.read())
+          # Write body to a temp file to avoid shell quoting issues
+          printf '%s' "$ISSUE_BODY" > /tmp/issue_body.md
 
-          def replace_img(match):
-              src = re.search(r'src=\"([^\"]+)\"', match.group(0))
-              alt = re.search(r'alt=\"([^\"]+)\"', match.group(0))
-              src_val = src.group(1) if src else ''
-              alt_val = alt.group(1) if alt else 'image'
-              return f'__IMG_PLACEHOLDER__{src_val}__ALT__{alt_val}__END__'
+          FORMATTED_ISSUE_BODY=$(python3 /tmp/convert_md.py)
 
-          print(re.sub(r'<img[^>]*>', replace_img, html))
-          " <<< "$ISSUE_BODY")
-
-          DESCRIPTION="<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: $ISSUE_NUMBER</p><p><a href=\"$ISSUE_URL\">View Issue on GitHub</a></p><p>$FORMATTED_ISSUE_BODY</p><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the \"CommentOnGitHub\" tag <u>if no action is required</u> for the work item.</p></div>"
-
+          # Build description fully inside jq to keep whitespace clean
           PATCH_DOC=$(jq -n \
-            --arg title "GitHub Issue #$ISSUE_NUMBER: $ISSUE_TITLE" \
-            --arg description "$DESCRIPTION" \
+            --arg title "GitHub Issue #$ISSUE_NUMBER: $CLEAN_TITLE" \
+            --arg issueNumber "$ISSUE_NUMBER" \
+            --arg issueUrl "$ISSUE_URL" \
+            --arg bodyHtml "$FORMATTED_ISSUE_BODY" \
             --arg areaPath "$AZDO_AREA_PATH" \
-            '[{"op": "add", "path": "/fields/System.Title", "value": $title},
+            '"<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: \($issueNumber)</p><p><a href=\"\($issueUrl)\">View Issue on GitHub</a></p><p>\($bodyHtml)</p><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the &quot;CommentOnGitHub&quot; tag <u>if no action is required</u> for the work item.</p></div>" as $description |
+            [
+              {"op": "add", "path": "/fields/System.Title",       "value": $title},
               {"op": "add", "path": "/fields/System.Description", "value": $description},
-              {"op": "add", "path": "/fields/System.AreaPath", "value": $areaPath},
-              {"op": "add", "path": "/fields/System.Tags", "value": "CommentOnGitHub"}]')
+              {"op": "add", "path": "/fields/System.AreaPath",    "value": $areaPath},
+              {"op": "add", "path": "/fields/System.Tags",        "value": "CommentOnGitHub"}
+            ]')
 
           if [[ "$WORK_ITEM_TYPE" == "Customer%20Escalation" ]]; then
-            PATCH_DOC=$(echo "$PATCH_DOC" | jq '. + [{"op": "add", "path": "/fields/Custom.EscalationPriority", "value": "Priority 3 - Medium"}, {"op": "add", "path": "/fields/Custom.Requestor", "value": "Semi BU"}, {"op": "add", "path": "/fields/Custom.BUAffinity", "value": "Semi/Elec"}]')
+            PATCH_DOC=$(echo "$PATCH_DOC" | jq '. + [
+              {"op": "add", "path": "/fields/Custom.EscalationPriority", "value": "Priority 3 - Medium"},
+              {"op": "add", "path": "/fields/Custom.Requestor",          "value": "Semi BU"},
+              {"op": "add", "path": "/fields/Custom.BUAffinity",         "value": "Semi/Elec"}
+            ]')
           fi
 
           if [[ "$WORK_ITEM_TYPE" == "Bug" ]]; then
@@ -90,7 +92,9 @@ jobs:
             fi
             echo "Extracted STS Software Version: $STS_VERSION"
             echo "Final ReportedIn value: $REPORTED_IN"
-            PATCH_DOC=$(echo "$PATCH_DOC" | jq --arg reportedIn "$REPORTED_IN" '. + [{"op": "add", "path": "/fields/Custom.ReportedIn", "value": $reportedIn}]')
+            PATCH_DOC=$(echo "$PATCH_DOC" | jq --arg reportedIn "$REPORTED_IN" '. + [
+              {"op": "add", "path": "/fields/Custom.ReportedIn", "value": $reportedIn}
+            ]')
           fi
 
           echo "$PATCH_DOC" > patch.json
@@ -115,6 +119,26 @@ jobs:
           echo "work_item_url=$WORK_ITEM_URL" >> $GITHUB_OUTPUT
           echo "$FORMATTED_ISSUE_BODY" > formatted_body.txt
 
+      - name: Write Python helper script
+        run: |
+          cat > /tmp/convert_md.py << 'PYEOF'
+          import sys, markdown, re
+
+          with open("/tmp/issue_body.md", "r") as f:
+              raw = f.read()
+
+          html = markdown.markdown(raw)
+
+          def replace_img(match):
+              src = re.search(r'src="([^"]+)"', match.group(0))
+              alt = re.search(r'alt="([^"]+)"', match.group(0))
+              src_val = src.group(1) if src else ''
+              alt_val = alt.group(1) if alt else 'image'
+              return f'__IMG_PLACEHOLDER__{src_val}__ALT__{alt_val}__END__'
+
+          print(re.sub(r'<img[^>]*>', replace_img, html), end='')
+          PYEOF
+
       - name: Upload Images and Update Work Item Description
         env:
           AZDO_ORG: ${{ secrets.AZDO_ORG }}
@@ -130,7 +154,6 @@ jobs:
           UPDATED_DESCRIPTION="$FORMATTED_BODY"
           IMG_INDEX=0
 
-          # Extract all image placeholders and process them
           while IFS= read -r line; do
             SRC=$(echo "$line" | grep -oP '(?<=__IMG_PLACEHOLDER__)[^_]+(?=__ALT__)')
             ALT=$(echo "$line" | grep -oP '(?<=__ALT__)[^_]+(?=__END__)')
@@ -145,7 +168,6 @@ jobs:
               if [[ "$HTTP_STATUS" == "200" ]] && [[ -s "$IMG_FILE" ]]; then
                 echo "Uploading image $IMG_INDEX to AzDO"
 
-                # Upload image to AzDO as attachment
                 UPLOAD_RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
                   -X POST \
                   -H "Content-Type: application/octet-stream" \
@@ -153,13 +175,10 @@ jobs:
                   "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/attachments?fileName=$IMG_FILE&api-version=6.0")
 
                 echo "Upload response: $UPLOAD_RESPONSE"
-
                 ATTACHMENT_URL=$(echo "$UPLOAD_RESPONSE" | jq -r '.url')
 
                 if [[ "$ATTACHMENT_URL" != "null" && -n "$ATTACHMENT_URL" ]]; then
                   echo "Image $IMG_INDEX uploaded successfully: $ATTACHMENT_URL"
-
-                  # Replace placeholder with actual inline AzDO image tag
                   AZDO_IMG_TAG="<img src=\"$ATTACHMENT_URL\" alt=\"$ALT\" style=\"max-width:100%;\" />"
                   PLACEHOLDER="__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__"
                   UPDATED_DESCRIPTION="${UPDATED_DESCRIPTION//$PLACEHOLDER/$AZDO_IMG_TAG}"
@@ -178,13 +197,13 @@ jobs:
             fi
           done < <(echo "$FORMATTED_BODY" | grep -o '__IMG_PLACEHOLDER__[^_]*__ALT__[^_]*__END__')
 
-          # Wrap final description
-          FINAL_DESCRIPTION="<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: $ISSUE_NUMBER</p><p><a href=\"$ISSUE_URL\">View Issue on GitHub</a></p><p>$UPDATED_DESCRIPTION</p><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the \"CommentOnGitHub\" tag <u>if no action is required</u> for the work item.</p></div>"
-
-          # Update work item description with images
+          # Build final description inside jq to avoid indentation bleed
           UPDATE_PATCH=$(jq -n \
-            --arg description "$FINAL_DESCRIPTION" \
-            '[{"op": "replace", "path": "/fields/System.Description", "value": $description}]')
+            --arg issueNumber "$ISSUE_NUMBER" \
+            --arg issueUrl "$ISSUE_URL" \
+            --arg bodyHtml "$UPDATED_DESCRIPTION" \
+            '"<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: \($issueNumber)</p><p><a href=\"\($issueUrl)\">View Issue on GitHub</a></p><p>\($bodyHtml)</p><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the &quot;CommentOnGitHub&quot; tag <u>if no action is required</u> for the work item.</p></div>" as $description |
+            [{"op": "replace", "path": "/fields/System.Description", "value": $description}]')
 
           echo "$UPDATE_PATCH" > patch-update.json
 
@@ -215,7 +234,11 @@ jobs:
           PATCH_RELATION=$(jq -n \
             --arg issueNumber "$ISSUE_NUMBER" \
             --arg repoGuid "$GH_REPO_GUID" \
-            '[{"op": "add", "path": "/relations/-", "value": {"rel": "ArtifactLink", "url": "vstfs:///GitHub/Issue/\($repoGuid)%2F\($issueNumber)", "attributes": {"name": "GitHub Issue"}}}]')
+            '[{"op": "add", "path": "/relations/-", "value": {
+              "rel": "ArtifactLink",
+              "url": "vstfs:///GitHub/Issue/\($repoGuid)%2F\($issueNumber)",
+              "attributes": {"name": "GitHub Issue"}
+            }}]')
           echo "$PATCH_RELATION" > patch-relation.json
           WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$WORK_ITEM_ID?api-version=6.0"
           RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
@@ -271,8 +294,11 @@ jobs:
           WORK_ITEM_URL: ${{ steps.create-work-item.outputs.work_item_url }}
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.display_type }}
         run: |
+          # Strip AzDO tag from title in the Teams notification
+          CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
           PAYLOAD=$(jq -n \
-            --arg issueTitle "$ISSUE_TITLE" \
+            --arg issueTitle "$CLEAN_TITLE" \
             --arg issueUrl "$ISSUE_URL" \
             --arg issueNumber "$ISSUE_NUMBER" \
             --arg workItemId "$WORK_ITEM_ID" \
@@ -286,8 +312,8 @@ jobs:
               "title": "New GitHub Issue Received",
               "sections": [{
                 "facts": [
-                  {"name": "GitHub Issue:", "value": "[#\($issueNumber): \($issueTitle)](\($issueUrl))"},
-                  {"name": "AzDO Work Item ID:", "value": "[\($workItemId)](\($workItemUrl))"},
+                  {"name": "GitHub Issue:",        "value": "[#\($issueNumber): \($issueTitle)](\($issueUrl))"},
+                  {"name": "AzDO Work Item ID:",   "value": "[\($workItemId)](\($workItemUrl))"},
                   {"name": "AzDO Work Item Type:", "value": $workItemType}
                 ]
               }]
@@ -350,7 +376,9 @@ jobs:
         run: |
           echo "Syncing comment to AzDO Work Item #$WORK_ITEM_ID"
 
-          ESCAPED_COMMENT_BODY=$(echo "$COMMENT_BODY" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g' | sed ':a;N;$!ba;s/\n/<br\/>/g')
+          ESCAPED_COMMENT_BODY=$(echo "$COMMENT_BODY" \
+            | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g' \
+            | sed ':a;N;$!ba;s/\n/<br\/>/g')
 
           FORMATTED_COMMENT="<div style=\"border-left: 3px solid #0078d4; padding: 10px; margin: 10px 0; background-color: #f3f4f6;\"><strong>GitHub Comment by @${COMMENT_USER}</strong><br/><em>${COMMENT_CREATED_AT}</em><br/><a href=\"${COMMENT_URL}\">View on GitHub</a><br/><br/>${ESCAPED_COMMENT_BODY}</div>"
 
