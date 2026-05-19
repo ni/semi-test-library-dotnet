@@ -51,16 +51,55 @@ jobs:
         run: |
           echo "Creating Azure DevOps work item for GitHub Issue: $ISSUE_TITLE"
 
-          # Strip any "[AzDO Work Item: <id>]" from the title
           CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           echo "Cleaned title: $CLEAN_TITLE"
 
-          # Write body to temp file, then run the converter (base64-encoded to avoid YAML conflicts)
           printf '%s' "$ISSUE_BODY" > /tmp/issue_body.md
-          echo "aW1wb3J0IG1hcmtkb3duLCByZQoKd2l0aCBvcGVuKCIvdG1wL2lzc3VlX2JvZHkubWQiLCAiciIpIGFzIGY6CiAgICByYXcgPSBmLnJlYWQoKQoKIyBJbnNlcnQgYmxhbmsgbGluZSBCRUZPUkUgKipib2xkKiogaGVhZGluZ3MgKGxpbmVzIHRoYXQgYXJlIGp1c3QgKiouLi4qKikKcmF3ID0gcmUuc3ViKHInXG4oXCpcKlteXG5dK1wqXCpcbiknLCByJ1xuXG5cMScsIHJhdykKCiMgSW5zZXJ0IGJsYW5rIGxpbmUgQUZURVIgKipib2xkKiogaGVhZGluZ3MKcmF3ID0gcmUuc3ViKHInKFwqXCpbXlxuXStcKlwqKVxuKD8hXG4pJywgcidcMVxuXG4nLCByYXcpCgojIEluc2VydCBibGFuayBsaW5lIGJlZm9yZSBudW1iZXJlZC9idWxsZXQgbGlzdCBpdGVtcwpyYXcgPSByZS5zdWIocidcbihcZCtcLiApJywgcidcblxuXDEnLCByYXcpCnJhdyA9IHJlLnN1YihyJ1xuKCAtICknLCByJ1xuXG5cMScsIHJhdykKCmh0bWwgPSBtYXJrZG93bi5tYXJrZG93bihyYXcsIGV4dGVuc2lvbnM9WydzYW5lX2xpc3RzJ10pCgojIFJlcGxhY2UgaGVhZGluZ3Mvc3Ryb25nIHVzZWQgYXMgaGVhZGluZ3Mgd2l0aCBibG9jay1zYWZlIEhUTUwKaHRtbCA9IHJlLnN1YihyJzxzdHJvbmc+KFtePF0rKTwvc3Ryb25nPicsIHInPGJyLz48c3Ryb25nPlwxPC9zdHJvbmc+PGJyLz4nLCBodG1sKQoKIyBDb252ZXJ0IGxpc3QgaXRlbXMgdG8gbGluZS1zZXBhcmF0ZWQgYnVsbGV0cwpodG1sID0gcmUuc3ViKHInPGxpPiguKj8pPC9saT4nLCByJyZidWxsOyBcMTxici8+JywgaHRtbCwgZmxhZ3M9cmUuRE9UQUxMKQoKIyBSZW1vdmUgdWwvb2wgd3JhcHBlcnMKaHRtbCA9IHJlLnN1YihyJzwvP1t1b11sPicsICcnLCBodG1sKQoKIyBDb252ZXJ0IHBhcmFncmFwaHMKaHRtbCA9IHJlLnN1YihyJzxwPiguKj8pPC9wPicsIHInXDE8YnIvPjxici8+JywgaHRtbCwgZmxhZ3M9cmUuRE9UQUxMKQoKZGVmIHJlcGxhY2VfaW1nKG1hdGNoKToKICAgIHNyYyA9IHJlLnNlYXJjaChyJ3NyYz0iKFteIl0rKSInLCBtYXRjaC5ncm91cCgwKSkgICAgYWx0ID0gcmUuc2VhcmNoKHInYWx0PSIoW14iXSspIicsIG1hdGNoLmdyb3VwKDApKQogICAgc3JjX3ZhbCA9IHNyYy5ncm91cCgxKSBpZiBzcmMgZWxzZSAiIgogICAgYWx0X3ZhbCA9IGFsdC5ncm91cCgxKSBpZiBhbHQgZWxzZSAiaW1hZ2UiCiAgICByZXR1cm4gZiJfX0lNR19QTEFDRUhPTERFUl9fe3NyY192YWx9X19BTFRfX3thbHRfdmFsfV9fRU5EX18iCgpwcmludChyZS5zdWIocisiPGltZ1tePl0qPiIsIHJlcGxhY2VfaW1nLCBodG1sKSwgZW5kPSIiKQ==" | base64 -d > /tmp/convert_md.py
+
+          cat << 'PYEOF' > /tmp/convert_md.py
+          import markdown, re
+
+          with open("/tmp/issue_body.md", "r") as f:
+              raw = f.read()
+
+          # Insert blank line BEFORE **bold** headings
+          raw = re.sub(r'\n(\*\*[^\n]+\*\*\n)', r'\n\n\1', raw)
+
+          # Insert blank line AFTER **bold** headings
+          raw = re.sub(r'(\*\*[^\n]+\*\*)\n(?!\n)', r'\1\n\n', raw)
+
+          # Insert blank line before numbered list items
+          raw = re.sub(r'\n(\d+\. )', r'\n\n\1', raw)
+
+          # Insert blank line before bullet list items
+          raw = re.sub(r'\n( - )', r'\n\n\1', raw)
+
+          html = markdown.markdown(raw, extensions=['sane_lists'])
+
+          # Convert bold headings to block-safe HTML
+          html = re.sub(r'<strong>([^<]+)</strong>', r'<br/><strong>\1</strong><br/>', html)
+
+          # Convert list items to bullet + line break
+          html = re.sub(r'<li>(.*?)</li>', r'&bull; \1<br/>', html, flags=re.DOTALL)
+
+          # Remove ul/ol wrappers
+          html = re.sub(r'</?[uo]l>', '', html)
+
+          # Convert paragraphs to line breaks
+          html = re.sub(r'<p>(.*?)</p>', r'\1<br/><br/>', html, flags=re.DOTALL)
+
+          def replace_img(match):
+              src = re.search(r'src="([^"]+)"', match.group(0))
+              alt = re.search(r'alt="([^"]+)"', match.group(0))
+              src_val = src.group(1) if src else ""
+              alt_val = alt.group(1) if alt else "image"
+              return f"__IMG_PLACEHOLDER__{src_val}__ALT__{alt_val}__END__"
+
+          print(re.sub(r"<img[^>]*>", replace_img, html), end="")
+          PYEOF
+
           FORMATTED_ISSUE_BODY=$(python3 /tmp/convert_md.py)
 
-          # Build description fully inside jq to keep whitespace clean
           PATCH_DOC=$(jq -n \
             --arg title "GitHub Issue #$ISSUE_NUMBER: $CLEAN_TITLE" \
             --arg issueNumber "$ISSUE_NUMBER" \
@@ -237,7 +276,7 @@ jobs:
             const issueCreator = context.payload.issue.user.login;
             const workItemId = process.env.WORK_ITEM_ID;
             const workItemUrl = process.env.WORK_ITEM_URL;
-            const commentBody = `Thank you for posting, @${issueCreator}! The NI development team has been notified and a corresponding work item has been created internally. **Azure DevOps Work Item:** [#${workItemId}](${workItemUrl}) The team will review and reply back if any further clarification is required.`;
+            const commentBody = `Thank you for posting, **@${issueCreator}**! The NI development team has been notified and a corresponding work item has been created internally. **Azure DevOps Work Item:** [#${workItemId}](${workItemUrl}) The team will review and reply back if any further clarification is required.`;
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
