@@ -67,7 +67,7 @@ jobs:
             --arg issueUrl "$ISSUE_URL" \
             --arg bodyHtml "$FORMATTED_ISSUE_BODY" \
             --arg areaPath "$AZDO_AREA_PATH" \
-            '"<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: \($issueNumber)</p><p><a href=\"\($issueUrl)\">View Issue on GitHub</a></p><p>\($bodyHtml)</p><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the &quot;CommentOnGitHub&quot; tag <u>if no action is required</u> for the work item.</p></div>" as $description |
+            '"<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: \($issueNumber)</p><p><a href=\"\($issueUrl)\">View Issue on GitHub</a></p><div>\($bodyHtml)</div><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the &quot;CommentOnGitHub&quot; tag <u>if no action is required</u> for the work item.</p></div>" as $description |
             [
               {"op": "add", "path": "/fields/System.Title",       "value": $title},
               {"op": "add", "path": "/fields/System.Description", "value": $description},
@@ -181,7 +181,7 @@ jobs:
             --arg issueNumber "$ISSUE_NUMBER" \
             --arg issueUrl "$ISSUE_URL" \
             --arg bodyHtml "$UPDATED_DESCRIPTION" \
-            '"<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: \($issueNumber)</p><p><a href=\"\($issueUrl)\">View Issue on GitHub</a></p><p>\($bodyHtml)</p><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the &quot;CommentOnGitHub&quot; tag <u>if no action is required</u> for the work item.</p></div>" as $description |
+            '"<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: \($issueNumber)</p><p><a href=\"\($issueUrl)\">View Issue on GitHub</a></p><div>\($bodyHtml)</div><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the &quot;CommentOnGitHub&quot; tag <u>if no action is required</u> for the work item.</p></div>" as $description |
             [{"op": "replace", "path": "/fields/System.Description", "value": $description}]')
 
           echo "$UPDATE_PATCH" > patch-update.json
@@ -237,7 +237,7 @@ jobs:
             const issueCreator = context.payload.issue.user.login;
             const workItemId = process.env.WORK_ITEM_ID;
             const workItemUrl = process.env.WORK_ITEM_URL;
-            const commentBody = `Thank you for posting, @${issueCreator}! The NI development team has been notified and a corresponding work item has been created internally.\n\n**Azure DevOps Work Item:** [#${workItemId}](${workItemUrl})\n\nThe team will review and reply back if any further clarification is required.`;
+            const commentBody = `Thank you for posting, @${issueCreator}! The NI development team has been notified and a corresponding work item has been created internally. **Azure DevOps Work Item:** [#${workItemId}](${workItemUrl}) The team will review and reply back if any further clarification is required.`;
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
