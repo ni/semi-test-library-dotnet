@@ -226,24 +226,6 @@ jobs:
             --data @patch-relation.json \
             "$WORK_ITEM_API_URL")
 
-      - name: Update GitHub Issue Title with AzDO Work Item ID
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const issueNumber = context.payload.issue.number;
-            const workItemId = '${{ steps.create-work-item.outputs.work_item_id }}';
-            const currentTitle = context.payload.issue.title;
-            if (!currentTitle.includes('[AzDO Work Item:')) {
-              const newTitle = `[AzDO Work Item: ${workItemId}] ${currentTitle}`;
-              console.log(`Updating issue title to: ${newTitle}`);
-              await github.rest.issues.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issueNumber,
-                title: newTitle
-              });
-            }
-
       - name: Add comment on GitHub Issue
         uses: actions/github-script@v6
         env:
