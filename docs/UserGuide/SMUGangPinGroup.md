@@ -13,11 +13,11 @@ STL supports this functionality by programatically tying all the channels of a g
 
 The following SMUs modules have been fully tested to validate they support STL's ganging feature:
 
-- [PXIe-4137](https://www.ni.com/docs/en-US/bundle/pxie-4137/page/user-manual-welcome.html),
-- [PXIe-4139](https://www.ni.com/docs/en-US/bundle/pxie-4139/page/user-manual-welcome.html),
-- [PXIe-4150](https://www.ni.com/docs/en-US/bundle/pxie-4150/page/user-manual-welcome.html),
-- [PXIe-4147](https://www.ni.com/docs/en-US/bundle/pxie-4147/page/user-manual-welcome.html),
-- [PXIe-4162](https://www.ni.com/docs/en-US/bundle/pxie-4162/page/user-manual-welcome.html),
+- [PXIe-4137](https://www.ni.com/docs/en-US/bundle/pxie-4137/page/user-manual-welcome.html)
+- [PXIe-4139](https://www.ni.com/docs/en-US/bundle/pxie-4139/page/user-manual-welcome.html)
+- [PXIe-4150](https://www.ni.com/docs/en-US/bundle/pxie-4150/page/user-manual-welcome.html)
+- [PXIe-4147](https://www.ni.com/docs/en-US/bundle/pxie-4147/page/user-manual-welcome.html)
+- [PXIe-4162](https://www.ni.com/docs/en-US/bundle/pxie-4162/page/user-manual-welcome.html)
 - [PXIe-4163](https://www.ni.com/docs/en-US/bundle/pxie-4163/page/user-manual-welcome.html)
 
 > [!NOTE]
@@ -43,7 +43,7 @@ The following image illustrates an example of the relay-based dynamic connection
 - Follower channels: The channels that are synchronized with the leader channel for sourcing and measurement.
 
 Current level and limit are equally split across all the channels by STL. Source and measure triggers are set to the follower channels that make them operate in sync with the leader channel. For current and voltage sequencing operations of ganged pin group, start trigger and sequence advance trigger are also set for follower channels. 
-This is different from [SMU Merge Pin Group](https://github.com/ni/semi-test-library-dotnet/pull/SMUMergePinGroup.md#pin-map-requirements) feature, where all the triggering and current sharing part is taken care by the driver.
+This is different from [SMU Merge Pin Group](/SMUMergePinGroup.md#pin-map-requirements) feature, where all the triggering and current sharing part is taken care by the driver.
 
 ## Pin Map Requirements
 
@@ -56,7 +56,7 @@ Use the following procedure to configure the pin map to use a ganged pin group:
 3. Assign each of the pins created in step 1 to the pin group created in step 2.
 
 > [!NOTE]
-> Unlike the pin map requirements for the [SMU Merge Pin Group](https://github.com/ni/semi-test-library-dotnet/pull/SMUMergePinGroup.md#pin-map-requirements), the order of the pins in the pin group used to gang does not matter to the end user. However, note that the channel mapping to the first pin of the pin group is designated as the Leader channel when the gang operation is preformed.
+> Unlike the pin map requirements for [SMU Merge Pin Group](/SMUMergePinGroup.md#pin-map-requirements), the order of the pins in the pin group used to gang does not matter to the end user. However, note that the channel mapping to the first pin of the pin group is designated as the Leader channel when the gang operation is preformed.
 
 The following example pin map file illustrates a pin group of two pins being ganged for two sites.
 
@@ -148,7 +148,7 @@ When a ganged pin group is present within a `DCPowerSessionsBundle` object, the 
 The measured current value of a ganged pin group will reflect the total combined current across all ganged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the ganged channels mapped to the pin group.
 
 > [!NOTE]
-> If the MeasureWhen property is set to AutomaticallyAfterSourceComplete, only the first measurement taken will return valid data. To generate a subsequent measurements you must must re-initiate the output.
+> If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken will return valid data. To generate a subsequent measurements you must must re-initiate the output.
 > It is advised to use `ConfigureMeasureSettings` method for measure only workflows, to ensure the measurement is successful. Properties like `MeasureWhen` and `MeasureTrigger` should not be configured for individual ganged pins. Doing so will result in an exception being thrown.
 >
 > ```cs
