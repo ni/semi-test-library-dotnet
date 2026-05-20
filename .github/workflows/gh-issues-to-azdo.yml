@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Python Markdown
-        run: pip install markdown Pillow
+        run: pip install markdown Pillow bleach
 
       - name: Determine Work Item Type
         id: determine-work-item-type
@@ -57,7 +57,18 @@ jobs:
           printf '%s' "$ISSUE_BODY" > /tmp/issue_body.md
 
           cat << 'PYEOF' > /tmp/convert_md.py
-          import markdown, re
+          import markdown, re, html, bleach
+
+          # Allowed tags and attributes for bleach sanitization
+          ALLOWED_TAGS = [
+              'p', 'br', 'strong', 'em', 'ul', 'ol', 'li',
+              'a', 'img', 'code', 'pre', 'blockquote',
+              'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+          ]
+          ALLOWED_ATTRS = {
+              'a':   ['href', 'title'],
+              'img': ['src', 'alt', 'title'],
+          }
 
           with open("/tmp/issue_body.md", "r") as f:
               raw = f.read()
@@ -75,42 +86,45 @@ jobs:
           # Insert blank line before unordered list blocks for the same reason
           raw = re.sub(r'([^\n])\n([-*] )', r'\1\n\n\2', raw)
 
-          html = markdown.markdown(raw, extensions=['sane_lists'])
+          html_out = markdown.markdown(raw, extensions=['sane_lists'])
+
+          # Sanitize: strip disallowed tags/attributes (removes <script>, <iframe>, etc.)
+          html_out = bleach.clean(html_out, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRS, strip=True)
 
           # Strip <p> tags inside <li> elements (caused when blank lines exist between items)
-          html = re.sub(r'<li>\s*<p>(.*?)</p>\s*</li>', r'<li>\1</li>', html, flags=re.DOTALL)
+          html_out = re.sub(r'<li>\s*<p>(.*?)</p>\s*</li>', r'<li>\1</li>', html_out, flags=re.DOTALL)
 
           # Convert bold headings to block-safe HTML
-          html = re.sub(r'<strong>([^<]+)</strong>', r'<br/><strong>\1</strong>', html)
+          html_out = re.sub(r'<strong>([^<]+)</strong>', r'<br/><strong>\1</strong>', html_out)
 
           # Convert ordered lists - one line per item, no extra spacing
           def replace_ol(match):
               items = re.findall(r'<li>(.*?)</li>', match.group(0), re.DOTALL)
               return ''.join(f'{i}. {item.strip()}<br/>' for i, item in enumerate(items, 1))
 
-          html = re.sub(r'<ol>(.*?)</ol>', replace_ol, html, flags=re.DOTALL)
+          html_out = re.sub(r'<ol>(.*?)</ol>', replace_ol, html_out, flags=re.DOTALL)
 
           # Convert unordered lists - one line per item, no extra spacing
           def replace_ul(match):
               items = re.findall(r'<li>(.*?)</li>', match.group(0), re.DOTALL)
               return ''.join(f'&bull; {item.strip()}<br/>' for item in items)
 
-          html = re.sub(r'<ul>(.*?)</ul>', replace_ul, html, flags=re.DOTALL)
+          html_out = re.sub(r'<ul>(.*?)</ul>', replace_ul, html_out, flags=re.DOTALL)
 
           # Convert paragraphs
-          html = re.sub(r'<p>(.*?)</p>', r'\1<br/>', html, flags=re.DOTALL)
+          html_out = re.sub(r'<p>(.*?)</p>', r'\1<br/>', html_out, flags=re.DOTALL)
 
           # Clean up excessive line breaks
-          html = re.sub(r'(<br/>){3,}', '<br/><br/>', html)
+          html_out = re.sub(r'(<br/>){3,}', '<br/><br/>', html_out)
 
           def replace_img(match):
               src = re.search(r'src="([^"]+)"', match.group(0))
               alt = re.search(r'alt="([^"]+)"', match.group(0))
               src_val = src.group(1) if src else ""
-              alt_val = alt.group(1) if alt else "image"
+              alt_val = html.escape(alt.group(1) if alt else "image")
               return f"__IMG_PLACEHOLDER__{src_val}__ALT__{alt_val}__END__"
 
-          print(re.sub(r"<img[^>]*>", replace_img, html), end="")
+          print(re.sub(r"<img[^>]*>", replace_img, html_out), end="")
           PYEOF
 
           FORMATTED_ISSUE_BODY=$(python3 /tmp/convert_md.py)
@@ -187,7 +201,7 @@ jobs:
           # Write the image-processing logic to a standalone Python script.
           # This avoids nested PYEOF heredoc conflicts and shell interpolation inside Python.
           cat << 'IMG_SCRIPT_EOF' > /tmp/process_image.py
-          import sys, re, subprocess
+          import sys, re, subprocess, html
           from PIL import Image
 
           MAGIC_SIGNATURES = [
@@ -199,10 +213,13 @@ jobs:
               (b'BM',                 'BMP'),
               (b'II\x2a\x00',        'TIFF'),
               (b'MM\x00\x2a',        'TIFF'),
+              # SVG is explicitly NOT in this list — it can contain <script> tags
           ]
 
           def fallback_link(src, alt):
-              return f'<a href="{src}">[Image: {alt}]</a>'
+              safe_src = html.escape(src, quote=True)
+              safe_alt = html.escape(alt)
+              return f'<a href="{safe_src}">[Image: {safe_alt}]</a>'
 
           def replace_placeholder(src, alt, replacement):
               content = open('formatted_body.txt').read()
@@ -212,6 +229,14 @@ jobs:
           def check_magic_bytes(img_file):
               with open(img_file, 'rb') as f:
                   header = f.read(16)
+              # Explicitly reject SVG (starts with XML or <svg)
+              try:
+                  text_header = header.decode('utf-8', errors='ignore').lstrip()
+                  if text_header.startswith('<?xml') or text_header.lower().startswith('<svg'):
+                      print('SVG rejected: contains potential script content', file=sys.stderr)
+                      return None
+              except Exception:
+                  pass
               for sig, fmt in MAGIC_SIGNATURES:
                   if header[:len(sig)] == sig:
                       if fmt == 'WEBP' and header[8:12] != b'WEBP':
@@ -258,7 +283,9 @@ jobs:
                   sys.exit(1)
 
           elif action == 'embed':
-              replacement = f'<img src="{attach_url}" alt="{alt}" style="max-width:100%;" />'
+              safe_url = html.escape(attach_url, quote=True)
+              safe_alt = html.escape(alt)
+              replacement = f'<img src="{safe_url}" alt="{safe_alt}" style="max-width:100%;" />'
               replace_placeholder(src, alt, replacement)
               print(f'Embedded image: {attach_url}')
           IMG_SCRIPT_EOF
@@ -284,24 +311,39 @@ jobs:
             IMG_FILE="image_$IMG_INDEX.png"
             echo "--- Image $IMG_INDEX: $SRC (alt: $ALT)"
 
-            # 1. Block internal/private URLs (SSRF)
-            if echo "$SRC" | grep -qP '^https?://(169\.254\.|10\.|192\.168\.|127\.|0\.0\.0\.0|localhost)'; then
+            # 1. Block internal/private URLs (SSRF) — also decode percent-encoding to catch bypasses
+            DECODED_SRC=$(python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))" "$SRC")
+            if echo "$DECODED_SRC" | grep -qP '^https?://(169\.254\.|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.|127\.|0\.0\.0\.0|localhost)'; then
               echo "BLOCKED: internal URL"
               python3 /tmp/process_image.py fallback "$SRC" "$ALT"
               continue
             fi
 
-            # 2. Block dangerous URL schemes
-            if echo "$SRC" | grep -qiP '^(javascript|data|vbscript|file|blob)\s*:'; then
+            # 2. Block dangerous URL schemes (also on decoded URL)
+            if echo "$DECODED_SRC" | grep -qiP '^(javascript|data|vbscript|file|blob)\s*:'; then
               echo "BLOCKED: dangerous URL scheme"
               python3 /tmp/process_image.py fallback "$SRC" "$ALT"
               continue
             fi
 
-            # 3. Download with size limit (10MB) - follow redirects (-L), then check magic bytes
+            # 3. Download - no redirects allowed (--max-redirs 0) to prevent open-redirect SSRF.
+            # We resolve the final IP ourselves and re-validate it before downloading.
+            echo "Resolving host for $SRC..."
+            IMG_HOST=$(python3 -c "import sys, urllib.parse; print(urllib.parse.urlparse(sys.argv[1]).hostname or '')" "$SRC")
+            RESOLVED_IP=$(getent hosts "$IMG_HOST" 2>/dev/null | awk '{print $1}' | head -1)
+            echo "Resolved IP: $RESOLVED_IP"
+            if [[ -n "$RESOLVED_IP" ]]; then
+              if echo "$RESOLVED_IP" | grep -qP '^(169\.254\.|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.|127\.|0\.0\.0\.0)'; then
+                echo "BLOCKED: resolved IP is internal ($RESOLVED_IP)"
+                python3 /tmp/process_image.py fallback "$SRC" "$ALT"
+                continue
+              fi
+            fi
+
+            # 3b. Download with size limit (10MB) - follow redirects (-L), then check magic bytes
             # NOTE: We skip the HEAD Content-Type pre-check because GitHub image URLs redirect
             # and may return application/octet-stream on HEAD requests, causing false negatives.
-            # Magic-byte and PIL validation (steps 5 & 6) are sufficient to reject non-images.
+            # Magic-byte and PIL validation (steps 4 & 5) are sufficient to reject non-images.
             echo "Downloading image $IMG_INDEX..."
             HTTP_STATUS=$(curl -sL --max-time 30 -o "$IMG_FILE" -w "%{http_code}" --max-filesize 10485760 \
               -H "User-Agent: Mozilla/5.0" \
@@ -534,7 +576,12 @@ jobs:
 
           ESCAPED_COMMENT_BODY=$(python3 /tmp/convert_comment.py)
 
-          FORMATTED_COMMENT="<div style=\"border-left: 3px solid #0078d4; padding: 10px; margin: 10px 0; background-color: #f3f4f6;\"><strong>GitHub Comment by @${COMMENT_USER}</strong><br/><em>${COMMENT_CREATED_AT}</em><br/><a href=\"${COMMENT_URL}\">View on GitHub</a><br/><br/>${ESCAPED_COMMENT_BODY}</div>"
+          FORMATTED_COMMENT=$(jq -rn \
+            --arg user "$COMMENT_USER" \
+            --arg created_at "$COMMENT_CREATED_AT" \
+            --arg url "$COMMENT_URL" \
+            --arg body "$ESCAPED_COMMENT_BODY" \
+            '"<div style=\"border-left: 3px solid #0078d4; padding: 10px; margin: 10px 0; background-color: #f3f4f6;\"><strong>GitHub Comment by @\($user)</strong><br/><em>\($created_at)</em><br/><a href=\"\($url)\">View on GitHub</a><br/><br/>\($body)</div>"')
 
           PATCH_DOC=$(jq -n \
             --arg comment "$FORMATTED_COMMENT" \
