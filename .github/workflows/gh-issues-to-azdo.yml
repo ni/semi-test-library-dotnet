@@ -164,7 +164,7 @@ jobs:
           WORK_ITEM_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_workitems/edit/$WORK_ITEM_ID"
           echo "work_item_id=$WORK_ITEM_ID" >> $GITHUB_OUTPUT
           echo "work_item_url=$WORK_ITEM_URL" >> $GITHUB_OUTPUT
-          echo "$FORMATTED_ISSUE_BODY" > formatted_body.txt
+          printf '%s' "$FORMATTED_ISSUE_BODY" > formatted_body.txt
 
       - name: Upload Images and Update Work Item Description
         env:
@@ -188,6 +188,10 @@ jobs:
             if [[ -n "$SRC" ]]; then
               IMG_INDEX=$((IMG_INDEX + 1))
               IMG_FILE="image_$IMG_INDEX.png"
+
+              # Write SRC and ALT to temp files to avoid shell special-char interpolation
+              printf '%s' "$SRC" > /tmp/img_src.txt
+              printf '%s' "$ALT" > /tmp/img_alt.txt
 
               # 1. Block internal/private URLs (SSRF protection)
               if echo "$SRC" | grep -qP '^https?://(169\.254\.|10\.|192\.168\.|127\.)'; then
@@ -215,7 +219,53 @@ jobs:
 
               if [[ "$HTTP_STATUS" == "200" ]] && [[ -s "$IMG_FILE" ]]; then
 
-                # 5. Validate real image, check format, guard against decompression bombs
+                # 5. Magic bytes check — verify file signature before PIL opens it
+                if ! python3 - << PYEOF
+          import sys
+
+          MAGIC_SIGNATURES = [
+              (b'\xff\xd8\xff',                'JPEG'),
+              (b'\x89PNG\r\n\x1a\n',         'PNG'),
+              (b'GIF87a',                         'GIF'),
+              (b'GIF89a',                         'GIF'),
+              (b'RIFF',                           'WEBP'),   # first 4 bytes; bytes 8-11 must be WEBP
+              (b'BM',                             'BMP'),
+              (b'II\x2a\x00',                   'TIFF'),   # little-endian
+              (b'MM\x00\x2a',                   'TIFF'),   # big-endian
+          ]
+
+          with open('$IMG_FILE', 'rb') as f:
+              header = f.read(16)
+
+          matched = None
+          for sig, fmt in MAGIC_SIGNATURES:
+              if header[:len(sig)] == sig:
+                  if fmt == 'WEBP' and header[8:12] != b'WEBP':
+                      continue
+                  matched = fmt
+                  break
+
+          if not matched:
+              print(f'Magic bytes do not match any allowed image format: {header[:8].hex()}')
+              sys.exit(1)
+
+          print(f'Magic bytes OK: {matched}')
+          PYEOF
+                then
+                  echo "File failed magic bytes check, skipping"
+                  python3 - << PYEOF
+          src = open('/tmp/img_src.txt').read()
+          alt = open('/tmp/img_alt.txt').read()
+          content = open('formatted_body.txt').read()
+          placeholder = f'__IMG_PLACEHOLDER__{src}__ALT__{alt}__END__'
+          replacement = f'<a href="{src}">[Image: {alt}]</a>'
+          open('formatted_body.txt', 'w').write(content.replace(placeholder, replacement))
+          PYEOF
+                  UPDATED_DESCRIPTION=$(cat formatted_body.txt)
+                  continue
+                fi
+
+                # 6. Validate real image, check format, guard against decompression bombs
                 if ! python3 - << PYEOF
           from PIL import Image
           Image.MAX_IMAGE_PIXELS = 50000000
@@ -233,12 +283,15 @@ jobs:
           PYEOF
                 then
                   echo "File failed image validation, skipping"
-                  UPDATED_DESCRIPTION=$(python3 -c "
+                  python3 - << PYEOF
+          src = open('/tmp/img_src.txt').read()
+          alt = open('/tmp/img_alt.txt').read()
           content = open('formatted_body.txt').read()
-          placeholder = '__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__'
-          replacement = '<a href=\"$SRC\">[Image: $ALT]</a>'
-          print(content.replace(placeholder, replacement), end='')
-          ")
+          placeholder = f'__IMG_PLACEHOLDER__{src}__ALT__{alt}__END__'
+          replacement = f'<a href="{src}">[Image: {alt}]</a>'
+          open('formatted_body.txt', 'w').write(content.replace(placeholder, replacement))
+          PYEOF
+                  UPDATED_DESCRIPTION=$(cat formatted_body.txt)
                   continue
                 fi
 
@@ -253,30 +306,41 @@ jobs:
 
                 if [[ "$ATTACHMENT_URL" != "null" && -n "$ATTACHMENT_URL" ]]; then
                   echo "Image $IMG_INDEX uploaded successfully: $ATTACHMENT_URL"
-                  UPDATED_DESCRIPTION=$(python3 -c "
+                  printf '%s' "$ATTACHMENT_URL" > /tmp/img_attachment_url.txt
+                  python3 - << PYEOF
+          src = open('/tmp/img_src.txt').read()
+          alt = open('/tmp/img_alt.txt').read()
+          attachment_url = open('/tmp/img_attachment_url.txt').read()
           content = open('formatted_body.txt').read()
-          placeholder = '__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__'
-          replacement = '<img src=\"$ATTACHMENT_URL\" alt=\"$ALT\" style=\"max-width:100%;\" />'
-          print(content.replace(placeholder, replacement), end='')
-          ")
+          placeholder = f'__IMG_PLACEHOLDER__{src}__ALT__{alt}__END__'
+          replacement = f'<img src="{attachment_url}" alt="{alt}" style="max-width:100%;" />'
+          open('formatted_body.txt', 'w').write(content.replace(placeholder, replacement))
+          PYEOF
+                  UPDATED_DESCRIPTION=$(cat formatted_body.txt)
                 else
                   echo "Failed to upload image $IMG_INDEX, using link as fallback"
-                  UPDATED_DESCRIPTION=$(python3 -c "
+                  python3 - << PYEOF
+          src = open('/tmp/img_src.txt').read()
+          alt = open('/tmp/img_alt.txt').read()
           content = open('formatted_body.txt').read()
-          placeholder = '__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__'
-          replacement = '<a href=\"$SRC\">[Image: $ALT]</a>'
-          print(content.replace(placeholder, replacement), end='')
-          ")
+          placeholder = f'__IMG_PLACEHOLDER__{src}__ALT__{alt}__END__'
+          replacement = f'<a href="{src}">[Image: {alt}]</a>'
+          open('formatted_body.txt', 'w').write(content.replace(placeholder, replacement))
+          PYEOF
+                  UPDATED_DESCRIPTION=$(cat formatted_body.txt)
                 fi
 
               else
                 echo "Failed to download image $IMG_INDEX (HTTP $HTTP_STATUS), using link as fallback"
-                UPDATED_DESCRIPTION=$(python3 -c "
+                python3 - << PYEOF
+          src = open('/tmp/img_src.txt').read()
+          alt = open('/tmp/img_alt.txt').read()
           content = open('formatted_body.txt').read()
-          placeholder = '__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__'
-          replacement = '<a href=\"$SRC\">[Image: $ALT]</a>'
-          print(content.replace(placeholder, replacement), end='')
-          ")
+          placeholder = f'__IMG_PLACEHOLDER__{src}__ALT__{alt}__END__'
+          replacement = f'<a href="{src}">[Image: {alt}]</a>'
+          open('formatted_body.txt', 'w').write(content.replace(placeholder, replacement))
+          PYEOF
+                UPDATED_DESCRIPTION=$(cat formatted_body.txt)
               fi
             fi
           done < <(echo "$FORMATTED_BODY" | grep -o '__IMG_PLACEHOLDER__[^E]*__END__')
