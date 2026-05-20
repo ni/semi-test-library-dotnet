@@ -42,8 +42,8 @@ The following image illustrates an example of the relay-based dynamic connection
 - Leader channel: The channel that acts as leader and drives the follower channels for sourcing and measurement. It is usually the channel associated with the first pin in the ganged pin group.
 - Follower channels: The channels that are synchronized with the leader channel for sourcing and measurement.
 
-Current level and limit are equally split across all the channels by STL. Source and measure triggers are set to the follower channels that make them operate in sync with the leader channel. For current and voltage sequencing operations of ganged pin group, start trigger and sequence advance trigger are also set for follower channels. 
-This is different from [SMU Merge Pin Group](/SMUMergePinGroup.md#pin-map-requirements) feature, where all the triggering and current sharing part is taken care by the driver.
+Current level and limit are equally split across all the channels by STL. Source and measure triggers are set to the follower channels that make them operate in sync with the leader channel. For current and voltage sequencing operations of ganged pin group, start trigger and sequence advance trigger are also set for follower channels.
+This is different from [SMU Merge Pin Group](SMUMergePinGroup.md) feature, where all the triggering and current sharing part is taken care by the driver.
 
 ## Pin Map Requirements
 
@@ -56,7 +56,7 @@ Use the following procedure to configure the pin map to use a ganged pin group:
 3. Assign each of the pins created in step 1 to the pin group created in step 2.
 
 > [!NOTE]
-> Unlike the pin map requirements for [SMU Merge Pin Group](/SMUMergePinGroup.md#pin-map-requirements), the order of the pins in the pin group used to gang does not matter to the end user. However, note that the channel mapping to the first pin of the pin group is designated as the Leader channel when the gang operation is preformed.
+> Unlike the pin map requirements for [SMU Merge Pin Group](SMUMergePinGroup.md#pin-map-requirements), the order of the pins in the pin group used to gang does not matter to the end user. However, note that the channel mapping to the first pin of the pin group is designated as the Leader channel when the gang operation is preformed.
 
 The following example pin map file illustrates a pin group of two pins being ganged for two sites.
 
