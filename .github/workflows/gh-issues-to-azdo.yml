@@ -264,10 +264,12 @@ jobs:
           IMG_SCRIPT_EOF
 
           IMG_INDEX=0
+          echo "0" > /tmp/img_index.txt
 
           # Extract all placeholders from the body file and process each
-          grep -oP '__IMG_PLACEHOLDER__\K.+?(?=__END__)' formatted_body.txt \
-            | while IFS= read -r token; do
+          grep -oP '__IMG_PLACEHOLDER__\K.+?(?=__END__)' formatted_body.txt > /tmp/img_tokens.txt || true
+
+          while IFS= read -r token; do
 
             SRC=$(echo "$token" | grep -oP '^.+?(?=__ALT__)')
             ALT=$(echo "$token" | sed 's/.*__ALT__//')
@@ -278,6 +280,7 @@ jobs:
             fi
 
             IMG_INDEX=$((IMG_INDEX + 1))
+            echo "$IMG_INDEX" > /tmp/img_index.txt
             IMG_FILE="image_$IMG_INDEX.png"
             echo "--- Image $IMG_INDEX: $SRC (alt: $ALT)"
 
@@ -295,19 +298,14 @@ jobs:
               continue
             fi
 
-            # 3. Check Content-Type header
-            echo "Checking Content-Type for image $IMG_INDEX..."
-            CONTENT_TYPE=$(curl -sI --max-time 10 "$SRC" | grep -i '^content-type:' | grep -oi 'image/[a-z+]*' | head -1)
-            echo "Content-Type: $CONTENT_TYPE"
-            if [[ -z "$CONTENT_TYPE" ]]; then
-              echo "SKIPPED: non-image Content-Type"
-              python3 /tmp/process_image.py fallback "$SRC" "$ALT"
-              continue
-            fi
-
-            # 4. Download with size limit (10MB)
+            # 3. Download with size limit (10MB) - follow redirects (-L), then check magic bytes
+            # NOTE: We skip the HEAD Content-Type pre-check because GitHub image URLs redirect
+            # and may return application/octet-stream on HEAD requests, causing false negatives.
+            # Magic-byte and PIL validation (steps 5 & 6) are sufficient to reject non-images.
             echo "Downloading image $IMG_INDEX..."
-            HTTP_STATUS=$(curl -sL --max-time 30 -o "$IMG_FILE" -w "%{http_code}" --max-filesize 10485760 "$SRC")
+            HTTP_STATUS=$(curl -sL --max-time 30 -o "$IMG_FILE" -w "%{http_code}" --max-filesize 10485760 \
+              -H "User-Agent: Mozilla/5.0" \
+              "$SRC")
             echo "HTTP status: $HTTP_STATUS, file size: $(stat -c%s "$IMG_FILE" 2>/dev/null || echo 0) bytes"
 
             if [[ "$HTTP_STATUS" != "200" ]] || [[ ! -s "$IMG_FILE" ]]; then
@@ -316,21 +314,21 @@ jobs:
               continue
             fi
 
-            # 5. Magic bytes check
+            # 4. Magic bytes check
             echo "Checking magic bytes..."
             if ! python3 /tmp/process_image.py magic "$SRC" "$ALT" "$IMG_FILE"; then
               echo "FAILED: magic bytes check"
               continue  # process_image.py already wrote fallback
             fi
 
-            # 6. PIL format + decompression bomb check
+            # 5. PIL format + decompression bomb check
             echo "Running PIL validation..."
             if ! python3 /tmp/process_image.py pil "$SRC" "$ALT" "$IMG_FILE"; then
               echo "FAILED: PIL validation"
               continue  # process_image.py already wrote fallback
             fi
 
-            # 7. Upload to AzDO
+            # 6. Upload to AzDO
             echo "Uploading image $IMG_INDEX to AzDO..."
             UPLOAD_RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
               -X POST \
@@ -350,7 +348,9 @@ jobs:
               python3 /tmp/process_image.py fallback "$SRC" "$ALT"
             fi
 
-          done
+          done < /tmp/img_tokens.txt
+
+          IMG_INDEX=$(cat /tmp/img_index.txt 2>/dev/null || echo 0)
 
           UPDATED_DESCRIPTION=$(cat formatted_body.txt)
           echo "Image processing complete. Processed $IMG_INDEX image(s)."
