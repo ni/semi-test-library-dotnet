@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Python Markdown
-        run: pip install markdown
+        run: pip install markdown Pillow
 
       - name: Determine Work Item Type
         id: determine-work-item-type
@@ -72,21 +72,38 @@ jobs:
           raw = re.sub(r'\n(\d+\. )', r'\n\n\1', raw)
 
           # Insert blank line before bullet list items
-          raw = re.sub(r'\n( - )', r'\n\n\1', raw)
+          raw = re.sub(r'\n( - | \- )', r'\n\n\1', raw)
 
           html = markdown.markdown(raw, extensions=['sane_lists'])
 
           # Convert bold headings to block-safe HTML
-          html = re.sub(r'<strong>([^<]+)</strong>', r'<br/><strong>\1</strong><br/>', html)
+          html = re.sub(r'<strong>([^<]+)</strong>', r'<br/><strong>\1</strong>', html)
 
-          # Convert list items to bullet + line break
-          html = re.sub(r'<li>(.*?)</li>', r'&bull; \1<br/>', html, flags=re.DOTALL)
+          # Convert ordered lists - preserve numbers
+          def replace_ol(match):
+              items = re.findall(r'<li>(.*?)</li>', match.group(0), re.DOTALL)
+              result = '<br/>'
+              for i, item in enumerate(items, 1):
+                  result += f'{i}. {item.strip()}<br/>'
+              return result
 
-          # Remove ul/ol wrappers
-          html = re.sub(r'</?[uo]l>', '', html)
+          html = re.sub(r'<ol>(.*?)</ol>', replace_ol, html, flags=re.DOTALL)
 
-          # Convert paragraphs to line breaks
-          html = re.sub(r'<p>(.*?)</p>', r'\1<br/><br/>', html, flags=re.DOTALL)
+          # Convert unordered lists - use bullet
+          def replace_ul(match):
+              items = re.findall(r'<li>(.*?)</li>', match.group(0), re.DOTALL)
+              result = '<br/>'
+              for item in items:
+                  result += f'&bull; {item.strip()}<br/>'
+              return result
+
+          html = re.sub(r'<ul>(.*?)</ul>', replace_ul, html, flags=re.DOTALL)
+
+          # Convert paragraphs
+          html = re.sub(r'<p>(.*?)</p>', r'\1<br/>', html, flags=re.DOTALL)
+
+          # Clean up excessive line breaks
+          html = re.sub(r'(<br/>){3,}', '<br/><br/>', html)
 
           def replace_img(match):
               src = re.search(r'src="([^"]+)"', match.group(0))
@@ -174,47 +191,104 @@ jobs:
           IMG_INDEX=0
 
           while IFS= read -r line; do
-            SRC=$(echo "$line" | grep -oP '(?<=__IMG_PLACEHOLDER__)[^_]+(?=__ALT__)')
-            ALT=$(echo "$line" | grep -oP '(?<=__ALT__)[^_]+(?=__END__)')
+            SRC=$(echo "$line" | grep -oP '(?<=__IMG_PLACEHOLDER__).+?(?=__ALT__)')
+            ALT=$(echo "$line" | grep -oP '(?<=__ALT__).+?(?=__END__)')
 
             if [[ -n "$SRC" ]]; then
               IMG_INDEX=$((IMG_INDEX + 1))
               IMG_FILE="image_$IMG_INDEX.png"
 
+              # 1. Block internal/private URLs (SSRF protection)
+              if echo "$SRC" | grep -qP '^https?://(169\.254\.|10\.|192\.168\.|127\.)'; then
+                echo "Blocked internal URL: $SRC"
+                continue
+              fi
+
+              # 2. Validate URL has an image file extension
+              if ! echo "$SRC" | grep -qiP '\.(jpg|jpeg|png|gif|webp|bmp|tiff)(\?.*)?$'; then
+                echo "Skipping URL with non-image extension: $SRC"
+                continue
+              fi
+
+              # 3. Validate Content-Type header is an image
+              CONTENT_TYPE=$(curl -sI "$SRC" | grep -i content-type | grep -oi 'image/[a-z]*')
+              if [[ -z "$CONTENT_TYPE" ]]; then
+                echo "Skipping non-image content-type: $SRC"
+                continue
+              fi
+
               echo "Downloading image $IMG_INDEX: $SRC"
-              HTTP_STATUS=$(curl -sL -o "$IMG_FILE" -w "%{http_code}" "$SRC")
+
+              # 4. Download with size limit (10MB max)
+              HTTP_STATUS=$(curl -sL -o "$IMG_FILE" -w "%{http_code}" --max-filesize 10485760 "$SRC")
 
               if [[ "$HTTP_STATUS" == "200" ]] && [[ -s "$IMG_FILE" ]]; then
-                echo "Uploading image $IMG_INDEX to AzDO"
 
+                # 5. Validate real image, check format, guard against decompression bombs
+                if ! python3 - << PYEOF
+          from PIL import Image
+          Image.MAX_IMAGE_PIXELS = 50000000
+          try:
+              img = Image.open('$IMG_FILE')
+              img.load()
+              allowed = ['JPEG', 'PNG', 'GIF', 'WEBP', 'BMP', 'TIFF']
+              if img.format not in allowed:
+                  print(f'Rejected format: {img.format}')
+                  exit(1)
+              print(f'Valid image: {img.format} {img.size}')
+          except Exception as e:
+              print(f'Invalid image: {e}')
+              exit(1)
+          PYEOF
+                then
+                  echo "File failed image validation, skipping"
+                  UPDATED_DESCRIPTION=$(python3 -c "
+          content = open('formatted_body.txt').read()
+          placeholder = '__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__'
+          replacement = '<a href=\"$SRC\">[Image: $ALT]</a>'
+          print(content.replace(placeholder, replacement), end='')
+          ")
+                  continue
+                fi
+
+                echo "Uploading image $IMG_INDEX to AzDO"
                 UPLOAD_RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
                   -X POST \
                   -H "Content-Type: application/octet-stream" \
                   --data-binary @"$IMG_FILE" \
                   "https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/attachments?fileName=$IMG_FILE&api-version=6.0")
 
-                echo "Upload response: $UPLOAD_RESPONSE"
                 ATTACHMENT_URL=$(echo "$UPLOAD_RESPONSE" | jq -r '.url')
 
                 if [[ "$ATTACHMENT_URL" != "null" && -n "$ATTACHMENT_URL" ]]; then
                   echo "Image $IMG_INDEX uploaded successfully: $ATTACHMENT_URL"
-                  AZDO_IMG_TAG="<img src=\"$ATTACHMENT_URL\" alt=\"$ALT\" style=\"max-width:100%;\" />"
-                  PLACEHOLDER="__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__"
-                  UPDATED_DESCRIPTION="${UPDATED_DESCRIPTION//$PLACEHOLDER/$AZDO_IMG_TAG}"
+                  UPDATED_DESCRIPTION=$(python3 -c "
+          content = open('formatted_body.txt').read()
+          placeholder = '__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__'
+          replacement = '<img src=\"$ATTACHMENT_URL\" alt=\"$ALT\" style=\"max-width:100%;\" />'
+          print(content.replace(placeholder, replacement), end='')
+          ")
                 else
                   echo "Failed to upload image $IMG_INDEX, using link as fallback"
-                  FALLBACK="<a href=\"$SRC\">[Image: $ALT]</a>"
-                  PLACEHOLDER="__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__"
-                  UPDATED_DESCRIPTION="${UPDATED_DESCRIPTION//$PLACEHOLDER/$FALLBACK}"
+                  UPDATED_DESCRIPTION=$(python3 -c "
+          content = open('formatted_body.txt').read()
+          placeholder = '__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__'
+          replacement = '<a href=\"$SRC\">[Image: $ALT]</a>'
+          print(content.replace(placeholder, replacement), end='')
+          ")
                 fi
+
               else
                 echo "Failed to download image $IMG_INDEX (HTTP $HTTP_STATUS), using link as fallback"
-                FALLBACK="<a href=\"$SRC\">[Image: $ALT]</a>"
-                PLACEHOLDER="__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__"
-                UPDATED_DESCRIPTION="${UPDATED_DESCRIPTION//$PLACEHOLDER/$FALLBACK}"
+                UPDATED_DESCRIPTION=$(python3 -c "
+          content = open('formatted_body.txt').read()
+          placeholder = '__IMG_PLACEHOLDER__${SRC}__ALT__${ALT}__END__'
+          replacement = '<a href=\"$SRC\">[Image: $ALT]</a>'
+          print(content.replace(placeholder, replacement), end='')
+          ")
               fi
             fi
-          done < <(echo "$FORMATTED_BODY" | grep -o '__IMG_PLACEHOLDER__[^_]*__ALT__[^_]*__END__')
+          done < <(echo "$FORMATTED_BODY" | grep -o '__IMG_PLACEHOLDER__[^E]*__END__')
 
           UPDATE_PATCH=$(jq -n \
             --arg issueNumber "$ISSUE_NUMBER" \
@@ -375,9 +449,24 @@ jobs:
         run: |
           echo "Syncing comment to AzDO Work Item #$WORK_ITEM_ID"
 
-          ESCAPED_COMMENT_BODY=$(echo "$COMMENT_BODY" \
-            | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g' \
-            | sed ':a;N;$!ba;s/\n/<br\/>/g')
+          printf '%s' "$COMMENT_BODY" > /tmp/comment_body.md
+
+          cat << 'PYEOF' > /tmp/convert_comment.py
+          import re
+
+          with open("/tmp/comment_body.md", "r") as f:
+              raw = f.read()
+
+          # Escape HTML special characters
+          raw = raw.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
+
+          # Convert newlines to <br/>
+          raw = raw.replace('\n', '<br/>')
+
+          print(raw, end="")
+          PYEOF
+
+          ESCAPED_COMMENT_BODY=$(python3 /tmp/convert_comment.py)
 
           FORMATTED_COMMENT="<div style=\"border-left: 3px solid #0078d4; padding: 10px; margin: 10px 0; background-color: #f3f4f6;\"><strong>GitHub Comment by @${COMMENT_USER}</strong><br/><em>${COMMENT_CREATED_AT}</em><br/><a href=\"${COMMENT_URL}\">View on GitHub</a><br/><br/>${ESCAPED_COMMENT_BODY}</div>"
 
