@@ -70,6 +70,9 @@ jobs:
 
           html = markdown.markdown(raw, extensions=['sane_lists'])
 
+          # Strip <p> tags inside <li> elements (avoids inline rendering when no blank lines in source)
+          html = re.sub(r'<li>\s*<p>(.*?)</p>\s*</li>', r'<li>\1</li>', html, flags=re.DOTALL)
+
           # Convert bold headings to block-safe HTML
           html = re.sub(r'<strong>([^<]+)</strong>', r'<br/><strong>\1</strong>', html)
 
