@@ -200,22 +200,35 @@ jobs:
               printf '%s' "$SRC" > /tmp/img_src.txt
               printf '%s' "$ALT" > /tmp/img_alt.txt
 
-              # 1. Block internal/private URLs (SSRF protection)
+              # 1. Block internal/private URLs (SSRF protection) — replace with fallback link
               if echo "$SRC" | grep -qP '^https?://(169\.254\.|10\.|192\.168\.|127\.)'; then
                 echo "Blocked internal URL: $SRC"
+                python3 - << PYEOF
+          src = open('/tmp/img_src.txt').read()
+          alt = open('/tmp/img_alt.txt').read()
+          content = open('formatted_body.txt').read()
+          placeholder = f'__IMG_PLACEHOLDER__{src}__ALT__{alt}__END__'
+          replacement = f'<a href="{src}">[Image: {alt}]</a>'
+          open('formatted_body.txt', 'w').write(content.replace(placeholder, replacement))
+          PYEOF
+                UPDATED_DESCRIPTION=$(cat formatted_body.txt)
                 continue
               fi
 
-              # 2. Validate URL has an image file extension
-              if ! echo "$SRC" | grep -qiP '\.(jpg|jpeg|png|gif|webp|bmp|tiff)(\?.*)?$'; then
-                echo "Skipping URL with non-image extension: $SRC"
-                continue
-              fi
-
-              # 3. Validate Content-Type header is an image
+              # 2. Validate Content-Type header is an image (extension check removed —
+              #    GitHub attachment URLs have no extension but are valid images)
               CONTENT_TYPE=$(curl -sI "$SRC" | grep -i content-type | grep -oi 'image/[a-z]*')
               if [[ -z "$CONTENT_TYPE" ]]; then
                 echo "Skipping non-image content-type: $SRC"
+                python3 - << PYEOF
+          src = open('/tmp/img_src.txt').read()
+          alt = open('/tmp/img_alt.txt').read()
+          content = open('formatted_body.txt').read()
+          placeholder = f'__IMG_PLACEHOLDER__{src}__ALT__{alt}__END__'
+          replacement = f'<a href="{src}">[Image: {alt}]</a>'
+          open('formatted_body.txt', 'w').write(content.replace(placeholder, replacement))
+          PYEOF
+                UPDATED_DESCRIPTION=$(cat formatted_body.txt)
                 continue
               fi
 
