@@ -68,9 +68,16 @@ jobs:
           # Insert blank line AFTER **bold** headings
           raw = re.sub(r'(\*\*[^\n]+\*\*)\n(?!\n)', r'\1\n\n', raw)
 
+          # Insert blank line before numbered list blocks so markdown recognises them as <ol>
+          # (intro lines like "Steps to reproduce:" directly before "1." cause inline rendering)
+          raw = re.sub(r'([^\n])\n(1\. )', r'\1\n\n\2', raw)
+
+          # Insert blank line before unordered list blocks for the same reason
+          raw = re.sub(r'([^\n])\n([-*] )', r'\1\n\n\2', raw)
+
           html = markdown.markdown(raw, extensions=['sane_lists'])
 
-          # Strip <p> tags inside <li> elements (avoids inline rendering when no blank lines in source)
+          # Strip <p> tags inside <li> elements (caused when blank lines exist between items)
           html = re.sub(r'<li>\s*<p>(.*?)</p>\s*</li>', r'<li>\1</li>', html, flags=re.DOTALL)
 
           # Convert bold headings to block-safe HTML
