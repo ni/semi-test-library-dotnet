@@ -37,13 +37,18 @@ The following image illustrates an example of the relay-based dynamic connection
 
 ## Theory of Operations
 
- We have two categories of channels in the ganged pin group feature.
- 
-- Leader channel: The channel that acts as leader and drives the follower channels for sourcing and measurement. It is usually the channel associated with the first pin in the ganged pin group.
-- Follower channels: The channels that are synchronized with the leader channel for sourcing and measurement.
+ There are two types of channels in each ganged pin group:
 
-Current level and limit are equally split across all the channels by STL. Source and measure triggers are set to the follower channels that make them operate in sync with the leader channel. For current and voltage sequencing operations of ganged pin group, start trigger and sequence advance trigger are also set for follower channels.
-This is different from [SMU Merge Pin Group](SMUMergePinGroup.md) feature, where all the triggering and current sharing part is taken care by the driver.
+Leader channel: The lead channel responsible for driving source and measurement operations to which all other channels of the group are synchronized. Typically, associated with the first pin in the ganged pin group.
+Follower channels: The channels synchronized with the leader channel for source and measurement operations.
+The Current Level and Current Limit values set by the user are split equally across all channels.
+
+STL sets the source and measure triggers for follower channels to synchronize them with source and measurement operations preformed by the leader channel.
+
+When preforming voltage or current sequencing operations with a ganged pin group, the start trigger and sequence advance trigger are also set for follower channels.
+
+> [!NOTE]
+> Unlike [SMU Merge Pin Group feature](SMUMergePinGroup.md), where the complexity of operating ganged channels is handled by the driver, STL manages all of the necessary triggering, current level/limit splitting, and current measurement combining required to ensure a ganged pin group operates as a single synchronized unit per site.
 
 ## Pin Map Requirements
 
@@ -99,7 +104,7 @@ The following example pin map file illustrates a pin group of two pins being gan
 </PinMap>
 ```
 > [!NOTE]
-> The Ganged Pin Group feature is supported regardless of if the DCPower session groups are configured as a common session for all instrument, separate sessions for each instrument, or a separate session for each channel.
+> The Ganged Pin Group feature is supported regardless of whether DCPower session groups are configured as a common session for all instrument, separate sessions for each instrument, or a separate session for each channel.
 
 ## Code Requirements
 
@@ -149,12 +154,12 @@ The measured current value of a ganged pin group will reflect the total combined
 
 > [!NOTE]
 > If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken will return valid data. To generate a subsequent measurements you must must re-initiate the output.
-> It is advised to use `ConfigureMeasureSettings` method for measure only workflows, to ensure the measurement is successful. Properties like `MeasureWhen` and `MeasureTrigger` should not be configured for individual ganged pins. Doing so will result in an exception being thrown.
+> The `MeasureWhen` and `MeasureTrigger` properties should not be configured for individual ganged pins. Doing so will result in an exception being thrown.
 >
 > ```cs
 > var sessionManager = Initialize(pinmap);
 > var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
-> var dcpowerMeasureSettings = new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete };
+> var dcpowerMeasureSettings = new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, ApertureTime = 0.001 };
 > dcPower.GangPinGroup("PowerPins");
 > dcPower.ConfigureMeasureSettings(dcpowerMeasureSettings);
 > dcPower.Initiate();
