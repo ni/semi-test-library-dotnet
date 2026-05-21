@@ -164,12 +164,12 @@ If users want the voltage or current measurement results to be returned for indi
 var voltageResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, caseDescription: string.Empty)
 var currentResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, caseDescription: string.Empty)
 ```
-
-Following methods return the corresponding results in individual pin names of ganged pin group in `PinSiteData`.
-1. `GetApertureTimeInSeconds`
-2. `GetPowerLineFrequency`
-3. `GetCurrentLimits`
-4. `GetSourceDelayInSeconds`
+> [!NOTE]
+> Following methods return the corresponding results in individual pin names of ganged pin group in `PinSiteData`.
+> 1. `GetApertureTimeInSeconds`
+> 2. `GetPowerLineFrequency`
+> 3. `GetCurrentLimits`
+> 4. `GetSourceDelayInSeconds`
 
 ![PinSiteData](../images/SMUGangPinGroup/PinSiteData.png)
 
