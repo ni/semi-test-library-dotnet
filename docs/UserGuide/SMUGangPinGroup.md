@@ -49,6 +49,16 @@ When preforming voltage or current sequencing operations with a ganged pin group
 
 > [!NOTE]
 > Unlike [SMU Merge Pin Group feature](SMUMergePinGroup.md), where the complexity of operating ganged channels is handled by the driver, STL manages all of the necessary triggering, current level/limit splitting, and current measurement combining required to ensure a ganged pin group operates as a single synchronized unit per site.
+>
+> [!Note]
+> For the following methods, when the input is given in the form of `PinSiteData`, the input can be given either for every pin or for the entire pin group using the pin group name. When the input is pin based, the values are set to the pins as in the input. When input is pin group based, the current level/limit is divided based on the number of pins in the pin group and set for each pin.
+> - `ForceVoltage`
+> - `ForceCurrent`
+> - `ForceCurrentSequence`
+> - `ForceVoltageSequence`
+> - `ConfigureSourceSettings`
+> - `ConfigureCurrentSequence`
+> - `ConfigureVoltageSequence`
 
 ## Pin Map Requirements
 
@@ -148,6 +158,19 @@ This example is also installed on any system using STS Software 26.0 or later, u
 
 When a ganged pin group is present within a `DCPowerSessionsBundle` object, the `MeasureCurrent` and `MeasureVoltage` methods will return a `PinSiteData` containing data associated with the pin group name. If there are non-ganged pins or pin groups contained and measured as part of the same bundle object, their measurement data will be associated with their respective individual pin names. Refer to the screenshot below as an example.
 
+If users want the voltage or current measurement results to be returned for individual pins of ganged pin group in `PinSiteData`, they can use `DoAndReturnPerSitePerPinResults` method to do so. Following code snippet shows the same.
+
+```cs
+var voltageResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, caseDescription: string.Empty)
+var currentResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, caseDescription: string.Empty)
+```
+
+Following methods return the corresponding results in individual pin names of ganged pin group in `PinSiteData`.
+1. `GetApertureTimeInSeconds`
+2. `GetPowerLineFrequency`
+3. `GetCurrentLimits`
+4. `GetSourceDelayInSeconds`
+
 ![PinSiteData](../images/SMUGangPinGroup/PinSiteData.png)
 
 The measured current value of a ganged pin group will reflect the total combined current across all ganged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the ganged channels mapped to the pin group.
@@ -171,7 +194,6 @@ The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResul
 
 > [!NOTE]
 > While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. When working with ganged pins, since the results are returned by pin group name and represent the combined value across all ganged pins, it typically does not make sense to publish the individual pin results. Instead, we only ever want to publish the combined result across the ganged pins.
-> If users want to publish results for specific pin, they can do so by extracting the pin data from the `PinSiteData` object by the ganged pin group name using the `ExtractPin` method and then publish the resulting `SiteData` object.
 
 > [!TIP]
 > If you do not want to associate the published data with a pin, you can extract the data from the `PinSiteData` object by the ganged pin group name, using the `ExtractPin` method, and then only publish the returned `SiteData` object without associating it with any pin(s) by passing it to the `PublishResults` method.
