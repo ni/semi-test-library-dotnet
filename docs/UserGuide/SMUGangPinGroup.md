@@ -51,7 +51,7 @@ When preforming voltage or current sequencing operations with a ganged pin group
 > Unlike [SMU Merge Pin Group feature](SMUMergePinGroup.md), where the complexity of operating ganged channels is handled by the driver, STL manages all of the necessary triggering, current level/limit splitting, and current measurement combining required to ensure a ganged pin group operates as a single synchronized unit per site.
 
 > [!Note]
-> For the following methods, when the input is given in the form of `PinSiteData`, the input can be given either for every pin or for the entire pin group using the pin group name. When the input is pin based, the values are set to the pins as in the input. When input is pin group based, the current level/limit is divided based on the number of pins in the pin group and set for each pin.
+> For the following methods, when the input is given in the form of `PinSiteData`, the input can be provided either for every pin or for the entire pin group using the pin group name. When input is pin based, the values are set to the pins as in the input. When input is pin group based, the current level/limit or current sequence is divided based on the number of pins in the pin group and set for each pin.
 > - `ForceVoltage`
 > - `ForceCurrent`
 > - `ForceCurrentSequence`
