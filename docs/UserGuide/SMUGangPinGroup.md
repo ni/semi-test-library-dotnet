@@ -164,6 +164,8 @@ When a ganged pin group is present within a `DCPowerSessionsBundle` object, the 
 
 ![PinSiteData](../images/SMUGangPinGroup/PinSiteData.png)
 
+The measured current value of a ganged pin group will reflect the total combined current across all ganged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the ganged channels mapped to the pin group.
+
 > [!TIP]
 > If you need the measurement results for individual pins of a ganged pin group rather than a single result for the entire group, use `DoAndReturnPerSitePerPinResults` in combination with `MeasureVoltageAndCurrent`, as demonstrated in the example below.
 >
@@ -178,8 +180,6 @@ When a ganged pin group is present within a `DCPowerSessionsBundle` object, the 
 > 2. `GetPowerLineFrequency`
 > 3. `GetCurrentLimits`
 > 4. `GetSourceDelayInSeconds`
-
-The measured current value of a ganged pin group will reflect the total combined current across all ganged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the ganged channels mapped to the pin group.
 
 > [!NOTE]
 > If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken will return valid data. To generate a subsequent measurements you must must re-initiate the output.
