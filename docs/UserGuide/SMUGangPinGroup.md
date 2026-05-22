@@ -158,12 +158,13 @@ This example is also installed on any system using STS Software 26.0 or later, u
 
 When a ganged pin group is present within a `DCPowerSessionsBundle` object, the `MeasureCurrent` and `MeasureVoltage` methods will return a `PinSiteData` containing data associated with the pin group name. If there are non-ganged pins or pin groups contained and measured as part of the same bundle object, their measurement data will be associated with their respective individual pin names. Refer to the screenshot below as an example.
 
-If users want the voltage or current measurement results to be returned for individual pins of ganged pin group in `PinSiteData`, they can use `DoAndReturnPerSitePerPinResults` method to do so. Following code snippet shows the same.
-
-```cs
-var voltageResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1, caseDescription: string.Empty)
-var currentResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2, caseDescription: string.Empty)
-```
+> [!TIP]
+> If you need the measurement results for individual pins of a ganged pin group rather than a single result for the entire group, use `DoAndReturnPerSitePerPinResults` in combination with `MeasureVoltageAndCurrent`, as demonstrated in the example below.
+>
+> ```cs
+> var voltageResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1)
+> var currentResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2)
+> ```
 > [!NOTE]
 > Following methods return the corresponding results in individual pin names of ganged pin group in `PinSiteData`.
 > 1. `GetApertureTimeInSeconds`
