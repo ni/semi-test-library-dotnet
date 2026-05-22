@@ -162,6 +162,8 @@ This example is also installed on any system using STS Software 26.0 or later, u
 
 When a ganged pin group is present within a `DCPowerSessionsBundle` object, the `MeasureCurrent` and `MeasureVoltage` methods will return a `PinSiteData` containing data associated with the pin group name. If there are non-ganged pins or pin groups contained and measured as part of the same bundle object, their measurement data will be associated with their respective individual pin names. Refer to the screenshot below as an example.
 
+![PinSiteData](../images/SMUGangPinGroup/PinSiteData.png)
+
 > [!TIP]
 > If you need the measurement results for individual pins of a ganged pin group rather than a single result for the entire group, use `DoAndReturnPerSitePerPinResults` in combination with `MeasureVoltageAndCurrent`, as demonstrated in the example below.
 >
@@ -176,8 +178,6 @@ When a ganged pin group is present within a `DCPowerSessionsBundle` object, the 
 > 2. `GetPowerLineFrequency`
 > 3. `GetCurrentLimits`
 > 4. `GetSourceDelayInSeconds`
-
-![PinSiteData](../images/SMUGangPinGroup/PinSiteData.png)
 
 The measured current value of a ganged pin group will reflect the total combined current across all ganged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the ganged channels mapped to the pin group.
 
