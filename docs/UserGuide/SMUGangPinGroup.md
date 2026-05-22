@@ -51,7 +51,7 @@ When preforming voltage or current sequencing operations with a ganged pin group
 > Unlike [SMU Merge Pin Group feature](SMUMergePinGroup.md), where the complexity of operating ganged channels is handled by the driver, STL manages all of the necessary triggering, current level/limit splitting, and current measurement combining required to ensure a ganged pin group operates as a single synchronized unit per site.
 
 > [!Note]
-> For the following methods, when the input is given in the form of `PinSiteData`, the input can be provided either for every pin or for the entire pin group using the pin group name. When input is pin based, the values are set to the pins as in the input. When input is pin group based, the current level/limit or current sequence is divided based on the number of pins in the pin group and set for each pin.
+> For the following methods, `PinSiteData` input can specify values either per pin or for the entire ganged pin group using the pin group name. Per-pin values are applied directly, while a pin group value is divided evenly across the pins in the group. All other Configure methods require per-pin input and do not support pin group names.
 > - `ForceVoltage`
 > - `ForceCurrent`
 > - `ForceCurrentSequence`
@@ -165,6 +165,7 @@ When a ganged pin group is present within a `DCPowerSessionsBundle` object, the 
 > var voltageResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1)
 > var currentResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2)
 > ```
+
 > [!NOTE]
 > Following methods return the corresponding results in individual pin names of ganged pin group in `PinSiteData`.
 > 1. `GetApertureTimeInSeconds`
