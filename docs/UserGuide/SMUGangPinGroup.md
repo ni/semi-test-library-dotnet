@@ -128,6 +128,10 @@ Similarly, you can use the `UngangPinGroup` method to un-gang the channels in th
 As a best practice, perform the gang operations at the start and end of the test program, unless performing a dynamic gang for specific tests.
 Once the gang operation has been performed, all subsequent DCPower Extension methods can be used on the bundle, and will operate on the pin group as if it were one single pin in the bundle.
 
+> [!Note]
+> When using TSMSessionManager.DCPower to create a DCPowerSessionsBundle, you can specify either the ganged pin group name or the individual pin names within the group. Using the pin group name is recommended.
+> If you specify individual pin names for a ganged pin group, you must include all pins in the group when the group is actively ganged (after calling GangPinGroup); otherwise, TSMSessionManager.DCPower throws an exception.
+
 > [!NOTE]
 > Once a pin group is ganged, low level driver operations must not be performed to configure the ganged channels, as that will override the configuration set by STL for ganging and may have adverse effects.
 
