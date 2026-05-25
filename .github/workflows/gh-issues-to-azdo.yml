@@ -479,10 +479,10 @@ jobs:
         run: |
           CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
-          # Truncate description to avoid Teams payload limits (max ~28KB)
-          TRUNCATED_BODY=$(echo "$ISSUE_BODY" | head -c 1500)
+          # Truncate at word boundary, append link if truncated
+          TRUNCATED_BODY=$(echo "$ISSUE_BODY" | head -c 1500 | sed 's/\s\S*$//')
           if [ ${#ISSUE_BODY} -gt 1500 ]; then
-            TRUNCATED_BODY="${TRUNCATED_BODY}..."
+            TRUNCATED_BODY="${TRUNCATED_BODY}... (truncated, view full issue for more details)"
           fi
 
           PAYLOAD=$(jq -n \
@@ -503,11 +503,28 @@ jobs:
                   "version": "1.4",
                   "body": [
                     {
-                      "type": "TextBlock",
-                      "text": ("New GitHub Issue (#" + $issueNumber + "): [" + $issueTitle + "](" + $issueUrl + ")"),
-                      "weight": "Bolder",
-                      "size": "Medium",
-                      "wrap": true
+                      "type": "RichTextBlock",
+                      "paragraphs": [{
+                        "type": "Paragraph",
+                        "inlines": [
+                          {
+                            "type": "TextRun",
+                            "text": ("New GitHub Issue (#" + $issueNumber + "): "),
+                            "weight": "Bolder",
+                            "size": "Medium"
+                          },
+                          {
+                            "type": "TextRun",
+                            "text": $issueTitle,
+                            "weight": "Bolder",
+                            "size": "Medium",
+                            "selectAction": {
+                              "type": "Action.OpenUrl",
+                              "url": $issueUrl
+                            }
+                          }
+                        ]
+                      }]
                     },
                     {
                       "type": "FactSet",
@@ -534,13 +551,13 @@ jobs:
                       "type": "TextBlock",
                       "text": "Description:",
                       "weight": "Bolder",
-                      "wrap": true
+                      "wrap": true,
+                      "spacing": "Medium"
                     },
                     {
                       "type": "TextBlock",
                       "text": $description,
-                      "wrap": true,
-                      "isSubtle": true
+                      "wrap": true
                     }
                   ]
                 }
