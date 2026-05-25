@@ -472,11 +472,18 @@ jobs:
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_URL: ${{ github.event.issue.html_url }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
           WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
           WORK_ITEM_URL: ${{ steps.create-work-item.outputs.work_item_url }}
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.display_type }}
         run: |
           CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+          # Truncate description to avoid Teams payload limits (max ~28KB)
+          TRUNCATED_BODY=$(echo "$ISSUE_BODY" | head -c 1500)
+          if [ ${#ISSUE_BODY} -gt 1500 ]; then
+            TRUNCATED_BODY="${TRUNCATED_BODY}..."
+          fi
 
           PAYLOAD=$(jq -n \
             --arg issueTitle "$CLEAN_TITLE" \
@@ -485,18 +492,58 @@ jobs:
             --arg workItemId "$WORK_ITEM_ID" \
             --arg workItemUrl "$WORK_ITEM_URL" \
             --arg workItemType "$WORK_ITEM_TYPE" \
+            --arg description "$TRUNCATED_BODY" \
             '{
-              "@type": "MessageCard",
-              "@context": "http://schema.org/extensions",
-              "summary": "New GitHub Issue",
-              "themeColor": "0078D4",
-              "title": "New GitHub Issue Received",
-              "sections": [{
-                "facts": [
-                  {"name": "GitHub Issue:",        "value": "[#\($issueNumber): \($issueTitle)](\($issueUrl))"},
-                  {"name": "AzDO Work Item ID:",   "value": "[\($workItemId)](\($workItemUrl))"},
-                  {"name": "AzDO Work Item Type:", "value": $workItemType}
-                ]
+              "type": "message",
+              "attachments": [{
+                "contentType": "application/vnd.microsoft.card.adaptive",
+                "content": {
+                  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                  "type": "AdaptiveCard",
+                  "version": "1.4",
+                  "body": [
+                    {
+                      "type": "TextBlock",
+                      "text": ("New GitHub Issue (#" + $issueNumber + "): [" + $issueTitle + "](" + $issueUrl + ")"),
+                      "weight": "Bolder",
+                      "size": "Medium",
+                      "wrap": true
+                    },
+                    {
+                      "type": "FactSet",
+                      "facts": [
+                        {
+                          "title": "Title:",
+                          "value": ("[" + $issueTitle + "](" + $issueUrl + ")")
+                        },
+                        {
+                          "title": "GitHub Issue URL:",
+                          "value": ("[View Issue](" + $issueUrl + ")")
+                        },
+                        {
+                          "title": "Work Item ID:",
+                          "value": ("[" + $workItemId + "](" + $workItemUrl + ")")
+                        },
+                        {
+                          "title": "Work Item Type:",
+                          "value": $workItemType
+                        }
+                      ]
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "Description:",
+                      "weight": "Bolder",
+                      "wrap": true
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": $description,
+                      "wrap": true,
+                      "isSubtle": true
+                    }
+                  ]
+                }
               }]
             }')
 
