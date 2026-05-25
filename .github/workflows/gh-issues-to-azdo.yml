@@ -549,6 +549,8 @@ jobs:
           def clean_text(text):
               text = re.sub(r'^#{1,6}\s+(.+)$', r'**\1**', text, flags=re.MULTILINE)
               text = re.sub(r'^[-*]\s+(?!\*)', '• ', text, flags=re.MULTILINE)
+              # Preserve inline code: convert <code>...</code> back to backticks before stripping HTML
+              text = re.sub(r'<code>([^<]*)</code>', r'`\1`', text)
               text = re.sub(r'<[^>]+>', '', text)
               text = re.sub(r'\n{3,}', '\n\n', text)
               return text.strip()
