@@ -532,49 +532,96 @@ jobs:
 
           TRUNCATED_BODY=$(cat /tmp/teams_body_clean.txt)
 
-          # Build image blocks — adds Screenshots header only if images exist
-          IMAGE_BLOCKS=$(python3 << 'PYEOF'
+          export CLEAN_TITLE ISSUE_URL ISSUE_NUMBER WORK_ITEM_ID WORK_ITEM_URL WORK_ITEM_TYPE
+
+          # Build the complete body array in Python (avoids jq array concatenation issues)
+          CARD_BODY=$(python3 << 'PYEOF'
           import json
+
+          with open("/tmp/teams_body_clean.txt", "r") as f:
+              description = f.read()
 
           try:
               with open("/tmp/teams_images.json", "r") as f:
                   imgs = json.load(f)
+          except Exception:
+              imgs = []
 
-              if not imgs:
-                  print("[]")
-              else:
-                  blocks = [
-                      {
-                          "type": "TextBlock",
-                          "text": "**Screenshots:**",
-                          "wrap": True,
-                          "spacing": "Medium"
-                      }
-                  ]
-                  for url in imgs:
-                      blocks.append({
-                          "type": "Image",
-                          "url": url,
-                          "size": "Large",
-                          "msTeams": {"allowExpand": True}
-                      })
-                  print(json.dumps(blocks))
-          except Exception as e:
-              import sys
-              print(f"Error building image blocks: {e}", file=sys.stderr)
-              print("[]")
+          import os
+          issue_title  = os.environ.get("CLEAN_TITLE", "")
+          issue_url    = os.environ.get("ISSUE_URL", "")
+          issue_number = os.environ.get("ISSUE_NUMBER", "")
+          work_item_id = os.environ.get("WORK_ITEM_ID", "")
+          work_item_url= os.environ.get("WORK_ITEM_URL", "")
+          work_item_type = os.environ.get("WORK_ITEM_TYPE", "")
+
+          blocks = [
+              {
+                  "type": "TextBlock",
+                  "text": f"**New GitHub Issue (#{issue_number}): {issue_title}**",
+                  "wrap": True,
+                  "size": "Medium"
+              },
+              {
+                  "type": "TextBlock",
+                  "text": f"**Title:** [{issue_title}]({issue_url})",
+                  "wrap": True,
+                  "spacing": "Medium"
+              },
+              {
+                  "type": "TextBlock",
+                  "text": f"**GitHub Issue URL:** [View Issue]({issue_url})",
+                  "wrap": True,
+                  "spacing": "None"
+              },
+              {
+                  "type": "TextBlock",
+                  "text": f"**Work Item ID:** [{work_item_id}]({work_item_url})",
+                  "wrap": True,
+                  "spacing": "None"
+              },
+              {
+                  "type": "TextBlock",
+                  "text": f"**Work Item Type:** {work_item_type}",
+                  "wrap": True,
+                  "spacing": "None"
+              },
+              {
+                  "type": "TextBlock",
+                  "text": "**Description:**",
+                  "wrap": True,
+                  "spacing": "Medium"
+              },
+              {
+                  "type": "TextBlock",
+                  "text": description,
+                  "wrap": True,
+                  "markdown": True,
+                  "spacing": "None"
+              }
+          ]
+
+          if imgs:
+              blocks.append({
+                  "type": "TextBlock",
+                  "text": "**Screenshots:**",
+                  "wrap": True,
+                  "spacing": "Medium"
+              })
+              for url in imgs:
+                  blocks.append({
+                      "type": "Image",
+                      "url": url,
+                      "size": "Large",
+                      "msTeams": {"allowExpand": True}
+                  })
+
+          print(json.dumps(blocks))
           PYEOF
           )
 
           PAYLOAD=$(jq -n \
-            --arg issueTitle "$CLEAN_TITLE" \
-            --arg issueUrl "$ISSUE_URL" \
-            --arg issueNumber "$ISSUE_NUMBER" \
-            --arg workItemId "$WORK_ITEM_ID" \
-            --arg workItemUrl "$WORK_ITEM_URL" \
-            --arg workItemType "$WORK_ITEM_TYPE" \
-            --arg description "$TRUNCATED_BODY" \
-            --argjson imageBlocks "$IMAGE_BLOCKS" \
+            --argjson cardBody "$CARD_BODY" \
             '{
               "type": "message",
               "attachments": [{
@@ -583,55 +630,7 @@ jobs:
                   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
                   "type": "AdaptiveCard",
                   "version": "1.4",
-                  "body": [
-                    {
-                      "type": "TextBlock",
-                      "text": ("**New GitHub Issue (#" + $issueNumber + "): " + $issueTitle + "**"),
-                      "wrap": true,
-                      "size": "Medium"
-                    },
-                    {
-                      "type": "TextBlock",
-                      "text": ("**Title:** [" + $issueTitle + "](" + $issueUrl + ")"),
-                      "wrap": true,
-                      "markdown": true,
-                      "spacing": "Medium"
-                    },
-                    {
-                      "type": "TextBlock",
-                      "text": ("**GitHub Issue URL:** [View Issue](" + $issueUrl + ")"),
-                      "wrap": true,
-                      "markdown": true,
-                      "spacing": "None"
-                    },
-                    {
-                      "type": "TextBlock",
-                      "text": ("**Work Item ID:** [" + $workItemId + "](" + $workItemUrl + ")"),
-                      "wrap": true,
-                      "markdown": true,
-                      "spacing": "None"
-                    },
-                    {
-                      "type": "TextBlock",
-                      "text": ("**Work Item Type:** " + $workItemType),
-                      "wrap": true,
-                      "markdown": true,
-                      "spacing": "None"
-                    },
-                    {
-                      "type": "TextBlock",
-                      "text": "**Description:**",
-                      "wrap": true,
-                      "spacing": "Medium"
-                    },
-                    {
-                      "type": "TextBlock",
-                      "text": $description,
-                      "wrap": true,
-                      "markdown": true,
-                      "spacing": "None"
-                    }
-                  ] + $imageBlocks
+                  "body": $cardBody
                 }
               }]
             }')
