@@ -547,13 +547,9 @@ jobs:
           work_item_type = os.environ.get("WORK_ITEM_TYPE", "")
 
           def clean_text(text):
-              # Convert ## headings to **bold**
               text = re.sub(r'^#{1,6}\s+(.+)$', r'**\1**', text, flags=re.MULTILINE)
-              # Convert unordered list markers to bullets
               text = re.sub(r'^[-*]\s+(?!\*)', '• ', text, flags=re.MULTILINE)
-              # Remove HTML tags
               text = re.sub(r'<[^>]+>', '', text)
-              # Collapse 3+ newlines to 2
               text = re.sub(r'\n{3,}', '\n\n', text)
               return text.strip()
 
@@ -574,7 +570,32 @@ jobs:
                   "msTeams": {"allowExpand": True}
               }
 
-          # Split body on image tokens — both markdown ![alt](url) and HTML <img src="url">
+          # ── NEW: extract non-image file attachments ──────────────────────────────────
+          def extract_file_attachments(text):
+              """
+              Matches markdown links whose display text or URL ends with a known
+              non-image extension: zip, pdf, docx, xlsx, csv, txt, log, tar, gz, 7z
+              Returns list of (display_name, url) tuples, deduplicated.
+              """
+              pattern = re.compile(
+                  r'\[([^\]]+)\]\((https?://[^)]+)\)',
+                  re.IGNORECASE
+              )
+              NON_IMAGE_EXTS = re.compile(
+                  r'\.(zip|pdf|docx?|xlsx?|csv|txt|log|tar|gz|7z)$',
+                  re.IGNORECASE
+              )
+              seen_urls = set()
+              results = []
+              for name, url in pattern.findall(text):
+                  # Match on either the display name or the URL itself
+                  if NON_IMAGE_EXTS.search(name) or NON_IMAGE_EXTS.search(url.split('?')[0]):
+                      if url not in seen_urls:
+                          seen_urls.add(url)
+                          results.append((name, url))
+              return results
+          # ─────────────────────────────────────────────────────────────────────────────
+
           image_pattern = re.compile(
               r'(!\[.*?\]\((https?://[^)]+)\)|<img[^>]+src=["\']?(https?://[^"\'>\s]+)["\']?[^>]*>)',
               re.IGNORECASE
@@ -626,15 +647,12 @@ jobs:
           MAX_CHARS = 1500
 
           for match in image_pattern.finditer(body):
-              # Text before this image
               text_before = body[pos:match.start()]
               text_segments.append(('text', text_before))
-              # The image URL — check both capture groups
               url = match.group(2) or match.group(3)
               text_segments.append(('image', url))
               pos = match.end()
 
-          # Remaining text after last image
           text_segments.append(('text', body[pos:]))
 
           total_text_chars = 0
@@ -646,7 +664,6 @@ jobs:
                   cleaned = clean_text(content)
                   if not cleaned:
                       continue
-                  # Apply truncation only to text blocks
                   if total_text_chars + len(cleaned) > MAX_CHARS and not truncated:
                       remaining = MAX_CHARS - total_text_chars
                       if remaining > 0:
@@ -661,6 +678,24 @@ jobs:
                       break
               elif kind == 'image' and not truncated:
                   blocks.append(make_image_block(content))
+
+          # ── NEW: append attachment section after all body blocks ─────────────────────
+          attachments = extract_file_attachments(body)
+          if attachments:
+              blocks.append({
+                  "type": "TextBlock",
+                  "text": "**Attachments:**",
+                  "wrap": True,
+                  "spacing": "Medium"
+              })
+              for name, url in attachments:
+                  blocks.append({
+                      "type": "TextBlock",
+                      "text": f"📎 [{name}]({url})",
+                      "wrap": True,
+                      "spacing": "None"
+                  })
+          # ─────────────────────────────────────────────────────────────────────────────
 
           print(json.dumps(blocks))
           PYEOF
