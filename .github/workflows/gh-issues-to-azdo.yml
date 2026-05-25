@@ -484,18 +484,35 @@ jobs:
           printf '%s' "$CLEAN_TITLE" > /tmp/teams_title.txt
 
           python3 << 'PYEOF'
-          import re, os
+          import re, os, json
 
           with open("/tmp/teams_body.txt", "r") as f:
               body = f.read()
 
+          # Extract image URLs — handles both markdown ![alt](url) and HTML <img src="url">
+          markdown_imgs = re.findall(r'!\[.*?\]\((https?://[^)]+)\)', body)
+          html_imgs = re.findall(r'<img[^>]+src=["\']?(https?://[^"\'>\s]+)["\']?', body, re.IGNORECASE)
+
+          # Combine, deduplicate, limit to 3
+          seen = set()
+          images = []
+          for url in markdown_imgs + html_imgs:
+              if url not in seen:
+                  seen.add(url)
+                  images.append(url)
+              if len(images) == 3:
+                  break
+
+          with open("/tmp/teams_images.json", "w") as f:
+              json.dump(images, f)
+
           # Convert ## headings to **bold**
           body = re.sub(r'^#{1,6}\s+(.+)$', r'**\1**', body, flags=re.MULTILINE)
 
-          # Convert unordered list markers to bullets (keep ** bold intact on same lines)
+          # Convert unordered list markers to bullets
           body = re.sub(r'^[-*]\s+(?!\*)', '• ', body, flags=re.MULTILINE)
 
-          # Remove images
+          # Remove markdown images from body text
           body = re.sub(r'!\[.*?\]\(.*?\)', '', body)
 
           # Remove HTML tags
@@ -515,6 +532,40 @@ jobs:
 
           TRUNCATED_BODY=$(cat /tmp/teams_body_clean.txt)
 
+          # Build image blocks — adds Screenshots header only if images exist
+          IMAGE_BLOCKS=$(python3 << 'PYEOF'
+          import json
+
+          try:
+              with open("/tmp/teams_images.json", "r") as f:
+                  imgs = json.load(f)
+
+              if not imgs:
+                  print("[]")
+              else:
+                  blocks = [
+                      {
+                          "type": "TextBlock",
+                          "text": "**Screenshots:**",
+                          "wrap": True,
+                          "spacing": "Medium"
+                      }
+                  ]
+                  for url in imgs:
+                      blocks.append({
+                          "type": "Image",
+                          "url": url,
+                          "size": "Large",
+                          "msTeams": {"allowExpand": True}
+                      })
+                  print(json.dumps(blocks))
+          except Exception as e:
+              import sys
+              print(f"Error building image blocks: {e}", file=sys.stderr)
+              print("[]")
+          PYEOF
+          )
+
           PAYLOAD=$(jq -n \
             --arg issueTitle "$CLEAN_TITLE" \
             --arg issueUrl "$ISSUE_URL" \
@@ -523,6 +574,7 @@ jobs:
             --arg workItemUrl "$WORK_ITEM_URL" \
             --arg workItemType "$WORK_ITEM_TYPE" \
             --arg description "$TRUNCATED_BODY" \
+            --argjson imageBlocks "$IMAGE_BLOCKS" \
             '{
               "type": "message",
               "attachments": [{
@@ -579,7 +631,7 @@ jobs:
                       "markdown": true,
                       "spacing": "None"
                     }
-                  ]
+                  ] + $imageBlocks
                 }
               }]
             }')
