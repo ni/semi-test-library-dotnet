@@ -494,42 +494,63 @@ jobs:
             --arg workItemType "$WORK_ITEM_TYPE" \
             --arg description "$TRUNCATED_BODY" \
             '{
-              "@type": "MessageCard",
-              "@context": "http://schema.org/extensions",
-              "themeColor": "0078D4",
-              "summary": "New GitHub Issue",
-              "sections": [
-                {
-                  "activityTitle": ("New GitHub Issue ([#" + $issueNumber + "](" + $issueUrl + ")): [" + $issueTitle + "](" + $issueUrl + ")"),
-                  "markdown": true
-                },
-                {
-                  "facts": [
+              "type": "message",
+              "attachments": [{
+                "contentType": "application/vnd.microsoft.card.adaptive",
+                "content": {
+                  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                  "type": "AdaptiveCard",
+                  "version": "1.4",
+                  "body": [
                     {
-                      "name": "Title:",
-                      "value": ("[" + $issueTitle + "](" + $issueUrl + ")")
+                      "type": "TextBlock",
+                      "text": ("**New GitHub Issue (#" + $issueNumber + "): " + $issueTitle + "**"),
+                      "wrap": true,
+                      "size": "Medium"
                     },
                     {
-                      "name": "GitHub Issue URL:",
-                      "value": ("[View Issue](" + $issueUrl + ")"  )
+                      "type": "TextBlock",
+                      "text": ("**Title:** [" + $issueTitle + "](" + $issueUrl + ")"),
+                      "wrap": true,
+                      "markdown": true,
+                      "spacing": "Medium"
                     },
                     {
-                      "name": "Work Item ID:",
-                      "value": ("[" + $workItemId + "](" + $workItemUrl + ")")
+                      "type": "TextBlock",
+                      "text": ("**GitHub Issue URL:** [View Issue](" + $issueUrl + ")"),
+                      "wrap": true,
+                      "markdown": true,
+                      "spacing": "None"
                     },
                     {
-                      "name": "Work Item Type:",
-                      "value": $workItemType
+                      "type": "TextBlock",
+                      "text": ("**Work Item ID:** [" + $workItemId + "](" + $workItemUrl + ")"),
+                      "wrap": true,
+                      "markdown": true,
+                      "spacing": "None"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": ("**Work Item Type:** " + $workItemType),
+                      "wrap": true,
+                      "markdown": true,
+                      "spacing": "None"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "**Description:**",
+                      "wrap": true,
+                      "spacing": "Medium"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": $description,
+                      "wrap": true,
+                      "spacing": "None"
                     }
-                  ],
-                  "markdown": true
-                },
-                {
-                  "activityTitle": "Description:",
-                  "activityText": $description,
-                  "markdown": true
+                  ]
                 }
-              ]
+              }]
             }')
 
           RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
