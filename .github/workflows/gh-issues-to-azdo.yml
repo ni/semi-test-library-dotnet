@@ -530,31 +530,57 @@ jobs:
               f.write(body)
           PYEOF
 
-          TRUNCATED_BODY=$(cat /tmp/teams_body_clean.txt)
-
           export CLEAN_TITLE ISSUE_URL ISSUE_NUMBER WORK_ITEM_ID WORK_ITEM_URL WORK_ITEM_TYPE
 
-          # Build the complete body array in Python (avoids jq array concatenation issues)
+          # Build the complete card body array with images inline
           CARD_BODY=$(python3 << 'PYEOF'
-          import json
+          import json, re, os
 
-          with open("/tmp/teams_body_clean.txt", "r") as f:
-              description = f.read()
+          with open("/tmp/teams_body.txt", "r") as f:
+              body = f.read()
 
-          try:
-              with open("/tmp/teams_images.json", "r") as f:
-                  imgs = json.load(f)
-          except Exception:
-              imgs = []
-
-          import os
-          issue_title  = os.environ.get("CLEAN_TITLE", "")
-          issue_url    = os.environ.get("ISSUE_URL", "")
-          issue_number = os.environ.get("ISSUE_NUMBER", "")
-          work_item_id = os.environ.get("WORK_ITEM_ID", "")
-          work_item_url= os.environ.get("WORK_ITEM_URL", "")
+          issue_title    = os.environ.get("CLEAN_TITLE", "")
+          issue_url      = os.environ.get("ISSUE_URL", "")
+          issue_number   = os.environ.get("ISSUE_NUMBER", "")
+          work_item_id   = os.environ.get("WORK_ITEM_ID", "")
+          work_item_url  = os.environ.get("WORK_ITEM_URL", "")
           work_item_type = os.environ.get("WORK_ITEM_TYPE", "")
 
+          def clean_text(text):
+              # Convert ## headings to **bold**
+              text = re.sub(r'^#{1,6}\s+(.+)$', r'**\1**', text, flags=re.MULTILINE)
+              # Convert unordered list markers to bullets
+              text = re.sub(r'^[-*]\s+(?!\*)', '• ', text, flags=re.MULTILINE)
+              # Remove HTML tags
+              text = re.sub(r'<[^>]+>', '', text)
+              # Collapse 3+ newlines to 2
+              text = re.sub(r'\n{3,}', '\n\n', text)
+              return text.strip()
+
+          def make_text_block(text, spacing="None"):
+              return {
+                  "type": "TextBlock",
+                  "text": text,
+                  "wrap": True,
+                  "markdown": True,
+                  "spacing": spacing
+              }
+
+          def make_image_block(url):
+              return {
+                  "type": "Image",
+                  "url": url,
+                  "size": "Large",
+                  "msTeams": {"allowExpand": True}
+              }
+
+          # Split body on image tokens — both markdown ![alt](url) and HTML <img src="url">
+          image_pattern = re.compile(
+              r'(!\[.*?\]\((https?://[^)]+)\)|<img[^>]+src=["\']?(https?://[^"\'>\s]+)["\']?[^>]*>)',
+              re.IGNORECASE
+          )
+
+          # Build header blocks
           blocks = [
               {
                   "type": "TextBlock",
@@ -591,30 +617,50 @@ jobs:
                   "text": "**Description:**",
                   "wrap": True,
                   "spacing": "Medium"
-              },
-              {
-                  "type": "TextBlock",
-                  "text": description,
-                  "wrap": True,
-                  "markdown": True,
-                  "spacing": "None"
               }
           ]
 
-          if imgs:
-              blocks.append({
-                  "type": "TextBlock",
-                  "text": "**Screenshots:**",
-                  "wrap": True,
-                  "spacing": "Medium"
-              })
-              for url in imgs:
-                  blocks.append({
-                      "type": "Image",
-                      "url": url,
-                      "size": "Large",
-                      "msTeams": {"allowExpand": True}
-                  })
+          # Split the body around images and interleave TextBlocks and Image blocks
+          pos = 0
+          text_segments = []
+          MAX_CHARS = 1500
+
+          for match in image_pattern.finditer(body):
+              # Text before this image
+              text_before = body[pos:match.start()]
+              text_segments.append(('text', text_before))
+              # The image URL — check both capture groups
+              url = match.group(2) or match.group(3)
+              text_segments.append(('image', url))
+              pos = match.end()
+
+          # Remaining text after last image
+          text_segments.append(('text', body[pos:]))
+
+          total_text_chars = 0
+          truncated = False
+          first_text_block = True
+
+          for kind, content in text_segments:
+              if kind == 'text':
+                  cleaned = clean_text(content)
+                  if not cleaned:
+                      continue
+                  # Apply truncation only to text blocks
+                  if total_text_chars + len(cleaned) > MAX_CHARS and not truncated:
+                      remaining = MAX_CHARS - total_text_chars
+                      if remaining > 0:
+                          cleaned = cleaned[:remaining].rsplit(None, 1)[0]
+                          cleaned += "...\n\n*(truncated — view full issue for more details)*"
+                      truncated = True
+                  total_text_chars += len(cleaned)
+                  spacing = "Medium" if first_text_block else "None"
+                  blocks.append(make_text_block(cleaned, spacing))
+                  first_text_block = False
+                  if truncated:
+                      break
+              elif kind == 'image' and not truncated:
+                  blocks.append(make_image_block(content))
 
           print(json.dumps(blocks))
           PYEOF
