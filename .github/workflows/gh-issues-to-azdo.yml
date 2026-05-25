@@ -477,35 +477,43 @@ jobs:
           WORK_ITEM_URL: ${{ steps.create-work-item.outputs.work_item_url }}
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.display_type }}
         run: |
-          # Clean and truncate the issue body for Teams display
-          TRUNCATED_BODY=$(python3 - <<'PYEOF'
-          import os, re, textwrap
+          CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
-          body = os.environ.get("ISSUE_BODY", "")
+          # Write body to file so Python can read it safely (avoids env var quoting issues)
+          printf '%s' "$ISSUE_BODY" > /tmp/teams_body.txt
+          printf '%s' "$CLEAN_TITLE" > /tmp/teams_title.txt
 
-          # Convert GitHub markdown headings (## Heading) to **Heading** so Teams renders them bold
+          python3 << 'PYEOF'
+          import re, os
+
+          with open("/tmp/teams_body.txt", "r") as f:
+              body = f.read()
+
+          # Convert ## headings to **bold**
           body = re.sub(r'^#{1,6}\s+(.+)$', r'**\1**', body, flags=re.MULTILINE)
 
-          # Convert unordered list markers to bullets
-          body = re.sub(r'^[-*]\s+', '• ', body, flags=re.MULTILINE)
+          # Convert unordered list markers to bullets (keep ** bold intact on same lines)
+          body = re.sub(r'^[-*]\s+(?!\*)', '• ', body, flags=re.MULTILINE)
 
-          # Remove image tags entirely (not useful in Teams)
+          # Remove images
           body = re.sub(r'!\[.*?\]\(.*?\)', '', body)
 
           # Remove HTML tags
           body = re.sub(r'<[^>]+>', '', body)
 
-          # Collapse 3+ consecutive newlines to 2
+          # Collapse 3+ newlines to 2
           body = re.sub(r'\n{3,}', '\n\n', body).strip()
 
-          # Truncate at word boundary around 1500 chars
+          # Truncate at word boundary
           if len(body) > 1500:
               truncated = body[:1500].rsplit(None, 1)[0]
               body = truncated + "...\n\n*(truncated — view full issue for more details)*"
 
-          print(body, end="")
+          with open("/tmp/teams_body_clean.txt", "w") as f:
+              f.write(body)
           PYEOF
-          )
+
+          TRUNCATED_BODY=$(cat /tmp/teams_body_clean.txt)
 
           PAYLOAD=$(jq -n \
             --arg issueTitle "$CLEAN_TITLE" \
@@ -568,8 +576,8 @@ jobs:
                       "type": "TextBlock",
                       "text": $description,
                       "wrap": true,
-                      "spacing": "None",
-                      "markdown": true
+                      "markdown": true,
+                      "spacing": "None"
                     }
                   ]
                 }
