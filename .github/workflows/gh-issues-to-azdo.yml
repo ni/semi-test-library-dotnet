@@ -494,74 +494,42 @@ jobs:
             --arg workItemType "$WORK_ITEM_TYPE" \
             --arg description "$TRUNCATED_BODY" \
             '{
-              "type": "message",
-              "attachments": [{
-                "contentType": "application/vnd.microsoft.card.adaptive",
-                "content": {
-                  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-                  "type": "AdaptiveCard",
-                  "version": "1.4",
-                  "body": [
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "themeColor": "0078D4",
+              "summary": "New GitHub Issue",
+              "sections": [
+                {
+                  "activityTitle": ("New GitHub Issue ([#" + $issueNumber + "](" + $issueUrl + ")): [" + $issueTitle + "](" + $issueUrl + ")"),
+                  "markdown": true
+                },
+                {
+                  "facts": [
                     {
-                      "type": "RichTextBlock",
-                      "paragraphs": [{
-                        "type": "Paragraph",
-                        "inlines": [
-                          {
-                            "type": "TextRun",
-                            "text": ("New GitHub Issue (#" + $issueNumber + "): "),
-                            "weight": "Bolder",
-                            "size": "Medium"
-                          },
-                          {
-                            "type": "TextRun",
-                            "text": $issueTitle,
-                            "weight": "Bolder",
-                            "size": "Medium",
-                            "selectAction": {
-                              "type": "Action.OpenUrl",
-                              "url": $issueUrl
-                            }
-                          }
-                        ]
-                      }]
+                      "name": "Title:",
+                      "value": ("[" + $issueTitle + "](" + $issueUrl + ")")
                     },
                     {
-                      "type": "FactSet",
-                      "facts": [
-                        {
-                          "title": "Title:",
-                          "value": ("[" + $issueTitle + "](" + $issueUrl + ")")
-                        },
-                        {
-                          "title": "GitHub Issue URL:",
-                          "value": ("[View Issue](" + $issueUrl + ")")
-                        },
-                        {
-                          "title": "Work Item ID:",
-                          "value": ("[" + $workItemId + "](" + $workItemUrl + ")")
-                        },
-                        {
-                          "title": "Work Item Type:",
-                          "value": $workItemType
-                        }
-                      ]
+                      "name": "GitHub Issue URL:",
+                      "value": ("[View Issue](" + $issueUrl + ")"  )
                     },
                     {
-                      "type": "TextBlock",
-                      "text": "Description:",
-                      "weight": "Bolder",
-                      "wrap": true,
-                      "spacing": "Medium"
+                      "name": "Work Item ID:",
+                      "value": ("[" + $workItemId + "](" + $workItemUrl + ")")
                     },
                     {
-                      "type": "TextBlock",
-                      "text": $description,
-                      "wrap": true
+                      "name": "Work Item Type:",
+                      "value": $workItemType
                     }
-                  ]
+                  ],
+                  "markdown": true
+                },
+                {
+                  "activityTitle": "Description:",
+                  "activityText": $description,
+                  "markdown": true
                 }
-              }]
+              ]
             }')
 
           RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
