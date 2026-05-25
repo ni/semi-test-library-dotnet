@@ -479,9 +479,14 @@ jobs:
         run: |
           CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
-          # Truncate at word boundary, append link if truncated
-          TRUNCATED_BODY=$(echo "$ISSUE_BODY" | head -c 1500 | sed 's/\s\S*$//')
-          if [ ${#ISSUE_BODY} -gt 1500 ]; then
+          # Strip markdown symbols and truncate at word boundary
+          CLEAN_BODY=$(echo "$ISSUE_BODY" \
+            | sed 's/\*\*//g' \
+            | sed 's/^#{1,6} //g' \
+            | sed 's/^- /• /g')
+
+          TRUNCATED_BODY=$(echo "$CLEAN_BODY" | head -c 1500 | sed 's/\s\S*$//')
+          if [ ${#CLEAN_BODY} -gt 1500 ]; then
             TRUNCATED_BODY="${TRUNCATED_BODY}... (truncated, view full issue for more details)"
           fi
 
@@ -545,8 +550,7 @@ jobs:
                     {
                       "type": "TextBlock",
                       "text": $description,
-                      "wrap": true,
-                      "spacing": "None"
+                      "wrap": true
                     }
                   ]
                 }
