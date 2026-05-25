@@ -458,7 +458,7 @@ jobs:
             const issueCreator = context.payload.issue.user.login;
             const workItemId = process.env.WORK_ITEM_ID;
             const workItemUrl = process.env.WORK_ITEM_URL;
-            const commentBody = `Thank you for posting, **@${issueCreator}**! The NI development team has been notified and a corresponding work item has been created internally. **Azure DevOps Work Item:** [#${workItemId}](${workItemUrl}) The team will review and reply back if any further clarification is required.`;
+            const commentBody = `Thank you for posting, @${issueCreator}! The NI development team has been notified and a corresponding [work item](${workItemUrl}) has been created internally. The team will review and reply back if any further clarification is required.`;
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
