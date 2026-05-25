@@ -477,18 +477,35 @@ jobs:
           WORK_ITEM_URL: ${{ steps.create-work-item.outputs.work_item_url }}
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.display_type }}
         run: |
-          CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+          # Clean and truncate the issue body for Teams display
+          TRUNCATED_BODY=$(python3 - <<'PYEOF'
+          import os, re, textwrap
 
-          # Strip markdown symbols and truncate at word boundary
-          CLEAN_BODY=$(echo "$ISSUE_BODY" \
-            | sed 's/\*\*//g' \
-            | sed 's/^#{1,6} //g' \
-            | sed 's/^- /• /g')
+          body = os.environ.get("ISSUE_BODY", "")
 
-          TRUNCATED_BODY=$(echo "$CLEAN_BODY" | head -c 1500 | sed 's/\s\S*$//')
-          if [ ${#CLEAN_BODY} -gt 1500 ]; then
-            TRUNCATED_BODY="${TRUNCATED_BODY}... (truncated, view full issue for more details)"
-          fi
+          # Convert GitHub markdown headings (## Heading) to **Heading** so Teams renders them bold
+          body = re.sub(r'^#{1,6}\s+(.+)$', r'**\1**', body, flags=re.MULTILINE)
+
+          # Convert unordered list markers to bullets
+          body = re.sub(r'^[-*]\s+', '• ', body, flags=re.MULTILINE)
+
+          # Remove image tags entirely (not useful in Teams)
+          body = re.sub(r'!\[.*?\]\(.*?\)', '', body)
+
+          # Remove HTML tags
+          body = re.sub(r'<[^>]+>', '', body)
+
+          # Collapse 3+ consecutive newlines to 2
+          body = re.sub(r'\n{3,}', '\n\n', body).strip()
+
+          # Truncate at word boundary around 1500 chars
+          if len(body) > 1500:
+              truncated = body[:1500].rsplit(None, 1)[0]
+              body = truncated + "...\n\n*(truncated — view full issue for more details)*"
+
+          print(body, end="")
+          PYEOF
+          )
 
           PAYLOAD=$(jq -n \
             --arg issueTitle "$CLEAN_TITLE" \
@@ -550,7 +567,9 @@ jobs:
                     {
                       "type": "TextBlock",
                       "text": $description,
-                      "wrap": true
+                      "wrap": true,
+                      "spacing": "None",
+                      "markdown": true
                     }
                   ]
                 }
