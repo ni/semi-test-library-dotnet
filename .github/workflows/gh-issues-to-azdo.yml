@@ -570,32 +570,6 @@ jobs:
                   "msTeams": {"allowExpand": True}
               }
 
-          # ── NEW: extract non-image file attachments ──────────────────────────────────
-          def extract_file_attachments(text):
-              """
-              Matches markdown links whose display text or URL ends with a known
-              non-image extension: zip, pdf, docx, xlsx, csv, txt, log, tar, gz, 7z
-              Returns list of (display_name, url) tuples, deduplicated.
-              """
-              pattern = re.compile(
-                  r'\[([^\]]+)\]\((https?://[^)]+)\)',
-                  re.IGNORECASE
-              )
-              NON_IMAGE_EXTS = re.compile(
-                  r'\.(zip|pdf|docx?|xlsx?|csv|txt|log|tar|gz|7z)$',
-                  re.IGNORECASE
-              )
-              seen_urls = set()
-              results = []
-              for name, url in pattern.findall(text):
-                  # Match on either the display name or the URL itself
-                  if NON_IMAGE_EXTS.search(name) or NON_IMAGE_EXTS.search(url.split('?')[0]):
-                      if url not in seen_urls:
-                          seen_urls.add(url)
-                          results.append((name, url))
-              return results
-          # ─────────────────────────────────────────────────────────────────────────────
-
           image_pattern = re.compile(
               r'(!\[.*?\]\((https?://[^)]+)\)|<img[^>]+src=["\']?(https?://[^"\'>\s]+)["\']?[^>]*>)',
               re.IGNORECASE
@@ -678,24 +652,6 @@ jobs:
                       break
               elif kind == 'image' and not truncated:
                   blocks.append(make_image_block(content))
-
-          # ── NEW: append attachment section after all body blocks ─────────────────────
-          attachments = extract_file_attachments(body)
-          if attachments:
-              blocks.append({
-                  "type": "TextBlock",
-                  "text": "**Attachments:**",
-                  "wrap": True,
-                  "spacing": "Medium"
-              })
-              for name, url in attachments:
-                  blocks.append({
-                      "type": "TextBlock",
-                      "text": f"📎 [{name}]({url})",
-                      "wrap": True,
-                      "spacing": "None"
-                  })
-          # ─────────────────────────────────────────────────────────────────────────────
 
           print(json.dumps(blocks))
           PYEOF
