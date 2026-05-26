@@ -4,7 +4,7 @@ The DCPower Instrument Abstraction allows you to gang SMU pins together to achie
 
 STL supports this functionality by programmatically tying all the channels of a ganged pin group together, sharing equal current levels and limits across the channels and synchronizing them to act together.
 
-Unlike the [SMU Merge Pin Group feature](SMUMergePinGroup.md) feature, where the complexity of operating ganged channels is handled by the driver, the SMU Gang Pin Group feature manages all of the necessary triggering, current level/limit splitting, and current measurement combining required to ensure a ganged pin group operates as a single synchronized unit per site. This allows ganging configurations that are not otherwise supported by the driver, including ganging across SMU modules.
+Unlike the [SMU Merge Pin Group](SMUMergePinGroup.md) feature, where the complexity of operating ganged channels is handled by the driver, the SMU Gang Pin Group feature manages all of the necessary triggering, current level/limit splitting, and current measurement combining required to ensure a ganged pin group operates as a single synchronized unit per site. This allows ganging configurations that are not otherwise supported by the driver, including ganging across SMU modules.
 
 > [!NOTE]
 > Supported in Semiconductor Test Library 26.0 NuGet package or later.
