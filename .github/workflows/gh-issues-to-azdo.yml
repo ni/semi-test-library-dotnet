@@ -593,12 +593,6 @@ jobs:
               },
               {
                   "type": "TextBlock",
-                  "text": f"**GitHub Issue URL:** [View Issue]({issue_url})",
-                  "wrap": True,
-                  "spacing": "None"
-              },
-              {
-                  "type": "TextBlock",
                   "text": f"**Work Item ID:** [{work_item_id}]({work_item_url})",
                   "wrap": True,
                   "spacing": "None"
