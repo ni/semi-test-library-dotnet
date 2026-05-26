@@ -166,34 +166,32 @@ When a ganged pin group is present within a `DCPowerSessionsBundle` object, the 
 
 The measured current value of a ganged pin group will reflect the total combined current across all ganged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the ganged channels mapped to the pin group.
 
+> [!NOTE]
+> - Unlike `MeasureCurrent` and `MeasureVoltage`, getter methods, such as those listed below, always return a `PinSiteData` object containing property values associated with individual pins in a ganged pin group.
+>     - `GetApertureTimeInSeconds`
+>     - `GetPowerLineFrequency`
+>     - `GetCurrentLimits`
+>     - `GetSourceDelayInSeconds`
+>
+> - If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken will return valid data. To generate a subsequent measurements you must must re-initiate the output. The `MeasureWhen` and `MeasureTrigger` properties should not be configured for individual ganged pins. Doing so will result in an exception being thrown.
+>
+>   ```cs
+>   var sessionManager = Initialize(pinmap);
+>   var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
+>   var dcpowerMeasureSettings = new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, ApertureTime = 0.001 };
+>   dcPower.GangPinGroup("PowerPins");
+>   dcPower.ConfigureMeasureSettings(dcpowerMeasureSettings);
+>   dcPower.Initiate();
+>   dcPower.MeasureVoltage();
+>   dcPower.MeasureVoltage() // Will throw fetch time out exception;
+>   ```
+
 > [!TIP]
 > If you need the measurement results for individual pins of a ganged pin group rather than a single result for the entire group, use `DoAndReturnPerSitePerPinResults` in combination with `MeasureVoltageAndCurrent`, as demonstrated in the example below.
 >
 > ```cs
 > var voltageResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1)
 > var currentResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2)
-> ```
-
-> [!NOTE]
-> Unlike `MeasureCurrent` and `MeasureVoltage`, getter methods, such as those listed below, always return a `PinSiteData` object containing property values associated with individual pins in a ganged pin group.
-> 1. `GetApertureTimeInSeconds`
-> 2. `GetPowerLineFrequency`
-> 3. `GetCurrentLimits`
-> 4. `GetSourceDelayInSeconds`
-
-> [!NOTE]
-> If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken will return valid data. To generate a subsequent measurements you must must re-initiate the output.
-> The `MeasureWhen` and `MeasureTrigger` properties should not be configured for individual ganged pins. Doing so will result in an exception being thrown.
->
-> ```cs
-> var sessionManager = Initialize(pinmap);
-> var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
-> var dcpowerMeasureSettings = new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, ApertureTime = 0.001 };
-> dcPower.GangPinGroup("PowerPins");
-> dcPower.ConfigureMeasureSettings(dcpowerMeasureSettings);
-> dcPower.Initiate();
-> dcPower.MeasureVoltage();
-> dcPower.MeasureVoltage() // Will throw fetch time out exception;
 > ```
 
 The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the name of the first pin in the ganged pin group, which is the pin associated with the leader channel. It is recommended that you specify the leader pin name in the Pin field of related tests in the Test tab of the calling TestStand step when working with ganged pin groups.
