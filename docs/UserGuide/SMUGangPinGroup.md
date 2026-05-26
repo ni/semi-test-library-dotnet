@@ -2,7 +2,9 @@
 
 The DCPower Instrument Abstraction allows you to gang SMU pins together to achieve higher current output than a single channel of any SMU can provide.
 
-STL supports this functionality by programatically tying all the channels of a ganged pin group together, sharing equal current levels and limits across the channels and synchronizing them to act together.
+STL supports this functionality by programmatically tying all the channels of a ganged pin group together, sharing equal current levels and limits across the channels and synchronizing them to act together.
+
+Unlike the [SMU Merge Pin Group feature](SMUMergePinGroup.md) feature, where the complexity of operating ganged channels is handled by the driver, the SMU Gang Pin Group feature manages all of the necessary triggering, current level/limit splitting, and current measurement combining required to ensure a ganged pin group operates as a single synchronized unit per site. This allows ganging configurations that are not otherwise supported by the driver, including ganging across SMU modules.
 
 > [!NOTE]
 > Supported in Semiconductor Test Library 26.0 NuGet package or later.
@@ -46,9 +48,6 @@ The Current Level and Current Limit values set by the user are split equally acr
 
 STL sets the source and measure triggers for follower channels to synchronize them with source and measurement operations preformed by the leader channel. 
 When preforming voltage or current sequencing operations with a ganged pin group, the start trigger and sequence advance trigger are also set for follower channels.
-
-> [!NOTE]
-> Unlike [SMU Merge Pin Group feature](SMUMergePinGroup.md), where the complexity of operating ganged channels is handled by the driver, STL manages all of the necessary triggering, current level/limit splitting, and current measurement combining required to ensure a ganged pin group operates as a single synchronized unit per site.
 
 > [!Note]
 > For the following methods, `PinSiteData` input can specify values either per pin or for the entire ganged pin group using the pin group name. Per-pin values are applied directly, while a pin group value is divided evenly across the pins in the group. All other Configure methods require per-pin input and do not support pin group names.
@@ -132,7 +131,7 @@ Once the gang operation has been performed, all subsequent DCPower Extension met
 > When using `TSMSessionManager.DCPower` to create a `DCPowerSessionsBundle`, you can specify either the ganged pin group name or the individual pin names within the group. Using the pin group name is recommended.
 > If you specify individual pin names for a ganged pin group, you must include all pins in the group when the group is actively ganged (after calling `GangPinGroup`); otherwise, `TSMSessionManager.DCPower` throws an exception.
 
-> [!NOTE]
+> [!Warning]
 > Once a pin group is ganged, low level driver operations must not be performed to configure the ganged channels, as that will override the configuration set by STL for ganging and may have adverse effects.
 
 ## Example Usage
