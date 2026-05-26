@@ -37,14 +37,14 @@ The following image illustrates an example of the relay-based dynamic connection
 
 ## Theory of Operations
 
- There are two types of channels in each ganged pin group:
+There are two types of channels in each ganged pin group:
 
-Leader channel: The lead channel responsible for driving source and measurement operations to which all other channels of the group are synchronized. Typically, associated with the first pin in the ganged pin group.
-Follower channels: The channels synchronized with the leader channel for source and measurement operations.
+- **Leader channel**: The lead channel responsible for driving source and measurement operations to which all other channels of the group are synchronized. Typically, associated with the first pin in the ganged pin group.
+- **Follower channels**: The channels synchronized with the leader channel for source and measurement operations.
+
 The Current Level and Current Limit values set by the user are split equally across all channels.
 
-STL sets the source and measure triggers for follower channels to synchronize them with source and measurement operations preformed by the leader channel.
-
+STL sets the source and measure triggers for follower channels to synchronize them with source and measurement operations preformed by the leader channel. 
 When preforming voltage or current sequencing operations with a ganged pin group, the start trigger and sequence advance trigger are also set for follower channels.
 
 > [!NOTE]
