@@ -74,7 +74,8 @@ Use the following procedure to configure the pin map to use a ganged pin group:
 
 The following example pin map file illustrates a pin group of two pins being ganged for two sites.
 
-```<?xml version="1.0" encoding="utf-8"?>
+```xml
+<?xml version="1.0" encoding="utf-8"?>
 <PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <Instruments>
         <NIDCPowerInstrument name="SMU_4137_C1_S05" numberOfChannels="1">
