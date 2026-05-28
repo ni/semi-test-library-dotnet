@@ -49,7 +49,8 @@ Use the following procedure to configure the pin map to use a merged pin group:
 
 The following example pin map file illustrates a pin group of two pins being merged for two sites.
 
-```<?xml version="1.0" encoding="utf-8"?>
+```xml
+<?xml version="1.0" encoding="utf-8"?>
 <PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <Instruments>
         <NIDCPowerInstrument name="SMU_4147_C1_S05" numberOfChannels="4">
@@ -87,7 +88,7 @@ The merge operation must be performed within the test program at run-time, once 
 > This flexible design preserves access to individual channels for situations where channels are programmatically merged with external relays or MUX only for certain tests that demand higher current. Allowing you to take advantage of the individual channels during other tests, or vice versa.
 
 You can use the `MergePinGroup` method with a `DCPowerSessionsBundle` object that contains the pin group to perform the merge operation with the instrument.
-Similarly, you can use the `MergePinGroup` method to un-merge the channels in the in group.
+Similarly, you can use the `UnmergePinGroup` method to un-merge the channels in the pin group.
 As a best practice, perform the merge operations at the start and end of the test program, unless performing a dynamic merge for specific tests.
 Once the merge operation has been performed, all subsequent DCPower Extension methods can be used on the bundle, and will operate on the pin group as if it were one single pin in the bundle.
 
