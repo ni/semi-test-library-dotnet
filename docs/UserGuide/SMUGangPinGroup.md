@@ -4,7 +4,7 @@ The DCPower Instrument Abstraction allows you to gang SMU pins together to achie
 
 STL supports this functionality by programmatically tying all the channels of a ganged pin group together, sharing equal current levels and limits across the channels and synchronizing them to act together.
 
-Unlike the [SMU Merge Pin Group](SMUMergePinGroup.md) feature, where the complexity of operating ganged channels is handled by the driver, the SMU Gang Pin Group feature manages all of the necessary triggering, current level/limit splitting, and current measurement combining required to ensure a ganged pin group operates as a single synchronized unit per site. This allows ganging configurations that are not otherwise supported by the driver, including ganging across SMU modules.
+The SMU Gang Pin Group feature manages all of the necessary triggering, current level/limit splitting, and current measurement combining required to ensure a ganged pin group operates as a single synchronized unit per site. This allows ganging configurations that are not otherwise possible using the NI-DCPower driver's Merged Channels capability.
 
 > [!NOTE]
 > Supported in Semiconductor Test Library 26.0 NuGet package or later.
@@ -24,8 +24,8 @@ The following SMUs modules have been fully tested to validate they support STL's
 
 > [!NOTE]
 > - This is not a compressive list. Any channel from an SMU module that supports source and measure triggers can be part of a ganged pin group. However, sequence mode operations require all channels of the ganged pin group to also support start and sequence advance triggers.
-> - Channels from different single or multi-channel SMUs can be ganged together. In such cases, the current shared by each individual channel cannot exceed the current rating of lowest rated SMU channel.
-> - There is no restriction on the number of channels ganged.
+> - Channels from different single or multi-channel SMUs can be ganged together. In this case, the current shared by each channel cannot exceed the current rating of the lowest rated SMU channel.
+> - Any number of channels can be ganged.
 > - Channels can be ganged in any order.
 > - Basic voltage and current sequence operations can be preformed with ganged pin groups, but more advance synchronized sequence operations are not currently supported.
 
