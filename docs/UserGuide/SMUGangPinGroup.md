@@ -187,7 +187,7 @@ The measured current value of a ganged pin group will reflect the total combined
 >   ```
 
 > [!TIP]
-> If you need the measurement results for individual pins of a ganged pin group rather than a single result for the entire group, use `DoAndReturnPerSitePerPinResults` in combination with `MeasureVoltageAndCurrent`, as demonstrated in the example below.
+> You can get the measurement results for the individual pins of a ganged pin group rather than a single result for the entire group. Use the `DoAndReturnPerSitePerPinResults` and `MeasureVoltageAndCurrent` methods, as seen in the following example:
 >
 > ```cs
 > var voltageResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item1)
@@ -197,7 +197,7 @@ The measured current value of a ganged pin group will reflect the total combined
 The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the name of the first pin in the ganged pin group, which is the pin associated with the leader channel. It is recommended that you specify the leader pin name in the Pin field of related tests in the Test tab of the calling TestStand step when working with ganged pin groups.
 
 > [!NOTE]
-> While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, it requires separate values for each of the pins within the pin group. When working with ganged pins, since the results are returned by pin group name and represent the combined value across all ganged pins, it typically does not make sense to publish the individual pin results. Instead, we only ever want to publish the combined result across the ganged pins.
+> While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, TSM requires separate values for each of the pins within the pin group. For ganged pins, results are returned for the pin group as a combined value across all pins. As a result, publishing individual pin results is not meaningful. Instead, only publish the combined result across the ganged pins.
 
 > [!TIP]
 > If you do not want to associate the published data with a pin, you can extract the data from the `PinSiteData` object by the ganged pin group name, using the `ExtractPin` method, and then only publish the returned `SiteData` object without associating it with any pin(s) by passing it to the `PublishResults` method.
@@ -207,7 +207,8 @@ The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResul
 > tsmContext.PublishResults(results.ExtractPin("GangedPinGroupName"), publishedDataId: "Current");
 > ```
 
-The following images show a code module, which invokes the `MeasureAndPublishCurrent` method and is called from a step in a TestStand sequence, and how the Test tab of the calling step appears both at edit-time and at run-time. Note that at edit-time, the test item in the Tests tab of calling step has the Pin field configured with the leader pin name, and the Published Data ID field matches the value, "Current", used by the code module.
+The following images show a code module that invokes the 'MeasureAndPublishCurrent' method, along with a TestStand step that calls this module. The images also illustrate how the Test tab of the calling step appears at both edit time and run time.
+At edit time, the test item in the Test tab is configured with the leader pin name in the Pin field, and the Published Data ID field matches the value "Current" used by the code module.
 
 ![MeasureAndPublishMethodCall](../images/SMUGangPinGroup/MeasureAndPublishMethodCall.png)
 ![TestsTabLeaderPinEdittime](../images/SMUGangPinGroup/TestsTabLeaderPinEdittime.png)
