@@ -23,7 +23,8 @@ The following SMUs modules have been fully tested to validate they support STL's
 - [PXIe-4163](https://www.ni.com/docs/en-US/bundle/pxie-4163/page/user-manual-welcome.html)
 
 > [!NOTE]
-> - This is not a compressive list. Any channel from an SMU module that supports source and measure triggers can be part of a ganged pin group. However, sequence mode operations require all channels of the ganged pin group to also support start and sequence advance triggers.
+> - This is not a comprehensive list.
+> - Ganged pin groups can only include SMU channels that support source and measure triggers. However, sequence mode operations require all channels of the ganged pin group to also support start and sequence advance triggers.
 > - Channels from different single or multi-channel SMUs can be ganged together. In this case, the current shared by each channel cannot exceed the current rating of the lowest rated SMU channel.
 > - Any number of channels can be ganged.
 > - Channels can be ganged in any order.
@@ -194,7 +195,7 @@ The measured current value of a ganged pin group will reflect the total combined
 > var currentResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2)
 > ```
 
-The `MeasureAndPublishCurrent` and `MeasureAndPublishVoltage`, and `PublishResults` methods will publish the measurement results using the name of the first pin in the ganged pin group, which is the pin associated with the leader channel. It is recommended that you specify the leader pin name in the Pin field of related tests in the Test tab of the calling TestStand step when working with ganged pin groups.
+The `MeasureAndPublishCurrent`, `MeasureAndPublishVoltage` and `PublishResults` methods publish the measurement results using the name of the first pin in the ganged pin group, which corresponds to the leader channel. When working with ganged pin groups, specify the leader pin name in the Pin field of related tests in the Test tab of the calling TestStand step.
 
 > [!NOTE]
 > While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, TSM requires separate values for each of the pins within the pin group. For ganged pins, results are returned for the pin group as a combined value across all pins. As a result, publishing individual pin results is not meaningful. Instead, only publish the combined result across the ganged pins.
