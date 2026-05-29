@@ -47,7 +47,7 @@ Each ganged pin group has the following two types of channels:
 
 The Current Level and Current Limit values are split equally across all channels.
 
-STL sets the source and measure triggers for follower channels to synchronize them with source and measurement operations preformed by the leader channel. 
+STL sets the source and measure triggers for the follower channels to synchronize them with the source and measurement operations preformed by the leader channel. 
 When preforming voltage or current sequencing operations with a ganged pin group, the start trigger and sequence advance trigger are also set for follower channels.
 
 > [!Note]
@@ -66,12 +66,12 @@ The ganged channels must all map to DUT pins in the pin map file on a per-site b
 
 Use the following procedure to configure the pin map to use a ganged pin group:
 
-1. Add DUT pin definitions for each of the channels being ganged. For example, "Vcc0", "Vcc1", "Vcc2" and so on.
+1. Add DUT pin definitions for each of the channels being ganged. For example, "Vcc0", "Vcc1", "Vcc2".
 2. Add a new pin group definition. Use a name that is appropriate for the combined pin. For example, "Vcc" or "Vcc_Ganged".
-3. Assign each of the pins created in step 1 to the pin group created in step 2.
+3. Assign each of the pins created in Step 1 to the pin group created in Step 2.
 
 > [!NOTE]
-> Unlike the pin map requirements for [SMU Merge Pin Group](SMUMergePinGroup.md#pin-map-requirements), the order of the pins in the pin group used to gang does not matter to the end user. However, note that the channel mapping to the first pin of the pin group is designated as the Leader channel when the gang operation is preformed.
+> Unlike the pin map requirements for [SMU Merge Pin Group](SMUMergePinGroup.md#pin-map-requirements), the order of the pins in the pin group that is used for ganging is not relevant to the end user. However, note that the channel mapping to the first pin of the pin group is designated as the Leader channel when the gang operation is preformed.
 
 The following example pin map file illustrates a pin group of two pins being ganged for two sites.
 
@@ -115,7 +115,10 @@ The following example pin map file illustrates a pin group of two pins being gan
 </PinMap>
 ```
 > [!NOTE]
-> The Ganged Pin Group feature is supported regardless of whether DCPower session groups are configured as a common session for all instrument, separate sessions for each instrument, or a separate session for each channel.
+> The Ganged Pin Group feature is supported in the following DCPower session group configurations:
+>   - The session groups are configured as a common session for all instruments
+>   - Different sessions are configured for each instrument
+>   - A separate session is configured for each channel
 
 ## Code Requirements
 
