@@ -122,62 +122,61 @@ The following example pin map file illustrates a pin group of two pins being gan
 
 ## Code Requirements
 
-The gang operation must be performed within the test program at run-time, once instrument sessions are initialized.
+The gang operation must be performed within the test program at runtime, after instrument sessions are initialized.
 
 > [!NOTE]
-> This flexible design preserves access to individual channels for situations where channels are programmatically ganged with external relays or MUX only for certain tests that demand higher current. Allowing you to take advantage of the individual channels during other tests, or vice versa.
+> This design preserves access to individual channels when they are programmatically ganged through external relays or multiplexers for specific high-current tests. This allows you to use the channels individually for other tests, and gang them only when higher current is required.
 
 You can use the `GangPinGroup` method with a `DCPowerSessionsBundle` object that contains the pin group to perform the gang operation with the instrument.
 Similarly, you can use the `UngangPinGroup` method to un-gang the channels in the pin group.
 As a best practice, perform the gang operations at the start and end of the test program, unless performing a dynamic gang for specific tests.
-Once the gang operation has been performed, all subsequent DCPower Extension methods can be used on the bundle, and will operate on the pin group as if it were one single pin in the bundle.
+Once the channels are ganged, all subsequent DCPower Extension methods operate on the bundle as if the pin group were a single pin.
 
 > [!Note]
 > When using `TSMSessionManager.DCPower` to create a `DCPowerSessionsBundle`, you can specify either the ganged pin group name or the individual pin names within the group. Using the pin group name is recommended.
-> If you specify individual pin names for a ganged pin group, you must include all pins in the group when the group is actively ganged (after calling `GangPinGroup`); otherwise, `TSMSessionManager.DCPower` throws an exception.
+> If you specify individual pin names for a ganged pin group, you must include all pins in the group when the group is actively ganged (after calling `GangPinGroup`). Otherwise, `TSMSessionManager.DCPower` throws an exception.
 
 > [!Warning]
-> Once a pin group is ganged, low level driver operations must not be performed to configure the ganged channels, as that will override the configuration set by STL for ganging and may have adverse effects.
+> Do not perform low-level driver operations to configure the ganged channels after invoking the GangPinGroup method on the ganged pin group. Such operations override the configuration that STL sets for ganging and might have adverse effects.
 
 ## Example Usage
 
-The following C#/.NET code snippet shows how to use `GangPinGroup()` and `UngangPinGroup()` API calls to perform Ganging and Unganging operation on the `Vcc` PinGroup defined in the above pin map file.
+The following C#/.NET code snippet shows how to use `GangPinGroup()` and `UngangPinGroup()` API calls to perform Ganging and Unganging operation on the `Vcc` PinGroup defined in the pin map file above.
 
 ``` C#
 var sessionManager = new TSMSessionManager(tsmContext);
 var smuBundle = sessionManager.DCPower("Vcc");
 
-// Perform gang operation on the pin group.
+// Perform ganging operation on the pin group.
 smuBundle.GangPinGroup("Vcc");
 
-// Source and/or measure the signals.
+// Source and measure the signals.
 smuBundle.ForceCurrent(currentLevel, voltageLimit, waitForSourceCompletion: true);
 smuBundle.MeasureAndPublishCurrent(publishedDataId: "GangedCurrent");
 
-// Use the SMU Bundle object to perform ungang operation on the pin group.
+// Use the SMU Bundle object to perform unganging operation on the pin group.
 smuBundle.UngangPinGroup("Vcc"); 
 ```
 
-There is also a sequence style example available that showcases a complete working example of ganging SMU pin groups.
-Refer to the [SMUGangPinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUGangPinGroup/README.md) for more details.
-This example is also installed on any system using STS Software 26.0 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUGangPinGroup`.
+For a sequence style example that showcases a complete working example of ganging SMU pin groups, see [SMUGangPinGroup Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/SMUGangPinGroup/README.md).
+This example is installed along STS Software 26.0 or later, under the `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\SMUGangPinGroup` directory.
 
 ## Measurement Data
 
-When a ganged pin group is present within a `DCPowerSessionsBundle` object, the `MeasureCurrent` and `MeasureVoltage` methods will return a `PinSiteData` containing data associated with the pin group name. If there are non-ganged pins or pin groups contained and measured as part of the same bundle object, their measurement data will be associated with their respective individual pin names. Refer to the screenshot below as an example.
+When a ganged pin group is present within a `DCPowerSessionsBundle` object, the `MeasureCurrent` and `MeasureVoltage` methods returns a `PinSiteData` containing data associated with the pin group name. If there are non-ganged pins or pin groups contained and measured as part of the same bundle object, their measurement data is associated with their respective individual pin names. The following screenshot provides an example for this behavior:
 
 ![PinSiteData](../images/SMUGangPinGroup/PinSiteData.png)
 
-The measured current value of a ganged pin group will reflect the total combined current across all ganged channels that map to the pin group. Whereas, the measured voltage value will reflect a common voltage for all of the ganged channels mapped to the pin group.
+The measured current value of a ganged pin group reflects the total combined current across all ganged channels that map to the pin group. In this case, the measured voltage value reflects a common voltage for all of the ganged channels that are mapped to the pin group.
 
 > [!NOTE]
-> - Unlike `MeasureCurrent` and `MeasureVoltage`, getter methods, such as those listed below, always return a `PinSiteData` object containing property values associated with individual pins in a ganged pin group.
+> - The following get methods always return a 'PinSiteData' object that contains the property values that are associated with individual pins in a ganged pin group.
 >     - `GetApertureTimeInSeconds`
 >     - `GetPowerLineFrequency`
 >     - `GetCurrentLimits`
 >     - `GetSourceDelayInSeconds`
 >
-> - If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken will return valid data. To generate a subsequent measurements you must must re-initiate the output. The `MeasureWhen` and `MeasureTrigger` properties should not be configured for individual ganged pins. Doing so will result in an exception being thrown.
+> - If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken returns valid data. To generate a subsequent measurements you must must re-initiate the output. The `MeasureWhen` and `MeasureTrigger` properties should not be configured for individual ganged pins. Doing so will result in an exception being thrown.
 >
 >   ```cs
 >   var sessionManager = Initialize(pinmap);
