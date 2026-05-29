@@ -13,7 +13,7 @@ The SMU Gang Pin Group feature manages all of the necessary triggering, current 
 
 ### Supported Instruments
 
-The following SMUs modules have been fully tested to validate they support STL's ganging feature:
+The following SMUs modules have been fully tested to validate that they support ganging feature in STL:
 
 - [PXIe-4137](https://www.ni.com/docs/en-US/bundle/pxie-4137/page/user-manual-welcome.html)
 - [PXIe-4139](https://www.ni.com/docs/en-US/bundle/pxie-4139/page/user-manual-welcome.html)
@@ -32,20 +32,20 @@ The following SMUs modules have been fully tested to validate they support STL's
 
 ### Physical Connections
 
-All the channels of ganged pin group must be physically connected on the application load board, either statically (always ganged together) or dynamically using a MUX or relays.
-For remote sensing, sense wires of all the ganged channels must be connected.
+All the channels of a ganged pin group must be physically connected on the application load board, either statically (always ganged together) or dynamically using a MUX or relays.
+For remote sensing, sense wires of all ganged channels must be connected.
 
-The following image illustrates an example of the relay-based dynamic connections for a 2 channel gang:
+The following image illustrates an example of the relay-based dynamic connections for a two-channel gang:
 ![SMUGangPinGroupSetup](../images/SMUGangPinGroup/SMUGangPinGroupSetup.png)
 
 ## Theory of Operations
 
-There are two types of channels in each ganged pin group:
+Each ganged pin group has the following two types of channels:
 
-- **Leader channel**: The lead channel responsible for driving source and measurement operations to which all other channels of the group are synchronized. Typically, associated with the first pin in the ganged pin group.
-- **Follower channels**: The channels synchronized with the leader channel for source and measurement operations.
+- **Leader channel**: The lead channel, which is responsible for driving source and measurement operations. The other channels of the group are synchronized to this channel.
+- **Follower channels**: The channels that are synchronized with the leader channel for source and measurement operations.
 
-The Current Level and Current Limit values set by the user are split equally across all channels.
+The Current Level and Current Limit values are split equally across all channels.
 
 STL sets the source and measure triggers for follower channels to synchronize them with source and measurement operations preformed by the leader channel. 
 When preforming voltage or current sequencing operations with a ganged pin group, the start trigger and sequence advance trigger are also set for follower channels.
