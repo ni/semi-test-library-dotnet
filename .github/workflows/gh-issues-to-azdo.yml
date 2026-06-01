@@ -218,7 +218,7 @@ jobs:
 
           echo "$PATCH_DOC" > patch.json
 
-          WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/\$${WORK_ITEM_TYPE}?api-version=$AZDO_API_VERSION"
+          WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/${WORK_ITEM_TYPE}?api-version=$AZDO_API_VERSION"
           echo "Work Item API URL: $WORK_ITEM_API_URL"
 
           RESPONSE=$(curl -s -u ":$AZURE_DEVOPS_TOKEN" \
@@ -754,7 +754,7 @@ jobs:
         run: |
           echo "Syncing comment to AzDO Work Item #$WORK_ITEM_ID"
 
-          printf '%s' "$COMMENT_BODY" > /tmp/comment_body.md
+          printf '%s' "$COMMENT_BODY" > /tmp/comment_bodyf.md
 
           cat << 'PYEOF' > /tmp/convert_comment.py
           import re
