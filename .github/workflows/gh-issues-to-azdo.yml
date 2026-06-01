@@ -162,7 +162,6 @@ jobs:
           DEFAULT_REPORTED_IN_PREFIX: ${{ env.DEFAULT_REPORTED_IN_PREFIX }}
         run: |
           echo "Creating Azure DevOps work item for GitHub Issue: $ISSUE_TITLE"
-          FORMATTED_ISSUE_BODY=$(cat /tmp/formatted_body.txt)
 
           # Strip any existing "[AzDO Work Item: ...]" tag from the title to avoid duplication
           CLEAN_TITLE=$(echo "$ISSUE_TITLE" \
@@ -170,58 +169,80 @@ jobs:
             | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           echo "Cleaned title: $CLEAN_TITLE"
 
-          # Build the base JSON patch document for the work item
-          PATCH_DOC=$(jq -n \
-            --arg title "GitHub Issue #$ISSUE_NUMBER: $CLEAN_TITLE" \
-            --arg issueNumber "$ISSUE_NUMBER" \
-            --arg issueUrl "$ISSUE_URL" \
-            --arg bodyHtml "$FORMATTED_ISSUE_BODY" \
-            --arg areaPath "$AZDO_AREA_PATH" \
-            '"<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: \($issueNumber)</p><p><a href=\"\($issueUrl)\">View Issue on GitHub</a></p><div>\($bodyHtml)</div><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the &quot;CommentOnGitHub&quot; tag <u>if no action is required</u> for the work item.</p></div>" as $description |
-            [
-              {"op": "add", "path": "/fields/System.Title",       "value": $title},
-              {"op": "add", "path": "/fields/System.Description", "value": $description},
-              {"op": "add", "path": "/fields/System.AreaPath",    "value": $areaPath},
-              {"op": "add", "path": "/fields/System.Tags",        "value": "CommentOnGitHub"}
-            ]')
+          # Use Python to build the patch JSON directly from files.
+          # This avoids shell interpolation corrupting special characters in the body.
+          python3 - << 'PYEOF'
+          import json, os, re
 
-          # Adding additional custom fields if the work item type is "Customer Escalation"
-          if [[ "$WORK_ITEM_TYPE" == "Customer%20Escalation" ]]; then
-            PATCH_DOC=$(echo "$PATCH_DOC" | jq \
-              --arg priority "$DEFAULT_ESCALATION_PRIORITY" \
-              --arg requestor "$DEFAULT_REQUESTOR" \
-              --arg affinity "$DEFAULT_BU_AFFINITY" \
-              '. + [
-                {"op": "add", "path": "/fields/Custom.EscalationPriority", "value": $priority},
-                {"op": "add", "path": "/fields/Custom.Requestor",          "value": $requestor},
-                {"op": "add", "path": "/fields/Custom.BUAffinity",         "value": $affinity}
-              ]')
-          fi
+          issue_number = os.environ["ISSUE_NUMBER"]
+          issue_url    = os.environ["ISSUE_URL"]
+          area_path    = os.environ["AZDO_AREA_PATH"]
+          work_type    = os.environ["WORK_ITEM_TYPE"]
+          issue_body   = os.environ.get("ISSUE_BODY", "")
 
-          # Adding additional custom fields if the work item type is "Bug"
-          if [[ "$WORK_ITEM_TYPE" == "Bug" ]]; then
-            STS_VERSION=$(echo "$ISSUE_BODY" \
-              | sed -n '/System Setup/,$p' \
-              | grep -oP '(?<=STS Software Version )\d+\.\d+(\.\w+)?' \
-              | head -n 1 \
-              | tr -d '\r')
+          # Read clean title from environment
+          clean_title = """$CLEAN_TITLE"""
 
-            # Check if STS_VERSION matches expected format
-            if [[ -n "$STS_VERSION" ]]; then
-              REPORTED_IN="$DEFAULT_REPORTED_IN_PREFIX $STS_VERSION"
-            else
-              REPORTED_IN="$DEFAULT_REPORTED_IN_PREFIX"
-            fi
+          # Read formatted body from file (avoids shell interpolation)
+          with open("/tmp/formatted_body.txt") as f:
+              body_html = f.read()
 
-            echo "Extracted STS Software Version: $STS_VERSION"
-            echo "Final ReportedIn value: $REPORTED_IN"
+          # Build description HTML
+          description = (
+              "<div><p><strong>ISSUE DETAILS:</strong></p>"
+              f"<p>Issue Number: {issue_number}</p>"
+              f'<p><a href="{issue_url}">View Issue on GitHub</a></p>'
+              f"<div>{body_html}</div>"
+              '<p style="color:red;"><strong>NOTE:</strong> Please ensure to remove the '
+              '&quot;CommentOnGitHub&quot; tag <u>if no action is required</u> for the work item.</p>'
+              "</div>"
+          )
 
-            PATCH_DOC=$(echo "$PATCH_DOC" | jq \
-              --arg reportedIn "$REPORTED_IN" \
-              '. + [{"op": "add", "path": "/fields/Custom.ReportedIn", "value": $reportedIn}]')
-          fi
+          # Start with base patch
+          patch = [
+              {"op": "add", "path": "/fields/System.Title",
+               "value": f"GitHub Issue #{issue_number}: {clean_title}"},
+              {"op": "add", "path": "/fields/System.Description", "value": description},
+              {"op": "add", "path": "/fields/System.AreaPath",    "value": area_path},
+              {"op": "add", "path": "/fields/System.Tags",        "value": "CommentOnGitHub"},
+          ]
 
-          echo "$PATCH_DOC" > patch.json
+          # Add Customer Escalation fields if applicable
+          if work_type == "Customer%20Escalation":
+              patch += [
+                  {"op": "add", "path": "/fields/Custom.EscalationPriority",
+                   "value": os.environ["DEFAULT_ESCALATION_PRIORITY"]},
+                  {"op": "add", "path": "/fields/Custom.Requestor",
+                   "value": os.environ["DEFAULT_REQUESTOR"]},
+                  {"op": "add", "path": "/fields/Custom.BUAffinity",
+                   "value": os.environ["DEFAULT_BU_AFFINITY"]},
+              ]
+
+          # Add Bug-specific fields if applicable
+          if work_type == "Bug":
+              # Extract STS version from issue body
+              setup_idx = issue_body.find("System Setup")
+              search_text = issue_body[setup_idx:] if setup_idx != -1 else issue_body
+              m = re.search(r'STS Software Version (\d+\.\d+(?:\.\w+)?)', search_text)
+              sts_version = m.group(1).strip() if m else ""
+              
+              prefix = os.environ["DEFAULT_REPORTED_IN_PREFIX"]
+              reported_in = f"{prefix} {sts_version}" if sts_version else prefix
+              
+              print(f"Extracted STS Software Version: {sts_version}")
+              print(f"Final ReportedIn value: {reported_in}")
+              
+              patch.append(
+                  {"op": "add", "path": "/fields/Custom.ReportedIn", "value": reported_in}
+              )
+
+          # Write patch.json
+          with open("/tmp/patch.json", "w") as f:
+              json.dump(patch, f)
+          print("patch.json written successfully.")
+          PYEOF
+
+          cp /tmp/patch.json patch.json
 
           WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/${WORK_ITEM_TYPE}?api-version=$AZDO_API_VERSION"
           echo "Work Item API URL: $WORK_ITEM_API_URL"
@@ -458,16 +479,38 @@ jobs:
           echo "Image processing complete. Processed $IMG_INDEX image(s)."
 
           # Patch the work item description with the final HTML (images now embedded or linked)
-          UPDATED_DESCRIPTION=$(cat formatted_body.txt)
+          # Use Python to build patch JSON from file to avoid shell interpolation issues
+          python3 - << 'PYEOF'
+          import json, os
 
-          UPDATE_PATCH=$(jq -n \
-            --arg issueNumber "$ISSUE_NUMBER" \
-            --arg issueUrl "$ISSUE_URL" \
-            --arg bodyHtml "$UPDATED_DESCRIPTION" \
-            '"<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: \($issueNumber)</p><p><a href=\"\($issueUrl)\">View Issue on GitHub</a></p><div>\($bodyHtml)</div><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the &quot;CommentOnGitHub&quot; tag <u>if no action is required</u> for the work item.</p></div>" as $description |
-            [{"op": "replace", "path": "/fields/System.Description", "value": $description}]')
+          issue_number = os.environ["ISSUE_NUMBER"]
+          issue_url    = os.environ["ISSUE_URL"]
 
-          echo "$UPDATE_PATCH" > patch-update.json
+          # Read updated body from file
+          with open("formatted_body.txt") as f:
+              body_html = f.read()
+
+          # Build description HTML
+          description = (
+              "<div><p><strong>ISSUE DETAILS:</strong></p>"
+              f"<p>Issue Number: {issue_number}</p>"
+              f'<p><a href="{issue_url}">View Issue on GitHub</a></p>'
+              f"<div>{body_html}</div>"
+              '<p style="color:red;"><strong>NOTE:</strong> Please ensure to remove the '
+              '&quot;CommentOnGitHub&quot; tag <u>if no action is required</u> for the work item.</p>'
+              "</div>"
+          )
+
+          patch = [
+              {"op": "replace", "path": "/fields/System.Description", "value": description}
+          ]
+
+          with open("/tmp/patch-update.json", "w") as f:
+              json.dump(patch, f)
+          print("patch-update.json written successfully.")
+          PYEOF
+
+          cp /tmp/patch-update.json patch-update.json
 
           UPDATE_RESPONSE=$(curl -s -u ":$AZURE_DEVOPS_TOKEN" \
             -X PATCH \
@@ -495,16 +538,29 @@ jobs:
         run: |
           echo "Linking GitHub Issue to the Azure DevOps Work Item"
 
-          PATCH_RELATION=$(jq -n \
-            --arg issueNumber "$ISSUE_NUMBER" \
-            --arg repoGuid "$GH_REPO_GUID" \
-            '[{"op": "add", "path": "/relations/-", "value": {
-              "rel": "ArtifactLink",
-              "url": "vstfs:///GitHub/Issue/\($repoGuid)%2F\($issueNumber)",
-              "attributes": {"name": "GitHub Issue"}
-            }}]')
+          # Use Python to build relation patch JSON
+          python3 - << 'PYEOF'
+          import json, os
 
-          echo "$PATCH_RELATION" > patch-relation.json
+          issue_number = os.environ["ISSUE_NUMBER"]
+          repo_guid    = os.environ["GH_REPO_GUID"]
+
+          patch = [{
+              "op": "add",
+              "path": "/relations/-",
+              "value": {
+                  "rel": "ArtifactLink",
+                  "url": f"vstfs:///GitHub/Issue/{repo_guid}%2F{issue_number}",
+                  "attributes": {"name": "GitHub Issue"}
+              }
+          }]
+
+          with open("/tmp/patch-relation.json", "w") as f:
+              json.dump(patch, f)
+          print("patch-relation.json written successfully.")
+          PYEOF
+
+          cp /tmp/patch-relation.json patch-relation.json
 
           WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$WORK_ITEM_ID?api-version=$AZDO_API_VERSION"
 
@@ -783,20 +839,40 @@ jobs:
           print(raw, end="")
           PYEOF
 
-          ESCAPED_COMMENT_BODY=$(python3 /tmp/convert_comment.py)
+          # Use Python to build comment history patch JSON
+          python3 - << 'PYEOF'
+          import json, os
 
-          FORMATTED_COMMENT=$(jq -rn \
-            --arg user       "$COMMENT_USER" \
-            --arg created_at "$COMMENT_CREATED_AT" \
-            --arg url        "$COMMENT_URL" \
-            --arg body       "$ESCAPED_COMMENT_BODY" \
-            '"<div style=\"border-left: 3px solid #0078d4; padding: 10px; margin: 10px 0; background-color: #f3f4f6;\"><strong>GitHub Comment by @\($user)</strong><br/><em>\($created_at)</em><br/><a href=\"\($url)\">View on GitHub</a><br/><br/>\($body)</div>"')
+          comment_user      = os.environ["COMMENT_USER"]
+          comment_created   = os.environ["COMMENT_CREATED_AT"]
+          comment_url       = os.environ["COMMENT_URL"]
 
-          PATCH_DOC=$(jq -n \
-            --arg comment "$FORMATTED_COMMENT" \
-            '[{"op": "add", "path": "/fields/System.History", "value": $comment}]')
+          # Read escaped body from file
+          with open("/tmp/comment_body.md") as f:
+              raw = f.read()
 
-          echo "$PATCH_DOC" > patch-comment.json
+          # Escape HTML special characters
+          raw = raw.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
+          # Convert newlines to <br/>
+          raw = raw.replace('\n', '<br/>')
+
+          formatted_comment = (
+              '<div style="border-left: 3px solid #0078d4; padding: 10px; margin: 10px 0; '
+              'background-color: #f3f4f6;"><strong>GitHub Comment by @' + comment_user + 
+              '</strong><br/><em>' + comment_created + '</em><br/><a href="' + comment_url + 
+              '">View on GitHub</a><br/><br/>' + raw + '</div>'
+          )
+
+          patch = [
+              {"op": "add", "path": "/fields/System.History", "value": formatted_comment}
+          ]
+
+          with open("/tmp/patch-comment.json", "w") as f:
+              json.dump(patch, f)
+          print("patch-comment.json written successfully.")
+          PYEOF
+
+          cp /tmp/patch-comment.json patch-comment.json
 
           WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$WORK_ITEM_ID?api-version=$AZDO_API_VERSION"
 
