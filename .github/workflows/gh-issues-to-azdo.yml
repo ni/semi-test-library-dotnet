@@ -155,6 +155,11 @@ jobs:
           ISSUE_URL: ${{ github.event.issue.html_url }}
           ISSUE_BODY: ${{ github.event.issue.body }}
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.result }}
+          AZDO_API_VERSION: ${{ env.AZDO_API_VERSION }}
+          DEFAULT_ESCALATION_PRIORITY: ${{ env.DEFAULT_ESCALATION_PRIORITY }}
+          DEFAULT_REQUESTOR: ${{ env.DEFAULT_REQUESTOR }}
+          DEFAULT_BU_AFFINITY: ${{ env.DEFAULT_BU_AFFINITY }}
+          DEFAULT_REPORTED_IN_PREFIX: ${{ env.DEFAULT_REPORTED_IN_PREFIX }}
         run: |
           echo "Creating Azure DevOps work item for GitHub Issue: $ISSUE_TITLE"
           FORMATTED_ISSUE_BODY=$(cat /tmp/formatted_body.txt)
@@ -248,6 +253,9 @@ jobs:
           WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ISSUE_URL: ${{ github.event.issue.html_url }}
+          AZDO_API_VERSION: ${{ env.AZDO_API_VERSION }}
+          IMAGE_SIZE_LIMIT_BYTES: ${{ env.IMAGE_SIZE_LIMIT_BYTES }}
+          IMAGE_MAX_PIXELS: ${{ env.IMAGE_MAX_PIXELS }}
         run: |
           echo "Processing images for Work Item #$WORK_ITEM_ID"
 
@@ -483,6 +491,7 @@ jobs:
           WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           GH_REPO_GUID: ${{ secrets.GH_REPO_GUID }}
+          AZDO_API_VERSION: ${{ env.AZDO_API_VERSION }}
         run: |
           echo "Linking GitHub Issue to the Azure DevOps Work Item"
 
@@ -536,6 +545,8 @@ jobs:
           WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
           WORK_ITEM_URL: ${{ steps.create-work-item.outputs.work_item_url }}
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.display_type }}
+          TEAMS_BODY_MAX_CHARS: ${{ env.TEAMS_BODY_MAX_CHARS }}
+          TEAMS_IMAGE_LIMIT: ${{ env.TEAMS_IMAGE_LIMIT }}
         run: |
           # Strip any existing "[AzDO Work Item: ...]" tag from the title before sending
           CLEAN_TITLE=$(echo "$ISSUE_TITLE" \
@@ -751,6 +762,7 @@ jobs:
           COMMENT_BODY: ${{ github.event.comment.body }}
           COMMENT_CREATED_AT: ${{ github.event.comment.created_at }}
           COMMENT_URL: ${{ github.event.comment.html_url }}
+          AZDO_API_VERSION: ${{ env.AZDO_API_VERSION }}
         run: |
           echo "Syncing comment to AzDO Work Item #$WORK_ITEM_ID"
 
