@@ -754,7 +754,7 @@ jobs:
         run: |
           echo "Syncing comment to AzDO Work Item #$WORK_ITEM_ID"
 
-          printf '%s' "$COMMENT_BODY" > /tmp/comment_bodyf.md
+          printf '%s' "$COMMENT_BODY" > /tmp/comment_body.md
 
           cat << 'PYEOF' > /tmp/convert_comment.py
           import re
