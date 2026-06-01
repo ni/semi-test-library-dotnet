@@ -252,6 +252,16 @@ jobs:
 
           cp /tmp/patch.json patch.json
 
+          # Verify patch.json is valid JSON before sending
+          echo "=== patch.json content ==="
+          if ! cat patch.json | jq . > /dev/null 2>&1; then
+            echo "Error: patch.json is not valid JSON!"
+            cat patch.json
+            exit 1
+          fi
+          cat patch.json | jq .
+          echo "=== end patch.json ==="
+
           WORK_ITEM_API_URL="https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/${WORK_ITEM_TYPE}?api-version=$AZDO_API_VERSION"
           echo "Work Item API URL: $WORK_ITEM_API_URL"
 
@@ -261,9 +271,25 @@ jobs:
             --data @patch.json \
             "$WORK_ITEM_API_URL")
 
+          # ── Debug: log raw response before any jq parsing ──
+          echo "=== RAW RESPONSE START ==="
+          echo "$RESPONSE"
+          echo "=== RAW RESPONSE END ==="
+
+          # Validate the response is JSON before parsing
+          if ! echo "$RESPONSE" | jq -e . > /dev/null 2>&1; then
+            echo "Error: AzDO API returned non-JSON response (HTTP error page or auth failure)"
+            echo "This typically means:"
+            echo "  1. AZURE_DEVOPS_TOKEN is missing, expired, or lacks Work Item write permissions"
+            echo "  2. AZDO_ORG or AZDO_PROJECT contains invalid characters"
+            echo "  3. AZDO_AREA_PATH is invalid or doesn't exist"
+            exit 1
+          fi
+
           WORK_ITEM_ID=$(echo "$RESPONSE" | jq -r '.id')
-          if [ "$WORK_ITEM_ID" = "null" ]; then
-            echo "Error: Work item creation failed."
+          if [ -z "$WORK_ITEM_ID" ] || [ "$WORK_ITEM_ID" = "null" ]; then
+            echo "Error: Work item creation failed. Full response:"
+            echo "$RESPONSE" | jq .
             exit 1
           fi
 
