@@ -169,6 +169,12 @@ jobs:
             | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           echo "Cleaned title: $CLEAN_TITLE"
 
+          # Write CLEAN_TITLE and ISSUE_BODY to files before the heredoc.
+          # Single-quoted heredocs (PYEOF) do NOT expand shell variables, so we must
+          # write them to files and read them inside Python instead.
+          printf '%s' "$CLEAN_TITLE" > /tmp/clean_title.txt
+          printf '%s' "$ISSUE_BODY"  > /tmp/issue_body_raw.txt
+
           # Use Python to build the patch JSON directly from files.
           # This avoids shell interpolation corrupting special characters in the body.
           python3 - << 'PYEOF'
@@ -178,10 +184,13 @@ jobs:
           issue_url    = os.environ["ISSUE_URL"]
           area_path    = os.environ["AZDO_AREA_PATH"]
           work_type    = os.environ["WORK_ITEM_TYPE"]
-          issue_body   = os.environ.get("ISSUE_BODY", "")
 
-          # Read clean title from environment
-          clean_title = """$CLEAN_TITLE"""
+          # Read from files — not from shell variable interpolation (single-quoted heredoc)
+          with open("/tmp/clean_title.txt") as f:
+              clean_title = f.read().strip()
+
+          with open("/tmp/issue_body_raw.txt") as f:
+              issue_body = f.read()
 
           # Read formatted body from file (avoids shell interpolation)
           with open("/tmp/formatted_body.txt") as f:
@@ -220,18 +229,17 @@ jobs:
 
           # Add Bug-specific fields if applicable
           if work_type == "Bug":
-              # Extract STS version from issue body
-              setup_idx = issue_body.find("System Setup")
+              setup_idx   = issue_body.find("System Setup")
               search_text = issue_body[setup_idx:] if setup_idx != -1 else issue_body
-              m = re.search(r'STS Software Version (\d+\.\d+(?:\.\w+)?)', search_text)
+              m           = re.search(r'STS Software Version (\d+\.\d+(?:\.\w+)?)', search_text)
               sts_version = m.group(1).strip() if m else ""
-              
-              prefix = os.environ["DEFAULT_REPORTED_IN_PREFIX"]
+
+              prefix      = os.environ["DEFAULT_REPORTED_IN_PREFIX"]
               reported_in = f"{prefix} {sts_version}" if sts_version else prefix
-              
+
               print(f"Extracted STS Software Version: {sts_version}")
               print(f"Final ReportedIn value: {reported_in}")
-              
+
               patch.append(
                   {"op": "add", "path": "/fields/Custom.ReportedIn", "value": reported_in}
               )
