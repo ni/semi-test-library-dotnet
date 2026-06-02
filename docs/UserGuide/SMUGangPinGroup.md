@@ -13,7 +13,7 @@ The SMU Gang Pin Group feature manages all of the necessary triggering, current 
 
 ### Supported Instruments
 
-The following SMUs modules have been fully tested to validate that they support ganging feature in STL:
+The following SMUs modules have been fully tested to validate that they support the ganging feature in STL:
 
 - [PXIe-4137](https://www.ni.com/docs/en-US/bundle/pxie-4137/page/user-manual-welcome.html)
 - [PXIe-4139](https://www.ni.com/docs/en-US/bundle/pxie-4139/page/user-manual-welcome.html)
@@ -33,7 +33,7 @@ The following SMUs modules have been fully tested to validate that they support 
 ### Physical Connections
 
 All the channels of a ganged pin group must be physically connected on the application load board, either statically (always ganged together) or dynamically using a MUX or relays.
-For remote sensing, sense wires of all ganged channels must be connected.
+For remote sensing, the sense wires of all ganged channels must be connected.
 
 The following image illustrates an example of the relay-based dynamic connections for a two-channel gang:
 ![SMUGangPinGroupSetup](../images/SMUGangPinGroup/SMUGangPinGroupSetup.png)
@@ -122,7 +122,7 @@ The following example pin map file illustrates a pin group of two pins being gan
 
 ## Code Requirements
 
-The gang operation must be performed within the test program at runtime, after instrument sessions are initialized.
+The gang operation must be performed within the test program at run time, after instrument sessions are initialized.
 
 > [!NOTE]
 > This design preserves access to individual channels when they are programmatically ganged through external relays or multiplexers for specific high-current tests. This allows you to use the channels individually for other tests, and gang them only when higher current is required.
@@ -137,7 +137,7 @@ Once the channels are ganged, all subsequent DCPower Extension methods operate o
 > If you specify individual pin names for a ganged pin group, you must include all pins in the group when the group is actively ganged (after calling `GangPinGroup`). Otherwise, `TSMSessionManager.DCPower` throws an exception.
 
 > [!Warning]
-> Do not perform low-level driver operations to configure the ganged channels after invoking the GangPinGroup method on the ganged pin group. Such operations override the configuration that STL sets for ganging and might have adverse effects.
+> Do not perform low-level driver operations to configure the ganged channels after invoking the `GangPinGroup` method on the ganged pin group. Such operations override the configuration that STL sets for ganging and might have adverse effects.
 
 ## Example Usage
 
@@ -170,13 +170,13 @@ When a ganged pin group is present within a `DCPowerSessionsBundle` object, the 
 The measured current value of a ganged pin group reflects the total combined current across all ganged channels that map to the pin group. In this case, the measured voltage value reflects a common voltage for all of the ganged channels that are mapped to the pin group.
 
 > [!NOTE]
-> - The following get methods always return a 'PinSiteData' object that contains the property values that are associated with individual pins in a ganged pin group.
+> - The following get methods always return a `PinSiteData` object that contains the property values that are associated with individual pins in a ganged pin group.
 >     - `GetApertureTimeInSeconds`
 >     - `GetPowerLineFrequency`
 >     - `GetCurrentLimits`
 >     - `GetSourceDelayInSeconds`
 >
-> - If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken returns valid data. To generate a subsequent measurements you must must re-initiate the output. The `MeasureWhen` and `MeasureTrigger` properties should not be configured for individual ganged pins. Doing so will result in an exception being thrown.
+> - If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken returns valid data. To generate subsequent measurements you must reinitiate the output. Do not configure the `MeasureWhen` and `MeasureTrigger` properties for individual ganged pins. Doing so throws an exception.
 >
 >   ```cs
 >   var sessionManager = Initialize(pinmap);
@@ -197,13 +197,16 @@ The measured current value of a ganged pin group reflects the total combined cur
 > var currentResults = sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo => sessionInfo.MeasureVoltageAndCurrent().Item2)
 > ```
 
-The `MeasureAndPublishCurrent`, `MeasureAndPublishVoltage` and `PublishResults` methods publish the measurement results using the name of the first pin in the ganged pin group, which corresponds to the leader channel. When working with ganged pin groups, specify the leader pin name in the Pin field of related tests in the Test tab of the calling TestStand step.
+The `MeasureAndPublishCurrent`, `MeasureAndPublishVoltage` and `PublishResults` methods publish measurement results using the name of the first pin in the ganged pin group, which corresponds to the leader channel. When working with ganged pin groups, specify the leader pin name in the Pin field of related tests in the Test tab of the calling TestStand step.
 
 > [!NOTE]
 > While the TestStand Semiconductor Module (TSM) allows values to be published by pin group name, TSM requires separate values for each of the pins within the pin group. For ganged pins, results are returned for the pin group as a combined value across all pins. As a result, publishing individual pin results is not meaningful. Instead, only publish the combined result across the ganged pins.
 
 > [!TIP]
-> If you do not want to associate the published data with a pin, you can extract the data from the `PinSiteData` object by the ganged pin group name, using the `ExtractPin` method, and then only publish the returned `SiteData` object without associating it with any pin(s) by passing it to the `PublishResults` method.
+> If you do not want to associate the published data with a pin, you can extract the data from the PinSiteData object by using the ganged pin group name as follows:
+>   1. Use the `ExtractPin` method to retrieve the data for the ganged pin group..
+>   2. Publish only the returned `SiteData` object.
+>   3. Pass the `SiteData` object to the `PublishResults` method and do not specify the pin parameter to avoid associating the results with a pin.
 >
 > ```cs
 > var results = dcPower.MeasureCurrent();
