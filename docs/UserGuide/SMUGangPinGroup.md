@@ -28,12 +28,11 @@ The following SMUs modules have been fully tested to validate that they support 
 > - Channels from different single or multi-channel SMUs can be ganged together. In this case, the current shared by each channel cannot exceed the current rating of the lowest rated SMU channel.
 > - Any number of channels can be ganged.
 > - Channels can be ganged in any order.
-> - Basic voltage and current sequence operations can be performed with ganged pin groups. However, the following synchronized sequence operations are not supported:
->    - `ConfigureAdvancedSequence`
->    - `ForceAdvancedSequenceSynchronized`
->    - `ForceAdvancedSequenceSynchronizedAndFetch`
->    - `ForceCurrentSequenceSynchronized`
->    - `ForceVoltageSequenceSynchronized`
+> - Basic voltage and current sequence operations can be performed with ganged pin groups. However, `ConfigureAdvancedSequence` and the following synchronized sequence operations are not supported:
+>     - `ForceVoltageSequenceSynchronized`
+>     - `ForceCurrentSequenceSynchronized`
+>     - `ForceAdvancedSequenceSynchronized`
+>     - `ForceAdvancedSequenceSynchronizedAndFetch`
 
 ### Physical Connections
 
@@ -181,7 +180,7 @@ The measured current value of a ganged pin group reflects the total combined cur
 >     - `GetCurrentLimits`
 >     - `GetSourceDelayInSeconds`
 >
-> - If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken returns valid data. To generate subsequent measurements you must reinitiate the output. Do not configure the `MeasureWhen` and `MeasureTrigger` properties for individual ganged pins. Doing so throws an exception.
+> - If the `MeasureWhen` property is set to `AutomaticallyAfterSourceComplete`, only the first measurement taken returns valid data. To generate subsequent measurements, you must reinitiate the output. Do not configure the `MeasureWhen` and `MeasureTrigger` properties for individual ganged pins. Doing so throws an exception.
 >
 >   ```cs
 >   var sessionManager = Initialize(pinmap);
@@ -209,9 +208,9 @@ The `MeasureAndPublishCurrent`, `MeasureAndPublishVoltage` and `PublishResults` 
 
 > [!TIP]
 > If you do not want to associate the published data with a pin, you can extract the data from the PinSiteData object by using the ganged pin group name as follows:
->   1. Use the `ExtractPin` method to retrieve the data for the ganged pin group..
+>   1. Use the `ExtractPin` method to retrieve the data for the ganged pin group.
 >   2. Publish only the returned `SiteData` object.
->   3. Pass the `SiteData` object to the `PublishResults` method and do not specify the pin parameter to avoid associating the results with a pin.
+>   3. Pass the `SiteData` object to the [`PublishResults`](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.Common.Publish.PublishResults.html?q=PublishResults#NationalInstruments_SemiconductorTestLibrary_Common_Publish_PublishResults__1_NationalInstruments_TestStand_SemiconductorModule_CodeModuleAPI_ISemiconductorModuleContext_NationalInstruments_SemiconductorTestLibrary_DataAbstraction_SiteData___0__System_String_System_String_) method and do not specify the pin parameter to avoid associating the results with a pin.
 >
 > ```cs
 > var results = dcPower.MeasureCurrent();
