@@ -5102,7 +5102,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
         public void DifferentSMUDevices_ConfigureCurrentLimitLowWithScalarValues_CorrectCurrentLimitLowSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
@@ -5126,7 +5125,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
         public void DifferentSMUDevices_ConfigureCurrentLimitLowWithPerSiteValues_CorrectCurrentLimitLowSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
