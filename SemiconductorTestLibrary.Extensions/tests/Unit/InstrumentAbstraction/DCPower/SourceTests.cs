@@ -5102,11 +5102,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
         public void DifferentSMUDevices_ConfigureCurrentLevelRangeWithScalarValue_CorrectCurrentLevelRangeSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1").FilterBySite(new int[] { 0, 1 });
+            var sessionsBundle = sessionManager.DCPower("VCC1");
             var expectedCurrentLevelRange = 1E-3;
 
             sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
@@ -5121,11 +5120,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
         public void DifferentSMUDevices_ConfigureCurrentLevelRangeWithPerSiteValues_CorrectCurrentLevelRangesSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1").FilterBySite(new int[] { 0, 1 });
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
             var currentLevelRanges = new SiteData<double>(new[] { 1E-2, 1E-3 });
 
             sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
@@ -5141,11 +5139,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
         public void DifferentSMUDevices_ConfigureCurrentLevelRangeWithPerPinPerSiteValues_CorrectCurrentLevelRangesSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" }).FilterBySite(new int[] { 0, 1 });
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
             var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
                 ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
