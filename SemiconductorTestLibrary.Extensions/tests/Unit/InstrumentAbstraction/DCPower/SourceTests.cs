@@ -5175,7 +5175,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowWithSameDifferentPerPinPerSiteValues_CurrentLimitLowNotSetForOtherPins()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowWithSamePerPinPerSiteValues_CurrentLimitLowSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VCC3" });
