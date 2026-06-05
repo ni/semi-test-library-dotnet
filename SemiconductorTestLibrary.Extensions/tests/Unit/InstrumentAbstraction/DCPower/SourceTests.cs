@@ -5105,7 +5105,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureCurrentLimitLowWithScalarValues_CorrectCurrentLimitLowSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1").FilterBySite(new int[] { 0, 1 });
+            var sessionsBundle = sessionManager.DCPower("VCC1");
             var expectedCurrentLimitLow = -1E-3;
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -5128,7 +5128,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureCurrentLimitLowWithPerSiteValues_CorrectCurrentLimitLowSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1").FilterBySite(new int[] { 0, 1 });
+            var sessionsBundle = sessionManager.DCPower("VCC1");
             var currentLimitLow = new SiteData<double>(new[] { -1E-2, -1E-3 });
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -5152,7 +5152,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureCurrentLimitLowWithPerPinPerSiteValues_CorrectCurrentLimitLowSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1").FilterBySite(new int[] { 0, 1 });
+            var sessionsBundle = sessionManager.DCPower("VCC1");
             var currentLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
                 ["VCC1"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -1E-3 },
