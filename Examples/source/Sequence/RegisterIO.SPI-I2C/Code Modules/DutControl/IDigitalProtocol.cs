@@ -1,6 +1,6 @@
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.I2C
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SpiAndI2c.DutControl
 {
     /// <summary>
     /// Specifies the bit ordering used when packing and unpacking waveform samples.
@@ -19,9 +19,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.I2C
     }
 
     /// <summary>
-    /// Defines a digital protocol interface for reading and writing DUT registers.
+    /// Defines a protocol-agnostic contract for reading and writing DUT registers.
     /// Implementations provide protocol-specific waveform encoding, pattern bursting,
-    /// and capture decoding (e.g., I2C, SPI).
+    /// and capture decoding (e.g., <see cref="SPI"/>, <see cref="I2C"/>).
     /// </summary>
     public interface IDigitalProtocol
     {

@@ -6,10 +6,10 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.I2C
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SpiAndI2c.DutControl
 {
     /// <summary>
-    /// Implements <see cref="IDigitalProtocol"/> for I2C register access using
+    /// Implements <see cref="IDigitalProtocol"/> for SPI register access using
     /// NI Digital Pattern instruments with source and capture waveforms.
     /// </summary>
     /// <remarks>
@@ -21,13 +21,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.I2C
     /// <para>
     /// Example usage:
     /// <code>
-    /// IDigitalProtocol protocol = new RegisterIO_I2C(tsmContext);
+    /// IDigitalProtocol protocol = new SPI(tsmContext);
     /// protocol.WriteRegister(address: 0x48, value: 4);
     /// SiteData&lt;long&gt; readBack = protocol.ReadRegister(address: 0x48);
     /// </code>
     /// </para>
     /// </remarks>
-    public class RegisterIO_I2C : IDigitalProtocol
+    public class SPI : IDigitalProtocol
     {
         private readonly DigitalSessionsBundle _digitalSessionsBundle;
         private readonly int[] _activeSiteNumbers;
@@ -88,7 +88,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.I2C
         public BitOrder BitOrder { get; }
 
         /// <summary>
-        /// Constructs a <see cref="RegisterIO_I2C"/> object to read and write to DUT registers via I2C.
+        /// Constructs an <see cref="SPI"/> object to read and write to DUT registers via SPI.
         /// </summary>
         /// <param name="semiconductorModuleContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="addressBitWidth">The number of bits the register address is.</param>
@@ -102,12 +102,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.I2C
         /// <param name="addressBitWidthSequenceRegister">The digital sequencer register used in the patterns to dynamically specify the register address size.</param>
         /// <param name="valueBitWidthSequenceRegister">The digital sequencer register used in the patterns to dynamically specify the register value size.</param>
         /// <param name="bitOrder">The bit ordering used when packing and unpacking waveform samples. Defaults to MSB-first.</param>
-        public RegisterIO_I2C(
+        public SPI(
             ISemiconductorModuleContext semiconductorModuleContext,
-            uint addressBitWidth = 8,
-            uint valueBitWidth = 8,
-            string readPatternName = "I2C_read_template",
-            string writePatternName = "I2C_write_template",
+            uint addressBitWidth = 16,
+            uint valueBitWidth = 16,
+            string readPatternName = "SPI_read_template",
+            string writePatternName = "SPI_write_template",
             uint sampleWidth = 8,
             string captureWaveformName = "capture_buffer",
             string sourceWaveformName = "source_buffer",
