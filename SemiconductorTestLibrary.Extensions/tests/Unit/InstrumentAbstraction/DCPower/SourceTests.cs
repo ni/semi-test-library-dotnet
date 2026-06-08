@@ -5105,7 +5105,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureCurrentLevelRangeWithScalarValue_CorrectCurrentLevelRangeSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
             var expectedCurrentLevelRange = 1E-3;
 
             sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
@@ -5123,7 +5123,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureCurrentLevelRangeWithPerSiteValues_CorrectCurrentLevelRangesSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var sessionsBundle = sessionManager.DCPower("VCC2");
             var currentLevelRanges = new SiteData<double>(new[] { 1E-2, 1E-3 });
 
             sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
@@ -5146,8 +5146,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
                 ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
-                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 }
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-3, [1] = 1E-2 }
             });
+
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo);
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeWithPerPinPerSiteValues_CorrectCurrentLevelRangesSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-3, [1] = 1E-4 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 1E-4, [1] = 1E-2 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
 

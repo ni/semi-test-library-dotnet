@@ -119,7 +119,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// With overrides for <see cref="SiteData{Double}"/>, and <see cref="PinSiteData{Double}"/> input.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLevelRange">The double value of the current level range.</param>
+        /// <param name="currentLevelRange">The current level range to set.</param>
         public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, double currentLevelRange)
         {
             sessionsBundle.Do(sessionInfo =>
