@@ -120,7 +120,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// With overrides for <see cref="SiteData{Double}"/>, and <see cref="PinSiteData{Double}"/> input.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLimitHigh">The double value of the current limit high.</param>
+        /// <param name="currentLimitHigh">The current limit high to set.</param>
         public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, double currentLimitHigh)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
