@@ -5197,7 +5197,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureCurrentLimitLowWithPerPinPerSiteValues_CorrectCurrentLimitLowSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
             var currentLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
                 ["VCC1"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -1E-3 },
