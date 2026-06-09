@@ -117,10 +117,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Configures the current limit low.
         /// Only applies when <see cref="DCPowerComplianceLimitSymmetry.Asymmetric"/> is configured.
-        /// With overrides for <see cref="SiteData{Double}"/>, and <see cref="PinSiteData{Double}"/> input.
+        /// Overloads are provided for <see cref="SiteData{Double}"/> and <see cref="PinSiteData{Double}"/> inputs.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLimitLow">The double value of the current limit low.</param>
+        /// <param name="currentLimitLow">The current limit low to set.</param>
         public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, double currentLimitLow)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
