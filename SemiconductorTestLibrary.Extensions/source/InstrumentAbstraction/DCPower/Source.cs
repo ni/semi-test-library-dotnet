@@ -124,12 +124,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, double currentLimitHigh)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            sessionsBundle.Do(sessionInfo =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric)
                 {
+                    var currentLimitDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                     sessionInfo.AllChannelsOutput.Control.Abort();
-                    sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitHigh = currentLimitHigh;
+                    sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitHigh = currentLimitHigh / currentLimitDivisor;
                 }
             });
         }
@@ -142,8 +143,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 if (output.Source.ComplianceLimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric)
                 {
+                    var currentLimitDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                     output.Control.Abort();
-                    output.Source.Voltage.CurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo.SiteNumber);
+                    output.Source.Voltage.CurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo.SiteNumber) / currentLimitDivisor;
                 }
             });
         }
@@ -158,8 +160,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 if (output.Source.ComplianceLimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric)
                 {
+                    var currentLimitDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                     output.Control.Abort();
-                    output.Source.Voltage.CurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo);
+                    output.Source.Voltage.CurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo) / currentLimitDivisor;
                 }
             });
         }

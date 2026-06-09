@@ -5121,6 +5121,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithScalarValue_CurrentLimitHighDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var expectedCurrentLimitHigh = 1E-2;
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh / 3, actualCurrentLimitHigh, 4);
+            });
+        }
+
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
@@ -5142,6 +5164,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var expectedCurrentLevelRange = currentLimitHigh.GetValue(sitePinInfo.SiteNumber);
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
                 Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithPerSiteValues_CurrentLimitHighDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitHigh = new SiteData<double>(new[] { 1E-2, 2E-2 });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevelRange = currentLimitHigh.GetValue(sitePinInfo.SiteNumber) / 3;
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange, 4);
             });
         }
 
@@ -5174,7 +5219,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithSamePerPinPerSiteValues_CorrectCurrentLimitHighSet()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithSamePerPinPerSiteValues_CurrentLimitHighDividedByGangSizeSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
@@ -5195,9 +5240,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo);
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo) / 3;
                 var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
-                Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
+                Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh, 4);
             });
         }
 
