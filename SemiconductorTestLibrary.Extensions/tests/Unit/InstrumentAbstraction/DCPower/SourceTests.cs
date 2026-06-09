@@ -5161,9 +5161,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLevelRange = currentLimitHigh.GetValue(sitePinInfo.SiteNumber);
-                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
-                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
             });
         }
 
@@ -5184,9 +5184,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLevelRange = currentLimitHigh.GetValue(sitePinInfo.SiteNumber) / 3;
-                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
-                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange, 4);
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo.SiteNumber) / 3;
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh, 4);
             });
         }
 
@@ -5212,9 +5212,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLevelRange = currentLimitHigh.GetValue(sitePinInfo);
-                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
-                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo);
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
             });
         }
 
