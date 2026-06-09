@@ -134,6 +134,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
             });
         }
+
         /// <inheritdoc cref="ConfigureCurrentLimitHigh(DCPowerSessionsBundle, double)"/>
         public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLimitHigh)
         {
@@ -149,6 +150,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
             });
         }
+
         /// <inheritdoc cref="ConfigureCurrentLimitHigh(DCPowerSessionsBundle, double)"/>
         public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitHigh)
         {
