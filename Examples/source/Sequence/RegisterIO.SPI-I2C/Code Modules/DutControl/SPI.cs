@@ -29,109 +29,167 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SpiAn
     /// </remarks>
     public class SPI : IDigitalProtocol
     {
+        private static SPIProtocolParameters _defaultProtocolParameters = new SPIProtocolParameters();
+
         private readonly DigitalSessionsBundle _digitalSessionsBundle;
         private readonly int[] _activeSiteNumbers;
+        private readonly string[] _pinNames;
+
+        /// <summary>
+        /// Sets the global SPI protocol parameters used when an instance is created without explicit parameters.
+        /// Only needs to be called once per test program.
+        /// </summary>
+        /// <param name="protocolParameters">The protocol parameters to use as the global default.</param>
+        public static void SetProtocolParameters(SPIProtocolParameters protocolParameters)
+        {
+            _defaultProtocolParameters = protocolParameters ?? throw new ArgumentNullException(nameof(protocolParameters));
+        }
+
+        /// <summary>
+        /// Gets the current global SPI protocol parameters used when an instance is created without explicit parameters.
+        /// </summary>
+        public static SPIProtocolParameters CurrentProtocolParameters => _defaultProtocolParameters;
+
+        /// <summary>
+        /// Gets the pin names used by this SPI instance.
+        /// </summary>
+        public IReadOnlyList<string> PinNames => _pinNames;
 
         /// <summary>
         /// Gets the digital pattern name used to read a value from a DUT register.
         /// </summary>
-        public string ReadPatternName { get; }
+        public string ReadPatternName { get; private set; }
 
         /// <summary>
         /// Gets the digital pattern name used to write a value to a DUT register.
         /// </summary>
-        public string WritePatternName { get; }
+        public string WritePatternName { get; private set; }
 
         /// <summary>
         /// Gets the digital capture waveform name used by the read pattern.
         /// </summary>
-        public string CaptureWaveformName { get; }
+        public string CaptureWaveformName { get; private set; }
 
         /// <summary>
         /// Gets the digital source waveform name used by both the read and write patterns.
         /// </summary>
-        public string SourceWaveformName { get; }
+        public string SourceWaveformName { get; private set; }
 
         /// <summary>
         /// Gets the number of bits each digital waveform sample is.
         /// </summary>
-        public uint SampleWidth { get; }
+        public uint SampleWidth { get; private set; }
 
         /// <summary>
         /// Gets the digital sequencer register used in the pattern to dynamically specify the number of registers to read/write.
         /// </summary>
-        public string ReadWriteCountSequenceRegister { get; }
+        public string ReadWriteCountSequenceRegister { get; private set; }
 
         /// <summary>
         /// Gets the digital sequencer register used in the pattern to dynamically specify the register address size.
         /// </summary>
-        public string AddressBitWidthSequenceRegister { get; }
+        public string AddressBitWidthSequenceRegister { get; private set; }
 
         /// <summary>
         /// Gets the digital sequencer register used in the pattern to dynamically specify the register value size.
         /// </summary>
-        public string ValueBitWidthSequenceRegister { get; }
+        public string ValueBitWidthSequenceRegister { get; private set; }
 
         /// <summary>
         /// Gets the number of bits the register address is.
         /// </summary>
-        public uint AddressBitWidth { get; }
+        public uint AddressBitWidth { get; private set; }
 
         /// <summary>
         /// Gets the number of bits the register data holds.
         /// </summary>
-        public uint ValueBitWidth { get; }
+        public uint ValueBitWidth { get; private set; }
 
         /// <summary>
         /// Gets the bit ordering used when packing and unpacking waveform samples.
         /// </summary>
-        public BitOrder BitOrder { get; }
+        public BitOrder BitOrder { get; private set; }
 
         /// <summary>
-        /// Constructs an <see cref="SPI"/> object to read and write to DUT registers via SPI.
+        /// Constructs an <see cref="SPI"/> object using protocol parameters and an internally-created digital bundle.
         /// </summary>
         /// <param name="semiconductorModuleContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="addressBitWidth">The number of bits the register address is.</param>
-        /// <param name="valueBitWidth">The number of bits the register data holds.</param>
-        /// <param name="readPatternName">The digital pattern name used to read a value from a DUT register.</param>
-        /// <param name="writePatternName">The digital pattern name used to write a value to a DUT register.</param>
-        /// <param name="sampleWidth">The number of bits each digital waveform sample is.</param>
-        /// <param name="captureWaveformName">The digital capture waveform name used by the read pattern.</param>
-        /// <param name="sourceWaveformName">The digital source waveform name used by both the read and write patterns.</param>
-        /// <param name="readWriteCountSequenceRegister">The digital sequencer register used in the patterns to dynamically specify the number of registers to read/write.</param>
-        /// <param name="addressBitWidthSequenceRegister">The digital sequencer register used in the patterns to dynamically specify the register address size.</param>
-        /// <param name="valueBitWidthSequenceRegister">The digital sequencer register used in the patterns to dynamically specify the register value size.</param>
-        /// <param name="bitOrder">The bit ordering used when packing and unpacking waveform samples. Defaults to MSB-first.</param>
-        public SPI(
-            ISemiconductorModuleContext semiconductorModuleContext,
-            uint addressBitWidth = 16,
-            uint valueBitWidth = 16,
-            string readPatternName = "SPI_read_template",
-            string writePatternName = "SPI_write_template",
-            uint sampleWidth = 8,
-            string captureWaveformName = "capture_buffer",
-            string sourceWaveformName = "source_buffer",
-            string readWriteCountSequenceRegister = "reg0",
-            string addressBitWidthSequenceRegister = "reg1",
-            string valueBitWidthSequenceRegister = "reg2",
-            BitOrder bitOrder = BitOrder.MsbFirst)
+        /// <param name="protocolParameters">The protocol parameters for this SPI instance.</param>
+        public SPI(ISemiconductorModuleContext semiconductorModuleContext, SPIProtocolParameters protocolParameters = null)
         {
-            ReadPatternName = readPatternName;
-            WritePatternName = writePatternName;
-            CaptureWaveformName = captureWaveformName;
-            SourceWaveformName = sourceWaveformName;
-            SampleWidth = sampleWidth;
-            ReadWriteCountSequenceRegister = readWriteCountSequenceRegister;
-            AddressBitWidthSequenceRegister = addressBitWidthSequenceRegister;
-            ValueBitWidthSequenceRegister = valueBitWidthSequenceRegister;
+            if (semiconductorModuleContext == null)
+            {
+                throw new ArgumentNullException(nameof(semiconductorModuleContext));
+            }
 
-            AddressBitWidth = addressBitWidth;
-            ValueBitWidth = valueBitWidth;
-            BitOrder = bitOrder;
+            var parameters = protocolParameters ?? _defaultProtocolParameters;
+            _pinNames = parameters.PinNames.ToArray();
 
             var sm = new TSMSessionManager(semiconductorModuleContext);
-            _digitalSessionsBundle = sm.Digital();
+            _digitalSessionsBundle = sm.Digital(_pinNames);
             _activeSiteNumbers = semiconductorModuleContext.SiteNumbers.ToArray();
+
+            Initialize(parameters);
+        }
+
+        /// <summary>
+        /// Constructs an <see cref="SPI"/> object using an externally-created digital bundle.
+        /// </summary>
+        /// <param name="digitalSessionsBundle">The digital sessions bundle to use.</param>
+        /// <param name="protocolParameters">The protocol parameters for this SPI instance.</param>
+        public SPI(DigitalSessionsBundle digitalSessionsBundle, SPIProtocolParameters protocolParameters = null)
+        {
+            if (digitalSessionsBundle == null)
+            {
+                throw new ArgumentNullException(nameof(digitalSessionsBundle));
+            }
+
+            var parameters = protocolParameters ?? _defaultProtocolParameters;
+            _pinNames = parameters.PinNames.ToArray();
+
+            ValidateBundlePins(digitalSessionsBundle, _pinNames, nameof(digitalSessionsBundle));
+
+            _digitalSessionsBundle = digitalSessionsBundle;
+            _activeSiteNumbers = digitalSessionsBundle.AggregateSitePinList
+                .Select(sitePin => sitePin.SiteNumber)
+                .Distinct()
+                .ToArray();
+
+            Initialize(parameters);
+        }
+
+        private void Initialize(SPIProtocolParameters parameters)
+        {
+            ReadPatternName = parameters.ReadPatternName;
+            WritePatternName = parameters.WritePatternName;
+            CaptureWaveformName = parameters.CaptureWaveformName;
+            SourceWaveformName = parameters.SourceWaveformName;
+            SampleWidth = parameters.SampleWidth;
+            ReadWriteCountSequenceRegister = parameters.ReadWriteCountSequenceRegister;
+            AddressBitWidthSequenceRegister = parameters.AddressBitWidthSequenceRegister;
+            ValueBitWidthSequenceRegister = parameters.ValueBitWidthSequenceRegister;
+
+            AddressBitWidth = parameters.AddressBitWidth;
+            ValueBitWidth = parameters.ValueBitWidth;
+            BitOrder = parameters.BitOrder;
+        }
+
+        private static void ValidateBundlePins(
+            DigitalSessionsBundle digitalSessionsBundle,
+            IEnumerable<string> expectedPins,
+            string paramName)
+        {
+            var expectedPinSet = new HashSet<string>(expectedPins ?? Enumerable.Empty<string>(), StringComparer.Ordinal);
+            var bundlePinSet = new HashSet<string>(
+                digitalSessionsBundle.AggregateSitePinList.Select(sitePin => sitePin.PinName),
+                StringComparer.Ordinal);
+
+            if (!expectedPinSet.SetEquals(bundlePinSet))
+            {
+                throw new ArgumentException(
+                    "Pins in the digital sessions bundle must match the protocol pin names used by template patterns.",
+                    paramName);
+            }
         }
 
         #region Single Register Operations

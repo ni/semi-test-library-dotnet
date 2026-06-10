@@ -1,6 +1,7 @@
 using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SpiAndI2c.DutControl;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SpiAndI2c
@@ -18,7 +19,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SpiAn
             uint[] regAddresses = new uint[] { 0x48, 0x49, 0x51, 0x52 };
             long[] regValues = new long[] { 0x8, 0x9, 0x1, 0x2 };
 
-            IDigitalProtocol digitalProtocol = CreateProtocol(tsmContext, protocol);
+            var sessionManager = new TSMSessionManager(tsmContext);
+            IDigitalProtocol digitalProtocol = sessionManager.DutControl(protocol);
 
             digitalProtocol.WriteRegisters(regAddresses, regValues);
 
