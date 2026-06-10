@@ -5121,6 +5121,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithScalarValues_CorrectCurrentLimitRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var expectedCurrentLimitRange = 0.1;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitRange(expectedCurrentLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
+            });
+        }
+
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
@@ -5140,13 +5157,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithPerSiteValues_CorrectCurrentLimitRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitRange = new SiteData<double>(new[] { 0.1, 0.1 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitRange = currentLimitRange.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
+            });
+        }
+
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
         public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithPerPinPerSiteValues_CorrectCurrentLimitRangeSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1").FilterBySite(new int[] { 0, 1 });
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
             var currentLimitRange = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
                 ["VCC1"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.1 },
