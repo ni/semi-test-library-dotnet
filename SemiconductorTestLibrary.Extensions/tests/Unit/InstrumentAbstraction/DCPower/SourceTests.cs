@@ -5105,7 +5105,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureCurrentLimitHighWithScalarValue_CorrectCurrentLimitHighSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
             var expectedCurrentLimitHigh = 1E-3;
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -5149,7 +5149,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureCurrentLimitHighWithPerSiteValues_CorrectCurrentLimitHighSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
             var currentLimitHigh = new SiteData<double>(new[] { 1E-2, 1E-3 });
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
