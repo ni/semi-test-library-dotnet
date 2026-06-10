@@ -5099,6 +5099,124 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerComplianceLimitSymmetry.Asymmetric)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerComplianceLimitSymmetry.Symmetric)]
+        [InlineData("SharedPinTests.pinmap", DCPowerComplianceLimitSymmetry.Asymmetric)]
+        [InlineData("SharedPinTests.pinmap", DCPowerComplianceLimitSymmetry.Symmetric)]
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithScalarValues_CorrectCurrentLimitRangeSet(string pinMap, DCPowerComplianceLimitSymmetry limitSymmetry)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(limitSymmetry, actualCurrentLimitRange);
+            });
+        }
+
+        [Theory]
+        [InlineData(DCPowerComplianceLimitSymmetry.Asymmetric)]
+        [InlineData(DCPowerComplianceLimitSymmetry.Symmetric)]
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithScalarValues_CorrectCurrentLimitRangeSet(DCPowerComplianceLimitSymmetry limitSymmetry)
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(limitSymmetry, actualCurrentLimitRange);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithPerSiteValues_CorrectCurrentLimitRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var limitSymmetry = new SiteData<DCPowerComplianceLimitSymmetry>(new[] { DCPowerComplianceLimitSymmetry.Symmetric, DCPowerComplianceLimitSymmetry.Asymmetric });
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualCurrentLimitRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithPerSiteValues_CorrectCurrentLimitRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var limitSymmetry = new SiteData<DCPowerComplianceLimitSymmetry>(new[] { DCPowerComplianceLimitSymmetry.Symmetric, DCPowerComplianceLimitSymmetry.Asymmetric });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualCurrentLimitRange);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithPerPinPerSiteValues_CorrectCurrentLimitRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var limitSymmetry = new PinSiteData<DCPowerComplianceLimitSymmetry>(new Dictionary<string, IDictionary<int, DCPowerComplianceLimitSymmetry>>()
+            {
+                ["VCC1"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
+                ["VCC2"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric }
+            });
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo);
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualCurrentLimitRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithPerPinPerSiteValues_CorrectCurrentLimitRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var limitSymmetry = new PinSiteData<DCPowerComplianceLimitSymmetry>(new Dictionary<string, IDictionary<int, DCPowerComplianceLimitSymmetry>>()
+            {
+                ["VCC1"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
+                ["VCC2"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
+                ["VCC3"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo);
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualCurrentLimitRange);
+            });
+        }
+
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);

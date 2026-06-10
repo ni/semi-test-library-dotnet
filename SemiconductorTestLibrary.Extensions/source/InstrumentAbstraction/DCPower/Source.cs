@@ -115,6 +115,41 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Configures the compliance limit symmetry.
+        /// With overrides for <see cref="SiteData{DCPowerComplianceLimitSymmetry}"/>, and <see cref="PinSiteData{DCPowerComplianceLimitSymmetry}"/> input.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="complianceLimitSymmetry">The compliance limit symmetry value to set.</param>
+        public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, DCPowerComplianceLimitSymmetry complianceLimitSymmetry)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.AllChannelsOutput.Control.Abort();
+                sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry = complianceLimitSymmetry;
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureLimitSymmetry(DCPowerSessionsBundle, DCPowerComplianceLimitSymmetry)"/>
+        public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerComplianceLimitSymmetry> complianceLimitSymmetry)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry = complianceLimitSymmetry.GetValue(sitePinInfo.SiteNumber);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureLimitSymmetry(DCPowerSessionsBundle, DCPowerComplianceLimitSymmetry)"/>
+        public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerComplianceLimitSymmetry> complianceLimitSymmetry)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry = complianceLimitSymmetry.GetValue(sitePinInfo);
+            });
+        }
+
+        /// <summary>
         /// Forces voltage on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
