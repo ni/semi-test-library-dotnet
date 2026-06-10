@@ -5105,7 +5105,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureCurrentLimitLowWithScalarValues_CorrectCurrentLimitLowSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
             var expectedCurrentLimitLow = -1E-3;
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -5150,7 +5150,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureCurrentLimitLowWithPerSiteValues_CorrectCurrentLimitLowSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
             var currentLimitLow = new SiteData<double>(new[] { -1E-2, -1E-3 });
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
