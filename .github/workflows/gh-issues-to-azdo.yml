@@ -151,7 +151,7 @@ jobs:
           # Insert blank line before unordered list blocks for the same reason
           raw = re.sub(r'([^\n])\n([-*] )', r'\1\n\n\2', raw)
 
-          html_out = markdown.markdown(raw, extensions=['sane_lists'])
+          html_out = markdown.markdown(raw, extensions=['sane_lists', 'fenced_code'])
 
           # Sanitize: strip disallowed tags/attributes (removes <script>, <iframe>, etc.)
           html_out = bleach.clean(html_out, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRS, strip=True)
