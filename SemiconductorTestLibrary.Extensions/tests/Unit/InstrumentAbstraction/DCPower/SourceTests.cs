@@ -5104,7 +5104,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("Mixed Signal Tests.pinmap", DCPowerComplianceLimitSymmetry.Symmetric)]
         [InlineData("SharedPinTests.pinmap", DCPowerComplianceLimitSymmetry.Asymmetric)]
         [InlineData("SharedPinTests.pinmap", DCPowerComplianceLimitSymmetry.Symmetric)]
-        public void DifferentSMUDevices_ConfigureLimitSymmetryWithScalarValues_CorrectCurrentLimitRangeSet(string pinMap, DCPowerComplianceLimitSymmetry limitSymmetry)
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithScalarValues_CorrectLimitSymmetrySet(string pinMap, DCPowerComplianceLimitSymmetry limitSymmetry)
         {
             var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower("VCC2");
@@ -5120,7 +5120,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(DCPowerComplianceLimitSymmetry.Asymmetric)]
         [InlineData(DCPowerComplianceLimitSymmetry.Symmetric)]
-        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithScalarValues_CorrectCurrentLimitRangeSet(DCPowerComplianceLimitSymmetry limitSymmetry)
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithScalarValues_CorrectLimitSymmetrySet(DCPowerComplianceLimitSymmetry limitSymmetry)
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
@@ -5137,7 +5137,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevices_ConfigureLimitSymmetryWithPerSiteValues_CorrectCurrentLimitRangeSet(string pinMap)
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithPerSiteValues_CorrectLimitSymmetrySet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower("VCC2");
@@ -5154,7 +5154,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithPerSiteValues_CorrectCurrentLimitRangeSet()
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithPerSiteValues_CorrectLimitSymmetrySet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
@@ -5174,7 +5174,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevices_ConfigureLimitSymmetryWithPerPinPerSiteValues_CorrectCurrentLimitRangeSet(string pinMap)
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithPerPinPerSiteValues_CorrectLimitSymmetrySet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower("VCC2");
@@ -5195,7 +5195,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithPerPinPerSiteValues_CorrectCurrentLimitRangeSet()
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithPerPinPerSiteValues_CorrectLimitSymmetrySet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
