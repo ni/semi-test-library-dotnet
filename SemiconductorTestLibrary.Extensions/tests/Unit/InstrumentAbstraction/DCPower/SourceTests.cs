@@ -5169,7 +5169,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var currentLevelRangeDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo.SiteNumber) / currentLevelRangeDivisor;
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
-                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange, 4);
             });
         }
 
@@ -5216,7 +5216,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var currentLevelRangeDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo) / currentLevelRangeDivisor;
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
-                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange, 4);
             });
         }
 

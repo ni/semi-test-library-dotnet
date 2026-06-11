@@ -164,7 +164,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange.GetValue(sitePinInfo));
+                SetCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
             });
         }
 
@@ -3089,11 +3089,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
         }
 
-        private static void SetCurrentLevelRange(DCPowerOutput channelOutput, SitePinInfo sitePinInfo, double currentLevelRange)
+        private static void SetCurrentLevelRange(DCPowerOutput channelOutput, SitePinInfo sitePinInfo, double currentLevelRange, bool isGroupData = true)
         {
             var currentLevelRangeToSet = currentLevelRange;
 
-            if (sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
             {
                 currentLevelRangeToSet = currentLevelRange / gangingInfo.ChannelsCount;
             }
