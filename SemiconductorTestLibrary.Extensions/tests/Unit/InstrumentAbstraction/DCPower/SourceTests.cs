@@ -5102,7 +5102,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithScalarValues_CorrectCurrentLimitRangeSet(string pinmap)
+        public void DifferentSMUDevices_ConfigureCurrentLevelWithScalarValues_CorrectCCurrentLevelSet(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.DCPower("VCC2");
@@ -5118,7 +5118,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithScalarValues_CorrectCurrentLimitRangeSet()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelWithScalarValues_CorrectCurrentLevelSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
@@ -5137,7 +5137,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithPerSiteValues_CorrectCurrentLimitRangeSet(string pinmap)
+        public void DifferentSMUDevices_ConfigureCurrentLevelWithPerSiteValues_CorrectCurrentLevelRangeSet(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.DCPower("VCC2");
@@ -5154,7 +5154,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithPerSiteValues_CorrectCurrentLimitRangeSet()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelWithPerSiteValues_CorrectCurrentLevelSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
@@ -5174,7 +5174,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithPerPinPerSiteValues_CorrectCurrentLimitRangeSet(string pinmap)
+        public void DifferentSMUDevices_ConfigureCurrentLevelWithPerPinPerSiteValues_CorrectCurrentLevelSet(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
@@ -5195,7 +5195,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithPerPinPerSiteValues_CorrectCurrentLimitRangeSet()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelWithPerPinPerSiteValues_CorrectCurrentLevelSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
