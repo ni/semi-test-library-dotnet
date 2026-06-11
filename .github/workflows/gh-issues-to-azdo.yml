@@ -21,21 +21,9 @@ env:
   # Tag applied to every work item created by this workflow
   WORK_ITEM_TAG: "CommentOnGitHub"
 
-  # Default custom-field values for "Customer Escalation" work items
-  ESCALATION_PRIORITY: "Priority 3 - Medium"
-  ESCALATION_REQUESTOR: "Semi BU"
-  ESCALATION_BU_AFFINITY: "Semi/Elec"
-
-  # Prefix for the Custom.ReportedIn field on "Bug" work items
-  REPORTED_IN_PREFIX: "STS Software Bundle"
-
-  # Image download limits
-  IMG_MAX_SIZE_BYTES: "10485760"
-  IMG_DOWNLOAD_TIMEOUT_SECONDS: "30"
-
-  # Teams notification limits
+  # Maximum characters of issue body shown in the Teams card
+  # (read by both Python blocks in the Teams notification step)
   TEAMS_MAX_BODY_CHARS: "1500"
-  TEAMS_MAX_IMAGES: "3"
 
 jobs:
   # ===================================================================
@@ -257,18 +245,16 @@ jobs:
 
           # --- 3d. Append type-specific custom fields ---
           if [[ "$WORK_ITEM_TYPE" == "Customer%20Escalation" ]]; then
-            PATCH_DOC=$(echo "$PATCH_DOC" | jq \
-              --arg priority "$ESCALATION_PRIORITY" \
-              --arg requestor "$ESCALATION_REQUESTOR" \
-              --arg buAffinity "$ESCALATION_BU_AFFINITY" \
-              '. + [
-              {"op": "add", "path": "/fields/Custom.EscalationPriority", "value": $priority},
-              {"op": "add", "path": "/fields/Custom.Requestor",          "value": $requestor},
-              {"op": "add", "path": "/fields/Custom.BUAffinity",         "value": $buAffinity}
+            PATCH_DOC=$(echo "$PATCH_DOC" | jq '. + [
+              {"op": "add", "path": "/fields/Custom.EscalationPriority", "value": "Priority 3 - Medium"},
+              {"op": "add", "path": "/fields/Custom.Requestor",          "value": "Semi BU"},
+              {"op": "add", "path": "/fields/Custom.BUAffinity",         "value": "Semi/Elec"}
             ]')
           fi
 
           if [[ "$WORK_ITEM_TYPE" == "Bug" ]]; then
+            # Prefix for the Custom.ReportedIn field (local to this step)
+            REPORTED_IN_PREFIX="STS Software Bundle"
             STS_VERSION=$(echo "$ISSUE_BODY" | sed -n '/System Setup/,$p' | grep -oP '(?<=STS Software Version )\d+\.\d+(\.\w+)?' | head -n 1 | tr -d '\r')
             if [[ -n "$STS_VERSION" ]]; then
               REPORTED_IN="$REPORTED_IN_PREFIX $STS_VERSION"
@@ -468,7 +454,7 @@ jobs:
             # and may return application/octet-stream on HEAD requests, causing false negatives.
             # Magic-byte and PIL validation (steps 4 & 5) are sufficient to reject non-images.
             echo "Downloading image $IMG_INDEX..."
-            HTTP_STATUS=$(curl -sL --max-time "$IMG_DOWNLOAD_TIMEOUT_SECONDS" -o "$IMG_FILE" -w "%{http_code}" --max-filesize "$IMG_MAX_SIZE_BYTES" \
+            HTTP_STATUS=$(curl -sL --max-time 30 -o "$IMG_FILE" -w "%{http_code}" --max-filesize 10485760 \
               -H "User-Agent: Mozilla/5.0" \
               "$SRC")
             echo "HTTP status: $HTTP_STATUS, file size: $(stat -c%s "$IMG_FILE" 2>/dev/null || echo 0) bytes"
@@ -617,7 +603,7 @@ jobs:
           python3 << 'PYEOF'
           import re, os, json
 
-          MAX_IMAGES = int(os.environ.get("TEAMS_MAX_IMAGES", "3"))
+          MAX_IMAGES = 3
           MAX_CHARS = int(os.environ.get("TEAMS_MAX_BODY_CHARS", "1500"))
 
           with open("/tmp/teams_body.txt", "r") as f:
@@ -830,12 +816,6 @@ jobs:
       github.event.comment.user.type != 'Bot'
     runs-on: ubuntu-latest
 
-    # -----------------------------------------------------------------
-    # Job-level environment
-    # -----------------------------------------------------------------
-    env:
-      AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-
     steps:
       # ===============================================================
       # SECTION 1: Setup
@@ -903,6 +883,7 @@ jobs:
       - name: Sync comment to Azure DevOps
         if: steps.extract-work-item.outputs.result != 'null' && steps.extract-work-item.outputs.result != ''
         env:
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
           WORK_ITEM_ID: ${{ steps.extract-work-item.outputs.result }}
           COMMENT_USER: ${{ github.event.comment.user.login }}
           COMMENT_BODY: ${{ github.event.comment.body }}
