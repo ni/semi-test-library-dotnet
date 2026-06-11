@@ -130,7 +130,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    ConfigureCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange);
+                    SetCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange);
                 });
             }
             else
@@ -151,7 +151,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                ConfigureCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange.GetValue(sitePinInfo.SiteNumber));
+                SetCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -164,7 +164,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                ConfigureCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange.GetValue(sitePinInfo));
+                SetCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange.GetValue(sitePinInfo));
             });
         }
 
@@ -3089,7 +3089,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
         }
 
-        private static void ConfigureCurrentLevelRange(DCPowerOutput channelOutput, SitePinInfo sitePinInfo, double currentLevelRange)
+        private static void SetCurrentLevelRange(DCPowerOutput channelOutput, SitePinInfo sitePinInfo, double currentLevelRange)
         {
             var currentLevelRangeToSet = currentLevelRange;
 
@@ -3098,6 +3098,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 currentLevelRangeToSet = currentLevelRange / gangingInfo.ChannelsCount;
             }
 
+            channelOutput.Control.Abort();
             channelOutput.Source.Current.CurrentLevelRange = currentLevelRangeToSet;
         }
 
