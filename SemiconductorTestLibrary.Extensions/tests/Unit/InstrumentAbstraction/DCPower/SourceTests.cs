@@ -5112,8 +5112,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
-                Assert.Equal(limitSymmetry, actualCurrentLimitRange);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(limitSymmetry, actualLimitSymmetry);
             });
         }
 
@@ -5129,8 +5129,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
-                Assert.Equal(limitSymmetry, actualCurrentLimitRange);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(limitSymmetry, actualLimitSymmetry);
             });
         }
 
@@ -5148,8 +5148,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo.SiteNumber);
-                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
-                Assert.Equal(expectedLimitSymmetry, actualCurrentLimitRange);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
             });
         }
 
@@ -5166,8 +5166,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo.SiteNumber);
-                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
-                Assert.Equal(expectedLimitSymmetry, actualCurrentLimitRange);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
             });
         }
 
@@ -5189,8 +5189,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo);
-                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
-                Assert.Equal(expectedLimitSymmetry, actualCurrentLimitRange);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
             });
         }
 
@@ -5212,8 +5212,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo);
-                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
-                Assert.Equal(expectedLimitSymmetry, actualCurrentLimitRange);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
             });
         }
 
