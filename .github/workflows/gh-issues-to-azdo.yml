@@ -6,7 +6,6 @@ on:
   issue_comment:
     types: [created]
 
-# Workflow-level constants shared by multiple steps/jobs (single place to change them).
 env:
   AZDO_API_VERSION: "6.0"
   AZDO_BASE_URL: "https://dev.azure.com/${{ secrets.AZDO_ORG }}/${{ secrets.AZDO_PROJECT }}"
@@ -20,7 +19,7 @@ jobs:
   handle-new-issue:
     if: github.event_name == 'issues'
     runs-on: ubuntu-latest
-    env:  # shared by multiple steps below
+    env:  
       AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
       ISSUE_TITLE: ${{ github.event.issue.title }}
       ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -30,7 +29,6 @@ jobs:
       - name: Install Python Markdown
         run: pip install markdown Pillow bleach
 
-      # === SECTION 1: Map GitHub labels -> Azure DevOps work item type ===
       - name: Determine Work Item Type
         id: determine-work-item-type
         uses: actions/github-script@v6
@@ -48,7 +46,6 @@ jobs:
             return encodeURIComponent(workItemType);
           result-encoding: string
 
-      # === SECTION 2: Create the work item in Azure DevOps ===
       - name: Create work item in Azure DevOps
         id: create-work-item
         env:
@@ -164,6 +161,7 @@ jobs:
           print(re.sub(r"<img[^>]*>", replace_img, html_out), end="")
           PYEOF
 
+          # Build the base work item payload
           FORMATTED_ISSUE_BODY=$(python3 /tmp/convert_md.py)
 
           # --- 2c. Build the base JSON Patch document ---
@@ -183,6 +181,8 @@ jobs:
             ]')
 
           # --- 2d. Append type-specific custom fields ---
+
+          # Adding additional custom fields if the work item type is "Customer Escalation"
           if [[ "$WORK_ITEM_TYPE" == "Customer%20Escalation" ]]; then
             PATCH_DOC=$(echo "$PATCH_DOC" | jq '. + [
               {"op": "add", "path": "/fields/Custom.EscalationPriority", "value": "Priority 3 - Medium"},
@@ -191,10 +191,12 @@ jobs:
             ]')
           fi
 
+          # Adding additional custom fields if the work item type is "Bug"
           if [[ "$WORK_ITEM_TYPE" == "Bug" ]]; then
             # Prefix for the Custom.ReportedIn field (local to this step)
             REPORTED_IN_PREFIX="STS Software Bundle"
             STS_VERSION=$(echo "$ISSUE_BODY" | sed -n '/System Setup/,$p' | grep -oP '(?<=STS Software Version )\d+\.\d+(\.\w+)?' | head -n 1 | tr -d '\r')
+            # Check if STS_VERSION matches expected format
             if [[ -n "$STS_VERSION" ]]; then
               REPORTED_IN="$REPORTED_IN_PREFIX $STS_VERSION"
             else
@@ -209,7 +211,6 @@ jobs:
 
           echo "$PATCH_DOC" > patch.json
 
-          # --- 2e. Create the work item via the AzDO REST API ---
           WORK_ITEM_API_URL="$AZDO_BASE_URL/_apis/wit/workitems/\$${WORK_ITEM_TYPE}?api-version=$AZDO_API_VERSION"
           echo "Work Item API URL: $WORK_ITEM_API_URL"
 
@@ -231,7 +232,6 @@ jobs:
           echo "clean_title=$CLEAN_TITLE" >> $GITHUB_OUTPUT
           printf '%s' "$FORMATTED_ISSUE_BODY" > formatted_body.txt
 
-      # === SECTION 3: Upload embedded images and update the description ===
       - name: Upload Images and Update Work Item Description
         env:
           WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
@@ -442,7 +442,6 @@ jobs:
             exit 1
           fi
 
-      # === SECTION 4: Link the GitHub Issue to the new AzDO Work Item ===
       - name: Link GitHub Issue to Azure DevOps Work Item
         env:
           WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
@@ -464,7 +463,6 @@ jobs:
             --data @patch-relation.json \
             "$AZDO_BASE_URL/_apis/wit/workitems/$WORK_ITEM_ID?api-version=$AZDO_API_VERSION")
 
-      # === SECTION 5: Acknowledge the issue with a comment on GitHub ===
       # NOTE: The [work item](url) link in this comment is what the comment-sync
       # job (JOB 2) parses to find the linked work item — it must remain.
       - name: Add comment on GitHub Issue
@@ -484,7 +482,6 @@ jobs:
               body: commentBody,
             });
 
-      # === SECTION 6: Notify the team on Microsoft Teams ===
       - name: Send Teams Notification
         env:
           TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
@@ -614,7 +611,7 @@ jobs:
       github.event.comment.user.type != 'Bot'
     runs-on: ubuntu-latest
     steps:
-      # === SECTION 1: Find the linked work item ===
+
       # Primary: parse the work item ID out of the workflow's own acknowledgment
       # comment (links to ".../_workitems/edit/<id>") — keeps the issue title clean.
       # Fallback: the legacy "[AzDO Work Item: N]" title tag for older issues.
@@ -643,7 +640,6 @@ jobs:
             return null;
           result-encoding: string
 
-      # === SECTION 2: Format the comment and append it to the work item ===
       - name: Sync comment to Azure DevOps
         if: steps.extract-work-item.outputs.result != 'null' && steps.extract-work-item.outputs.result != ''
         env:
