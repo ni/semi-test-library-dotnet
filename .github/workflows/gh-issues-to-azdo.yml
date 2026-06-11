@@ -6,94 +6,49 @@ on:
   issue_comment:
     types: [created]
 
-# =====================================================================
-# Workflow-level constants
-# ---------------------------------------------------------------------
-# All tunable / environment-specific values live here so they can be
-# changed in one place without touching the step logic below.
-# These are exported as environment variables to every step.
-# =====================================================================
+# Workflow-level constants shared by multiple steps/jobs (single place to change them).
 env:
-  # Azure DevOps API settings
   AZDO_API_VERSION: "6.0"
   AZDO_BASE_URL: "https://dev.azure.com/${{ secrets.AZDO_ORG }}/${{ secrets.AZDO_PROJECT }}"
-
   # Tag applied to every work item created by this workflow
   WORK_ITEM_TAG: "CommentOnGitHub"
-
-  # Maximum characters of issue body shown in the Teams card
-  # (read by both Python blocks in the Teams notification step)
+  # Max characters of issue body shown in the Teams card (read by the Teams step's Python)
   TEAMS_MAX_BODY_CHARS: "1500"
 
 jobs:
-  # ===================================================================
-  # JOB 1: Handle newly opened issues
-  #   Creates an AzDO work item, uploads embedded images, links the
-  #   issue, acknowledges on GitHub, and notifies the team on Teams.
-  # ===================================================================
+  # JOB 1: New issue -> create AzDO work item, upload images, link, acknowledge, notify Teams.
   handle-new-issue:
     if: github.event_name == 'issues'
     runs-on: ubuntu-latest
-
-    # -----------------------------------------------------------------
-    # Job-level environment
-    # Shared values used by multiple steps (secrets + issue metadata)
-    # -----------------------------------------------------------------
-    env:
+    env:  # shared by multiple steps below
       AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
       ISSUE_TITLE: ${{ github.event.issue.title }}
       ISSUE_NUMBER: ${{ github.event.issue.number }}
       ISSUE_URL: ${{ github.event.issue.html_url }}
       ISSUE_BODY: ${{ github.event.issue.body }}
-
     steps:
-      # ===============================================================
-      # SECTION 1: Setup
-      # ===============================================================
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Install Python Markdown
         run: pip install markdown Pillow bleach
 
-      # ===============================================================
-      # SECTION 2: Map GitHub labels -> Azure DevOps work item type
-      # ===============================================================
+      # === SECTION 1: Map GitHub labels -> Azure DevOps work item type ===
       - name: Determine Work Item Type
         id: determine-work-item-type
         uses: actions/github-script@v6
         with:
           script: |
             // Label -> work item type mapping (checked in order of priority)
-            const LABEL_TO_WORK_ITEM_TYPE = {
-              "bug": "Bug",
-              "enhancement": "User Story",
-            };
+            const LABEL_TO_WORK_ITEM_TYPE = { "bug": "Bug", "enhancement": "User Story" };
             const DEFAULT_WORK_ITEM_TYPE = "Customer Escalation";
-
             const labels = context.payload.issue.labels.map(label => label.name.toLowerCase());
-
             let workItemType = DEFAULT_WORK_ITEM_TYPE;
             for (const [label, type] of Object.entries(LABEL_TO_WORK_ITEM_TYPE)) {
-              if (labels.includes(label)) {
-                workItemType = type;
-                break;
-              }
+              if (labels.includes(label)) { workItemType = type; break; }
             }
-
-            const encodedType = encodeURIComponent(workItemType);
             core.setOutput('display_type', workItemType);
-            return encodedType;
+            return encodeURIComponent(workItemType);
           result-encoding: string
 
-      # ===============================================================
-      # SECTION 3: Create the work item in Azure DevOps
-      #   3a. Clean the issue title
-      #   3b. Convert the issue body (Markdown) to AzDO-safe HTML
-      #   3c. Build the base JSON Patch document
-      #   3d. Append type-specific custom fields
-      #   3e. POST to the AzDO Work Item API
-      # ===============================================================
+      # === SECTION 2: Create the work item in Azure DevOps ===
       - name: Create work item in Azure DevOps
         id: create-work-item
         env:
@@ -102,44 +57,33 @@ jobs:
         run: |
           echo "Creating Azure DevOps work item for GitHub Issue: $ISSUE_TITLE"
 
-          # --- 3a. Clean the issue title (strip any "[AzDO Work Item: N]" suffix) ---
+          # --- 2a. Clean the issue title (strip any "[AzDO Work Item: N]" suffix) ---
           CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           echo "Cleaned title: $CLEAN_TITLE"
 
-          # --- 3b. Convert Markdown body to AzDO-safe HTML ---
+          # --- 2b. Convert Markdown body to AzDO-safe HTML ---
           printf '%s' "$ISSUE_BODY" > /tmp/issue_body.md
 
           cat << 'PYEOF' > /tmp/convert_md.py
           import markdown, re, html, bleach
 
           # Allowed tags and attributes for bleach sanitization
-          ALLOWED_TAGS = [
-              'p', 'br', 'strong', 'em', 'ul', 'ol', 'li',
-              'a', 'img', 'code', 'pre', 'blockquote',
-              'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-          ]
-          ALLOWED_ATTRS = {
-              'a':   ['href', 'title'],
-              'img': ['src', 'alt', 'title'],
-          }
+          ALLOWED_TAGS = ['p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'a', 'img',
+                          'code', 'pre', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+          ALLOWED_ATTRS = {'a': ['href', 'title'], 'img': ['src', 'alt', 'title']}
 
           with open("/tmp/issue_body.md", "r") as f:
               raw = f.read()
 
-          # --- Code fence normalization (GFM compatibility) ---
-          # GitHub-Flavored Markdown is lenient about code fences in ways that
-          # python-markdown's fenced_code extension is not:
-          #   1. GFM allows fences indented by up to 3 spaces; fenced_code
-          #      requires column 0, otherwise the backticks render as text.
+          # GFM-compatibility fence normalization: python-markdown's fenced_code needs
+          # fences at column 0 (GFM allows up to 3 spaces of indent) and a closing fence
+          # (GFM treats an unclosed fence as code-to-end; an unpaired ``` would
+          # otherwise render as literal backticks).
           raw = re.sub(r'^[ ]{1,3}(`{3,})', r'\1', raw, flags=re.MULTILINE)
-          #   2. GFM treats an unclosed fence as a code block running to the end
-          #      of the text; fenced_code leaves the stray ``` as literal
-          #      characters. Append a closing fence to mimic GFM.
           if len(re.findall(r'^`{3,}', raw, flags=re.MULTILINE)) % 2 == 1:
               raw = raw.rstrip('\n') + '\n```\n'
 
-          # Protect fenced code block content from the blank-line preprocessing
-          # below, so code is passed through to the parser byte-for-byte.
+          # Protect fenced code block content from the blank-line preprocessing below
           fenced_blocks = []
           def stash_fence(match):
               fenced_blocks.append(match.group(0))
@@ -194,22 +138,17 @@ jobs:
           # Clean up excessive line breaks
           html_out = re.sub(r'(<br/>){3,}', '<br/><br/>', html_out)
 
-          # Convert fenced code blocks (<pre><code>) to explicitly styled blocks.
-          # AzDO's description renderer keeps the monospace styling of <pre> but does
-          # not reliably treat it as a block element, so following content can render
-          # inline on the same line. A styled <div> with <br/> line breaks is deterministic.
+          # Block code -> explicitly styled <div> with <br/> line breaks: AzDO keeps the
+          # monospace styling of <pre> but does not reliably treat it as a block element.
           def replace_pre(match):
-              code = match.group(1).strip('\n')
-              code = code.replace('\n', '<br/>')
+              code = match.group(1).strip('\n').replace('\n', '<br/>')
               return ('<br/><div style="background-color:#f4f4f4;font-family:Consolas,monospace;'
                       'padding:8px;border:1px solid #dddddd;">' + code + '</div><br/>')
 
           html_out = re.sub(r'<pre><code[^>]*>(.*?)</code></pre>', replace_pre, html_out, flags=re.DOTALL)
 
-          # Style inline code spans (single backticks). AzDO renders bare <code>
-          # as monospace with no background, so it blends into the sentence;
-          # an explicitly styled <span> reproduces GitHub's grey chip look.
-          # This must run AFTER replace_pre so block code is not double-wrapped.
+          # Inline code -> styled <span> (AzDO renders bare <code> with no background).
+          # Must run AFTER replace_pre so block code is not double-wrapped.
           html_out = re.sub(
               r'<code>(.*?)</code>',
               r'<span style="background-color:#f4f4f4;font-family:Consolas,monospace;padding:1px 4px;border:1px solid #e0e0e0;border-radius:3px;">\1</span>',
@@ -227,7 +166,7 @@ jobs:
 
           FORMATTED_ISSUE_BODY=$(python3 /tmp/convert_md.py)
 
-          # --- 3c. Build the base JSON Patch document ---
+          # --- 2c. Build the base JSON Patch document ---
           PATCH_DOC=$(jq -n \
             --arg title "GitHub Issue #$ISSUE_NUMBER: $CLEAN_TITLE" \
             --arg issueNumber "$ISSUE_NUMBER" \
@@ -243,7 +182,7 @@ jobs:
               {"op": "add", "path": "/fields/System.Tags",        "value": $tag}
             ]')
 
-          # --- 3d. Append type-specific custom fields ---
+          # --- 2d. Append type-specific custom fields ---
           if [[ "$WORK_ITEM_TYPE" == "Customer%20Escalation" ]]; then
             PATCH_DOC=$(echo "$PATCH_DOC" | jq '. + [
               {"op": "add", "path": "/fields/Custom.EscalationPriority", "value": "Priority 3 - Medium"},
@@ -270,7 +209,7 @@ jobs:
 
           echo "$PATCH_DOC" > patch.json
 
-          # --- 3e. Create the work item via the AzDO REST API ---
+          # --- 2e. Create the work item via the AzDO REST API ---
           WORK_ITEM_API_URL="$AZDO_BASE_URL/_apis/wit/workitems/\$${WORK_ITEM_TYPE}?api-version=$AZDO_API_VERSION"
           echo "Work Item API URL: $WORK_ITEM_API_URL"
 
@@ -292,42 +231,29 @@ jobs:
           echo "clean_title=$CLEAN_TITLE" >> $GITHUB_OUTPUT
           printf '%s' "$FORMATTED_ISSUE_BODY" > formatted_body.txt
 
-      # ===============================================================
-      # SECTION 4: Upload embedded images and update the description
-      #   4a. Write the image validation/replacement helper script
-      #   4b. For each image placeholder: SSRF checks -> download ->
-      #       magic-byte + PIL validation -> upload to AzDO
-      #   4c. PATCH the work item description with the final HTML
-      # ===============================================================
+      # === SECTION 3: Upload embedded images and update the description ===
       - name: Upload Images and Update Work Item Description
         env:
           WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
         run: |
           echo "Processing images for Work Item #$WORK_ITEM_ID"
 
-          # --- 4a. Write the image validation/replacement helper script ---
+          # --- 3a. Image validation/replacement helper ---
           # Write the image-processing logic to a standalone Python script.
           # This avoids nested PYEOF heredoc conflicts and shell interpolation inside Python.
           cat << 'IMG_SCRIPT_EOF' > /tmp/process_image.py
-          import sys, re, subprocess, html
+          import sys, html
           from PIL import Image
 
           MAGIC_SIGNATURES = [
-              (b'\xff\xd8\xff',      'JPEG'),
-              (b'\x89PNG\r\n\x1a\n', 'PNG'),
-              (b'GIF87a',             'GIF'),
-              (b'GIF89a',             'GIF'),
-              (b'RIFF',               'WEBP'),
-              (b'BM',                 'BMP'),
-              (b'II\x2a\x00',        'TIFF'),
-              (b'MM\x00\x2a',        'TIFF'),
+              (b'\xff\xd8\xff', 'JPEG'), (b'\x89PNG\r\n\x1a\n', 'PNG'), (b'GIF87a', 'GIF'),
+              (b'GIF89a', 'GIF'), (b'RIFF', 'WEBP'), (b'BM', 'BMP'),
+              (b'II\x2a\x00', 'TIFF'), (b'MM\x00\x2a', 'TIFF'),
               # SVG is explicitly NOT in this list — it can contain <script> tags
           ]
 
           def fallback_link(src, alt):
-              safe_src = html.escape(src, quote=True)
-              safe_alt = html.escape(alt)
-              return f'<a href="{safe_src}">[Image: {safe_alt}]</a>'
+              return f'<a href="{html.escape(src, quote=True)}">[Image: {html.escape(alt)}]</a>'
 
           def replace_placeholder(src, alt, replacement):
               content = open('formatted_body.txt').read()
@@ -362,25 +288,19 @@ jobs:
               return img.format, img.size
 
           # Args: action src alt [img_file] [attachment_url]
-          action     = sys.argv[1]
-          src        = sys.argv[2]
-          alt        = sys.argv[3]
+          action, src, alt = sys.argv[1], sys.argv[2], sys.argv[3]
           img_file   = sys.argv[4] if len(sys.argv) > 4 else None
           attach_url = sys.argv[5] if len(sys.argv) > 5 else None
 
           if action == 'fallback':
               replace_placeholder(src, alt, fallback_link(src, alt))
-
           elif action == 'magic':
               fmt = check_magic_bytes(img_file)
               if not fmt:
-                  with open(img_file, 'rb') as f:
-                      header = f.read(8)
-                  print(f'Magic bytes rejected: {header.hex()}', file=sys.stderr)
+                  print(f'Magic bytes rejected: {open(img_file, "rb").read(8).hex()}', file=sys.stderr)
                   replace_placeholder(src, alt, fallback_link(src, alt))
                   sys.exit(1)
               print(f'Magic bytes OK: {fmt}')
-
           elif action == 'pil':
               try:
                   fmt, size = validate_pil(img_file)
@@ -389,16 +309,14 @@ jobs:
                   print(f'PIL rejected: {e}', file=sys.stderr)
                   replace_placeholder(src, alt, fallback_link(src, alt))
                   sys.exit(1)
-
           elif action == 'embed':
-              safe_url = html.escape(attach_url, quote=True)
-              safe_alt = html.escape(alt)
-              replacement = f'<img src="{safe_url}" alt="{safe_alt}" style="max-width:100%;" />'
+              replacement = (f'<img src="{html.escape(attach_url, quote=True)}" '
+                             f'alt="{html.escape(alt)}" style="max-width:100%;" />')
               replace_placeholder(src, alt, replacement)
               print(f'Embedded image: {attach_url}')
           IMG_SCRIPT_EOF
 
-          # --- 4b. Validate, download, and upload each embedded image ---
+          # --- 3b. Validate, download, and upload each embedded image ---
           IMG_INDEX=0
           echo "0" > /tmp/img_index.txt
 
@@ -406,10 +324,8 @@ jobs:
           grep -oP '__IMG_PLACEHOLDER__\K.+?(?=__END__)' formatted_body.txt > /tmp/img_tokens.txt || true
 
           while IFS= read -r token; do
-
             SRC=$(echo "$token" | grep -oP '^.+?(?=__ALT__)')
             ALT=$(echo "$token" | sed 's/.*__ALT__//')
-
             if [[ -z "$SRC" ]]; then
               echo "Could not parse placeholder token, skipping"
               continue
@@ -458,7 +374,6 @@ jobs:
               -H "User-Agent: Mozilla/5.0" \
               "$SRC")
             echo "HTTP status: $HTTP_STATUS, file size: $(stat -c%s "$IMG_FILE" 2>/dev/null || echo 0) bytes"
-
             if [[ "$HTTP_STATUS" != "200" ]] || [[ ! -s "$IMG_FILE" ]]; then
               echo "FAILED: download failed (HTTP $HTTP_STATUS)"
               python3 /tmp/process_image.py fallback "$SRC" "$ALT"
@@ -486,10 +401,8 @@ jobs:
               -H "Content-Type: application/octet-stream" \
               --data-binary @"$IMG_FILE" \
               "$AZDO_BASE_URL/_apis/wit/attachments?fileName=$IMG_FILE&api-version=$AZDO_API_VERSION")
-
             ATTACHMENT_URL=$(echo "$UPLOAD_RESPONSE" | jq -r '.url // empty')
             echo "Attachment URL: $ATTACHMENT_URL"
-
             if [[ -n "$ATTACHMENT_URL" ]]; then
               echo "SUCCESS: image $IMG_INDEX uploaded"
               python3 /tmp/process_image.py embed "$SRC" "$ALT" "$IMG_FILE" "$ATTACHMENT_URL"
@@ -498,15 +411,13 @@ jobs:
               echo "Upload response: $UPLOAD_RESPONSE"
               python3 /tmp/process_image.py fallback "$SRC" "$ALT"
             fi
-
           done < /tmp/img_tokens.txt
 
           IMG_INDEX=$(cat /tmp/img_index.txt 2>/dev/null || echo 0)
-
           UPDATED_DESCRIPTION=$(cat formatted_body.txt)
           echo "Image processing complete. Processed $IMG_INDEX image(s)."
 
-          # --- 4c. PATCH the work item description with the final HTML ---
+          # --- 3c. PATCH the work item description with the final HTML ---
           UPDATE_PATCH=$(jq -n \
             --arg issueNumber "$ISSUE_NUMBER" \
             --arg issueUrl "$ISSUE_URL" \
@@ -531,9 +442,7 @@ jobs:
             exit 1
           fi
 
-      # ===============================================================
-      # SECTION 5: Link the GitHub Issue to the new AzDO Work Item
-      # ===============================================================
+      # === SECTION 4: Link the GitHub Issue to the new AzDO Work Item ===
       - name: Link GitHub Issue to Azure DevOps Work Item
         env:
           WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
@@ -549,19 +458,15 @@ jobs:
               "attributes": {"name": "GitHub Issue"}
             }}]')
           echo "$PATCH_RELATION" > patch-relation.json
-          WORK_ITEM_API_URL="$AZDO_BASE_URL/_apis/wit/workitems/$WORK_ITEM_ID?api-version=$AZDO_API_VERSION"
           RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
             -X PATCH \
             -H "Content-Type: application/json-patch+json" \
             --data @patch-relation.json \
-            "$WORK_ITEM_API_URL")
+            "$AZDO_BASE_URL/_apis/wit/workitems/$WORK_ITEM_ID?api-version=$AZDO_API_VERSION")
 
-      # ===============================================================
-      # SECTION 6: Acknowledge the issue with a comment on GitHub
-      #   NOTE: The work item URL in this comment is also what the
-      #   comment-sync job (JOB 2) parses to find the linked work item,
-      #   so the [work item](url) link must remain in the comment body.
-      # ===============================================================
+      # === SECTION 5: Acknowledge the issue with a comment on GitHub ===
+      # NOTE: The [work item](url) link in this comment is what the comment-sync
+      # job (JOB 2) parses to find the linked work item — it must remain.
       - name: Add comment on GitHub Issue
         uses: actions/github-script@v6
         env:
@@ -569,24 +474,17 @@ jobs:
           WORK_ITEM_URL: ${{ steps.create-work-item.outputs.work_item_url }}
         with:
           script: |
-            const issueNumber = context.payload.issue.number;
             const issueCreator = context.payload.issue.user.login;
-            const workItemId = process.env.WORK_ITEM_ID;
             const workItemUrl = process.env.WORK_ITEM_URL;
             const commentBody = `Thank you for posting, @${issueCreator}! The NI development team has been notified and a corresponding [work item](${workItemUrl}) has been created internally. The team will review and reply back if any further clarification is required.`;
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: issueNumber,
+              issue_number: context.payload.issue.number,
               body: commentBody,
             });
 
-      # ===============================================================
-      # SECTION 7: Notify the team on Microsoft Teams
-      #   7a. Pre-process the issue body (extract images, clean text)
-      #   7b. Build the Adaptive Card body (text + inline images)
-      #   7c. POST the card to the Teams webhook
-      # ===============================================================
+      # === SECTION 6: Notify the team on Microsoft Teams ===
       - name: Send Teams Notification
         env:
           TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
@@ -595,64 +493,9 @@ jobs:
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.display_type }}
           CLEAN_TITLE: ${{ steps.create-work-item.outputs.clean_title }}
         run: |
-          # --- 7a. Pre-process the issue body (extract images, clean text) ---
           # Write body to file so Python can read it safely (avoids env var quoting issues)
           printf '%s' "$ISSUE_BODY" > /tmp/teams_body.txt
-          printf '%s' "$CLEAN_TITLE" > /tmp/teams_title.txt
 
-          python3 << 'PYEOF'
-          import re, os, json
-
-          MAX_IMAGES = 3
-          MAX_CHARS = int(os.environ.get("TEAMS_MAX_BODY_CHARS", "1500"))
-
-          with open("/tmp/teams_body.txt", "r") as f:
-              body = f.read()
-
-          # Extract image URLs — handles both markdown ![alt](url) and HTML <img src="url">
-          markdown_imgs = re.findall(r'!\[.*?\]\((https?://[^)]+)\)', body)
-          html_imgs = re.findall(r'<img[^>]+src=["\']?(https?://[^"\'>\s]+)["\']?', body, re.IGNORECASE)
-
-          # Combine, deduplicate, limit to 3
-          seen = set()
-          images = []
-          for url in markdown_imgs + html_imgs:
-              if url not in seen:
-                  seen.add(url)
-                  images.append(url)
-              if len(images) == MAX_IMAGES:
-                  break
-
-          with open("/tmp/teams_images.json", "w") as f:
-              json.dump(images, f)
-
-          # Convert ## headings to **bold**
-          body = re.sub(r'^#{1,6}\s+(.+)$', r'**\1**', body, flags=re.MULTILINE)
-
-          # Convert unordered list markers to bullets
-          body = re.sub(r'^[-*]\s+(?!\*)', '• ', body, flags=re.MULTILINE)
-
-          # Remove markdown images from body text
-          body = re.sub(r'!\[.*?\]\(.*?\)', '', body)
-
-          # Remove HTML tags
-          body = re.sub(r'<[^>]+>', '', body)
-
-          # Collapse 3+ newlines to 2
-          body = re.sub(r'\n{3,}', '\n\n', body).strip()
-
-          # Truncate at word boundary
-          if len(body) > MAX_CHARS:
-              truncated = body[:MAX_CHARS].rsplit(None, 1)[0]
-              body = truncated + "...\n\n*(truncated — view full issue for more details)*"
-
-          with open("/tmp/teams_body_clean.txt", "w") as f:
-              f.write(body)
-          PYEOF
-
-          export CLEAN_TITLE ISSUE_URL ISSUE_NUMBER WORK_ITEM_ID WORK_ITEM_URL WORK_ITEM_TYPE
-
-          # --- 7b. Build the Adaptive Card body (text + inline images) ---
           # Build the complete card body array with images inline
           CARD_BODY=$(python3 << 'PYEOF'
           import json, re, os
@@ -677,21 +520,10 @@ jobs:
               return text.strip()
 
           def make_text_block(text, spacing="None"):
-              return {
-                  "type": "TextBlock",
-                  "text": text,
-                  "wrap": True,
-                  "markdown": True,
-                  "spacing": spacing
-              }
+              return {"type": "TextBlock", "text": text, "wrap": True, "markdown": True, "spacing": spacing}
 
           def make_image_block(url):
-              return {
-                  "type": "Image",
-                  "url": url,
-                  "size": "Large",
-                  "msTeams": {"allowExpand": True}
-              }
+              return {"type": "Image", "url": url, "size": "Large", "msTeams": {"allowExpand": True}}
 
           image_pattern = re.compile(
               r'(!\[.*?\]\((https?://[^)]+)\)|<img[^>]+src=["\']?(https?://[^"\'>\s]+)["\']?[^>]*>)',
@@ -700,36 +532,11 @@ jobs:
 
           # Build header blocks
           blocks = [
-              {
-                  "type": "TextBlock",
-                  "text": f"**New GitHub Issue (#{issue_number}): {issue_title}**",
-                  "wrap": True,
-                  "size": "Medium"
-              },
-              {
-                  "type": "TextBlock",
-                  "text": f"**Title:** [{issue_title}]({issue_url})",
-                  "wrap": True,
-                  "spacing": "Medium"
-              },
-              {
-                  "type": "TextBlock",
-                  "text": f"**Work Item ID:** [{work_item_id}]({work_item_url})",
-                  "wrap": True,
-                  "spacing": "None"
-              },
-              {
-                  "type": "TextBlock",
-                  "text": f"**Work Item Type:** {work_item_type}",
-                  "wrap": True,
-                  "spacing": "None"
-              },
-              {
-                  "type": "TextBlock",
-                  "text": "**Description:**",
-                  "wrap": True,
-                  "spacing": "Medium"
-              }
+              {"type": "TextBlock", "text": f"**New GitHub Issue (#{issue_number}): {issue_title}**", "wrap": True, "size": "Medium"},
+              {"type": "TextBlock", "text": f"**Title:** [{issue_title}]({issue_url})", "wrap": True, "spacing": "Medium"},
+              {"type": "TextBlock", "text": f"**Work Item ID:** [{work_item_id}]({work_item_url})", "wrap": True, "spacing": "None"},
+              {"type": "TextBlock", "text": f"**Work Item Type:** {work_item_type}", "wrap": True, "spacing": "None"},
+              {"type": "TextBlock", "text": "**Description:**", "wrap": True, "spacing": "Medium"}
           ]
 
           # Split the body around images and interleave TextBlocks and Image blocks
@@ -738,12 +545,9 @@ jobs:
           MAX_CHARS = int(os.environ.get("TEAMS_MAX_BODY_CHARS", "1500"))
 
           for match in image_pattern.finditer(body):
-              text_before = body[pos:match.start()]
-              text_segments.append(('text', text_before))
-              url = match.group(2) or match.group(3)
-              text_segments.append(('image', url))
+              text_segments.append(('text', body[pos:match.start()]))
+              text_segments.append(('image', match.group(2) or match.group(3)))
               pos = match.end()
-
           text_segments.append(('text', body[pos:]))
 
           total_text_chars = 0
@@ -762,8 +566,7 @@ jobs:
                           cleaned += "...\n\n*(truncated — view full issue for more details)*"
                       truncated = True
                   total_text_chars += len(cleaned)
-                  spacing = "Medium" if first_text_block else "None"
-                  blocks.append(make_text_block(cleaned, spacing))
+                  blocks.append(make_text_block(cleaned, "Medium" if first_text_block else "None"))
                   first_text_block = False
                   if truncated:
                       break
@@ -774,7 +577,6 @@ jobs:
           PYEOF
           )
 
-          # --- 7c. POST the card to the Teams webhook ---
           PAYLOAD=$(jq -n \
             --argjson cardBody "$CARD_BODY" \
             '{
@@ -800,14 +602,10 @@ jobs:
             echo "Failed to send Teams notification. HTTP status: $RESPONSE"
             exit 1
           fi
-
           echo "Teams notification sent successfully."
 
-  # ===================================================================
-  # JOB 2: Sync new GitHub comments to the linked AzDO work item
-  #   Skips bot comments (including this workflow's own acknowledgment
-  #   comment) to avoid sync loops.
-  # ===================================================================
+  # JOB 2: Sync new GitHub comments to the linked AzDO work item.
+  # Skips bot comments (including this workflow's own acknowledgment) to avoid sync loops.
   sync-comment-to-azdo:
     if: >
       github.event_name == 'issue_comment' &&
@@ -815,71 +613,37 @@ jobs:
       github.event.comment.user.login != 'github-actions[bot]' &&
       github.event.comment.user.type != 'Bot'
     runs-on: ubuntu-latest
-
     steps:
-      # ===============================================================
-      # SECTION 1: Setup
-      # ===============================================================
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # ===============================================================
-      # SECTION 2: Find the linked work item
-      #   Primary: parse the work item ID out of the workflow's own
-      #   acknowledgment comment, which links to the AzDO work item URL
-      #   (".../_workitems/edit/<id>"). This keeps the issue title clean.
-      #   Fallback: the legacy "[AzDO Work Item: N]" title tag, for any
-      #   issues created while the title-based approach was in use.
-      # ===============================================================
+      # === SECTION 1: Find the linked work item ===
+      # Primary: parse the work item ID out of the workflow's own acknowledgment
+      # comment (links to ".../_workitems/edit/<id>") — keeps the issue title clean.
+      # Fallback: the legacy "[AzDO Work Item: N]" title tag for older issues.
       - name: Find Linked Work Item
         id: extract-work-item
         uses: actions/github-script@v6
         with:
           script: |
-            const BOT_LOGIN = 'github-actions[bot]';
-            const WORK_ITEM_URL_PATTERN = /_workitems\/edit\/(\d+)/;
-            const LEGACY_TITLE_PATTERN = /\[AzDO Work Item:\s*(\d+)\]/;
-
-            // Primary: scan the workflow's own acknowledgment comment for the work item URL
-            const comments = await github.paginate(github.rest.issues.listComments, {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.issue.number,
-              per_page: 100,
-            });
+            const issueRef = { owner: context.repo.owner, repo: context.repo.repo, issue_number: context.payload.issue.number };
+            const comments = await github.paginate(github.rest.issues.listComments, { ...issueRef, per_page: 100 });
             for (const comment of comments) {
-              if (comment.user.login !== BOT_LOGIN) {
-                continue;
-              }
-              const match = (comment.body || '').match(WORK_ITEM_URL_PATTERN);
+              if (comment.user.login !== 'github-actions[bot]') continue;
+              const match = (comment.body || '').match(/_workitems\/edit\/(\d+)/);
               if (match) {
                 console.log(`Found Work Item ID in acknowledgment comment: ${match[1]}`);
                 return match[1];
               }
             }
-
-            // Fallback: legacy title tag
-            const issue = await github.rest.issues.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.issue.number
-            });
-            const titleMatch = issue.data.title.match(LEGACY_TITLE_PATTERN);
+            const issue = await github.rest.issues.get(issueRef);
+            const titleMatch = issue.data.title.match(/\[AzDO Work Item:\s*(\d+)\]/);
             if (titleMatch) {
               console.log(`Found Work Item ID in issue title (legacy): ${titleMatch[1]}`);
               return titleMatch[1];
             }
-
             console.log('No linked Work Item found for this issue');
             return null;
           result-encoding: string
 
-      # ===============================================================
-      # SECTION 3: Format the comment and append it to the work item
-      #   3a. HTML-escape the comment body
-      #   3b. Wrap it in a styled "GitHub Comment" block
-      #   3c. PATCH it into the work item's discussion (System.History)
-      # ===============================================================
+      # === SECTION 2: Format the comment and append it to the work item ===
       - name: Sync comment to Azure DevOps
         if: steps.extract-work-item.outputs.result != 'null' && steps.extract-work-item.outputs.result != ''
         env:
@@ -892,12 +656,9 @@ jobs:
         run: |
           echo "Syncing comment to AzDO Work Item #$WORK_ITEM_ID"
 
-          # --- 3a. HTML-escape the comment body ---
           printf '%s' "$COMMENT_BODY" > /tmp/comment_body.md
 
           cat << 'PYEOF' > /tmp/convert_comment.py
-          import re
-
           with open("/tmp/comment_body.md", "r") as f:
               raw = f.read()
 
@@ -912,7 +673,6 @@ jobs:
 
           ESCAPED_COMMENT_BODY=$(python3 /tmp/convert_comment.py)
 
-          # --- 3b. Wrap it in a styled "GitHub Comment" block ---
           FORMATTED_COMMENT=$(jq -rn \
             --arg user "$COMMENT_USER" \
             --arg created_at "$COMMENT_CREATED_AT" \
@@ -926,14 +686,11 @@ jobs:
 
           echo "$PATCH_DOC" > patch-comment.json
 
-          # --- 3c. PATCH it into the work item's discussion (System.History) ---
-          WORK_ITEM_API_URL="$AZDO_BASE_URL/_apis/wit/workitems/$WORK_ITEM_ID?api-version=$AZDO_API_VERSION"
-
           RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
             -X PATCH \
             -H "Content-Type: application/json-patch+json" \
             --data @patch-comment.json \
-            "$WORK_ITEM_API_URL")
+            "$AZDO_BASE_URL/_apis/wit/workitems/$WORK_ITEM_ID?api-version=$AZDO_API_VERSION")
 
           if echo "$RESPONSE" | jq -e '.id' > /dev/null; then
             echo "Comment synced to Work Item #$WORK_ITEM_ID"
