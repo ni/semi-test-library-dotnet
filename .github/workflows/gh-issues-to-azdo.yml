@@ -538,29 +538,10 @@ jobs:
             "$WORK_ITEM_API_URL")
 
       # ===============================================================
-      # SECTION 6: Tag the issue title with the work item ID
-      #   The comment-sync job (JOB 2) locates the linked work item by
-      #   parsing "[AzDO Work Item: N]" out of the issue title, so this
-      #   suffix must be written here for comment syncing to work.
-      # ===============================================================
-      - name: Update Issue Title with Work Item ID
-        uses: actions/github-script@v6
-        env:
-          WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
-          CLEAN_TITLE: ${{ steps.create-work-item.outputs.clean_title }}
-        with:
-          script: |
-            const workItemId = process.env.WORK_ITEM_ID;
-            const cleanTitle = process.env.CLEAN_TITLE;
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.issue.number,
-              title: `${cleanTitle} [AzDO Work Item: ${workItemId}]`,
-            });
-
-      # ===============================================================
-      # SECTION 7: Acknowledge the issue with a comment on GitHub
+      # SECTION 6: Acknowledge the issue with a comment on GitHub
+      #   NOTE: The work item URL in this comment is also what the
+      #   comment-sync job (JOB 2) parses to find the linked work item,
+      #   so the [work item](url) link must remain in the comment body.
       # ===============================================================
       - name: Add comment on GitHub Issue
         uses: actions/github-script@v6
@@ -582,10 +563,10 @@ jobs:
             });
 
       # ===============================================================
-      # SECTION 8: Notify the team on Microsoft Teams
-      #   8a. Pre-process the issue body (extract images, clean text)
-      #   8b. Build the Adaptive Card body (text + inline images)
-      #   8c. POST the card to the Teams webhook
+      # SECTION 7: Notify the team on Microsoft Teams
+      #   7a. Pre-process the issue body (extract images, clean text)
+      #   7b. Build the Adaptive Card body (text + inline images)
+      #   7c. POST the card to the Teams webhook
       # ===============================================================
       - name: Send Teams Notification
         env:
@@ -595,7 +576,7 @@ jobs:
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.display_type }}
           CLEAN_TITLE: ${{ steps.create-work-item.outputs.clean_title }}
         run: |
-          # --- 8a. Pre-process the issue body (extract images, clean text) ---
+          # --- 7a. Pre-process the issue body (extract images, clean text) ---
           # Write body to file so Python can read it safely (avoids env var quoting issues)
           printf '%s' "$ISSUE_BODY" > /tmp/teams_body.txt
           printf '%s' "$CLEAN_TITLE" > /tmp/teams_title.txt
@@ -652,7 +633,7 @@ jobs:
 
           export CLEAN_TITLE ISSUE_URL ISSUE_NUMBER WORK_ITEM_ID WORK_ITEM_URL WORK_ITEM_TYPE
 
-          # --- 8b. Build the Adaptive Card body (text + inline images) ---
+          # --- 7b. Build the Adaptive Card body (text + inline images) ---
           # Build the complete card body array with images inline
           CARD_BODY=$(python3 << 'PYEOF'
           import json, re, os
@@ -774,7 +755,7 @@ jobs:
           PYEOF
           )
 
-          # --- 8c. POST the card to the Teams webhook ---
+          # --- 7c. POST the card to the Teams webhook ---
           PAYLOAD=$(jq -n \
             --argjson cardBody "$CARD_BODY" \
             '{
@@ -830,24 +811,53 @@ jobs:
         uses: actions/checkout@v3
 
       # ===============================================================
-      # SECTION 2: Find the linked work item via the issue title
+      # SECTION 2: Find the linked work item
+      #   Primary: parse the work item ID out of the workflow's own
+      #   acknowledgment comment, which links to the AzDO work item URL
+      #   (".../_workitems/edit/<id>"). This keeps the issue title clean.
+      #   Fallback: the legacy "[AzDO Work Item: N]" title tag, for any
+      #   issues created while the title-based approach was in use.
       # ===============================================================
-      - name: Extract Work Item ID from Issue Title
+      - name: Find Linked Work Item
         id: extract-work-item
         uses: actions/github-script@v6
         with:
           script: |
+            const BOT_LOGIN = 'github-actions[bot]';
+            const WORK_ITEM_URL_PATTERN = /_workitems\/edit\/(\d+)/;
+            const LEGACY_TITLE_PATTERN = /\[AzDO Work Item:\s*(\d+)\]/;
+
+            // Primary: scan the workflow's own acknowledgment comment for the work item URL
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              per_page: 100,
+            });
+            for (const comment of comments) {
+              if (comment.user.login !== BOT_LOGIN) {
+                continue;
+              }
+              const match = (comment.body || '').match(WORK_ITEM_URL_PATTERN);
+              if (match) {
+                console.log(`Found Work Item ID in acknowledgment comment: ${match[1]}`);
+                return match[1];
+              }
+            }
+
+            // Fallback: legacy title tag
             const issue = await github.rest.issues.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.issue.number
             });
-            const match = issue.data.title.match(/\[AzDO Work Item:\s*(\d+)\]/);
-            if (match) {
-              console.log(`Found Work Item ID: ${match[1]}`);
-              return match[1];
+            const titleMatch = issue.data.title.match(LEGACY_TITLE_PATTERN);
+            if (titleMatch) {
+              console.log(`Found Work Item ID in issue title (legacy): ${titleMatch[1]}`);
+              return titleMatch[1];
             }
-            console.log('No Work Item ID found in issue title');
+
+            console.log('No linked Work Item found for this issue');
             return null;
           result-encoding: string
 
