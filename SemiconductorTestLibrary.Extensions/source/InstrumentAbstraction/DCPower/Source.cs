@@ -115,6 +115,49 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Configures the current level.
+        /// With overrides for <see cref="SiteData{Double}"/>, and <see cref="PinSiteData{Double}"/> inputs.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLevel">The double value of the current level.</param>
+        public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, double currentLevel)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLimitDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                sessionInfo.AllChannelsOutput.Control.Abort();
+                sessionInfo.AllChannelsOutput.Source.Current.CurrentLevel = currentLevel / currentLimitDivisor;
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLevel(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLevel)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLimitDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel = currentLevel.GetValue(sitePinInfo.SiteNumber) / currentLimitDivisor;
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLevel(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevel)
+        {
+            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, currentLevel);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLimitDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel = currentLevel.GetValue(sitePinInfo) / currentLimitDivisor;
+            });
+        }
+
+        /// <summary>
         /// Forces voltage on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>

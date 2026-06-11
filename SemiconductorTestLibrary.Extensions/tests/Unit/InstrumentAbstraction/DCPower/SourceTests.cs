@@ -5099,6 +5099,124 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithScalarValues_CorrectCurrentLimitRangeSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLevel = 1E-2;
+
+            sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithScalarValues_CorrectCurrentLimitRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var expectedCurrentLevel = 1E-2;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithPerSiteValues_CorrectCurrentLimitRangeSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLevel = new SiteData<double>(new[] { 1E-2, 2E-2 });
+
+            sessionsBundle.ConfigureCurrentLevel(currentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithPerSiteValues_CorrectCurrentLimitRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLevel = new SiteData<double>(new[] { 1E-2, 2E-2 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLevel(currentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo.SiteNumber) / 3;
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithPerPinPerSiteValues_CorrectCurrentLimitRangeSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLevel = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 2E-2 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 2E-2 }
+            });
+
+            sessionsBundle.ConfigureCurrentLevel(currentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo);
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithPerPinPerSiteValues_CorrectCurrentLimitRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLevel = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLevel(currentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo) / 3;
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel, 4);
+            });
+        }
+
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);
