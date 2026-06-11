@@ -218,6 +218,15 @@ jobs:
 
           html_out = re.sub(r'<pre><code[^>]*>(.*?)</code></pre>', replace_pre, html_out, flags=re.DOTALL)
 
+          # Style inline code spans (single backticks). AzDO renders bare <code>
+          # as monospace with no background, so it blends into the sentence;
+          # an explicitly styled <span> reproduces GitHub's grey chip look.
+          # This must run AFTER replace_pre so block code is not double-wrapped.
+          html_out = re.sub(
+              r'<code>(.*?)</code>',
+              r'<span style="background-color:#f4f4f4;font-family:Consolas,monospace;padding:1px 4px;border:1px solid #e0e0e0;border-radius:3px;">\1</span>',
+              html_out, flags=re.DOTALL)
+
           def replace_img(match):
               src = re.search(r'src="([^"]+)"', match.group(0))
               alt = re.search(r'alt="([^"]+)"', match.group(0))
