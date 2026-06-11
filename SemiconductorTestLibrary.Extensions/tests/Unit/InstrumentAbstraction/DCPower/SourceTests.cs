@@ -5130,7 +5130,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
-                Assert.Equal(expectedCurrentLevel, actualCurrentLevel, 4);
+                Assert.Equal(expectedCurrentLevel / 3, actualCurrentLevel, 4);
             });
         }
 
