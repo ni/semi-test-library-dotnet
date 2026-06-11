@@ -5106,7 +5106,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower("VCC2");
-            var expectedCurrentLevelRange = 1E-3;
+            var expectedCurrentLevelRange = 0.1;
 
             sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
 
@@ -5122,15 +5122,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
-            var expectedCurrentLevelRange = 1E-3;
+            var currentLevelRange = 0.3;
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
-            sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRange);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
+                var currentlLevelDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
-                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+                Assert.Equal(currentLevelRange / currentlLevelDivisor, actualCurrentLevelRange, 4);
             });
         }
 
@@ -5158,14 +5159,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
-            var currentLevelRanges = new SiteData<double>(new[] { 1E-2, 1E-3 });
+            var currentLevelRanges = new SiteData<double>(new[] { 3E-2, 3E-3 });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo.SiteNumber);
+                var currentLevelRangeDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo.SiteNumber) / currentLevelRangeDivisor;
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
                 Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
             });
@@ -5195,15 +5197,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeWithPerPinPerSiteValues_CorrectCurrentLevelRangesSet()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeWithSamePerPinPerSiteValues_CorrectCurrentLevelRangesSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
             var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
-                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-3, [1] = 1E-4 },
-                ["VCC3"] = new Dictionary<int, double>() { [0] = 1E-4, [1] = 1E-2 }
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 }
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
@@ -5211,10 +5213,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo);
+                var currentLevelRangeDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo) / currentLevelRangeDivisor;
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
                 Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
             });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeWithDifferentPerPinPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 3E-3, [1] = 3E-3 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ConfigureCurrentLevelRange() => sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLevelRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
