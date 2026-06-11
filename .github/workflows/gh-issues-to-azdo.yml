@@ -189,19 +189,19 @@ jobs:
           # Convert ordered lists - one line per item, no extra spacing
           def replace_ol(match):
               items = re.findall(r'<li>(.*?)</li>', match.group(0), re.DOTALL)
-              return ''.join(f'{i}. {item.strip()}<br/>' for i, item in enumerate(items, 1))
+              return ''.join(f'{i}. {item.strip()}<br/>' for i, item in enumerate(items, 1)) + '<br/>'
 
           html_out = re.sub(r'<ol>(.*?)</ol>', replace_ol, html_out, flags=re.DOTALL)
 
           # Convert unordered lists - one line per item, no extra spacing
           def replace_ul(match):
               items = re.findall(r'<li>(.*?)</li>', match.group(0), re.DOTALL)
-              return ''.join(f'&bull; {item.strip()}<br/>' for item in items)
+              return ''.join(f'&bull; {item.strip()}<br/>' for item in items) + '<br/>'
 
           html_out = re.sub(r'<ul>(.*?)</ul>', replace_ul, html_out, flags=re.DOTALL)
 
           # Convert paragraphs
-          html_out = re.sub(r'<p>(.*?)</p>', r'\1<br/>', html_out, flags=re.DOTALL)
+          html_out = re.sub(r'<p>(.*?)</p>', r'\1<br/><br/>', html_out, flags=re.DOTALL)
 
           # Clean up excessive line breaks
           html_out = re.sub(r'(<br/>){3,}', '<br/><br/>', html_out)
