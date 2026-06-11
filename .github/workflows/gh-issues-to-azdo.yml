@@ -182,6 +182,18 @@ jobs:
           # Clean up excessive line breaks
           html_out = re.sub(r'(<br/>){3,}', '<br/><br/>', html_out)
 
+          # Convert fenced code blocks (<pre><code>) to explicitly styled blocks.
+          # AzDO's description renderer keeps the monospace styling of <pre> but does
+          # not reliably treat it as a block element, so following content can render
+          # inline on the same line. A styled <div> with <br/> line breaks is deterministic.
+          def replace_pre(match):
+              code = match.group(1).strip('\n')
+              code = code.replace('\n', '<br/>')
+              return ('<br/><div style="background-color:#f4f4f4;font-family:Consolas,monospace;'
+                      'padding:8px;border:1px solid #dddddd;">' + code + '</div><br/>')
+
+          html_out = re.sub(r'<pre><code[^>]*>(.*?)</code></pre>', replace_pre, html_out, flags=re.DOTALL)
+
           def replace_img(match):
               src = re.search(r'src="([^"]+)"', match.group(0))
               alt = re.search(r'alt="([^"]+)"', match.group(0))
@@ -526,7 +538,29 @@ jobs:
             "$WORK_ITEM_API_URL")
 
       # ===============================================================
-      # SECTION 6: Acknowledge the issue with a comment on GitHub
+      # SECTION 6: Tag the issue title with the work item ID
+      #   The comment-sync job (JOB 2) locates the linked work item by
+      #   parsing "[AzDO Work Item: N]" out of the issue title, so this
+      #   suffix must be written here for comment syncing to work.
+      # ===============================================================
+      - name: Update Issue Title with Work Item ID
+        uses: actions/github-script@v6
+        env:
+          WORK_ITEM_ID: ${{ steps.create-work-item.outputs.work_item_id }}
+          CLEAN_TITLE: ${{ steps.create-work-item.outputs.clean_title }}
+        with:
+          script: |
+            const workItemId = process.env.WORK_ITEM_ID;
+            const cleanTitle = process.env.CLEAN_TITLE;
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              title: `${cleanTitle} [AzDO Work Item: ${workItemId}]`,
+            });
+
+      # ===============================================================
+      # SECTION 7: Acknowledge the issue with a comment on GitHub
       # ===============================================================
       - name: Add comment on GitHub Issue
         uses: actions/github-script@v6
@@ -548,10 +582,10 @@ jobs:
             });
 
       # ===============================================================
-      # SECTION 7: Notify the team on Microsoft Teams
-      #   7a. Pre-process the issue body (extract images, clean text)
-      #   7b. Build the Adaptive Card body (text + inline images)
-      #   7c. POST the card to the Teams webhook
+      # SECTION 8: Notify the team on Microsoft Teams
+      #   8a. Pre-process the issue body (extract images, clean text)
+      #   8b. Build the Adaptive Card body (text + inline images)
+      #   8c. POST the card to the Teams webhook
       # ===============================================================
       - name: Send Teams Notification
         env:
@@ -561,7 +595,7 @@ jobs:
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.display_type }}
           CLEAN_TITLE: ${{ steps.create-work-item.outputs.clean_title }}
         run: |
-          # --- 7a. Pre-process the issue body (extract images, clean text) ---
+          # --- 8a. Pre-process the issue body (extract images, clean text) ---
           # Write body to file so Python can read it safely (avoids env var quoting issues)
           printf '%s' "$ISSUE_BODY" > /tmp/teams_body.txt
           printf '%s' "$CLEAN_TITLE" > /tmp/teams_title.txt
@@ -618,7 +652,7 @@ jobs:
 
           export CLEAN_TITLE ISSUE_URL ISSUE_NUMBER WORK_ITEM_ID WORK_ITEM_URL WORK_ITEM_TYPE
 
-          # --- 7b. Build the Adaptive Card body (text + inline images) ---
+          # --- 8b. Build the Adaptive Card body (text + inline images) ---
           # Build the complete card body array with images inline
           CARD_BODY=$(python3 << 'PYEOF'
           import json, re, os
@@ -740,7 +774,7 @@ jobs:
           PYEOF
           )
 
-          # --- 7c. POST the card to the Teams webhook ---
+          # --- 8c. POST the card to the Teams webhook ---
           PAYLOAD=$(jq -n \
             --argjson cardBody "$CARD_BODY" \
             '{
@@ -824,7 +858,7 @@ jobs:
       #   3c. PATCH it into the work item's discussion (System.History)
       # ===============================================================
       - name: Sync comment to Azure DevOps
-        if: steps.extract-work-item.outputs.result != 'null'
+        if: steps.extract-work-item.outputs.result != 'null' && steps.extract-work-item.outputs.result != ''
         env:
           WORK_ITEM_ID: ${{ steps.extract-work-item.outputs.result }}
           COMMENT_USER: ${{ github.event.comment.user.login }}
