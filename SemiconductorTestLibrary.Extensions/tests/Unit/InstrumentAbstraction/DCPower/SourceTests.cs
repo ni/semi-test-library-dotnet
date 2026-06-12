@@ -5223,12 +5223,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowWithSamePerPinPerSiteValues_CurrentLimitLowDividedByGangSizeSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VCC3" });
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
             var currentLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                ["VCC1"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -2E-2 },
-                ["VCC2"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -2E-2 },
-                ["VCC3"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -2E-2 },
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -2E-2 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -2E-2 }
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -5270,6 +5269,92 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
             Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitLowWithScalarValueWhenSymmetric_CurrentLimitLowNotSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLimitLowToSet = -1E-3;
+            var expectedCurrentLimitLow = -1E-2;
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
+                output.Source.Voltage.CurrentLimitLow = expectedCurrentLimitLow;
+            });
+
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLowToSet);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
+                Assert.NotEqual(currentLimitLowToSet, actualCurrentLimitLow);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitLowWithPerSiteValuesWhenSymmetric_CurrentLimitLowNotSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLimitLow = new SiteData<double>(new[] { -1E-2, -1E-3 });
+            var currentLimitLowToSet = new SiteData<double>(new[] { -1E-3, -1E-4 });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
+                output.Source.Voltage.CurrentLimitLow = expectedCurrentLimitLow.GetValue(sitePinInfo.SiteNumber);
+            });
+
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLowToSet);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow.GetValue(sitePinInfo.SiteNumber), actualCurrentLimitLow);
+                Assert.NotEqual(currentLimitLowToSet.GetValue(sitePinInfo.SiteNumber), actualCurrentLimitLow);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitLowWithPerPinPerSiteValuesWhenSymmetric_CurrentLimitLowNotSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var expectedCurrentLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -1E-3 }
+            });
+            var currentLimitLowToSet = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = -1E-3, [1] = -1E-2 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = -1E-3, [1] = -1E-2 }
+            });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
+                output.Source.Voltage.CurrentLimitLow = expectedCurrentLimitLow.GetValue(sitePinInfo);
+            });
+
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLowToSet);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow.GetValue(sitePinInfo), actualCurrentLimitLow);
+                Assert.NotEqual(currentLimitLowToSet.GetValue(sitePinInfo), actualCurrentLimitLow);
+            });
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)

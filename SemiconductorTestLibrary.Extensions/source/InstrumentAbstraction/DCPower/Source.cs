@@ -123,49 +123,52 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimitLow">The current limit low to set.</param>
         public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, double currentLimitLow)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+
+            if (hasGangedChannels)
             {
-                if (sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric)
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    var currentLimitDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                    sessionInfo.AllChannelsOutput.Control.Abort();
-                    sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitLow = currentLimitLow / currentLimitDivisor;
-                }
-            });
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    SetCurrentLimitLow(channelOutput, sitePinInfo, currentLimitLow);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    if (sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric)
+                    {
+                        sessionInfo.AllChannelsOutput.Control.Abort();
+                        sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitLow = currentLimitLow;
+                    }
+                });
+            }
         }
 
         /// <inheritdoc cref="ConfigureCurrentLimitLow(DCPowerSessionsBundle, double)"/>
         public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLimitLow)
         {
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                if (output.Source.ComplianceLimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric)
-                {
-                    var currentLimitDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                    output.Control.Abort();
-                    output.Source.Voltage.CurrentLimitLow = currentLimitLow.GetValue(sitePinInfo.SiteNumber) / currentLimitDivisor;
-                }
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                SetCurrentLimitLow(channelOutput, sitePinInfo, currentLimitLow.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
         /// <inheritdoc cref="ConfigureCurrentLimitLow(DCPowerSessionsBundle, double)"/>
         public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitLow)
         {
-            bool hasGangedChannels = sessionsBundle.HasGangedChannels;
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, currentLimitLow);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                if (output.Source.ComplianceLimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric)
-                {
-                    var currentLimitDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                    output.Control.Abort();
-                    output.Source.Voltage.CurrentLimitLow = currentLimitLow.GetValue(sitePinInfo) / currentLimitDivisor;
-                }
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                SetCurrentLimitLow(channelOutput, sitePinInfo, currentLimitLow.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
             });
         }
 
@@ -3096,6 +3099,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
             }
+        }
+
+        private static void SetCurrentLimitLow(DCPowerOutput channelOutput, SitePinInfo sitePinInfo, double currentLimitLow, bool isGroupData = true)
+        {
+            if (channelOutput.Source.ComplianceLimitSymmetry != DCPowerComplianceLimitSymmetry.Asymmetric)
+            {
+                return;
+            }
+
+            var currentLimitLowToSet = currentLimitLow;
+
+            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            {
+                currentLimitLowToSet = currentLimitLow / gangingInfo.ChannelsCount;
+            }
+
+            channelOutput.Control.Abort();
+            channelOutput.Source.Voltage.CurrentLimitLow = currentLimitLowToSet;
         }
         #endregion private and internal methods
     }
