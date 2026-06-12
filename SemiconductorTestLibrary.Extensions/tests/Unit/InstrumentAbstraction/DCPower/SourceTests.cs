@@ -5225,11 +5225,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithSamePerPinPerSiteValues_CurrentLimitHighDividedByGangSizeSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
             var currentLimitHigh = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
                 [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-2 },
-                ["VCC4"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-2 }
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-2 }
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
