@@ -5264,10 +5264,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 output.Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
             });
-            void Act() => sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow);
 
-            var exception = Assert.Throws<AggregateException>(Act);
+            void ConfigureCurrentLimitLow() => sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow);
 
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitLow);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
             Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
         }
