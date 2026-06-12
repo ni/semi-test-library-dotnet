@@ -122,30 +122,49 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimitRange">The double value of the current limit range.</param>
         public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, double currentLimitRange)
         {
-            sessionsBundle.Do(sessionInfo =>
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+
+            if (hasGangedChannels)
             {
-                sessionInfo.AllChannelsOutput.Control.Abort();
-                sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitRange = currentLimitRange;
-            });
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitRange = currentLimitRange;
+                });
+            }
         }
 
         /// <inheritdoc cref="ConfigureCurrentLimitRange(DCPowerSessionsBundle, double)"/>
         public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLimitRange)
         {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange = currentLimitRange.GetValue(sitePinInfo.SiteNumber);
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
         /// <inheritdoc cref="ConfigureCurrentLimitRange(DCPowerSessionsBundle, double)"/>
         public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitRange)
         {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, currentLimitRange);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange = currentLimitRange.GetValue(sitePinInfo);
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
             });
         }
 
@@ -3068,6 +3087,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+        }
+
+        private static void SetCurrentLimitRange(DCPowerOutput channelOutput, SitePinInfo sitePinInfo, double currentLimitRange, bool isGroupData = true)
+        {
+            var currentLimitRangeToSet = currentLimitRange;
+
+            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            {
+                currentLimitRangeToSet = currentLimitRange / gangingInfo.ChannelsCount;
+            }
+
+            channelOutput.Control.Abort();
+            channelOutput.Source.Voltage.CurrentLimitRange = currentLimitRangeToSet;
         }
 
         internal static void ValidateNoChannelGanged(this DCPowerSessionsBundle sessionsBundle)

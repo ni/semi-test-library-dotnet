@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.Expando;
 
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -5126,15 +5125,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
-            var expectedCurrentLimitRange = 0.1;
+            var currentLimitRange = 0.3;
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
-            sessionsBundle.ConfigureCurrentLimitRange(expectedCurrentLimitRange);
+            sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
+                var currentLimitRangeDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
-                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
+                Assert.Equal(currentLimitRange / currentLimitRangeDivisor, actualCurrentLimitRange, 4);
             });
         }
 
@@ -5145,7 +5145,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower("VCC2");
-            var currentLimitRange = new SiteData<double>(new[] { 0.1, 0.1 });
+            var currentLimitRange = new SiteData<double>(new[] { 1E-1, 1E-1 });
 
             sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
 
@@ -5162,16 +5162,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
-            var currentLimitRange = new SiteData<double>(new[] { 0.1, 0.1 });
+            var currentLimitRange = new SiteData<double>(new[] { 3E-1, 3E-1 });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLimitRange = currentLimitRange.GetValue(sitePinInfo.SiteNumber);
+                var currentLimitRangeDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var expectedCurrentLimitRange = currentLimitRange.GetValue(sitePinInfo.SiteNumber) / currentLimitRangeDivisor;
                 var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
-                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
+                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange, 4);
             });
         }
 
@@ -5184,8 +5185,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
             var currentLimitRange = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                ["VCC1"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.1 },
-                ["VCC2"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.1 }
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 1E-1 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 1E-1 }
             });
 
             sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
@@ -5202,12 +5203,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithSamePerPinPerSiteValues_CurrentLimitRangeSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VCC3" });
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
             var currentLimitRange = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                ["VCC1"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.1 },
-                ["VCC2"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.1 },
-                ["VCC3"] = new Dictionary<int, double>() { [0] = 0.1, [1] = 0.1 },
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 3E-1, [1] = 3E-1 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 1E-1 }
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
@@ -5215,10 +5215,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLimitRange = currentLimitRange.GetValue(sitePinInfo);
+                var expectedCurrentLimitRange = currentLimitRange.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLimitRangeDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
-                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
+                Assert.Equal(expectedCurrentLimitRange / currentLimitRangeDivisor, actualCurrentLimitRange, 4);
             });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithDifferentPerPinPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitRange = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 3E-3, [1] = 3E-3 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ConfigureCurrentLimitRange() => sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
