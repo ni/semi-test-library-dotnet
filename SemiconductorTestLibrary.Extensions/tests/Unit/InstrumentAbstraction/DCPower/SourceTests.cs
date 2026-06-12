@@ -5137,7 +5137,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevices_ConfigureCurrentLevelWithPerSiteValues_CorrectCurrentLevelRangeSet(string pinmap)
+        public void DifferentSMUDevices_ConfigureCurrentLevelWithPerSiteValues_CorrectCurrentLevelSet(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.DCPower("VCC2");
