@@ -5303,7 +5303,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower("VCC2");
             var currentLimitHigh = new SiteData<double>(new[] { 1E-2, 1E-3 });
-            var originalCurrentLimitHighPerPin = new Dictionary<string, double>();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
@@ -5332,7 +5331,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
                 ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 }
             });
-            var originalCurrentLimitHighPerPin = new Dictionary<string, double>();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
