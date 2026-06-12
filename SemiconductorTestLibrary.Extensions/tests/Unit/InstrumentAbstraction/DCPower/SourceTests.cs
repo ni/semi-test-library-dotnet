@@ -5108,6 +5108,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower("VCC2");
+
             sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -5125,6 +5126,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
             sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -5177,7 +5179,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevices_ConfigureLimitSymmetryWithPerPinPerSiteValues_CorrectLimitSymmetrySet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
             var limitSymmetry = new PinSiteData<DCPowerComplianceLimitSymmetry>(new Dictionary<string, IDictionary<int, DCPowerComplianceLimitSymmetry>>()
             {
                 ["VCC1"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
@@ -5195,15 +5197,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithPerPinPerSiteValues_CorrectLimitSymmetrySet()
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithSamePerPinPerSiteValues_CorrectLimitSymmetrySet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
             var limitSymmetry = new PinSiteData<DCPowerComplianceLimitSymmetry>(new Dictionary<string, IDictionary<int, DCPowerComplianceLimitSymmetry>>()
             {
-                ["VCC1"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
-                ["VCC2"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
-                ["VCC3"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric }
+                [ThreePinsGangedGroup] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
+                ["VCC4"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric }
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 

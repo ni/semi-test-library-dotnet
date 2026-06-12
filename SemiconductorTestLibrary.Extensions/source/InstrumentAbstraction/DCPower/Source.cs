@@ -122,30 +122,49 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="complianceLimitSymmetry">The compliance limit symmetry value to set.</param>
         public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, DCPowerComplianceLimitSymmetry complianceLimitSymmetry)
         {
-            sessionsBundle.Do(sessionInfo =>
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+
+            if (hasGangedChannels)
             {
-                sessionInfo.AllChannelsOutput.Control.Abort();
-                sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry = complianceLimitSymmetry;
-            });
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    SetLimitSymmetry(channelOutput, complianceLimitSymmetry);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry = complianceLimitSymmetry;
+                });
+            }
         }
 
         /// <inheritdoc cref="ConfigureLimitSymmetry(DCPowerSessionsBundle, DCPowerComplianceLimitSymmetry)"/>
         public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerComplianceLimitSymmetry> complianceLimitSymmetry)
         {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry = complianceLimitSymmetry.GetValue(sitePinInfo.SiteNumber);
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                SetLimitSymmetry(channelOutput, complianceLimitSymmetry.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
         /// <inheritdoc cref="ConfigureLimitSymmetry(DCPowerSessionsBundle, DCPowerComplianceLimitSymmetry)"/>
         public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerComplianceLimitSymmetry> complianceLimitSymmetry)
         {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, complianceLimitSymmetry);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry = complianceLimitSymmetry.GetValue(sitePinInfo);
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                SetLimitSymmetry(channelOutput, complianceLimitSymmetry.GetValue(sitePinInfo));
             });
         }
 
@@ -3068,6 +3087,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+        }
+
+        private static void SetLimitSymmetry(DCPowerOutput channelOutput, DCPowerComplianceLimitSymmetry complianceLimitSymmetry)
+        {
+            channelOutput.Control.Abort();
+            channelOutput.Source.ComplianceLimitSymmetry = complianceLimitSymmetry;
         }
 
         internal static void ValidateNoChannelGanged(this DCPowerSessionsBundle sessionsBundle)
