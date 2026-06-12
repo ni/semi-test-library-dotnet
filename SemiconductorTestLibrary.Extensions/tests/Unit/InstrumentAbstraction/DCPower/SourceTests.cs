@@ -5347,6 +5347,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 output.Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
+                output.Source.Voltage.CurrentLimitHigh = expectedCurrentLimitHigh.GetValue(sitePinInfo);
             });
 
             sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHighToSet);
