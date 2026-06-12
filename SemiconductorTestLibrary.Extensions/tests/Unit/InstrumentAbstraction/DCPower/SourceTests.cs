@@ -5203,7 +5203,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
             var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 }
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 }
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
@@ -5211,10 +5212,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var currentLevelRangeDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo) / currentLevelRangeDivisor;
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLevelRangeDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
-                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange, 4);
+                Assert.Equal(expectedCurrentLevelRange / currentLevelRangeDivisor, actualCurrentLevelRange, 4);
             });
         }
 
