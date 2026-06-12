@@ -5200,11 +5200,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeWithSamePerPinPerSiteValues_CorrectCurrentLevelRangesSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
             var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
                 [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 },
-                ["VCC4"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 }
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 }
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
