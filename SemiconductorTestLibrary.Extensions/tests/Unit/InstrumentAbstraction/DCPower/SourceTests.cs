@@ -5203,9 +5203,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
             var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                ["VCC1"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 },
-                ["VCC2"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 },
-                ["VCC3"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 }
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 }
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
