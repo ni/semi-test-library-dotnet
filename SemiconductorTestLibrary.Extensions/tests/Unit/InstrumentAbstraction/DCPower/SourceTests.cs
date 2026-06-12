@@ -5263,12 +5263,113 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString]
                     .Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
             });
-            void Act() => sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
 
-            var exception = Assert.Throws<AggregateException>(Act);
+            void ConfigureCurrentLimitHigh() => sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
 
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitHigh);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
             Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitHighWithScalarValueWhenSymmetric_CurrentLimitHighNotSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLimitHighToSet = 1E-3;
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
+            });
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHighToSet);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.NotEqual(currentLimitHighToSet, actualCurrentLimitHigh);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitHighWithPerSiteValuesWhenSymmetric_CurrentLimitHighNotSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLimitHigh = new SiteData<double>(new[] { 1E-2, 1E-3 });
+            var originalCurrentLimitHighPerPin = new Dictionary<string, double>();
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
+            });
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                var currentLimitHighUsedToSet = currentLimitHigh.GetValue(sitePinInfo.SiteNumber);
+                Assert.NotEqual(currentLimitHighUsedToSet, actualCurrentLimitHigh);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitHighWithPerPinPerSiteValuesWhenSymmetric_CurrentLimitHighNotSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLimitHigh = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 }
+            });
+            var originalCurrentLimitHighPerPin = new Dictionary<string, double>();
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
+            });
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                var currentLimitHighUsedToSet = currentLimitHigh.GetValue(sitePinInfo);
+                Assert.NotEqual(currentLimitHighUsedToSet, actualCurrentLimitHigh);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithScalarValueWhenSymmetric_CurrentLimitHighNotSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitHighToSet = 1E-2;
+            var originalCurrentLimitHighPerPin = new Dictionary<string, double>();
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                output.Source.ComplianceLimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric;
+                originalCurrentLimitHighPerPin[sitePinInfo.IndividualChannelString] = output.Source.Voltage.CurrentLimitHigh;
+            });
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHighToSet);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(originalCurrentLimitHighPerPin[sitePinInfo.IndividualChannelString], actualCurrentLimitHigh);
+            });
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
