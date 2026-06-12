@@ -5213,9 +5213,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo);
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLimitRangeDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
-                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
+                Assert.Equal(expectedCurrentLimitLow / currentLimitRangeDivisor, actualCurrentLimitLow, 4);
             });
         }
 
@@ -5223,7 +5224,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowWithSamePerPinPerSiteValues_CurrentLimitLowDividedByGangSizeSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
             var currentLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
                 [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -2E-2 },
@@ -5240,9 +5241,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo) / 3;
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLimitRangeDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
-                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow, 4);
+                Assert.Equal(expectedCurrentLimitLow / currentLimitRangeDivisor, actualCurrentLimitLow, 4);
             });
         }
 
@@ -5250,7 +5252,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowWithDifferentPerPinPerSiteValues_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VCC3" });
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
             var currentLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
                 ["VCC1"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -1E-3 },
