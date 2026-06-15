@@ -146,18 +146,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets the pattern start label of the last burst pattern.
+        /// Gets the configured pattern names or exported pattern labels of all the digital instruments that are part of the sessions bundle.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The currently configured start label.</returns>
-        public static string GetPatternStartLabel(this DigitalSessionsBundle sessionsBundle)
+        public static string[] GetPatternStartLabel(this DigitalSessionsBundle sessionsBundle)
         {
-            string[] startLabels = null;
-            foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
+            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
-                startLabels.Append(sessionInfo.Session.PatternControl.StartLabel);
-            }
-            return startLabels.Distinct().FirstOrDefault();
+                return sessionInfo.Session.PatternControl.StartLabel;
+            });
         }
 
         /// <summary>
