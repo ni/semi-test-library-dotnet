@@ -113,6 +113,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
+        /// Configures the pattern start label for subsequent pattern execution.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="startLabel">The pattern name or exported pattern label to configure.</param>
+        /// <param name="siteNumbers">The site numbers to configure the pattern for.</param>
+        public static void ConfigurePattern(this DigitalSessionsBundle sessionsBundle, string startLabel, int[] siteNumbers = null)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.PatternControl.StartLabel = startLabel;
+
+                if (siteNumbers != null && siteNumbers.Length > 0)
+                {
+                    sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteNumbers.ToList().ToString());
+                }
+            });
+        }
+
+        /// <summary>
         /// Gets fail count on a per-pin per-site basis of last burst pattern (long).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -122,6 +141,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
                 return sessionInfo.PinSet.GetFailCount();
+            });
+        }
+
+        /// <summary>
+        /// Gets the pattern start label of the last burst pattern on a per-site basis.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <returns>The per-site pattern start label.</returns>
+        public static SiteData<string> GetPatternStartLabel(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSiteResults<string>(sessionInfo =>
+            {
+                return Enumerable
+                    .Repeat(sessionInfo.Session.PatternControl.StartLabel, sessionInfo.AssociatedSiteList.Count)
+                    .ToArray();
             });
         }
 

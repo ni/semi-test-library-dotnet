@@ -262,5 +262,43 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Initiate();
             sessionsBundle.AbortPattern();
         }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigurePatternWithoutSpecifyingSites_GetPatternStartLabelReturnsConfiguredLabel(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            const string expectedStartLabel = "TX_RF";
+            sessionsBundle.ConfigurePattern(expectedStartLabel);
+
+            var patternStartLabel = sessionsBundle.GetPatternStartLabel();
+
+            Assert.Equal(2, patternStartLabel.SiteNumbers.Length);
+            foreach (var siteNumber in patternStartLabel.SiteNumbers)
+            {
+                Assert.Equal(expectedStartLabel, patternStartLabel.GetValue(siteNumber));
+            }
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigurePatternWithSiteNumbers_GetPatternStartLabelReturnsConfiguredLabel(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            const string expectedStartLabel = "TX_RF";
+            sessionsBundle.ConfigurePattern(expectedStartLabel, new int[] { 0, 1 });
+
+            var patternStartLabel = sessionsBundle.GetPatternStartLabel();
+
+            Assert.Equal(2, patternStartLabel.SiteNumbers.Length);
+            Assert.Equal(expectedStartLabel, patternStartLabel.GetValue(0));
+            Assert.Equal(expectedStartLabel, patternStartLabel.GetValue(1));
+        }
     }
 }
