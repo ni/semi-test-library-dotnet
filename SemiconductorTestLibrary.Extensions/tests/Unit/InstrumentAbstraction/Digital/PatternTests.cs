@@ -276,11 +276,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var patternStartLabel = sessionsBundle.GetPatternStartLabel();
 
-            Assert.Equal(2, patternStartLabel.SiteNumbers.Length);
-            foreach (var siteNumber in patternStartLabel.SiteNumbers)
-            {
-                Assert.Equal(expectedStartLabel, patternStartLabel.GetValue(siteNumber));
-            }
+            Assert.Equal(expectedStartLabel, patternStartLabel);
         }
 
         [Theory]
@@ -296,9 +292,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var patternStartLabel = sessionsBundle.GetPatternStartLabel();
 
-            Assert.Equal(2, patternStartLabel.SiteNumbers.Length);
-            Assert.Equal(expectedStartLabel, patternStartLabel.GetValue(0));
-            Assert.Equal(expectedStartLabel, patternStartLabel.GetValue(1));
+            Assert.Equal(expectedStartLabel, patternStartLabel);
         }
     }
 }

@@ -126,7 +126,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
                 if (siteNumbers != null && siteNumbers.Length > 0)
                 {
-                    sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteNumbers.ToList().ToString());
+                    string siteList = string.Join(",", siteNumbers);
+                    sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteList);
                 }
             });
         }
@@ -149,14 +150,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The per-site pattern start label.</returns>
-        public static SiteData<string> GetPatternStartLabel(this DigitalSessionsBundle sessionsBundle)
+        public static string GetPatternStartLabel(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSiteResults<string>(sessionInfo =>
+            string[] startLabels = null;
+            foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
             {
-                return Enumerable
-                    .Repeat(sessionInfo.Session.PatternControl.StartLabel, sessionInfo.AssociatedSiteList.Count)
-                    .ToArray();
-            });
+                startLabels.Append(sessionInfo.Session.PatternControl.StartLabel);
+            }
+            return startLabels.Distinct().FirstOrDefault();
         }
 
         /// <summary>
