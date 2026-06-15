@@ -146,10 +146,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets the configured pattern names or exported pattern labels of all the digital instruments that are part of the sessions bundle.
+        /// Gets the currently configured pattern name or exported pattern label of all the digital instruments that are part of the sessions bundle.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <returns>The currently configured start label.</returns>
+        /// <returns>An array of the currently configured pattern start labels, one value per session.</returns>
         public static string[] GetPatternStartLabel(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
