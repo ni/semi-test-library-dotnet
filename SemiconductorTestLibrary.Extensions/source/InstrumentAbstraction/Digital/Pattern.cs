@@ -101,6 +101,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
+        /// Applies previously configured settings to the digital instrument.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        public static void Commit(this DigitalSessionsBundle sessionsBundle)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.PatternControl.Commit();
+            });
+        }
+
+        /// <summary>
         /// Gets fail count on a per-pin per-site basis of last burst pattern (long).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -110,6 +122,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
                 return sessionInfo.PinSet.GetFailCount();
+            });
+        }
+
+        /// <summary>
+        /// Starts pattern execution, moving the digital instrument to the running state.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        public static void Initiate(this DigitalSessionsBundle sessionsBundle)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.PatternControl.Initiate();
             });
         }
 

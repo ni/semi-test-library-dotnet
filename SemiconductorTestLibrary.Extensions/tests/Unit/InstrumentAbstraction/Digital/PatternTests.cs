@@ -238,5 +238,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2, failCountResults.SiteNumbers.Length);
             Assert.Equal(5, failCountResults.ExtractSite(0).Count);
         }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_CommitSucceeds(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+
+            var sessionsBundle = sessionManager.Digital("C0");
+            sessionsBundle.Commit();
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_CommitAndInitiateAndAbortPattern_Succeeds(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+
+            var sessionsBundle = sessionManager.Digital("C0");
+            sessionsBundle.Commit();
+            sessionsBundle.Initiate();
+            sessionsBundle.AbortPattern();
+        }
     }
 }
