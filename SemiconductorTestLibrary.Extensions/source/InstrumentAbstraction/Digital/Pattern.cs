@@ -146,10 +146,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets the pattern start label of the last burst pattern on a per-site basis.
+        /// Gets the pattern start label of the last burst pattern.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <returns>The per-site pattern start label.</returns>
+        /// <returns>The currently configured start label.</returns>
         public static string GetPatternStartLabel(this DigitalSessionsBundle sessionsBundle)
         {
             string[] startLabels = null;
