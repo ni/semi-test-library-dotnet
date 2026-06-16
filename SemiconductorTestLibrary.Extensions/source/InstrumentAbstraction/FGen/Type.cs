@@ -3,7 +3,7 @@
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
 {
     /// <summary>
-    /// Standard function.
+    /// Standard function. Will be moved to Abstractions.
     /// </summary>
     public enum StandardFunction
     {
@@ -20,7 +20,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
     /// <summary>
     /// Type class contains all type definitions needed for FGen operations.
     /// </summary>
-    public class WaveformType
+    public class StdWaveformSettings
     {
         /// <summary>
         /// Specifies the kind of the waveform to generate (sine, square, triangle, etc).
@@ -40,17 +40,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// <summary>
         /// Specifies the offset of the waveform to generate.
         /// </summary>
-        public double? DCOffset { get; set; }
+        public double DCOffset { get; set; }
 
         /// <summary>
         /// Specifies the start phase of the waveform to generate.
         /// </summary>
-        public double? StartPhase { get; set; }
+        public double StartPhase { get; set; }
 
         /// <summary>
-        /// Waveform type.
+        /// Standara Waveform function settings.
         /// </summary>
-        public WaveformType()
-        { }
+        /// <param name="functionType">functionType</param>
+        /// <param name="frequency">frequency</param>
+        /// <param name="amplitude">amplitude</param>
+        /// <param name="dcOffset">dcOffset</param>
+        /// <param name="startPhase">startPhase</param>
+        public StdWaveformSettings(StandardFunction functionType, double frequency, double amplitude, double dcOffset = 0, double startPhase = 0)
+        {
+            FunctionType = functionType;
+            Frequency = frequency;
+            Amplitude = amplitude;
+            DCOffset = dcOffset;
+            StartPhase = startPhase;
+        }
     }
 }
