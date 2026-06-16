@@ -117,7 +117,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <summary>
         /// Configures the current limit high.
         /// Only applies when <see cref="DCPowerComplianceLimitSymmetry.Asymmetric"/> is configured.
-        /// With overrides for <see cref="SiteData{Double}"/>, and <see cref="PinSiteData{Double}"/> input.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimitHigh">The current limit high to set.</param>
