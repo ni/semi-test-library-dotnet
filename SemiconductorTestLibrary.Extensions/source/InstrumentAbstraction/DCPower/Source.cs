@@ -116,7 +116,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <summary>
         /// Configures the current level range.
-        /// With overrides for <see cref="SiteData{Double}"/>, and <see cref="PinSiteData{Double}"/> input.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevelRange">The current level range to set.</param>
