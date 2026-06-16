@@ -1774,11 +1774,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionsBundle.Do(sessionInfo =>
                 {
-                    if (sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry == DCPowerComplianceLimitSymmetry.Asymmetric)
-                    {
-                        sessionInfo.AllChannelsOutput.Control.Abort();
-                        sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitLow = currentLimitLow;
-                    }
+                    sessionInfo.AllChannelsOutput.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitLow = currentLimitLow;
                 });
             }
         }
@@ -3102,11 +3099,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         private static void SetCurrentLimitLow(DCPowerOutput channelOutput, SitePinInfo sitePinInfo, double currentLimitLow, bool isGroupData = true)
         {
-            if (channelOutput.Source.ComplianceLimitSymmetry != DCPowerComplianceLimitSymmetry.Asymmetric)
-            {
-                return;
-            }
-
             var currentLimitLowToSet = currentLimitLow;
 
             if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
