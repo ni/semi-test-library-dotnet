@@ -5129,8 +5129,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
+                var currentLevelDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
-                Assert.Equal(expectedCurrentLevel / 3, actualCurrentLevel, 4);
+                Assert.Equal(expectedCurrentLevel / currentLevelDivisor, actualCurrentLevel, 4);
             });
         }
 
@@ -5165,8 +5166,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo.SiteNumber) / 3;
+                var currentLevelDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo.SiteNumber) / currentLevelDivisor;
                 Assert.Equal(expectedCurrentLevel, actualCurrentLevel, 4);
             });
         }
