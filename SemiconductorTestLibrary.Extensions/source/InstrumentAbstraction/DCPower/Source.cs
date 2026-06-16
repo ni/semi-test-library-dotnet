@@ -115,60 +115,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the current limit range.
-        /// With overrides for <see cref="SiteData{Double}"/>, and <see cref="PinSiteData{Double}"/> input.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLimitRange">The double value of the current limit range.</param>
-        public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, double currentLimitRange)
-        {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-
-            if (hasGangedChannels)
-            {
-                sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange);
-                });
-            }
-            else
-            {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    sessionInfo.AllChannelsOutput.Control.Abort();
-                    sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitRange = currentLimitRange;
-                });
-            }
-        }
-
-        /// <inheritdoc cref="ConfigureCurrentLimitRange(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLimitRange)
-        {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange.GetValue(sitePinInfo.SiteNumber));
-            });
-        }
-
-        /// <inheritdoc cref="ConfigureCurrentLimitRange(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitRange)
-        {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, currentLimitRange);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
-            });
-        }
-
-        /// <summary>
         /// Forces voltage on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -1802,6 +1748,59 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.ConfigureCurrentLimit(currentLimits[sitePinInfo.PinName], currentLimitRanges?[sitePinInfo.PinName]);
+            });
+        }
+
+        /// <summary>
+        /// Configures the current limit range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLimitRange">The current limit range to set.</param>
+        public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, double currentLimitRange)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+
+            if (hasGangedChannels)
+            {
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitRange = currentLimitRange;
+                });
+            }
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLimitRange(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLimitRange)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLimitRange(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitRange)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, currentLimitRange);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
             });
         }
 
