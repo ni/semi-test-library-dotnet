@@ -115,59 +115,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the current level range.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLevelRange">The current level range to set.</param>
-        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, double currentLevelRange)
-        {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-
-            if (hasGangedChannels)
-            {
-                sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    SetCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange);
-                });
-            }
-            else
-            {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    sessionInfo.AllChannelsOutput.Control.Abort();
-                    sessionInfo.AllChannelsOutput.Source.Current.CurrentLevelRange = currentLevelRange;
-                });
-            }
-        }
-
-        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLevelRange)
-        {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange.GetValue(sitePinInfo.SiteNumber));
-            });
-        }
-
-        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevelRange)
-        {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, currentLevelRange);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
-            });
-        }
-
-        /// <summary>
         /// Forces voltage on the target pins at the specified level. Must at least provide a level value, and the method will assume all other properties that have been previously set. Optionally, can also provide a specific current limit, current limit range, voltage level range values directly.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -1801,6 +1748,59 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 channelOutput.Control.Abort();
                 channelOutput.ConfigureCurrentLimit(currentLimits[sitePinInfo.PinName], currentLimitRanges?[sitePinInfo.PinName]);
+            });
+        }
+
+        /// <summary>
+        /// Configures the current level range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLevelRange">The current level range to set.</param>
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, double currentLevelRange)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+
+            if (hasGangedChannels)
+            {
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    SetCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.AllChannelsOutput.Control.Abort();
+                    sessionInfo.AllChannelsOutput.Source.Current.CurrentLevelRange = currentLevelRange;
+                });
+            }
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLevelRange)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                SetCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevelRange)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, currentLevelRange);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                SetCurrentLevelRange(channelOutput, sitePinInfo, currentLevelRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
             });
         }
 
