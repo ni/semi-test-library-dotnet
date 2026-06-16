@@ -9,13 +9,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SpiAn
     public static class TSMSessionManagerExtensions
     {
         /// <summary>
-        /// Creates a protocol implementation for the selected communication protocol using the
-        /// global parameters configured via <see cref="SPI.SetProtocolParameters"/> or
-        /// <see cref="I2C.SetProtocolParameters"/>.
+        /// Configures the singleton protocol instance for the selected communication protocol and
+        /// calls <see cref="DigitalProtocol.SetBundle"/> with a bundle scoped to the current module context.
         /// </summary>
         /// <param name="sessionManager">The session manager for the active module context.</param>
         /// <param name="communicationProtocol">The communication protocol to instantiate.</param>
-        /// <returns>A protocol implementation for the selected communication protocol.</returns>
+        /// <returns>The configured singleton protocol instance.</returns>
         public static IDigitalProtocol DutControl(
             this TSMSessionManager sessionManager,
             CommunicationProtocol communicationProtocol)
@@ -25,17 +24,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SpiAn
                 throw new ArgumentNullException(nameof(sessionManager));
             }
 
+            IDigitalProtocol protocol;
             switch (communicationProtocol)
             {
                 case CommunicationProtocol.SPI:
-                    var spiParameters = SPI.CurrentProtocolParameters;
-                    return new SPI(sessionManager.Digital(spiParameters.PinNames), spiParameters);
+                    protocol = SPI.Instance;
+                    break;
                 case CommunicationProtocol.I2C:
-                    var i2cParameters = I2C.CurrentProtocolParameters;
-                    return new I2C(sessionManager.Digital(i2cParameters.PinNames), i2cParameters);
+                    protocol = I2C.Instance;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(communicationProtocol), communicationProtocol, "Unsupported communication protocol.");
             }
+            protocol.SetBundle(sessionManager.Digital(protocol.PinNames));
+            return protocol;
         }
     }
 }

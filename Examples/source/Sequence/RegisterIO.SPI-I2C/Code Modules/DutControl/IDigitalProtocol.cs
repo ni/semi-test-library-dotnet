@@ -1,4 +1,5 @@
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SpiAndI2c.DutControl
 {
@@ -25,6 +26,49 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SpiAn
     /// </summary>
     public interface IDigitalProtocol
     {
+        /// <summary>Gets or sets the digital pattern name used to write a register value.</summary>
+        string WritePatternName { get; set; }
+
+        /// <summary>Gets or sets the digital pattern name used to read a register value.</summary>
+        string ReadPatternName { get; set; }
+
+        /// <summary>Gets or sets the digital source waveform name used by the read and write patterns.</summary>
+        string SourceWaveformName { get; set; }
+
+        /// <summary>Gets or sets the digital capture waveform name used by the read pattern.</summary>
+        string CaptureWaveformName { get; set; }
+
+        /// <summary>Gets or sets the number of bits each digital waveform sample is.</summary>
+        uint SampleWidth { get; set; }
+
+        /// <summary>Gets or sets the sequencer register that controls the transaction count.</summary>
+        string ReadWriteCountSequenceRegister { get; set; }
+
+        /// <summary>Gets or sets the sequencer register that controls the address bit width.</summary>
+        string AddressBitWidthSequenceRegister { get; set; }
+
+        /// <summary>Gets or sets the sequencer register that controls the value bit width.</summary>
+        string ValueBitWidthSequenceRegister { get; set; }
+
+        /// <summary>Gets or sets the protocol pin names expected by the template patterns.</summary>
+        string[] PinNames { get; set; }
+
+        /// <summary>Gets or sets the default number of bits the register address is.</summary>
+        uint DefaultAddressBitWidth { get; set; }
+
+        /// <summary>Gets or sets the default number of bits the register value holds.</summary>
+        uint DefaultValueBitWidth { get; set; }
+
+        /// <summary>Gets or sets the bit ordering used when packing and unpacking waveform samples.</summary>
+        BitOrder BitOrder { get; set; }
+
+        /// <summary>
+        /// Sets the <see cref="DigitalSessionsBundle"/> used for digital pattern instrument control.
+        /// Must be called at least once per test module before performing any register operations.
+        /// </summary>
+        /// <param name="digitalSessionsBundle">The <see cref="DigitalSessionsBundle"/> object scoped to the active sites.</param>
+        void SetBundle(DigitalSessionsBundle digitalSessionsBundle);
+
         /// <summary>
         /// Reads the value at the specified DUT register address.
         /// </summary>
