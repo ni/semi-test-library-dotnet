@@ -5140,7 +5140,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
-                Assert.Equal(expectedCurrentLimitLow / 3, actualCurrentLimitLow, 4);
+                var currentLimitLowDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedCurrentLimitLow / currentLimitLowDivisor, actualCurrentLimitLow, 4);
             });
         }
 
@@ -5185,7 +5186,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo.SiteNumber) / 3;
+                var currentLimitLowDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo.SiteNumber) / currentLimitLowDivisor;
                 var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
                 Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow, 4);
             });
