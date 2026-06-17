@@ -258,6 +258,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
 
             var sessionsBundle = sessionManager.Digital("C0");
+            const string expectedStartLabel = "TX_RF";
+            sessionsBundle.ConfigurePattern(expectedStartLabel);
             sessionsBundle.Commit();
             sessionsBundle.Initiate();
             sessionsBundle.AbortPattern();
