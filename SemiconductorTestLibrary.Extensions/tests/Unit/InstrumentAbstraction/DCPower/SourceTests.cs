@@ -5220,7 +5220,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithDifferentPerPinPerSiteValues_CurrentLimitHighSet()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithDifferentPerPinPerSiteValues_CorrectCurrentLimitHighSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
