@@ -5220,7 +5220,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowWithDifferentPerPinPerSiteValues_ThrowsException()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowWithDifferentPerPinPerSiteValues_CurrentLimitLowSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
@@ -5232,11 +5232,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
-            void ConfigureCurrentLimitLow() => sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow);
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow);
 
-            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitLow);
-            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLimitLowDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow / currentLimitLowDivisor, actualCurrentLimitLow, 4);
+            });
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
