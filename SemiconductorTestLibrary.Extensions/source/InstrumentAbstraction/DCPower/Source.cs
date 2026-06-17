@@ -1752,8 +1752,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the current limit range.
+        /// Configures the current limit range, in amps, for the specified channel(s).
         /// </summary>
+        /// <remarks>
+        /// The range defines the valid values to which the current limit can be set.
+        /// Use the <see cref="DCPowerOutputSourceVoltage.CurrentLimitAutorange"/> property to enable automatic selection of the current limit range.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimitRange">The current limit range to set.</param>
         public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, double currentLimitRange)
@@ -1796,7 +1800,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, currentLimitRange);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
