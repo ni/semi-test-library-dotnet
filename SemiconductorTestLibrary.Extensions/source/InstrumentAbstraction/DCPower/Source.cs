@@ -1752,8 +1752,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the current level range.
+        /// "Configures the current level range, in amps, for all the SMU channels in the bundle.
         /// </summary>
+        /// <remarks>
+        /// When the currentLevelRange value is associated with the pingroup name for a ganged pin, it will be applied to the total ganged current.
+        /// If the value is associated with pin names, then it will be applied to each pin in the ganged pingroup.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevelRange">The current level range to set.</param>
         public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, double currentLevelRange)
@@ -1796,7 +1800,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, currentLevelRange);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];

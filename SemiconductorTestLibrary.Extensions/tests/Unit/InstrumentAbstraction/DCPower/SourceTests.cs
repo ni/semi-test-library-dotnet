@@ -5220,23 +5220,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeWithDifferentPerPinPerSiteValues_ThrowsException()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeWithDifferentPerPinPerSiteValues_CorrectCurrentLevelRangesSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
             var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                ["VCC1"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 },
-                ["VCC2"] = new Dictionary<int, double>() { [0] = 3E-3, [1] = 3E-3 },
-                ["VCC3"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 }
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-3, [1] = 1E-3 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 }
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
-            void ConfigureCurrentLevelRange() => sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
 
-            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLevelRange);
-            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLevelRangeDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(expectedCurrentLevelRange / currentLevelRangeDivisor, actualCurrentLevelRange, 4);
+            });
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
