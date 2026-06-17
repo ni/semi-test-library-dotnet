@@ -126,7 +126,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
                 if (siteNumbers != null && siteNumbers.Length > 0)
                 {
-                    string siteList = string.Join(",", siteNumbers);
+                    string siteList = string.Join(",", siteNumbers.Select(sn => $"site{sn}"));
                     sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteList);
                 }
             });
@@ -146,7 +146,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Gets the currently configured pattern name or exported pattern label of all the digital instruments that are part of the sessions bundle.
+        /// Gets the currently configured pattern name or exported pattern label.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>An array of the currently configured pattern start labels, one value per session.</returns>

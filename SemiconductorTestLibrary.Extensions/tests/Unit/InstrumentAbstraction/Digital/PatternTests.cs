@@ -276,7 +276,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var patternStartLabel = sessionsBundle.GetPatternStartLabel();
 
-            Assert.Equal(expectedStartLabel, patternStartLabel);
+            Assert.All(patternStartLabel, label => Assert.Equal(expectedStartLabel, label));
         }
 
         [Theory]
@@ -292,7 +292,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var patternStartLabel = sessionsBundle.GetPatternStartLabel();
 
-            Assert.Equal(expectedStartLabel, patternStartLabel);
+            Assert.All(patternStartLabel, label => Assert.Equal(expectedStartLabel, label));
         }
     }
 }
