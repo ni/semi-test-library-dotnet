@@ -5220,23 +5220,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithDifferentPerPinPerSiteValues_ThrowsException()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithDifferentPerPinPerSiteValues_CurrentLimitHighSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
             var currentLimitHigh = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
                 ["VCC1"] = new Dictionary<int, double>() { [0] = 0.01, [1] = 0.02 },
-                ["VCC2"] = new Dictionary<int, double>() { [0] = 0.03, [1] = 0.02 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 0.01, [1] = 0.02 },
                 ["VCC3"] = new Dictionary<int, double>() { [0] = 0.01, [1] = 0.02 }
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
-            void ConfigureCurrentLimitHigh() => sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
 
-            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitHigh);
-            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo, out bool isGroupData);
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                var currentLimitHighDivisor = isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedCurrentLimitHigh / currentLimitHighDivisor, actualCurrentLimitHigh, 4);
+            });
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)

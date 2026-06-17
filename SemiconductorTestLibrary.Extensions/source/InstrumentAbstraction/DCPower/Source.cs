@@ -1752,9 +1752,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the current limit high.
-        /// Only applies when <see cref="DCPowerComplianceLimitSymmetry.Asymmetric"/> is configured.
+        /// Configures the high current limit, in amps, for all SMU channels in the bundle.
         /// </summary>
+        /// <remarks>
+        /// When the <paramref name="currentLimitHigh"/> value is associated with a ganged pingroup name, it applies to the total ganged current limit.
+        /// When the value is associated with individual pin names, it applies to each pin in the ganged pingroup.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimitHigh">The current limit high to set.</param>
         public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, double currentLimitHigh)
@@ -1797,7 +1800,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, currentLimitHigh);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
