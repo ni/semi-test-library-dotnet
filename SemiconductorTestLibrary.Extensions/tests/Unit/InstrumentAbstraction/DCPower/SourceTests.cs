@@ -5243,6 +5243,64 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowRangeOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureCurrentLimitLow()
+            {
+                filteredBundle.ConfigureCurrentLimitLow(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitLow);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowRangeOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureCurrentLimitLow()
+            {
+                subsetBundle.ConfigureCurrentLimitLow(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitLow);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureCurrentLimitLow_CorrectCurrentLimitLowSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedCurrentLimitHigh = -1E-2;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureCurrentLimitLow(expectedCurrentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(expectedCurrentLimitHigh, channelOutput.Source.Voltage.CurrentLimitLow);
+                }
+            });
+        }
+
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);
