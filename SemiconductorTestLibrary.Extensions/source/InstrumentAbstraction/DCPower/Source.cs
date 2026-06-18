@@ -1752,7 +1752,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the current level, in amps, that the device attempts to generate on the specified channel(s).
+        /// Configures the current level, in amps, that the device attempts to generate on the smu channels in the bundle.
         /// </summary>
         /// <remarks>
         /// When the <paramref name="currentLevel"/> value is associated with a ganged pingroup name, it applies to the total ganged current.
