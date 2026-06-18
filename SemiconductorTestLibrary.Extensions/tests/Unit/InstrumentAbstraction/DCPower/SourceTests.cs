@@ -5284,19 +5284,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            var expectedCurrentLimitHigh = -1E-2;
+            var expectedCurrentLimitLow = -1E-2;
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
             sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
-            filteredBundle.ConfigureCurrentLimitLow(expectedCurrentLimitHigh);
+            filteredBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    Assert.Equal(expectedCurrentLimitHigh, channelOutput.Source.Voltage.CurrentLimitLow);
+                    Assert.Equal(expectedCurrentLimitLow, channelOutput.Source.Voltage.CurrentLimitLow);
                 }
             });
         }
