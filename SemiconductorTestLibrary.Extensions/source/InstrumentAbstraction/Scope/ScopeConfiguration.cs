@@ -65,11 +65,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="channelName">The name of the channel to configure.</param>
         /// <param name="settings">The channel settings object.</param>
-        public static void ConfigureChannelSettings(this ScopeSessionsBundle sessionsBundle, string channelName, ChannelSettings settings)
+        public static void ConfigureChannelSettings(this ScopeSessionsBundle sessionsBundle, string channelName, ScopeChannelSettings settings)
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Channels[channelName].Configure(settings.Range, settings.Offset, settings.Coupling, settings.ProbeAttenuation, settings.Enabled);
+                sessionInfo.Session.Channels[channelName].Configure(settings.Range.Value, settings.Offset.Value, (ScopeVerticalCoupling)settings.Coupling.Value, settings.ProbeAttenuation.Value, settings.Enabled.Value);
             });
         }
     }
