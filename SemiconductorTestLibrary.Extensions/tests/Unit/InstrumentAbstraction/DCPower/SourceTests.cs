@@ -5244,7 +5244,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowRangeOnFilteredBundleWithFewPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowOnFilteredBundleWithFewPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
@@ -5262,7 +5262,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowRangeOnSubsetBundleWithTwoPins_ThrowsException()
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowOnSubsetBundleWithTwoPins_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
