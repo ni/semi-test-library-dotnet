@@ -13,11 +13,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="acquisitionType">The type of acquisition to perform.</param>
-        public static void ConfigureAcquisitionType(this ScopeSessionsBundle sessionsBundle, ScopeAcquisitionType acquisitionType)
+        public static void ConfigureAcquisitionType(this ScopeSessionsBundle sessionsBundle, AcquisitionType acquisitionType)
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Acquisition.Type = acquisitionType;
+                sessionInfo.Session.Acquisition.Type = (ScopeAcquisitionType)acquisitionType;
             });
         }
 
