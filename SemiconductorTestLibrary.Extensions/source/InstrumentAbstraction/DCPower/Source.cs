@@ -1752,7 +1752,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the current limit range, in amps, for the specified channel(s).
+        /// Configures the current limit range, in amps, for the smu channels in the bundle.
         /// </summary>
         /// <remarks>
         /// The range defines the valid values to which the current limit can be set.
