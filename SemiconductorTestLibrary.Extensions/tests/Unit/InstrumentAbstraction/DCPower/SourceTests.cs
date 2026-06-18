@@ -5284,7 +5284,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            var expectedCurrentLimitRange = 1;
+            var expectedCurrentLimitRange = 1E-1;
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
@@ -5296,7 +5296,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    Assert.Equal(expectedCurrentLimitRange, channelOutput.Source.Voltage.CurrentLimitHigh);
+                    Assert.Equal(expectedCurrentLimitRange, channelOutput.Source.Voltage.CurrentLimitRange);
                 }
             });
         }
