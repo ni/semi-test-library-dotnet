@@ -22,14 +22,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         }
 
         /// <summary>
-        /// Starts acquisition on all sessions in the bundle.
+        /// Performs auto-setup on all sessions in the bundle.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        public static void Initiate(this ScopeSessionsBundle sessionsBundle)
+        public static void AutoSetup(this ScopeSessionsBundle sessionsBundle)
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Measurement.Initiate();
+                sessionInfo.Session.Measurement.AutoSetup();
             });
         }
 
@@ -46,17 +46,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         }
 
         /// <summary>
-        /// Performs auto-setup on all sessions in the bundle.
+        /// Starts acquisition on all sessions in the bundle.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        public static void AutoSetup(this ScopeSessionsBundle sessionsBundle)
+        public static void Initiate(this ScopeSessionsBundle sessionsBundle)
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Measurement.AutoSetup();
+                sessionInfo.Session.Measurement.Initiate();
             });
         }
-
         #endregion methods on ScopeSessionsBundle
     }
 }
