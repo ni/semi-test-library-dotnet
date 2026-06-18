@@ -4,9 +4,9 @@ using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
 
-namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU
+namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
     /// <summary>
     /// Contains implementation of STL extension methods for TMU operations.
