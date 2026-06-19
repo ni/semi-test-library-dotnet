@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
 {
     internal class TriggerAndEvents
     {
-        public static void ConfigureStartTriggerDigitalEdge()
+        public static void ConfigureStartTriggerDigitalEdge(string source, string edgeType)
         { }
 
         public static void ConfigureStartTriggerSoftwareEdge()
@@ -17,10 +13,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         public static void DisableStartTrigger()
         { }
 
-        public static void SendSoftwareEdgeTrigger()
+        public static void SendSoftwareEdgeTrigger(string triggerID)
         { }
 
-        public static void ExportSignal()
+        public static void ExportSignal(string signalIdentifier, string signalType, string outputTerminal)
         { }
     }
 }

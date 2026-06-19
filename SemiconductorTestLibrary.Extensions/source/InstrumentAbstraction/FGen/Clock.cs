@@ -10,19 +10,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// <summary>
         /// Configure Clock Mode
         /// </summary>
-        public static void ConfigureClockMode()
+        /// <param name="clockMode">The clock mode to configure.</param>
+        public static void ConfigureClockMode(ClockMode clockMode)
         { }
 
         /// <summary>
         /// Configure Sample Source
         /// </summary>
-        public static void ConfigureSampleSource()
+        /// <param name="source">The sample source to configure.</param>
+        public static void ConfigureSampleSource(string source)
         { }
 
         /// <summary>
         /// Configure Reference Clock
         /// </summary>
-        public static void ConfigureReferenceClock()
+        /// <param name="source">The reference clock source.</param>
+        /// <param name="frequency">The reference clock frequency.</param>
+        public static void ConfigureReferenceClock(string source, double frequency)
         { }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
 {
@@ -14,7 +10,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// <summary>
         /// Configure output mode.
         /// </summary>
-        public static void ConfigureOutputMode()
+        /// <param name="outputMode">The output mode to configure.</param>
+        public static void ConfigureOutputMode(OutputMode outputMode)
+        { }
+
+        /// <summary>
+        /// Configure output mode.
+        /// </summary>
+        /// <param name="outputMode">The output mode to configure.</param>
+        public static void ConfigureOutputMode(SiteData<OutputMode> outputMode)
+        { }
+
+        /// <summary>
+        /// Configure output mode.
+        /// </summary>
+        /// <param name="outputMode">The output mode to configure.</param>
+        public static void ConfigureOutputMode(PinSiteData<OutputMode> outputMode)
         { }
 
         /// <summary>
@@ -45,6 +56,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// Abort.
         /// </summary>
         public static void Abort()
+        { }
+
+        /// <summary>
+        /// Configure channel
+        /// </summary>
+        public static void ConfigureChannel()
         { }
     }
 }

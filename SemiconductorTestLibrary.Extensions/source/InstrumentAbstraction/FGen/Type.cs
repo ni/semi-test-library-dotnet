@@ -5,16 +5,45 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
     /// <summary>
     /// Standard function. Will be moved to Abstractions.
     /// </summary>
-    public enum StandardFunction
+    /// <remarks>
+    /// This enum represents the standard waveform functions available in the FGen.
+    /// </remarks>
+    public enum StandardFunction // moved to Abstractions
     {
         Sine,
         Square,
         Triangle,
         Rampup,
-        RamDown,
+        RampDown,
         DC,
         Noise,
         User
+    }
+    /// <summary>
+    /// Output mode enum.
+    /// </summary>
+    /// <remarks>
+    /// This enum represents the output modes available in the FGen.
+    /// </remarks>
+    public enum OutputMode // moved to Abstractions
+    {
+        StdWaveform,
+        ArbWaveform,
+        FrequencyList,
+        ArbWaveformSequence.
+    }
+
+    /// <summary>
+    /// ClockMode
+    /// </summary>
+    /// <remarks>
+    /// This enum represents the clock modes available in the FGen.
+    /// </remarks>
+    public enum ClockMode // moved to Abstractions
+    {
+        HighResolutionSampling,
+        DivideDownSampling,
+        Automatic
     }
 
     /// <summary>

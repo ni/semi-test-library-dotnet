@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
 {
@@ -14,13 +11,43 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// <summary>
         /// Output enable.
         /// </summary>
-        public static void OutputEnable()
+        /// <param name="enable">The enable state.</param>
+        public static void OutputEnable(bool enable)
+        { }
+
+        /// <summary>
+        /// Output enable.
+        /// </summary>
+        /// <param name="enable">The enable state.</param>
+        public static void OutputEnable(SiteData<bool> enable)
+        { }
+
+        /// <summary>
+        /// Output enable.
+        /// </summary>
+        /// <param name="enable">The enable state.</param>
+        public static void OutputEnable(PinSiteData<bool> enable)
         { }
 
         /// <summary>
         /// Output Impedence.
         /// </summary>
-        public static void OutputImpedence()
+        /// <param name="impedance">The impedance value.</param>
+        public static void OutputImpedance(double impedance = 50)
+        { }
+
+        /// <summary>
+        /// Output Impedence.
+        /// </summary>
+        /// <param name="impedance">The impedance value.</param>
+        public static void OutputImpedance(SiteData<double> impedance)
+        { }
+
+        /// <summary>
+        /// Output Impedence.
+        /// </summary>
+        /// <param name="impedance">The impedance value.</param>
+        public static void OutputImpedance(PinSiteData<double> impedance)
         { }
     }
 }

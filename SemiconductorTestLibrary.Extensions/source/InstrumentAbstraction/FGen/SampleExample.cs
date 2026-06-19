@@ -1,9 +1,4 @@
 ﻿using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
 {
@@ -12,7 +7,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// <summary>
         /// Example method to show generation of sinewaveform
         /// </summary>
-        public static void GenerateSineWaveform()
+        /// <param name="function">The standard function to configure.</param>
+        public static void GenerateSineWaveform(StandardFunction function)
         {
             /*
              * ConfigureOutputMode

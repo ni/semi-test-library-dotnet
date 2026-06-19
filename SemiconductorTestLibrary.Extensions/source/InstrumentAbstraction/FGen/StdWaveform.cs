@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
 {
@@ -14,7 +10,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// <summary>
         /// Confgure standard waveform parameters.
         /// </summary>
-        public static void ConfigureStdWaveform()
+        /// <param name="stdWaveformSettings">Standard Waveform Settings.</param>
+        public static void ConfigureStdWaveform(StdWaveformSettings stdWaveformSettings)
+        { }
+
+        /// <summary>
+        /// Confgure standard waveform parameters.
+        /// </summary>
+        /// <param name="stdWaveformSettings">Standard Waveform Settings.</param>
+        public static void ConfigureStdWaveform(SiteData<StdWaveformSettings> stdWaveformSettings)
+        { }
+
+        /// <summary>
+        /// Confgure standard waveform parameters.
+        /// </summary>
+        /// <param name="stdWaveformSettings">Standard Waveform Settings.</param>
+        public static void ConfigureStdWaveform(PinSiteData<StdWaveformSettings> stdWaveformSettings)
         { }
     }
 }
