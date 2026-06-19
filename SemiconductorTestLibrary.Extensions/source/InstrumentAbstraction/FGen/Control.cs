@@ -1,4 +1,5 @@
 ﻿using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
 {
@@ -10,58 +11,60 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// <summary>
         /// Configure output mode.
         /// </summary>
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="outputMode">The output mode to configure.</param>
-        public static void ConfigureOutputMode(OutputMode outputMode)
+        public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, OutputMode outputMode)
         { }
 
         /// <summary>
         /// Configure output mode.
         /// </summary>
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="outputMode">The output mode to configure.</param>
-        public static void ConfigureOutputMode(SiteData<OutputMode> outputMode)
+        public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, SiteData<OutputMode> outputMode)
         { }
 
         /// <summary>
         /// Configure output mode.
         /// </summary>
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="outputMode">The output mode to configure.</param>
-        public static void ConfigureOutputMode(PinSiteData<OutputMode> outputMode)
+        public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, PinSiteData<OutputMode> outputMode)
         { }
 
         /// <summary>
         /// Commit.
         /// </summary>
-        public static void Commit()
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
+        public static void Commit(this FgenSessionsBundle sessionsBundle)
         { }
 
         /// <summary>
         /// Initiate.
         /// </summary>
-        public static void Initiate()
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
+        public static void Initiate(this FgenSessionsBundle sessionsBundle)
         { }
 
         /// <summary>
         /// IsDone.
         /// </summary>
-        public static void IsDone()
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
+        public static void IsDone(this FgenSessionsBundle sessionsBundle)
         { }
 
         /// <summary>
         /// WaitUntilDone.
         /// </summary>
-        public static void WaitUntilDone()
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
+        public static void WaitUntilDone(this FgenSessionsBundle sessionsBundle)
         { }
 
         /// <summary>
         /// Abort.
         /// </summary>
-        public static void Abort()
-        { }
-
-        /// <summary>
-        /// Configure channel
-        /// </summary>
-        public static void ConfigureChannel()
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
+        public static void Abort(this FgenSessionsBundle sessionsBundle)
         { }
     }
 }

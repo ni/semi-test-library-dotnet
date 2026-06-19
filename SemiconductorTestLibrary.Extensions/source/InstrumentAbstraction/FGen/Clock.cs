@@ -1,4 +1,5 @@
 ﻿using System;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
 {
@@ -10,23 +11,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// <summary>
         /// Configure Clock Mode
         /// </summary>
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="clockMode">The clock mode to configure.</param>
-        public static void ConfigureClockMode(ClockMode clockMode)
+        public static void ConfigureClockMode(this FgenSessionsBundle sessionsBundle, ClockMode clockMode)
         { }
 
         /// <summary>
         /// Configure Sample Source
         /// </summary>
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="source">The sample source to configure.</param>
-        public static void ConfigureSampleSource(string source)
+        public static void ConfigureSampleSource(this FgenSessionsBundle sessionsBundle, string source)
         { }
 
         /// <summary>
         /// Configure Reference Clock
         /// </summary>
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="source">The reference clock source.</param>
         /// <param name="frequency">The reference clock frequency.</param>
-        public static void ConfigureReferenceClock(string source, double frequency)
+        public static void ConfigureReferenceClock(this FgenSessionsBundle sessionsBundle, string source, double frequency)
         { }
     }
 }
