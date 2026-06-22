@@ -16,8 +16,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     [Collection("NonParallelizable")]
     public sealed class TmuExtensionsTests : IDisposable
     {
-        private const string PinMapFileName = @"NIDigitalTestPinmap.pinmap";
-        private const string DigitalProjectFileName = @"NIDigitalTMUTest.digiproj";
+        private const string PinMapFileName = @"Mixed Signal Tests.pinmap";
+        private const string DigitalProjectFileName = @"Mixed Signal Tests.digiproj";
         private ISemiconductorModuleContext _tsmContext = CreateTSMContext(PinMapFileName, DigitalProjectFileName);
 
         public TSMSessionManager InitializeSessionsAndCreateSessionManager()
