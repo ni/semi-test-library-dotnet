@@ -42,5 +42,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         public static void Abort(this FgenSessionsBundle sessionsBundle)
         { }
+
+        internal static void ConfigureChannels(this FgenSessionInformation sessionsInfo, string channelNames)
+        {
+            // Implementation for configuring channels. `channelNames` is a comma-separated string of channel names to configure.
+        }
     }
 }

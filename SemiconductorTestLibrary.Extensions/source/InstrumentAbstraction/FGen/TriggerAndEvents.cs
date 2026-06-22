@@ -25,13 +25,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         { }
 
         /// <summary>
-        /// Disable Start trigger.
-        /// </summary>
-        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
-        public static void DisableStartTrigger(this FgenSessionsBundle sessionsBundle)
-        { }
-
-        /// <summary>
         /// Send Software Edge trigger.
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
