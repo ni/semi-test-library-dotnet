@@ -1762,25 +1762,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimitLow">The current limit low to set.</param>
         public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, double currentLimitLow)
         {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-
-            if (hasGangedChannels)
-            {
-                sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    SetCurrentLimitLow(channelOutput, sitePinInfo, currentLimitLow);
-                });
-            }
-            else
-            {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    sessionInfo.AllChannelsOutput.Control.Abort();
-                    sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitLow = currentLimitLow;
-                });
-            }
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                   SetCurrentLimitLow(channelOutput, sitePinInfo, currentLimitLow);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitLow = currentLimitLow;
+               });
         }
 
         /// <inheritdoc cref="ConfigureCurrentLimitLow(DCPowerSessionsBundle, double)"/>
