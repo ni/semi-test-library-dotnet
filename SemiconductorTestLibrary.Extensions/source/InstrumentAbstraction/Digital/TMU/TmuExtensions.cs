@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -552,9 +553,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     var success = TMUContextManager.TryCheckOutTMU(deviceName, out string tmuName);
                     if (!success)
                     {
-                        // Throw exception if there is not enough TMU resources.
-                        // Note: This exception can be cught at bundle level to clear partially assigned tmu resources.
-                        throw new NISemiconductorTestException($"Not enough TMU resources available on {deviceName} to allocate to {sitePinInfo.SitePinString}");
+                        throw new NISemiconductorTestException(
+                            string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUNotEnoughResources, deviceName, sitePinInfo.SitePinString));
                     }
                     digitalSitePinInfo.AssignedTmuContext = tmuName;
                 }
@@ -574,10 +574,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             // Check if all the assigned TMUs of site/pin pair are safe to release.
             if (!IsSafeToReleaseAllTMUs(sitePinInfos, availableTMUList))
             {
-                throw new NISemiconductorTestException(
-                    "Cannot release TMUs: " +
-                    "One or more assigned TMUs are in use. " +
-                    "Call DisableTMU before clearing resources.");
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUResourcesInUse));
             }
 
             // Clear assigned TMU and release it back to TMU resource pool.
@@ -628,7 +625,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     sourceEvent = TmuSourceEvent.Vol;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(edgeType), edgeType, "Unsupported Polarity");
+                    throw new ArgumentOutOfRangeException(nameof(edgeType), edgeType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
             }
 
             // Configure the TMU Start Source, TMU Start Source Event, TMU Start Source Event Polarity,
@@ -656,9 +653,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             if (invalidPins.Any())
             {
                 throw new NISemiconductorTestException(
-                    $"The following pins are not available in the DigitalSessionsBundle object: " +
-                    $"{string.Join(", ", invalidPins.Select(pin => $"\"{pin}\""))}. " +
-                    $"Ensure the DigitalSessionsBundle object contains all necessary pins to perform the requested TMU operation.");
+                    string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUPinsNotInBundle, string.Join(", ", invalidPins.Select(pin => $"\"{pin}\""))));
             }
         }
 
