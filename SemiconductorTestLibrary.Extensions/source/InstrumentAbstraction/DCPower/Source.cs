@@ -1762,25 +1762,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLevel">The double value of the current level.</param>
         public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, double currentLevel)
         {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-
-            if (hasGangedChannels)
-            {
-                sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    SetCurrentLevel(channelOutput, sitePinInfo, currentLevel);
-                });
-            }
-            else
-            {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    sessionInfo.AllChannelsOutput.Control.Abort();
-                    sessionInfo.AllChannelsOutput.Source.Current.CurrentLevel = currentLevel;
-                });
-            }
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                   SetCurrentLevel(channelOutput, sitePinInfo, currentLevel);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.CurrentLevel = currentLevel;
+               });
         }
 
         /// <inheritdoc cref="ConfigureCurrentLevel(DCPowerSessionsBundle, double)"/>
