@@ -1762,25 +1762,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="currentLimitHigh">The current limit high to set.</param>
         public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, double currentLimitHigh)
         {
-            var hasGangedChannels = sessionsBundle.HasGangedChannels;
-
-            if (hasGangedChannels)
-            {
-                sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    SetCurrentLimitHigh(channelOutput, sitePinInfo, currentLimitHigh);
-                });
-            }
-            else
-            {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    sessionInfo.AllChannelsOutput.Control.Abort();
-                    sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitHigh = currentLimitHigh;
-                });
-            }
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                   SetCurrentLimitHigh(channelOutput, sitePinInfo, currentLimitHigh);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitHigh = currentLimitHigh;
+               });
         }
 
         /// <inheritdoc cref="ConfigureCurrentLimitHigh(DCPowerSessionsBundle, double)"/>
