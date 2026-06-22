@@ -11,7 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
     /// <summary>
     /// Contains implementation of STL extension methods for TMU operations.
     /// </summary>
-    public static class STLDigitalTmuExtensions
+    public static class TmuExtensions
     {
         /// <summary>
         /// Initiates the TMU measurement for the assigned TMU resource of each pin within the <see cref="DigitalSessionsBundle"/>.

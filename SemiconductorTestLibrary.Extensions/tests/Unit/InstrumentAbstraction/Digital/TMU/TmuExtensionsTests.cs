@@ -14,7 +14,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     /// These tests require TMU to be configured in NIDigital hardware.
     /// </summary>
     [Collection("NonParallelizable")]
-    public sealed class STLDigitalTmuExtensionsTests : IDisposable
+    public sealed class TmuExtensionsTests : IDisposable
     {
         private const string PinMapFileName = @"NIDigitalTestPinmap.pinmap";
         private const string DigitalProjectFileName = @"NIDigitalTMUTest.digiproj";
