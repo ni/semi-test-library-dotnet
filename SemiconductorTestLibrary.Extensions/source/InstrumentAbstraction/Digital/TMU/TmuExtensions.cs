@@ -35,7 +35,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 {
                     SetDigitalHighZState(sessionInfo);
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.TMUInitiate(tmuContext);
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Initiate();
                 }
             });
         }
@@ -58,7 +58,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmuContext, TmuAttributes.TmuEnabled, true);
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Enabled = true;
                 }
             });
         }
@@ -82,7 +82,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmuContext, TmuAttributes.TmuEnabled, false);
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Enabled = false;
                 }
             });
         }
@@ -105,7 +105,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.TMUAbort(tmuContext);
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Abort();
                 }
             });
         }
@@ -240,8 +240,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    return sessionInfo.Session.TMUFetchAveragedMeasurement(tmu, timeoutInSeconds);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    return GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).FetchAveragedMeasurement(timeoutInSeconds);
                 }
                 return double.NaN;
             });
@@ -261,8 +261,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStartSource, sitePinInfo.IndividualChannelString);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Start.Source = sitePinInfo.IndividualChannelString;
                 }
             });
         }
@@ -283,8 +283,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStopSource, sitePinInfo.IndividualChannelString);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Stop.Source = sitePinInfo.IndividualChannelString;
                 }
             });
         }
@@ -306,8 +306,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStartSourceEvent, (int)sourceEvent);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Start.SourceEvent = sourceEvent;
                 }
             });
         }
@@ -329,8 +329,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStopSourceEvent, (int)sourceEvent);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Stop.SourceEvent = sourceEvent;
                 }
             });
         }
@@ -352,8 +352,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStartSourceEventPolarity, (int)polarity);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Start.SourcePolarity = polarity;
                 }
             });
         }
@@ -375,8 +375,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStopSourceEventPolarity, (int)polarity);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Stop.SourcePolarity = polarity;
                 }
             });
         }
@@ -398,8 +398,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuArmType, (int)armType);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).ArmType = armType;
                 }
             });
         }
@@ -421,8 +421,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuEdgeArmSource, sitePinInfo.IndividualChannelString);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).EdgeArm.Source = sitePinInfo.IndividualChannelString;
                 }
             });
         }
@@ -445,8 +445,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuEdgeArmSourceEvent, (int)sourceEvent);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).EdgeArm.SourceEvent = sourceEvent;
                 }
             });
         }
@@ -469,8 +469,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuEdgeArmPolarity, (int)polarity);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).EdgeArm.SourcePolarity = polarity;
                 }
             });
         }
@@ -492,8 +492,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuSamplesToAcquire, samplesToAcquire);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).SamplesToAcquire = samplesToAcquire;
                 }
             });
         }
@@ -516,8 +516,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuSampleTimeout, timeoutInSeconds);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).SampleTimeout = timeoutInSeconds;
                 }
             });
         }
@@ -532,8 +532,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 : digitalSessionInformation.AssociatedSitePinList;
 
             // Initialize the TMUAssignmentManager with the available TMU resources for the devices within the current session.
-            string availableTMUContexts = digitalSessionInformation.Session.GetAllDisabledTMUContexts();
-            TMUContextManager.AddAvailableTMUs(availableTMUContexts);
+            List<string> availableTMUContexts = GetDigitalTmus(digitalSessionInformation.Session).GetDisabledTmuContexts();
+            TMUContextManager.AddAvailableTMUs(string.Join(", ", availableTMUContexts));
 
             // Assign TMU resources to each target pin/site pair within the session.
             foreach (SitePinInfo sitePinInfo in sitePinInfos)
@@ -568,8 +568,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 ? digitalSessionInformation.AssociatedSitePinList.Where(sp => pins.Contains(sp.PinName))
                 : digitalSessionInformation.AssociatedSitePinList;
 
-            string availableTMUs = digitalSessionInformation.Session.GetAllDisabledTMUContexts();
-            var availableTMUList = availableTMUs.Split(',').Select(s => s.Trim()).ToList();
+            List<string> availableTMUList = GetDigitalTmus(digitalSessionInformation.Session).GetDisabledTmuContexts();
 
             // Check if all the assigned TMUs of site/pin pair are safe to release.
             if (!IsSafeToReleaseAllTMUs(sitePinInfos, availableTMUList))
@@ -617,7 +616,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         private static void ConfigurePeriodMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuSourcePolarity edgeType, long samplesToAcquire, TmuArmType armSourcetype)
         {
-            string tmu = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+            string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
             TmuSourceEvent sourceEvent;
             switch (edgeType)
             {
@@ -633,17 +632,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
             // Configure the TMU Start Source, TMU Start Source Event, TMU Start Source Event Polarity,
             // TMU Stop Source, TMU Stop Source Event, TMU Stop Source Event Polarity, number of samples to acquire, and arm source.
-            sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStartSource, sitePinInfo.IndividualChannelString);
-            sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStartSourceEvent, (int)sourceEvent);
-            sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStartSourceEventPolarity, (int)edgeType);
-            sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStopSource, sitePinInfo.IndividualChannelString);
-            sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStopSourceEvent, (int)sourceEvent);
-            sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuStopSourceEventPolarity, (int)edgeType);
-            sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuSamplesToAcquire, samplesToAcquire);
-            sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuArmType, (int)armSourcetype);
+            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+            tmu.Start.Source = sitePinInfo.IndividualChannelString;
+            tmu.Start.SourceEvent = sourceEvent;
+            tmu.Start.SourcePolarity = edgeType;
+            tmu.Stop.Source = sitePinInfo.IndividualChannelString;
+            tmu.Stop.SourceEvent = sourceEvent;
+            tmu.Stop.SourcePolarity = edgeType;
+            tmu.SamplesToAcquire = samplesToAcquire;
+            tmu.ArmType = armSourcetype;
 
             // Enable the TMU (reserve it)
-            sessionInfo.Session.SetTMUAttribute(tmu, TmuAttributes.TmuEnabled, true);
+            tmu.Enabled = true;
         }
 
         private static void ValidatePinsOfTMU(IEnumerable<string> bundlePins, string[] requestedPins)
@@ -675,6 +675,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return pinNames == null
                 || pinNames.Length == 0
                 || pinNames.Contains(currentPin);
+        }
+
+        private static DigitalTmuCollections GetDigitalTmus(NIDigital session)
+        {
+            return new DigitalTmuCollections(session);
         }
     }
 }
