@@ -3111,6 +3111,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Abort();
             channelOutput.Source.Voltage.CurrentLimitHigh = currentLimitHighToSet;
         }
+
+        internal static void DoPerChannelIfGangedElsePerSession(this DCPowerSessionsBundle sessionsBundle, Action<DCPowerSessionInformation, SitePinInfo> perChannelAction, Action<DCPowerSessionInformation> perSessionAction)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            if (hasGangedChannels)
+            {
+                sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+                sessionsBundle.Do(perChannelAction);
+            }
+            else
+            {
+                sessionsBundle.Do(perSessionAction);
+            }
+        }
+
         #endregion private and internal methods
     }
 }
