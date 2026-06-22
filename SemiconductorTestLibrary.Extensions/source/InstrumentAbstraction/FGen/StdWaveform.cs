@@ -6,30 +6,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
     /// <summary>
     /// Standard waveform class
     /// </summary>
-    public static class StdWaveform
+    public static class StadardWaveform
     {
         /// <summary>
         /// Confgure standard waveform parameters.
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
-        /// <param name="stdWaveformSettings">Standard Waveform Settings.</param>
-        public static void ConfigureStdWaveform(this FgenSessionsBundle sessionsBundle, StdWaveformSettings stdWaveformSettings)
+        /// <param name="standardWaveformSettings">Standard Waveform Settings.</param>
+        public static void ConfigureStandardWaveform(this FgenSessionsBundle sessionsBundle, StandardWaveformSettings standardWaveformSettings)
         { }
 
         /// <summary>
         /// Confgure standard waveform parameters.
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
-        /// <param name="stdWaveformSettings">Standard Waveform Settings.</param>
-        public static void ConfigureStdWaveform(this FgenSessionsBundle sessionsBundle, SiteData<StdWaveformSettings> stdWaveformSettings)
+        /// <param name="standardWaveformSettings">Standard Waveform Settings.</param>
+        public static void ConfigureStandardWaveform(this FgenSessionsBundle sessionsBundle, SiteData<StandardWaveformSettings> standardWaveformSettings)
         { }
 
         /// <summary>
         /// Confgure standard waveform parameters.
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
-        /// <param name="stdWaveformSettings">Standard Waveform Settings.</param>
-        public static void ConfigureStdWaveform(this FgenSessionsBundle sessionsBundle, PinSiteData<StdWaveformSettings> stdWaveformSettings)
+        /// <param name="standardWaveformSettings">Standard Waveform Settings.</param>
+        public static void ConfigureStandardWaveform(this FgenSessionsBundle sessionsBundle, PinSiteData<StandardWaveformSettings> standardWaveformSettings)
         { }
     }
 }

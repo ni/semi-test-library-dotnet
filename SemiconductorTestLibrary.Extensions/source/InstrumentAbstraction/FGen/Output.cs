@@ -14,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="enable">The enable state.</param>
-        public static void OutputEnable(this FgenSessionsBundle sessionsBundle, bool enable)
+        public static void ConfigureOutputEnable(this FgenSessionsBundle sessionsBundle, bool enable)
         { }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="enable">The enable state.</param>
-        public static void OutputEnable(this FgenSessionsBundle sessionsBundle, SiteData<bool> enable)
+        public static void ConfigureOutputEnable(this FgenSessionsBundle sessionsBundle, SiteData<bool> enable)
         { }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="enable">The enable state.</param>
-        public static void OutputEnable(this FgenSessionsBundle sessionsBundle, PinSiteData<bool> enable)
+        public static void ConfigureOutputEnable(this FgenSessionsBundle sessionsBundle, PinSiteData<bool> enable)
         { }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="impedance">The impedance value.</param>
-        public static void OutputImpedance(this FgenSessionsBundle sessionsBundle, double impedance = 50)
+        public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, double impedance = 50)
         { }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="impedance">The impedance value.</param>
-        public static void OutputImpedance(this FgenSessionsBundle sessionsBundle, SiteData<double> impedance)
+        public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, SiteData<double> impedance)
         { }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="impedance">The impedance value.</param>
-        public static void OutputImpedance(this FgenSessionsBundle sessionsBundle, PinSiteData<double> impedance)
+        public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, PinSiteData<double> impedance)
         { }
 
         /// <summary>
@@ -65,6 +65,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// Active channel should be configured if session is opened for whole device instead of specific channel. All the control operations called after that are applied to the active channel.
         /// </remarks>
         public static void ConfigureChannel(this FgenSessionsBundle sessionsBundle)
+        { }
+
+        /// <summary>
+        /// Configure output mode.
+        /// </summary>
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
+        /// <param name="outputMode">The output mode to configure.</param>
+        public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, OutputMode outputMode)
+        { }
+
+        /// <summary>
+        /// Configure output mode.
+        /// </summary>
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
+        /// <param name="outputMode">The output mode to configure.</param>
+        public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, SiteData<OutputMode> outputMode)
+        { }
+
+        /// <summary>
+        /// Configure output mode.
+        /// </summary>
+        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
+        /// <param name="outputMode">The output mode to configure.</param>
+        public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, PinSiteData<OutputMode> outputMode)
         { }
     }
 }

@@ -9,30 +9,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
     public static class Control
     {
         /// <summary>
-        /// Configure output mode.
-        /// </summary>
-        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
-        /// <param name="outputMode">The output mode to configure.</param>
-        public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, OutputMode outputMode)
-        { }
-
-        /// <summary>
-        /// Configure output mode.
-        /// </summary>
-        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
-        /// <param name="outputMode">The output mode to configure.</param>
-        public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, SiteData<OutputMode> outputMode)
-        { }
-
-        /// <summary>
-        /// Configure output mode.
-        /// </summary>
-        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
-        /// <param name="outputMode">The output mode to configure.</param>
-        public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, PinSiteData<OutputMode> outputMode)
-        { }
-
-        /// <summary>
         /// Commit.
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
