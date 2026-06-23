@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-
 using NationalInstruments.ModularInstruments.NIScope;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
@@ -16,17 +15,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Configures the vertical settings of the specified channel.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="channelName">The name of the channel to configure.</param>
-        /// <param name="range">The vertical range of the channel.</param>
-        /// <param name="offset">The vertical offset of the channel.</param>
-        /// <param name="coupling">The coupling for the channel.</param>
-        /// <param name="probeAttenuation">The probe attenuation factor.</param>
-        /// <param name="enabled">Whether the channel is enabled.</param>
-        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, string channelName, double range, double offset, ScopeVerticalCoupling coupling, double probeAttenuation, bool enabled)
+        /// <param name="settings">The channel settings object.</param>
+        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, ScopeChannelSettings settings)
         {
-            sessionsBundle.Do(sessionInfo =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Channels[channelName].Configure(range, offset, coupling, probeAttenuation, enabled);
+                sessionInfo.ConfigureChannel(settings, sitePinInfo);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, ScopeChannelSettings)"/>
+        public static void ConfigureChannelSettings(this ScopeSessionsBundle sessionsBundle, SiteData<ScopeChannelSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.ConfigureChannel(settings.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, ScopeChannelSettings)"/>
+        public static void ConfigureChannelSettings(this ScopeSessionsBundle sessionsBundle, PinSiteData<ScopeChannelSettings> settings)
+        {
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.ConfigureChannel(settings.GetValue(sitePinInfo), sitePinInfo);
             });
         }
 
@@ -59,18 +71,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             });
         }
 
-        /// <summary>
-        /// Configures the settings for the specified channel using a channel settings object.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="channelName">The name of the channel to configure.</param>
-        /// <param name="settings">The channel settings object.</param>
-        public static void ConfigureChannelSettings(this ScopeSessionsBundle sessionsBundle, string channelName, ScopeChannelSettings settings)
+        internal static void ConfigureChannel(this ScopeSessionInformation sessionInfo, ScopeChannelSettings settings, SitePinInfo sitePinInfo)
         {
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Session.Channels[channelName].Configure(settings.Range.Value, settings.Offset.Value, (ScopeVerticalCoupling)settings.Coupling.Value, settings.ProbeAttenuation.Value, settings.Enabled.Value);
-            });
+            sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].Configure(settings.Range, settings.Offset, (ScopeVerticalCoupling)settings.Coupling, settings.ProbeAttenuation, settings.Enabled);
         }
     }
 }
